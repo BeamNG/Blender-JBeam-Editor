@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<COLLADA xmlns="http://www.collada.org/2005/11/COLLADASchema" version="1.4.1" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <asset>
+    <contributor>
+      <author>Blender User</author>
+      <authoring_tool>Blender 3.5.1 commit date:2023-04-24, commit time:18:11, hash:e1ccd9d4a1d3</authoring_tool>
+    </contributor>
+    <created>2023-08-02T05:30:05</created>
+    <modified>2023-08-02T05:30:05</modified>
+    <unit name="meter" meter="1"/>
+    <up_axis>Z_UP</up_axis>
+  </asset>
+  <library_effects>
+    <effect id="Material_001-effect">
+      <profile_COMMON>
+        <technique sid="common">
+          <lambert>
+            <emission>
+              <color sid="emission">0 0 0 1</color>
+            </emission>
+            <diffuse>
+              <color sid="diffuse">0.8 0.8 0.8 1</color>
+            </diffuse>
+            <index_of_refraction>
+              <float sid="ior">1.45</float>
+            </index_of_refraction>
+          </lambert>
+        </technique>
+      </profile_COMMON>
+    </effect>
+  </library_effects>
+  <library_images/>
+  <library_materials>
+    <material id="Material_001-material" name="Material.001">
+      <instance_effect url="#Material_001-effect"/>
+    </material>
+  </library_materials>
+  <library_geometries>
+    <geometry id="square_donut-mesh" name="square_donut">
+      <mesh>
+        <source id="square_donut-mesh-positions">
+          <float_array id="square_donut-mesh-positions-array" count="96">-1.2 -0.8 -0.1999999 -1.2 -0.8 0.1999999 -1.2 0.8 -0.1999999 -1.2 0.8 0.1999999 -0.8 -0.8 -0.1999999 -0.8 -0.8 0.1999999 -0.8 0.8 -0.1999999 -0.8 0.8 0.1999999 -1.2 -1.2 -0.1999999 -1.2 -1.2 0.1999999 -0.8 -1.2 -0.1999999 -0.8 -1.2 0.1999999 -1.2 1.2 -0.1999999 -1.2 1.2 0.1999999 -0.8 1.2 -0.1999999 -0.8 1.2 0.1999999 0.8 -0.8 -0.1999999 0.8 -0.8 0.1999999 0.8 -1.2 -0.1999999 0.8 -1.2 0.1999999 1.2 -0.8 -0.1999999 1.2 -0.8 0.1999999 1.2 -1.2 -0.1999999 1.2 -1.2 0.1999999 0.8 0.8 -0.1999999 0.8 0.8 0.1999999 1.2 0.8 -0.1999999 1.2 0.8 0.1999999 0.8 1.2 -0.1999999 0.8 1.2 0.1999999 1.2 1.2 -0.1999999 1.2 1.2 0.1999999</float_array>
+          <technique_common>
+            <accessor source="#square_donut-mesh-positions-array" count="32" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="square_donut-mesh-normals">
+          <float_array id="square_donut-mesh-normals-array" count="18">-1 0 0 0 0 1 1 0 0 0 -1 0 0 0 -1 0 1 0</float_array>
+          <technique_common>
+            <accessor source="#square_donut-mesh-normals-array" count="6" stride="3">
+              <param name="X" type="float"/>
+              <param name="Y" type="float"/>
+              <param name="Z" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <source id="square_donut-mesh-map-0">
+          <float_array id="square_donut-mesh-map-0-array" count="408">0.625 0 0.375 0.25 0.375 0 0.625 0.5 0.875 0.5 0.875 0.5 0.625 0.5 0.375 0.75 0.375 0.5 0.375 0.75 0.625 0.75 0.625 0.75 0.375 0.5 0.125 0.75 0.125 0.5 0.875 0.5 0.625 0.75 0.625 0.5 0.625 0.75 0.375 1 0.375 0.75 0.375 0 0.625 0 0.625 0 0.375 0.75 0.125 0.75 0.125 0.75 0.875 0.75 0.625 0.75 0.625 0.75 0.625 0.25 0.375 0.5 0.375 0.25 0.625 0.25 0.375 0.25 0.375 0.25 0.375 0.5 0.625 0.5 0.625 0.5 0.125 0.5 0.375 0.5 0.375 0.5 0.375 0.75 0.375 0.75 0.375 0.75 0.625 0.75 0.375 0.75 0.375 0.75 0.625 0.75 0.625 0.75 0.625 0.75 0.375 0.75 0.375 0.75 0.375 0.75 0.625 0.75 0.375 0.75 0.375 0.75 0.375 0.75 0.625 0.75 0.625 0.75 0.625 0.75 0.625 0.75 0.625 0.75 0.375 0.75 0.375 0.75 0.375 0.75 0.375 0.75 0.375 0.75 0.375 0.75 0.375 0.75 0.625 0.75 0.625 0.75 0.625 0.75 0.625 0.75 0.625 0.75 0.625 0.75 0.375 0.75 0.375 0.75 0.625 0.75 0.375 0.75 0.375 0.75 0.625 0.75 0.375 0.75 0.375 0.75 0.625 0.75 0.625 0.75 0.625 0.75 0.375 0.75 0.625 0.75 0.625 0.75 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.625 0 0.625 0.25 0.375 0.25 0.625 0.5 0.625 0.5 0.875 0.5 0.625 0.5 0.625 0.75 0.375 0.75 0.375 0.75 0.375 0.75 0.625 0.75 0.375 0.5 0.375 0.75 0.125 0.75 0.875 0.5 0.875 0.75 0.625 0.75 0.625 0.75 0.625 1 0.375 1 0.375 0 0.375 0 0.625 0 0.375 0.75 0.375 0.75 0.125 0.75 0.875 0.75 0.875 0.75 0.625 0.75 0.625 0.25 0.625 0.5 0.375 0.5 0.625 0.25 0.625 0.25 0.375 0.25 0.375 0.5 0.375 0.5 0.625 0.5 0.125 0.5 0.125 0.5 0.375 0.5 0.375 0.75 0.375 0.75 0.375 0.75 0.625 0.75 0.625 0.75 0.375 0.75 0.625 0.75 0.625 0.75 0.625 0.75 0.375 0.75 0.375 0.75 0.375 0.75 0.625 0.75 0.625 0.75 0.375 0.75 0.375 0.75 0.375 0.75 0.625 0.75 0.625 0.75 0.625 0.75 0.625 0.75 0.375 0.75 0.375 0.75 0.375 0.75 0.375 0.75 0.375 0.75 0.375 0.75 0.375 0.75 0.375 0.75 0.625 0.75 0.625 0.75 0.625 0.75 0.625 0.75 0.625 0.75 0.625 0.75 0.375 0.75 0.625 0.75 0.625 0.75 0.375 0.75 0.625 0.75 0.625 0.75 0.375 0.75 0.625 0.75 0.625 0.75 0.625 0.75 0.375 0.75 0.375 0.75 0.625 0.75 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0</float_array>
+          <technique_common>
+            <accessor source="#square_donut-mesh-map-0-array" count="204" stride="2">
+              <param name="S" type="float"/>
+              <param name="T" type="float"/>
+            </accessor>
+          </technique_common>
+        </source>
+        <vertices id="square_donut-mesh-vertices">
+          <input semantic="POSITION" source="#square_donut-mesh-positions"/>
+        </vertices>
+        <triangles material="Material_001-material" count="68">
+          <input semantic="VERTEX" source="#square_donut-mesh-vertices" offset="0"/>
+          <input semantic="NORMAL" source="#square_donut-mesh-normals" offset="1"/>
+          <input semantic="TEXCOORD" source="#square_donut-mesh-map-0" offset="2" set="1"/>
+          <p>1 0 0 2 0 1 0 0 2 7 1 3 13 1 4 3 1 5 7 2 6 4 2 7 6 2 8 10 3 9 19 3 10 11 3 11 6 4 12 0 4 13 2 4 14 3 1 15 5 1 16 7 1 17 11 3 18 8 3 19 10 3 20 0 0 21 9 0 22 1 0 23 4 4 24 8 4 25 0 4 26 1 1 27 11 1 28 5 1 29 13 5 30 14 5 31 12 5 32 3 0 33 12 0 34 2 0 35 6 2 36 15 2 37 7 2 38 2 4 39 14 4 40 6 4 41 16 4 42 22 4 43 18 4 44 5 5 45 16 5 46 4 5 47 11 1 48 17 1 49 5 1 50 4 4 51 18 4 52 10 4 53 21 2 54 22 2 55 20 2 56 18 3 57 23 3 58 19 3 59 19 1 60 21 1 61 17 1 62 16 4 63 26 4 64 20 4 65 24 4 66 30 4 67 26 4 68 20 2 69 27 2 70 21 2 71 21 1 72 25 1 73 17 1 74 17 0 75 24 0 76 16 0 77 29 5 78 30 5 79 28 5 80 25 0 81 28 0 82 24 0 83 27 1 84 29 1 85 25 1 86 26 2 87 31 2 88 27 2 89 28 5 90 15 5 91 29 5 92 25 1 93 15 1 94 7 1 95 6 3 96 25 3 97 7 3 98 6 4 99 28 4 100 24 4 101 1 0 102 3 0 103 2 0 104 7 1 105 15 1 106 13 1 107 7 2 108 5 2 109 4 2 110 10 3 111 18 3 112 19 3 113 6 4 114 4 4 115 0 4 116 3 1 117 1 1 118 5 1 119 11 3 120 9 3 121 8 3 122 0 0 123 8 0 124 9 0 125 4 4 126 10 4 127 8 4 128 1 1 129 9 1 130 11 1 131 13 5 132 15 5 133 14 5 134 3 0 135 13 0 136 12 0 137 6 2 138 14 2 139 15 2 140 2 4 141 12 4 142 14 4 143 16 4 144 20 4 145 22 4 146 5 5 147 17 5 148 16 5 149 11 1 150 19 1 151 17 1 152 4 4 153 16 4 154 18 4 155 21 2 156 23 2 157 22 2 158 18 3 159 22 3 160 23 3 161 19 1 162 23 1 163 21 1 164 16 4 165 24 4 166 26 4 167 24 4 168 28 4 169 30 4 170 20 2 171 26 2 172 27 2 173 21 1 174 27 1 175 25 1 176 17 0 177 25 0 178 24 0 179 29 5 180 31 5 181 30 5 182 25 0 183 29 0 184 28 0 185 27 1 186 31 1 187 29 1 188 26 2 189 30 2 190 31 2 191 28 5 192 14 5 193 15 5 194 25 1 195 29 1 196 15 1 197 6 3 198 24 3 199 25 3 200 6 4 201 14 4 202 28 4 203</p>
+        </triangles>
+      </mesh>
+    </geometry>
+  </library_geometries>
+  <library_visual_scenes>
+    <visual_scene id="Scene" name="Scene">
+      <node id="square_donut" name="square_donut" type="NODE">
+        <matrix sid="transform">1 0 0 0 0 1 0 0 0 0 1 0 0 0 0 1</matrix>
+        <instance_geometry url="#square_donut-mesh" name="square_donut">
+          <bind_material>
+            <technique_common>
+              <instance_material symbol="Material_001-material" target="#Material_001-material">
+                <bind_vertex_input semantic="UVMap" input_semantic="TEXCOORD" input_set="0"/>
+              </instance_material>
+            </technique_common>
+          </bind_material>
+        </instance_geometry>
+      </node>
+    </visual_scene>
+  </library_visual_scenes>
+  <scene>
+    <instance_visual_scene url="#Scene"/>
+  </scene>
+</COLLADA>
