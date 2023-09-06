@@ -1,4 +1,4 @@
-# JBeam Editor Blender Plugin
+# Blender JBeam Editor
 
 This Blender plugin allows you to create JBeam parts from scratch, import existing JBeam parts, modify them, and export them to a new or existing JBeam file, all within Blender, requiring **no** copying and pasting of JBeam code!
 
@@ -15,7 +15,7 @@ This Blender plugin allows you to create JBeam parts from scratch, import existi
 ## Documentation
 
 Find more information about installing and using this plugin at:
-https://documentation.beamng.com/modding/vehicle/tutorials/jbeam_editor_blender_plugin/
+https://documentation.beamng.com/modding/vehicle/tutorials/blender_jbeam_editor/
 
 ## Development Instructions (requires Python 3)
 
