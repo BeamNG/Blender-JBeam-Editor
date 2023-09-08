@@ -31,6 +31,9 @@ timestamp = now.strftime('%Y-%m-%d_%H-%M-%S')
 # specify the root directory to be zipped
 root_dir = os.path.join(os.getcwd(), 'jbeam_editor')
 
+readme_dir = os.path.join(os.getcwd(), 'README.md')
+license_dir = os.path.join(os.getcwd(), 'LICENSE.txt')
+
 # specify the name and path of the output zip file
 output_filename = f'blender_jbeam_editor_{timestamp}.zip'
 
@@ -39,13 +42,14 @@ with zipfile.ZipFile(output_filename, 'x', zipfile.ZIP_DEFLATED) as zipf:
     # iterate over all the files and folders in the root directory
     for root, dirs, files in os.walk(root_dir):
         relative_path = os.path.relpath(root, root_dir)
-        if relative_path == 'tests' or relative_path == '__pycache__':
+        if relative_path == '__pycache__':
             continue
 
         for file in files:
-            if file.endswith('.py'):
-                #print(root)
-                file_path = os.path.join(root, file)
-                relative_path = os.path.relpath(file_path, root_dir)
-                relative_path = 'jbeam_editor\\' + relative_path
-                zipf.write(file_path, arcname=relative_path)
+            #print(root)
+            file_path = os.path.join(root, file)
+            relative_path = 'jbeam_editor\\' + os.path.relpath(file_path, root_dir)
+            zipf.write(file_path, arcname=relative_path)
+
+    zipf.write(readme_dir, arcname='jbeam_editor\\README.md')
+    zipf.write(license_dir, arcname='jbeam_editor\\LICENSE.txt')
