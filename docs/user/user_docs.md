@@ -31,11 +31,13 @@ This plugin can currently only create and edit **nodes!** Full editing capabilit
 ### Plugin Installation
 1. Open Blender 3.6
 2. On the upper left hand corner, click on *Edit* > *Preferences...*
+
     ![](installation_1.png)
 
 4. In the *Blender Preferences* window, click *Add-ons* > *Install...*
 5. In the *Blender File View* window, find and install the plugin zip file e.g. *blender_jbeam_editor_0.1.0.zip*
 6. Search for the plugin *Blender JBeam Editor*, click on the checkbox to enable the addon, and close the preferences window
+
     ![](installation_2.png)
 
 ---
