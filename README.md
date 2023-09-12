@@ -13,8 +13,7 @@ This Blender plugin allows you to create JBeam parts from scratch, import existi
 * Export changes directly to JBeam file
 
 ## Documentation
-Find more information about installing and using this plugin at:
-https://documentation.beamng.com/modding/vehicle/tutorials/blender_jbeam_editor/
+Find more information about installing and using this plugin [here](docs/user/user_docs.md).
 
 ---
 <br>
