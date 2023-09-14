@@ -343,6 +343,8 @@ def unregister():
     bpy.types.TOPBAR_MT_file_import.remove(menu_func_import)
     bpy.types.TOPBAR_MT_file_export.remove(menu_func_export)
 
+    bpy.app.handlers.depsgraph_update_post.remove(depsgraph_callback)
+
     global draw_handle
     if draw_handle:
         bpy.types.SpaceView3D.draw_handler_remove(draw_handle, 'WINDOW')
