@@ -311,6 +311,11 @@ def depsgraph_callback(scene, depsgraph):
     bm.free()
 
 
+@persistent
+def save_post_callback(filepath):
+    export_jbeam.save_post_callback(filepath)
+
+
 draw_handle = None
 
 
@@ -331,6 +336,7 @@ def register():
     bpy.types.TOPBAR_MT_file_export.append(menu_func_export)
 
     bpy.app.handlers.depsgraph_update_post.append(depsgraph_callback)
+    bpy.app.handlers.save_post.append(save_post_callback)
 
     # Delayed function call to prevent "restrictcontext" error
     bpy.app.timers.register(on_post_register, first_interval=0.1)
@@ -344,6 +350,7 @@ def unregister():
     bpy.types.TOPBAR_MT_file_export.remove(menu_func_export)
 
     bpy.app.handlers.depsgraph_update_post.remove(depsgraph_callback)
+    bpy.app.handlers.save_post.remove(save_post_callback)
 
     global draw_handle
     if draw_handle:

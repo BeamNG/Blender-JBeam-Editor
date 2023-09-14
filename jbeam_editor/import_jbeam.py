@@ -34,6 +34,8 @@ from bpy.types import Operator
 
 from . import constants
 from . import sjson
+from . import export_jbeam
+
 
 def import_jbeam_part(jbeam_file_path, jbeam_file_data_str, jbeam_file_data, chosen_part):
     node_ids = []
@@ -100,6 +102,8 @@ def import_jbeam_part(jbeam_file_path, jbeam_file_data_str, jbeam_file_data, cho
     obj_data[constants.ATTRIBUTE_JBEAM_FILE_DATA_STR] = jbeam_file_data_str
     obj_data[constants.ATTRIBUTE_JBEAM_PART] = chosen_part
     obj_data[constants.ATTRIBUTE_JBEAM_INIT_NODE_IDS] = copy.deepcopy(node_ids)
+
+    export_jbeam.last_exported_jbeams[chosen_part] = {'in_filepath': jbeam_file_path}
 
     #new_mesh.attributes.new(name=constants.ATTRIBUTE_JBEAM_FILE_PATH, type="STRING", domain=)
 

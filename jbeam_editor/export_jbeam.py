@@ -36,6 +36,31 @@ from . import constants
 from . import sjson
 from . import sjsonast
 
+last_exported_jbeams = {}
+
+
+def save_post_callback(filepath):
+    # On saving, set the JBeam part meshes import file paths to what is saved in the Python environment filepath
+    for obj in bpy.context.scene.objects:
+        obj_data = obj.data
+        if not type(obj_data) is bpy.types.Mesh:
+            continue
+
+        bm = None
+        if obj.mode == 'EDIT':
+            bm = bmesh.from_edit_mesh(obj_data)
+        else:
+            bm = bmesh.new()
+            bm.from_mesh(obj_data)
+
+        if constants.V_ATTRIBUTE_NODE_ID in bm.verts.layers.string:
+            jbeam_part = obj_data[constants.ATTRIBUTE_JBEAM_PART]
+            if jbeam_part in last_exported_jbeams:
+                obj_data[constants.ATTRIBUTE_JBEAM_FILE_PATH] = last_exported_jbeams[jbeam_part]['in_filepath']
+
+        bm.free()
+
+
 # https://blender.stackexchange.com/a/110112
 def show_message_box(message = "", title = "Message Box", icon = 'INFO'):
 
@@ -340,6 +365,7 @@ def export_existing_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_i
 
     #original_jbeam_file_data = sjson.loads(obj_data[constants.ATTRIBUTE_JBEAM_FILE_DATA_STR])
 
+    # Load JBeam file that was imported into Blender
     try:
         f = open(in_jbeam_filepath)
         current_jbeam_file_data_str = f.read()
@@ -353,7 +379,7 @@ def export_existing_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_i
         )
         return
 
-    # Import file as AST
+    # The imported jbeam data is used to build an AST from
     #ast_data = sjsonast.parse(obj_data[constants.ATTRIBUTE_JBEAM_FILE_DATA_STR])
     ast_data = sjsonast.parse(current_jbeam_file_data_str)
     if ast_data == None:
@@ -588,6 +614,11 @@ def export_existing_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_i
     f.write(out_str_jbeam_data)
     f.close()
 
+    # Save exported filepath outside of Blender scene and in Blender scene, for purposes of avoiding being affected by undo/redo
+    last_exported_jbeams[in_jbeam_part] = {'in_filepath': out_filepath}
+    obj_data[constants.ATTRIBUTE_JBEAM_FILE_PATH] = out_filepath
+    #lastSavedFilename = {Jbeam : {lastSavedPath: ....., initialNodes: ......}}
+
 
 class JBEAM_EDITOR_OT_export_jbeam(Operator, ExportHelper):
     bl_idname = 'jbeam_editor.export_jbeam'
@@ -641,8 +672,13 @@ class JBEAM_EDITOR_OT_export_jbeam(Operator, ExportHelper):
         node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_NODE_ID]
 
         if constants.ATTRIBUTE_JBEAM_FILE_PATH in obj_data and constants.ATTRIBUTE_JBEAM_PART in obj_data:
-            imported_jbeam_file_path = obj_data[constants.ATTRIBUTE_JBEAM_FILE_PATH]
             imported_jbeam_part = obj_data[constants.ATTRIBUTE_JBEAM_PART]
+
+            # If last exported jbeam filepath exists, prioritize using that for the filepath over the one stored in the object to avoid undo/redo complications
+            if imported_jbeam_part in last_exported_jbeams:
+                imported_jbeam_file_path = last_exported_jbeams[imported_jbeam_part]['in_filepath']
+            else:
+                imported_jbeam_file_path = obj_data[constants.ATTRIBUTE_JBEAM_FILE_PATH]
 
             export_existing_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_id_layer, imported_jbeam_file_path, imported_jbeam_part, self.filepath)
         else:
