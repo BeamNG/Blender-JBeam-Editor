@@ -481,7 +481,9 @@ def export_existing_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_i
             if isinstance(row_data, list):
                 curr_node_id = row_data[0]
                 if curr_node_id in true_node_renames:
-                    row_data[0] = true_node_renames[curr_node_id]
+                    new_node_id = true_node_renames[curr_node_id]
+                    new_pos = all_nodes[new_node_id]['blender_node']['pos']
+                    row_data[0], row_data[1], row_data[2], row_data[3] = new_node_id, new_pos[0], new_pos[1], new_pos[2]
                 else:
                     if 'blender_node' in all_nodes[curr_node_id]:
                         new_pos = all_nodes[curr_node_id]['blender_node']['pos']
@@ -491,7 +493,7 @@ def export_existing_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_i
     #print('nodes to delete:', nodes_to_delete)
     #print('node renames:', true_node_renames)
 
-    # Traverse AST nodes and update AST nodes from SJSON data and 'nodes_to_add' and 'nodes_to_delete'
+    # Traverse AST nodes and update them from SJSON data, add JBeam nodes, and delete JBeam nodes
 
     stack = []
     in_dict = True
