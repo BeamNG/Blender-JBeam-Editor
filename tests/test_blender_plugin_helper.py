@@ -170,6 +170,14 @@ class JBeamEditorTest:
                 bm.verts.remove(v)
 
 
+    def move_selected_node(self, bm: bmesh.types.BMesh, init_node_id_layer, node_id_layer, new_pos):
+        v: bmesh.types.BMVert
+        for v in bm.verts:
+            if v.select:
+                v.co = new_pos
+                break
+
+
     def rename_selected_node(self, bm: bmesh.types.BMesh, init_node_id_layer, node_id_layer, new_node_id):
         v: bmesh.types.BMVert
         for v in bm.verts:
@@ -204,6 +212,20 @@ class JBeamEditorTest:
         self.deselect_all_vertices(bm)
         self.select_nodes_by_node_id(bm, init_node_id_layer, node_id_layer, node_ids)
         self.delete_selected_vertices(bm)
+
+        bm.free()
+
+    
+    def move_nodes_from_imported_jbeam_mesh(self, node_ids_to_new_pos: dict):
+        self.select_imported_jbeam_mesh()
+        bm, init_node_id_layer, node_id_layer = self.set_to_edit_mode_and_get_imported_mesh_bmesh()
+        self.deselect_all_vertices(bm)
+
+        # Move nodes one at a time, replicating user behavior
+        for node_id, new_pos in node_ids_to_new_pos.items():
+            self.select_node_by_node_id(bm, init_node_id_layer, node_id_layer, node_id)
+            self.move_selected_node(bm, init_node_id_layer, node_id_layer, new_pos)
+            self.deselect_all_vertices(bm)
 
         bm.free()
 
