@@ -116,3 +116,59 @@ def test_delete_rename_2():
     assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()
+
+
+# Import, choose JBeam mesh, rename node nr12 to twelve, move renamed node twelve from (-0.8,-0.8,-0.2) to (-0.8,-0.8,3.0), and export (valid)
+def test_rename_move_1():
+    jbeam_editor_test.set_test_to_run(test_rename_move_1.__name__)
+    chosen_part = jbeam_editor_test.import_part
+
+    old_to_new_node_ids = [('nr12', 'twelve')]
+    node_ids_to_new_pos = {'twelve': (-0.8,-0.8,3.0)}
+
+    # Import chosen part from JBeam file
+    jbeam_editor_test.import_jbeam()
+
+    # Rename node nr12 to twelve
+    jbeam_editor_test.rename_nodes_from_imported_jbeam_mesh(old_to_new_node_ids)
+
+    # Move renamed node twelve
+    jbeam_editor_test.move_nodes_from_imported_jbeam_mesh(node_ids_to_new_pos)
+
+    # Export JBeam file and test result
+    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.test_result()
+    jbeam_editor_test.cleanup()
+
+
+# Import, choose JBeam mesh, rename nodes, move nodes, and export (valid)
+def test_rename_move_2():
+    jbeam_editor_test.set_test_to_run(test_rename_move_2.__name__)
+    chosen_part = jbeam_editor_test.import_part
+
+    old_to_new_node_ids = [
+        ('nl3', 'nl_three'),
+        ('nr4', 'nr_four'),
+        ('nr14', 'nr_fourteen'),
+        ('nr29', 'nr_twentynine')
+    ]
+    node_ids_to_new_pos = {
+        'nl_three': (-0.62,0.325,5.99),
+        'nr_four': (-0.801,100.5,0.984),
+        'nr_fourteen': (1,2,3),
+        'nr_twentynine': (3.3,0.159,0.692)
+    }
+
+    # Import chosen part from JBeam file
+    jbeam_editor_test.import_jbeam()
+
+    # Rename nodes
+    jbeam_editor_test.rename_nodes_from_imported_jbeam_mesh(old_to_new_node_ids)
+
+    # Move renamed nodes
+    jbeam_editor_test.move_nodes_from_imported_jbeam_mesh(node_ids_to_new_pos)
+
+    # Export JBeam file and test result
+    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.test_result()
+    jbeam_editor_test.cleanup()
