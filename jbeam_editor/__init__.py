@@ -127,8 +127,9 @@ class JBEAM_EDITOR_OT_convert_to_jbeam_mesh(bpy.types.Operator):
             bm = bmesh.new()
             bm.from_mesh(obj_data)
 
-        # If mesh doesn't have node_id attributes, add it for all vertices with an initial value
-        if not (constants.V_ATTRIBUTE_INIT_NODE_ID in bm.verts.layers.string and constants.V_ATTRIBUTE_NODE_ID in bm.verts.layers.string):
+        # If mesh is not a JBeam mesh, make it into one
+        if obj_data.get(constants.ATTRIBUTE_JBEAM_PART) == None:
+            obj_data[constants.ATTRIBUTE_JBEAM_PART] = obj.name
             init_node_id_layer = bm.verts.layers.string.new(constants.V_ATTRIBUTE_INIT_NODE_ID)
             node_id_layer = bm.verts.layers.string.new(constants.V_ATTRIBUTE_NODE_ID)
 
@@ -172,7 +173,7 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
         layout.label(text=obj.name)
 
         # If mesh isn't a JBeam mesh (it doesn't have node id attributes), give user option to convert it to one (add node id attributes)
-        if not (constants.V_ATTRIBUTE_INIT_NODE_ID in bm.verts.layers.string and constants.V_ATTRIBUTE_NODE_ID in bm.verts.layers.string):
+        if obj_data.get(constants.ATTRIBUTE_JBEAM_PART) == None:
             layout.operator('jbeam_editor.convert_to_jbeam_mesh', text='Convert to JBeam Mesh')
 
         else:
@@ -200,7 +201,7 @@ def draw_callback_px(context):
             continue
 
         obj_data = obj.data
-        if not type(obj_data) is bpy.types.Mesh:
+        if obj_data.get(constants.ATTRIBUTE_JBEAM_PART) == None:
             continue
 
         bm = None
@@ -210,20 +211,19 @@ def draw_callback_px(context):
             bm = bmesh.new()
             bm.from_mesh(obj_data)
 
-        if constants.V_ATTRIBUTE_NODE_ID in bm.verts.layers.string:
-            node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_NODE_ID]
 
-            for v in bm.verts:
-                coord = obj.matrix_world @ v.co
-                node_id = v[node_id_layer].decode('utf-8')
+        for v in bm.verts:
+            coord = obj.matrix_world @ v.co
+            node_id = v[node_id_layer].decode('utf-8')
 
-                pos_text = location_3d_to_region_2d(context.region, context.region_data, coord)
-                if pos_text:
-                    blf.position(font_id, pos_text[0], pos_text[1], 0)
-                    blf.size(font_id, 12, 72)
-                    blf.color(font_id, 1, 1, 1, 1)
-                    #blf.draw(font_id, str(node_id) + " (" + str(v.index) + ")")
-                    blf.draw(font_id, str(node_id))
+            pos_text = location_3d_to_region_2d(context.region, context.region_data, coord)
+            if pos_text:
+                blf.position(font_id, pos_text[0], pos_text[1], 0)
+                blf.size(font_id, 12, 72)
+                blf.color(font_id, 1, 1, 1, 1)
+                #blf.draw(font_id, str(node_id) + " (" + str(v.index) + ")")
+                blf.draw(font_id, str(node_id))
 
         bm.free()
 
@@ -271,7 +271,7 @@ def depsgraph_callback(scene, depsgraph):
 
     bm = bmesh.from_edit_mesh(obj_data)
 
-    if constants.V_ATTRIBUTE_INIT_NODE_ID in bm.verts.layers.string and constants.V_ATTRIBUTE_NODE_ID in bm.verts.layers.string:
+    if obj_data.get(constants.ATTRIBUTE_JBEAM_PART) != None:
         # This mesh is a jbeam mesh
 
         init_node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_INIT_NODE_ID]

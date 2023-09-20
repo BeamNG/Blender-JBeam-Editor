@@ -94,7 +94,7 @@ class JBeamEditorTest:
         assert type(obj_data) is bpy.types.Mesh
 
         bm = bmesh.from_edit_mesh(obj_data)
-        assert constants.V_ATTRIBUTE_INIT_NODE_ID in bm.verts.layers.string and constants.V_ATTRIBUTE_NODE_ID in bm.verts.layers.string
+        assert obj_data.get(constants.ATTRIBUTE_JBEAM_PART) == obj.name and constants.V_ATTRIBUTE_INIT_NODE_ID in bm.verts.layers.string and constants.V_ATTRIBUTE_NODE_ID in bm.verts.layers.string
 
         init_node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_INIT_NODE_ID]
         node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_NODE_ID]

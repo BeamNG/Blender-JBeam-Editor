@@ -43,7 +43,8 @@ def save_post_callback(filepath):
     # On saving, set the JBeam part meshes import file paths to what is saved in the Python environment filepath
     for obj in bpy.context.scene.objects:
         obj_data = obj.data
-        if not type(obj_data) is bpy.types.Mesh:
+        jbeam_part = obj_data.get(constants.ATTRIBUTE_JBEAM_PART)
+        if jbeam_part == None:
             continue
 
         bm = None
@@ -53,10 +54,8 @@ def save_post_callback(filepath):
             bm = bmesh.new()
             bm.from_mesh(obj_data)
 
-        if constants.V_ATTRIBUTE_NODE_ID in bm.verts.layers.string:
-            jbeam_part = obj_data[constants.ATTRIBUTE_JBEAM_PART]
-            if jbeam_part in last_exported_jbeams:
-                obj_data[constants.ATTRIBUTE_JBEAM_FILE_PATH] = last_exported_jbeams[jbeam_part]['in_filepath']
+        if jbeam_part in last_exported_jbeams:
+            obj_data[constants.ATTRIBUTE_JBEAM_FILE_PATH] = last_exported_jbeams[jbeam_part]['in_filepath']
 
         bm.free()
 
@@ -350,7 +349,6 @@ def export_new_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_id_lay
     f.close()
 
     obj_data[constants.ATTRIBUTE_JBEAM_FILE_PATH] = filepath
-    obj_data[constants.ATTRIBUTE_JBEAM_PART] = obj.name
 
 
 # Exports by using jbeam file imported to make changes on it:
@@ -672,10 +670,9 @@ class JBEAM_EDITOR_OT_export_jbeam(Operator, ExportHelper):
 
         init_node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_INIT_NODE_ID]
         node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_NODE_ID]
+        imported_jbeam_part = obj_data.get(constants.ATTRIBUTE_JBEAM_PART)
 
-        if constants.ATTRIBUTE_JBEAM_FILE_PATH in obj_data and constants.ATTRIBUTE_JBEAM_PART in obj_data:
-            imported_jbeam_part = obj_data[constants.ATTRIBUTE_JBEAM_PART]
-
+        if imported_jbeam_part != None:
             # If last exported jbeam filepath exists, prioritize using that for the filepath over the one stored in the object to avoid undo/redo complications
             if imported_jbeam_part in last_exported_jbeams:
                 imported_jbeam_file_path = last_exported_jbeams[imported_jbeam_part]['in_filepath']
