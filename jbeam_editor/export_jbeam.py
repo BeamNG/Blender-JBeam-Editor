@@ -641,17 +641,8 @@ class JBEAM_EDITOR_OT_export_jbeam(Operator, ExportHelper):
             return False
 
         obj_data = obj.data
-        if not type(obj_data) is bpy.types.Mesh:
-            return False
-
-        bm = None
-        if obj.mode == 'EDIT':
-            bm = bmesh.from_edit_mesh(obj_data)
-        else:
-            bm = bmesh.new()
-            bm.from_mesh(obj_data)
-
-        if not constants.V_ATTRIBUTE_NODE_ID in bm.verts.layers.string:
+        jbeam_part = obj_data.get(constants.ATTRIBUTE_JBEAM_PART)
+        if jbeam_part == None:
             return False
 
         return True
@@ -671,13 +662,12 @@ class JBEAM_EDITOR_OT_export_jbeam(Operator, ExportHelper):
         init_node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_INIT_NODE_ID]
         node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_NODE_ID]
         imported_jbeam_part = obj_data.get(constants.ATTRIBUTE_JBEAM_PART)
+        imported_jbeam_file_path = obj_data.get(constants.ATTRIBUTE_JBEAM_FILE_PATH)
 
-        if imported_jbeam_part != None:
+        if imported_jbeam_file_path != None:
             # If last exported jbeam filepath exists, prioritize using that for the filepath over the one stored in the object to avoid undo/redo complications
             if imported_jbeam_part in last_exported_jbeams:
                 imported_jbeam_file_path = last_exported_jbeams[imported_jbeam_part]['in_filepath']
-            else:
-                imported_jbeam_file_path = obj_data[constants.ATTRIBUTE_JBEAM_FILE_PATH]
 
             export_existing_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_id_layer, imported_jbeam_file_path, imported_jbeam_part, self.filepath)
         else:
