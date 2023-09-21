@@ -1,6 +1,8 @@
 # Blender JBeam Editor
 This Blender plugin allows you to create JBeam parts from scratch, import existing JBeam parts, modify them, and export them to a new or existing JBeam file, all within Blender, requiring **no** copying and pasting of JBeam code!
 
+**This plugin is only compatible with Blender 3.6.x! This plugin will not work on older versions. You can get the latest version of Blender [here](https://www.blender.org/download/).**
+
 ![](blender.png)
 
 ## Current Features
