@@ -220,7 +220,7 @@ def draw_callback_px(context):
             pos_text = location_3d_to_region_2d(context.region, context.region_data, coord)
             if pos_text:
                 blf.position(font_id, pos_text[0], pos_text[1], 0)
-                blf.size(font_id, 12, 72)
+                blf.size(font_id, 12) # dpi value defaults to 72 when omitted, and no longer usable from 4.0+ (only 2 parameters allowed).
                 blf.color(font_id, 1, 1, 1, 1)
                 #blf.draw(font_id, str(node_id) + " (" + str(v.index) + ")")
                 blf.draw(font_id, str(node_id))
