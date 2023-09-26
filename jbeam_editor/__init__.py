@@ -49,6 +49,8 @@ from . import constants
 from . import import_jbeam
 from . import export_jbeam
 
+draw_handle = None
+
 
 # Refresh property input field UI
 def on_input_node_id_field_updated(self, context):
@@ -316,9 +318,7 @@ def save_post_callback(filepath):
     export_jbeam.save_post_callback(filepath)
 
 
-draw_handle = None
-
-
+@persistent
 def on_post_register():
     # this will happen 0.1 seconds after addon registration completes.
     #print(bpy.context.view_layer)
@@ -339,7 +339,7 @@ def register():
     bpy.app.handlers.save_post.append(save_post_callback)
 
     # Delayed function call to prevent "restrictcontext" error
-    bpy.app.timers.register(on_post_register, first_interval=0.1)
+    bpy.app.timers.register(on_post_register, first_interval=0.1, persistent=True)
 
 
 def unregister():
