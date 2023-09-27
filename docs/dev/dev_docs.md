@@ -3,7 +3,7 @@
 ### Introduction
 This is the developer's documentation for the Blender JBeam Editor.
 
-**[Python 3](https://www.python.org/downloads/) is required to use the development features below.**
+**[Python 3](https://www.python.org/downloads/) is required to use the development tools below.**
 
 ### Plugin Development
 I recommend developing this Blender plugin (or any Blender plugin) in Visual Studio Code (VSC) with the following addons:
