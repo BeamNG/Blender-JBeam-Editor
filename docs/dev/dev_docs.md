@@ -3,7 +3,13 @@
 ### Introduction
 This is the developer's documentation for the Blender JBeam Editor.
 
-**Although not required, it is recommended to install Python 3 to develop this plugin. It is required however if you want to use the features below.**
+**[Python 3](https://www.python.org/downloads/) is required to use the development features below.**
+
+### Plugin Development
+I recommend developing this Blender plugin (or any Blender plugin) in Visual Studio Code (VSC) with the following addons:
+- [Python VSC extension](https://marketplace.visualstudio.com/items?itemName=ms-python.python) (you should be prompted to install this when opening a Python file)
+- [Blender Development VSC extension](https://marketplace.visualstudio.com/items?itemName=JacquesLucke.blender-development) makes it easy to run and debug your code
+- [fake-bpy-module-latest](https://pypi.org/project/fake-bpy-module-latest/) for auto code completion
 
 ### Plugin Testing
 This repository contains a test suite to make sure that the plugin's functionalities work as expected. A test case imports a JBeam file, performs certain actions (e.g. moving a node to a certain position in Blender) and exports the changes to a JBeam file, and checks if the result matches an expected JBeam file (e.g. the node is moved to that expected location in the JBeam file).
