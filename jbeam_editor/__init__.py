@@ -47,6 +47,7 @@ from bpy_extras.view3d_utils import location_3d_to_region_2d
 
 from . import constants
 from . import import_jbeam
+from . import import_vehicle
 from . import export_jbeam
 
 draw_handle = None
@@ -236,13 +237,17 @@ classes = (
     JBEAM_EDITOR_PT_jbeam_panel,
     import_jbeam.JBEAM_EDITOR_OT_import_jbeam,
     import_jbeam.JBEAM_EDITOR_OT_choose_jbeam,
+    import_vehicle.JBEAM_EDITOR_OT_import_vehicle,
     export_jbeam.JBEAM_EDITOR_OT_export_jbeam,
 )
 
 
-# Only needed if you want to add into a dynamic menu.
 def menu_func_import(self, context):
     self.layout.operator(import_jbeam.JBEAM_EDITOR_OT_import_jbeam.bl_idname, text="JBeam File (.jbeam)")
+
+
+def menu_func_import_vehicle(self, context):
+    self.layout.operator(import_vehicle.JBEAM_EDITOR_OT_import_vehicle.bl_idname, text="Part Config File (.pc)")
 
 
 def menu_func_export(self, context):
@@ -333,6 +338,7 @@ def register():
     bpy.types.Scene.ui_properties = bpy.props.PointerProperty(type=UIProperties)
 
     bpy.types.TOPBAR_MT_file_import.append(menu_func_import)
+    bpy.types.TOPBAR_MT_file_import.append(menu_func_import_vehicle)
     bpy.types.TOPBAR_MT_file_export.append(menu_func_export)
 
     bpy.app.handlers.depsgraph_update_post.append(depsgraph_callback)
@@ -347,6 +353,7 @@ def unregister():
         bpy.utils.unregister_class(c)
 
     bpy.types.TOPBAR_MT_file_import.remove(menu_func_import)
+    bpy.types.TOPBAR_MT_file_import.remove(menu_func_import_vehicle)
     bpy.types.TOPBAR_MT_file_export.remove(menu_func_export)
 
     bpy.app.handlers.depsgraph_update_post.remove(depsgraph_callback)
