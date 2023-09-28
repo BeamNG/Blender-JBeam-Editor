@@ -39,9 +39,19 @@ from . import constants
 from . import sjson
 from . import export_jbeam
 
+from .jbeam import io as jbeam_io
+
+
+def load_jbeam(vehicle_directories: list[Path], vehicle_config: dict):
+    """load all the jbeam and construct the thing in memory"""
+    print('Reading files...')
+    io_ctx = jbeam_io.start_loading(vehicle_directories)
+    print('Done reading files')
+
 
 def load_vehicle_stage_1(vehicles_dir: Path, vehicle_dir: Path, vehicle_config: dict):
-    vehicle_directories = {vehicle_dir, Path(vehicles_dir).joinpath('common')}
+    vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common')]
+    load_jbeam(vehicle_directories, vehicle_config)
 
 
 def build_config(config_path):

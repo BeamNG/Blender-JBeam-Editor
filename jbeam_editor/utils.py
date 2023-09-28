@@ -52,3 +52,16 @@ def sjson_read_file(filepath: Path):
         # parent needs to deal with error reporting
         return None
     return sjson_decode(content, filepath)
+
+
+def dict_array_size(x: dict):
+    """gets the array size of a dict (similiar to Lua's #tbl operator)"""
+
+    count = 0
+    while True:
+        if x.get(count) != None:
+            count += 1
+        else:
+            break
+
+    return count
