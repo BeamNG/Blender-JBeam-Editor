@@ -107,6 +107,12 @@ class UIProperties(bpy.types.PropertyGroup):
                                         description="",
                                         default="",
                                         update=on_input_node_id_field_updated)
+    
+    bpy.types.Scene.toggle_node_ids_text = bpy.props.BoolProperty(
+    name="Toggle NodeIDs Text",
+    description="Toggles the text of NodeIDs",
+    default=True
+)
 
 
 # Convert active mesh to a "JBeam" mesh by adding a Node ID attribute
@@ -183,6 +189,12 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
             box = layout.box()
             col = box.column()
 
+            # Add a checkbox to toggle Node IDs text
+            col.prop(scene, 'toggle_node_ids_text', text="Toggle Node IDs Text")
+
+            box = layout.box()
+            col = box.column()
+
             selected_verts = list(filter(lambda v: v.select, bm.verts))
             if len(selected_verts) == 1:
                 rows = [col.row() for i in range(2)]
@@ -221,7 +233,7 @@ def draw_callback_px(context):
             node_id = v[node_id_layer].decode('utf-8')
 
             pos_text = location_3d_to_region_2d(context.region, context.region_data, coord)
-            if pos_text:
+            if pos_text and context.scene.toggle_node_ids_text:
                 blf.position(font_id, pos_text[0], pos_text[1], 0)
                 blf.size(font_id, 12) # dpi value defaults to 72 when omitted, and no longer usable from 4.0+ (only 2 parameters allowed).
                 blf.color(font_id, 1, 1, 1, 1)
