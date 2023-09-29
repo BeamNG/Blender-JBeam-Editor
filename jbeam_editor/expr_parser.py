@@ -23,17 +23,108 @@ import random
 import re
 import sys
 
+from functools import partial
+
 var_wrapper_re = re.compile(r'\$([a-zA-Z_][a-zA-Z_0-9]*)')
 standalone_equal_re = re.compile(r'[^<>!=]=[^=]')
 
+def lua_thruthiness(x):
+    x_type = type(x)
+    if x_type == bool:
+        return x
+    return x_type != type(None)
 
-'''class Truth:
-    def __init__(self, value, truth):
-        self.value = value
-        self.truth = truth
-    def __bool__(self):
-        return self.truth'''
+def is_number(x):
+    x_type = type(x)
+    return x_type == int or x_type == float
 
+# https://tomerfiliba.com/blog/Infix-Operators
+class Infix(object):
+    def __init__(self, func):
+        self.func = func
+
+    def __or__(self, other): return self.right(other)
+    def __ror__(self, other): return self.left(other)
+    def __and__(self, other): return self.right(other)
+    def __rand__(self, other): return self.left(other)
+    def __rlshift__(self, other): return self.left(other)
+    def __rshift__(self, other): return self.right(other)
+
+    def __add__(self, other): return self.right(other)
+    def __radd__(self, other): return self.left(other)
+    def __sub__(self, other): return self.right(other)
+    def __rsub__(self, other): return self.left(other)
+    def __mul__(self, other): return self.right(other)
+    def __rmul__(self, other): return self.left(other)
+    def __div__(self, other): return self.right(other)
+    def __rdiv__(self, other): return self.left(other)
+    def __mod__(self, other): return self.right(other)
+    def __rmod__(self, other): return self.left(other)
+    def __xor__(self, other): return self.right(other)
+    def __rxor__(self, other): return self.left(other)
+
+    def __call__(self, v1, v2): return self.func(v1, v2)
+
+    def left(self, other):
+        #print('left', self, other)
+        return Infix(partial(self.func, other))
+
+    def right(self, other):
+        #print('right', self, other)
+        return self.func(other)
+
+
+# These infix decorated functions are used to essentially override the behavior of Python's operators, when evaluating the JBeam expressions
+@Infix
+def _or(x, y):
+    if lua_thruthiness(x):
+        return x
+    return y
+
+@Infix
+def _and(x, y):
+    if not lua_thruthiness(x):
+        return x
+    return y
+
+@Infix
+def _not(x):
+    return not lua_thruthiness(x)
+
+@Infix
+def _eq(x, y):
+    x_type, y_type = type(x), type(y)
+    if x_type != y_type and is_number(x) != is_number(y):
+        return False
+    return x == y
+
+@Infix
+def _ne(x, y):
+    return not _eq(x, y)
+
+@Infix
+def _add(x, y):
+    if is_number(x) and is_number(y):
+        return x + y
+    return None
+
+@Infix
+def _sub(x, y):
+    if is_number(x) and is_number(y):
+        return x - y
+    return None
+
+@Infix
+def _mul(x, y):
+    if is_number(x) and is_number(y):
+        return x * y
+    return None
+
+@Infix
+def _div(x, y):
+    if is_number(x) and is_number(y):
+        return x / y
+    return None
 
 # function used as a case selector, input can be both int and bool as the first argument, any number of arguments after that
 # in case it's a bool, it works like a ternary if, returning the second param if true, the third if false
@@ -84,8 +175,15 @@ def smoothmin(a, b, k):
 
 context = {
     '__builtins__': {
-        #0: Truth(0, True),
-        #'': Truth('', True),
+        '_or': _or,
+        '_and': _and,
+        '_not': _not,
+        '_eq': _eq,
+        '_ne': _ne,
+        '_add': _add,
+        '_sub': _sub,
+        '_mul': _mul,
+        '_div': _div,
         'locals': locals,
         'round': round,
         'square': lambda x: x ** 2,
@@ -109,6 +207,21 @@ def convert_variable(match):
     return 'locals().get("var_' + variable_name + '")'
 
 
+keyword_replacement = {
+    'nil': 'None',
+    'true': 'True',
+    'false': 'False',
+    ' or ': '|_or|',
+    ' and ': '&_and&',
+    'not ': '_not&',
+    '==': '<<_eq>>',
+    '~=': '<<_ne>>',
+    '+': '+_add+',
+    '-': '+0-_sub-',
+    '*': '*_mul*',
+    '/': '/_div/',
+}
+
 def parse_safe(expr: str, vars: dict):
     # Strip leading "$=" from expression
     expr = expr[2:]
@@ -117,8 +230,9 @@ def parse_safe(expr: str, vars: dict):
     expr = re.sub(var_wrapper_re, convert_variable, expr)
 
     # Convert Lua keywords to Python
-    expr = expr.replace('nil', 'None').replace('~=', '!=').replace('true', 'True').replace('false', 'False')
-
+    for k,v in keyword_replacement.items():
+        expr = expr.replace(k,v)
+    #expr = expr.replace('nil', 'None').replace('~=', '!=').replace('true', 'True').replace('false', 'False').replace()
     #print(expr)
 
     new_vars = {}
@@ -129,7 +243,7 @@ def parse_safe(expr: str, vars: dict):
     if re.match(standalone_equal_re, expr):
         print("Assignments are not supported inside expressions!", file=sys.stderr)
         return None
-    
+
     result = None
     try:
         result = eval(expr, context, new_vars)
@@ -141,6 +255,15 @@ def parse_safe(expr: str, vars: dict):
 
 # Test cases
 if __name__ == "__main__":
+    #print(None |_eq| None |_and| 0 |_or| (1-None))
+    #print(_sub| 3)
+    #print(1 +_add+ 5 *_mul* 6)
+    #print(1 +_add+ 5)
+    #print(_not& False &_and& _not&False)
+    #print(3 *_mul* 0 &_and& 0 |_or| 2)
+
+    #sys.exit(0)
+
     vars = {'$toe_FR': 1, '$steer_center_F': 0.002}
     expr = "$=$toe_FR-$steer_center_F"
     result = parse_safe(expr, vars)
@@ -160,17 +283,29 @@ if __name__ == "__main__":
     expr = "$=$brakebias == nil and $brakestrength*900 or ($brakestrength*3600*(1-$brakebias) + 1)"
     result = parse_safe(expr, vars)
     assert result == 630
-    
-    # Doesn't pass but not using zero at the moment in logical statements so...
-    '''vars = {'$brakestrength': 0}
+
+    vars = {'$brakestrength': 0}
     expr = "$=$brakebias == nil and $brakestrength*900 or ($brakestrength*3600*(1-$brakebias) + 1)"
     result = parse_safe(expr, vars)
-    assert result == 0'''
+    assert result == 0
 
     vars = {'$brakebias': 0.5, '$brakestrength': 0.7}
     expr = "$=$brakebias == nil and $brakestrength*900 or ($brakestrength*3600*(1-$brakebias) + 1)"
     result = parse_safe(expr, vars)
     assert result == 1261
+
+    vars = {'$brakebias': 0.5, '$brakestrength': 0.7}
+    expr = "$=not $brakebias == nil and $brakestrength*900 or ($brakestrength*3600*(1-$brakebias) + 1)"
+    result = parse_safe(expr, vars)
+    assert result == 630
+
+    expr = "$=1 + 5 * 6"
+    result = parse_safe(expr, vars)
+    assert result == 31
+
+    expr = "$=1 * 5 + 6"
+    result = parse_safe(expr, vars)
+    assert result == 11
 
     expr = "$=case(true, 1, 2)"
     result = parse_safe(expr, vars)
@@ -182,15 +317,12 @@ if __name__ == "__main__":
 
     expr = "$=random()"
     result = parse_safe(expr, vars)
-    print("$=random(): " + str(result))
 
     expr = "$=random(4)"
     result = parse_safe(expr, vars)
-    print("$=random(4): " + str(result))
 
     expr = "$=random(10,20)"
     result = parse_safe(expr, vars)
-    print("$=random(10,20): " + str(result))
 
     expr = "$=random(20,20)"
     result = parse_safe(expr, vars)
