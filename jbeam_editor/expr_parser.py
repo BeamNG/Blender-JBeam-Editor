@@ -25,6 +25,10 @@ import sys
 
 from functools import partial
 
+from antlr4 import InputStream
+from antlr4.Token import CommonToken
+from luaparser.parser.LuaLexer import LuaLexer
+
 var_wrapper_re = re.compile(r'\$([a-zA-Z_][a-zA-Z_0-9]*)')
 standalone_equal_re = re.compile(r'[^<>!=]=[^=]')
 
@@ -213,9 +217,9 @@ keyword_replacement = {
     'nil': 'False',
     'true': 'True',
     'false': 'False',
-    ' or ': '|_or|',
-    ' and ': '&_and&',
-    'not ': '_not&',
+    'or': '|_or|',
+    'and': '&_and&',
+    'not': '_not&',
     '==': '<<_eq>>',
     '~=': '<<_ne>>',
     #'+': '+_add+',
@@ -231,10 +235,31 @@ def parse_safe(expr: str, vars: dict):
     # Use regular expressions to find and replace variables in the expression to format that doesn't throw errors if variable doesn't exist
     expr = re.sub(var_wrapper_re, convert_variable, expr)
 
-    # Convert Lua keywords to Python
-    for k,v in keyword_replacement.items():
-        expr = expr.replace(k,v)
-    #print(expr)
+    #print('before:', expr)
+
+    # Convert Lua keywords to Python, by using a Lua Lexer to tokenize the Lua expression into operators/literals
+    # and translating the Lua operators into Python equivalent with a dictionary 'keyword_replacement'
+    lexer = LuaLexer(InputStream(expr))
+    tokens: list[CommonToken] = lexer.getAllTokens()
+    len_tokens = len(tokens)
+
+    #for t in tokens:
+    #    print(repr(t.text), t.start, t.stop)
+
+    offset = 0
+
+    for i in range(len_tokens):
+        t = tokens[i]
+
+        original_text = t.text
+        replace_text = keyword_replacement.get(original_text)
+        #print(repr(original_text), repr(replace_text))
+
+        if replace_text != None:
+            expr = expr[:t.start + offset] + replace_text + expr[t.stop + 1 + offset:]
+            offset += len(replace_text) - len(original_text)
+
+    #print('after:', expr)
 
     new_vars = {}
     for k,v in vars.items():
@@ -253,12 +278,22 @@ def parse_safe(expr: str, vars: dict):
 
     return result
 
-
 # Test cases
 if __name__ == "__main__":
-    #print(None |_eq| None |_and| 0 |_or| (1-None))
-    #print(_sub| 3)
-    #print(3 *_mul* 0 &_and& 0 |_or| 2)
+    '''
+    print(None |_eq| None |_and| 0 |_or| (1-None))
+    print(_sub| 3)
+    print(3 *_mul* 0 &_and& 0 |_or| 2)
+    '''
+
+    '''
+    source = 'case(locals().get("var_rideheight_F", False) == nil, (locals().get("var_springheight_F", False) + 0.09) * 0.7, 4 or true)'
+    lexer = LuaLexer(InputStream(source))
+    tokens: list[CommonToken] = lexer.getAllTokens()
+
+    for t in tokens:
+        print(repr(t.text), t.type, t.start, t.stop)
+    '''
 
     #sys.exit(0)
 
