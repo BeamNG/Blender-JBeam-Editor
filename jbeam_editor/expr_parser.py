@@ -28,7 +28,7 @@ from functools import partial
 var_wrapper_re = re.compile(r'\$([a-zA-Z_][a-zA-Z_0-9]*)')
 standalone_equal_re = re.compile(r'[^<>!=]=[^=]')
 
-def lua_thruthiness(x):
+def lua_truthiness(x):
     x_type = type(x)
     if x_type == bool:
         return x
@@ -77,19 +77,19 @@ class Infix(object):
 # These infix decorated functions are used to essentially override the behavior of Python's operators, when evaluating the JBeam expressions
 @Infix
 def _or(x, y):
-    if lua_thruthiness(x):
+    if lua_truthiness(x):
         return x
     return y
 
 @Infix
 def _and(x, y):
-    if not lua_thruthiness(x):
+    if not lua_truthiness(x):
         return x
     return y
 
 @Infix
 def _not(x):
-    return not lua_thruthiness(x)
+    return not lua_truthiness(x)
 
 @Infix
 def _eq(x, y):
@@ -102,6 +102,7 @@ def _eq(x, y):
 def _ne(x, y):
     return not _eq(x, y)
 
+'''
 @Infix
 def _add(x, y):
     if is_number(x) and is_number(y):
@@ -119,12 +120,13 @@ def _mul(x, y):
     if is_number(x) and is_number(y):
         return x * y
     return None
+'''
 
 @Infix
 def _div(x, y):
     if is_number(x) and is_number(y):
         return x / y
-    return None
+    return False
 
 # function used as a case selector, input can be both int and bool as the first argument, any number of arguments after that
 # in case it's a bool, it works like a ternary if, returning the second param if true, the third if false
@@ -180,9 +182,9 @@ context = {
         '_not': _not,
         '_eq': _eq,
         '_ne': _ne,
-        '_add': _add,
-        '_sub': _sub,
-        '_mul': _mul,
+        #'_add': _add,
+        #'_sub': _sub,
+        #'_mul': _mul,
         '_div': _div,
         'locals': locals,
         'round': round,
@@ -204,11 +206,11 @@ for k, v in math.__dict__.items():
 # Define a function to convert variables in the expression to the desired format
 def convert_variable(match):
     variable_name = match.group(1)
-    return 'locals().get("var_' + variable_name + '")'
+    return 'locals().get("var_' + variable_name + '", False)'
 
 
 keyword_replacement = {
-    'nil': 'None',
+    'nil': 'False',
     'true': 'True',
     'false': 'False',
     ' or ': '|_or|',
@@ -216,9 +218,9 @@ keyword_replacement = {
     'not ': '_not&',
     '==': '<<_eq>>',
     '~=': '<<_ne>>',
-    '+': '+_add+',
-    '-': '+0-_sub-',
-    '*': '*_mul*',
+    #'+': '+_add+',
+    #'-': '+0-_sub-',
+    #'*': '*_mul*',
     '/': '/_div/',
 }
 
@@ -232,7 +234,6 @@ def parse_safe(expr: str, vars: dict):
     # Convert Lua keywords to Python
     for k,v in keyword_replacement.items():
         expr = expr.replace(k,v)
-    #expr = expr.replace('nil', 'None').replace('~=', '!=').replace('true', 'True').replace('false', 'False').replace()
     #print(expr)
 
     new_vars = {}
@@ -257,9 +258,6 @@ def parse_safe(expr: str, vars: dict):
 if __name__ == "__main__":
     #print(None |_eq| None |_and| 0 |_or| (1-None))
     #print(_sub| 3)
-    #print(1 +_add+ 5 *_mul* 6)
-    #print(1 +_add+ 5)
-    #print(_not& False &_and& _not&False)
     #print(3 *_mul* 0 &_and& 0 |_or| 2)
 
     #sys.exit(0)
@@ -289,6 +287,11 @@ if __name__ == "__main__":
     result = parse_safe(expr, vars)
     assert result == 0
 
+    vars = {'$brakestrength': 0.5}
+    expr = "$=$brakebias == nil and $brakestrength*900 or ($brakestrength*3600*($brakebias - 1) + 1)"
+    result = parse_safe(expr, vars)
+    assert result == 450
+
     vars = {'$brakebias': 0.5, '$brakestrength': 0.7}
     expr = "$=$brakebias == nil and $brakestrength*900 or ($brakestrength*3600*(1-$brakebias) + 1)"
     result = parse_safe(expr, vars)
@@ -298,6 +301,27 @@ if __name__ == "__main__":
     expr = "$=not $brakebias == nil and $brakestrength*900 or ($brakestrength*3600*(1-$brakebias) + 1)"
     result = parse_safe(expr, vars)
     assert result == 630
+
+    vars = {'$brakebias': 0.5, '$brakestrength': 0.7}
+    expr = "$=not $brakebias == nil and $brakestrength*900 or ($brakestrength*3600*($brakebias - 1) + 1)"
+    result = parse_safe(expr, vars)
+    assert result == 630
+
+    expr = "$=3 * 0 and 0 or 2"
+    result = parse_safe(expr, vars)
+    assert result == 0
+
+    expr = "$=not False and False"
+    result = parse_safe(expr, vars)
+    assert result == False
+
+    expr = "$=not False and not False"
+    result = parse_safe(expr, vars)
+    assert result == True
+
+    expr = "$=1 + 5 * 6"
+    result = parse_safe(expr, vars)
+    assert result == 31
 
     expr = "$=1 + 5 * 6"
     result = parse_safe(expr, vars)
