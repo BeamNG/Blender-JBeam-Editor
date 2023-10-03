@@ -132,6 +132,12 @@ def _div(x, y):
         return x / y
     return False
 
+@Infix
+def _mod(x, y):
+    if is_number(x) and is_number(y):
+        return x % y
+    return False
+
 # function used as a case selector, input can be both int and bool as the first argument, any number of arguments after that
 # in case it's a bool, it works like a ternary if, returning the second param if true, the third if false
 # if the selector is an int n, it simply returns the nth+1 param it was given, if n > #params it returns the last given param
@@ -190,6 +196,7 @@ context = {
         #'_sub': _sub,
         #'_mul': _mul,
         '_div': _div,
+        '_mod': _mod,
         'locals': locals,
         'round': round,
         'square': lambda x: x ** 2,
@@ -226,6 +233,7 @@ keyword_replacement = {
     #'-': '+0-_sub-',
     #'*': '*_mul*',
     '/': '/_div/',
+    '%': '%_mod%',
 }
 
 def parse_safe(expr: str, vars: dict):
@@ -341,6 +349,21 @@ if __name__ == "__main__":
     expr = "$=not $brakebias == nil and $brakestrength*900 or ($brakestrength*3600*($brakebias - 1) + 1)"
     result = parse_safe(expr, vars)
     assert result == 630
+
+    vars = {'$brakestrength': 0.7}
+    expr = "$=$brakebias == nil and $brakestrength*1000 or $brakestrength%4000*(1-$brakebias)"
+    result = parse_safe(expr, vars)
+    assert result == 700
+
+    vars = {'$brakestrength': 0.7}
+    expr = "$=$brakebias == nil and $brakestrength%1000 or $brakestrength%4000*(1-$brakebias)"
+    result = parse_safe(expr, vars)
+    assert result == 0.7
+
+    vars = {'$brakestrength': 0.7}
+    expr = "$=$brakebias == nil and 100 % $brakestrength or $brakestrength%4000*(1-$brakebias)"
+    result = parse_safe(expr, vars)
+    assert math.isclose(result, 0.6)
 
     expr = "$=3 * 0 and 0 or 2"
     result = parse_safe(expr, vars)
