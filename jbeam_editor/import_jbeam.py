@@ -32,8 +32,8 @@ from bpy_extras.io_utils import ImportHelper
 from bpy.props import StringProperty, BoolProperty, EnumProperty
 from bpy.types import Operator
 
+from . import bng_sjson
 from . import constants
-from . import sjson
 from . import export_jbeam
 
 
@@ -171,7 +171,7 @@ class JBEAM_EDITOR_OT_choose_jbeam(Operator):
     def execute(self, context):
         jbeam_file_path = context.scene[constants.ATTRIBUTE_JBEAM_FILE_PATH]
         jbeam_file_data_str = context.scene[constants.ATTRIBUTE_JBEAM_FILE_DATA_STR]
-        jbeam_file_data = sjson.loads(jbeam_file_data_str)
+        jbeam_file_data = bng_sjson.decode(jbeam_file_data_str) #sjson.loads(jbeam_file_data_str)
         chosen_part = self.dropdown_parts
 
         if self.import_all_parts:
@@ -218,7 +218,7 @@ class JBEAM_EDITOR_OT_import_jbeam(Operator, ImportHelper):
         jbeam_file_path = self.filepath
         f = open(jbeam_file_path)
         str_data = f.read()
-        data = sjson.loads(str_data)
+        data = bng_sjson.decode(str_data)
         f.close()
 
         # Set from unit tests

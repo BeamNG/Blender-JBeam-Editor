@@ -21,7 +21,7 @@
 from pathlib import Path
 import sys
 
-from . import sjson
+from . import bng_sjson
 
 
 def read_file(filepath: Path):
@@ -39,7 +39,7 @@ def sjson_decode(content, context):
     """decodes a sjson string"""
     data = None
     try:
-        data = sjson.loads(content)
+        data = bng_sjson.decode(content)
     except Exception as e:
         print(e, file=sys.stderr)
     return data

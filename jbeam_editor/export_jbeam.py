@@ -33,7 +33,7 @@ from bpy.types import Operator
 import bmesh
 
 from . import constants
-from . import sjson
+from . import bng_sjson
 from . import sjsonast
 
 last_exported_jbeams = {}
@@ -367,7 +367,7 @@ def export_existing_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_i
     try:
         f = open(in_jbeam_filepath)
         current_jbeam_file_data_str = f.read()
-        current_jbeam_file_data = sjson.loads(current_jbeam_file_data_str)
+        current_jbeam_file_data = bng_sjson.decode(current_jbeam_file_data_str)
         f.close()
     except FileNotFoundError:
         show_message_box(

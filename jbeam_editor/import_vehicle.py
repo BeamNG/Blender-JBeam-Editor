@@ -36,7 +36,6 @@ from bpy.props import StringProperty, BoolProperty, EnumProperty
 from bpy.types import Operator
 
 from . import constants
-from . import sjson
 from . import export_jbeam
 
 from .jbeam import io as jbeam_io
