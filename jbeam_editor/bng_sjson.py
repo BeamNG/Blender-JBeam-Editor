@@ -236,7 +236,7 @@ def decode(_s: str):
     return result
 
 
-### Dispatch functions ###
+### Build dispatch table ###
 
 def read_infinity(si): # I
     s1 = s[si + 1:si + 8]
@@ -292,10 +292,6 @@ def read_positive_number(si):
 def read_positive_number(si):
     num, i = read_number(si+1)
     return -num, i
-
-# build dispatch table
-for i in range(256):
-    peek_table[i] = error_input
 
 peek_table[73] = read_infinity # I
 peek_table[123] = read_object # {
