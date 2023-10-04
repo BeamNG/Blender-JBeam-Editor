@@ -22,6 +22,8 @@ import re
 import math
 import sys
 
+nil = chr(127)
+
 split_line_re = re.compile(r'([^\n]*)')
 not_quotes_slash_re = re.compile(r'^[^"\\]*')
 
@@ -98,31 +100,31 @@ def read_number(si):
 
 def skip_whitespace(i):
     while True:
-        p = ord(s[i]) if i < len_s else None
+        p = ord(s[i])
         i += 1
-        while (p is not None and p <= 32) or p == 44:  # Matches space, tab, newline, or comma
-            p = ord(s[i]) if i < len_s else None
+        while p <= 32 or p == 44:  # Matches space, tab, newline, or comma
+            p = ord(s[i])
             i += 1
 
         if p == 47:  # / - Read comment
-            p = ord(s[i]) if i < len_s else None
+            p = ord(s[i])
             if p == 47:  # / - Single-line comment "//"
                 while True:
                     i += 1
-                    p = ord(s[i]) if i < len_s else None
-                    if p == 10 or p == 13 or p is None:
+                    p = ord(s[i])
+                    if p == 10 or p == 13 or p == 127:
                         break
                 i += 1
             elif p == 42:  # * - Block comment "/* xxxxxxx */"
                 while True:
                     i += 1
-                    p = ord(s[i]) if i < len_s else None
+                    p = ord(s[i])
                     if p == 42:
-                        if (ord(s[i+1]) if i < len_s else None) == 47:  # */
+                        if ord(s[i+1]) == 47:  # */
                             break
                         elif ord(s[i-1]) == 47:  # /*
                             json_error("'/*' inside another '/*' comment is not permitted", i)
-                    if p is None:
+                    if p == 127:
                         break
                 i += 2
             else:
@@ -136,10 +138,10 @@ def read_string(si):
     # fast path
     i = si + 1
     si1 = i  # "
-    ch = ord(s[i]) if i < len_s else None
-    while ch != 34 and ch != 92 and ch is not None: # " \
+    ch = ord(s[i])
+    while ch != 34 and ch != 92 and ch != 127: # " \
         i += 1
-        ch = ord(s[i]) if i < len_s else None
+        ch = ord(s[i])
 
     if ch == 34: # "
         return s[si1:i], i
@@ -147,7 +149,7 @@ def read_string(si):
     # slow path for strings with escape chars
     if ch != 92:
         json_error("String not having an end-quote", si)
-        return None, si1
+        return 127, si1
 
     global concat_table
     if concat_table is not None:
@@ -157,16 +159,16 @@ def read_string(si):
 
     resultidx = 1
     i = si1
-    ch = ord(s[i]) if i < len_s else None
+    ch = ord(s[i])
     while ch != 34:
         ch = re.match(not_quotes_slash_re, s[i:]).group(0)
         i += len(ch) if ch else 0
         concat_table[resultidx] = ch
         resultidx += 1
-        ch = ord(s[i]) if i < len_s else None
+        ch = ord(s[i])
         if ch == 92: # \
             ch1 = escapes.get(ord(s[i + 1]))
-            if ch1 is not None:
+            if ch1 != 127:
                 concat_table[resultidx] = ch1
                 resultidx += 1
                 i += 1
@@ -185,13 +187,13 @@ def read_key(si, c):
     if c == 34:  # '"'
         key, i = read_string(si)
     else:
-        if c is None:
+        if c == 127:
             json_error("Expected dictionary key", si)
         i = si
-        ch = ord(s[i]) if i < len_s else None
+        ch = ord(s[i])
         while (ch >= 97 and ch <= 122) or (ch >= 65 and ch <= 90) or (ch >= 48 and ch <= 57) or ch == 95: # [a z] [A Z] or [0 9] or _
             i += 1
-            ch = ord(s[i]) if i < len_s else None
+            ch = ord(s[i])
 
         i -= 1
         key = s[si:i + 1]
@@ -212,8 +214,8 @@ def decode(_s: str):
 
     global s
     global len_s
-    s = _s
-    len_s = len(s)
+    len_s = len(_s)
+    s = _s + nil # padding to end of string to prevent out of bound indexing
     c, i = skip_whitespace(0)
     result = None
     if c == 123 or c == 91: # { or [
@@ -236,8 +238,8 @@ def decode(_s: str):
 ### Dispatch functions ###
 
 def read_infinity(si): # I
-    s1 = s[si + 1:si + 8] if si + 7 < len_s else None
-    if s1 is not None and s1 == "nfinity": #if c is not None and c[0] == 'n' and c[1] == 'f' and c[2] == 'i' and c[3] == 'n' and c[4] == 'i' and c[5] == 't' and c[6] == 'y':
+    s1 = s[si + 1:si + 8]
+    if s1 == "nfinity": #if c is not None and c[0] == 'n' and c[1] == 'f' and c[2] == 'i' and c[3] == 'n' and c[4] == 'i' and c[5] == 't' and c[6] == 'y':
         return math.inf, si + 7
     else:
         json_error("Error reading value: Infinity", si)
@@ -254,22 +256,22 @@ def read_object(si): # {
     return result, i
 
 def read_true(si): # t
-    b1 = s[si + 1:si + 4] if si + 3 < len_s else None
-    if b1 is not None and b1 == 'rue':
+    b1 = s[si + 1:si + 4]
+    if b1 == 'rue':
         return True, si + 3
     else:
         json_error("Error reading value: true", si)
 
 def read_false(si): # f
-    b1 = s[si + 1:si + 5] if si + 4 < len_s else None
-    if b1 is not None and b1 == 'alse':
+    b1 = s[si + 1:si + 5]
+    if b1 == 'alse':
         return False, si + 4
     else:
         json_error("Error reading value: false", si)
 
 def read_null(si): # n
-    b1 = s[si + 1:si + 4] if si + 3 < len_s else None
-    if b1 is not None and b1 == 'ull':
+    b1 = s[si + 1:si + 4]
+    if b1 == 'ull':
         return None, si + 3
     else:
         json_error("Error reading value: null", si)
