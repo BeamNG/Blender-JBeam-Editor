@@ -24,28 +24,29 @@ import sys
 from . import bng_sjson
 
 
-def read_file(filepath: Path):
+def read_file(filepath: str):
     """reads the content of a file"""
     content = None
     try:
         with open(filepath, mode='r', encoding='utf8') as f:
             content = f.read()
-    except Exception as e:
+    except IOError as e:
         print(e, file=sys.stderr)
     return content
 
 
-def sjson_decode(content, context):
+def sjson_decode(content: str, context: str):
     """decodes a sjson string"""
     data = None
     try:
         data = bng_sjson.decode(content)
-    except Exception as e:
-        print(e, file=sys.stderr)
+    except SyntaxError as e:
+        print(f"unable to decode JSON: {context}", file=sys.stderr)
+        print(f"JSON decoding error: {e}", file=sys.stderr)
     return data
 
 
-def sjson_read_file(filepath: Path):
+def sjson_read_file(filepath: str):
     """reads the content of a sjson file and returns a sjson object"""
     content = read_file(filepath)
     if content is None:

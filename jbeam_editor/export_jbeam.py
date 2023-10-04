@@ -19,9 +19,11 @@
 # SOFTWARE.
 
 import copy
-import sys
-import bpy
 import ctypes
+from pathlib import Path
+import sys
+
+import bpy
 import numpy as np
 
 # ExportHelper is a helper class, defines filename and
@@ -33,8 +35,8 @@ from bpy.types import Operator
 import bmesh
 
 from . import constants
-from . import bng_sjson
 from . import sjsonast
+from . import utils
 
 last_exported_jbeams = {}
 
@@ -364,10 +366,18 @@ def export_existing_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_i
     #original_jbeam_file_data = sjson.loads(obj_data[constants.ATTRIBUTE_JBEAM_FILE_DATA_STR])
 
     # Load JBeam file that was imported into Blender
-    try:
+    current_jbeam_file_data_str = utils.read_file(in_jbeam_filepath)
+    if current_jbeam_file_data_str is None:
+        return
+
+    current_jbeam_file_data = utils.sjson_decode(current_jbeam_file_data_str, in_jbeam_filepath)
+    if current_jbeam_file_data is None:
+        return
+
+    '''try:
         f = open(in_jbeam_filepath)
         current_jbeam_file_data_str = f.read()
-        current_jbeam_file_data = bng_sjson.decode(current_jbeam_file_data_str)
+        current_jbeam_file_data = utils..decode(current_jbeam_file_data_str)
         f.close()
     except FileNotFoundError:
         show_message_box(
@@ -375,7 +385,7 @@ def export_existing_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_i
             title='JBeam Editor - Export Error',
             icon='ERROR'
         )
-        return
+        return'''
 
     # The imported jbeam data is used to build an AST from
     #ast_data = sjsonast.parse(obj_data[constants.ATTRIBUTE_JBEAM_FILE_DATA_STR])
@@ -649,6 +659,8 @@ class JBEAM_EDITOR_OT_export_jbeam(Operator, ExportHelper):
 
 
     def execute(self, context):
+        out_filepath = Path(self.filepath).as_posix()
+
         obj = context.active_object
         obj_data = obj.data
 
@@ -669,9 +681,9 @@ class JBEAM_EDITOR_OT_export_jbeam(Operator, ExportHelper):
             if imported_jbeam_part in last_exported_jbeams:
                 imported_jbeam_file_path = last_exported_jbeams[imported_jbeam_part]['in_filepath']
 
-            export_existing_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_id_layer, imported_jbeam_file_path, imported_jbeam_part, self.filepath)
+            export_existing_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_id_layer, imported_jbeam_file_path, imported_jbeam_part, out_filepath)
         else:
-            export_new_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_id_layer, self.filepath)
+            export_new_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_id_layer, out_filepath)
 
         if obj.mode != 'EDIT':
             bm.to_mesh(obj_data)

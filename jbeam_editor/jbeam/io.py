@@ -37,7 +37,7 @@ def process_slots_destructive_backward_compatibility(slots, new_slots):
     return added_slots
 
 
-def process_slots_destructive(part: dict, source_filename: Path):
+def process_slots_destructive(part: dict, source_filename: str):
     if not isinstance(part.get('slots'), list):
         return None
 
@@ -69,9 +69,9 @@ def process_slots_destructive(part: dict, source_filename: Path):
     return res
 
 
-def load_jbeam_file(directory: Path, filepath: Path, add_to_cache: bool):
+def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool):
     file_content = utils.sjson_read_file(filepath)
-    if not file_content:
+    if file_content is None:
         print(f'Cannot read file: {filepath}', file=sys.stderr)
         return None
 
@@ -113,11 +113,11 @@ def load_jbeam_file(directory: Path, filepath: Path, add_to_cache: bool):
     return part_count
 
 
-def start_loading(directories: list[Path]):
+def start_loading(directories: list[str]):
     for directory in directories:
         if directory not in part_file_map:
             part_count_total = 0
-            for filepath in directory.rglob('*.jbeam'):
+            for filepath in Path(directory).rglob('*.jbeam'):
                 part_count = load_jbeam_file(directory, filepath, True) or 0
                 print('read', filepath)
                 part_count_total += part_count

@@ -40,16 +40,19 @@ from . import export_jbeam
 
 from .jbeam import io as jbeam_io
 
+import timeit
 
-def load_jbeam(vehicle_directories: list[Path], vehicle_config: dict):
+def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
     """load all the jbeam and construct the thing in memory"""
     print('Reading files...')
+    t0 = timeit.default_timer()
     io_ctx = jbeam_io.start_loading(vehicle_directories)
-    print('Done reading files')
+    t1 = timeit.default_timer()
+    print('Done reading files. Time =', round(t1 - t0, 2), 's')
 
 
-def load_vehicle_stage_1(vehicles_dir: Path, vehicle_dir: Path, vehicle_config: dict):
-    vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common')]
+def load_vehicle_stage_1(vehicles_dir: str, vehicle_dir: str, vehicle_config: dict):
+    vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]
     load_jbeam(vehicle_directories, vehicle_config)
 
 
@@ -66,9 +69,9 @@ def build_config(config_path):
     return res
 
 
-def import_vehicle(config_path: Path):
-    vehicle_dir = config_path.parent.absolute()
-    vehicles_dir = Path(vehicle_dir).parent.absolute()
+def import_vehicle(config_path: str):
+    vehicle_dir = Path(config_path).parent.as_posix()
+    vehicles_dir = Path(vehicle_dir).parent.as_posix()
 
     vehicle_config = build_config(config_path)
     load_vehicle_stage_1(vehicles_dir, vehicle_dir, vehicle_config)
@@ -87,5 +90,5 @@ class JBEAM_EDITOR_OT_import_vehicle(Operator, ImportHelper):
     )
 
     def execute(self, context):
-        import_vehicle(Path(self.filepath))
+        import_vehicle(Path(self.filepath).as_posix())
         return {'FINISHED'}

@@ -19,6 +19,7 @@
 # SOFTWARE.
 
 import copy
+from pathlib import Path
 import os
 
 import bpy
@@ -32,9 +33,9 @@ from bpy_extras.io_utils import ImportHelper
 from bpy.props import StringProperty, BoolProperty, EnumProperty
 from bpy.types import Operator
 
-from . import bng_sjson
 from . import constants
 from . import export_jbeam
+from . import utils
 
 
 def import_jbeam_part(jbeam_file_path, jbeam_file_data_str, jbeam_file_data, chosen_part):
@@ -171,7 +172,7 @@ class JBEAM_EDITOR_OT_choose_jbeam(Operator):
     def execute(self, context):
         jbeam_file_path = context.scene[constants.ATTRIBUTE_JBEAM_FILE_PATH]
         jbeam_file_data_str = context.scene[constants.ATTRIBUTE_JBEAM_FILE_DATA_STR]
-        jbeam_file_data = bng_sjson.decode(jbeam_file_data_str) #sjson.loads(jbeam_file_data_str)
+        jbeam_file_data = utils.sjson_decode(jbeam_file_data_str, jbeam_file_path) #sjson.loads(jbeam_file_data_str)
         chosen_part = self.dropdown_parts
 
         if self.import_all_parts:
@@ -215,11 +216,16 @@ class JBEAM_EDITOR_OT_import_jbeam(Operator, ImportHelper):
     )'''
 
     def execute(self, context):
-        jbeam_file_path = self.filepath
-        f = open(jbeam_file_path)
-        str_data = f.read()
-        data = bng_sjson.decode(str_data)
-        f.close()
+        jbeam_file_path = Path(self.filepath).as_posix()
+        str_data = utils.read_file(jbeam_file_path)
+
+        if str_data is None:
+            return {'FINISHED'}
+
+        data = utils.sjson_decode(str_data, jbeam_file_path)
+
+        if data is None:
+            return {'FINISHED'}
 
         # Set from unit tests
         if self.set_chosen_part:
