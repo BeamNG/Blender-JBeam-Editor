@@ -22,6 +22,9 @@ import re
 import math
 import sys
 
+split_line_re = re.compile(r'([^\n]*)')
+not_quotes_slash_re = re.compile(r'^[^"\\]*')
+
 escapes = {116: '\t', 110: '\n', 102: '\f', 114: '\r', 98: '\b', 34: '"', 92: '\\', 10: '\n', 57: '\t', 48: '\r'}
 peek_table = [0] * 256
 concat_table: list = None
@@ -31,7 +34,7 @@ s: str = None
 def json_error(msg, i):
     curlen = 0
     n = 1
-    for match in re.finditer(r'([^\n]*)', s):
+    for match in re.finditer(split_line_re, s):
         w = match.group(0)
         curlen += len(w)
         if curlen >= i:
@@ -156,12 +159,8 @@ def read_string(si):
     i = si1
     ch = ord(s[i]) if i < len_s else None
     while ch != 34:
-        ch = re.match(r'^[^"\\]*', s[i:])
+        ch = re.match(not_quotes_slash_re, s[i:]).group(0)
         i += len(ch) if ch else 0
-        '''if ch:
-            ch = ch.group(0)
-            i += len(ch)'''
-
         concat_table[resultidx] = ch
         resultidx += 1
         ch = ord(s[i]) if i < len_s else None
