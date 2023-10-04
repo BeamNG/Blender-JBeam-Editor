@@ -15,7 +15,7 @@ def json_error(msg, i):
         w = match.group(0)
         curlen += len(w)
         if curlen >= i:
-            raise Exception(f"{msg} near line {n}, '{w.strip()}'")
+            raise SyntaxError(f"{msg} near line {n}, '{w.strip()}'")
         if w == '':
             n += 1
             curlen += 1
@@ -146,7 +146,7 @@ def read_string(si):
         resultidx += 1
         ch = ord(s[i]) if i < len_s else None
         if ch == 92: # \
-            ch1 = escapes.get(s[i + 1])
+            ch1 = escapes.get(ord(s[i + 1]))
             if ch1 is not None:
                 concat_table[resultidx] = ch1
                 resultidx += 1
@@ -169,10 +169,10 @@ def read_key(si, c):
         if c is None:
             json_error("Expected dictionary key", si)
         i = si
-        ch = chr(s[i]) if i < len_s else None
+        ch = ord(s[i]) if i < len_s else None
         while (ch >= 97 and ch <= 122) or (ch >= 65 and ch <= 90) or (ch >= 48 and ch <= 57) or ch == 95: # [a z] [A Z] or [0 9] or _
             i += 1
-            ch = chr(s[i]) if i < len_s else None
+            ch = ord(s[i]) if i < len_s else None
 
         i -= 1
         key = s[si:i + 1]
