@@ -28,9 +28,14 @@ split_line_re = re.compile(r'([^\n]*)')
 not_quotes_slash_re = re.compile(r'^[^"\\]*')
 
 escapes = {116: '\t', 110: '\n', 102: '\f', 114: '\r', 98: '\b', 34: '"', 92: '\\', 10: '\n', 57: '\t', 48: '\r'}
-peek_table = [0] * 256
+
 concat_table: list = None
 s: str = None
+
+def error_input(si):
+    json_error('Invalid input', si)
+
+peek_table = [error_input] * 256
 
 
 def json_error(msg, i):
@@ -44,10 +49,6 @@ def json_error(msg, i):
         if w == '':
             n += 1
             curlen += 1
-
-
-def error_input(si):
-    json_error('Invalid input', si)
 
 
 def read_number(si):
@@ -112,7 +113,7 @@ def skip_whitespace(i):
                 while True:
                     i += 1
                     p = ord(s[i])
-                    if p == 10 or p == 13 or p == 127:
+                    if p in (10, 13, 127):
                         break
                 i += 1
             elif p == 42:  # * - Block comment "/* xxxxxxx */"
@@ -139,7 +140,7 @@ def read_string(si):
     i = si + 1
     si1 = i  # "
     ch = ord(s[i])
-    while ch != 34 and ch != 92 and ch != 127: # " \
+    while ch not in (34, 92, 127): # " \
         i += 1
         ch = ord(s[i])
 
@@ -161,8 +162,8 @@ def read_string(si):
     i = si1
     ch = ord(s[i])
     while ch != 34:
-        ch = re.match(not_quotes_slash_re, s[i:]).group(0)
-        i += len(ch) if ch else 0
+        ch = re.match(not_quotes_slash_re, s[i:])
+        i += len(ch.group(0)) if ch is not None else 0
         concat_table[resultidx] = ch
         resultidx += 1
         ch = ord(s[i])
@@ -202,7 +203,7 @@ def read_key(si, c):
             json_error("Expected dictionary key", i)
 
     delim, i = skip_whitespace(i + 1)
-    if delim != 58 and delim != 61:  # : =
+    if delim not in (58, 61):  # : =
         json_error(f"Expected dictionary separator ':' or '=' instead of: '{chr(delim)}'", i)
 
     return key, i
