@@ -18,6 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+from _json import scanstring
+
 import re
 import math
 import sys
@@ -135,50 +137,10 @@ def skip_whitespace(i):
 
 
 def read_string(si):
-    # parse string
-    # fast path
-    i = si + 1
-    si1 = i  # "
-    ch = ord(s[i])
-    while ch not in (34, 92, 127): # " \
-        i += 1
-        ch = ord(s[i])
-
-    if ch == 34: # "
-        return s[si1:i], i
-
-    # slow path for strings with escape chars
-    if ch != 92:
-        json_error("String not having an end-quote", si)
-        return 127, si1
-
-    global concat_table
-    if concat_table is not None:
-        concat_table.clear()
-    else:
-        concat_table = [0] * (i - si)
-
-    resultidx = 1
-    i = si1
-    ch = ord(s[i])
-    while ch != 34:
-        ch = re.match(not_quotes_slash_re, s[i:])
-        i += len(ch.group(0)) if ch is not None else 0
-        concat_table[resultidx] = ch
-        resultidx += 1
-        ch = ord(s[i])
-        if ch == 92: # \
-            ch1 = escapes.get(ord(s[i + 1]))
-            if ch1 != 127:
-                concat_table[resultidx] = ch1
-                resultidx += 1
-                i += 1
-            else:
-                concat_table[resultidx] = '\\'
-                resultidx += 1
-            i += 1  # "
-
-    return ''.join(concat_table), i
+    # scanstring implemented as a C function for fast string parsing
+    key, i = scanstring(s, si + 1, False)
+    i -= 1
+    return key, i
 
 
 def read_key(si, c):
