@@ -31,8 +31,8 @@ not_quotes_slash_re = re.compile(r'^[^"\\]*')
 
 escapes = {116: '\t', 110: '\n', 102: '\f', 114: '\r', 98: '\b', 34: '"', 92: '\\', 10: '\n', 57: '\t', 48: '\r'}
 
-concat_table: list = None
-s: str = None
+concat_table: list | None = None
+s: str | None = None
 
 def error_input(si):
     json_error('Invalid input', si)
@@ -78,15 +78,15 @@ def read_number(si):
             return math.inf, infend
         else:
             pm = ord(s[si - 1])
-            json_error(f"Invalid number: '{s[si - (1 if pm == '-' or pm == '+' else 0):infend]}'", si)
+            json_error(f"Invalid number: '{s[si - (1 if pm in ('-', '+') else 0):infend]}'", si)
     elif c == 35: # #
         infend = si + 6 + 1
         if s[si:infend] == "1#INF00":
             return math.inf, infend
         else:
             pm = ord(s[si - 1])
-            json_error(f"Invalid number: '{s[si - (1 if pm == '-' or pm == '+' else 0):infend]}'", si)
-    if c == 101 or c == 69: # e E
+            json_error(f"Invalid number: '{s[si - (1 if pm in ('-', '+') else 0):infend]}'", si)
+    if c in (101, 69): # e E
         i += 1
         c = ord(s[i])
         while (c >= 45 and c <= 57) or c == 43: # \d-+
@@ -96,7 +96,7 @@ def read_number(si):
             r = float(s[si:i])
         except ValueError:
             pm = ord(s[si - 1])
-            json_error(f"Invalid number: '{s[si - (1 if pm == '-' or pm == '+' else 0):i]}'", si)
+            json_error(f"Invalid number: '{s[si - (1 if pm in ('-', '+') else 0):i]}'", si)
 
     return r, i - 1
 
@@ -181,7 +181,7 @@ def decode(_s: str):
     s = _s + nil # padding to end of string to prevent out of bound indexing
     c, i = skip_whitespace(0)
     result = None
-    if c == 123 or c == 91: # { or [
+    if c in (123, 91): # { or [
         result, i = peek_table[c](i)
     else:
         result = {}
@@ -251,7 +251,7 @@ def read_array(si): # [
 def read_positive_number(si):
     return read_number(si+1)
 
-def read_positive_number(si):
+def read_negative_number(si):
     num, i = read_number(si+1)
     return -num, i
 
@@ -272,5 +272,5 @@ peek_table[55] = read_number # 7
 peek_table[56] = read_number # 8
 peek_table[57] = read_number # 9
 peek_table[43] = read_positive_number # +
-peek_table[45] = read_positive_number # -
+peek_table[45] = read_negative_number # -
 peek_table[34] = read_string # "
