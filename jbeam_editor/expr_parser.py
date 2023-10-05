@@ -29,119 +29,108 @@ from antlr4 import InputStream
 from antlr4.Token import CommonToken
 from luaparser.parser.LuaLexer import LuaLexer
 
-var_wrapper_re = re.compile(r'\$([a-zA-Z_][a-zA-Z_0-9]*)')
-standalone_equal_re = re.compile(r'[^<>!=]=[^=]')
+_var_wrapper_re = re.compile(r'\$([a-zA-Z_][a-zA-Z_0-9]*)')
+_standalone_equal_re = re.compile(r'[^<>!=]=[^=]')
 
-def lua_truthiness(x):
+
+def _lua_truthiness(x):
     x_type = type(x)
     if x_type == bool:
         return x
     return x_type != type(None)
 
-def is_number(x):
-    x_type = type(x)
-    return x_type == int or x_type == float
 
-# https://tomerfiliba.com/blog/Infix-Operators
+def _is_number(x):
+    x_type = type(x)
+    return x_type in (int, float)
+
+
+### Infix class/functions are used to override Python's operators for evaluating the JBeam expressions in a Lua fashion ###
+
+# https://tomerfiliba.com/blog/Infix-Operators #
 class Infix(object):
     def __init__(self, func):
         self.func = func
 
-    def __or__(self, other): return self.right(other)
-    def __ror__(self, other): return self.left(other)
-    def __and__(self, other): return self.right(other)
-    def __rand__(self, other): return self.left(other)
-    def __rlshift__(self, other): return self.left(other)
-    def __rshift__(self, other): return self.right(other)
+    def __or__(self, other): return self._right(other)
+    def __ror__(self, other): return self._left(other)
+    def __and__(self, other): return self._right(other)
+    def __rand__(self, other): return self._left(other)
+    def __rlshift__(self, other): return self._left(other)
+    def __rshift__(self, other): return self._right(other)
 
-    def __add__(self, other): return self.right(other)
-    def __radd__(self, other): return self.left(other)
-    def __sub__(self, other): return self.right(other)
-    def __rsub__(self, other): return self.left(other)
-    def __mul__(self, other): return self.right(other)
-    def __rmul__(self, other): return self.left(other)
-    def __div__(self, other): return self.right(other)
-    def __rdiv__(self, other): return self.left(other)
-    def __mod__(self, other): return self.right(other)
-    def __rmod__(self, other): return self.left(other)
-    def __xor__(self, other): return self.right(other)
-    def __rxor__(self, other): return self.left(other)
+    def __add__(self, other): return self._right(other)
+    def __radd__(self, other): return self._left(other)
+    def __sub__(self, other): return self._right(other)
+    def __rsub__(self, other): return self._left(other)
+    def __mul__(self, other): return self._right(other)
+    def __rmul__(self, other): return self._left(other)
+    def __div__(self, other): return self._right(other)
+    def __rdiv__(self, other): return self._left(other)
+    def __mod__(self, other): return self._right(other)
+    def __rmod__(self, other): return self._left(other)
+    def __xor__(self, other): return self._right(other)
+    def __rxor__(self, other): return self._left(other)
 
     def __call__(self, v1, v2): return self.func(v1, v2)
 
-    def left(self, other):
-        #print('left', self, other)
+    def _left(self, other):
         return Infix(partial(self.func, other))
 
-    def right(self, other):
-        #print('right', self, other)
+    def _right(self, other):
         return self.func(other)
 
 
-# These infix decorated functions are used to essentially override the behavior of Python's operators, when evaluating the JBeam expressions
 @Infix
 def _or(x, y):
-    if lua_truthiness(x):
+    if _lua_truthiness(x):
         return x
     return y
+
 
 @Infix
 def _and(x, y):
-    if not lua_truthiness(x):
+    if not _lua_truthiness(x):
         return x
     return y
 
+
 @Infix
 def _not(x):
-    return not lua_truthiness(x)
+    return not _lua_truthiness(x)
+
 
 @Infix
 def _eq(x, y):
     x_type, y_type = type(x), type(y)
-    if x_type != y_type and is_number(x) != is_number(y):
+    if x_type != y_type and _is_number(x) != _is_number(y):
         return False
     return x == y
+
 
 @Infix
 def _ne(x, y):
     return not _eq(x, y)
 
-'''
-@Infix
-def _add(x, y):
-    if is_number(x) and is_number(y):
-        return x + y
-    return None
-
-@Infix
-def _sub(x, y):
-    if is_number(x) and is_number(y):
-        return x - y
-    return None
-
-@Infix
-def _mul(x, y):
-    if is_number(x) and is_number(y):
-        return x * y
-    return None
-'''
 
 @Infix
 def _div(x, y):
-    if is_number(x) and is_number(y):
+    if _is_number(x) and _is_number(y):
         return x / y
     return False
 
+
 @Infix
 def _mod(x, y):
-    if is_number(x) and is_number(y):
+    if _is_number(x) and _is_number(y):
         return x % y
     return False
+
 
 # function used as a case selector, input can be both int and bool as the first argument, any number of arguments after that
 # in case it's a bool, it works like a ternary if, returning the second param if true, the third if false
 # if the selector is an int n, it simply returns the nth+1 param it was given, if n > #params it returns the last given param
-def case(selector, *args):
+def _case(selector, *args):
     index = -1
     selector_type = type(selector)
 
@@ -163,21 +152,16 @@ def _random(a=None, b=None):
     return random.randint(a,b)
 
 
-def smoothstep(x):
+def _smoothstep(x):
     x = min(max(x, 0), 1) # monotonic guard
     return x*x*(3 - 2*x)
 
 
-def smootherstep(x):
+def _smootherstep(x):
     return min(max(x*x*x*(x*(x*6 - 15) + 10), 0), 1)
 
 
-def smootheststep(x):
-    x = min(max(x, 0), 1)
-    return (x ** 4)*(35-x*(x*(x*20-70)+84))
-
-
-def smoothmin(a, b, k):
+def _smoothmin(a, b, k):
     k = k if k is not None else 0.1
     h = max(min(0.5+(b-a)/k, 1), 0)
     return h*a + (1-h) * (b - h*k*0.5)
@@ -188,42 +172,32 @@ def _print(val, label=None):
     return val
 
 
-context = {
+_context = {
     '__builtins__': {
         '_or': _or,
         '_and': _and,
         '_not': _not,
         '_eq': _eq,
         '_ne': _ne,
-        #'_add': _add,
-        #'_sub': _sub,
-        #'_mul': _mul,
         '_div': _div,
         '_mod': _mod,
         'locals': locals,
         'round': round,
         'square': lambda x: x ** 2,
         'clamp': lambda x, mn, mx: min(max(x, mn), mx),
-        'smoothstep': smoothstep,
-        'smootherstep': smootherstep,
-        'smoothmin': smoothmin,
+        'smoothstep': _smoothstep,
+        'smootherstep': _smootherstep,
+        'smoothmin': _smoothmin,
         'sign': lambda x: max(min((x * 1e200) * 1e200, 1), -1),
-        'case': case,
+        'case': _case,
         'random': _random,
         'print': _print,
     }
 }
 for k, v in math.__dict__.items():
-    context['__builtins__'][k] = v
+    _context['__builtins__'][k] = v
 
-
-# Define a function to convert variables in the expression to the desired format
-def convert_variable(match):
-    variable_name = match.group(1)
-    return 'locals().get("var_' + variable_name + '", False)'
-
-
-keyword_replacement = {
+_keyword_replacement = {
     'nil': 'False',
     'true': 'True',
     'false': 'False',
@@ -232,21 +206,23 @@ keyword_replacement = {
     'not': '_not&',
     '==': '<<_eq>>',
     '~=': '<<_ne>>',
-    #'+': '+_add+',
-    #'-': '+0-_sub-',
-    #'*': '*_mul*',
     '/': '/_div/',
     '%': '%_mod%',
 }
+
+
+# Define a function to convert variables in the expression to the desired format
+def _convert_variable(match):
+    variable_name = match.group(1)
+    return 'locals().get("var_' + variable_name + '", False)'
+
 
 def parse_safe(expr: str, params: dict):
     # Strip leading "$=" from expression
     expr = expr[2:]
 
     # Use regular expressions to find and replace variables in the expression to format that doesn't throw errors if variable doesn't exist
-    expr = re.sub(var_wrapper_re, convert_variable, expr)
-
-    #print('before:', expr)
+    expr = re.sub(_var_wrapper_re, _convert_variable, expr)
 
     # Convert Lua keywords to Python, by using a Lua Lexer to tokenize the Lua expression into operators/literals
     # and translating the Lua operators into Python equivalent with a dictionary 'keyword_replacement'
@@ -254,36 +230,30 @@ def parse_safe(expr: str, params: dict):
     tokens: list[CommonToken] = lexer.getAllTokens()
     len_tokens = len(tokens)
 
-    #for t in tokens:
-    #    print(repr(t.text), t.start, t.stop)
-
     offset = 0
 
     for i in range(len_tokens):
         t = tokens[i]
 
         original_text = t.text
-        replace_text = keyword_replacement.get(original_text)
-        #print(repr(original_text), repr(replace_text))
+        replace_text = _keyword_replacement.get(original_text)
 
         if replace_text is not None:
             expr = expr[:t.start + offset] + replace_text + expr[t.stop + 1 + offset:]
             offset += len(replace_text) - len(original_text)
-
-    #print('after:', expr)
 
     new_vars = {}
     for k,v in params.items():
         new_vars['var_' + k[1:]] = v
 
     # Check if we find a *single standalone* "=" sign and abort parsing if found. >=, <=, == and != are allowed to support boolean operations
-    if re.match(standalone_equal_re, expr):
+    if re.match(_standalone_equal_re, expr):
         print("Assignments are not supported inside expressions!", file=sys.stderr)
         return None
 
     result = None
     try:
-        result = eval(expr, context, new_vars)
+        result = eval(expr, _context, new_vars)
     except Exception as e:
         print("Parsing expression failed, message: " + repr(e), file=sys.stderr)
 
