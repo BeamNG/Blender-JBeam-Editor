@@ -60,9 +60,14 @@ def dict_array_size(x: dict):
 
     count = 0
     while True:
-        if x.get(count) != None:
+        if x.get(count) is not None:
             count += 1
         else:
             break
 
     return count
+
+
+def ipairs(x: dict):
+    for i in range(dict_array_size(x)):
+        yield (i, x[i])
