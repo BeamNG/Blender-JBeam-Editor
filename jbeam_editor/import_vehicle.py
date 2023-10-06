@@ -21,6 +21,7 @@
 import copy
 import os
 from pathlib import Path
+import re
 import sys
 
 import bpy
@@ -50,6 +51,14 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
     t1 = timeit.default_timer()
     print('Done reading JBeam files. Time =', round(t1 - t0, 2), 's')
 
+    # figure out the model name based on the directory given
+    re_match = re.search(r'/vehicles/([^/]+)', vehicle_directories[0])
+    model_name = re_match.group(1) if re_match is not None else None
+    print('Model name:', model_name)
+
+    #print('Finding parts...')
+    #vehicle, unifyJournal, chosenParts, activePartsOrig = jbeam_slot_system.findParts(io_ctx, vehicle_config)
+
 
 def load_vehicle_stage_1(vehicles_dir: str, vehicle_dir: str, vehicle_config: dict):
     vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]
@@ -61,19 +70,22 @@ def load_vehicle_stage_1(vehicles_dir: str, vehicle_dir: str, vehicle_config: di
 def build_config(config_path):
     res = {}
     file_data = utils.sjson_read_file(config_path)
+    if not file_data:
+        return None
+
     res['partConfigFilename'] = config_path
-    if file_data and file_data['format'] == 2:
+    if file_data.get('format') == 2:
         file_data['format'] = None
         res.update(file_data)
     else:
-        res['parts'] = file_data or {}
+        res['parts'] = file_data
 
     return res
 
 
 def import_vehicle(config_path: str):
     vehicle_config = build_config(config_path)
-    if len(vehicle_config['parts']) == 0:
+    if vehicle_config is None:
         return {'CANCELLED'}
 
     vehicle_dir = Path(config_path).parent.as_posix()

@@ -112,7 +112,7 @@ def process_table_with_schema_destructive(jbeam_table: list, new_list: dict, inp
                     if len(header) == header_size:
                         header.append("options") # for fixing some code below - let it know those are the options
                     break
-            
+
             # now care about the rest
             for rk, rv in enumerate(row_value):
                 if header[rk] is None:
@@ -122,7 +122,7 @@ def process_table_with_schema_destructive(jbeam_table: list, new_list: dict, inp
                 else:
                     new_row[header[rk]] = replace_special_values(rv)
 
-            if new_row.get('id') != None:
+            if new_row.get('id') is not None:
                 new_id = new_row['id']
                 new_row['name'] = new_id
                 new_row['id'] = None

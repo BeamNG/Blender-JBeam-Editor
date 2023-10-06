@@ -22,15 +22,15 @@ import os
 from pathlib import Path
 import sys
 
-from . import tableSchema as jbeam_table_schema
+from . import table_schema as jbeam_table_schema
 from .. import utils
 
 jbeam_cache = {}
 part_file_map = {}
 part_slot_map = {}
 part_name_map = {}
-modManager = None
-invalidatedCache = False
+
+invalidated_cache = False
 
 
 def process_slots_destructive_backward_compatibility(slots, new_slots):
@@ -77,10 +77,9 @@ def process_slots_destructive(part: dict, source_filename: str):
         else:
             print(f'Slots section in file {source_filename} invalid. Please fix. Partly reconstructed: {part["slots"]}', file=sys.stderr)'''
     part['slots'] = new_slots
-    res = {}
-    for i in range(utils.dict_array_size(part['slots'])):
-        slot = part['slots'][i]
 
+    res = {}
+    for _, slot in utils.ipairs(part['slots']):
         res[slot.get('name', slot['type'])] = {
             'type': slot['type'],
             'description': slot['description'],
@@ -158,8 +157,8 @@ def start_loading(directories: list[str], vehicle_config: dict):
             for filepath in Path(directory).rglob('*.jbeam'):
                 fp = filepath.as_posix()
                 part_count = load_jbeam_file(directory, fp, True, parts) or 0
-                if part_count:
-                    print('parsed file', filepath)
+                #if part_count:
+                #    print('parsed file', filepath)
                 part_count_total += part_count
 
     return {'preloaded_dirs': directories}
@@ -257,13 +256,12 @@ def on_file_changed(filename, file_type):
             part_slot_map.clear()
             part_name_map.clear()
 
-        global invalidatedCache
-        invalidatedCache = True
+        global invalidated_cache
+        invalidated_cache = True
 
 
 def on_file_changed_end():
-    global invalidatedCache
-    if invalidatedCache:
-        invalidatedCache = False
+    global invalidated_cache
+    if invalidated_cache:
+        invalidated_cache = False
         guihooks.trigger('VehicleJbeamIoChanged')  # Propagate change to partmgmt UI'''
-
