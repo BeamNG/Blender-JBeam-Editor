@@ -89,8 +89,23 @@ def process_slots_destructive(part: dict, source_filename: str):
     return res
 
 
-def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool):
-    file_content = utils.sjson_read_file(filepath)
+def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: list):
+    # As optimization, only read file and check if file text contains part name before parsing it with SJSON parser
+    file_text = utils.read_file(filepath)
+    if file_text is None:
+        print(f'Cannot read file: {filepath}', file=sys.stderr)
+        return None
+
+    exists = False
+    for part in parts:
+        if file_text.find('"' + part + '"') != -1:
+            exists = True
+            break
+
+    if not exists:
+        return None
+
+    file_content = utils.sjson_decode(file_text, filepath)
     if file_content is None:
         print(f'Cannot read file: {filepath}', file=sys.stderr)
         return None
@@ -133,13 +148,18 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool):
     return part_count
 
 
-def start_loading(directories: list[str]):
+def start_loading(directories: list[str], vehicle_config: dict):
+    slots_to_part: dict = vehicle_config['parts']
+    parts = list(filter(lambda part: part != '', slots_to_part.values()))
+
     for directory in directories:
         if directory not in part_file_map:
             part_count_total = 0
             for filepath in Path(directory).rglob('*.jbeam'):
-                part_count = load_jbeam_file(directory, filepath, True) or 0
-                print('read', filepath)
+                fp = filepath.as_posix()
+                part_count = load_jbeam_file(directory, fp, True, parts) or 0
+                if part_count:
+                    print('parsed file', filepath)
                 part_count_total += part_count
 
     return {'preloaded_dirs': directories}
