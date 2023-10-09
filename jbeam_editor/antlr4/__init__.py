@@ -1,3 +1,11 @@
+from os.path import dirname
+from sys import path
+
+# Hacky solution to import modules without renaming
+directory = dirname(dirname(__file__))
+if not directory in path:
+    path.append(directory)
+
 from antlr4.Token import Token
 from antlr4.InputStream import InputStream
 from antlr4.FileStream import FileStream
