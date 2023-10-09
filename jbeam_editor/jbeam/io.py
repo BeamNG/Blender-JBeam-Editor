@@ -185,7 +185,7 @@ def get_part(io_ctx: dict, part_name: str | None):
 
     return None, None
 
-'''
+
 def is_context_valid(io_ctx):
     return isinstance(io_ctx.get('preloaded_dirs'), list)
 
@@ -194,11 +194,14 @@ def get_main_part_name(io_ctx):
     if not is_context_valid(io_ctx):
         return None
 
-    for dir in io_ctx['preloaded_dirs']:
-        if part_slot_map[dir].get('main'):
-            return part_slot_map[dir]['main'][0]
+    for directory in io_ctx['preloaded_dirs']:
+        if part_slot_map[directory].get('main'):
+            return part_slot_map[directory]['main'][0]
+
+    return None
 
 
+'''
 def finish_loading():
     global jbeam_cache
     jbeam_cache = {}

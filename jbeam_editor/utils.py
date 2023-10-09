@@ -71,3 +71,7 @@ def dict_array_size(x: dict):
 def ipairs(x: dict):
     for i in range(dict_array_size(x)):
         yield (i, x[i])
+
+
+def clamp(x, min_value, max_value):
+    return min(max(x, min_value), max_value)
