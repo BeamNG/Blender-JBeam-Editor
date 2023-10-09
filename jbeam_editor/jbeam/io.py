@@ -172,7 +172,7 @@ def start_loading(directories: list[str], vehicle_config: dict):
 
 def get_part(io_ctx: dict, part_name: str | None):
     if part_name is None:
-        return None
+        return None, None
 
     for directory in io_ctx['preloaded_dirs']:
         jbeam_filename = part_file_map[directory].get(part_name)
@@ -183,6 +183,7 @@ def get_part(io_ctx: dict, part_name: str | None):
             if jbeam_cache.get(jbeam_filename) is not None:
                 return copy.deepcopy(jbeam_cache[jbeam_filename][part_name]), jbeam_filename
 
+    return None, None
 
 '''
 def is_context_valid(io_ctx):
