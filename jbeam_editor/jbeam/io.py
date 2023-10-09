@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import copy
 import os
 from pathlib import Path
 import sys
@@ -88,23 +89,28 @@ def process_slots_destructive(part: dict, source_filename: str):
     return res
 
 
-def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: list):
-    # As optimization, only read file and check if file text contains part name before parsing it with SJSON parser
-    file_text = utils.read_file(filepath)
-    if file_text is None:
-        print(f'Cannot read file: {filepath}', file=sys.stderr)
-        return None
+def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: list | None = None):
+    file_content = None
+    if parts is not None:
+        # As optimization, only read file and check if file text contains part name before parsing it with SJSON parser
+        file_text = utils.read_file(filepath)
+        if file_text is None:
+            print(f'Cannot read file: {filepath}', file=sys.stderr)
+            return None
 
-    exists = False
-    for part in parts:
-        if file_text.find('"' + part + '"') != -1:
-            exists = True
-            break
+        exists = False
+        for part in parts:
+            if file_text.find('"' + part + '"') != -1:
+                exists = True
+                break
 
-    if not exists:
-        return None
+        if not exists:
+            return None
 
-    file_content = utils.sjson_decode(file_text, filepath)
+        file_content = utils.sjson_decode(file_text, filepath)
+    else:
+        file_content = utils.sjson_read_file(filepath)
+
     if file_content is None:
         print(f'Cannot read file: {filepath}', file=sys.stderr)
         return None
@@ -164,20 +170,21 @@ def start_loading(directories: list[str], vehicle_config: dict):
     return {'preloaded_dirs': directories}
 
 
-'''def get_part(io_ctx, part_name):
-    if not part_name:
+def get_part(io_ctx: dict, part_name: str | None):
+    if part_name is None:
         return None
 
-    for dir in io_ctx['preloaded_dirs']:
-        jbeam_filename = part_file_map[dir].get(part_name)
-        if jbeam_filename:
-            if not jbeam_cache.get(jbeam_filename):
-                part_count = load_jbeam_file(dir, jbeam_filename, False)
+    for directory in io_ctx['preloaded_dirs']:
+        jbeam_filename = part_file_map[directory].get(part_name)
+        if jbeam_filename is not None:
+            if jbeam_cache.get(jbeam_filename) is None:
+                part_count = load_jbeam_file(directory, jbeam_filename, False)
                 print(f'Loaded {part_count} part(s) from file {jbeam_filename}')
-            if jbeam_cache.get(jbeam_filename):
-                return dict(jbeam_cache[jbeam_filename][part_name]), jbeam_filename
+            if jbeam_cache.get(jbeam_filename) is not None:
+                return copy.deepcopy(jbeam_cache[jbeam_filename][part_name]), jbeam_filename
 
 
+'''
 def is_context_valid(io_ctx):
     return isinstance(io_ctx.get('preloaded_dirs'), list)
 
