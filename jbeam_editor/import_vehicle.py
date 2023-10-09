@@ -73,6 +73,7 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
     if jbeam_slot_system.unify_part_journal(io_ctx, unify_journal) is None:
         return
 
+    jbeam_variables.process_unified_vehicle(vehicle, all_variables)
 
 
 def load_vehicle_stage_1(vehicles_dir: str, vehicle_dir: str, vehicle_config: dict):

@@ -225,3 +225,17 @@ def process_parts(root_part: dict, unify_journal: list, vehicle_config: dict):
             pass
 
     return variables
+
+
+def process_unified_vehicle(vehicle, all_variables):
+    # Transform into a more usable type where the name is the key
+    new_vars = {}
+    for k, v in all_variables.items():
+        if isinstance(v, dict):
+            new_vars[v.get('name', k)] = v
+        else:
+            # print(f"variable ignored for UI: {k} = {v}")
+            # new_vars[k] = v
+            pass
+
+    vehicle['variables'] = new_vars
