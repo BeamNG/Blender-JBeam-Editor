@@ -42,6 +42,7 @@ from . import export_jbeam
 from .jbeam import io as jbeam_io
 from .jbeam import slot_system as jbeam_slot_system
 from .jbeam import variables as jbeam_variables
+from .jbeam import table_schema as jbeam_table_schema
 
 import timeit
 
@@ -74,6 +75,11 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
         return
 
     jbeam_variables.process_unified_vehicle(vehicle, all_variables)
+
+    print('Assembling tables ...')
+    if jbeam_table_schema.process(vehicle) is None:
+        print('*** preparation error"', file=sys.stderr)
+        return
 
 
 def load_vehicle_stage_1(vehicles_dir: str, vehicle_dir: str, vehicle_config: dict):

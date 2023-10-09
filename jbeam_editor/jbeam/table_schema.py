@@ -20,7 +20,10 @@
 
 import copy
 import math
+import re
 import sys
+
+from . import utils as jbeam_utils
 
 # these are defined in C, do not change the values
 NORMALTYPE = 0
@@ -155,39 +158,48 @@ def process_table_with_schema_destructive(jbeam_table: list, new_list: dict, inp
     return new_list_size
 
 
-'''def process(vehicle, process_slots_table, omit_warnings):
+def process(vehicle, process_slots_table=False):
+    # check for nodes key
     vehicle['maxIDs'] = {}
     vehicle['validTables'] = {}
     vehicle['beams'] = vehicle.get('beams', {})
 
+    # Create empty options
     vehicle['options'] = vehicle.get('options', {})
 
+    # Walk through everything and look for options
     for key_entry, entry in vehicle.items():
-        if not isinstance(entry, dict):
+        if not isinstance(entry, (dict, list)):
+            # Seems to be an option, add it to the vehicle options
             vehicle['options'][key_entry] = entry
-            del vehicle[key_entry]
+            vehicle[key_entry] = None
 
+    # Then walk through all keys/entries of the vehicle
     for key_entry, entry in vehicle.items():
-        if not key_entry.isidentifier():
-            print('*** Invalid attribute name:', key_entry)
+        # verify element name
+        if re.match(r'^[a-zA-Z_]+[a-zA-Z0-9_]*$', key_entry) is None:
+            print(f"*** Invalid attribute name '{key_entry}'", sys.stderr)
+
             return False
 
+        # init max
         vehicle['maxIDs'][key_entry] = 0
 
-        if isinstance(entry, list) and key_entry not in jbeam_utils.ignore_sections and entry:
-            if isinstance(entry[0], dict):
-                pass
-            else:
+        # Then walk the tables
+        if isinstance(entry, (list, dict)) and jbeam_utils.ignore_sections.get(key_entry) is None and len(entry) > 0:
+            if isinstance(entry, dict):
+                # slots are actually a dictionary due to translation from Lua to Python
                 if key_entry == 'slots' and not process_slots_table:
+                    # Slots are preprocessed in the io module
                     vehicle['validTables'][key_entry] = True
-                else:
-                    if not vehicle['validTables'].get(key_entry):
-                        new_list = {}
-                        new_list_size = process_table_with_schema_destructive(entry, new_list, vehicle['options'], omit_warnings)
+            else:
+                if not vehicle['validTables'].get(key_entry):
+                    new_list = {}
+                    new_list_size = process_table_with_schema_destructive(entry, new_list, vehicle['options'])
+                    # This was a correct table, record that so we do not process it twice
+                    if new_list_size > 0:
+                        vehicle['validTables'][key_entry] = True
+                    vehicle[key_entry] = new_list
 
-                        if new_list_size > 0:
-                            vehicle['validTables'][key_entry] = True
+    return True
 
-                        vehicle[key_entry] = new_list
-
-    return True'''
