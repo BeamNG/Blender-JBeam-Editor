@@ -246,7 +246,7 @@ def parse_safe(expr: str, params: dict):
 
     new_vars = {}
     for k,v in params.items():
-        new_vars['var_' + k[1:]] = v
+        new_vars['var_' + k[1:]] = v['val'] if isinstance(v, dict) else v
 
     # Check if we find a *single standalone* "=" sign and abort parsing if found. >=, <=, == and != are allowed to support boolean operations
     if re.match(_standalone_equal_re, expr):
