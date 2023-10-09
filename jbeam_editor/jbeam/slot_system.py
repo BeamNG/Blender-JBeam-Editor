@@ -121,8 +121,8 @@ def find_parts(io_ctx: dict, vehicle_config: dict):
 
     root_part, jbeam_filename = jbeam_io.get_part(io_ctx, vehicle_config['mainPartName'])
     if not root_part:
-        print("main slot not found, unable to spawn")
-        return
+        print("main slot not found, unable to spawn", file=sys.stderr)
+        return None, None, None, None
 
     # add main part to the part lists
     chosen_parts['main'] = vehicle_config['mainPartName']
