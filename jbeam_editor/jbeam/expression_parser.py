@@ -25,9 +25,9 @@ import sys
 
 from functools import partial
 
-from antlr4 import InputStream
-from antlr4.Token import CommonToken
-from luaparser.parser.LuaLexer import LuaLexer
+from ..antlr4 import InputStream
+from ..antlr4.Token import CommonToken
+from ..luaparser.parser.LuaLexer import LuaLexer
 
 _var_wrapper_re = re.compile(r'\$([a-zA-Z_][a-zA-Z_0-9]*)')
 _standalone_equal_re = re.compile(r'[^<>!=]=[^=]')
@@ -218,6 +218,8 @@ def _convert_variable(match):
 
 
 def parse_safe(expr: str, params: dict):
+    result_code = -1
+
     # Strip leading "$=" from expression
     expr = expr[2:]
 
@@ -249,15 +251,16 @@ def parse_safe(expr: str, params: dict):
     # Check if we find a *single standalone* "=" sign and abort parsing if found. >=, <=, == and != are allowed to support boolean operations
     if re.match(_standalone_equal_re, expr):
         print("Assignments are not supported inside expressions!", file=sys.stderr)
-        return None
+        return result_code, None
 
     result = None
     try:
         result = eval(expr, _context, new_vars)
+        result_code = 0
     except Exception as e:
         print("Parsing expression failed, message: " + repr(e), file=sys.stderr)
 
-    return result
+    return result_code, result
 
 # Test cases
 if __name__ == "__main__":
@@ -280,133 +283,133 @@ if __name__ == "__main__":
 
     _vars = {'$toe_FR': 1, '$steer_center_F': 0.002}
     _expr = "$=$toe_FR-$steer_center_F"
-    res = parse_safe(_expr, _vars)
-    assert res == 0.998
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 0.998
 
     _vars = {'$springheight_F': 0.04}
     _expr = "$=case($rideheight_F == nil, ($springheight_F + 0.09) * 0.7, '')"
-    res = parse_safe(_expr, _vars)
-    assert res == 0.091
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 0.091
 
     _vars = {'$rideheight_F': 0.1, '$springheight_F': 0.04}
     _expr = "$=case($rideheight_F == nil, ($springheight_F + 0.09) * 0.7, '')"
-    res = parse_safe(_expr, _vars)
-    assert res == ''
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == ''
 
     _vars = {'$brakestrength': 0.7}
     _expr = "$=$brakebias == nil and $brakestrength*900 or ($brakestrength*3600*(1-$brakebias) + 1)"
-    res = parse_safe(_expr, _vars)
-    assert res == 630
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 630
 
     _vars = {'$brakestrength': 0}
     _expr = "$=$brakebias == nil and $brakestrength*900 or ($brakestrength*3600*(1-$brakebias) + 1)"
-    res = parse_safe(_expr, _vars)
-    assert res == 0
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 0
 
     _vars = {'$brakestrength': 0.5}
     _expr = "$=$brakebias == nil and $brakestrength*900 or ($brakestrength*3600*($brakebias - 1) + 1)"
-    res = parse_safe(_expr, _vars)
-    assert res == 450
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 450
 
     _vars = {'$brakebias': 0.5, '$brakestrength': 0.7}
     _expr = "$=$brakebias == nil and $brakestrength*900 or ($brakestrength*3600*(1-$brakebias) + 1)"
-    res = parse_safe(_expr, _vars)
-    assert res == 1261
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 1261
 
     _vars = {'$brakebias': 0.5, '$brakestrength': 0.7}
     _expr = "$=not $brakebias == nil and $brakestrength*900 or ($brakestrength*3600*(1-$brakebias) + 1)"
-    res = parse_safe(_expr, _vars)
-    assert res == 630
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 630
 
     _vars = {'$brakebias': 0.5, '$brakestrength': 0.7}
     _expr = "$=not $brakebias == nil and $brakestrength*900 or ($brakestrength*3600*($brakebias - 1) + 1)"
-    res = parse_safe(_expr, _vars)
-    assert res == 630
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 630
 
     _vars = {'$brakestrength': 0.7}
     _expr = "$=$brakebias == nil and $brakestrength*1000 or $brakestrength%4000*(1-$brakebias)"
-    res = parse_safe(_expr, _vars)
-    assert res == 700
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 700
 
     _vars = {'$brakestrength': 0.7}
     _expr = "$=$brakebias == nil and $brakestrength%1000 or $brakestrength%4000*(1-$brakebias)"
-    res = parse_safe(_expr, _vars)
-    assert res == 0.7
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 0.7
 
     _vars = {'$brakestrength': 0.7}
     _expr = "$=$brakebias == nil and 100 % $brakestrength or $brakestrength%4000*(1-$brakebias)"
-    res = parse_safe(_expr, _vars)
-    assert math.isclose(res, 0.6)
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and math.isclose(res, 0.6)
 
     _expr = "$=3 * 0 and 0 or 2"
-    res = parse_safe(_expr, _vars)
-    assert res == 0
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 0
 
     _expr = "$=not False and False"
-    res = parse_safe(_expr, _vars)
-    assert res == False
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == False
 
     _expr = "$=not False and not False"
-    res = parse_safe(_expr, _vars)
-    assert res == True
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == True
 
     _expr = "$=1 + 5 * 6"
-    res = parse_safe(_expr, _vars)
-    assert res == 31
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 31
 
     _expr = "$=1 + 5 * 6"
-    res = parse_safe(_expr, _vars)
-    assert res == 31
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 31
 
     _expr = "$=1 * 5 + 6"
-    res = parse_safe(_expr, _vars)
-    assert res == 11
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 11
 
     _expr = "$=case(true, 1, 2)"
-    res = parse_safe(_expr, _vars)
-    assert res == 1
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 1
 
     _expr = "$=case(false, 1, 2)"
-    res = parse_safe(_expr, _vars)
-    assert res == 2
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 2
 
     _expr = "$=random()"
-    res = parse_safe(_expr, _vars)
+    res_code, res = parse_safe(_expr, _vars)
 
     _expr = "$=random(4)"
-    res = parse_safe(_expr, _vars)
+    res_code, res = parse_safe(_expr, _vars)
 
     _expr = "$=random(10,20)"
-    res = parse_safe(_expr, _vars)
+    res_code, res = parse_safe(_expr, _vars)
 
     _expr = "$=random(20,20)"
-    res = parse_safe(_expr, _vars)
-    assert res == 20
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 20
 
     _expr = "$=round(4)"
-    res = parse_safe(_expr, _vars)
-    assert res == 4
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 4
 
     _expr = "$=round(11.4)"
-    res = parse_safe(_expr, _vars)
-    assert res == 11
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 11
 
     _expr = "$=round(11.6)"
-    res = parse_safe(_expr, _vars)
-    assert res == 12
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 12
 
     _expr = "$=sign(1000)"
-    res = parse_safe(_expr, _vars)
-    assert res == 1
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 1
 
     _expr = "$=sign(-13)"
-    res = parse_safe(_expr, _vars)
-    assert res == -1
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == -1
 
     _expr = "$=print('hello world')"
-    res = parse_safe(_expr, _vars)
-    assert res == 'hello world'
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 'hello world'
 
     _expr = "$=print('hello world', 'msg')"
-    res = parse_safe(_expr, _vars)
-    assert res == 'hello world'
+    res_code, res = parse_safe(_expr, _vars)
+    assert res_code == 0 and res == 'hello world'
