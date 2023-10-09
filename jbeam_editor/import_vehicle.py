@@ -41,6 +41,7 @@ from . import export_jbeam
 
 from .jbeam import io as jbeam_io
 from .jbeam import slot_system as jbeam_slot_system
+from .jbeam import variables as jbeam_variables
 
 import timeit
 
@@ -57,10 +58,16 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
     model_name = re_match.group(1) if re_match is not None else None
     print('Model name:', model_name)
 
+    if vehicle_config.get('mainPartName') is None:
+        vehicle_config['mainPartName'] = jbeam_io.get_main_part_name(io_ctx)
+
     print('Finding parts...')
-    vehicle, unifyJournal, chosenParts, activePartsOrig = jbeam_slot_system.find_parts(io_ctx, vehicle_config)
-    if vehicle is None:
+    vehicle, unify_journal, chosen_parts, active_parts_orig = jbeam_slot_system.find_parts(io_ctx, vehicle_config)
+    if vehicle is None or unify_journal is None:
         return
+
+    print('Applying variables...')
+    all_variables = jbeam_variables.process_parts(vehicle, unify_journal, vehicle_config)
 
 
 def load_vehicle_stage_1(vehicles_dir: str, vehicle_dir: str, vehicle_config: dict):
