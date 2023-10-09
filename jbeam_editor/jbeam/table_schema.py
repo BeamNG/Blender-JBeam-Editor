@@ -95,7 +95,7 @@ def process_table_with_schema_destructive(jbeam_table: list, new_list: dict, inp
     header_size = len(header)
     header_size1 = header_size + 1
     new_list_size = 0
-    local_options = replace_special_values(copy.deepcopy(input_options)) or {}
+    local_options = replace_special_values(copy.deepcopy(input_options)) if input_options is not None else {}
 
     jbeam_table.pop(0)
 
