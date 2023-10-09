@@ -69,6 +69,11 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
     print('Applying variables...')
     all_variables = jbeam_variables.process_parts(vehicle, unify_journal, vehicle_config)
 
+    print('Unifying parts...')
+    if jbeam_slot_system.unify_part_journal(io_ctx, unify_journal) is None:
+        return
+
+
 
 def load_vehicle_stage_1(vehicles_dir: str, vehicle_dir: str, vehicle_config: dict):
     vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]

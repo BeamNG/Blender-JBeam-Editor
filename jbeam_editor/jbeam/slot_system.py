@@ -25,6 +25,87 @@ from . import io as jbeam_io
 from .. import utils
 
 
+def unify_parts(target: dict, source: dict, level: int, slot_options: dict, part_path: str, slot: dict):
+    # walk and merge all sections
+    for section_key, section in source.items():
+        if section_key in ('slots', 'information'):
+            continue
+
+        if target.get(section_key) is None:
+            # Easy merge
+            target[section_key] = section
+
+            # Care about the slot options if we are first
+            if isinstance(section, list):
+                local_slot_options = copy.deepcopy(slot_options) if slot_options is not None else {}
+                local_slot_options['partOrigin'] = source['partName']
+                target[section_key].insert(1, local_slot_options)
+                # Now we need to negate the slot options out again
+                slot_option_reset = {}
+                for k4, v4 in local_slot_options.items():
+                    slot_option_reset[k4] = ""
+                target[section_key].append(slot_option_reset)
+        elif isinstance(target[section_key], dict) and isinstance(section, dict):
+            # Append to existing lists
+            # Add info where this came from
+            counter = 0
+            local_slot_options = None
+            for k3, v3 in section.items():
+                if isinstance(k3, int):
+                    # If it's an index, append if the index > 1
+                    if counter > 0:
+                        target[section_key].append(v3)
+                    else:
+                        local_slot_options = copy.deepcopy(slot_options) if slot_options is not None else {}
+                        local_slot_options['partOrigin'] = source['partName']
+                        target[section_key].append(local_slot_options)
+                else:
+                    # It's a key-value pair, check how to proceed with merging potentially existing values
+                    # Check if magic $ appears in the KEY, if the new value is a number (for example "$+MyFoo": 42)
+                    if isinstance(v3, (int, float)) and len(k3) >= 2 and ord(k3[0]) == 36:  # $
+                        actual_k3 = k3[2:]  # Remove the magic chars at the beginning to get the actual KEY
+                        existing_value = target[section_key].get(actual_k3)
+
+                        existing_modifier_value = target[section_key].get(k3)  # In case we are trying to merge a modifier with another modifier, we need to check if this is the case
+                        if isinstance(existing_modifier_value, (int, float)):
+                            # We need to merge a new modifier with an existing modifier, to do that, set our existing value of actual_k3 to the existing value of the raw k3 (including the modifier syntax)
+                            existing_value = existing_modifier_value
+                            # Also overwrite the key to be a modifier again (foo -> $+foo), this way the merged value will be written as a modifier value
+                            actual_k3 = k3
+
+                        if isinstance(existing_value, (int, float)):  # Check if the old value is also a number (and not None)
+                            second_char = ord(k3[1])
+
+                            if second_char == 43:  # +/sum
+                                target[section_key][actual_k3] = existing_value + v3  # Do a sum
+                            elif second_char == 42:  # * / multiplication
+                                target[section_key][actual_k3] = existing_value * v3  # Do a multiplication
+                            elif second_char == 60:  # < / min
+                                target[section_key][actual_k3] = min(existing_value, v3)  # Use the min
+                            elif second_char == 62:  # > / max
+                                target[section_key][actual_k3] = max(existing_value, v3)  # Use the max
+                            else:
+                                target[section_key][k3] = v3
+                        else:
+                            # We have special merging, but the initial value is not an a number (or None), so just pass the modifier value onto the merged data.
+                            # This specifically does NOT strip the modifier syntax from k3 so that parent parts still know that this is a modifier
+                            target[section_key][k3] = v3
+                    else:
+                        # We have a regular value, no special merging, just overwrite it
+                        target[section_key][k3] = v3
+                counter += 1
+            if local_slot_options is not None:
+                # Now we need to negate the slot options out again
+                slot_option_reset = {}
+                for k4, v4 in local_slot_options.items():
+                    slot_option_reset[k4] = ""
+                target[section_key].append(slot_option_reset)
+        else:
+            # Just overwrite any basic data
+            if section_key not in ('slotType', 'partName'):
+                target[section_key] = section
+
+
 def fill_slots_rec(io_ctx: dict, user_part_config: dict, current_part: dict, level: int, _slot_options: dict | None, chosen_parts: dict, active_parts_orig: dict, path: str, unify_journal: list):
     if level > 50:
         print("* ERROR: over 50 levels of parts, check if parts are self referential", file=sys.stderr)
@@ -134,8 +215,8 @@ def find_parts(io_ctx: dict, vehicle_config: dict):
     return root_part, unify_journal, chosen_parts, active_parts_orig
 
 
-'''def unify_part_journal(ioCtx, unify_journal: list):
-  for i, j in ipairs(unify_journal):
-    unifyParts(unpack(j))
+def unify_part_journal(io_ctx: dict, unify_journal: list):
+  for x in unify_journal:
+    unify_parts(*x)
 
-  return true'''
+  return True
