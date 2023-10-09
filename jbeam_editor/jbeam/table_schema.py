@@ -65,6 +65,7 @@ def replace_special_values(val):
     return val
 
 
+# TODO: May want to consider the type of new_list as a list or dict
 def process_table_with_schema_destructive(jbeam_table: list, new_list: dict, input_options=None):
     # its a list, so a table for us. Verify that the first row is the header
     header = jbeam_table[0]
