@@ -25,6 +25,8 @@ import sys
 
 from . import utils as jbeam_utils
 
+from .. import utils
+
 # these are defined in C, do not change the values
 NORMALTYPE = 0
 NODE_FIXED = 1
@@ -89,7 +91,7 @@ def replace_special_values(val):
 
 
 # TODO: May want to consider the type of new_list as a list or dict
-def process_table_with_schema_destructive(jbeam_table: list, new_list: dict, input_options=None):
+def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: dict, input_options=None):
     # its a list, so a table for us. Verify that the first row is the header
     header = jbeam_table[0]
     if not isinstance(header, list):
@@ -102,7 +104,7 @@ def process_table_with_schema_destructive(jbeam_table: list, new_list: dict, inp
 
     jbeam_table.pop(0)
 
-    for row_key, row_value in enumerate(jbeam_table):
+    for row_key, row_value in utils.ipairs(jbeam_table):
         if not isinstance(row_value, (dict, list)):
             print('*** Invalid table row:', row_value, file=sys.stderr)
             return -1
@@ -158,7 +160,7 @@ def process_table_with_schema_destructive(jbeam_table: list, new_list: dict, inp
     return new_list_size
 
 
-def process(vehicle, process_slots_table=False):
+def process(vehicle):
     # check for nodes key
     vehicle['maxIDs'] = {}
     vehicle['validTables'] = {}
@@ -189,11 +191,11 @@ def process(vehicle, process_slots_table=False):
         if isinstance(entry, (list, dict)) and jbeam_utils.ignore_sections.get(key_entry) is None and len(entry) > 0:
             if isinstance(entry, dict):
                 # slots are actually a dictionary due to translation from Lua to Python
-                if key_entry == 'slots' and not process_slots_table:
+                if key_entry == 'slots':
                     # Slots are preprocessed in the io module
                     vehicle['validTables'][key_entry] = True
             else:
-                if not vehicle['validTables'].get(key_entry):
+                if vehicle['validTables'].get(key_entry) is None:
                     new_list = {}
                     new_list_size = process_table_with_schema_destructive(entry, new_list, vehicle['options'])
                     # This was a correct table, record that so we do not process it twice

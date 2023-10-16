@@ -68,9 +68,13 @@ def dict_array_size(x: dict):
     return count
 
 
-def ipairs(x: dict):
-    for i in range(dict_array_size(x)):
-        yield (i, x[i])
+def ipairs(x: dict | list):
+    if isinstance(x, dict):
+        for i in range(dict_array_size(x)):
+            yield (i, x[i])
+    elif isinstance(x, list):
+        for k, v in enumerate(x):
+            yield (k, v)
 
 
 def clamp(x, min_value, max_value):

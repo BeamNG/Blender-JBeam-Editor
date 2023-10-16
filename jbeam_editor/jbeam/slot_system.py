@@ -45,12 +45,12 @@ def unify_parts(target: dict, source: dict, level: int, slot_options: dict, part
                 for k4, v4 in local_slot_options.items():
                     slot_option_reset[k4] = ""
                 target[section_key].append(slot_option_reset)
-        elif isinstance(target[section_key], dict) and isinstance(section, dict):
+        elif isinstance(target[section_key], (dict, list)) and isinstance(section, (dict, list)):
             # Append to existing lists
             # Add info where this came from
             counter = 0
             local_slot_options = None
-            for k3, v3 in section.items():
+            for k3, v3 in enumerate(section):
                 if isinstance(k3, int):
                     # If it's an index, append if the index > 1
                     if counter > 0:
