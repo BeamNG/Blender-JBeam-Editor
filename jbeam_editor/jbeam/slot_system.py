@@ -50,7 +50,7 @@ def unify_parts(target: dict[str, dict|list], source: dict[str, dict|list], leve
             # Add info where this came from
             counter = 0
             local_slot_options = None
-            for k3, v3 in enumerate(section):
+            for k3, v3 in (enumerate(section) if isinstance(section, list) else section.items()):
                 if isinstance(k3, int):
                     # If it's an index, append if the index > 1
                     if counter > 0:
