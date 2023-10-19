@@ -168,14 +168,14 @@ def start_loading(directories: list[str], vehicle_config: dict):
                 #    print('parsed file', filepath)
                 part_count_total += part_count
 
-    return {'preloaded_dirs': directories}
+    return {'preloadedDirs': directories}
 
 
 def get_part(io_ctx: dict, part_name: str | None):
     if part_name is None:
         return None, None
 
-    for directory in io_ctx['preloaded_dirs']:
+    for directory in io_ctx['preloadedDirs']:
         jbeam_filename = part_file_map[directory].get(part_name)
         if jbeam_filename is not None:
             if jbeam_cache.get(jbeam_filename) is None:
@@ -188,14 +188,14 @@ def get_part(io_ctx: dict, part_name: str | None):
 
 
 def is_context_valid(io_ctx):
-    return isinstance(io_ctx.get('preloaded_dirs'), list)
+    return isinstance(io_ctx.get('preloadedDirs'), list)
 
 
 def get_main_part_name(io_ctx):
     if not is_context_valid(io_ctx):
         return None
 
-    for directory in io_ctx['preloaded_dirs']:
+    for directory in io_ctx['preloadedDirs']:
         if part_slot_map[directory].get('main'):
             return part_slot_map[directory]['main'][0]
 
@@ -214,13 +214,13 @@ def get_available_parts(io_ctx):
 
     res = {}
     loaded = False
-    for dir in io_ctx['preloaded_dirs']:
+    for dir in io_ctx['preloadedDirs']:
         if not part_slot_map[dir]:
-            start_loading(io_ctx['preloaded_dirs'])
+            start_loading(io_ctx['preloadedDirs'])
             loaded = True
         for part_name, part_desc in part_name_map[dir].items():
             if part_name in res:
-                print(f"Parts names are duplicate: {part_name} in folders: {io_ctx['preloaded_dirs']}", file=sys.stderr)
+                print(f"Parts names are duplicate: {part_name} in folders: {io_ctx['preloadedDirs']}", file=sys.stderr)
             res[part_name] = part_desc
 
     if loaded:
@@ -235,16 +235,16 @@ def get_available_slot_map(io_ctx):
 
     res = {}
     loaded = False
-    for dir in io_ctx['preloaded_dirs']:
+    for dir in io_ctx['preloadedDirs']:
         if not part_slot_map[dir]:
-            start_loading(io_ctx['preloaded_dirs'])
+            start_loading(io_ctx['preloadedDirs'])
             loaded = True
         for slot_name, part_list in part_slot_map[dir].items():
             if slot_name not in res:
                 res[slot_name] = []
             for part_name in part_list:
                 if part_name in res[slot_name]:
-                    print(f"Parts names are duplicate: {part_name} in folders: {io_ctx['preloaded_dirs']}", file=sys.stderr)
+                    print(f"Parts names are duplicate: {part_name} in folders: {io_ctx['preloadedDirs']}", file=sys.stderr)
                 res[slot_name].append(part_name)
 
     if loaded:
