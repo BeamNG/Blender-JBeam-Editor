@@ -25,7 +25,7 @@ from . import io as jbeam_io
 from .. import utils
 
 
-def unify_parts(target: dict, source: dict, level: int, slot_options: dict, part_path: str, slot: dict):
+def unify_parts(target: dict[str, dict|list], source: dict[str, dict|list], level: int, slot_options: dict, part_path: str, slot: dict):
     # walk and merge all sections
     for section_key, section in source.items():
         if section_key in ('slots', 'information'):
@@ -54,12 +54,18 @@ def unify_parts(target: dict, source: dict, level: int, slot_options: dict, part
                 if isinstance(k3, int):
                     # If it's an index, append if the index > 1
                     if counter > 0:
-                        target[section_key].append(v3)
+                        if isinstance(target[section_key], list):
+                            target[section_key].append(v3)
+                        else:
+                            target[section_key][utils.dict_array_size(target[section_key])] = v3
                     else:
                         local_slot_options = copy.deepcopy(slot_options) if slot_options is not None else {}
                         local_slot_options['partOrigin'] = source['partName']
-                        target[section_key].append(local_slot_options)
-                else:
+                        if isinstance(target[section_key], list):
+                            target[section_key].append(local_slot_options)
+                        else:
+                            target[section_key][utils.dict_array_size(target[section_key])] = local_slot_options
+                elif isinstance(target[section_key], dict):
                     # It's a key-value pair, check how to proceed with merging potentially existing values
                     # Check if magic $ appears in the KEY, if the new value is a number (for example "$+MyFoo": 42)
                     if isinstance(v3, (int, float)) and len(k3) >= 2 and ord(k3[0]) == 36:  # $
@@ -99,7 +105,11 @@ def unify_parts(target: dict, source: dict, level: int, slot_options: dict, part
                 slot_option_reset = {}
                 for k4, v4 in local_slot_options.items():
                     slot_option_reset[k4] = ""
-                target[section_key].append(slot_option_reset)
+
+                if isinstance(target[section_key], list):
+                    target[section_key].append(slot_option_reset)
+                else:
+                    target[section_key][utils.dict_array_size(target[section_key])] = slot_option_reset
         else:
             # Just overwrite any basic data
             if section_key not in ('slotType', 'partName'):
