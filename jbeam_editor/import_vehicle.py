@@ -65,28 +65,38 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
     print('Finding parts...')
     vehicle, unify_journal, chosen_parts, active_parts_orig = jbeam_slot_system.find_parts(io_ctx, vehicle_config)
     if vehicle is None or unify_journal is None:
-        return
+        return None
 
     print('Applying variables...')
     all_variables = jbeam_variables.process_parts(vehicle, unify_journal, vehicle_config)
 
     print('Unifying parts...')
     if jbeam_slot_system.unify_part_journal(io_ctx, unify_journal) is None:
-        return
+        return None
 
     jbeam_variables.process_unified_vehicle(vehicle, all_variables)
 
     print('Assembling tables ...')
     if jbeam_table_schema.process(vehicle) is None:
         print('*** preparation error"', file=sys.stderr)
-        return
+        return None
+
+    print('Done loading JBeam.')
+
+    return {
+        'vehicleDirectory' : vehicle_directories[0],
+        'vdata'            : vehicle,
+        'config'           : vehicle_config,
+        'mainPartName'     : vehicle_config['mainPartName'],
+        'chosenParts'      : chosen_parts,
+        'ioCtx'            : io_ctx,
+    }
 
 
 def load_vehicle_stage_1(vehicles_dir: str, vehicle_dir: str, vehicle_config: dict):
     vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]
-    load_jbeam(vehicle_directories, vehicle_config)
-
-    return {'FINISHED'}
+    vehicle_bundle = load_jbeam(vehicle_directories, vehicle_config)
+    return vehicle_bundle
 
 
 def build_config(config_path):
@@ -113,7 +123,85 @@ def import_vehicle(config_path: str):
     vehicle_dir = Path(config_path).parent.as_posix()
     vehicles_dir = Path(vehicle_dir).parent.as_posix()
 
-    return load_vehicle_stage_1(vehicles_dir, vehicle_dir, vehicle_config)
+    vehicle_bundle = load_vehicle_stage_1(vehicles_dir, vehicle_dir, vehicle_config)
+
+    if vehicle_bundle is None:
+        return {'CANCELLED'}
+
+    node_ids = []
+    node_id_to_index = {}
+    vertices = []
+    edges = []
+    faces = []
+
+    # Translate nodes to vertices
+    for i, (node_id, node) in enumerate(vehicle_bundle['vdata']['nodes'].items()):
+        node_pos = (node['posX'], node['posY'], node['posZ'])
+
+        node_id_to_index[node_id] = i
+        node_ids.append(node_id)
+        vertices.append(node_pos)
+
+    # Translate beams to edges
+    for _, beam in vehicle_bundle['vdata']['beams'].items():
+        node_1_id, node_2_id = beam['id1:'], beam['id2:']
+
+        if node_1_id in node_id_to_index and node_2_id in node_id_to_index:
+            beam = (node_id_to_index[node_1_id], node_id_to_index[node_2_id])
+            edges.append(beam)
+
+    # Translate triangles to faces
+    for _, tri in vehicle_bundle['vdata']['triangles'].items():
+        node_1_id, node_2_id, node_id3 = tri['id1:'], tri['id2:'], tri['id3:']
+
+        if node_1_id in node_id_to_index and node_2_id in node_id_to_index and node_id3 in node_id_to_index:
+            tri = (node_id_to_index[node_1_id], node_id_to_index[node_2_id], node_id_to_index[node_id3])
+            faces.append(tri)
+
+    obj_data = bpy.data.meshes.new(vehicle_bundle['mainPartName'])
+    obj_data.from_pydata(vertices, edges, faces)
+    #obj_data[constants.ATTRIBUTE_JBEAM_FILE_PATH] = jbeam_file_path
+    #obj_data[constants.ATTRIBUTE_JBEAM_FILE_DATA_STR] = jbeam_file_data_str
+    obj_data[constants.ATTRIBUTE_JBEAM_PART] = vehicle_bundle['mainPartName']
+    #obj_data[constants.ATTRIBUTE_JBEAM_INIT_NODE_IDS] = copy.deepcopy(node_ids)
+
+    #export_jbeam.last_exported_jbeams[chosen_part] = {'in_filepath': jbeam_file_path}
+
+    #new_mesh.attributes.new(name=constants.ATTRIBUTE_JBEAM_FILE_PATH, type="STRING", domain=)
+
+    bm = bmesh.new()
+    bm.from_mesh(obj_data)
+
+    # Add node ID field to all vertices
+    init_node_id_layer = bm.verts.layers.string.new(constants.V_ATTRIBUTE_INIT_NODE_ID)
+    node_id_layer = bm.verts.layers.string.new(constants.V_ATTRIBUTE_NODE_ID)
+
+    # Update node IDs field from JBeam data to match JBeam nodes
+    bm.verts.ensure_lookup_table()
+    for i in range(len(bm.verts)):
+        v = bm.verts[i]
+        node_id = bytes(node_ids[i], 'utf-8')
+        v[init_node_id_layer] = node_id
+        v[node_id_layer] = node_id
+
+    bm.to_mesh(obj_data)
+
+    obj_data.update()
+
+    # make object from mesh
+    new_object = bpy.data.objects.new(vehicle_bundle['mainPartName'], obj_data)
+    # make collection
+    new_collection = bpy.data.collections.get('JBeam Objects')
+    if not new_collection:
+        new_collection = bpy.data.collections.new('JBeam Objects')
+        bpy.context.scene.collection.children.link(new_collection)
+
+    # add object to scene collection
+    new_collection.objects.link(new_object)
+
+    print('Done loading vehicle.')
+
+    return {'FINISHED'}
 
 
 class JBEAM_EDITOR_OT_import_vehicle(Operator, ImportHelper):
