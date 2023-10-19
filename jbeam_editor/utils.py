@@ -77,5 +77,12 @@ def ipairs(x: dict | list):
             yield (k, v)
 
 
+def get_item(obj: dict | list, idx):
+    if isinstance(obj, dict):
+        return obj.get(idx)
+
+    return obj[idx] if isinstance(idx, int) and idx >= 0 and idx < len(obj) else None
+
+
 def clamp(x, min_value, max_value):
     return min(max(x, min_value), max_value)
