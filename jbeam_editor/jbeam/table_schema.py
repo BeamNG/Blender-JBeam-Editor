@@ -134,7 +134,7 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
                 if isinstance(rv, dict) and len_row_value > header_size:
                     new_row.update(replace_special_values(rv))
                     # remove the options
-                    row_value[rk] = None # remove them for now
+                    del row_value[rk] # remove them for now
                     if len(header) == header_size:
                         header.append("options") # for fixing some code below - let it know those are the options
                     break
@@ -151,7 +151,7 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
             if new_row.get('id') is not None:
                 new_id = new_row['id']
                 new_row['name'] = new_id
-                new_row['id'] = None
+                del new_row['id']
 
             # done with that row
             new_list[new_id] = new_row
@@ -170,11 +170,12 @@ def process(vehicle):
     vehicle['options'] = vehicle.get('options', {})
 
     # Walk through everything and look for options
-    for key_entry, entry in vehicle.items():
+    for key_entry in list(vehicle.keys()):
+        entry = vehicle[key_entry]
         if not isinstance(entry, (dict, list)):
             # Seems to be an option, add it to the vehicle options
             vehicle['options'][key_entry] = entry
-            vehicle[key_entry] = None
+            vehicle.pop(key_entry, None)
 
     # Then walk through all keys/entries of the vehicle
     for key_entry, entry in vehicle.items():

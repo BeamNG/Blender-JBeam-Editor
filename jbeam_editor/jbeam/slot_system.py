@@ -131,10 +131,10 @@ def fill_slots_rec(io_ctx: dict, user_part_config: dict, current_part: dict, lev
 
             _slot_options.update(copy.deepcopy(slot))
             # remove the slot table from the options
-            _slot_options['name'] = None
-            _slot_options['type'] = None
-            _slot_options['default'] = None
-            _slot_options['description'] = None
+            _slot_options.pop('name', None)
+            _slot_options.pop('type', None)
+            _slot_options.pop('default', None)
+            _slot_options.pop('description', None)
 
             user_part_name = user_part_config.get(slot_id)
             # the UI uses 'none' for empty slots, we use ''
@@ -184,8 +184,8 @@ def fill_slots_rec(io_ctx: dict, user_part_config: dict, current_part: dict, lev
                 new_path = new_path + '[' + chosen_part.get('partName') + ']'
 
                 if _slot_options.get('coreSlot') is True:
-                    _slot_options['coreSlot'] = None
-                _slot_options['variables'] = None
+                    del _slot_options['coreSlot']
+                _slot_options.pop('variables', None)
 
                 chosen_parts[slot_id] = chosen_part.get('partName')
 

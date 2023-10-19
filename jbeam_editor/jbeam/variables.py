@@ -50,7 +50,7 @@ def apply(data: dict, variables: dict | None):
                             if second_char not in (43, 60, 62):
                                 if variables.get(v) is None:
                                     print(f"missing variable {v}", file=sys.stderr)
-                                    d[key] = None
+                                    del d[key]
                                 else:
                                     val = variables[v]
                                     if isinstance(val, dict):
@@ -71,7 +71,8 @@ def apply_slot_vars(slot_vars: dict, _variables: dict | None):
     succeed = {}
     for iters in range(1, 401):
         passed = False
-        for k, v in slot_vars.items():
+        for k in list(slot_vars.keys()):
+            v = slot_vars[k]
             if ord(v[0]) == 36:  # $
                 second_char = ord(v[1])
                 if second_char == 61:  # =
@@ -80,11 +81,11 @@ def apply_slot_vars(slot_vars: dict, _variables: dict | None):
                         passed = True
                         succeed[k] = res
                         variables[k] = res
-                        slot_vars[k] = None
+                        del slot_vars[k]
                 else:
                     if second_char not in (43, 60, 62):
                         passed = True
-                        slot_vars[k] = None
+                        del slot_vars[k]
                         if variables.get(v) is None:
                             pass
                         else:
@@ -99,7 +100,7 @@ def apply_slot_vars(slot_vars: dict, _variables: dict | None):
                 passed = True
                 succeed[k] = v
                 variables[k] = v
-                slot_vars[k] = None
+                del slot_vars[k]
         if passed is False:
             break
     if len(slot_vars) > 0:
@@ -110,10 +111,11 @@ def apply_slot_vars(slot_vars: dict, _variables: dict | None):
 
 def _sanitize_vars(all_variables: dict, user_vars: dict):
     variables = copy.deepcopy(user_vars) # if var is present in config but not in the parts, still define them properly
-    for kv, vv in all_variables.items():
+    for kv in list(all_variables.keys()):
+        vv = all_variables[kv]
         if vv.get('type') == 'range':
             if vv.get('unit') == '':
-                vv['unit'] = None
+                del vv['unit']
             if not isinstance(vv.get('min'), (int, float)):
                 print(f'variable {vv.get("name")} ignored, min not a number: {vv}', file=sys.stderr)
                 continue
