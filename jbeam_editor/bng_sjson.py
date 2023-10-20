@@ -27,14 +27,13 @@ _nil = chr(127)
 
 _split_line_re = re.compile(r'([^\n]*)')
 
-_concat_table: list | None = None
-_s: str | None = None
+_s: str
 
 
 def _error_input(si):
     _json_error('Invalid input', si)
 
-_peek_table = [_error_input] * 256
+_peek_table: list = [_error_input] * 256
 
 
 def _json_error(msg, i):
@@ -174,8 +173,6 @@ def decode(s: str):
         return None
 
     global _s
-    global _len_s
-    _len_s = len(s)
     _s = s + _nil # padding to end of string to prevent out of bound indexing
     c, i = _skip_whitespace(0)
     result = None
@@ -190,17 +187,14 @@ def decode(s: str):
             result[key], i = _peek_table[c](i)
             c, i = _skip_whitespace(i + 1)
 
-    global _concat_table
-    _concat_table = None
-    _s = None
+    _s = None # type: ignore
     return result
 
 
 ### Build dispatch table ###
 
 def _read_infinity(si): # I
-    s1 = _s[si + 1:si + 8]
-    if s1 == "nfinity": #if c is not None and c[0] == 'n' and c[1] == 'f' and c[2] == 'i' and c[3] == 'n' and c[4] == 'i' and c[5] == 't' and c[6] == 'y':
+    if _s[si] == 'n' and _s[si+1] == 'f' and _s[si+2] == 'i' and _s[si+3] == 'n' and _s[si+4] == 'i' and _s[si+5] == 't' and _s[si+6] == 'y':
         return math.inf, si + 7
     else:
         _json_error("Error reading value: Infinity", si)
@@ -217,22 +211,19 @@ def _read_object(si): # {
     return result, i
 
 def _read_true(si): # t
-    b1 = _s[si + 1:si + 4]
-    if b1 == 'rue':
+    if _s[si+1] == 'r' and _s[si+2] == 'u' and _s[si+3] == 'e':
         return True, si + 3
     else:
         _json_error("Error reading value: true", si)
 
 def _read_false(si): # f
-    b1 = _s[si + 1:si + 5]
-    if b1 == 'alse':
+    if _s[si+1] == 'a' and _s[si+2] == 'l' and _s[si+3] == 's' and _s[si+4] == 'e':
         return False, si + 4
     else:
         _json_error("Error reading value: false", si)
 
 def _read_null(si): # n
-    b1 = _s[si + 1:si + 4]
-    if b1 == 'ull':
+    if _s[si+1] == 'u' and _s[si+2] == 'l' and _s[si+3] == 'l':
         return None, si + 3
     else:
         _json_error("Error reading value: null", si)
