@@ -27,16 +27,17 @@ from . import table_schema as jbeam_table_schema
 from .. import utils
 
 jbeam_cache = {}
-part_file_map = {}
-part_slot_map = {}
-part_name_map = {}
+dir_to_files_map: dict[str, set] = {}
+part_to_file_map: dict[str, dict[str, str]] = {}
+slot_to_part_map: dict[str, dict[str, list]] = {}
+part_to_desc_map: dict[str, dict[str, dict]] = {}
 
 invalidated_cache = False
 
 
 def process_slots_destructive_backward_compatibility(slots, new_slots):
     added_slots = 0
-    for slot_section_row in slots:
+    for k, slot_section_row in (enumerate(slots) if isinstance(slots, list) else slots.items()):
         if slot_section_row[0] == 'type':
             continue  # Ignore the header
 
@@ -52,7 +53,7 @@ def process_slots_destructive_backward_compatibility(slots, new_slots):
         if len(slot_section_row) > 3 and isinstance(slot_section_row[3], dict):
             slot.update(slot_section_row[3])
 
-        new_slots.append(slot)
+        new_slots[added_slots] = slot
         added_slots += 1
 
     return added_slots
@@ -69,14 +70,14 @@ def process_slots_destructive(part: dict, source_filename: str):
         part['slots'].insert(0, ['type', 'default', 'description'])
 
     new_list_size = jbeam_table_schema.process_table_with_schema_destructive(part['slots'], new_slots)
-    '''if new_list_size < 0:
+    if new_list_size < 0:
         # Fallback: use old code for old mods with errors
-        new_slots = []
+        new_slots = {}
         new_list_size = process_slots_destructive_backward_compatibility(part['slots'], new_slots)
         if new_list_size < 0:
             print(f'Slots section in file {source_filename} invalid. Unable to recover: {part["slots"]}', file=sys.stderr)
         else:
-            print(f'Slots section in file {source_filename} invalid. Please fix. Partly reconstructed: {part["slots"]}', file=sys.stderr)'''
+            print(f'Slots section in file {source_filename} invalid. Please fix. Partly reconstructed: {part["slots"]}', file=sys.stderr)
     part['slots'] = new_slots
 
     res = {}
@@ -116,6 +117,12 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: li
         return None
 
     jbeam_cache[filepath] = file_content
+
+    if add_to_cache:
+        if directory not in dir_to_files_map:
+            dir_to_files_map[directory] = set()
+        dir_to_files_map[directory].add(filepath)
+
     part_count = 0
     for part_name, part in file_content.items():
         part_count += 1
@@ -124,16 +131,16 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: li
         slot_info = process_slots_destructive(part, filepath)
 
         if add_to_cache:
-            if directory not in part_file_map:
-                part_file_map[directory] = {}
-                part_slot_map[directory] = {}
-                part_name_map[directory] = {}
+            if directory not in part_to_file_map:
+                part_to_file_map[directory] = {}
+                slot_to_part_map[directory] = {}
+                part_to_desc_map[directory] = {}
 
             if not isinstance(part.get('slotType'), str):
                 print(f'Part does not have a slot type. Ignoring: {filepath}', file=sys.stderr)
                 continue
 
-            part_slot_map[directory].setdefault(part['slotType'], [])
+            slot_to_part_map[directory].setdefault(part['slotType'], [])
             part_desc = {
                 'description': part['information'].get('name', ''),
                 'authors': part['information'].get('authors', ''),
@@ -141,15 +148,15 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: li
                 'slots': slot_info,
             }
 
-            if part_name in part_slot_map[directory][part['slotType']]:
-                if (part_name in part_file_map[directory] and len(file_content) > len(jbeam_cache[part_file_map[directory][part_name]])):
-                    part_file_map[directory][part_name] = filepath
-                    part_name_map[directory][part_name] = part_desc
+            if part_name in slot_to_part_map[directory][part['slotType']]:
+                if (part_name in part_to_file_map[directory] and len(file_content) > len(jbeam_cache[part_to_file_map[directory][part_name]])):
+                    part_to_file_map[directory][part_name] = filepath
+                    part_to_desc_map[directory][part_name] = part_desc
                 print(f'Duplicate part found: {part_name} from file {filepath}', file=sys.stderr)
             else:
-                part_file_map[directory][part_name] = filepath
-                part_name_map[directory][part_name] = part_desc
-                part_slot_map[directory][part['slotType']].append(part_name)
+                part_to_file_map[directory][part_name] = filepath
+                part_to_desc_map[directory][part_name] = part_desc
+                slot_to_part_map[directory][part['slotType']].append(part_name)
     return part_count
 
 
@@ -159,24 +166,27 @@ def start_loading(directories: list[str], vehicle_config: dict):
     parts.append('main') # main isn't a part but a slotType, but still find the file with it
 
     for directory in directories:
-        if directory not in part_file_map:
-            part_count_total = 0
-            for filepath in Path(directory).rglob('*.jbeam'):
-                fp = filepath.as_posix()
-                part_count = load_jbeam_file(directory, fp, True, parts) or 0
-                #if part_count:
-                #    print('parsed file', filepath)
-                part_count_total += part_count
+        if directory not in dir_to_files_map:
+            dir_to_files_map[directory] = set()
 
-    return {'preloadedDirs': directories}
+        #part_count_total = 0
+        for filepath in Path(directory).rglob('*.jbeam'):
+            fp = filepath.as_posix()
+            if fp not in dir_to_files_map[directory]:
+                part_count = load_jbeam_file(directory, fp, True, parts) or 0
+            #if part_count:
+            #    print('parsed file', filepath)
+            #art_count_total += part_count
+
+    return {'dirs': directories}
 
 
 def get_part(io_ctx: dict, part_name: str | None):
     if part_name is None:
         return None, None
 
-    for directory in io_ctx['preloadedDirs']:
-        jbeam_filename = part_file_map[directory].get(part_name)
+    for directory in io_ctx['dirs']:
+        jbeam_filename = part_to_file_map[directory].get(part_name)
         if jbeam_filename is not None:
             if jbeam_cache.get(jbeam_filename) is None:
                 part_count = load_jbeam_file(directory, jbeam_filename, False)
@@ -188,16 +198,16 @@ def get_part(io_ctx: dict, part_name: str | None):
 
 
 def is_context_valid(io_ctx):
-    return isinstance(io_ctx.get('preloadedDirs'), list)
+    return isinstance(io_ctx.get('dirs'), list)
 
 
 def get_main_part_name(io_ctx):
     if not is_context_valid(io_ctx):
         return None
 
-    for directory in io_ctx['preloadedDirs']:
-        if part_slot_map[directory].get('main'):
-            return part_slot_map[directory]['main'][0]
+    for directory in io_ctx['dirs']:
+        if slot_to_part_map[directory].get('main'):
+            return slot_to_part_map[directory]['main'][0]
 
     return None
 
@@ -214,13 +224,13 @@ def get_available_parts(io_ctx):
 
     res = {}
     loaded = False
-    for dir in io_ctx['preloadedDirs']:
-        if not part_slot_map[dir]:
-            start_loading(io_ctx['preloadedDirs'])
+    for dir in io_ctx['dirs']:
+        if not slot_to_part_map[dir]:
+            start_loading(io_ctx['dirs'])
             loaded = True
-        for part_name, part_desc in part_name_map[dir].items():
+        for part_name, part_desc in part_to_desc_map[dir].items():
             if part_name in res:
-                print(f"Parts names are duplicate: {part_name} in folders: {io_ctx['preloadedDirs']}", file=sys.stderr)
+                print(f"Parts names are duplicate: {part_name} in folders: {io_ctx['dirs']}", file=sys.stderr)
             res[part_name] = part_desc
 
     if loaded:
@@ -235,16 +245,16 @@ def get_available_slot_map(io_ctx):
 
     res = {}
     loaded = False
-    for dir in io_ctx['preloadedDirs']:
-        if not part_slot_map[dir]:
-            start_loading(io_ctx['preloadedDirs'])
+    for dir in io_ctx['dirs']:
+        if not slot_to_part_map[dir]:
+            start_loading(io_ctx['dirs'])
             loaded = True
-        for slot_name, part_list in part_slot_map[dir].items():
+        for slot_name, part_list in slot_to_part_map[dir].items():
             if slot_name not in res:
                 res[slot_name] = []
             for part_name in part_list:
                 if part_name in res[slot_name]:
-                    print(f"Parts names are duplicate: {part_name} in folders: {io_ctx['preloadedDirs']}", file=sys.stderr)
+                    print(f"Parts names are duplicate: {part_name} in folders: {io_ctx['dirs']}", file=sys.stderr)
                 res[slot_name].append(part_name)
 
     if loaded:
@@ -256,17 +266,17 @@ def get_available_slot_map(io_ctx):
 def on_file_changed(filename, file_type):
     dir = os.path.dirname(filename)
 
-    if dir and (dir in part_file_map or dir in part_slot_map or dir in part_name_map):
+    if dir and (dir in part_to_file_map or dir in slot_to_part_map or dir in part_to_desc_map):
         print(f'Cache reset for path: {dir} due to file change: {filename} ({file_type})')
-        part_file_map.pop(dir, None)
-        part_slot_map.pop(dir, None)
-        part_name_map.pop(dir, None)
+        part_to_file_map.pop(dir, None)
+        slot_to_part_map.pop(dir, None)
+        part_to_desc_map.pop(dir, None)
 
         if dir == '/vehicles/common/':
             print('Cache FULL reset')
-            part_file_map.clear()
-            part_slot_map.clear()
-            part_name_map.clear()
+            part_to_file_map.clear()
+            slot_to_part_map.clear()
+            part_to_desc_map.clear()
 
         global invalidated_cache
         invalidated_cache = True
