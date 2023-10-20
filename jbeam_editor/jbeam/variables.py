@@ -131,26 +131,28 @@ def _sanitize_vars(all_variables: dict, user_vars: dict):
             else:
                 vv['val'] = vv.get('default')
             # set defaults for variables
-            if vv.get('min_dis') is None:
+            if vv.get('minDis') is None:
                 if vv.get('unit') is not None:
-                    vv['min_dis'] = vv['min']
+                    vv['minDis'] = vv['min']
                 else:
-                    vv['min_dis'] = -100
-            if vv.get('max_dis') is None:
+                    vv['minDis'] = -100
+            if vv.get('maxDis') is None:
                 if vv.get('unit') is not None:
-                    vv['max_dis'] = vv['max']
+                    vv['maxDis'] = vv['max']
                 else:
-                    vv['max_dis'] = 100
-            if vv.get('step_dis') is None:
+                    vv['maxDis'] = 100
+            if vv.get('stepDis') is None:
                 if vv.get('unit') is not None:
-                    vv['step_dis'] = (vv['max_dis'] - vv['min_dis']) / 100
+                    vv['stepDis'] = (vv['maxDis'] - vv['minDis']) / 100
                 else:
-                    vv['step_dis'] = 1
+                    vv['stepDis'] = 1
             # this should at some point be the given one and then stepDis is calculated from this value
-            vv['step'] = vv['step_dis'] * (vv['max'] - vv['min']) / (vv['max_dis'] - vv['min_dis'])
-            if vv['step'] != vv['step']:  # NaN
+            if vv['maxDis'] - vv['minDis'] != 0:
+                vv['step'] = vv['stepDis'] * (vv['max'] - vv['min']) / (vv['maxDis'] - vv['minDis'])
+            else:
                 print(f'{vv["name"]} have max and min the same!', file=sys.stderr)
-                vv['step'] = vv['step_dis']
+                vv['step'] = vv['stepDis']
+
             if vv.get('unit') is None or vv['unit'] == '':
                 vv['unit'] = '%'
             if vv.get('category') is None or vv['category'] == '':
@@ -158,7 +160,7 @@ def _sanitize_vars(all_variables: dict, user_vars: dict):
 
             regex = re.search(r'(.*)\.(.*)', vv['category'])
             if regex is not None:
-                vv['category'], vv['sub_category'] = regex.group(1), regex.group(2)
+                vv['category'], vv['subCategory'] = regex.group(1), regex.group(2)
 
             # Make sure our value is actually inside the min/max limits
             # we can't be sure that "min" is actually the smaller number and "max" the bigger one, so for clamping we need to find out which is which first
