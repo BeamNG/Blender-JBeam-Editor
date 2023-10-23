@@ -192,7 +192,7 @@ def decode(s: str):
         return None
 
     global _s
-    _s = s + _nil # padding to end of string to prevent out of bound indexing
+    _s = s + _nil * 2 # padding to end of string to prevent out of bound indexing
     c, i = _skip_white_space(0)
     result = None
     if c in (123, 91): # { or [

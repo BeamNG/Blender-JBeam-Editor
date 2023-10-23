@@ -99,13 +99,7 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: li
             print(f'Cannot read file: {filepath}', file=sys.stderr)
             return None
 
-        exists = False
-        for part in parts:
-            if file_text.find('"' + part + '"') != -1:
-                exists = True
-                break
-
-        if not exists:
+        if next((substring for substring in parts if substring in file_text), None) is None:
             return None
 
         file_content = utils.sjson_decode(file_text, filepath)
@@ -163,6 +157,7 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: li
 def start_loading(directories: list[str], vehicle_config: dict):
     slots_to_part: dict = vehicle_config['parts']
     parts = list(filter(lambda part: part != '', slots_to_part.values()))
+    parts = ['"' + part + '"' for part in slots_to_part.values() if part != '']
     parts.append('main') # main isn't a part but a slotType, but still find the file with it
 
     for directory in directories:
