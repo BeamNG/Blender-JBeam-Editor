@@ -128,76 +128,95 @@ def import_vehicle(config_path: str):
     if vehicle_bundle is None:
         return {'CANCELLED'}
 
-    node_ids = []
+    nodes: dict[str, dict] = vehicle_bundle['vdata']['nodes']
+    beams: dict[str, dict] = vehicle_bundle['vdata']['beams']
+    triangles: dict[str, dict] = vehicle_bundle['vdata']['triangles']
+
+    vehicle_name = vehicle_bundle['mainPartName']
+    parts = vehicle_bundle['chosenParts'].values()
+    node_index_to_id = []
     node_id_to_index = {}
     vertices = []
-    edges = []
-    faces = []
+
+    parts_edges = {}
+    parts_faces = {}
 
     # Translate nodes to vertices
-    for i, (node_id, node) in enumerate(vehicle_bundle['vdata']['nodes'].items()):
-        node_pos = (node['posX'], node['posY'], node['posZ'])
+    for i, (node_id, node) in enumerate(nodes.items()):
+        part_origin = node.get('partOrigin')
+        if not part_origin:
+            continue
 
+        node_pos = (node['posX'], node['posY'], node['posZ'])
+        node_index_to_id.append(node_id)
         node_id_to_index[node_id] = i
-        node_ids.append(node_id)
         vertices.append(node_pos)
 
     # Translate beams to edges
-    for _, beam in vehicle_bundle['vdata']['beams'].items():
-        node_1_id, node_2_id = beam['id1:'], beam['id2:']
+    beam: dict
+    for _, beam in beams.items():
+        part_origin = beam.get('partOrigin')
+        if not part_origin:
+            continue
 
-        if node_1_id in node_id_to_index and node_2_id in node_id_to_index:
-            beam = (node_id_to_index[node_1_id], node_id_to_index[node_2_id])
-            edges.append(beam)
+        edges = parts_edges.setdefault(part_origin, [])
+        if node_id_to_index.get(beam['id1:']) is not None and node_id_to_index.get(beam['id2:']) is not None:
+            edges.append((node_id_to_index[beam['id1:']], node_id_to_index[beam['id2:']]))
 
     # Translate triangles to faces
-    for _, tri in vehicle_bundle['vdata']['triangles'].items():
-        node_1_id, node_2_id, node_id3 = tri['id1:'], tri['id2:'], tri['id3:']
+    tri: dict
+    for _, tri in triangles.items():
+        part_origin = tri.get('partOrigin')
+        if not part_origin:
+            continue
 
-        if node_1_id in node_id_to_index and node_2_id in node_id_to_index and node_id3 in node_id_to_index:
-            tri = (node_id_to_index[node_1_id], node_id_to_index[node_2_id], node_id_to_index[node_id3])
-            faces.append(tri)
+        faces = parts_faces.setdefault(part_origin, [])
+        if node_id_to_index.get(tri['id1:']) is not None and node_id_to_index.get(tri['id2:']) is not None and node_id_to_index.get(tri['id3:']) is not None:
+            faces.append((node_id_to_index[tri['id1:']], node_id_to_index[tri['id2:']], node_id_to_index[tri['id3:']]))
 
-    obj_data = bpy.data.meshes.new(vehicle_bundle['mainPartName'])
-    obj_data.from_pydata(vertices, edges, faces)
-    #obj_data[constants.ATTRIBUTE_JBEAM_FILE_PATH] = jbeam_file_path
-    #obj_data[constants.ATTRIBUTE_JBEAM_FILE_DATA_STR] = jbeam_file_data_str
-    obj_data[constants.ATTRIBUTE_JBEAM_PART] = vehicle_bundle['mainPartName']
-    #obj_data[constants.ATTRIBUTE_JBEAM_INIT_NODE_IDS] = copy.deepcopy(node_ids)
+    # create set of main parts in scene
+    if bpy.context.scene.get('main_parts') is None:
+        bpy.context.scene['main_parts'] = {}
 
-    #export_jbeam.last_exported_jbeams[chosen_part] = {'in_filepath': jbeam_file_path}
-
-    #new_mesh.attributes.new(name=constants.ATTRIBUTE_JBEAM_FILE_PATH, type="STRING", domain=)
-
-    bm = bmesh.new()
-    bm.from_mesh(obj_data)
-
-    # Add node ID field to all vertices
-    init_node_id_layer = bm.verts.layers.string.new(constants.V_ATTRIBUTE_INIT_NODE_ID)
-    node_id_layer = bm.verts.layers.string.new(constants.V_ATTRIBUTE_NODE_ID)
-
-    # Update node IDs field from JBeam data to match JBeam nodes
-    bm.verts.ensure_lookup_table()
-    for i in range(len(bm.verts)):
-        v = bm.verts[i]
-        node_id = bytes(node_ids[i], 'utf-8')
-        v[init_node_id_layer] = node_id
-        v[node_id_layer] = node_id
-
-    bm.to_mesh(obj_data)
-
-    obj_data.update()
-
-    # make object from mesh
-    new_object = bpy.data.objects.new(vehicle_bundle['mainPartName'], obj_data)
     # make collection
-    new_collection = bpy.data.collections.get('JBeam Objects')
+    new_collection = bpy.data.collections.get(vehicle_name)
     if not new_collection:
-        new_collection = bpy.data.collections.new('JBeam Objects')
+        new_collection = bpy.data.collections.new(vehicle_name)
         bpy.context.scene.collection.children.link(new_collection)
 
-    # add object to scene collection
-    new_collection.objects.link(new_object)
+    for part in parts:
+        obj_data = bpy.data.meshes.new(part)
+        obj_data.from_pydata(vertices, parts_edges.get(part, []), parts_faces.get(part, []))
+        obj_data[constants.ATTRIBUTE_JBEAM_PART] = part
+        obj_data[constants.ATTRIBUTE_VEHICLE_NAME] = vehicle_name
+
+        bm = bmesh.new()
+        bm.from_mesh(obj_data)
+
+        # Add node ID field to all vertices
+        init_node_id_layer = bm.verts.layers.string.new(constants.V_ATTRIBUTE_INIT_NODE_ID)
+        node_id_layer = bm.verts.layers.string.new(constants.V_ATTRIBUTE_NODE_ID)
+
+        # Update node IDs field from JBeam data to match JBeam nodes
+        bm.verts.ensure_lookup_table()
+        for i in range(len(bm.verts)):
+            v = bm.verts[i]
+            node_id = bytes(node_index_to_id[i], 'utf-8')
+            v[init_node_id_layer] = node_id
+            v[node_id_layer] = node_id
+
+        bm.to_mesh(obj_data)
+
+        obj_data.update()
+
+        # make object from mesh
+        new_object = bpy.data.objects.new(part, obj_data)
+
+        # add object to scene collection
+        new_collection.objects.link(new_object)
+
+        if part == vehicle_name:
+            bpy.context.scene['main_parts'][vehicle_name] = True
 
     print('Done loading vehicle.')
 

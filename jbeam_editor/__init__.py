@@ -215,8 +215,12 @@ def draw_callback_px(context):
     ui_props = scene.ui_properties
     font_id = 0
 
-    for obj in scene.objects:
-        if not obj.visible_get():
+    if not scene.get('main_parts'):
+        return
+
+    for name, _ in scene['main_parts'].items():
+        obj = scene.objects.get(name)
+        if obj is None or not obj.visible_get():
             continue
 
         obj_data = obj.data
@@ -270,12 +274,67 @@ def menu_func_export(self, context):
     self.layout.operator(export_jbeam.JBEAM_EDITOR_OT_export_jbeam.bl_idname, text="JBeam File (.jbeam)")
 
 
-@persistent
-def depsgraph_callback(scene, depsgraph):
-    ui_props = scene.ui_properties
-    obj = bpy.context.active_object
+def update_node_positions(scene: bpy.types.Scene, obj_changed: bpy.types.Object):
+    obj_changed_data = obj_changed.data
+    if obj_changed_data.get(constants.ATTRIBUTE_JBEAM_PART) is None:
+        return
 
-    if not obj or obj.mode != 'EDIT':
+    # Get node positions changed
+    changed_node_positions = {}
+    main_obj = scene.objects.get(obj_changed_data[constants.ATTRIBUTE_VEHICLE_NAME])
+    if main_obj is None:
+        return
+
+    main_obj_data = main_obj.data
+
+    obj_changed_verts, main_obj_verts = None, None
+
+    if obj_changed.mode == 'EDIT':
+        bm = bmesh.from_edit_mesh(obj_changed_data)
+        obj_changed_verts = bm.verts
+    else:
+        obj_changed_verts = obj_changed_data.vertices
+
+    if main_obj.mode == 'EDIT':
+        bm = bmesh.from_edit_mesh(main_obj_data)
+        main_obj_verts = bm.verts
+        main_obj_verts.ensure_lookup_table()
+    else:
+        main_obj_verts = main_obj_data.vertices
+
+    for i, v in enumerate(obj_changed_verts):
+        if v.co != main_obj_verts[i].co:
+            changed_node_positions[i] = v.co
+
+    for obj in scene.objects:
+        if obj == obj_changed:
+            continue
+
+        obj_data = obj.data
+        if obj_data.get(constants.ATTRIBUTE_JBEAM_PART) is None:
+            continue
+
+        if obj.mode == 'EDIT':
+            continue
+
+        for i, pos in changed_node_positions.items():
+            obj_data.vertices[i].co = pos
+
+
+@persistent
+def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
+    ui_props = scene.ui_properties
+    #print(depsgraph)
+    # Update position of other nodes
+    for update in depsgraph.updates:
+        if update.is_updated_geometry or update.is_updated_transform:
+            obj_changed = bpy.context.active_object
+            if obj_changed is not None:
+                update_node_positions(scene, obj_changed)
+
+    active_obj = bpy.context.active_object
+
+    if not active_obj or active_obj.mode != 'EDIT':
         return
 
     if not scene.get('jbeam_editor_renaming_selected_obj'):
@@ -287,14 +346,14 @@ def depsgraph_callback(scene, depsgraph):
     if not scene.get('jbeam_editor_renaming_rename_enabled'):
         scene['jbeam_editor_renaming_rename_enabled'] = None
 
-    obj_data = obj.data
+    active_obj_data = active_obj.data
 
-    if not type(obj_data) is bpy.types.Mesh:
+    if not type(active_obj_data) is bpy.types.Mesh:
         return
 
-    bm = bmesh.from_edit_mesh(obj_data)
+    bm = bmesh.from_edit_mesh(active_obj_data)
 
-    if obj_data.get(constants.ATTRIBUTE_JBEAM_PART) != None:
+    if active_obj_data.get(constants.ATTRIBUTE_JBEAM_PART) != None:
         # This mesh is a jbeam mesh
 
         init_node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_INIT_NODE_ID]
@@ -325,7 +384,7 @@ def depsgraph_callback(scene, depsgraph):
             v = selected_verts[0]
             node_id = v[node_id_layer].decode('utf-8')
 
-            scene['jbeam_editor_renaming_selected_obj'] = obj
+            scene['jbeam_editor_renaming_selected_obj'] = active_obj
             scene['jbeam_editor_renaming_selected_vert_idx'] = v.index
             scene['jbeam_editor_renaming_rename_enabled'] = False
 
