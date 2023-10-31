@@ -5,7 +5,7 @@ This Blender plugin allows you to create JBeam parts from scratch, import existi
 
 ![](blender.png)
 
-## Current Features
+## Current Features (only handles nodes, cannot export beams/triangles currently!)
 * Create JBeam from scratch
 * Import JBeam files
 * Move nodes
