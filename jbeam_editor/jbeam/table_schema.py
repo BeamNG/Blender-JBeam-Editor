@@ -148,6 +148,8 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
                 else:
                     new_row[header[rk]] = replace_special_values(rv)
 
+            # seems to only be true during "Assembling tables" and processing certain tables
+            # e.g. nodes section
             if new_row.get('id') is not None:
                 new_id = new_row['id']
                 new_row['name'] = new_id
@@ -160,7 +162,29 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
     return new_list_size
 
 
-def process(vehicle):
+def post_process(vehicle: dict):
+    new_tables = {}
+
+    for k, tbl in vehicle.items():
+        if isinstance(tbl, dict) and isinstance(next(iter(tbl)), int):
+            # Dictionary contains integer keys, so convert it into a list
+            new_table = []
+
+            for row_key, row_value in tbl.items():
+                if not isinstance(row_key, int):
+                    print(f'Table unexpectedly has non integer key! row key: {row_key}, row value {row_value}', file=sys.stderr)
+                    return
+
+                new_table.append(row_value)
+
+            new_tables[k] = new_table
+
+    # Set vehicle with new jbeam tables
+    for k, tbl in new_tables.items():
+        vehicle[k] = tbl
+
+
+def process(vehicle: dict):
     # check for nodes key
     vehicle['maxIDs'] = {}
     vehicle['validTables'] = {}

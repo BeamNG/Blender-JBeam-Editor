@@ -18,11 +18,18 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-V_ATTRIBUTE_INIT_NODE_ID = 'jbeam_init_node_id'
-V_ATTRIBUTE_NODE_ID = 'jbeam_node_id'
-ATTRIBUTE_JBEAM_FILE_PATH = 'jbeam_file_path'
-ATTRIBUTE_JBEAM_FILE_DATA_STR = 'jbeam_file_data_str'
-ATTRIBUTE_VEHICLE_NAME = 'vehicle_name'
-ATTRIBUTE_JBEAM_PART = 'jbeam_part'
-ATTRIBUTE_JBEAM_PART_CHOICES = 'jbeam_part_choices'
-ATTRIBUTE_JBEAM_INIT_NODE_IDS = 'init_node_ids'
+# JBeam Collection Attributes
+COLLECTION_VEHICLE_BUNDLE = 'collection_vehicle_bundle'
+COLLECTION_PARTS = 'collection_vehicle_parts'
+COLLECTION_NODES = 'collection_vehicle_nodes'
+
+# JBeam Part Attributes
+MESH_VEHICLE_NAME = 'vehicle_name'
+MESH_JBEAM_PART = 'jbeam_part'
+MESH_JBEAM_FILE_PATH = 'jbeam_file_path'
+MESH_JBEAM_FILE_DATA_STR = 'jbeam_file_data_str'
+MESH_JBEAM_INIT_NODE_IDS = 'init_node_ids'
+
+# bm.verts.layers.string Attributes
+VLS_INIT_NODE_ID = 'jbeam_init_node_id'
+VLS_NODE_ID = 'jbeam_node_id'

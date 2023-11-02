@@ -23,6 +23,7 @@ import os
 from pathlib import Path
 import re
 import sys
+import pickle
 
 import bpy
 from bpy import ops
@@ -81,7 +82,11 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
         print('*** preparation error"', file=sys.stderr)
         return None
 
-    print('Done loading JBeam.')
+    # Exclusive to Python vehicle importer
+    jbeam_table_schema.post_process(vehicle)
+
+    t2 = timeit.default_timer()
+    print('Done loading JBeam. Time =', round(t2 - t1, 2), 's')
 
     return {
         'vehicleDirectory' : vehicle_directories[0],
@@ -115,24 +120,17 @@ def build_config(config_path):
     return res
 
 
-def import_vehicle(config_path: str):
-    vehicle_config = build_config(config_path)
-    if vehicle_config is None:
-        return {'CANCELLED'}
-
-    vehicle_dir = Path(config_path).parent.as_posix()
-    vehicles_dir = Path(vehicle_dir).parent.as_posix()
-
-    vehicle_bundle = load_vehicle_stage_1(vehicles_dir, vehicle_dir, vehicle_config)
-
-    if vehicle_bundle is None:
-        return {'CANCELLED'}
-
+def generate_meshes(vehicle_bundle: dict):
     nodes: dict[str, dict] = vehicle_bundle['vdata']['nodes']
-    beams: dict[str, dict] = vehicle_bundle['vdata']['beams']
-    triangles: dict[str, dict] = vehicle_bundle['vdata']['triangles']
+    beams: list[dict] = vehicle_bundle['vdata']['beams']
+    triangles: list[dict] = vehicle_bundle['vdata']['triangles']
 
     vehicle_name = vehicle_bundle['mainPartName']
+
+    # Prevent overriding a vehicle that already exists in scene!
+    if bpy.data.collections.get(vehicle_name):
+        return False
+
     parts = vehicle_bundle['chosenParts'].values()
     node_index_to_id = []
     node_id_to_index = {}
@@ -153,8 +151,7 @@ def import_vehicle(config_path: str):
         vertices.append(node_pos)
 
     # Translate beams to edges
-    beam: dict
-    for _, beam in beams.items():
+    for beam in beams:
         part_origin = beam.get('partOrigin')
         if not part_origin:
             continue
@@ -164,8 +161,7 @@ def import_vehicle(config_path: str):
             edges.append((node_id_to_index[beam['id1:']], node_id_to_index[beam['id2:']]))
 
     # Translate triangles to faces
-    tri: dict
-    for _, tri in triangles.items():
+    for tri in triangles:
         part_origin = tri.get('partOrigin')
         if not part_origin:
             continue
@@ -179,28 +175,28 @@ def import_vehicle(config_path: str):
         bpy.context.scene['main_parts'] = {}
 
     # make collection
-    new_collection = bpy.data.collections.get(vehicle_name)
-    if not new_collection:
-        new_collection = bpy.data.collections.new(vehicle_name)
-        bpy.context.scene.collection.children.link(new_collection)
+    vehicle_parts_collection = bpy.data.collections.new(vehicle_name)
+    bpy.context.scene.collection.children.link(vehicle_parts_collection)
+
+    # store vehicle data in collection
+    vehicle_parts_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle)
 
     for part in parts:
         obj_data = bpy.data.meshes.new(part)
         obj_data.from_pydata(vertices, parts_edges.get(part, []), parts_faces.get(part, []))
-        obj_data[constants.ATTRIBUTE_JBEAM_PART] = part
-        obj_data[constants.ATTRIBUTE_VEHICLE_NAME] = vehicle_name
+        obj_data[constants.MESH_JBEAM_PART] = part
+        obj_data[constants.MESH_VEHICLE_NAME] = vehicle_name
 
         bm = bmesh.new()
         bm.from_mesh(obj_data)
 
         # Add node ID field to all vertices
-        init_node_id_layer = bm.verts.layers.string.new(constants.V_ATTRIBUTE_INIT_NODE_ID)
-        node_id_layer = bm.verts.layers.string.new(constants.V_ATTRIBUTE_NODE_ID)
+        init_node_id_layer = bm.verts.layers.string.new(constants.VLS_INIT_NODE_ID)
+        node_id_layer = bm.verts.layers.string.new(constants.VLS_NODE_ID)
 
         # Update node IDs field from JBeam data to match JBeam nodes
         bm.verts.ensure_lookup_table()
-        for i in range(len(bm.verts)):
-            v = bm.verts[i]
+        for i, v in enumerate(bm.verts):
             node_id = bytes(node_index_to_id[i], 'utf-8')
             v[init_node_id_layer] = node_id
             v[node_id_layer] = node_id
@@ -210,13 +206,35 @@ def import_vehicle(config_path: str):
         obj_data.update()
 
         # make object from mesh
-        new_object = bpy.data.objects.new(part, obj_data)
+        part_obj = bpy.data.objects.new(part, obj_data)
 
         # add object to scene collection
-        new_collection.objects.link(new_object)
+        vehicle_parts_collection.objects.link(part_obj)
 
         if part == vehicle_name:
             bpy.context.scene['main_parts'][vehicle_name] = True
+
+    return True
+
+
+def import_vehicle(config_path: str):
+    # Import and process JBeam data
+
+    vehicle_config = build_config(config_path)
+    if vehicle_config is None:
+        return {'CANCELLED'}
+
+    vehicle_dir = Path(config_path).parent.as_posix()
+    vehicles_dir = Path(vehicle_dir).parent.as_posix()
+
+    vehicle_bundle = load_vehicle_stage_1(vehicles_dir, vehicle_dir, vehicle_config)
+
+    if vehicle_bundle is None:
+        return {'CANCELLED'}
+
+    # Create Blender meshes from JBeam data
+    if not generate_meshes(vehicle_bundle):
+        return {'CANCELLED'}
 
     print('Done loading vehicle.')
 

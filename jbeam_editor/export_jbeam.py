@@ -45,7 +45,7 @@ def save_post_callback(filepath):
     # On saving, set the JBeam part meshes import file paths to what is saved in the Python environment filepath
     for obj in bpy.context.scene.objects:
         obj_data = obj.data
-        jbeam_part = obj_data.get(constants.ATTRIBUTE_JBEAM_PART)
+        jbeam_part = obj_data.get(constants.MESH_JBEAM_PART)
         if jbeam_part == None:
             continue
 
@@ -57,7 +57,7 @@ def save_post_callback(filepath):
             bm.from_mesh(obj_data)
 
         if jbeam_part in last_exported_jbeams:
-            obj_data[constants.ATTRIBUTE_JBEAM_FILE_PATH] = last_exported_jbeams[jbeam_part]['in_filepath']
+            obj_data[constants.MESH_JBEAM_FILE_PATH] = last_exported_jbeams[jbeam_part]['in_filepath']
 
         bm.free()
 
@@ -350,7 +350,7 @@ def export_new_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_id_lay
     f.write(str_jbeam_data)
     f.close()
 
-    obj_data[constants.ATTRIBUTE_JBEAM_FILE_PATH] = filepath
+    obj_data[constants.MESH_JBEAM_FILE_PATH] = filepath
 
 
 # Exports by using jbeam file imported to make changes on it:
@@ -626,7 +626,7 @@ def export_existing_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_i
 
     # Save exported filepath outside of Blender scene and in Blender scene, for purposes of avoiding being affected by undo/redo
     last_exported_jbeams[in_jbeam_part] = {'in_filepath': out_filepath}
-    obj_data[constants.ATTRIBUTE_JBEAM_FILE_PATH] = out_filepath
+    obj_data[constants.MESH_JBEAM_FILE_PATH] = out_filepath
     #lastSavedFilename = {Jbeam : {lastSavedPath: ....., initialNodes: ......}}
 
 
@@ -651,7 +651,7 @@ class JBEAM_EDITOR_OT_export_jbeam(Operator, ExportHelper):
             return False
 
         obj_data = obj.data
-        jbeam_part = obj_data.get(constants.ATTRIBUTE_JBEAM_PART)
+        jbeam_part = obj_data.get(constants.MESH_JBEAM_PART)
         if jbeam_part == None:
             return False
 
@@ -671,10 +671,10 @@ class JBEAM_EDITOR_OT_export_jbeam(Operator, ExportHelper):
             bm = bmesh.new()
             bm.from_mesh(obj_data)
 
-        init_node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_INIT_NODE_ID]
-        node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_NODE_ID]
-        imported_jbeam_part = obj_data.get(constants.ATTRIBUTE_JBEAM_PART)
-        imported_jbeam_file_path = obj_data.get(constants.ATTRIBUTE_JBEAM_FILE_PATH)
+        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+        imported_jbeam_part = obj_data.get(constants.MESH_JBEAM_PART)
+        imported_jbeam_file_path = obj_data.get(constants.MESH_JBEAM_FILE_PATH)
 
         if imported_jbeam_file_path != None:
             # If last exported jbeam filepath exists, prioritize using that for the filepath over the one stored in the object to avoid undo/redo complications

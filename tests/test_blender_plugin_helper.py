@@ -94,10 +94,10 @@ class JBeamEditorTest:
         assert type(obj_data) is bpy.types.Mesh
 
         bm = bmesh.from_edit_mesh(obj_data)
-        assert obj_data.get(constants.ATTRIBUTE_JBEAM_PART) == obj.name and constants.V_ATTRIBUTE_INIT_NODE_ID in bm.verts.layers.string and constants.V_ATTRIBUTE_NODE_ID in bm.verts.layers.string
+        assert obj_data.get(constants.MESH_JBEAM_PART) == obj.name and constants.VLS_INIT_NODE_ID in bm.verts.layers.string and constants.VLS_NODE_ID in bm.verts.layers.string
 
-        init_node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_INIT_NODE_ID]
-        node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_NODE_ID]
+        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
 
         return bm, init_node_id_layer, node_id_layer
 
@@ -140,8 +140,8 @@ class JBeamEditorTest:
 
 
     def select_node_by_node_id(self, bm: bmesh.types.BMesh, init_node_id_layer, node_id_layer, node_id):
-        init_node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_INIT_NODE_ID]
-        node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_NODE_ID]
+        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
 
         v: bmesh.types.BMVert
         for v in bm.verts:
@@ -153,8 +153,8 @@ class JBeamEditorTest:
 
 
     def select_nodes_by_node_id(self, bm: bmesh.types.BMesh, init_node_id_layer, node_id_layer, node_ids: set):
-        init_node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_INIT_NODE_ID]
-        node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_NODE_ID]
+        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
 
         v: bmesh.types.BMVert
         for v in bm.verts:
@@ -215,7 +215,7 @@ class JBeamEditorTest:
 
         bm.free()
 
-    
+
     def move_nodes_from_imported_jbeam_mesh(self, node_ids_to_new_pos: dict):
         self.select_imported_jbeam_mesh()
         bm, init_node_id_layer, node_id_layer = self.set_to_edit_mode_and_get_imported_mesh_bmesh()

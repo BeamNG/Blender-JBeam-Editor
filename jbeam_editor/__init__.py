@@ -75,7 +75,7 @@ def on_input_node_id_field_updated(self, context):
         obj_data = obj.data
         bm = bmesh.from_edit_mesh(obj_data)
 
-        node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
         bm.verts.ensure_lookup_table()
         old_node_id = bm.verts[obj_vert_idx][node_id_layer].decode('utf-8')
         bm.verts[obj_vert_idx][node_id_layer] = bytes(ui_props.input_node_id, 'utf-8')
@@ -139,10 +139,10 @@ class JBEAM_EDITOR_OT_convert_to_jbeam_mesh(bpy.types.Operator):
             bm.from_mesh(obj_data)
 
         # If mesh is not a JBeam mesh, make it into one
-        if obj_data.get(constants.ATTRIBUTE_JBEAM_PART) == None:
-            obj_data[constants.ATTRIBUTE_JBEAM_PART] = obj.name
-            init_node_id_layer = bm.verts.layers.string.new(constants.V_ATTRIBUTE_INIT_NODE_ID)
-            node_id_layer = bm.verts.layers.string.new(constants.V_ATTRIBUTE_NODE_ID)
+        if obj_data.get(constants.MESH_JBEAM_PART) is None:
+            obj_data[constants.MESH_JBEAM_PART] = obj.name
+            init_node_id_layer = bm.verts.layers.string.new(constants.VLS_INIT_NODE_ID)
+            node_id_layer = bm.verts.layers.string.new(constants.VLS_NODE_ID)
 
             for v in bm.verts:
                 new_node_id_bytes = bytes(f'node_{v.index}', 'utf-8') #bytes(str(uuid.uuid4()), 'utf-8')
@@ -184,7 +184,7 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
         layout.label(text=obj.name)
 
         # If mesh isn't a JBeam mesh (it doesn't have node id attributes), give user option to convert it to one (add node id attributes)
-        if obj_data.get(constants.ATTRIBUTE_JBEAM_PART) == None:
+        if obj_data.get(constants.MESH_JBEAM_PART) == None:
             layout.operator('jbeam_editor.convert_to_jbeam_mesh', text='Convert to JBeam Mesh')
 
         else:
@@ -215,7 +215,7 @@ def draw_callback_px(context):
     ui_props = scene.ui_properties
     font_id = 0
 
-    if not scene.get('main_parts'):
+    if scene.get('main_parts') is None:
         return
 
     for name, _ in scene['main_parts'].items():
@@ -224,9 +224,6 @@ def draw_callback_px(context):
             continue
 
         obj_data = obj.data
-        if obj_data.get(constants.ATTRIBUTE_JBEAM_PART) == None:
-            continue
-
         bm = None
         if obj.mode == 'EDIT':
             bm = bmesh.from_edit_mesh(obj_data)
@@ -234,7 +231,7 @@ def draw_callback_px(context):
             bm = bmesh.new()
             bm.from_mesh(obj_data)
 
-        node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
 
         for v in bm.verts:
             coord = obj.matrix_world @ v.co
@@ -276,12 +273,12 @@ def menu_func_export(self, context):
 
 def update_node_positions(scene: bpy.types.Scene, obj_changed: bpy.types.Object):
     obj_changed_data = obj_changed.data
-    if obj_changed_data.get(constants.ATTRIBUTE_JBEAM_PART) is None:
+    if obj_changed_data.get(constants.MESH_JBEAM_PART) is None:
         return
 
     # Get node positions changed
     changed_node_positions = {}
-    main_obj = scene.objects.get(obj_changed_data[constants.ATTRIBUTE_VEHICLE_NAME])
+    main_obj = scene.objects.get(obj_changed_data[constants.MESH_VEHICLE_NAME])
     if main_obj is None:
         return
 
@@ -311,7 +308,7 @@ def update_node_positions(scene: bpy.types.Scene, obj_changed: bpy.types.Object)
             continue
 
         obj_data = obj.data
-        if obj_data.get(constants.ATTRIBUTE_JBEAM_PART) is None:
+        if obj_data.get(constants.MESH_JBEAM_PART) is None:
             continue
 
         if obj.mode == 'EDIT':
@@ -353,11 +350,11 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
 
     bm = bmesh.from_edit_mesh(active_obj_data)
 
-    if active_obj_data.get(constants.ATTRIBUTE_JBEAM_PART) != None:
+    if active_obj_data.get(constants.MESH_JBEAM_PART) != None:
         # This mesh is a jbeam mesh
 
-        init_node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_INIT_NODE_ID]
-        node_id_layer = bm.verts.layers.string[constants.V_ATTRIBUTE_NODE_ID]
+        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
 
         selected_verts = []
         init_node_ids = set()
@@ -434,7 +431,6 @@ def unregister():
     bpy.app.handlers.depsgraph_update_post.remove(depsgraph_callback)
     bpy.app.handlers.save_post.remove(save_post_callback)
 
-    global draw_handle
     if draw_handle:
         bpy.types.SpaceView3D.draw_handler_remove(draw_handle, 'WINDOW')
 
