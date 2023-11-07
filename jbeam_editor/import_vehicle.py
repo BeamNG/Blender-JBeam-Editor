@@ -182,6 +182,9 @@ def generate_meshes(vehicle_bundle: dict):
     vehicle_parts_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle)
 
     for part in parts:
+        if part == '': # skip slots with empty parts
+            continue
+
         obj_data = bpy.data.meshes.new(part)
         obj_data.from_pydata(vertices, parts_edges.get(part, []), parts_faces.get(part, []))
         obj_data[constants.MESH_JBEAM_PART] = part

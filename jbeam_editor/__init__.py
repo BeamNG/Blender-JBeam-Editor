@@ -271,14 +271,11 @@ def menu_func_export(self, context):
     self.layout.operator(export_jbeam.JBEAM_EDITOR_OT_export_jbeam.bl_idname, text="JBeam File (.jbeam)")
 
 
-def update_node_positions(scene: bpy.types.Scene, obj_changed: bpy.types.Object):
-    obj_changed_data = obj_changed.data
-    if obj_changed_data.get(constants.MESH_JBEAM_PART) is None:
-        return
+changed_node_positions = []
 
-    # Get node positions changed
-    changed_node_positions = {}
-    main_obj = scene.objects.get(obj_changed_data[constants.MESH_VEHICLE_NAME])
+def update_node_positions(scene: bpy.types.Scene, veh_name: str, veh_collection: bpy.types.Collection, obj_changed: bpy.types.Object):
+    obj_changed_data = obj_changed.data
+    main_obj = scene.objects.get(veh_name)
     if main_obj is None:
         return
 
@@ -299,39 +296,45 @@ def update_node_positions(scene: bpy.types.Scene, obj_changed: bpy.types.Object)
     else:
         main_obj_verts = main_obj_data.vertices
 
+    # Get node positions changed
     for i, v in enumerate(obj_changed_verts):
         if v.co != main_obj_verts[i].co:
-            changed_node_positions[i] = v.co
+            changed_node_positions.append((i, v.co))
 
-    for obj in scene.objects:
-        if obj == obj_changed:
+    # Set node positions
+    for obj in veh_collection.objects:
+        if obj == obj_changed or obj.mode == 'EDIT':
             continue
+        vertices = obj.data.vertices
+        for (i, pos) in changed_node_positions:
+            vertices[i].co = pos
 
-        obj_data = obj.data
-        if obj_data.get(constants.MESH_JBEAM_PART) is None:
-            continue
-
-        if obj.mode == 'EDIT':
-            continue
-
-        for i, pos in changed_node_positions.items():
-            obj_data.vertices[i].co = pos
-
+    changed_node_positions.clear()
 
 @persistent
 def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
     ui_props = scene.ui_properties
-    #print(depsgraph)
-    # Update position of other nodes
-    for update in depsgraph.updates:
-        if update.is_updated_geometry or update.is_updated_transform:
-            obj_changed = bpy.context.active_object
-            if obj_changed is not None:
-                update_node_positions(scene, obj_changed)
 
     active_obj = bpy.context.active_object
+    if active_obj is None:
+        return
 
-    if not active_obj or active_obj.mode != 'EDIT':
+    active_obj_data = active_obj.data
+
+    if not isinstance(active_obj_data, bpy.types.Mesh):
+        return
+
+    veh_name = active_obj_data.get(constants.MESH_VEHICLE_NAME)
+    veh_collection = bpy.data.collections.get(veh_name)
+    if veh_collection is not None:
+        active_obj_eval = active_obj.evaluated_get(depsgraph)
+        # Update positions of other nodes in other meshes
+        for update in depsgraph.updates:
+            #print(i, update.id, update.is_updated_geometry, update.is_updated_transform, update.is_updated_shading)
+            if update.id == active_obj_eval and (update.is_updated_geometry or update.is_updated_transform):
+                update_node_positions(scene, veh_name, veh_collection, active_obj)
+
+    if active_obj.mode != 'EDIT':
         return
 
     if not scene.get('jbeam_editor_renaming_selected_obj'):
@@ -343,14 +346,10 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
     if not scene.get('jbeam_editor_renaming_rename_enabled'):
         scene['jbeam_editor_renaming_rename_enabled'] = None
 
-    active_obj_data = active_obj.data
-
-    if not type(active_obj_data) is bpy.types.Mesh:
-        return
 
     bm = bmesh.from_edit_mesh(active_obj_data)
 
-    if active_obj_data.get(constants.MESH_JBEAM_PART) != None:
+    if active_obj_data.get(constants.MESH_JBEAM_PART) is not None:
         # This mesh is a jbeam mesh
 
         init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
@@ -362,8 +361,7 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
         # When new vertices are added, they seem to copy the data of the old vertices they were made from,
         # so rename their node ids to random ids (UUID)
         bm.verts.ensure_lookup_table()
-        for i in range(len(bm.verts)):
-            v = bm.verts[i]
+        for i,v in enumerate(bm.verts):
             if v.select:
                 selected_verts.append(v)
 
