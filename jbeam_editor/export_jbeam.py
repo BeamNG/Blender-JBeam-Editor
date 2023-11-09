@@ -213,15 +213,15 @@ def add_jbeam_nodes(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_se
             ast_nodes.insert(i + 0, sjsonast.ASTNode('wsc', jbeam_entry_indent))
             i += 1
 
-        ast_nodes.insert(i + 0, sjsonast.ASTNode('list_begin'))
-        ast_nodes.insert(i + 1, sjsonast.ASTNode('string', node_id))
+        ast_nodes.insert(i + 0, sjsonast.ASTNode('['))
+        ast_nodes.insert(i + 1, sjsonast.ASTNode('"', node_id))
         ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ', '))
         ast_nodes.insert(i + 3, sjsonast.ASTNode('number', node_pos[0], precision=get_float_precision(node_pos[0])))
         ast_nodes.insert(i + 4, sjsonast.ASTNode('wsc', ', '))
         ast_nodes.insert(i + 5, sjsonast.ASTNode('number', node_pos[1], precision=get_float_precision(node_pos[1])))
         ast_nodes.insert(i + 6, sjsonast.ASTNode('wsc', ', '))
         ast_nodes.insert(i + 7, sjsonast.ASTNode('number', node_pos[2], precision=get_float_precision(node_pos[2])))
-        ast_nodes.insert(i + 8, sjsonast.ASTNode('list_end'))
+        ast_nodes.insert(i + 8, sjsonast.ASTNode(']'))
         i += 9
 
         if k < nodes_len - 1:
@@ -523,25 +523,25 @@ def export_existing_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_i
         if in_dict:
             # In dictionary object
 
-            if node.data_type == 'object_begin' or node.data_type == 'list_begin':
+            if node.data_type == '{' or node.data_type == '[':
                 if dict_key != None:
                     stack.append((dict_key, in_dict))
-                    in_dict = node.data_type == 'object_begin'
+                    in_dict = node.data_type == '{'
                 else:
-                    print("object_begin or list_begin w/o key!", file=sys.stderr)
+                    print("{ or [ w/o key!", file=sys.stderr)
 
                 pos_in_arr = 0
                 temp_dict_key = None
                 dict_key = None
 
-            elif not (node.data_type == 'object_end' or node.data_type == 'list_end'):
+            elif not (node.data_type == '}' or node.data_type == ']'):
                 # Defining key value pair
 
                 if temp_dict_key == None:
-                    if node.data_type == 'string':
+                    if node.data_type == '"':
                         temp_dict_key = node.value
 
-                elif node.data_type == 'key_delimiter':
+                elif node.data_type == ':':
                     dict_key = temp_dict_key
 
                     if temp_dict_key == None:
@@ -555,14 +555,14 @@ def export_existing_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_i
         else:
             # In array object
 
-            if node.data_type == 'object_begin' or node.data_type == 'list_begin':
+            if node.data_type == '{' or node.data_type == '[':
                 stack.append((pos_in_arr, in_dict))
-                in_dict = node.data_type == 'object_begin'
+                in_dict = node.data_type == '{'
                 pos_in_arr = 0
                 temp_dict_key = None
                 dict_key = None
 
-            elif not (node.data_type == 'object_end' or node.data_type == 'list_end'):
+            elif not (node.data_type == '}' or node.data_type == ']'):
                 # Value definition
 
                 if len(stack) == 3 and stack[0][0] == in_jbeam_part and stack[1][0] == 'nodes':
@@ -579,7 +579,7 @@ def export_existing_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_i
                 compare_and_set_value(current_jbeam_file_data, current_jbeam_file_data_modified, stack, pos_in_arr, node)
                 pos_in_arr += 1
 
-        if node.data_type == 'object_begin' or node.data_type == 'list_begin':
+        if node.data_type == '{' or node.data_type == '[':
             if len(stack) == 2 and stack[0][0] == in_jbeam_part:
                 # Start of JBeam section (e.g. nodes, beams)
                 jbeam_section_start_node_idx = i
@@ -588,11 +588,11 @@ def export_existing_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_i
                 # Start of JBeam entry
                 jbeam_entry_start_node_idx = i
 
-        if node.data_type == 'object_end' or node.data_type == 'list_end':
+        if node.data_type == '}' or node.data_type == ']':
             if len(stack) == 3 and stack[0][0] == in_jbeam_part:
                 jbeam_entry_end_node_idx = i
 
-            if node.data_type == 'list_end':
+            if node.data_type == ']':
                 if len(stack) == 2 and stack[0][0] == in_jbeam_part and stack[1][0] == 'nodes' and nodes_to_add:
                     # End of nodes section
                     jbeam_section_end_node_idx = i
@@ -603,7 +603,7 @@ def export_existing_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_i
             in_dict = stack_head[1] if stack_head != None else True
             pos_in_arr = stack_head[0] + 1 if stack_head != None and stack and in_dict == False else 0
 
-            if node.data_type == 'list_end':
+            if node.data_type == ']':
                 if len(stack) == 2 and stack[0][0] == in_jbeam_part and stack[1][0] == 'nodes':
                     # End of JBeam node entry
 
