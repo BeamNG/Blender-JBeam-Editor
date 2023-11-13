@@ -53,6 +53,22 @@ from . import export_vehicle
 
 draw_handle = None
 
+_export_data: dict
+
+
+def export_veh():
+    export_vehicle.export(_export_data)
+
+
+# Queue exporting vehicle for exporting after no changes happen after 'x' number of seconds
+def queue_export_vehicle(data: dict):
+    global _export_data
+    # Reset timer if export already queued
+    if bpy.app.timers.is_registered(export_veh):
+        bpy.app.timers.unregister(export_veh)
+    _export_data = data
+    bpy.app.timers.register(export_veh, first_interval=1.0)
+
 
 # Refresh property input field UI
 def on_input_node_id_field_updated(self, context):
@@ -62,8 +78,8 @@ def on_input_node_id_field_updated(self, context):
     obj = scene['jbeam_editor_renaming_selected_obj']
     obj_vert_idx = scene['jbeam_editor_renaming_selected_vert_idx']
 
-    if obj == None or obj_vert_idx == None or scene['jbeam_editor_renaming_rename_enabled'] == None:
-        print("obj == None or obj_vert_idx == None or scene['jbeam_editor_renaming_rename_enabled'] == None. This shouldn't be possible!", file=sys.stderr)
+    if obj is None or obj_vert_idx is None or scene['jbeam_editor_renaming_rename_enabled'] is None:
+        print("obj is None or obj_vert_idx is None or scene['jbeam_editor_renaming_rename_enabled'] is None. This shouldn't be possible!", file=sys.stderr)
         return
 
     if obj.mode != 'EDIT':
@@ -338,6 +354,7 @@ def update_node_positions(scene: bpy.types.Scene, veh_name: str, veh_collection:
 
     return changed_node_positions
 
+
 @persistent
 def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
     ui_props = scene.ui_properties
@@ -365,8 +382,13 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
                     all_changed_node_positions.update(changed_node_positions)
 
             # Export
-            export_vehicle.export(scene, veh_name, veh_collection, all_changed_node_positions)
-
+            data = {
+                'scene': scene,
+                'veh_name': veh_name,
+                'veh_collection': veh_collection,
+                'all_changed_node_positions': all_changed_node_positions,
+            }
+            queue_export_vehicle(data)
 
     if active_obj.mode != 'EDIT':
         return

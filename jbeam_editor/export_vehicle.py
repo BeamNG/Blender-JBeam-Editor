@@ -247,12 +247,16 @@ def _get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, c
 
     # Update node ids and positions from Blender into the SJSON data
 
+    node_id_to_part_origin = {}
+
     # Create dictionary where key is init node id and value is current blender node id and position
     node_renames = {}
     for v in bm.verts:
         init_node_id = v[init_node_id_layer].decode('utf-8')
         node_id = v[node_id_layer].decode('utf-8')
         node_part_origin = v[part_origin_layer].decode('utf-8')
+
+        node_id_to_part_origin[node_id] = node_part_origin
 
         # Filter out nodes that aren't part of this part
         if node_part_origin != jbeam_part:
@@ -281,6 +285,12 @@ def _get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, c
             row_data = nodes_section[i]
             if isinstance(row_data, list):
                 curr_node_id = row_data[0]
+
+                # Ignore if node is defined in a different part.
+                # Its possible depending on part loading order.
+                if jbeam_part != node_id_to_part_origin[curr_node_id]:
+                    continue
+
                 if not curr_node_id in all_nodes:
                     all_nodes[curr_node_id] = {}
                 pos = (to_c_float(row_data[1]), to_c_float(row_data[2]), to_c_float(row_data[3]))
@@ -342,6 +352,12 @@ def _get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, c
                 continue  # Ignore header row
             if isinstance(row_data, list):
                 curr_node_id = row_data[0]
+
+                # Ignore if node is defined in a different part.
+                # Its possible depending on part loading order.
+                if jbeam_part != node_id_to_part_origin[curr_node_id]:
+                    continue
+
                 if curr_node_id in true_node_renames:
                     new_node_id = true_node_renames[curr_node_id]
                     new_pos = all_nodes[new_node_id]['blender_node']['pos']
@@ -471,7 +487,12 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
         i += 1
 
 
-def export(scene: bpy.types.Scene, veh_name: str, veh_collection: bpy.types.Collection, changed_node_positions: dict):
+def export(data: dict):
+    scene: bpy.types.Scene = data['scene']
+    veh_name: str = data['veh_name']
+    veh_collection: bpy.types.Collection = data['veh_collection']
+    all_changed_node_positions: dict = data['all_changed_node_positions']
+
     '''
         'vehicleDirectory' : vehicle_directories[0],
         'vdata'            : vehicle,
@@ -488,7 +509,7 @@ def export(scene: bpy.types.Scene, veh_name: str, veh_collection: bpy.types.Coll
     io_ctx = veh_bundle['ioCtx']
 
     jbeam_files_changed = {}
-    for i, (node_id, part_origin, pos) in changed_node_positions.items():
+    for i, (node_id, part_origin, pos) in all_changed_node_positions.items():
         obj = veh_collection.objects.get(part_origin)
         jbeam_filepath = obj.data[constants.MESH_JBEAM_FILE_PATH]
 
@@ -536,9 +557,9 @@ def export(scene: bpy.types.Scene, veh_name: str, veh_collection: bpy.types.Coll
 
             nodes_to_add, nodes_to_delete, true_node_renames, current_jbeam_file_data_modified = _get_nodes_add_delete_rename(obj, bm, current_jbeam_file_data, jbeam_part)
 
-            #print('nodes to add:', nodes_to_add)
-            #print('nodes to delete:', nodes_to_delete)
-            #print('node renames:', true_node_renames)
+            print('nodes to add:', nodes_to_add)
+            print('nodes to delete:', nodes_to_delete)
+            print('node renames:', true_node_renames)
 
             update_ast_nodes(ast_nodes, current_jbeam_file_data, current_jbeam_file_data_modified, jbeam_part, nodes_to_add, nodes_to_delete)
             out_str_jbeam_data = sjsonast.stringifyNodes(ast_nodes)
