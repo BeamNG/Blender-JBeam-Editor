@@ -74,10 +74,14 @@ def compare_and_set_value(original_jbeam_file_data, jbeam_file_data, stack, inde
     if node.data_type == 'number':
         if (type(old_data) != int and type(old_data) != float) or ((type(data) == int or type(data) == float) and (to_c_float(old_data) != to_c_float(data) and old_data != data)):
             set_number_node(node, data)
+            return True
 
     else:
         if old_data != data:
             node.value = data
+            return True
+
+    return False
 
 
 def remove_list_from_ast(ast, i):
@@ -434,7 +438,6 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
 
             elif node.data_type not in ('}', ']'):
                 # Value definition
-
                 if len(stack) == 3 and stack[0][0] == jbeam_part and stack[1][0] == 'nodes':
                     # If in nodes section, and at array position zero, its the jbeam node id and record it down
 
@@ -446,7 +449,9 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                         data = data[pos_in_arr]
                         jbeam_node_id = data
 
-                compare_and_set_value(current_jbeam_file_data, current_jbeam_file_data_modified, stack, pos_in_arr, node)
+                changed = compare_and_set_value(current_jbeam_file_data, current_jbeam_file_data_modified, stack, pos_in_arr, node)
+                if jbeam_node_id and changed:
+                    print(str(jbeam_node_id) + ' node position changed')
                 pos_in_arr += 1
 
         if node.data_type in ('{', '['):
