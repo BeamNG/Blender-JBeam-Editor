@@ -47,8 +47,9 @@ from bpy_extras.view3d_utils import location_3d_to_region_2d
 
 from . import constants
 from . import import_jbeam
-from . import import_vehicle
 from . import export_jbeam
+from . import import_vehicle
+from . import export_vehicle
 
 draw_handle = None
 
@@ -271,45 +272,71 @@ def menu_func_export(self, context):
     self.layout.operator(export_jbeam.JBEAM_EDITOR_OT_export_jbeam.bl_idname, text="JBeam File (.jbeam)")
 
 
-changed_node_positions = []
-
 def update_node_positions(scene: bpy.types.Scene, veh_name: str, veh_collection: bpy.types.Collection, obj_changed: bpy.types.Object):
+    changed_node_positions = {}
     obj_changed_data = obj_changed.data
     main_obj = scene.objects.get(veh_name)
     if main_obj is None:
-        return
+        return changed_node_positions
 
     main_obj_data = main_obj.data
 
     obj_changed_verts, main_obj_verts = None, None
 
-    if obj_changed.mode == 'EDIT':
-        bm = bmesh.from_edit_mesh(obj_changed_data)
-        obj_changed_verts = bm.verts
-    else:
-        obj_changed_verts = obj_changed_data.vertices
+    # if obj_changed.mode == 'EDIT':
+    #     bm = bmesh.from_edit_mesh(obj_changed_data)
+    #     obj_changed_verts = bm.verts
+    # else:
+    #     obj_changed_verts = obj_changed_data.vertices
 
-    if main_obj.mode == 'EDIT':
-        bm = bmesh.from_edit_mesh(main_obj_data)
-        main_obj_verts = bm.verts
-        main_obj_verts.ensure_lookup_table()
+    # if main_obj.mode == 'EDIT':
+    #     bm = bmesh.from_edit_mesh(main_obj_data)
+    #     main_obj_verts = bm.verts
+    #     main_obj_verts.ensure_lookup_table()
+    # else:
+    #     main_obj_verts = main_obj_data.vertices
+
+    bm_obj_changed = None
+    if obj_changed.mode == 'EDIT':
+        bm_obj_changed = bmesh.from_edit_mesh(obj_changed_data)
     else:
-        main_obj_verts = main_obj_data.vertices
+        bm_obj_changed = bmesh.new()
+        bm_obj_changed.from_mesh(obj_changed_data)
+
+    bm_main_obj = None
+    if main_obj.mode == 'EDIT':
+        bm_main_obj = bmesh.from_edit_mesh(main_obj_data)
+    else:
+        bm_main_obj = bmesh.new()
+        bm_main_obj.from_mesh(main_obj_data)
+
+    obj_changed_verts = bm_obj_changed.verts
+    main_obj_verts = bm_main_obj.verts
+
+    obj_changed_verts.ensure_lookup_table()
+    main_obj_verts.ensure_lookup_table()
+
+    init_node_id_layer = bm_obj_changed.verts.layers.string[constants.VLS_INIT_NODE_ID]
+    node_id_layer = bm_obj_changed.verts.layers.string[constants.VLS_NODE_ID]
+    node_origin_layer = bm_obj_changed.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
 
     # Get node positions changed
     for i, v in enumerate(obj_changed_verts):
         if v.co != main_obj_verts[i].co:
-            changed_node_positions.append((i, v.co))
+            changed_node_positions[i] = (v[node_id_layer].decode('utf-8'), v[node_origin_layer].decode('utf-8'), v.co) #.append((i, v.co))
 
     # Set node positions
     for obj in veh_collection.objects:
         if obj == obj_changed or obj.mode == 'EDIT':
             continue
         vertices = obj.data.vertices
-        for (i, pos) in changed_node_positions:
+        for i, (node_id, part_origin, pos) in changed_node_positions.items():
             vertices[i].co = pos
 
-    changed_node_positions.clear()
+    bm_obj_changed.free()
+    bm_main_obj.free()
+
+    return changed_node_positions
 
 @persistent
 def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
@@ -325,14 +352,21 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
         return
 
     veh_name = active_obj_data.get(constants.MESH_VEHICLE_NAME)
-    veh_collection = bpy.data.collections.get(veh_name)
-    if veh_collection is not None:
-        active_obj_eval = active_obj.evaluated_get(depsgraph)
-        # Update positions of other nodes in other meshes
-        for update in depsgraph.updates:
-            #print(i, update.id, update.is_updated_geometry, update.is_updated_transform, update.is_updated_shading)
-            if update.id == active_obj_eval and (update.is_updated_geometry or update.is_updated_transform):
-                update_node_positions(scene, veh_name, veh_collection, active_obj)
+    if veh_name is not None:
+        veh_collection = bpy.data.collections.get(veh_name)
+        if veh_collection is not None:
+            active_obj_eval = active_obj.evaluated_get(depsgraph)
+            # Update positions of other nodes in other meshes
+            all_changed_node_positions = {}
+            for update in depsgraph.updates:
+                #print(update.id, update.is_updated_geometry, update.is_updated_transform, update.is_updated_shading)
+                if update.id == active_obj_eval and (update.is_updated_geometry or update.is_updated_transform):
+                    changed_node_positions = update_node_positions(scene, veh_name, veh_collection, active_obj)
+                    all_changed_node_positions.update(changed_node_positions)
+
+            # Export
+            export_vehicle.export(scene, veh_name, veh_collection, all_changed_node_positions)
+
 
     if active_obj.mode != 'EDIT':
         return
