@@ -33,3 +33,4 @@ MESH_JBEAM_INIT_NODE_IDS = 'init_node_ids'
 # bm.verts.layers.string Attributes
 VLS_INIT_NODE_ID = 'jbeam_init_node_id'
 VLS_NODE_ID = 'jbeam_node_id'
+VLS_NODE_PART_ORIGIN = 'jbeam_node_part_origin'

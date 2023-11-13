@@ -68,6 +68,16 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
     if vehicle is None or unify_journal is None:
         return None
 
+    # Map parts to JBeam file
+    veh_parts = list(chosen_parts.values())
+    veh_part_to_file_map = {}
+    for directory in vehicle_directories:
+        for file in jbeam_io.dir_to_files_map[directory]:
+            parts = jbeam_io.file_to_parts_name_map[file]
+            for part in parts:
+                if part in veh_parts:
+                    veh_part_to_file_map[part] = file
+
     print('Applying variables...')
     all_variables = jbeam_variables.process_parts(vehicle, unify_journal, vehicle_config)
 
@@ -94,6 +104,7 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
         'config'           : vehicle_config,
         'mainPartName'     : vehicle_config['mainPartName'],
         'chosenParts'      : chosen_parts,
+        'partToFileMap'    : veh_part_to_file_map,
         'ioCtx'            : io_ctx,
     }
 
@@ -188,6 +199,7 @@ def generate_meshes(vehicle_bundle: dict):
         obj_data = bpy.data.meshes.new(part)
         obj_data.from_pydata(vertices, parts_edges.get(part, []), parts_faces.get(part, []))
         obj_data[constants.MESH_JBEAM_PART] = part
+        obj_data[constants.MESH_JBEAM_FILE_PATH] = vehicle_bundle['partToFileMap'][part]
         obj_data[constants.MESH_VEHICLE_NAME] = vehicle_name
 
         bm = bmesh.new()
@@ -196,13 +208,16 @@ def generate_meshes(vehicle_bundle: dict):
         # Add node ID field to all vertices
         init_node_id_layer = bm.verts.layers.string.new(constants.VLS_INIT_NODE_ID)
         node_id_layer = bm.verts.layers.string.new(constants.VLS_NODE_ID)
+        node_origin_layer = bm.verts.layers.string.new(constants.VLS_NODE_PART_ORIGIN)
 
         # Update node IDs field from JBeam data to match JBeam nodes
         bm.verts.ensure_lookup_table()
         for i, v in enumerate(bm.verts):
-            node_id = bytes(node_index_to_id[i], 'utf-8')
-            v[init_node_id_layer] = node_id
-            v[node_id_layer] = node_id
+            node_id = node_index_to_id[i]
+            bytes_node_id = bytes(node_id, 'utf-8')
+            v[init_node_id_layer] = bytes_node_id
+            v[node_id_layer] = bytes_node_id
+            v[node_origin_layer] = bytes(nodes[node_id].get('partOrigin'), 'utf-8')
 
         bm.to_mesh(obj_data)
 
