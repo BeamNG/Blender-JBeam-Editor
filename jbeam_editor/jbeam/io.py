@@ -26,11 +26,13 @@ import sys
 from . import table_schema as jbeam_table_schema
 from .. import utils
 
+jbeam_text_cache = {}
 jbeam_cache = {}
 dir_to_files_map: dict[str, set] = {}
 part_to_file_map: dict[str, dict[str, str]] = {}
 slot_to_part_map: dict[str, dict[str, list]] = {}
 part_to_desc_map: dict[str, dict[str, dict]] = {}
+file_to_parts_name_map: dict[str, set] = {}
 
 invalidated_cache = False
 
@@ -104,18 +106,25 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: li
 
         file_content = utils.sjson_decode(file_text, filepath)
     else:
-        file_content = utils.sjson_read_file(filepath)
+        file_text = utils.read_file(filepath)
+        if file_text is None:
+            print(f'Cannot read file: {filepath}', file=sys.stderr)
+            return None
+
+        file_content = utils.sjson_decode(file_text, filepath)
 
     if file_content is None:
         print(f'Cannot read file: {filepath}', file=sys.stderr)
         return None
 
+    jbeam_text_cache[filepath] = file_text
     jbeam_cache[filepath] = file_content
 
     if add_to_cache:
         if directory not in dir_to_files_map:
             dir_to_files_map[directory] = set()
         dir_to_files_map[directory].add(filepath)
+        file_to_parts_name_map[filepath] = set()
 
     part_count = 0
     for part_name, part in file_content.items():
@@ -125,6 +134,8 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: li
         slot_info = process_slots_destructive(part, filepath)
 
         if add_to_cache:
+            file_to_parts_name_map[filepath].add(part_name)
+
             if directory not in part_to_file_map:
                 part_to_file_map[directory] = {}
                 slot_to_part_map[directory] = {}
@@ -190,6 +201,29 @@ def get_part(io_ctx: dict, part_name: str | None):
                 return copy.deepcopy(jbeam_cache[jbeam_filename][part_name]), jbeam_filename
 
     return None, None
+
+
+def get_jbeam(io_ctx: dict, jbeam_filename: str | None, as_text = False):
+    if jbeam_filename is None:
+        return None
+
+    if as_text:
+        if jbeam_text_cache.get(jbeam_filename) is None:
+            for directory in io_ctx['dirs']:
+                part_count = load_jbeam_file(directory, jbeam_filename, False)
+                print(f'Loaded {part_count} part(s) from file {jbeam_filename}')
+        if jbeam_text_cache.get(jbeam_filename) is not None:
+            return jbeam_text_cache[jbeam_filename]
+
+    else:
+        if jbeam_cache.get(jbeam_filename) is None:
+            for directory in io_ctx['dirs']:
+                part_count = load_jbeam_file(directory, jbeam_filename, False)
+                print(f'Loaded {part_count} part(s) from file {jbeam_filename}')
+        if jbeam_cache.get(jbeam_filename) is not None:
+            return jbeam_cache[jbeam_filename]
+
+    return None
 
 
 def is_context_valid(io_ctx):
