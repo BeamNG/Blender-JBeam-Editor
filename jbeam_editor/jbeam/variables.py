@@ -38,8 +38,8 @@ def apply(data: dict, variables: dict | None):
     stack = {0: data}
     while stackidx > 0:
         stackidx -= 1
-        d = stack[stackidx]
-        for key, v in d.items():
+        d: list | dict = stack[stackidx]
+        for key, v in (enumerate(d) if isinstance(d, list) else d.items()):
             if isinstance(v, str):
                 if len(v) >= 2:
                     if ord(v[0]) == 36:  # $
@@ -57,8 +57,8 @@ def apply(data: dict, variables: dict | None):
                                         d[key] = val.get('val')
                                     else:
                                         d[key] = val
-            # TODO: not sure if v can be dict or list
-            elif isinstance(v, dict) and key != 'variables':
+            elif isinstance(v, (dict, list)) and key != 'variables':
+                # ignore the variables table
                 stack[stackidx] = v
                 stackidx += 1
 
