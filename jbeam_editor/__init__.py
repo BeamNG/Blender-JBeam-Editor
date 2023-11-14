@@ -201,7 +201,7 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
         layout.label(text=obj.name)
 
         # If mesh isn't a JBeam mesh (it doesn't have node id attributes), give user option to convert it to one (add node id attributes)
-        if obj_data.get(constants.MESH_JBEAM_PART) == None:
+        if obj_data.get(constants.MESH_JBEAM_PART) is None:
             layout.operator('jbeam_editor.convert_to_jbeam_mesh', text='Convert to JBeam Mesh')
 
         else:
@@ -225,9 +225,10 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
 
             bm.free()
 
+part_name_to_obj: dict[str, bpy.types.Object] = {}
 
 # Draws a 3D text at each vertex position of their assigned node ID
-def draw_callback_px(context):
+def draw_callback_px(context: bpy.types.Context):
     scene = context.scene
     ui_props = scene.ui_properties
     font_id = 0
@@ -235,12 +236,21 @@ def draw_callback_px(context):
     if scene.get('main_parts') is None:
         return
 
+    veh_collection = context.collection
+    if veh_collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
+        return
+
+    part_name_to_obj.clear()
+    for obj in veh_collection.all_objects:
+        part_name_to_obj[obj.data[constants.MESH_JBEAM_PART]] = obj
+
     for name, _ in scene['main_parts'].items():
         obj = scene.objects.get(name)
-        if obj is None or not obj.visible_get():
+        if obj is None:
             continue
 
         obj_data = obj.data
+
         bm = None
         if obj.mode == 'EDIT':
             bm = bmesh.from_edit_mesh(obj_data)
@@ -249,10 +259,15 @@ def draw_callback_px(context):
             bm.from_mesh(obj_data)
 
         node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+        part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
 
         for v in bm.verts:
             coord = obj.matrix_world @ v.co
             node_id = v[node_id_layer].decode('utf-8')
+            part_origin = v[part_origin_layer].decode('utf-8')
+
+            if not part_name_to_obj[part_origin].visible_get():
+                continue
 
             pos_text = location_3d_to_region_2d(context.region, context.region_data, coord)
             if pos_text and ui_props.toggle_node_ids_text:
@@ -290,7 +305,7 @@ def menu_func_import_vehicle(self, context):
 
 
 def menu_func_export_vehicle(self, context):
-    self.layout.operator(export_vehicle.JBEAM_EDITOR_OT_export_vehicle.bl_idname, text="Part Config File (.pc)")
+    self.layout.operator(export_vehicle.JBEAM_EDITOR_OT_export_vehicle.bl_idname, text="BeamNG Vehicle")
 
 
 def update_node_positions(scene: bpy.types.Scene, veh_name: str, veh_collection: bpy.types.Collection, obj_changed: bpy.types.Object):
