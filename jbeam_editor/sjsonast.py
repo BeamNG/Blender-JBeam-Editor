@@ -64,9 +64,8 @@ def parse(s):
     }
 
 
-def _add_node():
+def _add_node(c):
     global _pos
-    c = _str[_pos]
     _nodes.append(ASTNode(c))
     _pos += len(c)
 
@@ -105,15 +104,13 @@ def _parse_comment(wscs):
                 break
             wscs += c
         wscs += '*/'
-    else:
-        _error_input()
 
     return wscs
 
 
-def _add_wsc_comment_node():
+def _add_wsc_comment_node(c):
     global _pos
-    wscs = _str[_pos]
+    wscs = c
     _pos += 1
     while _pos < _len_str:
         c = _str[_pos]
@@ -131,9 +128,9 @@ def _add_wsc_comment_node():
     _nodes.append(ASTNode('wsc', wscs))
 
 
-def _add_comment_wsc_node():
+def _add_comment_wsc_node(c):
     global _pos
-    wscs = _str[_pos]
+    wscs = c
     _pos += 1
     wscs = _parse_comment(wscs)
 
@@ -153,7 +150,7 @@ def _add_comment_wsc_node():
     _nodes.append(ASTNode('wsc', wscs))
 
 
-def _add_true_node():
+def _add_true_node(c):
     global _pos
     s = _str
     si = _pos
@@ -162,7 +159,7 @@ def _add_true_node():
         _pos += 4
 
 
-def _add_false_node():
+def _add_false_node(c):
     global _pos
     s = _str
     si = _pos
@@ -171,15 +168,14 @@ def _add_false_node():
         _pos += 5
 
 
-def _parse_string():
+def _parse_string(c):
     global _pos
-    quote = _str[_pos]
     # scanstring implemented as a C function for fast string parsing
     res, _pos = scanstring(_str, _pos + 1, False)
-    _nodes.append(ASTNode(quote, res))
+    _nodes.append(ASTNode(c, res))
 
 
-def _parse_number():
+def _parse_number(c):
     global _pos
     re_match = re.match(parse_num_re, _str[_pos:])
     num_str = None
@@ -208,11 +204,10 @@ def _parse_number():
     _nodes.append(node)
 
 
-def parse_literal():
+def parse_literal(c):
     global _pos
-    char = _str[_pos]
-    print('using fallback literal: ' + char + ' at position ' + str(_pos))
-    _nodes.append(ASTNode('literal', char))
+    print('using fallback literal: ' + c + ' at position ' + str(_pos))
+    _nodes.append(ASTNode('literal', c))
     _pos += 1
 
 
@@ -221,22 +216,22 @@ def _parse():
         if _pos >= _len_str:
             return
         pos_saved = _pos
-        char = _str[_pos]
-        _peek_table.get(char, parse_literal)()
+        c = _str[_pos]
+        _peek_table.get(c, parse_literal)(c)
 
         if pos_saved == _pos:
-            parse_literal()
+            parse_literal(c)
 
 
-def stringifyNodes(nodes):
+def stringify_nodes(nodes):
     res = ''
     for i, node in enumerate(nodes):
         node_type = node.data_type
 
-        if node_type == 'wsc':
+        if node_type in ('wsc', 'literal'):
             res += node.value
         elif node_type == 'bool':
-            res += str(node.value).lower()
+            res += node.value and 'true' or 'false'
         elif node_type == '"':
             res += '"' + node.value + '"'
         elif node_type == 'number':
@@ -247,11 +242,10 @@ def stringifyNodes(nodes):
             res += f'%.{precision}f' % num
             if node.add_post_fix_dot:
                 res += '.'
-        elif node_type == 'literal':
-            res += node.value
         else:
             res += node_type
     return res
+
 
 _peek_table = {
     '{': _add_node,

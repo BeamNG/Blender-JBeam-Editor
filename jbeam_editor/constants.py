@@ -19,6 +19,7 @@
 # SOFTWARE.
 
 # JBeam Collection Attributes
+COLLECTION_VEHICLE_MODEL = 'collection_vehicle_model'
 COLLECTION_VEHICLE_BUNDLE = 'collection_vehicle_bundle'
 COLLECTION_PARTS = 'collection_vehicle_parts'
 COLLECTION_NODES = 'collection_vehicle_nodes'

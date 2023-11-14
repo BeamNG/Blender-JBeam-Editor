@@ -95,6 +95,10 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
     # Exclusive to Python vehicle importer
     jbeam_table_schema.post_process(vehicle)
 
+    vehicle['vehicleDirectory'] = vehicle_directories[0]
+    vehicle['activeParts'] = active_parts_orig
+    vehicle['model'] = model_name
+
     t2 = timeit.default_timer()
     print('Done loading JBeam. Time =', round(t2 - t1, 2), 's')
 
@@ -191,6 +195,7 @@ def generate_meshes(vehicle_bundle: dict):
 
     # store vehicle data in collection
     vehicle_parts_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle)
+    vehicle_parts_collection[constants.COLLECTION_VEHICLE_MODEL] = vehicle_bundle['vdata']['model']
 
     for part in parts:
         if part == '': # skip slots with empty parts

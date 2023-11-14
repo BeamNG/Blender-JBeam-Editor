@@ -618,7 +618,7 @@ def export_existing_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_i
 
     # Export
 
-    out_str_jbeam_data = sjsonast.stringifyNodes(ast_nodes)
+    out_str_jbeam_data = sjsonast.stringify_nodes(ast_nodes)
 
     f = open(out_filepath, 'w', encoding='utf-8')
     f.write(out_str_jbeam_data)

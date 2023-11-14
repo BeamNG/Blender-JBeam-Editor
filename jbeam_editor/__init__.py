@@ -57,7 +57,7 @@ _export_data: dict
 
 
 def export_veh():
-    export_vehicle.export(_export_data)
+    export_vehicle.auto_export(_export_data)
 
 
 # Queue exporting vehicle for exporting after no changes happen after 'x' number of seconds
@@ -271,8 +271,9 @@ classes = (
     JBEAM_EDITOR_PT_jbeam_panel,
     import_jbeam.JBEAM_EDITOR_OT_import_jbeam,
     import_jbeam.JBEAM_EDITOR_OT_choose_jbeam,
-    import_vehicle.JBEAM_EDITOR_OT_import_vehicle,
     export_jbeam.JBEAM_EDITOR_OT_export_jbeam,
+    import_vehicle.JBEAM_EDITOR_OT_import_vehicle,
+    export_vehicle.JBEAM_EDITOR_OT_export_vehicle,
 )
 
 
@@ -280,12 +281,16 @@ def menu_func_import(self, context):
     self.layout.operator(import_jbeam.JBEAM_EDITOR_OT_import_jbeam.bl_idname, text="JBeam File (.jbeam)")
 
 
+def menu_func_export(self, context):
+    self.layout.operator(export_jbeam.JBEAM_EDITOR_OT_export_jbeam.bl_idname, text="JBeam File (.jbeam)")
+
+
 def menu_func_import_vehicle(self, context):
     self.layout.operator(import_vehicle.JBEAM_EDITOR_OT_import_vehicle.bl_idname, text="Part Config File (.pc)")
 
 
-def menu_func_export(self, context):
-    self.layout.operator(export_jbeam.JBEAM_EDITOR_OT_export_jbeam.bl_idname, text="JBeam File (.jbeam)")
+def menu_func_export_vehicle(self, context):
+    self.layout.operator(export_vehicle.JBEAM_EDITOR_OT_export_vehicle.bl_idname, text="Part Config File (.pc)")
 
 
 def update_node_positions(scene: bpy.types.Scene, veh_name: str, veh_collection: bpy.types.Collection, obj_changed: bpy.types.Object):
@@ -382,13 +387,13 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
                     all_changed_node_positions.update(changed_node_positions)
 
             # Export
-            data = {
-                'scene': scene,
-                'veh_name': veh_name,
-                'veh_collection': veh_collection,
-                'all_changed_node_positions': all_changed_node_positions,
-            }
-            queue_export_vehicle(data)
+            # data = {
+            #     'scene': scene,
+            #     'veh_name': veh_name,
+            #     'veh_collection': veh_collection,
+            #     'all_changed_node_positions': all_changed_node_positions,
+            # }
+            # queue_export_vehicle(data)
 
     if active_obj.mode != 'EDIT':
         return
@@ -464,8 +469,9 @@ def register():
     bpy.types.Scene.ui_properties = bpy.props.PointerProperty(type=UIProperties)
 
     bpy.types.TOPBAR_MT_file_import.append(menu_func_import)
-    bpy.types.TOPBAR_MT_file_import.append(menu_func_import_vehicle)
     bpy.types.TOPBAR_MT_file_export.append(menu_func_export)
+    bpy.types.TOPBAR_MT_file_import.append(menu_func_import_vehicle)
+    bpy.types.TOPBAR_MT_file_export.append(menu_func_export_vehicle)
 
     bpy.app.handlers.depsgraph_update_post.append(depsgraph_callback)
     bpy.app.handlers.save_post.append(save_post_callback)
@@ -479,8 +485,9 @@ def unregister():
         bpy.utils.unregister_class(c)
 
     bpy.types.TOPBAR_MT_file_import.remove(menu_func_import)
-    bpy.types.TOPBAR_MT_file_import.remove(menu_func_import_vehicle)
     bpy.types.TOPBAR_MT_file_export.remove(menu_func_export)
+    bpy.types.TOPBAR_MT_file_import.remove(menu_func_import_vehicle)
+    bpy.types.TOPBAR_MT_file_export.remove(menu_func_export_vehicle)
 
     bpy.app.handlers.depsgraph_update_post.remove(depsgraph_callback)
     bpy.app.handlers.save_post.remove(save_post_callback)

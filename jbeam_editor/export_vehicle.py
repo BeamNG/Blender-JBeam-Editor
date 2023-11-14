@@ -25,6 +25,7 @@ import sys
 import pickle
 
 import bpy
+from bpy.types import Operator
 import numpy as np
 
 import bmesh
@@ -53,13 +54,6 @@ def get_float_precision(val):
     return min(4, max(len((f'%.4g' % abs(fval - int(fval)))) - 2, 0))
 
 
-def set_number_node(node, val):
-    if node.data_type == 'number' and type(val) == int or type(val) == float:
-        node.value = val
-        fval = float(val)
-        node.precision = min(4, max(len((f'%.4g' % abs(fval - int(fval)))) - 2, 0))
-
-
 def compare_and_set_value(original_jbeam_file_data, jbeam_file_data, stack, index, node):
     old_data = original_jbeam_file_data
     data = jbeam_file_data
@@ -72,10 +66,11 @@ def compare_and_set_value(original_jbeam_file_data, jbeam_file_data, stack, inde
 
     # Only change value in AST if changed between old and new SJSON data
     if node.data_type == 'number':
-        if (type(old_data) != int and type(old_data) != float) or ((type(data) == int or type(data) == float) and (to_c_float(old_data) != to_c_float(data) and old_data != data)):
-            set_number_node(node, data)
+        if (type(data) == int or type(data) == float) and (to_c_float(old_data) != to_c_float(data) and old_data != data):
+            node.value = data
+            fval = float(data)
+            node.precision = min(4, max(len((f'%.4g' % abs(fval - int(fval)))) - 2, 0))
             return True
-
     else:
         if old_data != data:
             node.value = data
@@ -242,7 +237,7 @@ def delete_jbeam_node(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_
     return i
 
 
-def _get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, current_jbeam_file_data: dict, jbeam_part: str):
+def _get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, jbeam_data_modified: dict, jbeam_part: str):
     all_nodes, nodes_to_add, nodes_to_delete = {}, {}, {}
 
     init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
@@ -277,11 +272,9 @@ def _get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, c
         all_nodes[node_id]['blender_node'] = {'init_node_id': init_node_id, 'curr_node_id': node_id, 'pos': pos_tup}
         v[init_node_id_layer] = bytes(node_id, 'utf-8')
 
-    current_jbeam_file_data_modified = copy.deepcopy(current_jbeam_file_data)
-
     # Get nodes from JBeam file
-    if jbeam_part in current_jbeam_file_data_modified and 'nodes' in current_jbeam_file_data_modified[jbeam_part]:
-        nodes_section = current_jbeam_file_data_modified[jbeam_part]['nodes']
+    if jbeam_part in jbeam_data_modified and 'nodes' in jbeam_data_modified[jbeam_part]:
+        nodes_section = jbeam_data_modified[jbeam_part]['nodes']
 
         for i, row_data in enumerate(nodes_section):
             if i == 0:
@@ -348,8 +341,8 @@ def _get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, c
                 nodes_to_add.pop(node_add_id)
 
     # Update current JBeam file as SJSON data with blender data (only renames and moving, no additions or deletions)
-    if jbeam_part in current_jbeam_file_data_modified and 'nodes' in current_jbeam_file_data_modified[jbeam_part]:
-        nodes_section = current_jbeam_file_data_modified[jbeam_part]['nodes']
+    if jbeam_part in jbeam_data_modified and 'nodes' in jbeam_data_modified[jbeam_part]:
+        nodes_section = jbeam_data_modified[jbeam_part]['nodes']
 
         for i, row_data in enumerate(nodes_section):
             if i == 0:
@@ -371,7 +364,7 @@ def _get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, c
                         new_pos = all_nodes[curr_node_id]['blender_node']['pos']
                         row_data[1], row_data[2], row_data[3] = new_pos[0], new_pos[1], new_pos[2]
 
-    return nodes_to_add, nodes_to_delete, true_node_renames, current_jbeam_file_data_modified
+    return nodes_to_add, nodes_to_delete, true_node_renames, jbeam_data_modified
 
 
 def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbeam_file_data_modified: dict, jbeam_part: str, nodes_to_add: dict, nodes_to_delete: dict):
@@ -454,21 +447,24 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                     print(str(jbeam_node_id) + ' node position changed')
                 pos_in_arr += 1
 
+        stack_size = len(stack)
+        in_jbeam_part = stack_size > 0 and stack[0][0] == jbeam_part
+
         if node.data_type in ('{', '['):
-            if len(stack) == 2 and stack[0][0] == jbeam_part:
+            if stack_size == 2 and in_jbeam_part:
                 # Start of JBeam section (e.g. nodes, beams)
                 jbeam_section_start_node_idx = i
 
-            if len(stack) == 3 and stack[0][0] == jbeam_part:
+            if stack_size == 3 and in_jbeam_part:
                 # Start of JBeam entry
                 jbeam_entry_start_node_idx = i
 
-        if node.data_type in ('}', ']'):
-            if len(stack) == 3 and stack[0][0] == jbeam_part:
+        elif node.data_type in ('}', ']'):
+            if stack_size == 3 and in_jbeam_part:
                 jbeam_entry_end_node_idx = i
 
             if node.data_type == ']':
-                if len(stack) == 2 and stack[0][0] == jbeam_part and stack[1][0] == 'nodes' and nodes_to_add:
+                if stack_size == 2 and in_jbeam_part and stack[1][0] == 'nodes' and nodes_to_add:
                     # End of nodes section
                     jbeam_section_end_node_idx = i
                     # Add nodes to add to end of nodes section
@@ -492,7 +488,7 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
         i += 1
 
 
-def export(data: dict):
+def auto_export(data: dict):
     scene: bpy.types.Scene = data['scene']
     veh_name: str = data['veh_name']
     veh_collection: bpy.types.Collection = data['veh_collection']
@@ -513,9 +509,13 @@ def export(data: dict):
     nodes = vdata['nodes']
     io_ctx = veh_bundle['ioCtx']
 
+    part_to_obj = {}
+    for obj in veh_collection.all_objects:
+        part_to_obj[obj.data[constants.MESH_JBEAM_PART]] = obj
+
     jbeam_files_changed = {}
     for i, (node_id, part_origin, pos) in all_changed_node_positions.items():
-        obj = veh_collection.objects.get(part_origin)
+        obj = part_to_obj[part_origin]
         jbeam_filepath = obj.data[constants.MESH_JBEAM_FILE_PATH]
 
         if jbeam_files_changed.get(jbeam_filepath) is None:
@@ -528,11 +528,14 @@ def export(data: dict):
         #current_jbeam_file_data_str: dict = jbeam_io.get_jbeam(io_ctx, jbeam_filepath, True)
         #current_jbeam_file_data: dict = jbeam_io.get_jbeam(io_ctx, jbeam_filepath, False)
 
-        current_jbeam_file_data_str = utils.read_file(jbeam_filepath)
-        if current_jbeam_file_data_str is None:
+        jbeam_data_str = utils.read_file(jbeam_filepath)
+        if jbeam_data_str is None:
             return
-        current_jbeam_file_data = utils.sjson_decode(current_jbeam_file_data_str, jbeam_filepath)
-        if current_jbeam_file_data is None:
+        jbeam_data = utils.sjson_decode(jbeam_data_str, jbeam_filepath)
+        if jbeam_data is None:
+            return
+        jbeam_data_modified = utils.sjson_decode(jbeam_data_str, jbeam_filepath)
+        if jbeam_data_modified is None:
             return
 
         # import cProfile, pstats, io
@@ -544,7 +547,7 @@ def export(data: dict):
         #     stats.strip_dirs().sort_stats('tottime').print_stats()
 
         # The imported jbeam data is used to build an AST from
-        ast_data = sjsonast.parse(current_jbeam_file_data_str)
+        ast_data = sjsonast.parse(jbeam_data_str)
         if ast_data is None:
             print("SJSON AST parsing failed!", file=sys.stderr)
             return
@@ -560,17 +563,116 @@ def export(data: dict):
                 bm = bmesh.new()
                 bm.from_mesh(obj_data)
 
-            nodes_to_add, nodes_to_delete, true_node_renames, current_jbeam_file_data_modified = _get_nodes_add_delete_rename(obj, bm, current_jbeam_file_data, jbeam_part)
+            nodes_to_add, nodes_to_delete, true_node_renames, jbeam_data_modified = _get_nodes_add_delete_rename(obj, bm, jbeam_data_modified, jbeam_part)
 
             print('nodes to add:', nodes_to_add)
             print('nodes to delete:', nodes_to_delete)
             print('node renames:', true_node_renames)
 
-            update_ast_nodes(ast_nodes, current_jbeam_file_data, current_jbeam_file_data_modified, jbeam_part, nodes_to_add, nodes_to_delete)
-            out_str_jbeam_data = sjsonast.stringifyNodes(ast_nodes)
+            update_ast_nodes(ast_nodes, jbeam_data, jbeam_data_modified, jbeam_part, nodes_to_add, nodes_to_delete)
+            out_str_jbeam_data = sjsonast.stringify_nodes(ast_nodes)
             f = open(jbeam_filepath, 'w', encoding='utf-8')
             f.write(out_str_jbeam_data)
             f.close()
 
     t1 = timeit.default_timer()
     print('Exporting Time', round(t1 - t0, 2), 's')
+
+
+def manual_export(veh_collection: bpy.types.Collection, parts_to_export: set):
+    t0 = timeit.default_timer()
+    veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
+    #vdata = veh_bundle['vdata']
+
+    part_to_obj = {}
+    for obj in veh_collection.all_objects:
+        part_to_obj[obj.data[constants.MESH_JBEAM_PART]] = obj
+
+    jbeam_files_to_parts = {}
+    for part in parts_to_export:
+        obj = part_to_obj[part]
+        jbeam_filepath = obj.data[constants.MESH_JBEAM_FILE_PATH]
+
+        if jbeam_files_to_parts.get(jbeam_filepath) is None:
+            jbeam_files_to_parts[jbeam_filepath] = set()
+        jbeam_files_to_parts[jbeam_filepath].add(obj)
+
+    for jbeam_filepath, parts in jbeam_files_to_parts.items():
+        #current_jbeam_file_data_str: dict = jbeam_io.get_jbeam(io_ctx, jbeam_filepath, True)
+        #current_jbeam_file_data: dict = jbeam_io.get_jbeam(io_ctx, jbeam_filepath, False)
+
+        jbeam_data_str = utils.read_file(jbeam_filepath)
+        if jbeam_data_str is None:
+            return
+        jbeam_data = utils.sjson_decode(jbeam_data_str, jbeam_filepath)
+        if jbeam_data is None:
+            return
+        jbeam_data_modified = utils.sjson_decode(jbeam_data_str, jbeam_filepath)
+        if jbeam_data_modified is None:
+            return
+
+        # The imported jbeam data is used to build an AST from
+        ast_data = sjsonast.parse(jbeam_data_str)
+        if ast_data is None:
+            print("SJSON AST parsing failed!", file=sys.stderr)
+            return
+        ast_nodes = ast_data['ast']['nodes']
+
+        for obj in parts:
+            obj_data = obj.data
+            jbeam_part = obj_data[constants.MESH_JBEAM_PART]
+            bm = None
+            if obj.mode == 'EDIT':
+                bm = bmesh.from_edit_mesh(obj_data)
+            else:
+                bm = bmesh.new()
+                bm.from_mesh(obj_data)
+
+            nodes_to_add, nodes_to_delete, true_node_renames, jbeam_data_modified = _get_nodes_add_delete_rename(obj, bm, jbeam_data_modified, jbeam_part)
+
+            #print('nodes to add:', nodes_to_add)
+            #print('nodes to delete:', nodes_to_delete)
+            #print('node renames:', true_node_renames)
+
+            update_ast_nodes(ast_nodes, jbeam_data, jbeam_data_modified, jbeam_part, nodes_to_add, nodes_to_delete)
+            out_str_jbeam_data = sjsonast.stringify_nodes(ast_nodes)
+            f = open(jbeam_filepath, 'w', encoding='utf-8')
+            f.write(out_str_jbeam_data)
+            f.close()
+
+    tf = timeit.default_timer()
+    print('Exporting Time', round(tf - t0, 2), 's')
+
+
+class JBEAM_EDITOR_OT_export_vehicle(Operator):
+    bl_idname = 'jbeam_editor.export_vehicle'
+    bl_label = "Export Vehicle"
+    bl_description = 'Export BeamNG vehicle'
+
+    @classmethod
+    def poll(cls, context):
+        veh_collection = context.collection
+        if not veh_collection:
+            return False
+        if veh_collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
+            return False
+
+        return True
+
+    def execute(self, context):
+        veh_collection = context.collection
+
+        parts_to_export = set()
+        for obj in veh_collection.all_objects:
+            parts_to_export.add(obj.data[constants.MESH_JBEAM_PART])
+
+        import cProfile, pstats, io
+        import pstats
+        pr = cProfile.Profile()
+        with cProfile.Profile() as pr:
+            manual_export(veh_collection, parts_to_export)
+            stats = pstats.Stats(pr)
+            stats.strip_dirs().sort_stats('tottime').print_stats()
+
+
+        return {'FINISHED'}
