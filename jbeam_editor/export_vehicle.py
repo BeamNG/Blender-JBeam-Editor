@@ -607,7 +607,7 @@ def manual_export(veh_collection: bpy.types.Collection, parts_to_export: set):
         jbeam_data = utils.sjson_decode(jbeam_data_str, jbeam_filepath)
         if jbeam_data is None:
             return
-        jbeam_data_modified = utils.sjson_decode(jbeam_data_str, jbeam_filepath)
+        jbeam_data_modified = copy.deepcopy(jbeam_data)
         if jbeam_data_modified is None:
             return
 
@@ -649,21 +649,23 @@ class JBEAM_EDITOR_OT_export_vehicle(Operator):
     bl_label = "Export Vehicle"
     bl_description = 'Export BeamNG vehicle'
 
-    @classmethod
-    def poll(cls, context):
-        veh_collection = context.collection
-        if not veh_collection:
-            return False
-        if veh_collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
-            return False
+    # @classmethod
+    # def poll(cls, context):
+    #     veh_collection = context.collection
+    #     if not veh_collection:
+    #         return False
+    #     if veh_collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
+    #         return False
 
-        return True
+    #     return True
 
     def execute(self, context):
-        veh_collection = context.collection
-
         parts_to_export = set()
-        for obj in veh_collection.all_objects:
+        veh_collection = context.collection
+        #for obj in veh_collection.all_objects:
+        #    parts_to_export.add(obj.data[constants.MESH_JBEAM_PART])
+
+        for obj in context.selected_objects:
             parts_to_export.add(obj.data[constants.MESH_JBEAM_PART])
 
         import cProfile, pstats, io
