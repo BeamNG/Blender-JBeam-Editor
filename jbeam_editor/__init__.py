@@ -34,6 +34,8 @@ bl_info = {
 import bpy
 import blf
 import bmesh
+import json
+import pickle
 import sys
 import uuid
 
@@ -180,12 +182,16 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
     bl_label = 'JBeam'
 
     def draw(self, context):
+        veh_collection = context.collection
+        if veh_collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
+            return
+
         obj = context.active_object
         if not obj:
             return
 
         obj_data = obj.data
-        if not type(obj_data) is bpy.types.Mesh:
+        if not isinstance(obj_data, bpy.types.Mesh):
             return
 
         bm = None
@@ -214,16 +220,77 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
             box = layout.box()
             col = box.column()
 
+            # Only displays node information if one node selected
             selected_verts = list(filter(lambda v: v.select, bm.verts))
             if len(selected_verts) == 1:
-                rows = [col.row() for i in range(2)]
-                rows[0].label(text='JBeam Node ID')
-                rows[1].prop(ui_props, 'input_node_id', text = "")
+                # veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
+
+                # v = selected_verts[0]
+                # node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+                # node_id = v[node_id_layer].decode('utf-8')
+                # node = veh_bundle['vdata']['nodes'][node_id]
+
+                col.row().label(text='JBeam Node ID')
+                col.row().prop(ui_props, 'input_node_id', text = "")
+
             else:
                 rows = [col.row() for i in range(1)]
                 rows[0].label(text='Select a node to rename')
 
             bm.free()
+
+class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
+    bl_parent_id = "JBEAM_EDITOR_PT_jbeam_panel"
+    bl_space_type = 'VIEW_3D'
+    bl_region_type = 'UI'
+    bl_category = 'JBeam'
+    bl_label = 'Properties'
+    bl_options = {'DEFAULT_CLOSED'}
+
+    def draw(self, context):
+        layout = self.layout
+        box = layout.box()
+        col = box.column()
+
+        veh_collection = context.collection
+        if veh_collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
+            return
+
+        obj = context.active_object
+        if not obj:
+            return
+
+        obj_data = obj.data
+        if not isinstance(obj_data, bpy.types.Mesh):
+            return
+
+        bm = None
+        if obj.mode == 'EDIT':
+            bm = bmesh.from_edit_mesh(obj_data)
+        else:
+            bm = bmesh.new()
+            bm.from_mesh(obj_data)
+
+        selected_verts = list(filter(lambda v: v.select, bm.verts))
+        if len(selected_verts) == 1:
+            veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
+
+            v = selected_verts[0]
+            node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+            node_id = v[node_id_layer].decode('utf-8')
+            node = veh_bundle['vdata']['nodes'][node_id]
+
+            for k,v in node.items():
+                str_v = ''
+                if k == 'pos':
+                    str_v = f'{v[0]:0.3f}, {v[1]:0.3f}, {v[2]:0.3f}'
+                else:
+                    str_v = str(v)
+
+                col.row().label(text=f'- {k}: {str_v}')
+
+        bm.free()
+
 
 part_name_to_obj: dict[str, bpy.types.Object] = {}
 
@@ -284,6 +351,7 @@ classes = (
     UIProperties,
     JBEAM_EDITOR_OT_convert_to_jbeam_mesh,
     JBEAM_EDITOR_PT_jbeam_panel,
+    JBEAM_EDITOR_PT_jbeam_properties_panel,
     import_jbeam.JBEAM_EDITOR_OT_import_jbeam,
     import_jbeam.JBEAM_EDITOR_OT_choose_jbeam,
     export_jbeam.JBEAM_EDITOR_OT_export_jbeam,
