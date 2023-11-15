@@ -44,6 +44,7 @@ from .jbeam import io as jbeam_io
 from .jbeam import slot_system as jbeam_slot_system
 from .jbeam import variables as jbeam_variables
 from .jbeam import table_schema as jbeam_table_schema
+from .jbeam import node_beam as jbeam_node_jbeam
 
 import timeit
 
@@ -94,6 +95,8 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
 
     # Exclusive to Python vehicle importer
     jbeam_table_schema.post_process(vehicle)
+
+    jbeam_node_jbeam.process(vehicle)
 
     vehicle['vehicleDirectory'] = vehicle_directories[0]
     vehicle['activeParts'] = active_parts_orig
@@ -160,7 +163,7 @@ def generate_meshes(vehicle_bundle: dict):
         if not part_origin:
             continue
 
-        node_pos = (node['posX'], node['posY'], node['posZ'])
+        node_pos = node['pos']
         node_index_to_id.append(node_id)
         node_id_to_index[node_id] = i
         vertices.append(node_pos)

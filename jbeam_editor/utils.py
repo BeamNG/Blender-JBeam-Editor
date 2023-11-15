@@ -86,3 +86,8 @@ def get_item(obj: dict | list, idx):
 
 def clamp(x, min_value, max_value):
     return min(max(x, min_value), max_value)
+
+
+# returns -1, 0, 1
+def sign(x):
+    return max(min((x * 1e200) * 1e200, 1), -1)
