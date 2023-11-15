@@ -137,10 +137,9 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
                     new_row.update(replace_special_values(rv))
                     # remove the options
                     del row_value[rk] # remove them for now
-                    if rk >= header_size:
+                    len_row_value -= 1
+                    if rk >= len(header):
                         header.append("options") # for fixing some code below - let it know those are the options
-                        header_size += 1
-                        header_size1 += 1
                     break
 
             # now care about the rest
@@ -233,4 +232,3 @@ def process(vehicle: dict):
                     vehicle[key_entry] = new_list
 
     return True
-
