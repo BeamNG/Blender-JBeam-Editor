@@ -196,10 +196,6 @@ def generate_meshes(vehicle_bundle: dict):
     vehicle_parts_collection = bpy.data.collections.new(vehicle_name)
     bpy.context.scene.collection.children.link(vehicle_parts_collection)
 
-    # store vehicle data in collection
-    vehicle_parts_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle)
-    vehicle_parts_collection[constants.COLLECTION_VEHICLE_MODEL] = vehicle_bundle['vdata']['model']
-
     for part in parts:
         if part == '': # skip slots with empty parts
             continue
@@ -239,6 +235,10 @@ def generate_meshes(vehicle_bundle: dict):
 
         if part == vehicle_name:
             bpy.context.scene['main_parts'][vehicle_name] = True
+
+    # store vehicle data in collection
+    vehicle_parts_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle)
+    vehicle_parts_collection[constants.COLLECTION_VEHICLE_MODEL] = vehicle_bundle['vdata']['model']
 
     return True
 
