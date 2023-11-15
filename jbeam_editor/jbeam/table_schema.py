@@ -102,8 +102,10 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
     new_list_size = 0
     local_options = replace_special_values(copy.deepcopy(input_options)) if input_options is not None else {}
 
+    # remove the header from the data, as we dont need it anymore
     jbeam_table.pop(0)
 
+    # walk the list entries
     for row_key, row_value in utils.ipairs(jbeam_table):
         if not isinstance(row_value, (dict, list)):
             print('*** Invalid table row:', row_value, file=sys.stderr)
@@ -135,8 +137,10 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
                     new_row.update(replace_special_values(rv))
                     # remove the options
                     del row_value[rk] # remove them for now
-                    if len(header) == header_size:
+                    if rk >= header_size:
                         header.append("options") # for fixing some code below - let it know those are the options
+                        header_size += 1
+                        header_size1 += 1
                     break
 
             # now care about the rest

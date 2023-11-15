@@ -123,18 +123,18 @@ def fill_slots_rec(io_ctx: dict, user_part_config: dict, current_part: dict, lev
 
     if current_part.get('slots') is not None:
         for _, slot in utils.ipairs(current_part['slots']):
-            _slot_options = copy.deepcopy(_slot_options) if _slot_options is not None else {}
+            slot_options = copy.deepcopy(_slot_options) if _slot_options is not None else {}
             # the options are only valid for this hierarchy.
             # if we do not clone/deepcopy it, the childs will leak options to the parents
 
             slot_id = slot['name'] if slot.get('name') is not None else slot.get('type')
 
-            _slot_options.update(copy.deepcopy(slot))
+            slot_options.update(copy.deepcopy(slot))
             # remove the slot table from the options
-            _slot_options.pop('name', None)
-            _slot_options.pop('type', None)
-            _slot_options.pop('default', None)
-            _slot_options.pop('description', None)
+            slot_options.pop('name', None)
+            slot_options.pop('type', None)
+            slot_options.pop('default', None)
+            slot_options.pop('description', None)
 
             user_part_name = user_part_config.get(slot_id)
             # the UI uses 'none' for empty slots, we use ''
@@ -149,14 +149,13 @@ def fill_slots_rec(io_ctx: dict, user_part_config: dict, current_part: dict, lev
             else:
                 new_path = path + slot.get('type')
 
+            # user wishes this to be empty, do not try to be overly smart and add defaults, etc
             if user_part_name == '':
                 chosen_parts[slot_id] = ''
                 continue
 
             chosen_part = None
             chosen_part_name = None
-
-            # user wishes this to be empty, do not try to be overly smart and add defaults, etc
             if user_part_name is not None:
                 chosen_part_name = user_part_name
                 chosen_part, jbeam_filename = jbeam_io.get_part(io_ctx, chosen_part_name)
@@ -183,17 +182,17 @@ def fill_slots_rec(io_ctx: dict, user_part_config: dict, current_part: dict, lev
 
                 new_path = new_path + '[' + chosen_part.get('partName') + ']'
 
-                if _slot_options.get('coreSlot') is True:
-                    del _slot_options['coreSlot']
-                _slot_options.pop('variables', None)
+                if slot_options.get('coreSlot') is True:
+                    del slot_options['coreSlot']
+                slot_options.pop('variables', None)
 
                 chosen_parts[slot_id] = chosen_part.get('partName')
 
-                active_parts_orig[chosen_part['partName'] if chosen_part.get('partName') is not None else slot_id] = copy.deepcopy(chosen_part)
+                active_parts_orig[chosen_part['partName'] if chosen_part.get('partName') is not None else slot_id] = copy.deepcopy(chosen_part) # deepcopy is required as chosePart is modified/unified with all sub parts below
 
-                fill_slots_rec(io_ctx, user_part_config, chosen_part, level + 1, _slot_options, chosen_parts, active_parts_orig, new_path, unify_journal)
+                fill_slots_rec(io_ctx, user_part_config, chosen_part, level + 1, slot_options, chosen_parts, active_parts_orig, new_path, unify_journal)
 
-                unify_journal.append([current_part, chosen_part, level, _slot_options, new_path, slot])
+                unify_journal.append([current_part, chosen_part, level, slot_options, new_path, slot])
 
             else:
                 '''if selected_part_name is not None and selected_part_name ~= '' then
@@ -226,7 +225,7 @@ def find_parts(io_ctx: dict, vehicle_config: dict):
 
 
 def unify_part_journal(io_ctx: dict, unify_journal: list):
-  for x in unify_journal:
-    unify_parts(*x)
+    for x in unify_journal:
+        unify_parts(*x)
 
-  return True
+    return True
