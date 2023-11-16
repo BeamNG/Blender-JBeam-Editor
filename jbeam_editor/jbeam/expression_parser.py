@@ -65,8 +65,8 @@ class Infix(object):
     def __rsub__(self, other): return self._left(other)
     def __mul__(self, other): return self._right(other)
     def __rmul__(self, other): return self._left(other)
-    def __div__(self, other): return self._right(other)
-    def __rdiv__(self, other): return self._left(other)
+    def __truediv__(self, other): return self._right(other)
+    def __rtruediv__(self, other): return self._left(other)
     def __mod__(self, other): return self._right(other)
     def __rmod__(self, other): return self._left(other)
     def __xor__(self, other): return self._right(other)
@@ -258,7 +258,7 @@ def parse_safe(expr: str, params: dict):
         result = eval(expr, _context, new_vars)
         result_code = 0
     except Exception as e:
-        print("Parsing expression failed, message: " + repr(e), file=sys.stderr)
+        print(f"Parsing expression failed, {repr(e)}:\n    {expr}", file=sys.stderr)
 
     return result_code, result
 
