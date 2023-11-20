@@ -368,7 +368,7 @@ def menu_func_import_vehicle(self, context):
 
 
 def menu_func_export_vehicle(self, context):
-    self.layout.operator(export_vehicle.JBEAM_EDITOR_OT_export_vehicle.bl_idname, text="BeamNG Vehicle")
+    self.layout.operator(export_vehicle.JBEAM_EDITOR_OT_export_vehicle.bl_idname, text="Selected JBeam Parts")
 
 
 def update_node_positions(scene: bpy.types.Scene, veh_name: str, veh_collection: bpy.types.Collection, obj_changed: bpy.types.Object):
