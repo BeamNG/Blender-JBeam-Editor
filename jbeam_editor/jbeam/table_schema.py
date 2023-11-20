@@ -97,10 +97,17 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
     if not isinstance(header, list):
         print('*** Invalid table header:', header, file=sys.stderr)
 
+    type_metadata = type(jbeam_utils.Metadata)
+
     header_size = len(header)
     header_size1 = header_size + 1
+    if header[-1] != 'options':
+        header.append('options')
     new_list_size = 0
     local_options = replace_special_values(copy.deepcopy(input_options)) if input_options is not None else {}
+
+    if not local_options.get(type_metadata):
+        local_options[type_metadata] = jbeam_utils.Metadata()
 
     # remove the header from the data, as we dont need it anymore
     jbeam_table.pop(0)
@@ -113,7 +120,21 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
 
         if isinstance(row_value, dict):
             # case where options is a dict on its own, filling a whole line (modifier)
+
+            # Get metadata from previous options and current row and merge them
+            # Afterwards, merge regular row values into options
+
+            if row_value.get(type_metadata) is None:
+                row_value[type_metadata] = jbeam_utils.Metadata()
+            row_metadata = row_value[type_metadata]
+
+            options_metadata = local_options[type_metadata]
+            options_metadata.merge(row_metadata)
+
+            #local_options.pop(type_metadata, None)
             local_options.update(replace_special_values(row_value))
+
+            local_options[type_metadata] = options_metadata
         else:
             # case where its a jbeam definition
             new_id = row_key
@@ -130,17 +151,38 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
             # replace row: reassociate the header colums as keys to the row cells
             new_row = copy.deepcopy(local_options)
 
+            if len_row_value == header_size:
+                row_value.append({type_metadata: jbeam_utils.Metadata()})
+                len_row_value += 1
+
             # check if inline options are provided, merge them then
             for rk in range(header_size, len_row_value):
                 rv = row_value[rk]
-                if isinstance(rv, dict) and len_row_value > header_size:
-                    new_row.update(replace_special_values(rv))
-                    # remove the options
-                    del row_value[rk] # remove them for now
-                    len_row_value -= 1
-                    if rk >= len(header):
-                        header.append("options") # for fixing some code below - let it know those are the options
-                    break
+                if len_row_value > header_size:
+                    if isinstance(rv, dict):
+                        if rv.get(type_metadata) is None:
+                            rv[type_metadata] = jbeam_utils.Metadata()
+                        rv_metadata = rv[type_metadata]
+
+                        new_row_metadata = new_row[type_metadata]
+                        new_row_metadata.merge(rv_metadata)
+
+                        # Convert metadata variable reference in list from index to key using header
+                        for var in list(new_row_metadata._data.keys()):
+                            if isinstance(var, int):
+                                new_row_metadata._data[header[var]] = new_row_metadata._data.pop(var)
+
+                        #local_options.pop(type_metadata, None)
+                        new_row.update(replace_special_values(rv))
+
+                        new_row[type_metadata] = new_row_metadata
+
+                        # remove the options
+                        del row_value[rk] # remove them for now
+                        len_row_value -= 1
+                        # if rk >= len(header):
+                        #     header.append('options') # for fixing some code below - let it know those are the options
+                        # break
 
             # now care about the rest
             for rk, rv in enumerate(row_value):
