@@ -538,115 +538,19 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
         i += 1
 
 
-def auto_export(data: dict):
-    scene: bpy.types.Scene = data['scene']
-    veh_name: str = data['veh_name']
-    veh_collection: bpy.types.Collection = data['veh_collection']
-    all_changed_node_positions: dict = data['all_changed_node_positions']
-
-    '''
-        'vehicleDirectory' : vehicle_directories[0],
-        'vdata'            : vehicle,
-        'config'           : vehicle_config,
-        'mainPartName'     : vehicle_config['mainPartName'],
-        'chosenParts'      : chosen_parts,
-        'partToFileMap'    : veh_part_to_file_map,
-        'ioCtx'            : io_ctx,
-    '''
+def manual_export(veh_collection: bpy.types.Collection, objs_to_export: list):
     t0 = timeit.default_timer()
     veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
     vdata = veh_bundle['vdata']
     nodes = vdata['nodes']
-    io_ctx = veh_bundle['ioCtx']
-
-    part_to_obj = {}
-    for obj in veh_collection.all_objects:
-        part_to_obj[obj.data[constants.MESH_JBEAM_PART]] = obj
-
-    jbeam_files_changed = {}
-    for i, (node_id, part_origin, pos) in all_changed_node_positions.items():
-        obj = part_to_obj[part_origin]
-        jbeam_filepath = obj.data[constants.MESH_JBEAM_FILE_PATH]
-
-        if jbeam_files_changed.get(jbeam_filepath) is None:
-            jbeam_files_changed[jbeam_filepath] = set()
-        jbeam_files_changed[jbeam_filepath].add(obj)
-
-    #print('files changed', jbeam_files_changed)
-
-    for jbeam_filepath, parts_changed in jbeam_files_changed.items():
-        #current_jbeam_file_data_str: dict = jbeam_io.get_jbeam(io_ctx, jbeam_filepath, True)
-        #current_jbeam_file_data: dict = jbeam_io.get_jbeam(io_ctx, jbeam_filepath, False)
-
-        jbeam_data_str = utils.read_file(jbeam_filepath)
-        if jbeam_data_str is None:
-            return
-        jbeam_data = utils.sjson_decode(jbeam_data_str, jbeam_filepath)
-        if jbeam_data is None:
-            return
-        jbeam_data_modified = utils.sjson_decode(jbeam_data_str, jbeam_filepath)
-        if jbeam_data_modified is None:
-            return
-
-        # import cProfile, pstats, io
-        # import pstats
-        # pr = cProfile.Profile()
-        # with cProfile.Profile() as pr:
-        #     ast_data = sjsonast.parse(current_jbeam_file_data_str)
-        #     stats = pstats.Stats(pr)
-        #     stats.strip_dirs().sort_stats('tottime').print_stats()
-
-        # The imported jbeam data is used to build an AST from
-        ast_data = sjsonast.parse(jbeam_data_str)
-        if ast_data is None:
-            print("SJSON AST parsing failed!", file=sys.stderr)
-            return
-        ast_nodes = ast_data['ast']['nodes']
-
-        for obj in parts_changed:
-            obj_data = obj.data
-            jbeam_part = obj_data[constants.MESH_JBEAM_PART]
-            bm = None
-            if obj.mode == 'EDIT':
-                bm = bmesh.from_edit_mesh(obj_data)
-            else:
-                bm = bmesh.new()
-                bm.from_mesh(obj_data)
-
-            nodes_to_add, nodes_to_delete, true_node_renames, jbeam_data_modified = _get_nodes_add_delete_rename(obj, bm, jbeam_data_modified, jbeam_part)
-
-            print('nodes to add:', nodes_to_add)
-            print('nodes to delete:', nodes_to_delete)
-            print('node renames:', true_node_renames)
-
-            update_ast_nodes(ast_nodes, jbeam_data, jbeam_data_modified, jbeam_part, nodes_to_add, nodes_to_delete)
-            out_str_jbeam_data = sjsonast.stringify_nodes(ast_nodes)
-            f = open(jbeam_filepath, 'w', encoding='utf-8')
-            f.write(out_str_jbeam_data)
-            f.close()
-
-    t1 = timeit.default_timer()
-    print('Exporting Time', round(t1 - t0, 2), 's')
-
-
-def manual_export(veh_collection: bpy.types.Collection, parts_to_export: set):
-    t0 = timeit.default_timer()
-    veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
-    vdata = veh_bundle['vdata']
-    nodes = vdata['nodes']
-
-    part_to_obj = {}
-    for obj in veh_collection.all_objects:
-        part_to_obj[obj.data[constants.MESH_JBEAM_PART]] = obj
 
     jbeam_files_to_parts = {}
-    for part in parts_to_export:
-        obj = part_to_obj[part]
+    for obj in objs_to_export:
         jbeam_filepath = obj.data[constants.MESH_JBEAM_FILE_PATH]
 
         if jbeam_files_to_parts.get(jbeam_filepath) is None:
-            jbeam_files_to_parts[jbeam_filepath] = set()
-        jbeam_files_to_parts[jbeam_filepath].add(obj)
+            jbeam_files_to_parts[jbeam_filepath] = []
+        jbeam_files_to_parts[jbeam_filepath].append(obj)
 
     for jbeam_filepath, parts in jbeam_files_to_parts.items():
         #current_jbeam_file_data_str: dict = jbeam_io.get_jbeam(io_ctx, jbeam_filepath, True)
@@ -700,31 +604,22 @@ class JBEAM_EDITOR_OT_export_vehicle(Operator):
     bl_label = "Export Vehicle"
     bl_description = 'Export BeamNG vehicle'
 
-    # @classmethod
-    # def poll(cls, context):
-    #     veh_collection = context.collection
-    #     if not veh_collection:
-    #         return False
-    #     if veh_collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
-    #         return False
-
-    #     return True
+    @classmethod
+    def poll(cls, context):
+        return len(context.selected_objects) > 0
 
     def execute(self, context):
-        parts_to_export = set()
         veh_collection = context.collection
         #for obj in veh_collection.all_objects:
         #    parts_to_export.add(obj.data[constants.MESH_JBEAM_PART])
 
-        for obj in context.selected_objects:
-            parts_to_export.add(obj.data[constants.MESH_JBEAM_PART])
+        manual_export(veh_collection, context.selected_objects)
 
-        manual_export(veh_collection, parts_to_export)
         # import cProfile, pstats, io
         # import pstats
         # pr = cProfile.Profile()
         # with cProfile.Profile() as pr:
-        #     manual_export(veh_collection, parts_to_export)
+        #     manual_export(veh_collection, context.selected_objects)
         #     stats = pstats.Stats(pr)
         #     stats.strip_dirs().sort_stats('tottime').print_stats()
 
