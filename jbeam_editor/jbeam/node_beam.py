@@ -19,6 +19,7 @@
 # SOFTWARE.
 
 import math
+import mathutils
 import sys
 
 from .. import utils
@@ -31,18 +32,24 @@ def process_nodes(vehicle: dict):
     k: str
     v: dict
     for k, v in vehicle['nodes'].items():
+        pos_no_offset = mathutils.Vector((v['posX'], v['posY'], v['posZ']))
+        total_offset = mathutils.Vector((0.0, 0.0, 0.0))
+
         if (v.get('nodeOffset') is not None and isinstance(v['nodeOffset'], dict)
             and v['nodeOffset'].get('x') is not None and v['nodeOffset'].get('y') is not None and v['nodeOffset'].get('z') is not None):
-            v['posX'] += utils.sign(v['posX']) * v['nodeOffset']['x']
-            v['posY'] += v['nodeOffset']['y']
-            v['posZ'] += v['nodeOffset']['z']
+            total_offset.x += utils.sign(v['posX']) * v['nodeOffset']['x']
+            total_offset.y += v['nodeOffset']['y']
+            total_offset.z += v['nodeOffset']['z']
 
         if (v.get('nodeMove') is not None and isinstance(v['nodeMove'], dict)
             and v['nodeMove'].get('x') is not None and v['nodeMove'].get('y') is not None and v['nodeMove'].get('z') is not None):
-            v['posX'] += v['nodeMove']['x']
-            v['posY'] += v['nodeMove']['y']
-            v['posZ'] += v['nodeMove']['z']
-        vehicle['nodes'][k]['pos'] = (v['posX'], v['posY'], v['posZ'])
+            total_offset.x += v['nodeMove']['x']
+            total_offset.y += v['nodeMove']['y']
+            total_offset.z += v['nodeMove']['z']
+
+        vehicle['nodes'][k]['posNoOffset'] = pos_no_offset.to_tuple()
+        vehicle['nodes'][k]['totalOffset'] = total_offset.to_tuple()
+        vehicle['nodes'][k]['pos'] = (pos_no_offset + total_offset).to_tuple()
 
         del v['posX']
         del v['posY']
