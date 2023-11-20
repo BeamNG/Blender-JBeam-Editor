@@ -44,7 +44,7 @@ from .jbeam import io as jbeam_io
 from .jbeam import slot_system as jbeam_slot_system
 from .jbeam import variables as jbeam_variables
 from .jbeam import table_schema as jbeam_table_schema
-from .jbeam import node_beam as jbeam_node_jbeam
+from .jbeam import node_beam as jbeam_node_beam
 
 import timeit
 
@@ -96,7 +96,7 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
     # Exclusive to Python vehicle importer
     jbeam_table_schema.post_process(vehicle)
 
-    jbeam_node_jbeam.process(vehicle)
+    jbeam_node_beam.process(vehicle)
 
     vehicle['vehicleDirectory'] = vehicle_directories[0]
     vehicle['activeParts'] = active_parts_orig
