@@ -217,6 +217,50 @@ def _convert_variable(match):
     return 'locals().get("var_' + variable_name + '", False)'
 
 
+def _wrap_parenthesis_around_expr_with_offset(expr: str, offset_str: str):
+    expr = expr[0:2] + '(' + expr[2:] + ')'
+    if offset_str[0] == '-':
+        expr += '-' + offset_str[1:]
+    else:
+        expr += '+' + offset_str
+
+    return expr
+
+
+def add_offset_expr(expr: str, offset_str: str):
+    # Wrap expr with parenthesis immediately if no left parenthesis found
+    if expr.find('(') == -1:
+        return _wrap_parenthesis_around_expr_with_offset(expr, offset_str)
+
+    # Strip leading "$=" and $'s from expression
+    offset = 1 + expr.count('$')
+    stripped_expr = expr[2:]
+    stripped_expr = stripped_expr.replace('$', '')
+
+    lexer = LuaLexer(InputStream(stripped_expr))
+    tokens: list[CommonToken] = lexer.getAllTokens()
+
+    tokens_text = [t.text for t in tokens]
+    tokens_type = [t.type for t in tokens]
+    len_tokens = len(tokens_text)
+    out_paren_left, out_paren_right = tokens_text.index('('), len_tokens - 1 - tokens_text[::-1].index(')')
+
+    if out_paren_left > 0 or out_paren_right != len_tokens - 3 or tokens_text[-2] not in ('+', '-') or tokens_type[-1] != 57:
+        return _wrap_parenthesis_around_expr_with_offset(expr, offset_str)
+
+    # Only change offset
+    operator_pos = tokens[-2].start
+    num_start, num_end = tokens[-1].start, tokens[-1].stop
+
+    if offset_str[0] == '-':
+        operator = '-'
+        offset_str = offset_str[1:]
+    else:
+        operator = '+'
+
+    return expr[:operator_pos + offset] + operator + expr[operator_pos + 1 + offset:num_start + offset] + offset_str + expr[num_end + 1 + offset:]
+
+
 def parse_safe(expr: str, params: dict):
     result_code = -1
 
