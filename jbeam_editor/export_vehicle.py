@@ -20,6 +20,8 @@
 
 import copy
 import ctypes
+import math
+import mathutils
 from pathlib import Path
 import sys
 import pickle
@@ -34,12 +36,17 @@ from . import constants
 from . import sjsonast
 from . import utils
 
+from .jbeam import expression_parser
 from .jbeam import io as jbeam_io
 from .jbeam import slot_system as jbeam_slot_system
 from .jbeam import variables as jbeam_variables
 from .jbeam import table_schema as jbeam_table_schema
+from .jbeam import utils as jbeam_utils
 
 import timeit
+
+def is_number(x):
+    return type(x) == int or type(x) == float
 
 def to_c_float(num):
     return ctypes.c_float(num).value
@@ -66,7 +73,7 @@ def compare_and_set_value(original_jbeam_file_data, jbeam_file_data, stack, inde
 
     # Only change value in AST if changed between old and new SJSON data
     if node.data_type == 'number':
-        if (type(data) == int or type(data) == float) and (to_c_float(old_data) != to_c_float(data) and old_data != data):
+        if is_number(data) and (to_c_float(old_data) != to_c_float(data) and old_data != data):
             node.value = data
             fval = float(data)
             node.precision = min(4, max(len((f'%.4g' % abs(fval - int(fval)))) - 2, 0))
@@ -237,7 +244,7 @@ def delete_jbeam_node(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_
     return i
 
 
-def _get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, jbeam_data_modified: dict, jbeam_part: str):
+def _get_nodes_add_delete_rename(nodes_data: dict, obj: bpy.types.Object, bm: bmesh.types.BMesh, jbeam_data_modified: dict, jbeam_part: str):
     all_nodes, nodes_to_add, nodes_to_delete = {}, {}, {}
 
     init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
@@ -255,14 +262,51 @@ def _get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, j
         node_id = v[node_id_layer].decode('utf-8')
         node_part_origin = v[part_origin_layer].decode('utf-8')
 
+        node_data = nodes_data[node_id]
         node_id_to_part_origin[node_id] = node_part_origin
 
         # Filter out nodes that aren't part of this part
         if node_part_origin != jbeam_part:
             continue
 
+        # Undo node move/offset
+        pos_no_offset = mathutils.Vector(node_data['posNoOffset'])
+        init_pos = mathutils.Vector(node_data['pos'])
+        metadata = node_data[type(jbeam_utils.Metadata)]
+
         new_pos = obj.matrix_world @ v.co
-        pos_tup = (to_c_float(new_pos.x), to_c_float(new_pos.y), to_c_float(new_pos.z))
+        offset_from_init_pos = new_pos - init_pos
+        offset_from_init_pos_tup = offset_from_init_pos.to_tuple()
+
+        if node_data.get('nodeMove') is not None and node_data.get('nodeMove') != '':
+            node_move = mathutils.Vector((node_data['nodeMove']['x'], node_data['nodeMove']['y'], node_data['nodeMove']['z']))
+            new_pos = new_pos - node_move
+
+        if node_data.get('nodeOffset') is not None and node_data.get('nodeOffset') != '':
+            # Undoing nodeOffset.x is an exception as posX is equal to v.posX = v.posX + sign(v.posX) * v.nodeOffset.x
+            node_offset = mathutils.Vector((node_data['nodeOffset']['x'], node_data['nodeOffset']['y'], node_data['nodeOffset']['z']))
+            if utils.sign(pos_no_offset.x + offset_from_init_pos.x) > 0:
+                new_pos.x = new_pos.x - node_offset.x
+            else:
+                new_pos.x = new_pos.x + node_offset.x
+
+            new_pos.y = new_pos.y - node_offset.y
+            new_pos.z = new_pos.z - node_offset.z
+
+        new_pos_tup = new_pos.to_tuple()
+        pos_expr = (metadata.get('posX', 'expression'), metadata.get('posY', 'expression'), metadata.get('posZ', 'expression'))
+
+        positions = [None, None, None]
+        for i in range(3):
+            if pos_expr[i] is not None:
+                if to_c_float(offset_from_init_pos_tup[i]) != 0:
+                    positions[i] = expression_parser.add_offset_expr(pos_expr[i], to_float_str(offset_from_init_pos_tup[i]))
+                else:
+                    positions[i] = pos_expr[i]
+            else:
+                positions[i] = to_c_float(new_pos_tup[i])
+
+        pos_tup = (positions[0], positions[1], positions[2])
 
         if init_node_id != node_id:
             node_renames[init_node_id] = node_id
@@ -290,7 +334,13 @@ def _get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, j
 
                 if not curr_node_id in all_nodes:
                     all_nodes[curr_node_id] = {}
-                pos = (to_c_float(row_data[1]), to_c_float(row_data[2]), to_c_float(row_data[3]))
+                #pos = (to_c_float(row_data[1]), to_c_float(row_data[2]), to_c_float(row_data[3]))
+                pos_tup = (
+                    is_number(row_data[1]) and to_c_float(row_data[1]) or row_data[1],
+                    is_number(row_data[2]) and to_c_float(row_data[2]) or row_data[2],
+                    is_number(row_data[3]) and to_c_float(row_data[3]) or row_data[3]
+                )
+                pos = (row_data[1], row_data[2], row_data[3])
                 all_nodes[curr_node_id]['jbeam_node'] = {'curr_node_id': curr_node_id, 'pos': pos}
 
     # Add/remove nodes from the AST based on existance of a node in current jbeam file and blender
@@ -582,7 +632,8 @@ def auto_export(data: dict):
 def manual_export(veh_collection: bpy.types.Collection, parts_to_export: set):
     t0 = timeit.default_timer()
     veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
-    #vdata = veh_bundle['vdata']
+    vdata = veh_bundle['vdata']
+    nodes = vdata['nodes']
 
     part_to_obj = {}
     for obj in veh_collection.all_objects:
@@ -628,7 +679,7 @@ def manual_export(veh_collection: bpy.types.Collection, parts_to_export: set):
                 bm = bmesh.new()
                 bm.from_mesh(obj_data)
 
-            nodes_to_add, nodes_to_delete, true_node_renames, jbeam_data_modified = _get_nodes_add_delete_rename(obj, bm, jbeam_data_modified, jbeam_part)
+            nodes_to_add, nodes_to_delete, true_node_renames, jbeam_data_modified = _get_nodes_add_delete_rename(nodes, obj, bm, jbeam_data_modified, jbeam_part)
 
             #print('nodes to add:', nodes_to_add)
             #print('nodes to delete:', nodes_to_delete)
@@ -668,13 +719,14 @@ class JBEAM_EDITOR_OT_export_vehicle(Operator):
         for obj in context.selected_objects:
             parts_to_export.add(obj.data[constants.MESH_JBEAM_PART])
 
-        import cProfile, pstats, io
-        import pstats
-        pr = cProfile.Profile()
-        with cProfile.Profile() as pr:
-            manual_export(veh_collection, parts_to_export)
-            stats = pstats.Stats(pr)
-            stats.strip_dirs().sort_stats('tottime').print_stats()
+        manual_export(veh_collection, parts_to_export)
+        # import cProfile, pstats, io
+        # import pstats
+        # pr = cProfile.Profile()
+        # with cProfile.Profile() as pr:
+        #     manual_export(veh_collection, parts_to_export)
+        #     stats = pstats.Stats(pr)
+        #     stats.strip_dirs().sort_stats('tottime').print_stats()
 
 
         return {'FINISHED'}
