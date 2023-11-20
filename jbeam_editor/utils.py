@@ -84,6 +84,15 @@ def get_item(obj: dict | list, idx):
     return obj[idx] if isinstance(idx, int) and idx >= 0 and idx < len(obj) else None
 
 
+def dict_merge_rec(dst: dict, src: dict):
+    for k, v in src.items():
+        if isinstance(v, dict) and isinstance(dst.get(k), dict):
+            dict_merge_rec(dst[k], src[k])
+        else:
+            dst[k] = v
+    return dst
+
+
 def clamp(x, min_value, max_value):
     return min(max(x, min_value), max_value)
 
