@@ -281,12 +281,7 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
             node = veh_bundle['vdata']['nodes'][node_id]
 
             for k,v in node.items():
-                str_v = ''
-                if k == 'pos':
-                    str_v = f'{v[0]:0.3f}, {v[1]:0.3f}, {v[2]:0.3f}'
-                else:
-                    str_v = str(v)
-
+                str_v = str(v)
                 col.row().label(text=f'- {k}: {str_v}')
 
         bm.free()
