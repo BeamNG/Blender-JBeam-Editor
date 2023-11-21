@@ -272,7 +272,7 @@ def _get_nodes_add_delete_rename(nodes_data: dict, obj: bpy.types.Object, bm: bm
         # Undo node move/offset
         pos_no_offset = mathutils.Vector(node_data['posNoOffset'])
         init_pos = mathutils.Vector(node_data['pos'])
-        metadata = node_data[type(jbeam_utils.Metadata)]
+        metadata = node_data[jbeam_utils.Metadata]
 
         new_pos = obj.matrix_world @ v.co
         offset_from_init_pos = new_pos - init_pos

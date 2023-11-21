@@ -33,8 +33,6 @@ debug_parts = False  # set this to True to dump the parts to disk for manual ins
 
 
 def apply(data: dict, variables: dict | None):
-    type_metadata = type(jbeam_utils.Metadata)
-
     if variables is None or len(variables) == 0:
         return
     stackidx = 1
@@ -51,14 +49,14 @@ def apply(data: dict, variables: dict | None):
                             if isinstance(d, list):
                                 if not isinstance(d[-1], dict):
                                     d.append({})
-                                if d[-1].get(type_metadata) is None:
-                                    d[-1][type_metadata] = jbeam_utils.Metadata()
-                                metadata = d[-1][type_metadata]
+                                if d[-1].get(jbeam_utils.Metadata) is None:
+                                    d[-1][jbeam_utils.Metadata] = jbeam_utils.Metadata()
+                                metadata = d[-1][jbeam_utils.Metadata]
                                 metadata.set(key, 'expression', v)
                             else:
-                                if d.get(type_metadata) is None:
-                                    d[type_metadata] = jbeam_utils.Metadata()
-                                metadata = d[type_metadata]
+                                if d.get(jbeam_utils.Metadata) is None:
+                                    d[jbeam_utils.Metadata] = jbeam_utils.Metadata()
+                                metadata = d[jbeam_utils.Metadata]
                                 metadata.set(key, 'expression', v)
                             res_code, d[key] = expression_parser.parse_safe(v, variables)
                         else:

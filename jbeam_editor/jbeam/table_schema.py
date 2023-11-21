@@ -97,8 +97,6 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
     if not isinstance(header, list):
         print('*** Invalid table header:', header, file=sys.stderr)
 
-    type_metadata = type(jbeam_utils.Metadata)
-
     header_size = len(header)
     header_size1 = header_size + 1
     if header[-1] != 'options':
@@ -106,8 +104,8 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
     new_list_size = 0
     local_options = replace_special_values(copy.deepcopy(input_options)) if input_options is not None else {}
 
-    if not local_options.get(type_metadata):
-        local_options[type_metadata] = jbeam_utils.Metadata()
+    if not local_options.get(jbeam_utils.Metadata):
+        local_options[jbeam_utils.Metadata] = jbeam_utils.Metadata()
 
     # remove the header from the data, as we dont need it anymore
     jbeam_table.pop(0)
@@ -124,17 +122,17 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
             # Get metadata from previous options and current row and merge them
             # Afterwards, merge regular row values into options
 
-            if row_value.get(type_metadata) is None:
-                row_value[type_metadata] = jbeam_utils.Metadata()
-            row_metadata = row_value[type_metadata]
+            if row_value.get(jbeam_utils.Metadata) is None:
+                row_value[jbeam_utils.Metadata] = jbeam_utils.Metadata()
+            row_metadata = row_value[jbeam_utils.Metadata]
 
-            options_metadata = local_options[type_metadata]
+            options_metadata = local_options[jbeam_utils.Metadata]
             options_metadata.merge(row_metadata)
 
-            #local_options.pop(type_metadata, None)
+            #local_options.pop(jbeam_utils.Metadata, None)
             local_options.update(replace_special_values(row_value))
 
-            local_options[type_metadata] = options_metadata
+            local_options[jbeam_utils.Metadata] = options_metadata
         else:
             # case where its a jbeam definition
             new_id = row_key
@@ -152,7 +150,7 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
             new_row = copy.deepcopy(local_options)
 
             if len_row_value == header_size:
-                row_value.append({type_metadata: jbeam_utils.Metadata()})
+                row_value.append({jbeam_utils.Metadata: jbeam_utils.Metadata()})
                 len_row_value += 1
 
             # check if inline options are provided, merge them then
@@ -160,11 +158,11 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
                 rv = row_value[rk]
                 if len_row_value > header_size:
                     if isinstance(rv, dict):
-                        if rv.get(type_metadata) is None:
-                            rv[type_metadata] = jbeam_utils.Metadata()
-                        rv_metadata = rv[type_metadata]
+                        if rv.get(jbeam_utils.Metadata) is None:
+                            rv[jbeam_utils.Metadata] = jbeam_utils.Metadata()
+                        rv_metadata = rv[jbeam_utils.Metadata]
 
-                        new_row_metadata = new_row[type_metadata]
+                        new_row_metadata = new_row[jbeam_utils.Metadata]
                         new_row_metadata.merge(rv_metadata)
 
                         # Convert metadata variable reference in list from index to key using header
@@ -172,10 +170,8 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
                             if isinstance(var, int):
                                 new_row_metadata._data[header[var]] = new_row_metadata._data.pop(var)
 
-                        #local_options.pop(type_metadata, None)
                         new_row.update(replace_special_values(rv))
-
-                        new_row[type_metadata] = new_row_metadata
+                        new_row[jbeam_utils.Metadata] = new_row_metadata
 
                         # remove the options
                         del row_value[rk] # remove them for now
