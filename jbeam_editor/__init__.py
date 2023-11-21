@@ -239,6 +239,7 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
 
             bm.free()
 
+
 class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
     bl_parent_id = "JBEAM_EDITOR_PT_jbeam_panel"
     bl_space_type = 'VIEW_3D'
@@ -280,7 +281,8 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
             node_id = v[node_id_layer].decode('utf-8')
             node = veh_bundle['vdata']['nodes'][node_id]
 
-            for k,v in node.items():
+            for k in sorted(node.keys(), key=lambda x: str(x)):
+                v = node[k]
                 str_v = str(v)
                 col.row().label(text=f'- {k}: {str_v}')
 
