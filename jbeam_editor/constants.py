@@ -22,10 +22,11 @@
 COLLECTION_VEHICLE_MODEL = 'collection_vehicle_model'
 COLLECTION_VEHICLE_BUNDLE = 'collection_vehicle_bundle'
 COLLECTION_PARTS = 'collection_vehicle_parts'
+COLLECTION_MAIN_PART = 'collection_vehicle_main_part'
 COLLECTION_NODES = 'collection_vehicle_nodes'
 
 # JBeam Part Attributes
-MESH_VEHICLE_NAME = 'vehicle_name'
+MESH_VEHICLE_MODEL = 'vehicle_model'
 MESH_JBEAM_PART = 'jbeam_part'
 MESH_JBEAM_FILE_PATH = 'jbeam_file_path'
 MESH_JBEAM_FILE_DATA_STR = 'jbeam_file_data_str'

@@ -248,6 +248,9 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
     bl_label = 'Properties'
     bl_options = {'DEFAULT_CLOSED'}
 
+    veh_model = None
+    veh_bundle = None
+
     def draw(self, context):
         layout = self.layout
         box = layout.box()
@@ -256,6 +259,7 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
         veh_collection = context.collection
         if veh_collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
             return
+        veh_model = veh_collection[constants.COLLECTION_VEHICLE_MODEL]
 
         obj = context.active_object
         if not obj:
@@ -274,12 +278,14 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
 
         selected_verts = list(filter(lambda v: v.select, bm.verts))
         if len(selected_verts) == 1:
-            veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
+            if JBEAM_EDITOR_PT_jbeam_properties_panel.veh_model != veh_model:
+                JBEAM_EDITOR_PT_jbeam_properties_panel.veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
+                JBEAM_EDITOR_PT_jbeam_properties_panel.veh_model = veh_model
 
             v = selected_verts[0]
             node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
             node_id = v[node_id_layer].decode('utf-8')
-            node = veh_bundle['vdata']['nodes'][node_id]
+            node = self.veh_bundle['vdata']['nodes'][node_id]
 
             for k in sorted(node.keys(), key=lambda x: str(x)):
                 v = node[k]
@@ -308,40 +314,39 @@ def draw_callback_px(context: bpy.types.Context):
     for obj in veh_collection.all_objects:
         part_name_to_obj[obj.data[constants.MESH_JBEAM_PART]] = obj
 
-    for name, _ in scene['main_parts'].items():
-        obj = scene.objects.get(name)
-        if obj is None:
+    obj = scene.objects.get(veh_collection[constants.COLLECTION_MAIN_PART])
+    if obj is None:
+        return
+
+    obj_data = obj.data
+
+    bm = None
+    if obj.mode == 'EDIT':
+        bm = bmesh.from_edit_mesh(obj_data)
+    else:
+        bm = bmesh.new()
+        bm.from_mesh(obj_data)
+
+    node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+    part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
+
+    for v in bm.verts:
+        coord = obj.matrix_world @ v.co
+        node_id = v[node_id_layer].decode('utf-8')
+        part_origin = v[part_origin_layer].decode('utf-8')
+
+        if not part_name_to_obj[part_origin].visible_get():
             continue
 
-        obj_data = obj.data
+        pos_text = location_3d_to_region_2d(context.region, context.region_data, coord)
+        if pos_text and ui_props.toggle_node_ids_text:
+            blf.position(font_id, pos_text[0], pos_text[1], 0)
+            blf.size(font_id, 12) # dpi value defaults to 72 when omitted, and no longer usable from 4.0+ (only 2 parameters allowed).
+            blf.color(font_id, 1, 1, 1, 1)
+            #blf.draw(font_id, str(node_id) + " (" + str(v.index) + ")")
+            blf.draw(font_id, str(node_id))
 
-        bm = None
-        if obj.mode == 'EDIT':
-            bm = bmesh.from_edit_mesh(obj_data)
-        else:
-            bm = bmesh.new()
-            bm.from_mesh(obj_data)
-
-        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-        part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
-
-        for v in bm.verts:
-            coord = obj.matrix_world @ v.co
-            node_id = v[node_id_layer].decode('utf-8')
-            part_origin = v[part_origin_layer].decode('utf-8')
-
-            if not part_name_to_obj[part_origin].visible_get():
-                continue
-
-            pos_text = location_3d_to_region_2d(context.region, context.region_data, coord)
-            if pos_text and ui_props.toggle_node_ids_text:
-                blf.position(font_id, pos_text[0], pos_text[1], 0)
-                blf.size(font_id, 12) # dpi value defaults to 72 when omitted, and no longer usable from 4.0+ (only 2 parameters allowed).
-                blf.color(font_id, 1, 1, 1, 1)
-                #blf.draw(font_id, str(node_id) + " (" + str(v.index) + ")")
-                blf.draw(font_id, str(node_id))
-
-        bm.free()
+    bm.free()
 
 
 classes = (
@@ -373,10 +378,10 @@ def menu_func_export_vehicle(self, context):
     self.layout.operator(export_vehicle.JBEAM_EDITOR_OT_export_vehicle.bl_idname, text="Selected JBeam Parts")
 
 
-def update_node_positions(scene: bpy.types.Scene, veh_name: str, veh_collection: bpy.types.Collection, obj_changed: bpy.types.Object):
+def update_node_positions(scene: bpy.types.Scene, veh_collection: bpy.types.Collection, obj_changed: bpy.types.Object):
     changed_node_positions = {}
     obj_changed_data = obj_changed.data
-    main_obj = scene.objects.get(veh_name)
+    main_obj = scene.objects.get(veh_collection[constants.COLLECTION_MAIN_PART])
     if main_obj is None:
         return changed_node_positions
 
@@ -440,6 +445,14 @@ def update_node_positions(scene: bpy.types.Scene, veh_name: str, veh_collection:
     return changed_node_positions
 
 
+# https://blenderartists.org/t/make-latest-created-collection-active/1350762/5
+def find_layer_collection_recursive(find, col):
+    for c in col.children:
+        if c.collection == find:
+            return c
+    return None
+
+
 @persistent
 def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
     ui_props = scene.ui_properties
@@ -447,23 +460,45 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
     active_obj = bpy.context.active_object
     if active_obj is None:
         return
-
     active_obj_data = active_obj.data
+
+    # If selected new object/collection unrelated to vehicles and vehicle collection was last selected, set active collection to new object's collection
+    # to stop rendering stuff related to previous vehicle
+    if scene.get('jbeam_editor_veh_collection_selected') is not None:
+        collection = None
+        if bpy.context.collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
+            collection = scene.collection
+        if collection is None and len(active_obj.users_collection) > 0:
+            if active_obj.users_collection[0].get(constants.COLLECTION_VEHICLE_MODEL) is None:
+                collection = active_obj.users_collection[0]
+
+        if collection is not None:
+            layer = find_layer_collection_recursive(collection, bpy.context.view_layer.layer_collection)
+            if layer is not None:
+                bpy.context.view_layer.active_layer_collection = layer
+            scene['jbeam_editor_veh_collection_selected'] = None
+            return
 
     if not isinstance(active_obj_data, bpy.types.Mesh):
         return
 
-    veh_name = active_obj_data.get(constants.MESH_VEHICLE_NAME)
-    if veh_name is not None:
-        veh_collection = bpy.data.collections.get(veh_name)
+    veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
+    if veh_model is not None:
+        veh_collection = bpy.data.collections.get(veh_model)
         if veh_collection is not None:
+            # Set vehicle collection as active collection
+            layer = find_layer_collection_recursive(veh_collection, bpy.context.view_layer.layer_collection)
+            if layer is not None:
+                bpy.context.view_layer.active_layer_collection = layer
+                scene['jbeam_editor_veh_collection_selected'] = veh_collection
+
             active_obj_eval = active_obj.evaluated_get(depsgraph)
             # Update positions of other nodes in other meshes
             all_changed_node_positions = {}
             for update in depsgraph.updates:
                 #print(update.id, update.is_updated_geometry, update.is_updated_transform, update.is_updated_shading)
                 if update.id == active_obj_eval and (update.is_updated_geometry or update.is_updated_transform):
-                    changed_node_positions = update_node_positions(scene, veh_name, veh_collection, active_obj)
+                    changed_node_positions = update_node_positions(scene, veh_collection, active_obj)
                     all_changed_node_positions.update(changed_node_positions)
 
             # Export

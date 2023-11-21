@@ -102,6 +102,8 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
     vehicle['activeParts'] = active_parts_orig
     vehicle['model'] = model_name
 
+    jbeam_io.finish_loading()
+
     t2 = timeit.default_timer()
     print('Done loading JBeam. Time =', round(t2 - t1, 2), 's')
 
@@ -139,14 +141,16 @@ def build_config(config_path):
 
 
 def generate_meshes(vehicle_bundle: dict):
-    nodes: dict[str, dict] = vehicle_bundle['vdata']['nodes']
-    beams: list[dict] = vehicle_bundle['vdata']['beams']
-    triangles: list[dict] = vehicle_bundle['vdata']['triangles']
+    vdata = vehicle_bundle['vdata']
+    nodes: dict[str, dict] = vdata['nodes']
+    beams: list[dict] = vdata['beams']
+    triangles: list[dict] = vdata['triangles']
 
-    vehicle_name = vehicle_bundle['mainPartName']
+    vehicle_model = vdata['model']
+    main_part_name = vehicle_bundle['mainPartName']
 
     # Prevent overriding a vehicle that already exists in scene!
-    if bpy.data.collections.get(vehicle_name):
+    if bpy.data.collections.get(vehicle_model):
         return False
 
     parts = vehicle_bundle['chosenParts'].values()
@@ -188,12 +192,13 @@ def generate_meshes(vehicle_bundle: dict):
         if node_id_to_index.get(tri['id1:']) is not None and node_id_to_index.get(tri['id2:']) is not None and node_id_to_index.get(tri['id3:']) is not None:
             faces.append((node_id_to_index[tri['id1:']], node_id_to_index[tri['id2:']], node_id_to_index[tri['id3:']]))
 
-    # create set of main parts in scene
+    # add main part to main_parts scene dict
     if bpy.context.scene.get('main_parts') is None:
         bpy.context.scene['main_parts'] = {}
+    bpy.context.scene['main_parts'][main_part_name] = True
 
     # make collection
-    vehicle_parts_collection = bpy.data.collections.new(vehicle_name)
+    vehicle_parts_collection = bpy.data.collections.new(vehicle_model)
     bpy.context.scene.collection.children.link(vehicle_parts_collection)
 
     for part in parts:
@@ -204,7 +209,7 @@ def generate_meshes(vehicle_bundle: dict):
         obj_data.from_pydata(vertices, parts_edges.get(part, []), parts_faces.get(part, []))
         obj_data[constants.MESH_JBEAM_PART] = part
         obj_data[constants.MESH_JBEAM_FILE_PATH] = vehicle_bundle['partToFileMap'][part]
-        obj_data[constants.MESH_VEHICLE_NAME] = vehicle_name
+        obj_data[constants.MESH_VEHICLE_MODEL] = vehicle_model
 
         bm = bmesh.new()
         bm.from_mesh(obj_data)
@@ -233,12 +238,10 @@ def generate_meshes(vehicle_bundle: dict):
         # add object to scene collection
         vehicle_parts_collection.objects.link(part_obj)
 
-        if part == vehicle_name:
-            bpy.context.scene['main_parts'][vehicle_name] = True
-
     # store vehicle data in collection
     vehicle_parts_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle)
     vehicle_parts_collection[constants.COLLECTION_VEHICLE_MODEL] = vehicle_bundle['vdata']['model']
+    vehicle_parts_collection[constants.COLLECTION_MAIN_PART] = main_part_name
 
     return True
 

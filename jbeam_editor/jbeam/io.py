@@ -29,9 +29,9 @@ from .. import utils
 jbeam_text_cache = {}
 jbeam_cache = {}
 dir_to_files_map: dict[str, set] = {}
-part_to_file_map: dict[str, dict[str, str]] = {}
-slot_to_part_map: dict[str, dict[str, list]] = {}
-part_to_desc_map: dict[str, dict[str, dict]] = {}
+dir_part_to_file_map: dict[str, dict[str, str]] = {}
+dir_slot_to_part_map: dict[str, dict[str, list]] = {}
+dir_part_to_desc_map: dict[str, dict[str, dict]] = {}
 file_to_parts_name_map: dict[str, set] = {}
 
 invalidated_cache = False
@@ -136,16 +136,16 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: li
         if add_to_cache:
             file_to_parts_name_map[filepath].add(part_name)
 
-            if directory not in part_to_file_map:
-                part_to_file_map[directory] = {}
-                slot_to_part_map[directory] = {}
-                part_to_desc_map[directory] = {}
+            if directory not in dir_part_to_file_map:
+                dir_part_to_file_map[directory] = {}
+                dir_slot_to_part_map[directory] = {}
+                dir_part_to_desc_map[directory] = {}
 
             if not isinstance(part.get('slotType'), str):
                 print(f'Part does not have a slot type. Ignoring: {filepath}', file=sys.stderr)
                 continue
 
-            slot_to_part_map[directory].setdefault(part['slotType'], [])
+            dir_slot_to_part_map[directory].setdefault(part['slotType'], [])
             part_desc = {
                 'description': part['information'].get('name', ''),
                 'authors': part['information'].get('authors', ''),
@@ -153,15 +153,15 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: li
                 'slots': slot_info,
             }
 
-            if part_name in slot_to_part_map[directory][part['slotType']]:
-                if (part_name in part_to_file_map[directory] and len(file_content) > len(jbeam_cache[part_to_file_map[directory][part_name]])):
-                    part_to_file_map[directory][part_name] = filepath
-                    part_to_desc_map[directory][part_name] = part_desc
+            if part_name in dir_slot_to_part_map[directory][part['slotType']]:
+                if (part_name in dir_part_to_file_map[directory] and len(file_content) > len(jbeam_cache[dir_part_to_file_map[directory][part_name]])):
+                    dir_part_to_file_map[directory][part_name] = filepath
+                    dir_part_to_desc_map[directory][part_name] = part_desc
                 print(f'Duplicate part found: {part_name} from file {filepath}', file=sys.stderr)
             else:
-                part_to_file_map[directory][part_name] = filepath
-                part_to_desc_map[directory][part_name] = part_desc
-                slot_to_part_map[directory][part['slotType']].append(part_name)
+                dir_part_to_file_map[directory][part_name] = filepath
+                dir_part_to_desc_map[directory][part_name] = part_desc
+                dir_slot_to_part_map[directory][part['slotType']].append(part_name)
     return part_count
 
 
@@ -178,8 +178,8 @@ def start_loading(directories: list[str], vehicle_config: dict):
         #part_count_total = 0
         for filepath in Path(directory).rglob('*.jbeam'):
             fp = filepath.as_posix()
-            if fp not in dir_to_files_map[directory]:
-                part_count = load_jbeam_file(directory, fp, True, parts) or 0
+            #if fp not in dir_to_files_map[directory]:
+            part_count = load_jbeam_file(directory, fp, True, parts) or 0
             #if part_count:
             #    print('parsed file', filepath)
             #art_count_total += part_count
@@ -192,7 +192,7 @@ def get_part(io_ctx: dict, part_name: str | None):
         return None, None
 
     for directory in io_ctx['dirs']:
-        jbeam_filename = part_to_file_map[directory].get(part_name)
+        jbeam_filename = dir_part_to_file_map[directory].get(part_name)
         if jbeam_filename is not None:
             if jbeam_cache.get(jbeam_filename) is None:
                 part_count = load_jbeam_file(directory, jbeam_filename, False)
@@ -235,18 +235,23 @@ def get_main_part_name(io_ctx):
         return None
 
     for directory in io_ctx['dirs']:
-        if slot_to_part_map[directory].get('main'):
-            return slot_to_part_map[directory]['main'][0]
+        if dir_slot_to_part_map[directory].get('main'):
+            return dir_slot_to_part_map[directory]['main'][0]
 
     return None
 
 
-'''
 def finish_loading():
-    global jbeam_cache
-    jbeam_cache = {}
+    jbeam_cache.clear()
+    jbeam_text_cache.clear()
+    dir_to_files_map.clear()
+    dir_part_to_file_map.clear()
+    dir_slot_to_part_map.clear()
+    dir_part_to_desc_map.clear()
+    file_to_parts_name_map.clear()
 
 
+'''
 def get_available_parts(io_ctx):
     if not is_context_valid(io_ctx):
         return None

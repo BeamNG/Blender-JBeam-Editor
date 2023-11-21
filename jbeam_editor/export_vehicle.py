@@ -606,16 +606,11 @@ class JBEAM_EDITOR_OT_export_vehicle(Operator):
 
     @classmethod
     def poll(cls, context):
-        veh_name = None
+        collection = context.collection
         for obj in context.selected_objects:
             obj_data = obj.data
-            if obj_data.get(constants.MESH_JBEAM_PART) is None:
+            if obj_data.get(constants.MESH_JBEAM_PART) is None or collection.all_objects.get(obj.name) is None:
                 return False
-            if veh_name is None:
-                veh_name = obj_data[constants.MESH_VEHICLE_NAME]
-            else:
-                if veh_name != obj_data[constants.MESH_VEHICLE_NAME]:
-                    return False
         return True
 
     def execute(self, context):
