@@ -61,11 +61,10 @@ def row_dict_deepcopy(in_d: dict, out_d=None):
     if out_d is None:
         out_d = {}
     for k,v in in_d.items():
-        if isinstance(k, dict):
-            out_d[k] = copy.copy(v)
+        if isinstance(v, dict):
+            out_d[k] = v.copy()
         elif k == jbeam_utils.Metadata:
             out_d[k] = jbeam_utils.Metadata(v)
-            out_d[k] = v
         else:
             out_d[k] = v
     return out_d
