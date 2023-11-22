@@ -155,7 +155,7 @@ def generate_meshes(vehicle_bundle: dict):
 
     # Prevent overriding a vehicle that already exists in scene!
     if bpy.data.collections.get(vehicle_model):
-        return False
+        return None
 
     parts = vehicle_bundle['chosenParts'].values()
     node_index_to_id = []
@@ -262,13 +262,16 @@ def generate_meshes(vehicle_bundle: dict):
     vehicle_parts_collection[constants.COLLECTION_VEHICLE_MODEL] = vehicle_bundle['vdata']['model']
     vehicle_parts_collection[constants.COLLECTION_MAIN_PART] = main_part_name
 
-    return True
+    return vehicle_parts_collection
 
 
 def reimport_vehicle(veh_collection: bpy.types.Collection, jbeam_file_to_reimport_blender_filepath: str):
     config_path = veh_collection[constants.COLLECTION_PC_FILEPATH]
+    selected_obj_name = bpy.context.active_object.name
 
     # Remove vehicle and then reimport
+    for obj in veh_collection.objects:
+        bpy.data.objects.remove(obj, do_unlink=True)
     bpy.data.collections.remove(veh_collection)
 
     res = jbeam_io.invalidate_cache_for_file(jbeam_file_to_reimport_blender_filepath)
@@ -288,8 +291,15 @@ def reimport_vehicle(veh_collection: bpy.types.Collection, jbeam_file_to_reimpor
         return
 
     # Create Blender meshes from JBeam data
-    if not generate_meshes(vehicle_bundle):
+    new_veh_collection = generate_meshes(vehicle_bundle)
+    if new_veh_collection is None:
         return
+
+    # Select object that was previously selected
+    new_obj = bpy.context.scene.objects.get(selected_obj_name)
+    if new_obj is not None:
+        bpy.context.view_layer.objects.active = new_obj
+        new_obj.select_set(True)
 
     print('Done loading vehicle.')
 
@@ -311,7 +321,7 @@ def import_vehicle(config_path: str):
         return {'CANCELLED'}
 
     # Create Blender meshes from JBeam data
-    if not generate_meshes(vehicle_bundle):
+    if generate_meshes(vehicle_bundle) is None:
         return {'CANCELLED'}
 
     print('Done loading vehicle.')

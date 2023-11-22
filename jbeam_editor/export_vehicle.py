@@ -603,21 +603,14 @@ def export(veh_collection: bpy.types.Collection, objs_to_export: list):
             # f.write(out_str_jbeam_data)
             # f.close()
 
-            path = Path(jbeam_filepath)
-            length = len(path.name)
-            filename = path.name[max(0, length - 60):] # roughly 60 character limit
-
-            if filename not in bpy.data.texts:
-                bpy.data.texts.new(filename)
-
-            file = bpy.data.texts[filename]
+            blender_filepath = jbeam_io.filepath_to_blenderpath(jbeam_filepath)
+            file = bpy.data.texts[blender_filepath]
             file.clear()
             file.write(out_str_jbeam_data)
 
             if context.scene.get('files_text') is None:
                 context.scene['files_text'] = {}
-
-            context.scene['files_text'][filename] = out_str_jbeam_data
+            context.scene['files_text'][blender_filepath] = out_str_jbeam_data
 
 
     tf = timeit.default_timer()

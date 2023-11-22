@@ -55,6 +55,7 @@ from . import export_vehicle
 
 
 check_file_interval = 0.25
+export_file_interval = 0.5
 
 draw_handle = None
 
@@ -72,7 +73,7 @@ def queue_export_vehicle(data: dict):
     if bpy.app.timers.is_registered(export_veh):
         bpy.app.timers.unregister(export_veh)
     _export_data = data
-    bpy.app.timers.register(export_veh, first_interval=1.0)
+    bpy.app.timers.register(export_veh, first_interval=export_file_interval)
 
 
 # Refresh property input field UI
@@ -518,13 +519,14 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
                     changed_node_positions = update_node_positions(scene, veh_collection, active_obj)
                     all_changed_node_positions.update(changed_node_positions)
 
-            # Export
-            data = {
-                'obj': active_obj,
-                'veh_model': veh_model,
-                #'all_changed_node_positions': all_changed_node_positions,
-            }
-            queue_export_vehicle(data)
+            if len(all_changed_node_positions) > 0:
+                # Export
+                data = {
+                    'obj': active_obj,
+                    'veh_model': veh_model,
+                    #'all_changed_node_positions': all_changed_node_positions,
+                }
+                queue_export_vehicle(data)
 
     if active_obj.mode != 'EDIT':
         return
@@ -610,7 +612,7 @@ def check_files_for_changes():
         # import pstats
         # pr = cProfile.Profile()
         # with cProfile.Profile() as pr:
-        #     import_vehicle.reimport_vehicle(veh_collection, ~)
+        #     import_vehicle.reimport_vehicle(veh_collection, blender_filepath)
         #     stats = pstats.Stats(pr)
         #     stats.strip_dirs().sort_stats('cumtime').print_stats()
 
