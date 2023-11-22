@@ -125,7 +125,7 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: li
                 return None
 
             if next((substring for substring in parts if substring in file_text), None) is None:
-                return None
+                return 0
 
             file_content = utils.sjson_decode(file_text, filepath)
         else:
@@ -248,7 +248,9 @@ def start_loading(directories: list[str], vehicle_config: dict):
 
         #part_count_total = 0
             for filepath in dir_to_files_map[directory]:
-                part_count = load_jbeam_file(directory, filepath, True, parts) or 0
+                part_count = load_jbeam_file(directory, filepath, True, parts)
+                if part_count is None:
+                    return None
             #if part_count:
             #    print('parsed file', filepath)
             #art_count_total += part_count
@@ -320,13 +322,13 @@ def invalidate_cache_for_file(blender_filepath):
         return False
     directory = match.group(1)
 
-    jbeam_cache.pop(fullpath)
+    jbeam_cache.pop(fullpath, None)
 
     file_to_parts_name_map[fullpath].clear()
     file_part_to_slot_info[fullpath].clear()
-    dir_part_to_file_map.pop(directory)
-    dir_slot_to_part_map.pop(directory)
-    dir_part_to_desc_map.pop(directory)
+    dir_part_to_file_map.pop(directory, None)
+    dir_slot_to_part_map.pop(directory, None)
+    dir_part_to_desc_map.pop(directory, None)
     return True
 
 

@@ -53,6 +53,9 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict, ):
     print('Reading JBeam files...')
     t0 = timeit.default_timer()
     io_ctx = jbeam_io.start_loading(vehicle_directories, vehicle_config)
+    if io_ctx is None:
+        return None
+
     t1 = timeit.default_timer()
     print('Done reading JBeam files. Time =', round(t1 - t0, 2), 's')
 
@@ -155,6 +158,7 @@ def generate_meshes(vehicle_bundle: dict):
 
     # Prevent overriding a vehicle that already exists in scene!
     if bpy.data.collections.get(vehicle_model):
+        print(f'Collection named {vehicle_model} already exists! Vehicle will not be generated to avoid overriding it...', file=sys.stderr)
         return None
 
     parts = vehicle_bundle['chosenParts'].values()
@@ -286,13 +290,11 @@ def reimport_vehicle(veh_collection: bpy.types.Collection, jbeam_file_to_reimpor
     vehicles_dir = Path(vehicle_dir).parent.as_posix()
 
     vehicle_bundle = load_vehicle_stage_1(vehicles_dir, vehicle_dir, vehicle_config)
-
     if vehicle_bundle is None:
         return
 
     # Create Blender meshes from JBeam data
-    new_veh_collection = generate_meshes(vehicle_bundle)
-    if new_veh_collection is None:
+    if generate_meshes(vehicle_bundle) is None:
         return
 
     # Select object that was previously selected

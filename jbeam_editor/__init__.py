@@ -52,6 +52,7 @@ from . import import_jbeam
 from . import export_jbeam
 from . import import_vehicle
 from . import export_vehicle
+from . import utils
 
 
 check_file_interval = 0.25
@@ -616,6 +617,10 @@ def check_files_for_changes():
         #     stats = pstats.Stats(pr)
         #     stats.strip_dirs().sort_stats('cumtime').print_stats()
 
+        # Check if jbeam file is parseable before reimporting vehicle
+        data = utils.sjson_decode(curr_file_text, blender_filepath)
+        if data is None:
+            return check_file_interval
         import_vehicle.reimport_vehicle(veh_collection, blender_filepath)
 
     return check_file_interval
