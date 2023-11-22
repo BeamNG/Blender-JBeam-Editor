@@ -48,7 +48,7 @@ from .jbeam import node_beam as jbeam_node_beam
 
 import timeit
 
-def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
+def load_jbeam(vehicle_directories: list[str], vehicle_config: dict, ):
     """load all the jbeam and construct the thing in memory"""
     print('Reading JBeam files...')
     t0 = timeit.default_timer()
@@ -72,12 +72,14 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
     # Map parts to JBeam file
     veh_parts = list(chosen_parts.values())
     veh_part_to_file_map = {}
+    veh_part_to_file_text_map = {}
     for directory in vehicle_directories:
         for file in jbeam_io.dir_to_files_map[directory]:
             parts = jbeam_io.file_to_parts_name_map[file]
             for part in parts:
                 if part in veh_parts:
                     veh_part_to_file_map[part] = file
+                    veh_part_to_file_text_map[part] = jbeam_io.get_jbeam(io_ctx, file, True)
 
     print('Applying variables...')
     all_variables = jbeam_variables.process_parts(vehicle, unify_journal, vehicle_config)
@@ -114,6 +116,7 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
         'mainPartName'     : vehicle_config['mainPartName'],
         'chosenParts'      : chosen_parts,
         'partToFileMap'    : veh_part_to_file_map,
+        'partToFileTextMap': veh_part_to_file_text_map,
         'ioCtx'            : io_ctx,
     }
 
@@ -139,8 +142,25 @@ def build_config(config_path):
 
     return res
 
+def build_config_from_text(config_filetext):
+    res = {}
+    file_data = utils.sjson_decode(config_filetext)
+    if not file_data:
+        return None
+
+    res['partConfigFilename'] = config_path
+    if file_data.get('format') == 2:
+        file_data['format'] = None
+        res.update(file_data)
+    else:
+        res['parts'] = file_data
+
+    return res
+
 
 def generate_meshes(vehicle_bundle: dict):
+    context = bpy.context
+
     vdata = vehicle_bundle['vdata']
     nodes: dict[str, dict] = vdata['nodes']
     beams: list[dict] = vdata['beams']
@@ -148,6 +168,7 @@ def generate_meshes(vehicle_bundle: dict):
 
     vehicle_model = vdata['model']
     main_part_name = vehicle_bundle['mainPartName']
+    pc_filepath = vehicle_bundle['config']['partConfigFilename']
 
     # Prevent overriding a vehicle that already exists in scene!
     if bpy.data.collections.get(vehicle_model):
@@ -193,22 +214,27 @@ def generate_meshes(vehicle_bundle: dict):
             faces.append((node_id_to_index[tri['id1:']], node_id_to_index[tri['id2:']], node_id_to_index[tri['id3:']]))
 
     # add main part to main_parts scene dict
-    if bpy.context.scene.get('main_parts') is None:
-        bpy.context.scene['main_parts'] = {}
-    bpy.context.scene['main_parts'][main_part_name] = True
+    if context.scene.get('main_parts') is None:
+        context.scene['main_parts'] = {}
+    context.scene['main_parts'][main_part_name] = True
 
     # make collection
     vehicle_parts_collection = bpy.data.collections.new(vehicle_model)
-    bpy.context.scene.collection.children.link(vehicle_parts_collection)
+    context.scene.collection.children.link(vehicle_parts_collection)
 
     for part in parts:
         if part == '': # skip slots with empty parts
             continue
 
+        jbeam_filepath = vehicle_bundle['partToFileMap'][part]
+        jbeam_filetext = vehicle_bundle['partToFileTextMap'][part]
+
         obj_data = bpy.data.meshes.new(part)
         obj_data.from_pydata(vertices, parts_edges.get(part, []), parts_faces.get(part, []))
         obj_data[constants.MESH_JBEAM_PART] = part
-        obj_data[constants.MESH_JBEAM_FILE_PATH] = vehicle_bundle['partToFileMap'][part]
+        obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_filepath
+        obj_data[constants.MESH_JBEAM_FILE_TEXT] = jbeam_filetext
+        obj_data[constants.MESH_JBEAM_BLENDER_FILE_PATH] = jbeam_io.full_paths_to_blender_paths[jbeam_filepath]
         obj_data[constants.MESH_VEHICLE_MODEL] = vehicle_model
 
         bm = bmesh.new()
@@ -239,11 +265,47 @@ def generate_meshes(vehicle_bundle: dict):
         vehicle_parts_collection.objects.link(part_obj)
 
     # store vehicle data in collection
+    # path = Path(pc_filepath)
+    # length = len(path.name)
+    # blender_pc_filename = path.name[max(0, length - 60):] # Blender can only store roughly 60 characters...
+    # if blender_pc_filename not in bpy.data.texts:
+    #     bpy.data.texts.new(blender_pc_filename)
+    # file = bpy.data.texts[blender_pc_filename]
+    # file.clear()
+    # file.write(utils.read_file(pc_filepath))
+
     vehicle_parts_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle)
+    vehicle_parts_collection[constants.COLLECTION_PC_FILEPATH] = vehicle_bundle['config']['partConfigFilename']
+    #vehicle_parts_collection[constants.COLLECTION_BLENDER_PC_FILEPATH] = blender_pc_filename
     vehicle_parts_collection[constants.COLLECTION_VEHICLE_MODEL] = vehicle_bundle['vdata']['model']
     vehicle_parts_collection[constants.COLLECTION_MAIN_PART] = main_part_name
 
     return True
+
+
+def reimport_vehicle(veh_collection):
+    config_path = veh_collection[constants.COLLECTION_PC_FILEPATH]
+
+    # Remove vehicle and then reimport
+    bpy.data.collections.remove(veh_collection)
+
+    vehicle_config = build_config(config_path)
+    if vehicle_config is None:
+        return
+
+    vehicle_dir = Path(config_path).parent.as_posix()
+    vehicles_dir = Path(vehicle_dir).parent.as_posix()
+
+    vehicle_bundle = load_vehicle_stage_1(vehicles_dir, vehicle_dir, vehicle_config)
+
+    if vehicle_bundle is None:
+        return
+
+    # Create Blender meshes from JBeam data
+    if not generate_meshes(vehicle_bundle):
+        return
+
+    print('Done loading vehicle.')
 
 
 def import_vehicle(config_path: str):
@@ -270,6 +332,13 @@ def import_vehicle(config_path: str):
     return {'FINISHED'}
 
 
+def import_files_into_blender(config_path: str):
+    vehicle_dir = Path(config_path).parent.as_posix()
+    vehicles_dir = Path(vehicle_dir).parent.as_posix()
+    vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]
+    jbeam_io.load_files_into_blender(config_path, vehicle_directories)
+
+
 class JBEAM_EDITOR_OT_import_vehicle(Operator, ImportHelper):
     bl_idname = 'jbeam_editor.import_vehicle'
     bl_label = 'Import JBeam'
@@ -283,4 +352,7 @@ class JBEAM_EDITOR_OT_import_vehicle(Operator, ImportHelper):
     )
 
     def execute(self, context):
-        return import_vehicle(Path(self.filepath).as_posix())
+        pc_config_path = Path(self.filepath).as_posix()
+        import_files_into_blender(pc_config_path)
+        import_vehicle(pc_config_path)
+        return {'FINISHED'}

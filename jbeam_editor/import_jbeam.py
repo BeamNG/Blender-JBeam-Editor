@@ -100,7 +100,7 @@ def import_jbeam_part(jbeam_file_path, jbeam_file_data_str, jbeam_file_data, cho
     obj_data = bpy.data.meshes.new(chosen_part)
     obj_data.from_pydata(vertices, edges, faces)
     obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_file_path
-    obj_data[constants.MESH_JBEAM_FILE_DATA_STR] = jbeam_file_data_str
+    obj_data[constants.MESH_JBEAM_FILE_TEXT] = jbeam_file_data_str
     obj_data[constants.MESH_JBEAM_PART] = chosen_part
     obj_data[constants.MESH_JBEAM_INIT_NODE_IDS] = copy.deepcopy(node_ids)
 
@@ -171,7 +171,7 @@ class JBEAM_EDITOR_OT_choose_jbeam(Operator):
     # User clicked OK, JBeam part is chosen
     def execute(self, context):
         jbeam_file_path = context.scene[constants.MESH_JBEAM_FILE_PATH]
-        jbeam_file_data_str = context.scene[constants.MESH_JBEAM_FILE_DATA_STR]
+        jbeam_file_data_str = context.scene[constants.MESH_JBEAM_FILE_TEXT]
         jbeam_file_data = utils.sjson_decode(jbeam_file_data_str, jbeam_file_path) #sjson.loads(jbeam_file_data_str)
         chosen_part = self.dropdown_parts
 
@@ -242,7 +242,7 @@ class JBEAM_EDITOR_OT_import_jbeam(Operator, ImportHelper):
             return {'FINISHED'}'''
 
         context.scene[constants.MESH_JBEAM_FILE_PATH] = jbeam_file_path
-        context.scene[constants.MESH_JBEAM_FILE_DATA_STR] = str_data
+        context.scene[constants.MESH_JBEAM_FILE_TEXT] = str_data
         context.scene['jbeam_part_choices'] = part_choices
 
         bpy.ops.jbeam_editor.choose_jbeam('INVOKE_DEFAULT')

@@ -479,8 +479,22 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
             scene['jbeam_editor_veh_collection_selected'] = None
             return
 
-    if not isinstance(active_obj_data, bpy.types.Mesh):
+    if active_obj_data.get(constants.MESH_JBEAM_PART) is None:
         return
+
+    # Show selected jbeam part JBeam file in text editor
+    blender_filepath = active_obj_data[constants.MESH_JBEAM_BLENDER_FILE_PATH]
+    text = bpy.data.texts.get(blender_filepath)
+    if text is not None:
+        text_area = None
+        for area in bpy.context.screen.areas:
+            if area.type == "TEXT_EDITOR":
+                text_area = area
+                break
+
+        if text_area is not None:
+            if text_area.spaces[0].text != text:
+                text_area.spaces[0].text = text
 
     veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
     if veh_model is not None:
@@ -502,13 +516,12 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
                     all_changed_node_positions.update(changed_node_positions)
 
             # Export
-            # data = {
-            #     'scene': scene,
-            #     'veh_name': veh_name,
-            #     'veh_collection': veh_collection,
-            #     'all_changed_node_positions': all_changed_node_positions,
-            # }
-            # queue_export_vehicle(data)
+            data = {
+                'obj': active_obj,
+                'veh_model': veh_model,
+                #'all_changed_node_positions': all_changed_node_positions,
+            }
+            queue_export_vehicle(data)
 
     if active_obj.mode != 'EDIT':
         return
@@ -522,46 +535,65 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
     if not scene.get('jbeam_editor_renaming_rename_enabled'):
         scene['jbeam_editor_renaming_rename_enabled'] = None
 
-
     bm = bmesh.from_edit_mesh(active_obj_data)
 
-    if active_obj_data.get(constants.MESH_JBEAM_PART) is not None:
-        # This mesh is a jbeam mesh
+    init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
+    node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
 
-        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+    selected_verts = []
+    init_node_ids = set()
 
-        selected_verts = []
-        init_node_ids = set()
+    # When new vertices are added, they seem to copy the data of the old vertices they were made from,
+    # so rename their node ids to random ids (UUID)
+    bm.verts.ensure_lookup_table()
+    for i,v in enumerate(bm.verts):
+        if v.select:
+            selected_verts.append(v)
 
-        # When new vertices are added, they seem to copy the data of the old vertices they were made from,
-        # so rename their node ids to random ids (UUID)
-        bm.verts.ensure_lookup_table()
-        for i,v in enumerate(bm.verts):
-            if v.select:
-                selected_verts.append(v)
+        init_node_id = v[init_node_id_layer].decode('utf-8')
 
-            init_node_id = v[init_node_id_layer].decode('utf-8')
+        if not init_node_id in init_node_ids:
+            init_node_ids.add(init_node_id)
+        else:
+            new_node_id_bytes = bytes(str(uuid.uuid4()), 'utf-8')
+            v[init_node_id_layer] = new_node_id_bytes
+            v[node_id_layer] = new_node_id_bytes
 
-            if not init_node_id in init_node_ids:
-                init_node_ids.add(init_node_id)
-            else:
-                new_node_id_bytes = bytes(str(uuid.uuid4()), 'utf-8')
-                v[init_node_id_layer] = new_node_id_bytes
-                v[node_id_layer] = new_node_id_bytes
+    # If one vertex is selected, set the UI input node_id field to the selected vertex's node_id attribute
+    if len(selected_verts) == 1:
+        v = selected_verts[0]
+        node_id = v[node_id_layer].decode('utf-8')
 
-        # If one vertex is selected, set the UI input node_id field to the selected vertex's node_id attribute
-        if len(selected_verts) == 1:
-            v = selected_verts[0]
-            node_id = v[node_id_layer].decode('utf-8')
+        scene['jbeam_editor_renaming_selected_obj'] = active_obj
+        scene['jbeam_editor_renaming_selected_vert_idx'] = v.index
+        scene['jbeam_editor_renaming_rename_enabled'] = False
 
-            scene['jbeam_editor_renaming_selected_obj'] = active_obj
-            scene['jbeam_editor_renaming_selected_vert_idx'] = v.index
-            scene['jbeam_editor_renaming_rename_enabled'] = False
-
-            ui_props.input_node_id = node_id
+        ui_props.input_node_id = node_id
 
     bm.free()
+
+
+@persistent
+def check_files_for_changes():
+    # If jbeam file changed, reimport jbeam file/vehicle
+    context = bpy.context
+    if context.scene.get('files_text') is None:
+        return 1.0
+
+    for file in bpy.data.texts:
+        curr_file_text = file.as_string()
+        last_file_text = context.scene['files_text'][file.name]
+        if curr_file_text != last_file_text:
+            context.scene['files_text'][file.name] = curr_file_text
+
+            veh_collection = context.collection
+            if veh_collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
+                return 1.0
+
+            import_vehicle.reimport_vehicle(veh_collection)
+            #import_vehicle.reimport_vehicle_from_loaded_text()
+
+    return 1.0
 
 
 @persistent
@@ -594,6 +626,8 @@ def register():
     # Delayed function call to prevent "restrictcontext" error
     bpy.app.timers.register(on_post_register, first_interval=0.1, persistent=True)
 
+    bpy.app.timers.register(check_files_for_changes, first_interval=1.0, persistent=True)
+
 
 def unregister():
     for c in reversed(classes):
@@ -609,6 +643,8 @@ def unregister():
 
     if draw_handle:
         bpy.types.SpaceView3D.draw_handler_remove(draw_handle, 'WINDOW')
+
+    bpy.app.timers.unregister(check_files_for_changes)
 
     del bpy.types.Scene.ui_properties
 

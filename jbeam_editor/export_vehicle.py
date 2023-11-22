@@ -538,8 +538,16 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
         i += 1
 
 
-def manual_export(veh_collection: bpy.types.Collection, objs_to_export: list):
+def auto_export(data):
+    collection = bpy.data.collections.get(data['veh_model'])
+    if collection is not None:
+        export(collection, [data['obj']])
+
+
+def export(veh_collection: bpy.types.Collection, objs_to_export: list):
     t0 = timeit.default_timer()
+    context = bpy.context
+
     veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
     vdata = veh_bundle['vdata']
     nodes = vdata['nodes']
@@ -591,9 +599,26 @@ def manual_export(veh_collection: bpy.types.Collection, objs_to_export: list):
 
             update_ast_nodes(ast_nodes, jbeam_data, jbeam_data_modified, jbeam_part, nodes_to_add, nodes_to_delete)
             out_str_jbeam_data = sjsonast.stringify_nodes(ast_nodes)
-            f = open(jbeam_filepath, 'w', encoding='utf-8')
-            f.write(out_str_jbeam_data)
-            f.close()
+            # f = open(jbeam_filepath, 'w', encoding='utf-8')
+            # f.write(out_str_jbeam_data)
+            # f.close()
+
+            path = Path(jbeam_filepath)
+            length = len(path.name)
+            filename = path.name[max(0, length - 60):] # roughly 60 character limit
+
+            if filename not in bpy.data.texts:
+                bpy.data.texts.new(filename)
+
+            file = bpy.data.texts[filename]
+            file.clear()
+            file.write(out_str_jbeam_data)
+
+            if context.scene.get('files_text') is None:
+                context.scene['files_text'] = {}
+
+            context.scene['files_text'][filename] = out_str_jbeam_data
+
 
     tf = timeit.default_timer()
     print('Exporting Time', round(tf - t0, 2), 's')
@@ -618,7 +643,7 @@ class JBEAM_EDITOR_OT_export_vehicle(Operator):
         #for obj in veh_collection.all_objects:
         #    parts_to_export.add(obj.data[constants.MESH_JBEAM_PART])
 
-        manual_export(veh_collection, context.selected_objects)
+        export(veh_collection, context.selected_objects)
 
         # import cProfile, pstats, io
         # import pstats
