@@ -156,29 +156,28 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
             # check if inline options are provided, merge them then
             for rk in range(header_size, len_row_value):
                 rv = row_value[rk]
-                if len_row_value > header_size:
-                    if isinstance(rv, dict):
-                        if rv.get(jbeam_utils.Metadata) is None:
-                            rv[jbeam_utils.Metadata] = jbeam_utils.Metadata()
-                        rv_metadata = rv[jbeam_utils.Metadata]
+                if isinstance(rv, dict):
+                    if rv.get(jbeam_utils.Metadata) is None:
+                        rv[jbeam_utils.Metadata] = jbeam_utils.Metadata()
+                    rv_metadata = rv[jbeam_utils.Metadata]
 
-                        new_row_metadata = new_row[jbeam_utils.Metadata]
-                        new_row_metadata.merge(rv_metadata)
+                    new_row_metadata = new_row[jbeam_utils.Metadata]
+                    new_row_metadata.merge(rv_metadata)
 
-                        # Convert metadata variable reference in list from index to key using header
-                        for var in list(new_row_metadata._data.keys()):
-                            if isinstance(var, int):
-                                new_row_metadata._data[header[var]] = new_row_metadata._data.pop(var)
+                    # Convert metadata variable reference in list from index to key using header
+                    for var in list(new_row_metadata._data.keys()):
+                        if isinstance(var, int):
+                            new_row_metadata._data[header[var]] = new_row_metadata._data.pop(var)
 
-                        new_row.update(rv)
-                        new_row[jbeam_utils.Metadata] = new_row_metadata
+                    new_row.update(rv)
+                    new_row[jbeam_utils.Metadata] = new_row_metadata
 
-                        # remove the options
-                        del row_value[rk] # remove them for now
-                        len_row_value -= 1
-                        # if rk >= len(header):
-                        #     header.append('options') # for fixing some code below - let it know those are the options
-                        # break
+                    # remove the options
+                    del row_value[rk] # remove them for now
+                    break
+                    # if rk >= len(header):
+                    #     header.append('options') # for fixing some code below - let it know those are the options
+                    # break
 
             # now care about the rest
             for rk, rv in enumerate(row_value):
