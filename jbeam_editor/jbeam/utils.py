@@ -1,10 +1,15 @@
+import copy
+
 from .. import utils
 
 ignore_sections = {'maxIDs': True, 'options': True}
 
 class Metadata:
-    def __init__(self):
-        self._data = {}
+    def __init__(self, other=None):
+        if other is not None:
+            self._data = copy.deepcopy(other._data)
+        else:
+            self._data = {}
 
     def set(self, var, key, val):
         if self._data.get(var) is None:

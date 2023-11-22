@@ -37,7 +37,7 @@ def unify_parts(target: dict[str, dict|list], source: dict[str, dict|list], leve
 
             # Care about the slot options if we are first
             if isinstance(section, list):
-                local_slot_options = copy.deepcopy(slot_options) if slot_options is not None else {}
+                local_slot_options = utils.row_dict_deepcopy(slot_options) if slot_options is not None else {}
                 local_slot_options['partOrigin'] = source['partName']
                 target[section_key].insert(1, local_slot_options)
                 # Now we need to negate the slot options out again
@@ -59,7 +59,7 @@ def unify_parts(target: dict[str, dict|list], source: dict[str, dict|list], leve
                         else:
                             target[section_key][utils.dict_array_size(target[section_key])] = v3
                     else:
-                        local_slot_options = copy.deepcopy(slot_options) if slot_options is not None else {}
+                        local_slot_options = utils.row_dict_deepcopy(slot_options) if slot_options is not None else {}
                         local_slot_options['partOrigin'] = source['partName']
                         if isinstance(target[section_key], list):
                             target[section_key].append(local_slot_options)
@@ -123,13 +123,13 @@ def fill_slots_rec(io_ctx: dict, user_part_config: dict, current_part: dict, lev
 
     if current_part.get('slots') is not None:
         for _, slot in utils.ipairs(current_part['slots']):
-            slot_options = copy.deepcopy(_slot_options) if _slot_options is not None else {}
+            slot_options = utils.row_dict_deepcopy(_slot_options) if _slot_options is not None else {}
             # the options are only valid for this hierarchy.
             # if we do not clone/deepcopy it, the childs will leak options to the parents
 
             slot_id = slot['name'] if slot.get('name') is not None else slot.get('type')
 
-            slot_options.update(copy.deepcopy(slot))
+            slot_options.update(utils.row_dict_deepcopy(slot))
             # remove the slot table from the options
             slot_options.pop('name', None)
             slot_options.pop('type', None)

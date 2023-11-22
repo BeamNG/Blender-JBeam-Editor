@@ -72,14 +72,13 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict, ):
     # Map parts to JBeam file
     veh_parts = list(chosen_parts.values())
     veh_part_to_file_map = {}
-    veh_part_to_file_text_map = {}
     for directory in vehicle_directories:
         for file in jbeam_io.dir_to_files_map[directory]:
-            parts = jbeam_io.file_to_parts_name_map[file]
-            for part in parts:
-                if part in veh_parts:
-                    veh_part_to_file_map[part] = file
-                    veh_part_to_file_text_map[part] = jbeam_io.get_jbeam(io_ctx, file, True)
+            if file in jbeam_io.file_to_parts_name_map:
+                parts = jbeam_io.file_to_parts_name_map[file]
+                for part in parts:
+                    if part in veh_parts:
+                        veh_part_to_file_map[part] = file
 
     print('Applying variables...')
     all_variables = jbeam_variables.process_parts(vehicle, unify_journal, vehicle_config)
@@ -116,7 +115,6 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict, ):
         'mainPartName'     : vehicle_config['mainPartName'],
         'chosenParts'      : chosen_parts,
         'partToFileMap'    : veh_part_to_file_map,
-        'partToFileTextMap': veh_part_to_file_text_map,
         'ioCtx'            : io_ctx,
     }
 
@@ -142,25 +140,10 @@ def build_config(config_path):
 
     return res
 
-def build_config_from_text(config_filetext):
-    res = {}
-    file_data = utils.sjson_decode(config_filetext)
-    if not file_data:
-        return None
-
-    res['partConfigFilename'] = config_path
-    if file_data.get('format') == 2:
-        file_data['format'] = None
-        res.update(file_data)
-    else:
-        res['parts'] = file_data
-
-    return res
-
 
 def generate_meshes(vehicle_bundle: dict):
     context = bpy.context
-
+    io_ctx = vehicle_bundle['ioCtx']
     vdata = vehicle_bundle['vdata']
     nodes: dict[str, dict] = vdata['nodes']
     beams: list[dict] = vdata['beams']
@@ -227,13 +210,11 @@ def generate_meshes(vehicle_bundle: dict):
             continue
 
         jbeam_filepath = vehicle_bundle['partToFileMap'][part]
-        jbeam_filetext = vehicle_bundle['partToFileTextMap'][part]
 
         obj_data = bpy.data.meshes.new(part)
         obj_data.from_pydata(vertices, parts_edges.get(part, []), parts_faces.get(part, []))
         obj_data[constants.MESH_JBEAM_PART] = part
         obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_filepath
-        obj_data[constants.MESH_JBEAM_FILE_TEXT] = jbeam_filetext
         obj_data[constants.MESH_JBEAM_BLENDER_FILE_PATH] = jbeam_io.full_paths_to_blender_paths[jbeam_filepath]
         obj_data[constants.MESH_VEHICLE_MODEL] = vehicle_model
 
@@ -275,6 +256,7 @@ def generate_meshes(vehicle_bundle: dict):
     # file.write(utils.read_file(pc_filepath))
 
     vehicle_parts_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle)
+    vehicle_parts_collection[constants.COLLECTION_IO_CTX] = io_ctx
     vehicle_parts_collection[constants.COLLECTION_PC_FILEPATH] = vehicle_bundle['config']['partConfigFilename']
     #vehicle_parts_collection[constants.COLLECTION_BLENDER_PC_FILEPATH] = blender_pc_filename
     vehicle_parts_collection[constants.COLLECTION_VEHICLE_MODEL] = vehicle_bundle['vdata']['model']
@@ -283,11 +265,13 @@ def generate_meshes(vehicle_bundle: dict):
     return True
 
 
-def reimport_vehicle(veh_collection):
+def reimport_vehicle(veh_collection: bpy.types.Collection, jbeam_file_to_reimport_blender_filepath: str):
     config_path = veh_collection[constants.COLLECTION_PC_FILEPATH]
 
     # Remove vehicle and then reimport
     bpy.data.collections.remove(veh_collection)
+
+    jbeam_io.invalidate_cache_for_file(jbeam_file_to_reimport_blender_filepath)
 
     vehicle_config = build_config(config_path)
     if vehicle_config is None:

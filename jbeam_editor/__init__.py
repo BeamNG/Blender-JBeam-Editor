@@ -53,6 +53,9 @@ from . import export_jbeam
 from . import import_vehicle
 from . import export_vehicle
 
+
+check_file_interval = 0.5
+
 draw_handle = None
 
 _export_data: dict
@@ -578,22 +581,42 @@ def check_files_for_changes():
     # If jbeam file changed, reimport jbeam file/vehicle
     context = bpy.context
     if context.scene.get('files_text') is None:
-        return 1.0
+        return check_file_interval
 
-    for file in bpy.data.texts:
-        curr_file_text = file.as_string()
-        last_file_text = context.scene['files_text'][file.name]
-        if curr_file_text != last_file_text:
-            context.scene['files_text'][file.name] = curr_file_text
+    text = None
+    text_area = None
+    for area in bpy.context.screen.areas:
+        if area.type == "TEXT_EDITOR":
+            text_area = area
+            break
 
-            veh_collection = context.collection
-            if veh_collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
-                return 1.0
+    if text_area is not None:
+        text = text_area.spaces[0].text
 
-            import_vehicle.reimport_vehicle(veh_collection)
-            #import_vehicle.reimport_vehicle_from_loaded_text()
+    if text is None:
+        return check_file_interval
 
-    return 1.0
+    blender_filepath = text.name
+    curr_file_text = text.as_string()
+    last_file_text = context.scene['files_text'][blender_filepath]
+    if curr_file_text != last_file_text:
+        context.scene['files_text'][blender_filepath] = curr_file_text
+
+        veh_collection = context.collection
+        if veh_collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
+            return check_file_interval
+
+        # import cProfile, pstats, io
+        # import pstats
+        # pr = cProfile.Profile()
+        # with cProfile.Profile() as pr:
+        #     import_vehicle.reimport_vehicle(veh_collection, ~)
+        #     stats = pstats.Stats(pr)
+        #     stats.strip_dirs().sort_stats('cumtime').print_stats()
+
+        import_vehicle.reimport_vehicle(veh_collection, blender_filepath)
+
+    return check_file_interval
 
 
 @persistent
@@ -626,7 +649,7 @@ def register():
     # Delayed function call to prevent "restrictcontext" error
     bpy.app.timers.register(on_post_register, first_interval=0.1, persistent=True)
 
-    bpy.app.timers.register(check_files_for_changes, first_interval=1.0, persistent=True)
+    bpy.app.timers.register(check_files_for_changes, first_interval=check_file_interval, persistent=True)
 
 
 def unregister():

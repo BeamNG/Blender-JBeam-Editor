@@ -18,10 +18,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import copy
 from pathlib import Path
 import sys
 
 from . import bng_sjson
+from .jbeam import utils as jbeam_utils
 
 
 def read_file(filepath: str):
@@ -53,6 +55,20 @@ def sjson_read_file(filepath: str):
         # parent needs to deal with error reporting
         return None
     return sjson_decode(content, filepath)
+
+
+def row_dict_deepcopy(in_d: dict, out_d=None):
+    if out_d is None:
+        out_d = {}
+    for k,v in in_d.items():
+        if isinstance(k, dict):
+            out_d[k] = copy.copy(v)
+        elif k == jbeam_utils.Metadata:
+            out_d[k] = jbeam_utils.Metadata(v)
+            out_d[k] = v
+        else:
+            out_d[k] = v
+    return out_d
 
 
 def dict_array_size(x: dict):

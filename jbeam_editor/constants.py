@@ -19,6 +19,7 @@
 # SOFTWARE.
 
 # JBeam Collection Attributes
+COLLECTION_IO_CTX = 'collection_vehicle_io_ctx'
 COLLECTION_VEHICLE_MODEL = 'collection_vehicle_model'
 COLLECTION_VEHICLE_BUNDLE = 'collection_vehicle_bundle'
 COLLECTION_PC_FILEPATH = 'collection_vehicle_pc_filepath'

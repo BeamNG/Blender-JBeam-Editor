@@ -102,7 +102,7 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
     if header[-1] != 'options':
         header.append('options')
     new_list_size = 0
-    local_options = replace_special_values(copy.deepcopy(input_options)) if input_options is not None else {}
+    local_options = utils.row_dict_deepcopy(input_options) if input_options is not None else {}
 
     if not local_options.get(jbeam_utils.Metadata):
         local_options[jbeam_utils.Metadata] = jbeam_utils.Metadata()
@@ -130,7 +130,7 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
             options_metadata.merge(row_metadata)
 
             #local_options.pop(jbeam_utils.Metadata, None)
-            local_options.update(replace_special_values(row_value))
+            local_options.update(row_value)
 
             local_options[jbeam_utils.Metadata] = options_metadata
         else:
@@ -147,7 +147,7 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
 
             # walk the table row
             # replace row: reassociate the header colums as keys to the row cells
-            new_row = copy.deepcopy(local_options)
+            new_row = utils.row_dict_deepcopy(local_options)
 
             if len_row_value == header_size:
                 row_value.append({jbeam_utils.Metadata: jbeam_utils.Metadata()})
@@ -170,7 +170,7 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
                             if isinstance(var, int):
                                 new_row_metadata._data[header[var]] = new_row_metadata._data.pop(var)
 
-                        new_row.update(replace_special_values(rv))
+                        new_row.update(rv)
                         new_row[jbeam_utils.Metadata] = new_row_metadata
 
                         # remove the options
@@ -187,7 +187,7 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
                     print("*** header: ", header, ' missing key: ' + str(rk) + ' -- is the section header too short?', file=sys.stderr)
                     print("*** row: ", row_value, file=sys.stderr)
                 else:
-                    new_row[header[rk]] = replace_special_values(rv)
+                    new_row[header[rk]] = rv
 
             # seems to only be true during "Assembling tables" and processing certain tables
             # e.g. nodes section

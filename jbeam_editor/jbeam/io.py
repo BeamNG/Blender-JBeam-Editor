@@ -32,13 +32,14 @@ from .. import utils
 full_paths_to_blender_paths = {}
 blender_paths_to_full_paths = {}
 
-jbeam_text_cache = {}
 jbeam_cache = {}
 dir_to_files_map: dict[str, set] = {}
 dir_part_to_file_map: dict[str, dict[str, str]] = {}
 dir_slot_to_part_map: dict[str, dict[str, list]] = {}
 dir_part_to_desc_map: dict[str, dict[str, dict]] = {}
-file_to_parts_name_map: dict[str, set] = {}
+file_part_to_slot_info: dict[str, dict[str, dict]] = {}
+
+file_to_parts_name_map: dict[str, list] = {}
 
 invalidated_cache = False
 
@@ -114,47 +115,55 @@ def process_slots_destructive(part: dict, source_filename: str):
 
 def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: list | None = None):
     file_content = None
-    if parts is not None:
-        # As optimization, only read file and check if file text contains part name before parsing it with SJSON parser
-        file_text = bpy.data.texts[full_paths_to_blender_paths[filepath]].as_string()
-        if file_text is None:
+
+    if filepath not in jbeam_cache:
+        if parts is not None:
+            # As optimization, only read file and check if file text contains part name before parsing it with SJSON parser
+            file_text = bpy.data.texts[full_paths_to_blender_paths[filepath]].as_string()
+            if file_text is None:
+                print(f'Cannot read file: {filepath}', file=sys.stderr)
+                return None
+
+            if next((substring for substring in parts if substring in file_text), None) is None:
+                return None
+
+            file_content = utils.sjson_decode(file_text, filepath)
+        else:
+            file_text = bpy.data.texts[full_paths_to_blender_paths[filepath]].as_string()
+            if file_text is None:
+                print(f'Cannot read file: {filepath}', file=sys.stderr)
+                return None
+
+            file_content = utils.sjson_decode(file_text, filepath)
+
+        if file_content is None:
             print(f'Cannot read file: {filepath}', file=sys.stderr)
             return None
+        jbeam_cache[filepath] = file_content
 
-        if next((substring for substring in parts if substring in file_text), None) is None:
-            return None
-
-        file_content = utils.sjson_decode(file_text, filepath)
     else:
-        file_text = bpy.data.texts[full_paths_to_blender_paths[filepath]].as_string()
-        if file_text is None:
-            print(f'Cannot read file: {filepath}', file=sys.stderr)
-            return None
-
-        file_content = utils.sjson_decode(file_text, filepath)
-
-    if file_content is None:
-        print(f'Cannot read file: {filepath}', file=sys.stderr)
-        return None
-
-    jbeam_text_cache[filepath] = file_text
-    jbeam_cache[filepath] = file_content
+        file_content = jbeam_cache[filepath]
 
     if add_to_cache:
-        if directory not in dir_to_files_map:
-            dir_to_files_map[directory] = set()
-        dir_to_files_map[directory].add(filepath)
-        file_to_parts_name_map[filepath] = set()
+        if filepath not in file_part_to_slot_info:
+            file_part_to_slot_info[filepath] = {}
+            file_to_parts_name_map[filepath] = []
 
     part_count = 0
+    part_name: str
+    part: dict
     for part_name, part in file_content.items():
         part_count += 1
         part['partName'] = part_name
 
-        slot_info = process_slots_destructive(part, filepath)
+        if filepath in file_part_to_slot_info and part_name in file_part_to_slot_info[filepath]:
+            slot_info: dict = file_part_to_slot_info[filepath][part_name]
+        else:
+            slot_info: dict = process_slots_destructive(part, filepath)
 
         if add_to_cache:
-            file_to_parts_name_map[filepath].add(part_name)
+            file_part_to_slot_info[filepath][part_name] = slot_info
+            file_to_parts_name_map[filepath].append(part_name)
 
             if directory not in dir_part_to_file_map:
                 dir_part_to_file_map[directory] = {}
@@ -210,7 +219,10 @@ def load_files_into_blender(config_path: str, directories: list[str]):
         for filepath in Path(directory).rglob('*.jbeam'):
             fp = filepath.as_posix()
             filetext = utils.read_file(fp)
-            #jbeam_text_cache[fp] = filetext
+
+            if directory not in dir_to_files_map:
+                dir_to_files_map[directory] = set()
+            dir_to_files_map[directory].add(fp)
 
             short_fp = filepath_to_blenderpath(fp)
             full_paths_to_blender_paths[fp] = short_fp
@@ -232,14 +244,11 @@ def start_loading(directories: list[str], vehicle_config: dict):
     parts.append('main') # main isn't a part but a slotType, but still find the file with it
 
     for directory in directories:
-        if directory not in dir_to_files_map:
-            dir_to_files_map[directory] = set()
+        if directory not in dir_part_to_file_map:
 
         #part_count_total = 0
-        for filepath in Path(directory).rglob('*.jbeam'):
-            fp = filepath.as_posix()
-            #if fp not in dir_to_files_map[directory]:
-            part_count = load_jbeam_file(directory, fp, True, parts) or 0
+            for filepath in dir_to_files_map[directory]:
+                part_count = load_jbeam_file(directory, filepath, True, parts) or 0
             #if part_count:
             #    print('parsed file', filepath)
             #art_count_total += part_count
@@ -263,25 +272,16 @@ def get_part(io_ctx: dict, part_name: str | None):
     return None, None
 
 
-def get_jbeam(io_ctx: dict, jbeam_filename: str | None, as_text = False):
+def get_jbeam(io_ctx: dict, jbeam_filename: str | None):
     if jbeam_filename is None:
         return None
 
-    if as_text:
-        if jbeam_text_cache.get(jbeam_filename) is None:
-            for directory in io_ctx['dirs']:
-                part_count = load_jbeam_file(directory, jbeam_filename, False)
-                print(f'Loaded {part_count} part(s) from file {jbeam_filename}')
-        if jbeam_text_cache.get(jbeam_filename) is not None:
-            return jbeam_text_cache[jbeam_filename]
-
-    else:
-        if jbeam_cache.get(jbeam_filename) is None:
-            for directory in io_ctx['dirs']:
-                part_count = load_jbeam_file(directory, jbeam_filename, False)
-                print(f'Loaded {part_count} part(s) from file {jbeam_filename}')
-        if jbeam_cache.get(jbeam_filename) is not None:
-            return jbeam_cache[jbeam_filename]
+    if jbeam_cache.get(jbeam_filename) is None:
+        for directory in io_ctx['dirs']:
+            part_count = load_jbeam_file(directory, jbeam_filename, False)
+            print(f'Loaded {part_count} part(s) from file {jbeam_filename}')
+    if jbeam_cache.get(jbeam_filename) is not None:
+        return jbeam_cache[jbeam_filename]
 
     return None
 
@@ -302,13 +302,31 @@ def get_main_part_name(io_ctx):
 
 
 def finish_loading():
-    jbeam_cache.clear()
-    jbeam_text_cache.clear()
-    dir_to_files_map.clear()
-    dir_part_to_file_map.clear()
-    dir_slot_to_part_map.clear()
-    dir_part_to_desc_map.clear()
-    file_to_parts_name_map.clear()
+    #jbeam_cache.clear()
+    #dir_to_files_map.clear()
+    #file_to_parts_name_map.clear()
+
+    #dir_part_to_file_map.clear()
+    #dir_slot_to_part_map.clear()
+    #dir_part_to_desc_map.clear()
+    pass
+
+
+def invalidate_cache_for_file(blender_filepath):
+    fullpath = blender_paths_to_full_paths[blender_filepath]
+
+    match = re.match(fullpath, r".*(/vehicles/[^/]*/).*$")
+    if not match:
+        return
+    directory = match.group(1)
+
+    jbeam_cache.pop(fullpath)
+
+    file_to_parts_name_map[fullpath].clear()
+    file_part_to_slot_info[fullpath].clear()
+    dir_part_to_file_map[directory].clear()
+    dir_slot_to_part_map[directory].clear()
+    dir_part_to_desc_map[directory].clear()
 
 
 '''

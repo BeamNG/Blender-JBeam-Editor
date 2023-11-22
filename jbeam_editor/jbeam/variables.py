@@ -79,8 +79,8 @@ def apply(data: dict, variables: dict | None):
 def apply_slot_vars(slot_vars: dict, _variables: dict | None):
     # processes the slot variables repeatedly until they are all resolved:
     if _variables is None or len(_variables) == 0:
-        return copy.deepcopy(slot_vars)
-    variables = copy.deepcopy(_variables)
+        return utils.row_dict_deepcopy(slot_vars)
+    variables = utils.row_dict_deepcopy(_variables)
     succeed = {}
     for iters in range(1, 401):
         passed = False
@@ -123,7 +123,7 @@ def apply_slot_vars(slot_vars: dict, _variables: dict | None):
 
 
 def _sanitize_vars(all_variables: dict, user_vars: dict):
-    variables = copy.deepcopy(user_vars) # if var is present in config but not in the parts, still define them properly
+    variables = utils.row_dict_deepcopy(user_vars) # if var is present in config but not in the parts, still define them properly
     for kv in list(all_variables.keys()):
         vv = all_variables[kv]
         if vv.get('type') == 'range':
