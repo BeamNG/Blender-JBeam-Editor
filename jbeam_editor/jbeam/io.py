@@ -315,19 +315,25 @@ def finish_loading():
 def invalidate_cache_for_file(blender_filepath):
     fullpath = blender_paths_to_full_paths[blender_filepath]
 
-    match = re.match(fullpath, r".*(/vehicles/[^/]*/).*$")
+    match = re.match(r"^(.*/vehicles/[^/]*)/.*$", fullpath)
     if not match:
-        return
+        return False
     directory = match.group(1)
 
     jbeam_cache.pop(fullpath)
 
     file_to_parts_name_map[fullpath].clear()
     file_part_to_slot_info[fullpath].clear()
-    dir_part_to_file_map[directory].clear()
-    dir_slot_to_part_map[directory].clear()
-    dir_part_to_desc_map[directory].clear()
+    dir_part_to_file_map.pop(directory)
+    dir_slot_to_part_map.pop(directory)
+    dir_part_to_desc_map.pop(directory)
+    return True
 
+
+def invalidate_cache_on_new_import():
+    dir_part_to_file_map.clear()
+    dir_slot_to_part_map.clear()
+    dir_part_to_desc_map.clear()
 
 '''
 def get_available_parts(io_ctx):

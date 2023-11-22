@@ -54,7 +54,7 @@ from . import import_vehicle
 from . import export_vehicle
 
 
-check_file_interval = 0.5
+check_file_interval = 0.25
 
 draw_handle = None
 

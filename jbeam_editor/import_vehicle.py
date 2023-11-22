@@ -271,7 +271,9 @@ def reimport_vehicle(veh_collection: bpy.types.Collection, jbeam_file_to_reimpor
     # Remove vehicle and then reimport
     bpy.data.collections.remove(veh_collection)
 
-    jbeam_io.invalidate_cache_for_file(jbeam_file_to_reimport_blender_filepath)
+    res = jbeam_io.invalidate_cache_for_file(jbeam_file_to_reimport_blender_filepath)
+    if not res:
+        return
 
     vehicle_config = build_config(config_path)
     if vehicle_config is None:
@@ -294,6 +296,7 @@ def reimport_vehicle(veh_collection: bpy.types.Collection, jbeam_file_to_reimpor
 
 def import_vehicle(config_path: str):
     # Import and process JBeam data
+    jbeam_io.invalidate_cache_on_new_import()
 
     vehicle_config = build_config(config_path)
     if vehicle_config is None:
