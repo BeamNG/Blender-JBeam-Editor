@@ -26,8 +26,10 @@ from .. import utils
 
 
 def process_nodes(vehicle: dict):
-    if vehicle.get('nodes') is None:
+    if 'nodes' not in vehicle:
         return
+
+    keys_to_test = {'x', 'y', 'z'}
 
     k: str
     v: dict
@@ -35,14 +37,12 @@ def process_nodes(vehicle: dict):
         pos_no_offset = mathutils.Vector((v['posX'], v['posY'], v['posZ']))
         total_offset = mathutils.Vector((0.0, 0.0, 0.0))
 
-        if (v.get('nodeOffset') is not None and isinstance(v['nodeOffset'], dict)
-            and v['nodeOffset'].get('x') is not None and v['nodeOffset'].get('y') is not None and v['nodeOffset'].get('z') is not None):
+        if 'nodeOffset' in v and isinstance(v['nodeOffset'], dict) and v['nodeOffset'].keys() >= keys_to_test:
             total_offset.x += utils.sign(v['posX']) * v['nodeOffset']['x']
             total_offset.y += v['nodeOffset']['y']
             total_offset.z += v['nodeOffset']['z']
 
-        if (v.get('nodeMove') is not None and isinstance(v['nodeMove'], dict)
-            and v['nodeMove'].get('x') is not None and v['nodeMove'].get('y') is not None and v['nodeMove'].get('z') is not None):
+        if 'nodeMove' in v and isinstance(v['nodeMove'], dict) and v['nodeMove'].keys() >= keys_to_test:
             total_offset.x += v['nodeMove']['x']
             total_offset.y += v['nodeMove']['y']
             total_offset.z += v['nodeMove']['z']
@@ -59,7 +59,7 @@ def process_nodes(vehicle: dict):
 def process(vehicle: dict):
     process_nodes(vehicle)
 
-    if vehicle.get('refNodes') is None:
+    if 'refNodes' not in vehicle:
         vehicle['refNodes'] = []
 
     if len(vehicle['refNodes']) == 0:

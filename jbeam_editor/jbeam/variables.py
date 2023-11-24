@@ -49,19 +49,19 @@ def apply(data: dict, variables: dict | None):
                             if isinstance(d, list):
                                 if not isinstance(d[-1], dict):
                                     d.append({})
-                                if d[-1].get(jbeam_utils.Metadata) is None:
+                                if jbeam_utils.Metadata not in d[-1]:
                                     d[-1][jbeam_utils.Metadata] = jbeam_utils.Metadata()
                                 metadata = d[-1][jbeam_utils.Metadata]
                                 metadata.set(key, 'expression', v)
                             else:
-                                if d.get(jbeam_utils.Metadata) is None:
+                                if jbeam_utils.Metadata not in d:
                                     d[jbeam_utils.Metadata] = jbeam_utils.Metadata()
                                 metadata = d[jbeam_utils.Metadata]
                                 metadata.set(key, 'expression', v)
                             res_code, d[key] = expression_parser.parse_safe(v, variables)
                         else:
                             if second_char not in (43, 60, 62): # +, <, >
-                                if variables.get(v) is None:
+                                if v not in variables:
                                     print(f"missing variable {v}", file=sys.stderr)
                                     del d[key]
                                 else:
@@ -99,7 +99,7 @@ def apply_slot_vars(slot_vars: dict, _variables: dict | None):
                     if second_char not in (43, 60, 62):
                         passed = True
                         del slot_vars[k]
-                        if variables.get(v) is None:
+                        if v not in variables:
                             pass
                         else:
                             val = variables[v]
@@ -139,23 +139,23 @@ def _sanitize_vars(all_variables: dict, user_vars: dict):
                 print(f'variable {vv.get("name")} ignored, default not a number: {vv}', file=sys.stderr)
                 continue
             # choose the default or the user set value
-            if user_vars.get(vv['name']) is not None:
+            if vv['name'] in user_vars:
                 vv['val'] = user_vars[vv.get('name')]
             else:
                 vv['val'] = vv.get('default')
             # set defaults for variables
-            if vv.get('minDis') is None:
-                if vv.get('unit') is not None:
+            if 'minDis' not in vv:
+                if 'unit' in vv:
                     vv['minDis'] = vv['min']
                 else:
                     vv['minDis'] = -100
-            if vv.get('maxDis') is None:
-                if vv.get('unit') is not None:
+            if 'maxDis' not in vv:
+                if 'unit' in vv:
                     vv['maxDis'] = vv['max']
                 else:
                     vv['maxDis'] = 100
-            if vv.get('stepDis') is None:
-                if vv.get('unit') is not None:
+            if 'stepDis' not in vv:
+                if 'unit' in vv:
                     vv['stepDis'] = (vv['maxDis'] - vv['minDis']) / 100
                 else:
                     vv['stepDis'] = 1
@@ -166,9 +166,9 @@ def _sanitize_vars(all_variables: dict, user_vars: dict):
                 print(f'{vv["name"]} have max and min the same!', file=sys.stderr)
                 vv['step'] = vv['stepDis']
 
-            if vv.get('unit') is None or vv['unit'] == '':
+            if 'unit' not in vv or vv['unit'] == '':
                 vv['unit'] = '%'
-            if vv.get('category') is None or vv['category'] == '':
+            if 'category' not in vv or vv['category'] == '':
                 vv['category'] = 'alignment'
 
             regex = re.search(r'(.*)\.(.*)', vv['category'])
@@ -220,7 +220,7 @@ def process_parts(root_part: dict, unify_journal: list, vehicle_config: dict):
     for i in range(len(unify_journal) - 1, 0, -1):
         parent_part, part, level, slot_options, path, slot = unify_journal[i]
         slot_vars = slot.get('variables')
-        slot_id = slot['name'] if slot.get('name') is not None else slot.get('type')
+        slot_id = slot['name'] if 'name' in slot else slot.get('type')
 
         if slot_vars is None:
             slot_vars = {}

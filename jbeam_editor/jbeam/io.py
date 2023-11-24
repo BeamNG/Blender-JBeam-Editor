@@ -197,7 +197,7 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: li
 def load_files_into_blender(config_path: str, directories: list[str]):
     context = bpy.context
 
-    if context.scene.get('files_text') is None:
+    if 'files_text' not in context.scene:
         context.scene['files_text'] = {}
 
     pc_filetext = utils.read_file(config_path)
@@ -265,10 +265,10 @@ def get_part(io_ctx: dict, part_name: str | None):
     for directory in io_ctx['dirs']:
         jbeam_filename = dir_part_to_file_map[directory].get(part_name)
         if jbeam_filename is not None:
-            if jbeam_cache.get(jbeam_filename) is None:
+            if jbeam_filename not in jbeam_cache:
                 part_count = load_jbeam_file(directory, jbeam_filename, False)
                 print(f'Loaded {part_count} part(s) from file {jbeam_filename}')
-            if jbeam_cache.get(jbeam_filename) is not None:
+            if jbeam_filename in jbeam_cache:
                 return copy.deepcopy(jbeam_cache[jbeam_filename][part_name]), jbeam_filename
 
     return None, None
@@ -278,11 +278,11 @@ def get_jbeam(io_ctx: dict, jbeam_filename: str | None):
     if jbeam_filename is None:
         return None
 
-    if jbeam_cache.get(jbeam_filename) is None:
+    if jbeam_filename not in jbeam_cache:
         for directory in io_ctx['dirs']:
             part_count = load_jbeam_file(directory, jbeam_filename, False)
             print(f'Loaded {part_count} part(s) from file {jbeam_filename}')
-    if jbeam_cache.get(jbeam_filename) is not None:
+    if jbeam_filename in jbeam_cache:
         return jbeam_cache[jbeam_filename]
 
     return None

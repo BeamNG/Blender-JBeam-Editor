@@ -48,7 +48,7 @@ from .jbeam import node_beam as jbeam_node_beam
 
 import timeit
 
-def load_jbeam(vehicle_directories: list[str], vehicle_config: dict, ):
+def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
     """load all the jbeam and construct the thing in memory"""
     print('Reading JBeam files...')
     t0 = timeit.default_timer()
@@ -64,7 +64,7 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict, ):
     model_name = re_match.group(1) if re_match is not None else None
     print('Model name:', model_name)
 
-    if vehicle_config.get('mainPartName') is None:
+    if 'mainPartName' not in vehicle_config:
         vehicle_config['mainPartName'] = jbeam_io.get_main_part_name(io_ctx)
 
     print('Finding parts...')
@@ -122,8 +122,7 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict, ):
     }
 
 
-def load_vehicle_stage_1(vehicles_dir: str, vehicle_dir: str, vehicle_config: dict):
-    vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]
+def load_vehicle_stage_1(vehicle_directories: list, vehicle_config: dict):
     vehicle_bundle = load_jbeam(vehicle_directories, vehicle_config)
     return vehicle_bundle
 
@@ -187,7 +186,7 @@ def generate_meshes(vehicle_bundle: dict):
             continue
 
         edges = parts_edges.setdefault(part_origin, [])
-        if node_id_to_index.get(beam['id1:']) is not None and node_id_to_index.get(beam['id2:']) is not None:
+        if beam['id1:'] in node_id_to_index and beam['id2:'] in node_id_to_index:
             edges.append((node_id_to_index[beam['id1:']], node_id_to_index[beam['id2:']]))
 
     # Translate triangles to faces
@@ -197,11 +196,11 @@ def generate_meshes(vehicle_bundle: dict):
             continue
 
         faces = parts_faces.setdefault(part_origin, [])
-        if node_id_to_index.get(tri['id1:']) is not None and node_id_to_index.get(tri['id2:']) is not None and node_id_to_index.get(tri['id3:']) is not None:
+        if tri['id1:'] in node_id_to_index and tri['id2:'] in node_id_to_index and tri['id3:'] in node_id_to_index:
             faces.append((node_id_to_index[tri['id1:']], node_id_to_index[tri['id2:']], node_id_to_index[tri['id3:']]))
 
     # add main part to main_parts scene dict
-    if context.scene.get('main_parts') is None:
+    if 'main_parts' not in context.scene:
         context.scene['main_parts'] = {}
     context.scene['main_parts'][main_part_name] = True
 
@@ -293,8 +292,9 @@ def reimport_vehicle(veh_collection: bpy.types.Collection, jbeam_file_to_reimpor
 
     vehicle_dir = Path(config_path).parent.as_posix()
     vehicles_dir = Path(vehicle_dir).parent.as_posix()
+    vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]
 
-    vehicle_bundle = load_vehicle_stage_1(vehicles_dir, vehicle_dir, vehicle_config)
+    vehicle_bundle = load_vehicle_stage_1(vehicle_directories, vehicle_config)
     if vehicle_bundle is None:
         return
 
@@ -327,8 +327,9 @@ def import_vehicle(config_path: str):
 
     vehicle_dir = Path(config_path).parent.as_posix()
     vehicles_dir = Path(vehicle_dir).parent.as_posix()
+    vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]
 
-    vehicle_bundle = load_vehicle_stage_1(vehicles_dir, vehicle_dir, vehicle_config)
+    vehicle_bundle = load_vehicle_stage_1(vehicle_directories, vehicle_config)
 
     if vehicle_bundle is None:
         return {'CANCELLED'}

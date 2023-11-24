@@ -278,11 +278,11 @@ def _get_nodes_add_delete_rename(nodes_data: dict, obj: bpy.types.Object, bm: bm
         offset_from_init_pos = new_pos - init_pos
         offset_from_init_pos_tup = offset_from_init_pos.to_tuple()
 
-        if node_data.get('nodeMove') is not None and node_data.get('nodeMove') != '':
+        if 'nodeMove' in node_data and node_data.get('nodeMove') != '':
             node_move = mathutils.Vector((node_data['nodeMove']['x'], node_data['nodeMove']['y'], node_data['nodeMove']['z']))
             new_pos = new_pos - node_move
 
-        if node_data.get('nodeOffset') is not None and node_data.get('nodeOffset') != '':
+        if 'nodeOffset' in node_data and node_data.get('nodeOffset') != '':
             # Undoing nodeOffset.x is an exception as posX is equal to v.posX = v.posX + sign(v.posX) * v.nodeOffset.x
             node_offset = mathutils.Vector((node_data['nodeOffset']['x'], node_data['nodeOffset']['y'], node_data['nodeOffset']['z']))
             if utils.sign(pos_no_offset.x + offset_from_init_pos.x) > 0:
@@ -556,7 +556,7 @@ def export(veh_collection: bpy.types.Collection, objs_to_export: list):
     for obj in objs_to_export:
         jbeam_filepath = obj.data[constants.MESH_JBEAM_FILE_PATH]
 
-        if jbeam_files_to_parts.get(jbeam_filepath) is None:
+        if jbeam_filepath not in jbeam_files_to_parts:
             jbeam_files_to_parts[jbeam_filepath] = []
         jbeam_files_to_parts[jbeam_filepath].append(obj)
 
@@ -608,7 +608,7 @@ def export(veh_collection: bpy.types.Collection, objs_to_export: list):
             file.clear()
             file.write(out_str_jbeam_data)
 
-            if context.scene.get('files_text') is None:
+            if 'files_text' not in context.scene:
                 context.scene['files_text'] = {}
             context.scene['files_text'][blender_filepath] = out_str_jbeam_data
 

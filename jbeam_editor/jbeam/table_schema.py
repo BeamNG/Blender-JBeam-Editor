@@ -90,8 +90,7 @@ def replace_special_values(val):
     return val
 
 
-# TODO: May want to consider the type of new_list as a list or dict
-def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: dict, input_options=None):
+def process_table_with_schema_destructive(jbeam_table: list, new_dict: dict, input_options=None):
     # its a list, so a table for us. Verify that the first row is the header
     header = jbeam_table[0]
     if not isinstance(header, list):
@@ -112,18 +111,14 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
     jbeam_table.pop(0)
 
     # walk the list entries
-    for row_key, row_value in utils.ipairs(jbeam_table):
-        if not isinstance(row_value, (dict, list)):
-            print('*** Invalid table row:', row_value, file=sys.stderr)
-            return -1
-
+    for row_key, row_value in enumerate(jbeam_table):
         if isinstance(row_value, dict):
             # case where options is a dict on its own, filling a whole line (modifier)
 
             # Get metadata from previous options and current row and merge them
             # Afterwards, merge regular row values into options
 
-            if row_value.get(jbeam_utils.Metadata) is None:
+            if jbeam_utils.Metadata not in row_value:
                 row_value[jbeam_utils.Metadata] = jbeam_utils.Metadata()
             row_metadata = row_value[jbeam_utils.Metadata]
 
@@ -134,7 +129,8 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
             local_options.update(row_value)
 
             local_options[jbeam_utils.Metadata] = options_metadata
-        else:
+
+        elif isinstance(row_value, list):
             # case where its a jbeam definition
             new_id = row_key
             len_row_value = len(row_value)
@@ -158,7 +154,7 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
             for rk in range(header_size, len_row_value):
                 rv = row_value[rk]
                 if isinstance(rv, dict):
-                    if rv.get(jbeam_utils.Metadata) is None:
+                    if jbeam_utils.Metadata not in rv:
                         rv[jbeam_utils.Metadata] = jbeam_utils.Metadata()
                     rv_metadata = rv[jbeam_utils.Metadata]
 
@@ -191,14 +187,18 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
 
             # seems to only be true during "Assembling tables" and processing certain tables
             # e.g. nodes section
-            if new_row.get('id') is not None:
+            if 'id' in new_row:
                 new_id = new_row['id']
                 new_row['name'] = new_id
                 del new_row['id']
 
             # done with that row
-            new_list[new_id] = new_row
+            new_dict[new_id] = new_row
             new_list_size += 1
+
+        else:
+            print('*** Invalid table row:', row_value, file=sys.stderr)
+            return -1
 
     return new_list_size
 
@@ -254,14 +254,14 @@ def process(vehicle: dict):
         vehicle['maxIDs'][key_entry] = 0
 
         # Then walk the tables
-        if isinstance(entry, (list, dict)) and jbeam_utils.ignore_sections.get(key_entry) is None and len(entry) > 0:
+        if isinstance(entry, (list, dict)) and (key_entry not in jbeam_utils.ignore_sections) and len(entry) > 0:
             if isinstance(entry, dict):
                 # slots are actually a dictionary due to translation from Lua to Python
                 if key_entry == 'slots':
                     # Slots are preprocessed in the io module
                     vehicle['validTables'][key_entry] = True
             else:
-                if vehicle['validTables'].get(key_entry) is None:
+                if key_entry not in vehicle['validTables']:
                     new_list = {}
                     new_list_size = process_table_with_schema_destructive(entry, new_list, vehicle['options'])
                     # This was a correct table, record that so we do not process it twice

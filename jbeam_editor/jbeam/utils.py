@@ -12,12 +12,12 @@ class Metadata:
             self._data = {}
 
     def set(self, var, key, val):
-        if self._data.get(var) is None:
+        if var not in self._data:
             self._data[var] = {}
         self._data[var][key] = val
 
     def get(self, var, key):
-        if self._data.get(var) is not None:
+        if var in self._data:
             return self._data[var].get(key)
         return None
 

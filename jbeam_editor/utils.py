@@ -72,7 +72,7 @@ def dict_array_size(x: dict):
 
     count = 0
     while True:
-        if x.get(count) is not None:
+        if count in x:
             count += 1
         else:
             break

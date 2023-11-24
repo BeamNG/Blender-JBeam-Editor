@@ -31,7 +31,7 @@ def unify_parts(target: dict[str, dict|list], source: dict[str, dict|list], leve
         if section_key in ('slots', 'information'):
             continue
 
-        if target.get(section_key) is None:
+        if section_key not in target:
             # Easy merge
             target[section_key] = section
 
@@ -121,13 +121,13 @@ def fill_slots_rec(io_ctx: dict, user_part_config: dict, current_part: dict, lev
         print("* ERROR: over 50 levels of parts, check if parts are self referential", file=sys.stderr)
         return
 
-    if current_part.get('slots') is not None:
+    if 'slots' in current_part:
         for _, slot in utils.ipairs(current_part['slots']):
             slot_options = utils.row_dict_deepcopy(_slot_options) if _slot_options is not None else {}
             # the options are only valid for this hierarchy.
             # if we do not clone/deepcopy it, the childs will leak options to the parents
 
-            slot_id = slot['name'] if slot.get('name') is not None else slot.get('type')
+            slot_id = slot['name'] if 'name' in slot else slot.get('type')
 
             slot_options.update(utils.row_dict_deepcopy(slot))
             # remove the slot table from the options
@@ -166,7 +166,7 @@ def fill_slots_rec(io_ctx: dict, user_part_config: dict, current_part: dict, lev
                         print(f'Chosen part has wrong slot type. Required is {slot.get("type")} provided by part {chosen_part_name} is {chosen_part.get("slotType")}. Resetting to default', file=sys.stderr)
                         chosen_part = None
 
-            if slot.get('default') is not None and chosen_part is None:
+            if 'default' in slot and chosen_part is None:
                 # default is to be empty
                 if slot['default'] == '':
                     chosen_parts[slot_id] = ''
@@ -188,7 +188,7 @@ def fill_slots_rec(io_ctx: dict, user_part_config: dict, current_part: dict, lev
 
                 chosen_parts[slot_id] = chosen_part.get('partName')
 
-                active_parts_orig[chosen_part['partName'] if chosen_part.get('partName') is not None else slot_id] = chosen_part # deepcopy is required as chosePart is modified/unified with all sub parts below
+                active_parts_orig[chosen_part['partName'] if 'partName' in chosen_part else slot_id] = chosen_part # deepcopy is required as chosePart is modified/unified with all sub parts below
 
                 fill_slots_rec(io_ctx, user_part_config, chosen_part, level + 1, slot_options, chosen_parts, active_parts_orig, new_path, unify_journal)
 
