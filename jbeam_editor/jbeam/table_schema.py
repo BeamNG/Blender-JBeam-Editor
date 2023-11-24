@@ -96,6 +96,7 @@ def process_table_with_schema_destructive(jbeam_table: list | dict, new_list: di
     header = jbeam_table[0]
     if not isinstance(header, list):
         print('*** Invalid table header:', header, file=sys.stderr)
+        return -1
 
     header_size = len(header)
     header_size1 = header_size + 1
@@ -206,7 +207,7 @@ def post_process(vehicle: dict):
     new_tables = {}
 
     for k, tbl in vehicle.items():
-        if isinstance(tbl, dict) and isinstance(next(iter(tbl)), int):
+        if isinstance(tbl, dict) and len(tbl) > 0 and isinstance(next(iter(tbl)), int):
             # Dictionary contains integer keys, so convert it into a list
             new_table = []
 

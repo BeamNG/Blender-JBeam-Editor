@@ -188,7 +188,7 @@ def fill_slots_rec(io_ctx: dict, user_part_config: dict, current_part: dict, lev
 
                 chosen_parts[slot_id] = chosen_part.get('partName')
 
-                active_parts_orig[chosen_part['partName'] if chosen_part.get('partName') is not None else slot_id] = copy.deepcopy(chosen_part) # deepcopy is required as chosePart is modified/unified with all sub parts below
+                active_parts_orig[chosen_part['partName'] if chosen_part.get('partName') is not None else slot_id] = chosen_part # deepcopy is required as chosePart is modified/unified with all sub parts below
 
                 fill_slots_rec(io_ctx, user_part_config, chosen_part, level + 1, slot_options, chosen_parts, active_parts_orig, new_path, unify_journal)
 
@@ -216,7 +216,7 @@ def find_parts(io_ctx: dict, vehicle_config: dict):
 
     # add main part to the part lists
     chosen_parts['main'] = vehicle_config['mainPartName']
-    active_parts_orig[vehicle_config['mainPartName']] = copy.deepcopy(root_part)  # make a copy of the original part
+    active_parts_orig[vehicle_config['mainPartName']] = root_part  # make a copy of the original part
 
     unify_journal = []
     fill_slots_rec(io_ctx, vehicle_config['parts'], root_part, 1, None, chosen_parts, active_parts_orig, '/', unify_journal)
