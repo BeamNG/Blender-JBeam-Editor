@@ -272,9 +272,14 @@ def generate_meshes(vehicle_bundle: dict):
 def reimport_vehicle(veh_collection: bpy.types.Collection, jbeam_file_to_reimport_blender_filepath: str):
     config_path = veh_collection[constants.COLLECTION_PC_FILEPATH]
     selected_obj_name = bpy.context.active_object.name
+    hidden_objs = {}
+
+    # Get all hidden objects (can't seem to get hidden objects and delete them in same loop)
+    for obj in veh_collection.all_objects:
+        hidden_objs[obj.name] = obj.hide_get()
 
     # Remove vehicle and then reimport
-    for obj in veh_collection.objects:
+    for obj in veh_collection.all_objects[:]:
         bpy.data.objects.remove(obj, do_unlink=True)
     bpy.data.collections.remove(veh_collection)
 
@@ -294,14 +299,20 @@ def reimport_vehicle(veh_collection: bpy.types.Collection, jbeam_file_to_reimpor
         return
 
     # Create Blender meshes from JBeam data
-    if generate_meshes(vehicle_bundle) is None:
+    new_veh_collection = generate_meshes(vehicle_bundle)
+    if new_veh_collection is None:
         return
 
     # Select object that was previously selected
-    new_obj = bpy.context.scene.objects.get(selected_obj_name)
+    new_obj = new_veh_collection.all_objects.get(selected_obj_name)
     if new_obj is not None:
         bpy.context.view_layer.objects.active = new_obj
         new_obj.select_set(True)
+
+    # Set visibility of previous objects
+    for obj in new_veh_collection.all_objects[:]:
+        if obj.name in hidden_objs:
+            obj.hide_set(hidden_objs[obj.name])
 
     print('Done loading vehicle.')
 
