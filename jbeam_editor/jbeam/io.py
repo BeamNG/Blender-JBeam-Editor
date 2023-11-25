@@ -27,13 +27,12 @@ import re
 import sys
 
 from . import table_schema as jbeam_table_schema
-from .. import utils
 
-full_paths_to_blender_paths = {}
-blender_paths_to_full_paths = {}
+from .. import utils
+from .. import text_editor
 
 jbeam_cache = {}
-dir_to_files_map: dict[str, set] = {}
+dir_to_files_map: dict[str, list] = {}
 dir_part_to_file_map: dict[str, dict[str, str]] = {}
 dir_slot_to_part_map: dict[str, dict[str, list]] = {}
 dir_part_to_desc_map: dict[str, dict[str, dict]] = {}
@@ -44,18 +43,11 @@ file_to_parts_name_map: dict[str, list] = {}
 invalidated_cache = False
 
 
-def get_short_jbeam_path(path: str):
-    match = re.match(r'^.*/vehicles/(.*)$', path)
-    if match is not None:
-        return match.group(1)
-    return None
-
-
-def filepath_to_blenderpath(path):
-    short_path = get_short_jbeam_path(path)
-    if short_path is not None:
-        return short_path[max(0, len(short_path) - 60):] # roughly 60 character limit
-    return None
+def get_directory(jbeam_filepath):
+    match = re.match(r"^(.*/vehicles/[^/]*)/.*$", jbeam_filepath)
+    if not match:
+        return None
+    return match.group(1)
 
 
 def process_slots_destructive_backward_compatibility(slots, new_slots):
@@ -119,7 +111,7 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: li
     if filepath not in jbeam_cache:
         if parts is not None:
             # As optimization, only read file and check if file text contains part name before parsing it with SJSON parser
-            file_text = bpy.data.texts[full_paths_to_blender_paths[filepath]].as_string()
+            file_text = text_editor.read_file(filepath)
             if file_text is None:
                 print(f'Cannot read file: {filepath}', file=sys.stderr)
                 return None
@@ -129,7 +121,7 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: li
 
             file_content = utils.sjson_decode(file_text, filepath)
         else:
-            file_text = bpy.data.texts[full_paths_to_blender_paths[filepath]].as_string()
+            file_text = text_editor.read_file(filepath)
             if file_text is None:
                 print(f'Cannot read file: {filepath}', file=sys.stderr)
                 return None
@@ -195,46 +187,21 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: li
 
 
 def load_files_into_blender(config_path: str, directories: list[str]):
-    context = bpy.context
-
-    if 'files_text' not in context.scene:
-        context.scene['files_text'] = {}
-
     pc_filetext = utils.read_file(config_path)
-    #pc_text_cache[config_path] = pc_filetext
-
-    short_fp = filepath_to_blenderpath(config_path)
-    full_paths_to_blender_paths[config_path] = short_fp
-    blender_paths_to_full_paths[short_fp] = config_path
-
-    if short_fp not in bpy.data.texts:
-        bpy.data.texts.new(short_fp)
-    file = bpy.data.texts[short_fp]
-    file.clear()
-    file.write(pc_filetext)
-
-    context.scene['files_text'][short_fp] = pc_filetext
+    if pc_filetext is None:
+        return
+    text_editor.write_file(config_path, pc_filetext)
 
     for directory in directories:
         for filepath in Path(directory).rglob('*.jbeam'):
             fp = filepath.as_posix()
             filetext = utils.read_file(fp)
-
+            if not filetext:
+                continue
             if directory not in dir_to_files_map:
-                dir_to_files_map[directory] = set()
-            dir_to_files_map[directory].add(fp)
-
-            short_fp = filepath_to_blenderpath(fp)
-            full_paths_to_blender_paths[fp] = short_fp
-            blender_paths_to_full_paths[short_fp] = fp
-
-            if short_fp not in bpy.data.texts:
-                bpy.data.texts.new(short_fp)
-
-            file = bpy.data.texts[short_fp]
-            file.clear()
-            file.write(filetext)
-            context.scene['files_text'][short_fp] = filetext
+                dir_to_files_map[directory] = []
+            dir_to_files_map[directory].append(fp)
+            text_editor.write_file(fp, filetext)
 
 
 def start_loading(directories: list[str], vehicle_config: dict):
@@ -314,18 +281,16 @@ def finish_loading():
     pass
 
 
-def invalidate_cache_for_file(blender_filepath):
-    fullpath = blender_paths_to_full_paths[blender_filepath]
-
-    match = re.match(r"^(.*/vehicles/[^/]*)/.*$", fullpath)
+def invalidate_cache_for_file(filepath):
+    match = re.match(r"^(.*/vehicles/[^/]*)/.*$", filepath)
     if not match:
         return False
     directory = match.group(1)
 
-    jbeam_cache.pop(fullpath, None)
+    jbeam_cache.pop(filepath, None)
 
-    file_to_parts_name_map[fullpath].clear()
-    file_part_to_slot_info[fullpath].clear()
+    file_to_parts_name_map[filepath].clear()
+    file_part_to_slot_info[filepath].clear()
     dir_part_to_file_map.pop(directory, None)
     dir_slot_to_part_map.pop(directory, None)
     dir_part_to_desc_map.pop(directory, None)

@@ -218,7 +218,6 @@ def generate_meshes(vehicle_bundle: dict):
         obj_data.from_pydata(vertices, parts_edges.get(part, []), parts_faces.get(part, []))
         obj_data[constants.MESH_JBEAM_PART] = part
         obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_filepath
-        obj_data[constants.MESH_JBEAM_BLENDER_FILE_PATH] = jbeam_io.full_paths_to_blender_paths[jbeam_filepath]
         obj_data[constants.MESH_VEHICLE_MODEL] = vehicle_model
 
         bm = bmesh.new()
@@ -268,7 +267,7 @@ def generate_meshes(vehicle_bundle: dict):
     return vehicle_parts_collection
 
 
-def reimport_vehicle(veh_collection: bpy.types.Collection, jbeam_file_to_reimport_blender_filepath: str):
+def reimport_vehicle(veh_collection: bpy.types.Collection, jbeam_filepath: str):
     config_path = veh_collection[constants.COLLECTION_PC_FILEPATH]
     selected_obj_name = bpy.context.active_object.name
     hidden_objs = {}
@@ -282,7 +281,7 @@ def reimport_vehicle(veh_collection: bpy.types.Collection, jbeam_file_to_reimpor
         bpy.data.objects.remove(obj, do_unlink=True)
     bpy.data.collections.remove(veh_collection)
 
-    res = jbeam_io.invalidate_cache_for_file(jbeam_file_to_reimport_blender_filepath)
+    res = jbeam_io.invalidate_cache_for_file(jbeam_filepath)
     if not res:
         return
 

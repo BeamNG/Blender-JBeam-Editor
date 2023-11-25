@@ -35,6 +35,7 @@ import bmesh
 from . import constants
 from . import sjsonast
 from . import utils
+from . import text_editor
 
 from .jbeam import expression_parser
 from .jbeam import io as jbeam_io
@@ -603,15 +604,7 @@ def export(veh_collection: bpy.types.Collection, objs_to_export: list):
             # f.write(out_str_jbeam_data)
             # f.close()
 
-            blender_filepath = jbeam_io.filepath_to_blenderpath(jbeam_filepath)
-            file = bpy.data.texts[blender_filepath]
-            file.clear()
-            file.write(out_str_jbeam_data)
-
-            if 'files_text' not in context.scene:
-                context.scene['files_text'] = {}
-            context.scene['files_text'][blender_filepath] = out_str_jbeam_data
-
+            text_editor.write_file(jbeam_filepath, out_str_jbeam_data)
 
     tf = timeit.default_timer()
     print('Exporting Time', round(tf - t0, 2), 's')

@@ -53,6 +53,7 @@ from . import export_jbeam
 from . import import_vehicle
 from . import export_vehicle
 from . import utils
+from . import text_editor
 
 
 check_file_interval = 0.25
@@ -488,18 +489,8 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
         return
 
     # Show selected jbeam part JBeam file in text editor
-    blender_filepath = active_obj_data[constants.MESH_JBEAM_BLENDER_FILE_PATH]
-    text = bpy.data.texts.get(blender_filepath)
-    if text is not None:
-        text_area = None
-        for area in bpy.context.screen.areas:
-            if area.type == "TEXT_EDITOR":
-                text_area = area
-                break
-
-        if text_area is not None:
-            if text_area.spaces[0].text != text:
-                text_area.spaces[0].text = text
+    jbeam_filepath = active_obj_data[constants.MESH_JBEAM_FILE_PATH]
+    text_editor.show_file(jbeam_filepath)
 
     veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
     if veh_model is not None:
@@ -579,50 +570,10 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
     bm.free()
 
 
+# If active file in text editor changed, reimport jbeam file/vehicle
 @persistent
 def check_files_for_changes():
-    # If jbeam file changed, reimport jbeam file/vehicle
-    context = bpy.context
-    if context.scene.get('files_text') is None:
-        return check_file_interval
-
-    text = None
-    text_area = None
-    for area in bpy.context.screen.areas:
-        if area.type == "TEXT_EDITOR":
-            text_area = area
-            break
-
-    if text_area is not None:
-        text = text_area.spaces[0].text
-
-    if text is None:
-        return check_file_interval
-
-    blender_filepath = text.name
-    curr_file_text = text.as_string()
-    last_file_text = context.scene['files_text'][blender_filepath]
-    if curr_file_text != last_file_text:
-        context.scene['files_text'][blender_filepath] = curr_file_text
-
-        veh_collection = context.collection
-        if veh_collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
-            return check_file_interval
-
-        # import cProfile, pstats, io
-        # import pstats
-        # pr = cProfile.Profile()
-        # with cProfile.Profile() as pr:
-        #     import_vehicle.reimport_vehicle(veh_collection, blender_filepath)
-        #     stats = pstats.Stats(pr)
-        #     stats.strip_dirs().sort_stats('cumtime').print_stats()
-
-        # Check if jbeam file is parseable before reimporting vehicle
-        data = utils.sjson_decode(curr_file_text, blender_filepath)
-        if data is None:
-            return check_file_interval
-        import_vehicle.reimport_vehicle(veh_collection, blender_filepath)
-
+    text_editor.check_files_for_changes()
     return check_file_interval
 
 
@@ -642,6 +593,8 @@ def on_post_register():
 def register():
     for c in classes:
         bpy.utils.register_class(c)
+
+    text_editor.init()
 
     bpy.types.Scene.ui_properties = bpy.props.PointerProperty(type=UIProperties)
 
