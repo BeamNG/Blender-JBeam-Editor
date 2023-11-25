@@ -19,6 +19,7 @@
 # SOFTWARE.
 
 import math
+import pickle
 import random
 import re
 import sys
@@ -260,8 +261,14 @@ def add_offset_expr(expr: str, offset_str: str):
 
     return expr[:operator_pos + offset] + operator + expr[operator_pos + 1 + offset:num_start + offset] + offset_str + expr[num_end + 1 + offset:]
 
+memo = {}
 
 def parse_safe(expr: str, params: dict):
+    encoded = (expr, pickle.dumps(params))
+    if memo.get(encoded) is not None:
+        out = memo[encoded]
+        return out[0], out[1]
+
     result_code = -1
 
     # Strip leading "$=" from expression
@@ -304,6 +311,7 @@ def parse_safe(expr: str, params: dict):
     except Exception as e:
         print(f"Parsing expression failed, {repr(e)}:\n    {expr}", file=sys.stderr)
 
+    memo[encoded] = (result_code, result)
     return result_code, result
 
 # Test cases

@@ -20,6 +20,7 @@
 
 import copy
 import math
+import pickle
 import re
 import sys
 
@@ -89,8 +90,15 @@ typeIds = {
 def replace_special_values(val):
     return val
 
+memo = {}
 
 def process_table_with_schema_destructive(jbeam_table: list, new_dict: dict, input_options=None):
+    encoded = (pickle.dumps(jbeam_table), pickle.dumps(input_options))
+    if memo.get(encoded) is not None:
+        out = memo[encoded]
+        new_dict.update(pickle.loads(out[0]))
+        return out[1]
+
     # its a list, so a table for us. Verify that the first row is the header
     header = jbeam_table[0]
     if not isinstance(header, list):
@@ -200,6 +208,7 @@ def process_table_with_schema_destructive(jbeam_table: list, new_dict: dict, inp
             print('*** Invalid table row:', row_value, file=sys.stderr)
             return -1
 
+    memo[encoded] = (pickle.dumps(new_dict), new_list_size)
     return new_list_size
 
 
