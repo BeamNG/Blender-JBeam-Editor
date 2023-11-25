@@ -58,12 +58,14 @@ def sjson_read_file(filepath: str):
 
 
 def row_dict_deepcopy(in_d: dict):
-    out_d = in_d.copy()
+    out_d = {}
     for k,v in in_d.items():
         if isinstance(v, dict):
             out_d[k] = v.copy()
         elif k == jbeam_utils.Metadata:
             out_d[k] = jbeam_utils.Metadata(v)
+        else:
+            out_d[k] = v
     return out_d
 
 

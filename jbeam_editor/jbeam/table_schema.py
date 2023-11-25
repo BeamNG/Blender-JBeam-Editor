@@ -178,7 +178,7 @@ def process_table_with_schema_destructive(jbeam_table: list, new_dict: dict, inp
 
             # now care about the rest
             for rk, rv in enumerate(row_value):
-                if header[rk] is None:
+                if rk >= header_size:
                     print("*** unable to parse row, header for entry is missing: ", file=sys.stderr)
                     print("*** header: ", header, ' missing key: ' + str(rk) + ' -- is the section header too short?', file=sys.stderr)
                     print("*** row: ", row_value, file=sys.stderr)
