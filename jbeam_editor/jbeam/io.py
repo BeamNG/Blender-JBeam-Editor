@@ -193,15 +193,17 @@ def load_files_into_blender(config_path: str, directories: list[str]):
     text_editor.write_file(config_path, pc_filetext)
 
     for directory in directories:
-        for filepath in Path(directory).rglob('*.jbeam'):
-            fp = filepath.as_posix()
-            filetext = utils.read_file(fp)
-            if not filetext:
-                continue
-            if directory not in dir_to_files_map:
-                dir_to_files_map[directory] = []
-            dir_to_files_map[directory].append(fp)
-            text_editor.write_file(fp, filetext)
+        if directory not in dir_to_files_map:
+            dir_to_files_map[directory] = []
+
+            for filepath in Path(directory).rglob('*.jbeam'):
+                fp = filepath.as_posix()
+                filetext = utils.read_file(fp)
+                if not filetext:
+                    continue
+
+                dir_to_files_map[directory].append(fp)
+                text_editor.write_file(fp, filetext)
 
 
 def start_loading(directories: list[str], vehicle_config: dict):
@@ -212,8 +214,10 @@ def start_loading(directories: list[str], vehicle_config: dict):
 
     for directory in directories:
         if directory not in dir_part_to_file_map:
+            #part_count_total = 0
+            if directory not in dir_to_files_map:
+                load_files_into_blender(vehicle_config, directories)
 
-        #part_count_total = 0
             for filepath in dir_to_files_map[directory]:
                 part_count = load_jbeam_file(directory, filepath, True, parts)
                 if part_count is None:
@@ -289,18 +293,18 @@ def invalidate_cache_for_file(filepath):
 
     jbeam_cache.pop(filepath, None)
 
-    file_to_parts_name_map[filepath].clear()
-    file_part_to_slot_info[filepath].clear()
+    file_to_parts_name_map.pop(filepath, None)
+    file_part_to_slot_info.pop(filepath, None)
     dir_part_to_file_map.pop(directory, None)
     dir_slot_to_part_map.pop(directory, None)
     dir_part_to_desc_map.pop(directory, None)
     return True
 
 
-def invalidate_cache_on_new_import():
-    dir_part_to_file_map.clear()
-    dir_slot_to_part_map.clear()
-    dir_part_to_desc_map.clear()
+def invalidate_cache_on_new_import(vehicle_dir: str):
+    dir_part_to_file_map.pop(vehicle_dir, None)
+    dir_slot_to_part_map.pop(vehicle_dir, None)
+    dir_part_to_desc_map.pop(vehicle_dir, None)
 
 '''
 def get_available_parts(io_ctx):
