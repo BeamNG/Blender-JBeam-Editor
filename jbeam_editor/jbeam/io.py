@@ -215,11 +215,9 @@ def start_loading(directories: list[str], vehicle_config: dict):
     for directory in directories:
         if directory not in dir_part_to_file_map:
             #part_count_total = 0
-            if directory not in dir_to_files_map:
-                load_files_into_blender(vehicle_config, directories)
 
             for filepath in dir_to_files_map[directory]:
-                part_count = load_jbeam_file(directory, filepath, True, parts)
+                part_count = load_jbeam_file(directory, filepath, True)
                 if part_count is None:
                     return None
             #if part_count:
