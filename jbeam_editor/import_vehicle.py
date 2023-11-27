@@ -19,17 +19,16 @@
 # SOFTWARE.
 
 import copy
-import os
 from pathlib import Path
 import re
 import sys
 import pickle
 
 import bpy
-from bpy import ops
 import bmesh
 
 from . import utils
+from . import text_editor
 
 # ImportHelper is a helper class, defines filename and
 # invoke() function which calls the file selector.
@@ -75,6 +74,7 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
     # Map parts to JBeam file
     veh_parts = list(chosen_parts.values())
     veh_part_to_file_map = {}
+    veh_files = []
     for directory in vehicle_directories:
         for file in jbeam_io.dir_to_files_map[directory]:
             if file in jbeam_io.file_to_parts_name_map:
@@ -82,6 +82,7 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
                 for part in parts:
                     if part in veh_parts:
                         veh_part_to_file_map[part] = file
+                        veh_files.append(file)
 
     print('Applying variables...')
     all_variables = jbeam_variables.process_parts(vehicle, unify_journal, vehicle_config)
@@ -118,6 +119,7 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
         'mainPartName'     : vehicle_config['mainPartName'],
         'chosenParts'      : chosen_parts,
         'partToFileMap'    : veh_part_to_file_map,
+        'vehFiles'         : veh_files,
         'ioCtx'            : io_ctx,
     }
 
@@ -146,6 +148,7 @@ def build_config(config_path):
 def generate_meshes(vehicle_bundle: dict):
     context = bpy.context
     io_ctx = vehicle_bundle['ioCtx']
+    veh_files = vehicle_bundle['vehFiles']
     vdata = vehicle_bundle['vdata']
     nodes: dict[str, dict] = vdata['nodes']
     beams: list[dict] = vdata['beams']
@@ -259,8 +262,8 @@ def generate_meshes(vehicle_bundle: dict):
 
     vehicle_parts_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle)
     vehicle_parts_collection[constants.COLLECTION_IO_CTX] = io_ctx
+    vehicle_parts_collection[constants.COLLECTION_VEH_FILES] = veh_files
     vehicle_parts_collection[constants.COLLECTION_PC_FILEPATH] = vehicle_bundle['config']['partConfigFilename']
-    #vehicle_parts_collection[constants.COLLECTION_BLENDER_PC_FILEPATH] = blender_pc_filename
     vehicle_parts_collection[constants.COLLECTION_VEHICLE_MODEL] = vehicle_bundle['vdata']['model']
     vehicle_parts_collection[constants.COLLECTION_MAIN_PART] = main_part_name
 
@@ -366,3 +369,31 @@ class JBEAM_EDITOR_OT_import_vehicle(Operator, ImportHelper):
         import_files_into_blender(pc_config_path)
         import_vehicle(pc_config_path)
         return {'FINISHED'}
+
+
+def on_file_change(filename: str, filetext: str):
+    context = bpy.context
+    collections = bpy.data.collections
+
+    for collection in collections:
+        if collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
+            continue
+
+        veh_files = collection[constants.COLLECTION_VEH_FILES]
+        if filename not in veh_files:
+            continue
+
+        # Check if jbeam file is parseable before reimporting vehicle
+        data = utils.sjson_decode(filetext, filename)
+        if data is None:
+            continue
+
+        # import cProfile, pstats, io
+        # import pstats
+        # pr = cProfile.Profile()
+        # with cProfile.Profile() as pr:
+        #     import_vehicle.reimport_vehicle(veh_collection, filename)
+        #     stats = pstats.Stats(pr)
+        #     stats.strip_dirs().sort_stats('cumtime').print_stats()
+
+        reimport_vehicle(collection, filename)

@@ -20,10 +20,10 @@
 
 # JBeam Collection Attributes
 COLLECTION_IO_CTX = 'collection_vehicle_io_ctx'
+COLLECTION_VEH_FILES = 'collection_vehicle_files'
 COLLECTION_VEHICLE_MODEL = 'collection_vehicle_model'
 COLLECTION_VEHICLE_BUNDLE = 'collection_vehicle_bundle'
 COLLECTION_PC_FILEPATH = 'collection_vehicle_pc_filepath'
-COLLECTION_BLENDER_PC_FILEPATH = 'collection_vehicle_pc_filepath'
 COLLECTION_PARTS = 'collection_vehicle_parts'
 COLLECTION_MAIN_PART = 'collection_vehicle_main_part'
 COLLECTION_NODES = 'collection_vehicle_nodes'
@@ -33,7 +33,6 @@ MESH_VEHICLE_MODEL = 'vehicle_model'
 MESH_JBEAM_PART = 'jbeam_part'
 MESH_JBEAM_FILE_PATH = 'jbeam_file_path'
 MESH_JBEAM_FILE_TEXT = 'jbeam_file_text'
-MESH_JBEAM_BLENDER_FILE_PATH = 'jbeam_blender_file_path'
 MESH_JBEAM_INIT_NODE_IDS = 'init_node_ids'
 
 # bm.verts.layers.string Attributes

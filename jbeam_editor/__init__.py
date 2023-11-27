@@ -56,8 +56,8 @@ from . import utils
 from . import text_editor
 
 
-check_file_interval = 0.25
-export_file_interval = 0.5
+check_file_interval = 0.1
+export_file_interval = 0.25
 
 draw_handle = None
 
@@ -593,8 +593,6 @@ def on_post_register():
 def register():
     for c in classes:
         bpy.utils.register_class(c)
-
-    text_editor.init()
 
     bpy.types.Scene.ui_properties = bpy.props.PointerProperty(type=UIProperties)
 
