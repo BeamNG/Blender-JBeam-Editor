@@ -309,50 +309,76 @@ def draw_callback_px(context: bpy.types.Context):
     ui_props = scene.ui_properties
     font_id = 0
 
-    if scene.get('main_parts') is None:
-        return
+    collection = context.collection
+    if collection is not None and collection.get(constants.COLLECTION_VEHICLE_MODEL) is not None:
+        part_name_to_obj.clear()
+        for obj in collection.all_objects:
+            part_name_to_obj[obj.data[constants.MESH_JBEAM_PART]] = obj
 
-    veh_collection = context.collection
-    if veh_collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
-        return
+        obj = scene.objects.get(collection[constants.COLLECTION_MAIN_PART])
+        if obj is None:
+            return
 
-    part_name_to_obj.clear()
-    for obj in veh_collection.all_objects:
-        part_name_to_obj[obj.data[constants.MESH_JBEAM_PART]] = obj
+        obj_data = obj.data
 
-    obj = scene.objects.get(veh_collection[constants.COLLECTION_MAIN_PART])
-    if obj is None:
-        return
+        bm = None
+        if obj.mode == 'EDIT':
+            bm = bmesh.from_edit_mesh(obj_data)
+        else:
+            bm = bmesh.new()
+            bm.from_mesh(obj_data)
 
-    obj_data = obj.data
+        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+        part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
 
-    bm = None
-    if obj.mode == 'EDIT':
-        bm = bmesh.from_edit_mesh(obj_data)
+        for v in bm.verts:
+            coord = obj.matrix_world @ v.co
+            node_id = v[node_id_layer].decode('utf-8')
+            part_origin = v[part_origin_layer].decode('utf-8')
+
+            if not part_name_to_obj[part_origin].visible_get():
+                continue
+
+            pos_text = location_3d_to_region_2d(context.region, context.region_data, coord)
+            if pos_text and ui_props.toggle_node_ids_text:
+                blf.position(font_id, pos_text[0], pos_text[1], 0)
+                blf.size(font_id, 12) # dpi value defaults to 72 when omitted, and no longer usable from 4.0+ (only 2 parameters allowed).
+                blf.color(font_id, 1, 1, 1, 1)
+                #blf.draw(font_id, str(node_id) + " (" + str(v.index) + ")")
+                blf.draw(font_id, str(node_id))
+
+        bm.free()
+
     else:
-        bm = bmesh.new()
-        bm.from_mesh(obj_data)
+        obj = context.active_object
+        if obj is None:
+            return
+        obj_data = obj.data
+        if obj_data.get(constants.MESH_JBEAM_PART) is None:
+            return
 
-    node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-    part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
+        bm = None
+        if obj.mode == 'EDIT':
+            bm = bmesh.from_edit_mesh(obj_data)
+        else:
+            bm = bmesh.new()
+            bm.from_mesh(obj_data)
 
-    for v in bm.verts:
-        coord = obj.matrix_world @ v.co
-        node_id = v[node_id_layer].decode('utf-8')
-        part_origin = v[part_origin_layer].decode('utf-8')
+        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
 
-        if not part_name_to_obj[part_origin].visible_get():
-            continue
+        for v in bm.verts:
+            coord = obj.matrix_world @ v.co
+            node_id = v[node_id_layer].decode('utf-8')
 
-        pos_text = location_3d_to_region_2d(context.region, context.region_data, coord)
-        if pos_text and ui_props.toggle_node_ids_text:
-            blf.position(font_id, pos_text[0], pos_text[1], 0)
-            blf.size(font_id, 12) # dpi value defaults to 72 when omitted, and no longer usable from 4.0+ (only 2 parameters allowed).
-            blf.color(font_id, 1, 1, 1, 1)
-            #blf.draw(font_id, str(node_id) + " (" + str(v.index) + ")")
-            blf.draw(font_id, str(node_id))
+            pos_text = location_3d_to_region_2d(context.region, context.region_data, coord)
+            if pos_text and ui_props.toggle_node_ids_text:
+                blf.position(font_id, pos_text[0], pos_text[1], 0)
+                blf.size(font_id, 12) # dpi value defaults to 72 when omitted, and no longer usable from 4.0+ (only 2 parameters allowed).
+                blf.color(font_id, 1, 1, 1, 1)
+                #blf.draw(font_id, str(node_id) + " (" + str(v.index) + ")")
+                blf.draw(font_id, str(node_id))
 
-    bm.free()
+        bm.free()
 
 
 classes = (
