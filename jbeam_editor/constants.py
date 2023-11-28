@@ -32,7 +32,6 @@ COLLECTION_NODES = 'collection_vehicle_nodes'
 MESH_VEHICLE_MODEL = 'vehicle_model'
 MESH_JBEAM_PART = 'jbeam_part'
 MESH_JBEAM_FILE_PATH = 'jbeam_file_path'
-MESH_JBEAM_FILE_TEXT = 'jbeam_file_text'
 MESH_JBEAM_INIT_NODE_IDS = 'init_node_ids'
 
 # bm.verts.layers.string Attributes

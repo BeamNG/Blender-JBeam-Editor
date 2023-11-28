@@ -3,6 +3,8 @@ import bpy
 import re
 
 from . import import_vehicle
+from . import import_jbeam
+from . import utils
 
 SCENE_PREV_TEXTS = 'jbeam_editor_text_editor_files_text'
 #SCENE_FULL_TO_SHORT_FILENAME = 'jbeam_editor_text_editor_full_to_short_filename'
@@ -21,6 +23,14 @@ def _to_short_filename(filename: str):
     if new_filename is None:
         new_filename = filename
     return new_filename[max(0, len(new_filename) - 60):] # roughly 60 character limit
+
+
+def write_file_from_disk(filepath: str):
+    filetext = utils.read_file(filepath)
+    if filetext is None:
+        return None
+    write_file(filepath, filetext)
+    return filetext
 
 
 def write_file(filename: str, text: str):
@@ -47,17 +57,24 @@ def write_file(filename: str, text: str):
     scene[SCENE_PREV_TEXTS][short_filename] = text
 
 
-def read_file(filename: str) -> str | None:
+def read_file(filename: str, get_from_disk_if_not_exist=False) -> str | None:
     short_filename = _to_short_filename(filename)
     text: bpy.types.Text | None = bpy.data.texts.get(short_filename)
     if text is None:
-        return None
-    return text.as_string()
+        if get_from_disk_if_not_exist:
+            filetext = write_file_from_disk(filename)
+            if filetext is None:
+                return None
+        else:
+            return None
+    else:
+        filetext = text.as_string()
+    return filetext
 
 
 def show_file(filename: str):
     short_filename = _to_short_filename(filename)
-    text = bpy.data.texts.get(short_filename)
+    text: bpy.types.Text | None = bpy.data.texts.get(short_filename)
     if text is None:
         return
 
@@ -67,9 +84,13 @@ def show_file(filename: str):
             text_area = area
             break
 
-    if text_area is not None:
-        if text_area.spaces[0].text != text:
-            text_area.spaces[0].text = text
+    if text_area is None:
+        return
+
+    if text_area.spaces[0].text != text:
+        text_area.spaces[0].text = text
+
+
 
 
 def check_files_for_changes():
@@ -105,3 +126,4 @@ def check_files_for_changes():
         scene[SCENE_PREV_TEXTS][short_filename] = curr_file_text
 
         import_vehicle.on_file_change(filename, curr_file_text)
+        import_jbeam.on_file_change(filename, curr_file_text)

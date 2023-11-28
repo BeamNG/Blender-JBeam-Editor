@@ -134,7 +134,11 @@ def load_vehicle_stage_1(vehicle_directories: list, vehicle_config: dict):
 
 def build_config(config_path):
     res = {}
-    file_data = utils.sjson_read_file(config_path)
+    pc_filetext = text_editor.read_file(config_path, True)
+    if pc_filetext is None:
+        return None
+
+    file_data = utils.sjson_decode(pc_filetext, config_path)
     if not file_data:
         return None
 
@@ -274,11 +278,9 @@ def generate_meshes(vehicle_bundle: dict):
 
 
 def reimport_vehicle(veh_collection: bpy.types.Collection, jbeam_filepath: str):
-    selected_obj = bpy.context.active_object
-    if selected_obj is None:
-        return
+    context = bpy.context
+    selected_obj_name = context.active_object.name if context.active_object is not None else None
 
-    selected_obj_name = selected_obj.name
     config_path = veh_collection[constants.COLLECTION_PC_FILEPATH]
 
     hidden_objs = {}
@@ -304,7 +306,6 @@ def reimport_vehicle(veh_collection: bpy.types.Collection, jbeam_filepath: str):
     vehicles_dir = Path(vehicle_dir).parent.as_posix()
     vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]
 
-    jbeam_io.load_files_into_blender(config_path, vehicle_directories)
     vehicle_bundle = load_vehicle_stage_1(vehicle_directories, vehicle_config)
     if vehicle_bundle is None:
         return
@@ -317,7 +318,7 @@ def reimport_vehicle(veh_collection: bpy.types.Collection, jbeam_filepath: str):
     # Select object that was previously selected
     new_obj = new_veh_collection.all_objects.get(selected_obj_name)
     if new_obj is not None:
-        bpy.context.view_layer.objects.active = new_obj
+        context.view_layer.objects.active = new_obj
         new_obj.select_set(True)
 
     # Set visibility of previous objects
@@ -355,32 +356,6 @@ def import_vehicle(config_path: str):
     return {'FINISHED'}
 
 
-def import_files_into_blender(config_path: str):
-    vehicle_dir = Path(config_path).parent.as_posix()
-    vehicles_dir = Path(vehicle_dir).parent.as_posix()
-    vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]
-    jbeam_io.load_files_into_blender(config_path, vehicle_directories)
-
-
-class JBEAM_EDITOR_OT_import_vehicle(Operator, ImportHelper):
-    bl_idname = 'jbeam_editor.import_vehicle'
-    bl_label = 'Import JBeam'
-    bl_description = 'Import a BeamNG Part Config file (.pc)'
-    filename_ext = ".pc"
-
-    filter_glob: StringProperty(
-        default="*.pc",
-        options={'HIDDEN'},
-        maxlen=255,  # Max internal buffer length, longer would be clamped.
-    )
-
-    def execute(self, context):
-        pc_config_path = Path(self.filepath).as_posix()
-        import_files_into_blender(pc_config_path)
-        import_vehicle(pc_config_path)
-        return {'FINISHED'}
-
-
 def on_file_change(filename: str, filetext: str):
     context = bpy.context
     collections = bpy.data.collections
@@ -407,3 +382,21 @@ def on_file_change(filename: str, filetext: str):
         #     stats.strip_dirs().sort_stats('cumtime').print_stats()
 
         reimport_vehicle(collection, filename)
+
+
+class JBEAM_EDITOR_OT_import_vehicle(Operator, ImportHelper):
+    bl_idname = 'jbeam_editor.import_vehicle'
+    bl_label = 'Import JBeam'
+    bl_description = 'Import a BeamNG Part Config file (.pc)'
+    filename_ext = ".pc"
+
+    filter_glob: StringProperty(
+        default="*.pc",
+        options={'HIDDEN'},
+        maxlen=255,  # Max internal buffer length, longer would be clamped.
+    )
+
+    def execute(self, context):
+        pc_config_path = Path(self.filepath).as_posix()
+        import_vehicle(pc_config_path)
+        return {'FINISHED'}

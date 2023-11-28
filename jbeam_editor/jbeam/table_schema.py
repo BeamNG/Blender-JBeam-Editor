@@ -223,7 +223,7 @@ def post_process(vehicle: dict):
             for row_key, row_value in tbl.items():
                 if not isinstance(row_key, int):
                     print(f'Table unexpectedly has non integer key! row key: {row_key}, row value {row_value}', file=sys.stderr)
-                    return
+                    return False
 
                 new_table.append(row_value)
 
@@ -232,6 +232,8 @@ def post_process(vehicle: dict):
     # Set vehicle with new jbeam tables
     for k, tbl in new_tables.items():
         vehicle[k] = tbl
+
+    return True
 
 
 def process(vehicle: dict):

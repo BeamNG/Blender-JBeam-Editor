@@ -111,7 +111,7 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: li
     if filepath not in jbeam_cache:
         if parts is not None:
             # As optimization, only read file and check if file text contains part name before parsing it with SJSON parser
-            file_text = text_editor.read_file(filepath)
+            file_text = text_editor.read_file(filepath, True)
             if file_text is None:
                 print(f'Cannot read file: {filepath}', file=sys.stderr)
                 return None
@@ -121,7 +121,7 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: li
 
             file_content = utils.sjson_decode(file_text, filepath)
         else:
-            file_text = text_editor.read_file(filepath)
+            file_text = text_editor.read_file(filepath, True)
             if file_text is None:
                 print(f'Cannot read file: {filepath}', file=sys.stderr)
                 return None
@@ -131,13 +131,18 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: li
         if file_content is None:
             print(f'Cannot read file: {filepath}', file=sys.stderr)
             return None
-        jbeam_cache[filepath] = file_content
+
+        if add_to_cache:
+            jbeam_cache[filepath] = file_content
 
     else:
         file_content = jbeam_cache[filepath]
 
     if add_to_cache:
         if filepath not in file_part_to_slot_info:
+            if not directory in dir_to_files_map:
+                dir_to_files_map[directory] = []
+            dir_to_files_map[directory].append(filepath)
             file_part_to_slot_info[filepath] = {}
             file_to_parts_name_map[filepath] = []
 
@@ -186,24 +191,28 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: li
     return part_count
 
 
-def load_files_into_blender(config_path: str, directories: list[str]):
-    pc_filetext = utils.read_file(config_path)
-    if pc_filetext is None:
-        return
-    text_editor.write_file(config_path, pc_filetext)
+def load_single_jbeam_file(filepath: str, add_to_cache: bool):
+    file_content = None
 
-    for directory in directories:
-        if directory not in dir_to_files_map:
-            dir_to_files_map[directory] = []
+    if filepath not in jbeam_cache:
+        file_text = text_editor.read_file(filepath, True)
+        if file_text is None:
+            print(f'Cannot read file: {filepath}', file=sys.stderr)
+            return False
 
-            for filepath in Path(directory).rglob('*.jbeam'):
-                fp = filepath.as_posix()
-                filetext = utils.read_file(fp)
-                if not filetext:
-                    continue
+        file_content = utils.sjson_decode(file_text, filepath)
 
-                dir_to_files_map[directory].append(fp)
-                text_editor.write_file(fp, filetext)
+        if file_content is None:
+            print(f'Cannot read file: {filepath}', file=sys.stderr)
+            return False
+
+        if add_to_cache:
+            jbeam_cache[filepath] = file_content
+
+    else:
+        file_content = jbeam_cache[filepath]
+
+    return True
 
 
 def start_loading(directories: list[str], vehicle_config: dict):
@@ -215,14 +224,14 @@ def start_loading(directories: list[str], vehicle_config: dict):
     for directory in directories:
         if directory not in dir_part_to_file_map:
             #part_count_total = 0
-
-            for filepath in dir_to_files_map[directory]:
-                part_count = load_jbeam_file(directory, filepath, True)
+            for filepath in Path(directory).rglob('*.jbeam'):
+                fp = filepath.as_posix()
+                part_count = load_jbeam_file(directory, fp, True)
                 if part_count is None:
                     return None
-            #if part_count:
-            #    print('parsed file', filepath)
-            #art_count_total += part_count
+                #if part_count:
+                #    print('parsed file', filepath)
+                #art_count_total += part_count
 
     return {'dirs': directories}
 
@@ -243,16 +252,14 @@ def get_part(io_ctx: dict, part_name: str | None):
     return None, None
 
 
-def get_jbeam(io_ctx: dict, jbeam_filename: str | None):
+def get_jbeam(jbeam_filename: str | None):
     if jbeam_filename is None:
         return None
 
     if jbeam_filename not in jbeam_cache:
-        for directory in io_ctx['dirs']:
-            part_count = load_jbeam_file(directory, jbeam_filename, False)
-            print(f'Loaded {part_count} part(s) from file {jbeam_filename}')
+        load_single_jbeam_file(jbeam_filename, True)
     if jbeam_filename in jbeam_cache:
-        return jbeam_cache[jbeam_filename]
+        return copy.deepcopy(jbeam_cache[jbeam_filename])
 
     return None
 
