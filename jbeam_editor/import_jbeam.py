@@ -20,11 +20,11 @@
 
 import copy
 from pathlib import Path
+import pickle
 import os
 
 import bpy
 import bmesh
-
 
 # ImportHelper is a helper class, defines filename and
 # invoke() function which calls the file selector.
@@ -38,6 +38,7 @@ from . import utils
 
 from .jbeam import io as jbeam_io
 from .jbeam import table_schema as jbeam_table_schema
+from .jbeam import node_beam as jbeam_node_beam
 
 _jbeam_file_path = None
 _jbeam_file_data = None
@@ -57,63 +58,39 @@ def import_jbeam_part(jbeam_file_path: str, jbeam_file_data: dict, chosen_part: 
         return
     if not jbeam_table_schema.post_process(part_data):
         return
+    jbeam_node_beam.process(part_data)
 
     # Process nodes section
     if 'nodes' in part_data:
-        nodes_section = part_data['nodes']
+        nodes: dict = part_data['nodes']
 
-        curr_node_idx = 0
-
-        for i, row_data in enumerate(nodes_section):
-            if i == 0:
-                continue  # Ignore header row
-
-            if isinstance(row_data, list):
-                #if len(row_data) >
-                node_id, node_x, node_y, node_z = row_data[0], row_data[1], row_data[2], row_data[3]
-                node_pos = (node_x, node_y, node_z)
-
-                node_id_to_index[node_id] = curr_node_idx
-                curr_node_idx += 1
-
-                node_ids.append(node_id)
-                vertices.append(node_pos)
+        for i, (node_id, node) in enumerate(nodes.items()):
+            node_pos = node['pos']
+            node_id_to_index[node_id] = i
+            node_ids.append(node_id)
+            vertices.append(node_pos)
 
     # Process beams section
     if 'beams' in part_data:
-        beams_section = part_data['beams']
+        beams: list = part_data['beams']
 
-        for i, row_data in enumerate(beams_section):
-            if i == 0:
-                continue  # Ignore header row
-
-            if isinstance(row_data, list):
-                node_1_id, node_2_id = row_data[0], row_data[1]
-
-                if node_1_id in node_id_to_index and node_2_id in node_id_to_index:
-                    beam = (node_id_to_index[node_1_id], node_id_to_index[node_2_id])
-                    edges.append(beam)
-
+        for beam in beams:
+            if beam['id1:'] in node_id_to_index and beam['id2:'] in node_id_to_index:
+                edges.append((node_id_to_index[beam['id1:']], node_id_to_index[beam['id2:']]))
 
     # Process triangles section
     if 'triangles' in part_data:
-        tris_section = part_data['triangles']
+        triangles: list = part_data['triangles']
 
-        for i, row_data in enumerate(tris_section):
-            if i == 0:
-                continue  # Ignore header row
-
-            if isinstance(row_data, list):
-                node_1_id, node_2_id, nodeID3 = row_data[0], row_data[1], row_data[2]
-
-                if node_1_id in node_id_to_index and node_2_id in node_id_to_index and nodeID3 in node_id_to_index:
-                    tri = (node_id_to_index[node_1_id], node_id_to_index[node_2_id], node_id_to_index[nodeID3])
-                    faces.append(tri)
+        for tri in triangles:
+            if tri['id1:'] in node_id_to_index and tri['id2:'] in node_id_to_index and tri['id3:'] in node_id_to_index:
+                faces.append((node_id_to_index[tri['id1:']], node_id_to_index[tri['id2:']], node_id_to_index[tri['id3:']]))
 
     obj_data = bpy.data.meshes.new(chosen_part)
     obj_data.from_pydata(vertices, edges, faces)
     obj_data[constants.MESH_JBEAM_PART] = chosen_part
     obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_file_path
+    obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(part_data)
     #obj_data[constants.MESH_JBEAM_INIT_NODE_IDS] = copy.deepcopy(node_ids)
 
     export_jbeam.last_exported_jbeams[chosen_part] = {'in_filepath': jbeam_file_path}
@@ -126,6 +103,7 @@ def import_jbeam_part(jbeam_file_path: str, jbeam_file_data: dict, chosen_part: 
     # Add node ID field to all vertices
     init_node_id_layer = bm.verts.layers.string.new(constants.VLS_INIT_NODE_ID)
     node_id_layer = bm.verts.layers.string.new(constants.VLS_NODE_ID)
+    node_origin_layer = bm.verts.layers.string.new(constants.VLS_NODE_PART_ORIGIN)
 
     # Update node IDs field from JBeam data to match JBeam nodes
     bm.verts.ensure_lookup_table()
@@ -133,6 +111,7 @@ def import_jbeam_part(jbeam_file_path: str, jbeam_file_data: dict, chosen_part: 
         node_id = bytes(node_ids[i], 'utf-8')
         v[init_node_id_layer] = node_id
         v[node_id_layer] = node_id
+        v[node_origin_layer] = bytes(chosen_part, 'utf-8')
 
     bm.to_mesh(obj_data)
 

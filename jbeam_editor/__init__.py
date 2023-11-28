@@ -61,21 +61,35 @@ export_file_interval = 0.25
 
 draw_handle = None
 
-_export_data: dict
+_export_vehicle_data: dict
+_export_jbeam_data: dict
+
+# Queue exporting stuff for exporting after no changes happen after 'x' number of seconds
+
+def _export_veh():
+    export_vehicle.auto_export(_export_vehicle_data)
 
 
-def export_veh():
-    export_vehicle.auto_export(_export_data)
+def _export_jbeam():
+    export_jbeam.auto_export(_export_jbeam_data)
 
 
-# Queue exporting vehicle for exporting after no changes happen after 'x' number of seconds
 def queue_export_vehicle(data: dict):
-    global _export_data
+    global _export_vehicle_data
     # Reset timer if export already queued
-    if bpy.app.timers.is_registered(export_veh):
-        bpy.app.timers.unregister(export_veh)
-    _export_data = data
-    bpy.app.timers.register(export_veh, first_interval=export_file_interval)
+    if bpy.app.timers.is_registered(_export_veh):
+        bpy.app.timers.unregister(_export_veh)
+    _export_vehicle_data = data
+    bpy.app.timers.register(_export_veh, first_interval=export_file_interval)
+
+
+def queue_export_jbeam(data: dict):
+    global _export_jbeam_data
+    # Reset timer if export already queued
+    if bpy.app.timers.is_registered(_export_jbeam):
+        bpy.app.timers.unregister(_export_jbeam)
+    _export_jbeam_data = data
+    bpy.app.timers.register(_export_jbeam, first_interval=export_file_interval)
 
 
 # Refresh property input field UI
@@ -514,9 +528,11 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
     if active_obj_data.get(constants.MESH_JBEAM_PART) is None:
         return
 
-    # Show selected jbeam part JBeam file in text editor
+    # Show selected jbeam part's JBeam file in text editor
     jbeam_filepath = active_obj_data[constants.MESH_JBEAM_FILE_PATH]
     text_editor.show_file(jbeam_filepath)
+
+    active_obj_eval = active_obj.evaluated_get(depsgraph)
 
     veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
     if veh_model is not None:
@@ -528,7 +544,6 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
                 bpy.context.view_layer.active_layer_collection = layer
                 scene['jbeam_editor_veh_collection_selected'] = veh_collection
 
-            active_obj_eval = active_obj.evaluated_get(depsgraph)
             # Update positions of other nodes in other meshes
             all_changed_node_positions = {}
             for update in depsgraph.updates:
@@ -539,14 +554,16 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
 
             if len(all_changed_node_positions) > 0:
                 # Export
-                data = {
-                    'obj': active_obj,
-                    'veh_model': veh_model,
-                    #'all_changed_node_positions': all_changed_node_positions,
-                }
+                data = {'obj': active_obj, 'veh_model': veh_model}
                 queue_export_vehicle(data)
+    else:
+        for update in depsgraph.updates:
+            #print(update.id, update.is_updated_geometry, update.is_updated_transform, update.is_updated_shading)
+            if update.id == active_obj_eval and (update.is_updated_geometry or update.is_updated_transform):
+                data = {'obj': active_obj}
+                queue_export_jbeam(data)
 
-    if active_obj.mode != 'EDIT':
+    '''if active_obj.mode != 'EDIT':
         return
 
     if not scene.get('jbeam_editor_renaming_selected_obj'):
@@ -593,7 +610,7 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
 
         ui_props.input_node_id = node_id
 
-    bm.free()
+    bm.free()'''
 
 
 # If active file in text editor changed, reimport jbeam file/vehicle
