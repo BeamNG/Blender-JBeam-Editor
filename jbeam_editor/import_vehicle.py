@@ -152,25 +152,12 @@ def build_config(config_path):
     return res
 
 
-def generate_meshes(vehicle_bundle: dict):
-    context = bpy.context
-    io_ctx = vehicle_bundle['ioCtx']
-    veh_files = vehicle_bundle['vehFiles']
+def get_vertices_edges_faces(vehicle_bundle: dict):
     vdata = vehicle_bundle['vdata']
     nodes: dict[str, dict] = vdata['nodes']
     beams: list[dict] = vdata['beams']
     triangles: list[dict] = vdata['triangles']
 
-    vehicle_model = vdata['model']
-    main_part_name = vehicle_bundle['mainPartName']
-    pc_filepath = vehicle_bundle['config']['partConfigFilename']
-
-    # Prevent overriding a vehicle that already exists in scene!
-    if bpy.data.collections.get(vehicle_model):
-        print(f'Collection named {vehicle_model} already exists! Vehicle will not be generated to avoid overriding it...', file=sys.stderr)
-        return None
-
-    parts = vehicle_bundle['chosenParts'].values()
     node_index_to_id = []
     node_id_to_index = {}
     vertices = []
@@ -209,10 +196,30 @@ def generate_meshes(vehicle_bundle: dict):
         if tri['id1:'] in node_id_to_index and tri['id2:'] in node_id_to_index and tri['id3:'] in node_id_to_index:
             faces.append((node_id_to_index[tri['id1:']], node_id_to_index[tri['id2:']], node_id_to_index[tri['id3:']]))
 
-    # add main part to main_parts scene dict
-    if 'main_parts' not in context.scene:
-        context.scene['main_parts'] = {}
-    context.scene['main_parts'][main_part_name] = True
+    return vertices, parts_edges, parts_faces, node_index_to_id
+
+
+def generate_meshes(vehicle_bundle: dict):
+    context = bpy.context
+    io_ctx = vehicle_bundle['ioCtx']
+    veh_files = vehicle_bundle['vehFiles']
+    vdata = vehicle_bundle['vdata']
+    nodes: dict[str, dict] = vdata['nodes']
+    beams: list[dict] = vdata['beams']
+    triangles: list[dict] = vdata['triangles']
+
+    vehicle_model = vdata['model']
+    main_part_name = vehicle_bundle['mainPartName']
+    pc_filepath = vehicle_bundle['config']['partConfigFilename']
+
+    # Prevent overriding a vehicle that already exists in scene!
+    if bpy.data.collections.get(vehicle_model):
+        print(f'Collection named {vehicle_model} already exists! Vehicle will not be generated to avoid overriding it...', file=sys.stderr)
+        return None
+
+    parts = vehicle_bundle['chosenParts'].values()
+
+    vertices, parts_edges, parts_faces, node_index_to_id = get_vertices_edges_faces(vehicle_bundle)
 
     # make collection
     vehicle_parts_collection = bpy.data.collections.new(vehicle_model)
@@ -254,7 +261,7 @@ def generate_meshes(vehicle_bundle: dict):
         # make object from mesh
         part_obj = bpy.data.objects.new(part, obj_data)
 
-        # add object to scene collection
+        # add object to vehicle collection
         vehicle_parts_collection.objects.link(part_obj)
 
     # store vehicle data in collection
@@ -277,22 +284,123 @@ def generate_meshes(vehicle_bundle: dict):
     return vehicle_parts_collection
 
 
-def reimport_vehicle(veh_collection: bpy.types.Collection, jbeam_filepath: str):
+def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Collection, vehicle_bundle: dict):
     context = bpy.context
-    selected_obj_name = context.active_object.name if context.active_object is not None else None
+    io_ctx = vehicle_bundle['ioCtx']
+    veh_files = vehicle_bundle['vehFiles']
+    vdata = vehicle_bundle['vdata']
+    nodes: dict[str, dict] = vdata['nodes']
+    beams: list[dict] = vdata['beams']
+    triangles: list[dict] = vdata['triangles']
 
-    config_path = veh_collection[constants.COLLECTION_PC_FILEPATH]
+    vehicle_model = vdata['model']
+    main_part_name = vehicle_bundle['mainPartName']
+    pc_filepath = vehicle_bundle['config']['partConfigFilename']
 
-    hidden_objs = {}
+    parts = vehicle_bundle['chosenParts'].values()
 
-    # Get all hidden objects (can't seem to get hidden objects and delete them in same loop)
-    for obj in veh_collection.all_objects:
-        hidden_objs[obj.name] = obj.hide_get()
+    vertices, parts_edges, parts_faces, node_index_to_id = get_vertices_edges_faces(vehicle_bundle)
 
-    # Remove vehicle and then reimport
+    parts_set = set()
+    prev_active_obj_name = context.active_object.name
+    objs = veh_collection.all_objects
+    for part in parts:
+        if part == '': # skip slots with empty parts
+            continue
+
+        jbeam_filepath = vehicle_bundle['partToFileMap'][part]
+
+        prev_mode = None
+
+        new_mesh = False
+        obj_data = None
+        if part in objs:
+            obj = objs[part]
+            prev_mode = obj.mode
+            if prev_mode == 'EDIT':
+                context.scene['jbeam_editor_reimporting_jbeam'] = True # Prevents exporting jbeam
+                context.view_layer.objects.active = obj
+                bpy.ops.object.mode_set(mode='OBJECT')
+
+            obj_data = obj.data
+            obj_data.clear_geometry()
+        else:
+            new_mesh = True
+            obj_data = bpy.data.meshes.new(part)
+
+        obj_data.from_pydata(vertices, parts_edges.get(part, []), parts_faces.get(part, []))
+        obj_data[constants.MESH_JBEAM_PART] = part
+        obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_filepath
+        obj_data[constants.MESH_VEHICLE_MODEL] = vehicle_model
+
+        bm = bmesh.new()
+        bm.from_mesh(obj_data)
+
+        # Add node ID field to all vertices
+        init_node_id_layer = bm.verts.layers.string.new(constants.VLS_INIT_NODE_ID)
+        node_id_layer = bm.verts.layers.string.new(constants.VLS_NODE_ID)
+        node_origin_layer = bm.verts.layers.string.new(constants.VLS_NODE_PART_ORIGIN)
+
+        # Update node IDs field from JBeam data to match JBeam nodes
+        bm.verts.ensure_lookup_table()
+        for i, v in enumerate(bm.verts):
+            node_id = node_index_to_id[i]
+            bytes_node_id = bytes(node_id, 'utf-8')
+            v[init_node_id_layer] = bytes_node_id
+            v[node_id_layer] = bytes_node_id
+            v[node_origin_layer] = bytes(nodes[node_id].get('partOrigin'), 'utf-8')
+
+        bm.to_mesh(obj_data)
+        bm.free()
+
+        obj_data.update()
+
+        if new_mesh:
+            part_obj = bpy.data.objects.new(part, obj_data)
+
+            # add object to scene collection
+            veh_collection.objects.link(part_obj)
+
+        if prev_mode == 'EDIT':
+            context.scene['jbeam_editor_reimporting_jbeam'] = True # Prevents exporting jbeam
+            bpy.ops.object.mode_set(mode='EDIT')
+
+        parts_set.add(part)
+
+    # Delete objects from vehicle collection that aren't part of parts
+    obj_datas_to_remove = []
+    obj: bpy.types.Object
     for obj in veh_collection.all_objects[:]:
-        bpy.data.objects.remove(obj, do_unlink=True)
-    bpy.data.collections.remove(veh_collection)
+        if obj.name not in parts_set:
+            obj_datas_to_remove.append(obj.data)
+            bpy.data.objects.remove(obj, do_unlink=True)
+
+    for obj_data in obj_datas_to_remove:
+        bpy.data.meshes.remove(obj_data, do_unlink=True)
+
+    # store vehicle data in collection
+    # path = Path(pc_filepath)
+    # length = len(path.name)
+    # blender_pc_filename = path.name[max(0, length - 60):] # Blender can only store roughly 60 characters...
+    # if blender_pc_filename not in bpy.data.texts:
+    #     bpy.data.texts.new(blender_pc_filename)
+    # file = bpy.data.texts[blender_pc_filename]
+    # file.clear()
+    # file.write(utils.read_file(pc_filepath))
+
+    veh_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle)
+    veh_collection[constants.COLLECTION_IO_CTX] = io_ctx
+    veh_collection[constants.COLLECTION_VEH_FILES] = veh_files
+    veh_collection[constants.COLLECTION_PC_FILEPATH] = vehicle_bundle['config']['partConfigFilename']
+    veh_collection[constants.COLLECTION_VEHICLE_MODEL] = vehicle_bundle['vdata']['model']
+    veh_collection[constants.COLLECTION_MAIN_PART] = main_part_name
+
+    if prev_active_obj_name in context.scene.objects:
+        context.view_layer.objects.active = context.scene.objects[prev_active_obj_name]
+
+
+def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Collection, jbeam_filepath: str):
+    config_path = veh_collection[constants.COLLECTION_PC_FILEPATH]
 
     res = jbeam_io.invalidate_cache_for_file(jbeam_filepath)
     if not res:
@@ -311,20 +419,7 @@ def reimport_vehicle(veh_collection: bpy.types.Collection, jbeam_filepath: str):
         return
 
     # Create Blender meshes from JBeam data
-    new_veh_collection = generate_meshes(vehicle_bundle)
-    if new_veh_collection is None:
-        return
-
-    # Select object that was previously selected
-    new_obj = new_veh_collection.all_objects.get(selected_obj_name)
-    if new_obj is not None:
-        context.view_layer.objects.active = new_obj
-        new_obj.select_set(True)
-
-    # Set visibility of previous objects
-    for obj in new_veh_collection.all_objects[:]:
-        if obj.name in hidden_objs:
-            obj.hide_set(hidden_objs[obj.name])
+    _reimport_vehicle(context, veh_collection, vehicle_bundle)
 
     print('Done loading vehicle.')
 
@@ -356,8 +451,7 @@ def import_vehicle(config_path: str):
     return {'FINISHED'}
 
 
-def on_file_change(filename: str, filetext: str):
-    context = bpy.context
+def on_file_change(context: bpy.types.Context, filename: str, filetext: str):
     collections = bpy.data.collections
 
     for collection in collections:
@@ -381,7 +475,7 @@ def on_file_change(filename: str, filetext: str):
         #     stats = pstats.Stats(pr)
         #     stats.strip_dirs().sort_stats('cumtime').print_stats()
 
-        reimport_vehicle(collection, filename)
+        reimport_vehicle(context, collection, filename)
 
 
 class JBEAM_EDITOR_OT_import_vehicle(Operator, ImportHelper):

@@ -10,9 +10,11 @@ SCENE_PREV_TEXTS = 'jbeam_editor_text_editor_files_text'
 #SCENE_FULL_TO_SHORT_FILENAME = 'jbeam_editor_text_editor_full_to_short_filename'
 SCENE_SHORT_TO_FULL_FILENAME = 'jbeam_editor_text_editor_short_to_full_filename'
 
+regex = re.compile(r'^.*/vehicles/(.*)$')
+
 
 def _get_short_jbeam_path(path: str):
-    match = re.match(r'^.*/vehicles/(.*)$', path)
+    match = re.match(regex, path)
     if match is not None:
         return match.group(1)
     return None
@@ -91,10 +93,7 @@ def show_file(filename: str):
         text_area.spaces[0].text = text
 
 
-
-
-def check_files_for_changes():
-    context = bpy.context
+def check_files_for_changes(context: bpy.types.Context):
     scene = context.scene
 
     if SCENE_PREV_TEXTS not in scene:
@@ -125,5 +124,5 @@ def check_files_for_changes():
         # File changed!
         scene[SCENE_PREV_TEXTS][short_filename] = curr_file_text
 
-        import_vehicle.on_file_change(filename, curr_file_text)
-        import_jbeam.on_file_change(filename, curr_file_text)
+        import_vehicle.on_file_change(context, filename, curr_file_text)
+        import_jbeam.on_file_change(context, filename, curr_file_text)

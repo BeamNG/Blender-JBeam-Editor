@@ -296,7 +296,8 @@ def invalidate_cache_for_file(filepath):
         return False
     directory = match.group(1)
 
-    jbeam_cache.pop(filepath, None)
+    if filepath in jbeam_cache:
+        del jbeam_cache[filepath]
 
     file_to_parts_name_map.pop(filepath, None)
     file_part_to_slot_info.pop(filepath, None)

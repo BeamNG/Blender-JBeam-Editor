@@ -501,27 +501,49 @@ def find_layer_collection_recursive(find, col):
 
 @persistent
 def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
+    context = bpy.context
+
+    return_early = False
+
+    # Don't act on undoing or redoing
+    if scene.get('jbeam_editor_undoing') == True:
+        scene['jbeam_editor_undoing'] = False
+        return_early = True
+
+    if scene.get('jbeam_editor_redoing') == True:
+        scene['jbeam_editor_redoing'] = False
+        return_early = True
+
+    # Don't act on reimported mesh
+    if scene.get('jbeam_editor_reimporting_jbeam') == True:
+        scene['jbeam_editor_reimporting_jbeam'] = False
+        return_early = True
+
+    if return_early:
+        return
+
     ui_props = scene.ui_properties
 
-    active_obj = bpy.context.active_object
-    if active_obj is None:
+    active_obj = context.active_object
+    if context.active_object is None:
         return
     active_obj_data = active_obj.data
+    active_obj_eval: bpy.types.Object = active_obj.evaluated_get(depsgraph)
 
     # If selected new object/collection unrelated to vehicles and vehicle collection was last selected, set active collection to new object's collection
     # to stop rendering stuff related to previous vehicle
     if scene.get('jbeam_editor_veh_collection_selected') is not None:
         collection = None
-        if bpy.context.collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
+        if context.collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
             collection = scene.collection
         if collection is None and len(active_obj.users_collection) > 0:
             if active_obj.users_collection[0].get(constants.COLLECTION_VEHICLE_MODEL) is None:
                 collection = active_obj.users_collection[0]
 
         if collection is not None:
-            layer = find_layer_collection_recursive(collection, bpy.context.view_layer.layer_collection)
+            layer = find_layer_collection_recursive(collection, context.view_layer.layer_collection)
             if layer is not None:
-                bpy.context.view_layer.active_layer_collection = layer
+                context.view_layer.active_layer_collection = layer
             scene['jbeam_editor_veh_collection_selected'] = None
             return
 
@@ -532,16 +554,14 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
     jbeam_filepath = active_obj_data[constants.MESH_JBEAM_FILE_PATH]
     text_editor.show_file(jbeam_filepath)
 
-    active_obj_eval = active_obj.evaluated_get(depsgraph)
-
     veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
     if veh_model is not None:
         veh_collection = bpy.data.collections.get(veh_model)
         if veh_collection is not None:
             # Set vehicle collection as active collection
-            layer = find_layer_collection_recursive(veh_collection, bpy.context.view_layer.layer_collection)
+            layer = find_layer_collection_recursive(veh_collection, context.view_layer.layer_collection)
             if layer is not None:
-                bpy.context.view_layer.active_layer_collection = layer
+                context.view_layer.active_layer_collection = layer
                 scene['jbeam_editor_veh_collection_selected'] = veh_collection
 
             # Update positions of other nodes in other meshes
@@ -554,16 +574,16 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
 
             if len(all_changed_node_positions) > 0:
                 # Export
-                data = {'obj': active_obj, 'veh_model': veh_model}
+                data = {'obj_name': active_obj.name, 'veh_model': veh_model}
                 queue_export_vehicle(data)
     else:
         for update in depsgraph.updates:
             #print(update.id, update.is_updated_geometry, update.is_updated_transform, update.is_updated_shading)
             if update.id == active_obj_eval and (update.is_updated_geometry or update.is_updated_transform):
-                data = {'obj': active_obj}
+                data = {'obj_name': active_obj.name}
                 queue_export_jbeam(data)
 
-    '''if active_obj.mode != 'EDIT':
+    if active_obj.mode != 'EDIT':
         return
 
     if not scene.get('jbeam_editor_renaming_selected_obj'):
@@ -610,14 +630,25 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
 
         ui_props.input_node_id = node_id
 
-    bm.free()'''
+    bm.free()
 
 
 # If active file in text editor changed, reimport jbeam file/vehicle
 @persistent
 def check_files_for_changes():
-    text_editor.check_files_for_changes()
+    context = bpy.context
+
+    text_editor.check_files_for_changes(context)
     return check_file_interval
+
+@persistent
+def undo_post_callback(scene: bpy.types.Scene):
+    scene['jbeam_editor_undoing'] = True
+
+
+@persistent
+def redo_post_callback(scene: bpy.types.Scene):
+    scene['jbeam_editor_redoing'] = True
 
 
 @persistent
@@ -645,6 +676,8 @@ def register():
     bpy.types.TOPBAR_MT_file_export.append(menu_func_export_vehicle)
 
     bpy.app.handlers.depsgraph_update_post.append(depsgraph_callback)
+    bpy.app.handlers.undo_post.append(undo_post_callback)
+    bpy.app.handlers.redo_post.append(redo_post_callback)
     bpy.app.handlers.save_post.append(save_post_callback)
 
     # Delayed function call to prevent "restrictcontext" error

@@ -21,7 +21,6 @@
 import copy
 from pathlib import Path
 import pickle
-import os
 
 import bpy
 import bmesh
@@ -45,20 +44,13 @@ _jbeam_file_data = None
 _jbeam_part_choices = None
 
 
-def import_jbeam_part(jbeam_file_path: str, jbeam_file_data: dict, chosen_part: str):
+def get_vertices_edges_faces(part_data: dict):
     node_ids = []
     node_id_to_index = {}
     vertices = []
 
     edges = []
     faces = []
-
-    part_data = jbeam_file_data[chosen_part]
-    if not jbeam_table_schema.process(part_data):
-        return
-    if not jbeam_table_schema.post_process(part_data):
-        return
-    jbeam_node_beam.process(part_data)
 
     # Process nodes section
     if 'nodes' in part_data:
@@ -86,6 +78,25 @@ def import_jbeam_part(jbeam_file_path: str, jbeam_file_data: dict, chosen_part: 
             if tri['id1:'] in node_id_to_index and tri['id2:'] in node_id_to_index and tri['id3:'] in node_id_to_index:
                 faces.append((node_id_to_index[tri['id1:']], node_id_to_index[tri['id2:']], node_id_to_index[tri['id3:']]))
 
+    return vertices, edges, faces, node_ids
+
+
+def import_jbeam_part(context: bpy.types.Context, jbeam_file_path: str, jbeam_file_data: dict, chosen_part: str):
+    # Prevent overriding a jbeam part that already exists in scene!
+    jbeam_collection: bpy.types.Collection | None = bpy.data.collections.get('JBeam Objects')
+    if jbeam_collection is not None:
+        if jbeam_collection.all_objects.get(chosen_part) is not None:
+            return None
+
+    part_data = jbeam_file_data[chosen_part]
+    if not jbeam_table_schema.process(part_data):
+        return None
+    if not jbeam_table_schema.post_process(part_data):
+        return None
+    jbeam_node_beam.process(part_data)
+
+    vertices, edges, faces, node_ids = get_vertices_edges_faces(part_data)
+
     obj_data = bpy.data.meshes.new(chosen_part)
     obj_data.from_pydata(vertices, edges, faces)
     obj_data[constants.MESH_JBEAM_PART] = chosen_part
@@ -93,7 +104,7 @@ def import_jbeam_part(jbeam_file_path: str, jbeam_file_data: dict, chosen_part: 
     obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(part_data)
     #obj_data[constants.MESH_JBEAM_INIT_NODE_IDS] = copy.deepcopy(node_ids)
 
-    export_jbeam.last_exported_jbeams[chosen_part] = {'in_filepath': jbeam_file_path}
+    #export_jbeam.last_exported_jbeams[chosen_part] = {'in_filepath': jbeam_file_path}
 
     #new_mesh.attributes.new(name=constants.ATTRIBUTE_JBEAM_FILE_PATH, type="STRING", domain=)
 
@@ -123,55 +134,89 @@ def import_jbeam_part(jbeam_file_path: str, jbeam_file_data: dict, chosen_part: 
     jbeam_collection = bpy.data.collections.get('JBeam Objects')
     if jbeam_collection is None:
         jbeam_collection = bpy.data.collections.new('JBeam Objects')
-        bpy.context.scene.collection.children.link(jbeam_collection)
+        context.scene.collection.children.link(jbeam_collection)
 
     # add object to scene collection
     jbeam_collection.objects.link(new_object)
 
+    return new_object
 
-def reimport_jbeam(obj: bpy.types.Object, jbeam_filepath: str):
-    context = bpy.context
-    jbeam_objects = bpy.data.collections['JBeam Objects']
 
-    obj_name = obj.name
-    is_selected = obj.select_get()
-    jbeam_part = obj.data[constants.MESH_JBEAM_PART]
-
-    #selected_obj_name = context.active_object.name if context.active_object is not None else None
-
-    # Delete object
-    bpy.data.objects.remove(obj, do_unlink=True)
+def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collection, obj: bpy.types.Object, jbeam_filepath: str):
     # Invalidate cache
     jbeam_io.jbeam_cache.pop(jbeam_filepath, None)
 
     # Reimport object
-    data = jbeam_io.get_jbeam(jbeam_filepath)
-    if data is None:
+    jbeam_file_data = jbeam_io.get_jbeam(jbeam_filepath)
+    if jbeam_file_data is None:
         return
-    import_jbeam_part(jbeam_filepath, data, jbeam_part)
 
-    # Select object if was previously selected
-    new_obj = jbeam_objects.all_objects.get(obj_name)
-    if new_obj is not None:
-        if is_selected:
-            context.view_layer.objects.active = new_obj
-            new_obj.select_set(True)
+    context.scene['jbeam_editor_reimporting_jbeam'] = True # Prevents exporting jbeam
+
+    prev_mode = obj.mode
+
+    if prev_mode == 'EDIT':
+        bpy.ops.object.mode_set(mode='OBJECT')
+
+    obj_data: bpy.types.Mesh = obj.data
+    chosen_part = obj_data[constants.MESH_JBEAM_PART]
+
+    part_data = jbeam_file_data[chosen_part]
+    if not jbeam_table_schema.process(part_data):
+        return
+    if not jbeam_table_schema.post_process(part_data):
+        return
+    jbeam_node_beam.process(part_data)
+
+    vertices, edges, faces, node_ids = get_vertices_edges_faces(part_data)
+
+    obj_data.clear_geometry()
+    obj_data.from_pydata(vertices, edges, faces)
+    obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(part_data)
+    #obj_data[constants.MESH_JBEAM_INIT_NODE_IDS] = copy.deepcopy(node_ids)
+
+    #export_jbeam.last_exported_jbeams[chosen_part] = {'in_filepath': jbeam_file_path}
+
+    bm = bmesh.new()
+    bm.from_mesh(obj_data)
+
+    # Add node ID field to all vertices
+    init_node_id_layer = bm.verts.layers.string.new(constants.VLS_INIT_NODE_ID)
+    node_id_layer = bm.verts.layers.string.new(constants.VLS_NODE_ID)
+    node_origin_layer = bm.verts.layers.string.new(constants.VLS_NODE_PART_ORIGIN)
+
+    # Update node IDs field from JBeam data to match JBeam nodes
+    bm.verts.ensure_lookup_table()
+    for i, v in enumerate(bm.verts):
+        node_id = bytes(node_ids[i], 'utf-8')
+        v[init_node_id_layer] = node_id
+        v[node_id_layer] = node_id
+        v[node_origin_layer] = bytes(chosen_part, 'utf-8')
+
+    bm.to_mesh(obj_data)
+    bm.free()
+
+    obj_data.update()
+
+    if prev_mode == 'EDIT':
+        context.scene['jbeam_editor_reimporting_jbeam'] = True # Prevents exporting jbeam
+        bpy.ops.object.mode_set(mode='EDIT')
 
 
-def on_file_change(filename: str, filetext: str):
-    context = bpy.context
-
+def on_file_change(context: bpy.types.Context, filename: str, filetext: str):
     jbeam_objects: bpy.types.Collection | None = bpy.data.collections.get('JBeam Objects')
     if jbeam_objects is None:
         return
 
-    for obj in jbeam_objects.all_objects:
+    for obj in jbeam_objects.all_objects[:]:
+        if obj is None:
+            continue
         obj_data = obj.data
-        jbeam_filepath = obj_data[constants.MESH_JBEAM_FILE_PATH]
-        if not jbeam_filepath:
+        if obj_data is None:
             continue
 
-        if jbeam_filepath != filename:
+        jbeam_filepath = obj_data.get(constants.MESH_JBEAM_FILE_PATH)
+        if jbeam_filepath is None or jbeam_filepath != filename:
             continue
 
         # Check if jbeam file is parseable before reimporting jbeam part
@@ -187,7 +232,7 @@ def on_file_change(filename: str, filetext: str):
         #     stats = pstats.Stats(pr)
         #     stats.strip_dirs().sort_stats('cumtime').print_stats()
 
-        reimport_jbeam(obj, filename)
+        reimport_jbeam(context, jbeam_objects, obj, filename)
 
 
 class JBEAM_EDITOR_OT_choose_jbeam(Operator):
@@ -223,9 +268,9 @@ class JBEAM_EDITOR_OT_choose_jbeam(Operator):
 
         if self.import_all_parts:
             for part in _jbeam_part_choices:
-                import_jbeam_part(_jbeam_file_path, _jbeam_file_data, part)
+                import_jbeam_part(context, _jbeam_file_path, _jbeam_file_data, part)
         else:
-            import_jbeam_part(_jbeam_file_path, _jbeam_file_data, chosen_part)
+            import_jbeam_part(context, _jbeam_file_path, _jbeam_file_data, chosen_part)
 
         return {'FINISHED'}
 

@@ -142,7 +142,13 @@ def export_existing_jbeam(obj: bpy.types.Object):
 
 
 def auto_export(data):
-    export_existing_jbeam(data['obj'])
+    jbeam_objs: bpy.types.Collection | None = bpy.data.collections.get('JBeam Objects')
+    if jbeam_objs is None:
+        return
+    obj: bpy.types.Object | None = jbeam_objs.all_objects.get(data['obj_name'])
+    if obj is None:
+        return
+    export_existing_jbeam(obj)
 
 
 class JBEAM_EDITOR_OT_export_jbeam(Operator, ExportHelper):

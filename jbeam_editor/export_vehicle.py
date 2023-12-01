@@ -72,8 +72,12 @@ def export(veh_collection: bpy.types.Collection, objs_to_export: list):
 
 def auto_export(data):
     collection = bpy.data.collections.get(data['veh_model'])
-    if collection is not None:
-        export(collection, [data['obj']])
+    if collection is None:
+        return
+    obj: bpy.types.Object | None = collection.all_objects.get(data['obj_name'])
+    if obj is None:
+        return
+    export(collection, [obj])
 
 
 class JBEAM_EDITOR_OT_export_vehicle(Operator):
