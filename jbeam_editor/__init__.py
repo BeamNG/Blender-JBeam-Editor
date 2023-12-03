@@ -501,6 +501,7 @@ def find_layer_collection_recursive(find, col):
 
 @persistent
 def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
+    #print('depsgraph_callback')
     context = bpy.context
 
     return_early = False
@@ -515,9 +516,13 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
         return_early = True
 
     # Don't act on reimported mesh
-    if scene.get('jbeam_editor_reimporting_jbeam') == True:
-        scene['jbeam_editor_reimporting_jbeam'] = False
-        return_early = True
+    if type(scene.get('jbeam_editor_reimporting_jbeam')) == int:
+        scene['jbeam_editor_reimporting_jbeam'] -= 1
+
+        if scene['jbeam_editor_reimporting_jbeam'] < 0:
+            scene['jbeam_editor_reimporting_jbeam'] = 0
+        else:
+            return_early = True
 
     if return_early:
         return

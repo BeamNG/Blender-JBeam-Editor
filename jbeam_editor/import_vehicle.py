@@ -318,7 +318,7 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
             obj = objs[part]
             prev_mode = obj.mode
             if prev_mode == 'EDIT':
-                context.scene['jbeam_editor_reimporting_jbeam'] = True # Prevents exporting jbeam
+                context.scene['jbeam_editor_reimporting_jbeam'] = 1 # Prevents exporting jbeam
                 context.view_layer.objects.active = obj
                 bpy.ops.object.mode_set(mode='OBJECT')
 
@@ -362,7 +362,7 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
             veh_collection.objects.link(part_obj)
 
         if prev_mode == 'EDIT':
-            context.scene['jbeam_editor_reimporting_jbeam'] = True # Prevents exporting jbeam
+            context.scene['jbeam_editor_reimporting_jbeam'] = 2 # Prevents exporting jbeam from dependency graph update, 2 means that dependency graph gets called twice
             bpy.ops.object.mode_set(mode='EDIT')
 
         parts_set.add(part)

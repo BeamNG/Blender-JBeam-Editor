@@ -151,7 +151,7 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
     if jbeam_file_data is None:
         return
 
-    context.scene['jbeam_editor_reimporting_jbeam'] = True # Prevents exporting jbeam
+    context.scene['jbeam_editor_reimporting_jbeam'] = 1 # Prevents exporting jbeam
 
     prev_mode = obj.mode
 
@@ -199,7 +199,7 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
     obj_data.update()
 
     if prev_mode == 'EDIT':
-        context.scene['jbeam_editor_reimporting_jbeam'] = True # Prevents exporting jbeam
+        context.scene['jbeam_editor_reimporting_jbeam'] = 2 # Prevents exporting jbeam from dependency graph update, 2 means that dependency graph gets called twice
         bpy.ops.object.mode_set(mode='EDIT')
 
 
