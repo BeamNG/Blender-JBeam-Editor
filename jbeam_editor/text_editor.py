@@ -78,7 +78,8 @@ def write_file(filename: str, text: str):
 
     if SCENE_PREV_TEXTS not in scene:
         scene[SCENE_PREV_TEXTS] = {}
-    scene[SCENE_PREV_TEXTS][short_filename] = text
+        if short_filename not in scene[SCENE_PREV_TEXTS]:
+            scene[SCENE_PREV_TEXTS][short_filename] = None
 
 
 def read_file(filename: str, get_from_disk_if_not_exist=False) -> str | None:
