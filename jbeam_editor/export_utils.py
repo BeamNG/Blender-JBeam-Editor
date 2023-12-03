@@ -280,8 +280,51 @@ def delete_jbeam_node(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_
     return i
 
 
-def get_nodes_add_delete_rename(init_nodes_data: dict, obj: bpy.types.Object, bm: bmesh.types.BMesh, jbeam_data_modified: dict, jbeam_part: str):
-    all_nodes, nodes_to_add, nodes_to_delete = {}, {}, {}
+def undo_node_move_offset_and_apply_translation_to_expr(init_node_data: dict, new_pos: mathutils.Vector):
+    # Undo node move/offset
+    pos_no_offset = mathutils.Vector(init_node_data['posNoOffset'])
+    init_pos = mathutils.Vector(init_node_data['pos'])
+    metadata = init_node_data[jbeam_utils.Metadata]
+
+    offset_from_init_pos = new_pos - init_pos
+    offset_from_init_pos_tup = offset_from_init_pos.to_tuple()
+
+    if 'nodeMove' in init_node_data and init_node_data.get('nodeMove') != '':
+        node_move = mathutils.Vector((init_node_data['nodeMove']['x'], init_node_data['nodeMove']['y'], init_node_data['nodeMove']['z']))
+        new_pos = new_pos - node_move
+
+    if 'nodeOffset' in init_node_data and init_node_data.get('nodeOffset') != '':
+        # Undoing nodeOffset.x is an exception as posX is equal to v.posX = v.posX + sign(v.posX) * v.nodeOffset.x
+        node_offset = mathutils.Vector((init_node_data['nodeOffset']['x'], init_node_data['nodeOffset']['y'], init_node_data['nodeOffset']['z']))
+        if utils.sign(pos_no_offset.x + offset_from_init_pos.x) > 0:
+            new_pos.x = new_pos.x - node_offset.x
+        else:
+            new_pos.x = new_pos.x + node_offset.x
+
+        new_pos.y = new_pos.y - node_offset.y
+        new_pos.z = new_pos.z - node_offset.z
+
+    new_pos_tup = new_pos.to_tuple()
+
+    # Apply node translation to expression if expression exists
+    pos_expr = (metadata.get('posX', 'expression'), metadata.get('posY', 'expression'), metadata.get('posZ', 'expression'))
+    positions = [None, None, None]
+    for i in range(3):
+        if pos_expr[i] is not None:
+            if to_c_float(offset_from_init_pos_tup[i]) != 0:
+                positions[i] = expression_parser.add_offset_expr(pos_expr[i], to_float_str(offset_from_init_pos_tup[i]))
+            else:
+                positions[i] = pos_expr[i]
+        else:
+            positions[i] = to_c_float(new_pos_tup[i])
+
+    pos_tup = (positions[0], positions[1], positions[2])
+
+    return pos_tup
+
+
+def get_nodes_add_delete_rename(init_nodes_data: dict[str, dict], obj: bpy.types.Object, bm: bmesh.types.BMesh, jbeam_file_data_modified: dict, jbeam_part: str):
+    nodes_to_add, nodes_to_delete, node_renames = {}, set(), {}
 
     init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
     node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
@@ -289,171 +332,66 @@ def get_nodes_add_delete_rename(init_nodes_data: dict, obj: bpy.types.Object, bm
 
     # Update node ids and positions from Blender into the SJSON data
 
-    node_id_to_part_origin = {}
+    init_node_id_to_part_origin = {}
 
+    blender_nodes = {}
     # Create dictionary where key is init node id and value is current blender node id and position
-    node_renames = {}
     for v in bm.verts:
         init_node_id = v[init_node_id_layer].decode('utf-8')
         node_id = v[node_id_layer].decode('utf-8')
         node_part_origin = v[part_origin_layer].decode('utf-8')
+        pos = obj.matrix_world @ v.co
 
-        init_node_data = init_nodes_data[node_id]
-        node_id_to_part_origin[node_id] = node_part_origin
+        init_node_data = init_nodes_data.get(init_node_id)
+        if init_node_data is None:
+            nodes_to_add[init_node_id] = pos
+            continue
+
+        init_node_id_to_part_origin[init_node_id] = node_part_origin
 
         # Filter out nodes that aren't part of this part
         if node_part_origin != jbeam_part:
             continue
 
-        # Undo node move/offset
-        pos_no_offset = mathutils.Vector(init_node_data['posNoOffset'])
-        init_pos = mathutils.Vector(init_node_data['pos'])
-        metadata = init_node_data[jbeam_utils.Metadata]
-
-        new_pos = obj.matrix_world @ v.co
-        offset_from_init_pos = new_pos - init_pos
-        offset_from_init_pos_tup = offset_from_init_pos.to_tuple()
-
-        if 'nodeMove' in init_node_data and init_node_data.get('nodeMove') != '':
-            node_move = mathutils.Vector((init_node_data['nodeMove']['x'], init_node_data['nodeMove']['y'], init_node_data['nodeMove']['z']))
-            new_pos = new_pos - node_move
-
-        if 'nodeOffset' in init_node_data and init_node_data.get('nodeOffset') != '':
-            # Undoing nodeOffset.x is an exception as posX is equal to v.posX = v.posX + sign(v.posX) * v.nodeOffset.x
-            node_offset = mathutils.Vector((init_node_data['nodeOffset']['x'], init_node_data['nodeOffset']['y'], init_node_data['nodeOffset']['z']))
-            if utils.sign(pos_no_offset.x + offset_from_init_pos.x) > 0:
-                new_pos.x = new_pos.x - node_offset.x
-            else:
-                new_pos.x = new_pos.x + node_offset.x
-
-            new_pos.y = new_pos.y - node_offset.y
-            new_pos.z = new_pos.z - node_offset.z
-
-        new_pos_tup = new_pos.to_tuple()
-        pos_expr = (metadata.get('posX', 'expression'), metadata.get('posY', 'expression'), metadata.get('posZ', 'expression'))
-
-        positions = [None, None, None]
-        for i in range(3):
-            if pos_expr[i] is not None:
-                if to_c_float(offset_from_init_pos_tup[i]) != 0:
-                    positions[i] = expression_parser.add_offset_expr(pos_expr[i], to_float_str(offset_from_init_pos_tup[i]))
-                else:
-                    positions[i] = pos_expr[i]
-            else:
-                positions[i] = to_c_float(new_pos_tup[i])
-
-        pos_tup = (positions[0], positions[1], positions[2])
+        new_pos_tup = undo_node_move_offset_and_apply_translation_to_expr(init_node_data, pos)
 
         if init_node_id != node_id:
             node_renames[init_node_id] = node_id
 
-        if not node_id in all_nodes:
-            all_nodes[node_id] = {}
-        all_nodes[node_id]['blender_node'] = {'init_node_id': init_node_id, 'curr_node_id': node_id, 'pos': pos_tup}
+        blender_nodes[init_node_id] = {'curr_node_id': node_id, 'pos': new_pos_tup}
         v[init_node_id_layer] = bytes(node_id, 'utf-8')
 
-    # Get nodes from JBeam file
-    if jbeam_part in jbeam_data_modified and 'nodes' in jbeam_data_modified[jbeam_part]:
-        nodes_section = jbeam_data_modified[jbeam_part]['nodes']
+    # Get nodes to delete
+    for init_node_id, init_node_data in init_nodes_data.items():
+        if init_node_id not in blender_nodes:
+            nodes_to_delete.add(init_node_id)
 
-        for i, row_data in enumerate(nodes_section):
-            if i == 0:
-                continue  # Ignore header row
-            row_data = nodes_section[i]
-            if isinstance(row_data, list):
-                curr_node_id = row_data[0]
-
-                # Ignore if node is defined in a different part.
-                # Its possible depending on part loading order.
-                if jbeam_part != node_id_to_part_origin[curr_node_id]:
-                    continue
-
-                if not curr_node_id in all_nodes:
-                    all_nodes[curr_node_id] = {}
-                #pos = (to_c_float(row_data[1]), to_c_float(row_data[2]), to_c_float(row_data[3]))
-                pos_tup = (
-                    is_number(row_data[1]) and to_c_float(row_data[1]) or row_data[1],
-                    is_number(row_data[2]) and to_c_float(row_data[2]) or row_data[2],
-                    is_number(row_data[3]) and to_c_float(row_data[3]) or row_data[3]
-                )
-                pos = (row_data[1], row_data[2], row_data[3])
-                all_nodes[curr_node_id]['jbeam_node'] = {'curr_node_id': curr_node_id, 'pos': pos}
-
-    # Add/remove nodes from the AST based on existance of a node in current jbeam file and blender
-    # Blender has priority over JBeam file
-    for node_id, data in all_nodes.items():
-        if not 'jbeam_node' in data:
-            if 'blender_node' in data:
-                nodes_to_add[node_id] = data['blender_node']['pos']
-                #print('node to add: ', data['blender_node']['curr_node_id'], ' data: ', data)
-        else:
-            if not 'blender_node' in data:
-                nodes_to_delete[node_id] = data['jbeam_node']['pos']
-                #print('node to delete: ', init_node_id, ' data: ', data)
-
-    true_node_renames = {}
-
-    # Rename using Blender node information
-    for init_node_id, curr_node_id in node_renames.items():
-        if init_node_id in nodes_to_delete and curr_node_id in nodes_to_add:
-            # True rename
-            true_node_renames[init_node_id] = curr_node_id
-            nodes_to_delete.pop(init_node_id)
-            nodes_to_add.pop(curr_node_id)
-
-    # Rename using matching positions between nodes deleted and added
-    deleting_nodes_pos_to_id = {}
-    for node_delete_id, node_delete_pos in nodes_to_delete.items():
-        # Don't allow nodes with duplicate positions for renaming by position
-        if node_delete_pos in deleting_nodes_pos_to_id:
-            deleting_nodes_pos_to_id[node_delete_pos] = None
-        else:
-            deleting_nodes_pos_to_id[node_delete_pos] = node_delete_id
-
-    adding_nodes_pos_to_id = {}
-    for node_add_id, node_add_pos in nodes_to_add.items():
-        # Don't allow nodes with duplicate positions for renaming by position
-        if node_add_pos in adding_nodes_pos_to_id:
-            adding_nodes_pos_to_id[node_add_pos] = None
-        else:
-            adding_nodes_pos_to_id[node_add_pos] = node_add_id
-
-    for node_delete_pos, node_delete_id in deleting_nodes_pos_to_id.items():
-        if node_delete_pos in adding_nodes_pos_to_id:
-            node_add_id = adding_nodes_pos_to_id[node_delete_pos]
-            if node_add_id is not None:
-                true_node_renames[node_delete_id] = node_add_id
-                nodes_to_delete.pop(node_delete_id)
-                nodes_to_add.pop(node_add_id)
-
-    # Update current JBeam file as SJSON data with blender data (only renames and moving, no additions or deletions)
-    if jbeam_part in jbeam_data_modified and 'nodes' in jbeam_data_modified[jbeam_part]:
-        nodes_section = jbeam_data_modified[jbeam_part]['nodes']
+    # Update current JBeam file data with blender data (only renames and moving, no additions or deletions)
+    if jbeam_part in jbeam_file_data_modified and 'nodes' in jbeam_file_data_modified[jbeam_part]:
+        nodes_section = jbeam_file_data_modified[jbeam_part]['nodes']
 
         for i, row_data in enumerate(nodes_section):
             if i == 0:
                 continue  # Ignore header row
             if isinstance(row_data, list):
-                curr_node_id = row_data[0]
+                row_node_id = row_data[0]
 
                 # Ignore if node is defined in a different part.
                 # Its possible depending on part loading order.
-                if jbeam_part != node_id_to_part_origin[curr_node_id]:
+                if row_node_id not in init_node_id_to_part_origin or jbeam_part != init_node_id_to_part_origin[row_node_id]:
                     continue
 
-                if curr_node_id in true_node_renames:
-                    new_node_id = true_node_renames[curr_node_id]
-                    new_pos = all_nodes[new_node_id]['blender_node']['pos']
-                    row_data[0], row_data[1], row_data[2], row_data[3] = new_node_id, new_pos[0], new_pos[1], new_pos[2]
-                else:
-                    if 'blender_node' in all_nodes[curr_node_id]:
-                        new_pos = all_nodes[curr_node_id]['blender_node']['pos']
-                        row_data[1], row_data[2], row_data[3] = new_pos[0], new_pos[1], new_pos[2]
+                if row_node_id in node_renames:
+                    row_data[0] = node_renames[row_node_id]
 
-    return nodes_to_add, nodes_to_delete, true_node_renames, jbeam_data_modified
+                if row_node_id in blender_nodes:
+                    pos = blender_nodes[row_node_id]['pos']
+                    row_data[1], row_data[2], row_data[3] = pos[0], pos[1], pos[2]
+
+    return nodes_to_add, nodes_to_delete, node_renames
 
 
-def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbeam_file_data_modified: dict, jbeam_part: str, nodes_to_add: dict, nodes_to_delete: dict):
+def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbeam_file_data_modified: dict, jbeam_part: str, nodes_to_add: dict, nodes_to_delete: set):
     # Traverse AST nodes and update them from SJSON data, add JBeam nodes, and delete JBeam nodes
 
     stack = []
@@ -573,20 +511,20 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
         i += 1
 
 
-def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], vdata: dict):
+def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict):
     #current_jbeam_file_data_str: dict = jbeam_io.get_jbeam(io_ctx, jbeam_filepath, True)
     #current_jbeam_file_data: dict = jbeam_io.get_jbeam(io_ctx, jbeam_filepath, False)
-    jbeam_data_str = text_editor.read_file(jbeam_filepath)
-    if jbeam_data_str is None:
+    jbeam_file_str = text_editor.read_file(jbeam_filepath)
+    if jbeam_file_str is None:
         print(f"File doesn't exist! {jbeam_filepath}", file=sys.stderr)
         return
-    jbeam_data = utils.sjson_decode(jbeam_data_str, jbeam_filepath)
-    if jbeam_data is None:
+    jbeam_file_data = utils.sjson_decode(jbeam_file_str, jbeam_filepath)
+    if jbeam_file_data is None:
         return
-    jbeam_data_modified = copy.deepcopy(jbeam_data)
+    jbeam_file_data_modified = copy.deepcopy(jbeam_file_data)
 
     # The imported jbeam data is used to build an AST from
-    ast_data = sjsonast.parse(jbeam_data_str)
+    ast_data = sjsonast.parse(jbeam_file_str)
     if ast_data is None:
         print("SJSON AST parsing failed!", file=sys.stderr)
         return
@@ -602,17 +540,17 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], vdata: dict)
             bm = bmesh.new()
             bm.from_mesh(obj_data)
 
-        init_nodes_data = vdata.get('nodes')
+        init_nodes_data = data.get('nodes')
         if init_nodes_data is not None:
-            nodes_to_add, nodes_to_delete, true_node_renames, jbeam_data_modified = get_nodes_add_delete_rename(init_nodes_data, obj, bm, jbeam_data_modified, jbeam_part)
+            nodes_to_add, nodes_to_delete, node_renames = get_nodes_add_delete_rename(init_nodes_data, obj, bm, jbeam_file_data_modified, jbeam_part)
         else:
-            nodes_to_add, nodes_to_delete, true_node_renames = {}, {}, {}
+            nodes_to_add, nodes_to_delete, node_renames = {}, set(), {}
 
         #print('nodes to add:', nodes_to_add)
         #print('nodes to delete:', nodes_to_delete)
         #print('node renames:', true_node_renames)
 
-        update_ast_nodes(ast_nodes, jbeam_data, jbeam_data_modified, jbeam_part, nodes_to_add, nodes_to_delete)
+        update_ast_nodes(ast_nodes, jbeam_file_data, jbeam_file_data_modified, jbeam_part, nodes_to_add, nodes_to_delete)
         out_str_jbeam_data = sjsonast.stringify_nodes(ast_nodes)
         # f = open(jbeam_filepath, 'w', encoding='utf-8')
         # f.write(out_str_jbeam_data)

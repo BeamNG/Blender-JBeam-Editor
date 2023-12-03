@@ -122,6 +122,8 @@ def on_input_node_id_field_updated(self, context):
         bm.free()
         bpy.ops.ed.undo_push(message = 'Node Rename (' + str(old_node_id) + ' -> ' + str(ui_props.input_node_id) + ')')
 
+        scene['jbeam_editor_renaming_trigger_export'] = True
+
     scene['jbeam_editor_renaming_rename_enabled'] = True
 
     # Refresh the UI, context.area can be None for some reason
@@ -202,10 +204,6 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
     bl_label = 'JBeam'
 
     def draw(self, context):
-        veh_collection = context.collection
-        if veh_collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
-            return
-
         obj = context.active_object
         if not obj:
             return
@@ -243,13 +241,6 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
             # Only displays node information if one node selected
             selected_verts = list(filter(lambda v: v.select, bm.verts))
             if len(selected_verts) == 1:
-                # veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
-
-                # v = selected_verts[0]
-                # node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-                # node_id = v[node_id_layer].decode('utf-8')
-                # node = veh_bundle['vdata']['nodes'][node_id]
-
                 col.row().label(text='JBeam Node ID')
                 col.row().prop(ui_props, 'input_node_id', text = "")
 
@@ -573,20 +564,33 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
             all_changed_node_positions = {}
             for update in depsgraph.updates:
                 #print(update.id, update.is_updated_geometry, update.is_updated_transform, update.is_updated_shading)
+                do_export = False
                 if update.id == active_obj_eval and (update.is_updated_geometry or update.is_updated_transform):
                     changed_node_positions = update_node_positions(scene, veh_collection, active_obj)
                     all_changed_node_positions.update(changed_node_positions)
+                    do_export = True
 
-            if len(all_changed_node_positions) > 0:
-                # Export
-                data = {'obj_name': active_obj.name, 'veh_model': veh_model}
-                queue_export_vehicle(data)
+                if scene.get('jbeam_editor_renaming_trigger_export') == True:
+                    do_export = True
+
+                if do_export:
+                    # Export
+                    data = {'obj_name': active_obj.name, 'veh_model': veh_model}
+                    queue_export_vehicle(data)
     else:
+        do_export = False
         for update in depsgraph.updates:
             #print(update.id, update.is_updated_geometry, update.is_updated_transform, update.is_updated_shading)
             if update.id == active_obj_eval and (update.is_updated_geometry or update.is_updated_transform):
-                data = {'obj_name': active_obj.name}
-                queue_export_jbeam(data)
+                do_export = True
+
+        if scene.get('jbeam_editor_renaming_trigger_export') == True:
+            do_export = True
+
+        if do_export:
+            # Export
+            data = {'obj_name': active_obj.name}
+            queue_export_jbeam(data)
 
     if active_obj.mode != 'EDIT':
         return
