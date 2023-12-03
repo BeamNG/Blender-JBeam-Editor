@@ -71,8 +71,10 @@ def write_file(filename: str, text: str):
     if short_filename not in bpy.data.texts:
         bpy.data.texts.new(short_filename)
     file = bpy.data.texts[short_filename]
+    curr_line, curr_char = file.current_line_index, file.current_character
     file.clear()
     file.write(text)
+    file.cursor_set(curr_line, character=curr_char)
 
     if SCENE_PREV_TEXTS not in scene:
         scene[SCENE_PREV_TEXTS] = {}
