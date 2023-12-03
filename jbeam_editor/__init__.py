@@ -507,13 +507,13 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
     return_early = False
 
     # Don't act on undoing or redoing
-    if scene.get('jbeam_editor_undoing') == True:
-        scene['jbeam_editor_undoing'] = False
-        return_early = True
+    # if scene.get('jbeam_editor_undoing') == True:
+    #     scene['jbeam_editor_undoing'] = False
+    #     return_early = True
 
-    if scene.get('jbeam_editor_redoing') == True:
-        scene['jbeam_editor_redoing'] = False
-        return_early = True
+    # if scene.get('jbeam_editor_redoing') == True:
+    #     scene['jbeam_editor_redoing'] = False
+    #     return_early = True
 
     # Don't act on reimported mesh
     if type(scene.get('jbeam_editor_reimporting_jbeam')) == int:
@@ -646,14 +646,17 @@ def check_files_for_changes():
     text_editor.check_files_for_changes(context)
     return check_file_interval
 
+
 @persistent
 def undo_post_callback(scene: bpy.types.Scene):
-    scene['jbeam_editor_undoing'] = True
+    #scene['jbeam_editor_undoing'] = True
+    pass
 
 
 @persistent
 def redo_post_callback(scene: bpy.types.Scene):
-    scene['jbeam_editor_redoing'] = True
+    #scene['jbeam_editor_redoing'] = True
+    pass
 
 
 @persistent
