@@ -421,7 +421,7 @@ def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Colle
     # Create Blender meshes from JBeam data
     _reimport_vehicle(context, veh_collection, vehicle_bundle)
 
-    print('Done loading vehicle.')
+    print('Done reimporting vehicle.')
 
 
 def import_vehicle(config_path: str):
@@ -446,7 +446,7 @@ def import_vehicle(config_path: str):
     if generate_meshes(vehicle_bundle) is None:
         return {'CANCELLED'}
 
-    print('Done loading vehicle.')
+    print('Done importing vehicle.')
 
     return {'FINISHED'}
 

@@ -139,6 +139,8 @@ def import_jbeam_part(context: bpy.types.Context, jbeam_file_path: str, jbeam_fi
     # add object to scene collection
     jbeam_collection.objects.link(new_object)
 
+    print('Done importing JBeam.')
+
     return new_object
 
 
@@ -201,6 +203,8 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
     if prev_mode == 'EDIT':
         context.scene['jbeam_editor_reimporting_jbeam'] = 2 # Prevents exporting jbeam from dependency graph update, 2 means that dependency graph gets called twice
         bpy.ops.object.mode_set(mode='EDIT')
+
+    print('Done reimporting JBeam.')
 
 
 def on_file_change(context: bpy.types.Context, filename: str, filetext: str):
