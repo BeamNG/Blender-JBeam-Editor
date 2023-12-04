@@ -136,8 +136,8 @@ def check_files_for_changes(context: bpy.types.Context):
         return
 
     short_filename, curr_file_text = text.name, text.as_string()
-    last_file_text = scene[SCENE_PREV_TEXTS].get(short_filename)
-    if last_file_text is None:
+    last_file_text = scene[SCENE_PREV_TEXTS].get(short_filename, False)
+    if last_file_text == False:
         return
     filename = scene[SCENE_SHORT_TO_FULL_FILENAME].get(short_filename)
     if filename is None:
