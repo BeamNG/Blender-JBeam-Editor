@@ -391,6 +391,17 @@ def get_nodes_add_delete_rename(init_nodes_data: dict[str, dict], obj: bpy.types
     return nodes_to_add, nodes_to_delete, node_renames
 
 
+def go_up_level(stack: list):
+    if len(stack) == 0:
+        #print('Error! Attempting to go up level when stack size is 0!', file=sys.stderr)
+        return None, -1
+
+    stack_head = stack.pop()
+    in_dict = stack_head[1]
+    pos_in_arr = stack_head[0] + 1 if not in_dict else 0
+    return in_dict, pos_in_arr
+
+
 def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbeam_file_data_modified: dict, jbeam_part: str, nodes_to_add: dict, nodes_to_delete: set):
     # Traverse AST nodes and update them from SJSON data, add JBeam nodes, and delete JBeam nodes
 
@@ -411,23 +422,26 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
             i += 1
             continue
 
-        if in_dict:
-            # In dictionary object
+        prev_stack_size = len(stack)
+        prev_stack_head_key = stack[prev_stack_size - 1][0] if prev_stack_size > 0 else None
 
-            if node.data_type in ('{', '['):
+        if in_dict: # In dictionary object
+            if node.data_type in ('{', '['): # Going down a level
                 if dict_key is not None:
                     stack.append((dict_key, in_dict))
                     in_dict = node.data_type == '{'
                 else:
-                    print("{ or [ w/o key!", file=sys.stderr)
+                    if len(stack) > 0: # Ignore outer most dictionary
+                        print("{ or [ w/o key!", file=sys.stderr)
 
                 pos_in_arr = 0
                 temp_dict_key = None
                 dict_key = None
 
-            elif node.data_type not in ('}', ']'):
-                # Defining key value pair
+            elif node.data_type in ('}', ']'): # Going up a level
+                in_dict, pos_in_arr = go_up_level(stack)
 
+            else: # Defining key value pair
                 if temp_dict_key is None:
                     if node.data_type == '"':
                         temp_dict_key = node.value
@@ -443,71 +457,73 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                     temp_dict_key = None
                     dict_key = None
 
-        else:
-            # In array object
-
-            if node.data_type in ('{', '['):
+        else: # In array object
+            if node.data_type in ('{', '['): # Going down a level
                 stack.append((pos_in_arr, in_dict))
                 in_dict = node.data_type == '{'
                 pos_in_arr = 0
                 temp_dict_key = None
                 dict_key = None
 
+            elif node.data_type in ('}', ']'): # Going up a level
+                in_dict, pos_in_arr = go_up_level(stack)
+
             elif node.data_type not in ('}', ']'):
                 # Value definition
-                if len(stack) == 3 and stack[0][0] == jbeam_part and stack[1][0] == 'nodes':
-                    # If in nodes section, and at array position zero, its the jbeam node id and record it down
-
-                    if jbeam_entry_start_node_idx is not None and pos_in_arr == 0:
-                        data = current_jbeam_file_data_modified
-                        for stack_entry in stack:
-                            data = data[stack_entry[0]]
-
-                        data = data[pos_in_arr]
-                        jbeam_node_id = data
-
                 changed = compare_and_set_value(current_jbeam_file_data, current_jbeam_file_data_modified, stack, pos_in_arr, node)
                 if jbeam_node_id and changed:
                     print(str(jbeam_node_id) + ' node position changed')
                 pos_in_arr += 1
 
+        # After traversal
+
         stack_size = len(stack)
+        stack_size_diff = stack_size - prev_stack_size # 1 = go down level, -1 = go up level, 0 = no change
         in_jbeam_part = stack_size > 0 and stack[0][0] == jbeam_part
 
-        if node.data_type in ('{', '['):
-            if stack_size == 2 and in_jbeam_part:
-                # Start of JBeam section (e.g. nodes, beams)
-                jbeam_section_start_node_idx = i
+        if stack_size_diff == 1: # Went down level { or [
+            if in_jbeam_part:
+                if stack_size == 2: # Start of JBeam section (e.g. nodes, beams)
+                    jbeam_section_start_node_idx = i
 
-            if stack_size == 3 and in_jbeam_part:
-                # Start of JBeam entry
-                jbeam_entry_start_node_idx = i
+                elif stack_size == 3: # Start of JBeam entry
+                    jbeam_entry_start_node_idx = i
 
-        elif node.data_type in ('}', ']'):
-            if stack_size == 3 and in_jbeam_part:
-                jbeam_entry_end_node_idx = i
+                    if stack[1][0] == 'nodes':
+                        # TODO: Just get value from AST node
+                        # If in nodes section, and at array position zero, its the jbeam node id and record it down
+                        if not in_dict and jbeam_entry_start_node_idx is not None and pos_in_arr == 0:
+                            data = current_jbeam_file_data_modified
+                            for stack_entry in stack:
+                                data = data[stack_entry[0]]
 
-            if node.data_type == ']':
-                if stack_size == 2 and in_jbeam_part and stack[1][0] == 'nodes' and nodes_to_add:
-                    # End of nodes section
-                    jbeam_section_end_node_idx = i
-                    # Add nodes to add to end of nodes section
-                    i = add_jbeam_nodes(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx, jbeam_entry_start_node_idx, jbeam_entry_end_node_idx, nodes_to_add)
+                            data = data[pos_in_arr]
+                            jbeam_node_id = data
 
-            stack_head = stack.pop() if stack else None
-            in_dict = stack_head[1] if stack_head is not None else True
-            pos_in_arr = stack_head[0] + 1 if stack_head is not None and stack and in_dict is False else 0
+        elif stack_size_diff == -1: # Went up level } or ]
+            if in_jbeam_part:
+                if stack_size == 2: # End of JBeam entry
+                    jbeam_entry_end_node_idx = i
 
-            if node.data_type == ']':
-                if len(stack) == 2 and stack[0][0] == jbeam_part and stack[1][0] == 'nodes':
-                    # End of JBeam node entry
-
-                    # If current jbeam node is part of delete list, remove the node definition in the AST
-                    if jbeam_node_id in nodes_to_delete:
-                        i = delete_jbeam_node(ast_nodes, jbeam_section_start_node_idx, jbeam_entry_start_node_idx, jbeam_entry_end_node_idx)
+                    if stack[stack_size - 1][0] == 'nodes':
+                        # If current jbeam node is part of delete list, remove the node definition
+                        if jbeam_node_id in nodes_to_delete:
+                            i = delete_jbeam_node(ast_nodes, jbeam_section_start_node_idx, jbeam_entry_start_node_idx, jbeam_entry_end_node_idx)
+                        jbeam_node_id = None
 
                     jbeam_entry_start_node_idx = None
-                    jbeam_node_id = None
+
+                elif stack_size == 1: # End of JBeam section (e.g. nodes, beams)
+                    jbeam_section_end_node_idx = i
+                    if prev_stack_head_key == 'nodes' and nodes_to_add:
+                        # Add nodes to add to end of nodes section
+                        i = add_jbeam_nodes(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx, jbeam_entry_start_node_idx, jbeam_entry_end_node_idx, nodes_to_add)
+
+        elif stack_size_diff == 0: # Same level
+            pass
+        else:
+            print(f'Error! AST traversal went {stack_size_diff} levels! Only 0 or 1 levels should be done per traversal!', file=sys.stderr)
+
         i += 1
 
 
