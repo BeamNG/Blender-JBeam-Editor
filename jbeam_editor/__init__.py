@@ -57,43 +57,18 @@ from . import text_editor
 
 
 check_file_interval = 0.1
-export_file_interval = 0.25
+poll_active_ops_interval = 0.1
 
 draw_handle = None
 
-_export_vehicle_data: dict
-_export_jbeam_data: dict
-
-# Queue exporting stuff for exporting after no changes happen after 'x' number of seconds
-
-def _export_veh():
-    export_vehicle.auto_export(_export_vehicle_data)
-
-
-def _export_jbeam():
-    export_jbeam.auto_export(_export_jbeam_data)
-
-
-def queue_export_vehicle(data: dict):
-    global _export_vehicle_data
-    # Reset timer if export already queued
-    if bpy.app.timers.is_registered(_export_veh):
-        bpy.app.timers.unregister(_export_veh)
-    _export_vehicle_data = data
-    bpy.app.timers.register(_export_veh, first_interval=export_file_interval)
-
-
-def queue_export_jbeam(data: dict):
-    global _export_jbeam_data
-    # Reset timer if export already queued
-    if bpy.app.timers.is_registered(_export_jbeam):
-        bpy.app.timers.unregister(_export_jbeam)
-    _export_jbeam_data = data
-    bpy.app.timers.register(_export_jbeam, first_interval=export_file_interval)
+_do_export = False
+_undoing = False
+_redoing = False
 
 
 # Refresh property input field UI
 def on_input_node_id_field_updated(self, context):
+    global _do_export
     scene = context.scene
     ui_props = scene.ui_properties
 
@@ -122,7 +97,7 @@ def on_input_node_id_field_updated(self, context):
         bm.free()
         bpy.ops.ed.undo_push(message = 'Node Rename (' + str(old_node_id) + ' -> ' + str(ui_props.input_node_id) + ')')
 
-        scene['jbeam_editor_renaming_trigger_export'] = True
+        _do_export = True
 
     scene['jbeam_editor_renaming_rename_enabled'] = True
 
@@ -312,6 +287,8 @@ part_name_to_obj: dict[str, bpy.types.Object] = {}
 def draw_callback_px(context: bpy.types.Context):
     scene = context.scene
     ui_props = scene.ui_properties
+    if not hasattr(ui_props, 'toggle_node_ids_text'):
+        return
     font_id = 0
 
     collection = context.collection
@@ -490,11 +467,8 @@ def find_layer_collection_recursive(find, col):
     return None
 
 
-@persistent
-def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
-    #print('depsgraph_callback')
-    context = bpy.context
-
+def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph, undoing: bool, redoing: bool):
+    global _do_export
     return_early = False
 
     # Don't act on undoing or redoing
@@ -506,7 +480,7 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
     #     scene['jbeam_editor_redoing'] = False
     #     return_early = True
 
-    # Don't act on reimported mesh
+    # Don't act on reimporting mesh
     if type(scene.get('jbeam_editor_reimporting_jbeam')) == int:
         scene['jbeam_editor_reimporting_jbeam'] -= 1
 
@@ -550,6 +524,12 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
     jbeam_filepath = active_obj_data[constants.MESH_JBEAM_FILE_PATH]
     text_editor.show_file(jbeam_filepath)
 
+    if undoing or redoing:
+        for update in depsgraph.updates:
+            if update.id == active_obj_eval and (update.is_updated_geometry or update.is_updated_transform):
+                _do_export = True
+                #print('updating transform')
+
     veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
     if veh_model is not None:
         veh_collection = bpy.data.collections.get(veh_model)
@@ -561,36 +541,10 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
                 scene['jbeam_editor_veh_collection_selected'] = veh_collection
 
             # Update positions of other nodes in other meshes
-            all_changed_node_positions = {}
-            for update in depsgraph.updates:
-                #print(update.id, update.is_updated_geometry, update.is_updated_transform, update.is_updated_shading)
-                do_export = False
-                if update.id == active_obj_eval and (update.is_updated_geometry or update.is_updated_transform):
-                    changed_node_positions = update_node_positions(scene, veh_collection, active_obj)
-                    all_changed_node_positions.update(changed_node_positions)
-                    do_export = True
+            #all_changed_node_positions = {}
+            changed_node_positions = update_node_positions(scene, veh_collection, active_obj)
 
-                if scene.get('jbeam_editor_renaming_trigger_export') == True:
-                    do_export = True
-
-                if do_export:
-                    # Export
-                    data = {'obj_name': active_obj.name, 'veh_model': veh_model}
-                    queue_export_vehicle(data)
-    else:
-        do_export = False
-        for update in depsgraph.updates:
-            #print(update.id, update.is_updated_geometry, update.is_updated_transform, update.is_updated_shading)
-            if update.id == active_obj_eval and (update.is_updated_geometry or update.is_updated_transform):
-                do_export = True
-
-        if scene.get('jbeam_editor_renaming_trigger_export') == True:
-            do_export = True
-
-        if do_export:
-            # Export
-            data = {'obj_name': active_obj.name}
-            queue_export_jbeam(data)
+            _do_export = True
 
     if active_obj.mode != 'EDIT':
         return
@@ -642,6 +596,19 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
     bm.free()
 
 
+@persistent
+def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
+    #print('depsgraph_callback')
+    global _undoing
+    global _redoing
+
+    context = bpy.context
+    _depsgraph_callback(context, scene, depsgraph, _undoing, _redoing)
+
+    _undoing = False
+    _redoing = False
+
+
 # If active file in text editor changed, reimport jbeam file/vehicle
 @persistent
 def check_files_for_changes():
@@ -650,17 +617,51 @@ def check_files_for_changes():
     text_editor.check_files_for_changes(context)
     return check_file_interval
 
+last_op = None
+
+@persistent
+def poll_active_operators():
+    global last_op
+    context = bpy.context
+    op = context.active_operator
+    #print(op)
+
+    global _do_export
+    # Trigger export JBeam/Vehicle on translate event
+    if _do_export or (op != last_op and (op.bl_idname if op is not None else '') == 'TRANSFORM_OT_translate'):
+        #print('translated!')
+        active_obj = context.active_object
+        if context.active_object is not None:
+            active_obj_data = active_obj.data
+            veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
+            if veh_model is not None:
+                # Export
+                data = {'obj_name': active_obj.name, 'veh_model': veh_model}
+                export_vehicle.auto_export(data)
+            else:
+                # Export
+                data = {'obj_name': active_obj.name}
+                export_jbeam.auto_export(data)
+
+        _do_export = False
+
+    last_op = op
+
+    return poll_active_ops_interval
+
 
 @persistent
 def undo_post_callback(scene: bpy.types.Scene):
     #scene['jbeam_editor_undoing'] = True
-    pass
+    global _undoing
+    _undoing = True
 
 
 @persistent
 def redo_post_callback(scene: bpy.types.Scene):
     #scene['jbeam_editor_redoing'] = True
-    pass
+    global _redoing
+    _redoing = True
 
 
 @persistent
@@ -696,6 +697,7 @@ def register():
     bpy.app.timers.register(on_post_register, first_interval=0.1, persistent=True)
 
     bpy.app.timers.register(check_files_for_changes, first_interval=check_file_interval, persistent=True)
+    bpy.app.timers.register(poll_active_operators, first_interval=poll_active_ops_interval, persistent=True)
 
 
 def unregister():
@@ -714,6 +716,7 @@ def unregister():
         bpy.types.SpaceView3D.draw_handler_remove(draw_handle, 'WINDOW')
 
     bpy.app.timers.unregister(check_files_for_changes)
+    bpy.app.timers.unregister(poll_active_operators)
 
     del bpy.types.Scene.ui_properties
 

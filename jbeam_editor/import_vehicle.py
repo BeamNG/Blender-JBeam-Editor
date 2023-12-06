@@ -333,6 +333,8 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
         obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_filepath
         obj_data[constants.MESH_VEHICLE_MODEL] = vehicle_model
 
+        obj_data.update()
+
         bm = bmesh.new()
         bm.from_mesh(obj_data)
 
@@ -352,8 +354,6 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
 
         bm.to_mesh(obj_data)
         bm.free()
-
-        obj_data.update()
 
         if new_mesh:
             part_obj = bpy.data.objects.new(part, obj_data)

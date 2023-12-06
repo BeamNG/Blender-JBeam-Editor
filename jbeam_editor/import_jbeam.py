@@ -177,6 +177,8 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
     obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(part_data)
     #obj_data[constants.MESH_JBEAM_INIT_NODE_IDS] = copy.deepcopy(node_ids)
 
+    obj_data.update()
+
     #export_jbeam.last_exported_jbeams[chosen_part] = {'in_filepath': jbeam_file_path}
 
     bm = bmesh.new()
@@ -197,8 +199,6 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
 
     bm.to_mesh(obj_data)
     bm.free()
-
-    obj_data.update()
 
     if prev_mode == 'EDIT':
         context.scene['jbeam_editor_reimporting_jbeam'] = 2 # Prevents exporting jbeam from dependency graph update, 2 means that dependency graph gets called twice
