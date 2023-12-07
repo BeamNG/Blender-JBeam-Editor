@@ -40,6 +40,9 @@ class ASTNode:
         self.prefix_plus = prefix_plus
         self.add_post_fix_dot = add_post_fix_dot
 
+    def __str__(self) -> str:
+        return str(self.value) if self.value is not None else self.data_type
+
 
 def parse(s):
     global _str

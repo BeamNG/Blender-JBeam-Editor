@@ -18,6 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+DEBUG = False
+
 # JBeam Collection Attributes
 COLLECTION_IO_CTX = 'collection_vehicle_io_ctx'
 COLLECTION_VEH_FILES = 'collection_vehicle_files'
