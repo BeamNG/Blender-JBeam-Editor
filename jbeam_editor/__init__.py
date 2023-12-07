@@ -62,13 +62,14 @@ poll_active_ops_interval = 0.1
 draw_handle = None
 
 _do_export = False
+_force_do_export = False
 _undoing = False
 _redoing = False
 
 
 # Refresh property input field UI
 def on_input_node_id_field_updated(self, context):
-    global _do_export
+    global _force_do_export
     scene = context.scene
     ui_props = scene.ui_properties
 
@@ -95,9 +96,9 @@ def on_input_node_id_field_updated(self, context):
         bm.verts[obj_vert_idx][node_id_layer] = bytes(ui_props.input_node_id, 'utf-8')
 
         bm.free()
-        bpy.ops.ed.undo_push(message = 'Node Rename (' + str(old_node_id) + ' -> ' + str(ui_props.input_node_id) + ')')
+        #bpy.ops.ed.undo_push(message = 'Node Rename (' + str(old_node_id) + ' -> ' + str(ui_props.input_node_id) + ')')
 
-        _do_export = True
+        _force_do_export = True
 
     scene['jbeam_editor_renaming_rename_enabled'] = True
 
@@ -468,17 +469,11 @@ def find_layer_collection_recursive(find, col):
 
 
 def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph, undoing: bool, redoing: bool):
+    print('depsgraph_callback')
+
     global _do_export
+    global _force_do_export
     return_early = False
-
-    # Don't act on undoing or redoing
-    # if scene.get('jbeam_editor_undoing') == True:
-    #     scene['jbeam_editor_undoing'] = False
-    #     return_early = True
-
-    # if scene.get('jbeam_editor_redoing') == True:
-    #     scene['jbeam_editor_redoing'] = False
-    #     return_early = True
 
     # Don't act on reimporting mesh
     if type(scene.get('jbeam_editor_reimporting_jbeam')) == int:
@@ -524,11 +519,14 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
     jbeam_filepath = active_obj_data[constants.MESH_JBEAM_FILE_PATH]
     text_editor.show_file(jbeam_filepath)
 
-    if undoing or redoing:
-        for update in depsgraph.updates:
+    for update in depsgraph.updates:
+        if update.id == active_obj_eval:
+            #print('update.is_updated_geometry', update.is_updated_geometry, 'update.is_updated_shading', update.is_updated_shading, 'update.is_updated_transform', update.is_updated_transform)
             if update.id == active_obj_eval and (update.is_updated_geometry or update.is_updated_transform):
+                print('updated_geometry')
                 _do_export = True
-                #print('updating transform')
+                if _undoing or redoing:
+                    _force_do_export = True
 
     veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
     if veh_model is not None:
@@ -602,6 +600,7 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
     global _undoing
     global _redoing
 
+    #if not (_undoing or _redoing):
     context = bpy.context
     _depsgraph_callback(context, scene, depsgraph, _undoing, _redoing)
 
@@ -617,35 +616,38 @@ def check_files_for_changes():
     text_editor.check_files_for_changes(context)
     return check_file_interval
 
-last_op = None
+_last_op = None
 
 @persistent
 def poll_active_operators():
-    global last_op
+    global _last_op
     context = bpy.context
     op = context.active_operator
     #print(op)
+    active_obj = context.active_object
+    if active_obj is not None:
+        active_obj_data = active_obj.data
+        if active_obj_data.get(constants.MESH_JBEAM_PART) is not None:
+            global _do_export
+            global _force_do_export
+            # Trigger export JBeam/Vehicle on translate event
+            #if _do_export or (op != last_op and (op.bl_idname if op is not None else '') == 'TRANSFORM_OT_translate'):
+            if _force_do_export or (_do_export and op != _last_op):
+                #print('translated!')
+                veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
+                if veh_model is not None:
+                    # Export
+                    data = {'obj_name': active_obj.name, 'veh_model': veh_model}
+                    export_vehicle.auto_export(data)
+                else:
+                    # Export
+                    data = {'obj_name': active_obj.name}
+                    export_jbeam.auto_export(data)
 
-    global _do_export
-    # Trigger export JBeam/Vehicle on translate event
-    if _do_export or (op != last_op and (op.bl_idname if op is not None else '') == 'TRANSFORM_OT_translate'):
-        #print('translated!')
-        active_obj = context.active_object
-        if context.active_object is not None:
-            active_obj_data = active_obj.data
-            veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
-            if veh_model is not None:
-                # Export
-                data = {'obj_name': active_obj.name, 'veh_model': veh_model}
-                export_vehicle.auto_export(data)
-            else:
-                # Export
-                data = {'obj_name': active_obj.name}
-                export_jbeam.auto_export(data)
+                _do_export = False
+                _force_do_export = False
 
-        _do_export = False
-
-    last_op = op
+    _last_op = op
 
     return poll_active_ops_interval
 

@@ -299,6 +299,8 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
 
     parts = vehicle_bundle['chosenParts'].values()
 
+    context.scene['jbeam_editor_reimporting_jbeam'] = 1 # Prevents exporting jbeam
+
     vertices, parts_edges, parts_faces, node_index_to_id = get_vertices_edges_faces(vehicle_bundle)
 
     parts_set = set()
@@ -309,34 +311,38 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
             continue
 
         jbeam_filepath = vehicle_bundle['partToFileMap'][part]
-
-        prev_mode = None
-
-        new_mesh = False
-        obj_data = None
+        obj: bpy.types.Object = None
+        obj_data: bpy.types.Mesh = None
+        bm = None
         if part in objs:
             obj = objs[part]
-            prev_mode = obj.mode
-            if prev_mode == 'EDIT':
-                context.scene['jbeam_editor_reimporting_jbeam'] = 1 # Prevents exporting jbeam
-                context.view_layer.objects.active = obj
-                bpy.ops.object.mode_set(mode='OBJECT')
-
             obj_data = obj.data
-            obj_data.clear_geometry()
+
+            if obj.mode == 'EDIT':
+                bm = bmesh.from_edit_mesh(obj_data)
+                bm.clear()
+            else:
+                bm = bmesh.new()
+                bm.from_mesh(obj_data)
+                bm.clear()
         else:
-            new_mesh = True
+            bm = bmesh.new()
             obj_data = bpy.data.meshes.new(part)
+            obj = bpy.data.objects.new(part, obj_data)
+            veh_collection.objects.link(obj) # add object to scene collection
 
-        obj_data.from_pydata(vertices, parts_edges.get(part, []), parts_faces.get(part, []))
-        obj_data[constants.MESH_JBEAM_PART] = part
-        obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_filepath
-        obj_data[constants.MESH_VEHICLE_MODEL] = vehicle_model
+        for v in vertices:
+            bm.verts.new(v)
+        bm.verts.ensure_lookup_table()
 
-        obj_data.update()
+        if part in parts_edges:
+            for e in parts_edges[part]:
+                bm.edges.new((bm.verts[e[0]], bm.verts[e[1]]))
+        if part in parts_faces:
+            for f in parts_faces[part]:
+                bm.faces.new((bm.verts[f[0]], bm.verts[f[1]], bm.verts[f[2]]))
 
-        bm = bmesh.new()
-        bm.from_mesh(obj_data)
+        bm.normal_update()
 
         # Add node ID field to all vertices
         init_node_id_layer = bm.verts.layers.string.new(constants.VLS_INIT_NODE_ID)
@@ -352,19 +358,15 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
             v[node_id_layer] = bytes_node_id
             v[node_origin_layer] = bytes(nodes[node_id].get('partOrigin'), 'utf-8')
 
-        bm.to_mesh(obj_data)
+        obj_data[constants.MESH_JBEAM_PART] = part
+        obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_filepath
+        obj_data[constants.MESH_VEHICLE_MODEL] = vehicle_model
+
+        if obj.mode == 'EDIT':
+            bmesh.update_edit_mesh(obj_data)
+        else:
+            bm.to_mesh(obj_data)
         bm.free()
-
-        if new_mesh:
-            part_obj = bpy.data.objects.new(part, obj_data)
-
-            # add object to scene collection
-            veh_collection.objects.link(part_obj)
-
-        if prev_mode == 'EDIT':
-            context.scene['jbeam_editor_reimporting_jbeam'] = 2 # Prevents exporting jbeam from dependency graph update, 2 means that dependency graph gets called twice
-            bpy.ops.object.mode_set(mode='EDIT')
-
         parts_set.add(part)
 
     # Delete objects from vehicle collection that aren't part of parts
@@ -377,16 +379,6 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
 
     for obj_data in obj_datas_to_remove:
         bpy.data.meshes.remove(obj_data, do_unlink=True)
-
-    # store vehicle data in collection
-    # path = Path(pc_filepath)
-    # length = len(path.name)
-    # blender_pc_filename = path.name[max(0, length - 60):] # Blender can only store roughly 60 characters...
-    # if blender_pc_filename not in bpy.data.texts:
-    #     bpy.data.texts.new(blender_pc_filename)
-    # file = bpy.data.texts[blender_pc_filename]
-    # file.clear()
-    # file.write(utils.read_file(pc_filepath))
 
     veh_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle)
     veh_collection[constants.COLLECTION_IO_CTX] = io_ctx

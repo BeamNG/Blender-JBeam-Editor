@@ -155,34 +155,39 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
 
     context.scene['jbeam_editor_reimporting_jbeam'] = 1 # Prevents exporting jbeam
 
-    prev_mode = obj.mode
-
-    if prev_mode == 'EDIT':
-        bpy.ops.object.mode_set(mode='OBJECT')
-
     obj_data: bpy.types.Mesh = obj.data
     chosen_part = obj_data[constants.MESH_JBEAM_PART]
-
     part_data = jbeam_file_data[chosen_part]
+
     if not jbeam_table_schema.process(part_data):
         return
     if not jbeam_table_schema.post_process(part_data):
         return
     jbeam_node_beam.process(part_data)
 
+    obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(part_data)
+
     vertices, edges, faces, node_ids = get_vertices_edges_faces(part_data)
 
-    obj_data.clear_geometry()
-    obj_data.from_pydata(vertices, edges, faces)
-    obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(part_data)
-    #obj_data[constants.MESH_JBEAM_INIT_NODE_IDS] = copy.deepcopy(node_ids)
+    if obj.mode == 'EDIT':
+        bm = bmesh.from_edit_mesh(obj_data)
+        bm.clear()
+    else:
+        bm = bmesh.new()
+        bm.from_mesh(obj_data)
+        bm.clear()
 
-    obj_data.update()
+    for v in vertices:
+        bm.verts.new(v)
+    bm.verts.ensure_lookup_table()
+    for e in edges:
+        bm.edges.new((bm.verts[e[0]], bm.verts[e[1]]))
+    for f in faces:
+        bm.faces.new((bm.verts[f[0]], bm.verts[f[1]], bm.verts[f[2]]))
+
+    bm.normal_update()
 
     #export_jbeam.last_exported_jbeams[chosen_part] = {'in_filepath': jbeam_file_path}
-
-    bm = bmesh.new()
-    bm.from_mesh(obj_data)
 
     # Add node ID field to all vertices
     init_node_id_layer = bm.verts.layers.string.new(constants.VLS_INIT_NODE_ID)
@@ -197,12 +202,12 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
         v[node_id_layer] = node_id
         v[node_origin_layer] = bytes(chosen_part, 'utf-8')
 
-    bm.to_mesh(obj_data)
-    bm.free()
+    if obj.mode == 'EDIT':
+        bmesh.update_edit_mesh(obj_data)
+    else:
+        bm.to_mesh(obj_data)
 
-    if prev_mode == 'EDIT':
-        context.scene['jbeam_editor_reimporting_jbeam'] = 2 # Prevents exporting jbeam from dependency graph update, 2 means that dependency graph gets called twice
-        bpy.ops.object.mode_set(mode='EDIT')
+    bm.free()
 
     print('Done reimporting JBeam.')
 
