@@ -79,8 +79,8 @@ def write_file(filename: str, text: str):
 
     if SCENE_PREV_TEXTS not in scene:
         scene[SCENE_PREV_TEXTS] = {}
-        if short_filename not in scene[SCENE_PREV_TEXTS]:
-            scene[SCENE_PREV_TEXTS][short_filename] = None
+    if short_filename not in scene[SCENE_PREV_TEXTS]:
+        scene[SCENE_PREV_TEXTS][short_filename] = None
 
     check_files_for_changes(context)
 
