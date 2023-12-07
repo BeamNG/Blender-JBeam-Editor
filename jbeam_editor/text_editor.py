@@ -56,7 +56,8 @@ def write_file_from_disk(filepath: str):
 
 
 def write_file(filename: str, text: str):
-    scene = bpy.context.scene
+    context = bpy.context
+    scene = context.scene
 
     # this full to short filename BS because of 63 character key limit...
 
@@ -80,6 +81,8 @@ def write_file(filename: str, text: str):
         scene[SCENE_PREV_TEXTS] = {}
         if short_filename not in scene[SCENE_PREV_TEXTS]:
             scene[SCENE_PREV_TEXTS][short_filename] = None
+
+    check_files_for_changes(context)
 
 
 def read_file(filename: str, get_from_disk_if_not_exist=False) -> str | None:
@@ -143,9 +146,15 @@ def check_files_for_changes(context: bpy.types.Context):
     if filename is None:
         return
 
+    file_changed = False
+
     if curr_file_text != last_file_text:
         # File changed!
+        file_changed = True
         scene[SCENE_PREV_TEXTS][short_filename] = curr_file_text
 
         import_vehicle.on_file_change(context, filename, curr_file_text)
         import_jbeam.on_file_change(context, filename, curr_file_text)
+
+    # if file_changed:
+    #     bpy.ops.ed.undo_push(message='File Changed')
