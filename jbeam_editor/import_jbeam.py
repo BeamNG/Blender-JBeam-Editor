@@ -206,8 +206,9 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
         bmesh.update_edit_mesh(obj_data)
     else:
         bm.to_mesh(obj_data)
-
     bm.free()
+
+    obj_data.update()
 
     print('Done reimporting JBeam.')
 

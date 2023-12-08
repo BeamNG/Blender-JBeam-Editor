@@ -367,6 +367,7 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
         else:
             bm.to_mesh(obj_data)
         bm.free()
+        obj_data.update()
         parts_set.add(part)
 
     # Delete objects from vehicle collection that aren't part of parts

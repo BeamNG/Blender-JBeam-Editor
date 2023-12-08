@@ -22,6 +22,7 @@ import bpy
 
 import re
 
+from . import constants
 from . import import_vehicle
 from . import import_jbeam
 from . import utils
@@ -149,6 +150,8 @@ def check_files_for_changes(context: bpy.types.Context):
     file_changed = False
 
     if curr_file_text != last_file_text:
+        if constants.DEBUG:
+            print('file changed!')
         # File changed!
         file_changed = True
         scene[SCENE_PREV_TEXTS][short_filename] = curr_file_text

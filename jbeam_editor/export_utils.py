@@ -537,14 +537,14 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                             assert jbeam_entry_start_node_idx < jbeam_entry_end_node_idx
                             #assert jbeam_entry_start_node_idx < jbeam_section_end_node_idx
                             #assert jbeam_entry_end_node_idx < jbeam_section_end_node_idx
-                            if constants.DEBUG:
-                                print('Deleting node...')
-                                print('-------------Before-------------')
-                                print_ast_nodes(ast_nodes, i, 50, True, sys.stdout)
+                            # if constants.DEBUG:
+                            #     print('Deleting node...')
+                            #     print('-------------Before-------------')
+                            #     print_ast_nodes(ast_nodes, i, 50, True, sys.stdout)
                             i = delete_jbeam_node(ast_nodes, jbeam_section_start_node_idx, jbeam_entry_start_node_idx, jbeam_entry_end_node_idx)
-                            if constants.DEBUG:
-                                print('\n-------------After-------------')
-                                print_ast_nodes(ast_nodes, i, 50, True, sys.stdout)
+                            # if constants.DEBUG:
+                            #     print('\n-------------After-------------')
+                            #     print_ast_nodes(ast_nodes, i, 50, True, sys.stdout)
                         jbeam_node_id = None
 
                     jbeam_entry_start_node_idx = None
@@ -560,14 +560,14 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                         #assert jbeam_entry_end_node_idx < jbeam_section_end_node_idx
 
                         # Add nodes to add to end of nodes section
-                        if constants.DEBUG:
-                            print('Adding node...')
-                            print('-------------Before-------------')
-                            print_ast_nodes(ast_nodes, i, 50, True, sys.stdout)
+                        # if constants.DEBUG:
+                        #     print('Adding node...')
+                        #     print('-------------Before-------------')
+                        #     print_ast_nodes(ast_nodes, i, 50, True, sys.stdout)
                         i = add_jbeam_nodes(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx, jbeam_entry_end_node_idx, nodes_to_add)
-                        if constants.DEBUG:
-                            print('\n-------------After-------------')
-                            print_ast_nodes(ast_nodes, i, 50, True, sys.stdout)
+                        # if constants.DEBUG:
+                        #     print('\n-------------After-------------')
+                        #     print_ast_nodes(ast_nodes, i, 50, True, sys.stdout)
 
         elif stack_size_diff == 0: # Same level
             pass

@@ -469,9 +469,6 @@ def find_layer_collection_recursive(find, col):
 
 
 def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph, undoing: bool, redoing: bool):
-    if constants.DEBUG:
-        print('depsgraph_callback')
-
     global _do_export
     global _force_do_export
     return_early = False
@@ -598,11 +595,12 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
 
 @persistent
 def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
-    #print('depsgraph_callback')
+    if constants.DEBUG:
+        print('depsgraph_callback')
+
     global _undoing
     global _redoing
 
-    #if not (_undoing or _redoing):
     context = bpy.context
     _depsgraph_callback(context, scene, depsgraph, _undoing, _redoing)
 
@@ -634,7 +632,7 @@ def poll_active_operators():
             global _force_do_export
             # Trigger export JBeam/Vehicle on translate event
             #if _do_export or (op != last_op and (op.bl_idname if op is not None else '') == 'TRANSFORM_OT_translate'):
-            if _force_do_export or (_do_export and op != _last_op):
+            if _force_do_export or (_do_export and op != _last_op and (op is None or op.bl_idname != 'OBJECT_OT_editmode_toggle')):
                 #print('translated!')
                 veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
                 if veh_model is not None:
@@ -656,14 +654,12 @@ def poll_active_operators():
 
 @persistent
 def undo_post_callback(scene: bpy.types.Scene):
-    #scene['jbeam_editor_undoing'] = True
     global _undoing
     _undoing = True
 
 
 @persistent
 def redo_post_callback(scene: bpy.types.Scene):
-    #scene['jbeam_editor_redoing'] = True
     global _redoing
     _redoing = True
 
@@ -714,6 +710,8 @@ def unregister():
     bpy.types.TOPBAR_MT_file_export.remove(menu_func_export_vehicle)
 
     bpy.app.handlers.depsgraph_update_post.remove(depsgraph_callback)
+    bpy.app.handlers.undo_post.remove(undo_post_callback)
+    bpy.app.handlers.redo_post.remove(redo_post_callback)
     bpy.app.handlers.save_post.remove(save_post_callback)
 
     if draw_handle:
