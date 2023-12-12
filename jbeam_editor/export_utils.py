@@ -334,7 +334,7 @@ def undo_node_move_offset_and_apply_translation_to_expr(init_node_data: dict, ne
     return pos_tup
 
 
-def get_nodes_add_delete_rename(init_nodes_data: dict[str, dict], obj: bpy.types.Object, bm: bmesh.types.BMesh, jbeam_file_data_modified: dict, jbeam_part: str):
+def get_nodes_add_delete_rename(init_nodes_data: dict, obj: bpy.types.Object, bm: bmesh.types.BMesh, jbeam_file_data_modified: dict, jbeam_part: str, duplicate_node_ids: dict[str, int]):
     nodes_to_add, nodes_to_delete, node_renames = {}, set(), {}
 
     init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
@@ -343,7 +343,7 @@ def get_nodes_add_delete_rename(init_nodes_data: dict[str, dict], obj: bpy.types
 
     # Update node ids and positions from Blender into the SJSON data
 
-    init_node_id_to_part_origin = {}
+    #init_node_id_to_part_origin = {}
 
     blender_nodes = {}
     # Create dictionary where key is init node id and value is current blender node id and position
@@ -353,15 +353,13 @@ def get_nodes_add_delete_rename(init_nodes_data: dict[str, dict], obj: bpy.types
         node_part_origin = v[part_origin_layer].decode('utf-8')
         pos = obj.matrix_world @ v.co
 
+        # Filter out nodes that aren't part of this part
+        if node_part_origin != jbeam_part:
+            continue
+
         init_node_data = init_nodes_data.get(init_node_id)
         if init_node_data is None:
             nodes_to_add[init_node_id] = pos
-            continue
-
-        init_node_id_to_part_origin[init_node_id] = node_part_origin
-
-        # Filter out nodes that aren't part of this part
-        if node_part_origin != jbeam_part:
             continue
 
         new_pos_tup = undo_node_move_offset_and_apply_translation_to_expr(init_node_data, pos)
@@ -370,10 +368,12 @@ def get_nodes_add_delete_rename(init_nodes_data: dict[str, dict], obj: bpy.types
             node_renames[init_node_id] = node_id
 
         blender_nodes[init_node_id] = {'curr_node_id': node_id, 'pos': new_pos_tup}
-        v[init_node_id_layer] = bytes(node_id, 'utf-8')
+        #v[init_node_id_layer] = bytes(node_id, 'utf-8')
 
     # Get nodes to delete
     for init_node_id, init_node_data in init_nodes_data.items():
+        if init_node_data['partOrigin'] != jbeam_part:
+            continue
         if init_node_id not in blender_nodes:
             nodes_to_delete.add(init_node_id)
 
@@ -387,10 +387,10 @@ def get_nodes_add_delete_rename(init_nodes_data: dict[str, dict], obj: bpy.types
             if isinstance(row_data, list):
                 row_node_id = row_data[0]
 
-                # Ignore if node is defined in a different part.
-                # Its possible depending on part loading order.
-                if row_node_id not in init_node_id_to_part_origin or jbeam_part != init_node_id_to_part_origin[row_node_id]:
-                    continue
+                # # Ignore if node is defined in a different part.
+                # # Its possible depending on part loading order.
+                # if row_node_id not in init_node_id_to_part_origin or jbeam_part != init_node_id_to_part_origin[row_node_id]:
+                #     continue
 
                 if row_node_id in node_renames:
                     row_data[0] = node_renames[row_node_id]
@@ -400,6 +400,44 @@ def get_nodes_add_delete_rename(init_nodes_data: dict[str, dict], obj: bpy.types
                     row_data[1], row_data[2], row_data[3] = pos[0], pos[1], pos[2]
 
     return nodes_to_add, nodes_to_delete, node_renames
+
+
+def get_beams_add_remove(init_beams_data: dict, obj: bpy.types.Object, bm: bmesh.types.BMesh, jbeam_file_data_modified: dict, jbeam_part: str):
+    beams_to_add, beams_to_delete = set(), set()
+
+    init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
+
+    init_beam_data_lookup = set()
+    for i, beam in enumerate(init_beams_data):
+        if beam['partOrigin'] != jbeam_part:
+            continue
+        n1, n2 = beam.get('id1:'), beam.get('id2:')
+        if n1 is not None and n2 is not None:
+            init_beam_data_lookup.add((n1, n2))
+
+    blender_beams = set()
+    # Create dictionary where key is init node id and value is current blender node id and position
+    bm.edges.ensure_lookup_table()
+    e: bmesh.types.BMEdge
+    for i, e in enumerate(bm.edges):
+        v1, v2 = e.verts[0], e.verts[1]
+        v1_node_id, v2_node_id = v1[init_node_id_layer].decode('utf-8'), v2[init_node_id_layer].decode('utf-8')
+        beam_tup = (v1_node_id, v2_node_id)
+        #print('beam:', v1_node_id, v2_node_id)
+
+        if beam_tup not in init_beam_data_lookup:
+            beams_to_add.add(beam_tup)
+            continue
+
+        blender_beams.add(beam_tup)
+        # e[init_node_id_layer] = bytes(node_id, 'utf-8')
+
+    # Get beams to delete
+    for init_beam in init_beam_data_lookup:
+        if init_beam not in blender_beams:
+            beams_to_delete.add(init_beam)
+
+    return beams_to_add, beams_to_delete
 
 
 def go_up_level(stack: list):
@@ -413,7 +451,8 @@ def go_up_level(stack: list):
     return in_dict, pos_in_arr
 
 
-def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbeam_file_data_modified: dict, jbeam_part: str, nodes_to_add: dict, nodes_to_delete: set):
+def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbeam_file_data_modified: dict, jbeam_part: str,
+                     nodes_to_add: dict, nodes_to_delete: set, beams_to_add: set, beams_to_delete: set):
     # Traverse AST nodes and update them from SJSON data, add JBeam nodes, and delete JBeam nodes
 
     stack = []
@@ -599,6 +638,8 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict):
     for obj in parts:
         obj_data = obj.data
         jbeam_part = obj_data[constants.MESH_JBEAM_PART]
+        duplicate_node_ids = obj_data[constants.MESH_VERTEX_DUPLICATES]
+
         bm = None
         if obj.mode == 'EDIT':
             bm = bmesh.from_edit_mesh(obj_data)
@@ -607,17 +648,47 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict):
             bm.from_mesh(obj_data)
 
         init_nodes_data = data.get('nodes')
+        init_beams_data = data.get('beams')
+        # blender_nodes = {}
+
+        # init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
+        # node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+        # part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
+        # for v in bm.verts:
+        #     init_node_id = v[init_node_id_layer].decode('utf-8')
+        #     node_id = v[node_id_layer].decode('utf-8')
+        #     node_part_origin = v[part_origin_layer].decode('utf-8')
+        #     pos = obj.matrix_world @ v.co
+        #     blender_nodes[init_node_id] = {'curr_node_id': node_id, 'node_part_origin': node_part_origin}
+
         if init_nodes_data is not None:
-            nodes_to_add, nodes_to_delete, node_renames = get_nodes_add_delete_rename(init_nodes_data, obj, bm, jbeam_file_data_modified, jbeam_part)
+            nodes_to_add, nodes_to_delete, node_renames = get_nodes_add_delete_rename(init_nodes_data, obj, bm, jbeam_file_data_modified, jbeam_part, duplicate_node_ids)
         else:
             nodes_to_add, nodes_to_delete, node_renames = {}, set(), {}
 
-        #print('nodes to add:', nodes_to_add)
-        #print('nodes to delete:', nodes_to_delete)
-        #print('node renames:', true_node_renames)
+        if init_beams_data is not None:
+            beams_to_add, beams_to_delete = get_beams_add_remove(init_beams_data, obj, bm, jbeam_file_data_modified, jbeam_part)
+        else:
+            beams_to_add, beams_to_delete = set(), set()
 
-        update_ast_nodes(ast_nodes, jbeam_file_data, jbeam_file_data_modified, jbeam_part, nodes_to_add, nodes_to_delete)
+        if constants.DEBUG:
+            print('nodes to add:', nodes_to_add)
+            print('nodes to delete:', nodes_to_delete)
+            print('node renames:', node_renames)
+            print('beams to add:', beams_to_add)
+            print('beams to delete:', beams_to_delete)
+
+        update_ast_nodes(ast_nodes, jbeam_file_data, jbeam_file_data_modified, jbeam_part, nodes_to_add, nodes_to_delete, beams_to_add, beams_to_delete)
         out_str_jbeam_data = sjsonast.stringify_nodes(ast_nodes)
+
+        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+
+        # Initial node ids now become node ids
+        for v in bm.verts:
+            node_id = v[node_id_layer].decode('utf-8')
+            v[init_node_id_layer] = bytes(node_id, 'utf-8')
+
         # f = open(jbeam_filepath, 'w', encoding='utf-8')
         # f.write(out_str_jbeam_data)
         # f.close()

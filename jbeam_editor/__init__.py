@@ -393,7 +393,7 @@ def menu_func_export_vehicle(self, context):
     self.layout.operator(export_vehicle.JBEAM_EDITOR_OT_export_vehicle.bl_idname, text="Selected JBeam Parts")
 
 
-def update_node_positions(scene: bpy.types.Scene, veh_collection: bpy.types.Collection, obj_changed: bpy.types.Object):
+def update_node_positions_and_deletions(scene: bpy.types.Scene, veh_collection: bpy.types.Collection, obj_changed: bpy.types.Object):
     changed_node_positions = {}
     obj_changed_data = obj_changed.data
     main_obj = scene.objects.get(veh_collection[constants.COLLECTION_MAIN_PART])
@@ -437,27 +437,78 @@ def update_node_positions(scene: bpy.types.Scene, veh_collection: bpy.types.Coll
     obj_changed_verts.ensure_lookup_table()
     main_obj_verts.ensure_lookup_table()
 
-    init_node_id_layer = bm_obj_changed.verts.layers.string[constants.VLS_INIT_NODE_ID]
-    node_id_layer = bm_obj_changed.verts.layers.string[constants.VLS_NODE_ID]
-    node_origin_layer = bm_obj_changed.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
+    obj_changed_verts_len = len(obj_changed_verts)
+    main_obj_verts_len = len(main_obj_verts)
 
-    # Get node positions changed
-    for i, v in enumerate(obj_changed_verts):
-        if v.co != main_obj_verts[i].co:
-            changed_node_positions[i] = (v[node_id_layer].decode('utf-8'), v[node_origin_layer].decode('utf-8'), v.co) #.append((i, v.co))
+    obj_changed_init_node_id_layer = bm_obj_changed.verts.layers.string[constants.VLS_INIT_NODE_ID]
+    obj_changed_node_id_layer = bm_obj_changed.verts.layers.string[constants.VLS_NODE_ID]
+    obj_changed_node_origin_layer = bm_obj_changed.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
 
-    # Set node positions
-    for obj in veh_collection.objects:
-        if obj == obj_changed or obj.mode == 'EDIT':
-            continue
-        vertices = obj.data.vertices
-        for i, (node_id, part_origin, pos) in changed_node_positions.items():
-            vertices[i].co = pos
+    main_obj_init_node_id_layer = bm_main_obj.verts.layers.string[constants.VLS_INIT_NODE_ID]
+    main_obj_changed_node_id_layer = bm_main_obj.verts.layers.string[constants.VLS_NODE_ID]
+    main_obj_changed_node_origin_layer = bm_main_obj.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
+
+    # Node deletion happened, update nodes
+    if obj_changed_verts_len < main_obj_verts_len:
+        obj_changed_node_ids_count = {}
+        main_obj_node_ids_count = {}
+
+        v: bmesh.types.BMVert
+        for v in obj_changed_verts:
+            node_id = v[obj_changed_init_node_id_layer]
+            obj_changed_node_ids_count.setdefault(node_id, 0)
+            obj_changed_node_ids_count[node_id] += 1
+
+        for v in main_obj_verts:
+            node_id = v[main_obj_init_node_id_layer]
+            main_obj_node_ids_count.setdefault(node_id, 0)
+            main_obj_node_ids_count[node_id] += 1
+
+        nodes_to_delete = set()
+
+        for node_id, count in main_obj_node_ids_count.items():
+            if node_id not in obj_changed_node_ids_count or obj_changed_node_ids_count[node_id] < count:
+                nodes_to_delete.add(node_id)
+
+        # Delete node id from all meshes in vehicle collection
+        for obj in veh_collection.objects:
+            obj_data = obj.data
+            if obj.mode == 'EDIT':
+                bm = bmesh.from_edit_mesh(obj_data)
+            else:
+                bm = bmesh.new()
+                bm.from_mesh(obj_data)
+
+            init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
+            for v in bm.verts[:]:
+                node_id = v[init_node_id_layer]
+                if node_id in nodes_to_delete:
+                    bm.verts.remove(v)
+
+            bm.normal_update()
+            if obj.mode == 'EDIT':
+                bmesh.update_edit_mesh(obj_data)
+            else:
+                bm.to_mesh(obj_data)
+            bm.free()
+            obj_data.update()
+
+    else:
+        # Get node positions changed
+        for i, v in enumerate(obj_changed_verts):
+            if i < main_obj_verts_len and v.co != main_obj_verts[i].co:
+                changed_node_positions[i] = (v[obj_changed_node_id_layer].decode('utf-8'), v[obj_changed_node_origin_layer].decode('utf-8'), v.co) #.append((i, v.co))
+
+        # Set node positions
+        for obj in veh_collection.objects:
+            if obj == obj_changed or obj.mode == 'EDIT':
+                continue
+            vertices = obj.data.vertices
+            for i, (node_id, part_origin, pos) in changed_node_positions.items():
+                vertices[i].co = pos
 
     bm_obj_changed.free()
     bm_main_obj.free()
-
-    return changed_node_positions
 
 
 # https://blenderartists.org/t/make-latest-created-collection-active/1350762/5
@@ -539,7 +590,7 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
 
             # Update positions of other nodes in other meshes
             #all_changed_node_positions = {}
-            changed_node_positions = update_node_positions(scene, veh_collection, active_obj)
+            update_node_positions_and_deletions(scene, veh_collection, active_obj)
 
             _do_export = True
 
@@ -555,13 +606,13 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
     if not scene.get('jbeam_editor_renaming_rename_enabled'):
         scene['jbeam_editor_renaming_rename_enabled'] = None
 
+    vertex_count = active_obj_data[constants.MESH_VERTEX_COUNT]
     bm = bmesh.from_edit_mesh(active_obj_data)
 
     init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
     node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
 
     selected_verts = []
-    init_node_ids = set()
 
     # When new vertices are added, they seem to copy the data of the old vertices they were made from,
     # so rename their node ids to random ids (UUID)
@@ -570,14 +621,11 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
         if v.select:
             selected_verts.append(v)
 
-        init_node_id = v[init_node_id_layer].decode('utf-8')
-
-        if not init_node_id in init_node_ids:
-            init_node_ids.add(init_node_id)
-        else:
+        if i >= vertex_count:
             new_node_id_bytes = bytes(str(uuid.uuid4()), 'utf-8')
             v[init_node_id_layer] = new_node_id_bytes
             v[node_id_layer] = new_node_id_bytes
+            active_obj_data[constants.MESH_VERTEX_COUNT] += 1
 
     # If one vertex is selected, set the UI input node_id field to the selected vertex's node_id attribute
     if len(selected_verts) == 1:

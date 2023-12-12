@@ -34,10 +34,16 @@ COLLECTION_NODES = 'collection_vehicle_nodes'
 MESH_VEHICLE_MODEL = 'vehicle_model'
 MESH_JBEAM_PART = 'jbeam_part'
 MESH_JBEAM_FILE_PATH = 'jbeam_file_path'
+MESH_VERTEX_COUNT = 'mesh_vertex_count'
+MESH_VERTEX_DUPLICATES = 'mesh_vertex_duplicates'
 MESH_SINGLE_JBEAM_PART_DATA = 'jbeam_part_data'
-MESH_JBEAM_INIT_NODE_IDS = 'init_node_ids'
 
 # bm.verts.layers.string Attributes
 VLS_INIT_NODE_ID = 'jbeam_init_node_id'
 VLS_NODE_ID = 'jbeam_node_id'
 VLS_NODE_PART_ORIGIN = 'jbeam_node_part_origin'
+
+# bm.edges.layers.string Attributes
+ELS_DUPLICATE_BEAMS = 'jbeam_beam_duplicate_beams'
+ELS_BEAM_PART_ORIGIN = 'jbeam_beam_part_origin'
+
