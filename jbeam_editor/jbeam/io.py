@@ -221,17 +221,22 @@ def start_loading(directories: list[str], vehicle_config: dict):
     parts = ['"' + part + '"' for part in slots_to_part.values() if part != '']
     parts.append('main') # main isn't a part but a slotType, but still find the file with it
 
+    filepaths = []
+
     for directory in directories:
         if directory not in dir_part_to_file_map:
             #part_count_total = 0
-            for filepath in Path(directory).rglob('*.jbeam'):
-                fp = filepath.as_posix()
-                part_count = load_jbeam_file(directory, fp, True)
+            for filepath_obj in Path(directory).rglob('*.jbeam'):
+                filepath = filepath_obj.as_posix()
+                part_count = load_jbeam_file(directory, filepath, True)
+                filepaths.append(filepath)
                 if part_count is None:
                     return None
                 #if part_count:
                 #    print('parsed file', filepath)
                 #art_count_total += part_count
+
+    text_editor.check_files_for_changes(bpy.context, filepaths)
 
     return {'dirs': directories}
 

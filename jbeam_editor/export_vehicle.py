@@ -63,8 +63,13 @@ def export(veh_collection: bpy.types.Collection, objs_to_export: list):
             jbeam_files_to_parts[jbeam_filepath] = []
         jbeam_files_to_parts[jbeam_filepath].append(obj)
 
+    filepaths = []
+
     for jbeam_filepath, parts in jbeam_files_to_parts.items():
         export_utils.export_file(jbeam_filepath, parts, vdata)
+        filepaths.append(jbeam_filepath)
+
+    text_editor.check_files_for_changes(context, filepaths)
 
     tf = timeit.default_timer()
     print('Exporting Time', round(tf - t0, 2), 's')

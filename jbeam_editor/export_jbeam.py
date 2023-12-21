@@ -33,6 +33,7 @@ import bmesh
 from . import constants
 from . import utils
 from . import export_utils
+from . import text_editor
 
 import timeit
 
@@ -136,6 +137,8 @@ def export_existing_jbeam(obj: bpy.types.Object):
     part_data = pickle.loads(obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA])
 
     export_utils.export_file(jbeam_filepath, [obj], part_data)
+
+    text_editor.check_files_for_changes(context, [jbeam_filepath])
 
     tf = timeit.default_timer()
     print('Exporting Time', round(tf - t0, 2), 's')

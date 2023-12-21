@@ -63,8 +63,6 @@ draw_handle = None
 
 _do_export = False
 _force_do_export = False
-_undoing = False
-_redoing = False
 
 
 # Refresh property input field UI
@@ -132,6 +130,28 @@ class UIProperties(bpy.types.PropertyGroup):
         description="Toggles the text of NodeIDs",
         default=True
     )
+
+
+# Undo action (supposed to use this instead of Blender's undo)
+class JBEAM_EDITOR_OT_undo(bpy.types.Operator):
+    bl_idname = "jbeam_editor.undo"
+    bl_label = "Undo"
+
+    def invoke(self, context, event):
+        print('undoing!')
+        text_editor.on_undo_redo(context, True)
+        return {'FINISHED'}
+
+
+# Redo action (supposed to use this instead of Blender's redo)
+class JBEAM_EDITOR_OT_redo(bpy.types.Operator):
+    bl_idname = "jbeam_editor.redo"
+    bl_label = "Redo"
+
+    def invoke(self, context, event):
+        print('redoing!')
+        text_editor.on_undo_redo(context, False)
+        return {'FINISHED'}
 
 
 # Convert active mesh to a "JBeam" mesh by adding a Node ID attribute
@@ -364,19 +384,6 @@ def draw_callback_px(context: bpy.types.Context):
         bm.free()
 
 
-classes = (
-    UIProperties,
-    JBEAM_EDITOR_OT_convert_to_jbeam_mesh,
-    JBEAM_EDITOR_PT_jbeam_panel,
-    JBEAM_EDITOR_PT_jbeam_properties_panel,
-    import_jbeam.JBEAM_EDITOR_OT_import_jbeam,
-    import_jbeam.JBEAM_EDITOR_OT_choose_jbeam,
-    export_jbeam.JBEAM_EDITOR_OT_export_jbeam,
-    import_vehicle.JBEAM_EDITOR_OT_import_vehicle,
-    export_vehicle.JBEAM_EDITOR_OT_export_vehicle,
-)
-
-
 def menu_func_import(self, context):
     self.layout.operator(import_jbeam.JBEAM_EDITOR_OT_import_jbeam.bl_idname, text="JBeam File (.jbeam)")
 
@@ -519,7 +526,7 @@ def find_layer_collection_recursive(find, col):
     return None
 
 
-def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph, undoing: bool, redoing: bool):
+def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
     global _do_export
     global _force_do_export
     return_early = False
@@ -575,8 +582,8 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
                 if constants.DEBUG:
                     print('updated_geometry')
                 _do_export = True
-                if _undoing or redoing:
-                    _force_do_export = True
+                # if _undo_redo['undoing'] or _undo_redo['redoing']:
+                #     _force_do_export = True
 
     veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
     if veh_model is not None:
@@ -643,17 +650,12 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
 
 @persistent
 def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
+    context = bpy.context
+
     if constants.DEBUG:
         print('depsgraph_callback')
 
-    global _undoing
-    global _redoing
-
-    context = bpy.context
-    _depsgraph_callback(context, scene, depsgraph, _undoing, _redoing)
-
-    _undoing = False
-    _redoing = False
+    _depsgraph_callback(context, scene, depsgraph)
 
 
 # If active file in text editor changed, reimport jbeam file/vehicle
@@ -661,7 +663,7 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
 def check_files_for_changes():
     context = bpy.context
 
-    text_editor.check_files_for_changes(context)
+    text_editor.check_open_file_for_changes(context)
     return check_file_interval
 
 _last_op = None
@@ -701,18 +703,6 @@ def poll_active_operators():
 
 
 @persistent
-def undo_post_callback(scene: bpy.types.Scene):
-    global _undoing
-    _undoing = True
-
-
-@persistent
-def redo_post_callback(scene: bpy.types.Scene):
-    global _redoing
-    _redoing = True
-
-
-@persistent
 def save_post_callback(filepath):
     export_jbeam.save_post_callback(filepath)
 
@@ -725,9 +715,44 @@ def on_post_register():
     draw_handle = bpy.types.SpaceView3D.draw_handler_add(draw_callback_px, (bpy.context,), 'WINDOW', 'POST_PIXEL')
 
 
+classes = (
+    UIProperties,
+    JBEAM_EDITOR_OT_undo,
+    JBEAM_EDITOR_OT_redo,
+    JBEAM_EDITOR_OT_convert_to_jbeam_mesh,
+    JBEAM_EDITOR_PT_jbeam_panel,
+    JBEAM_EDITOR_PT_jbeam_properties_panel,
+    import_jbeam.JBEAM_EDITOR_OT_import_jbeam,
+    import_jbeam.JBEAM_EDITOR_OT_choose_jbeam,
+    export_jbeam.JBEAM_EDITOR_OT_export_jbeam,
+    import_vehicle.JBEAM_EDITOR_OT_import_vehicle,
+    export_vehicle.JBEAM_EDITOR_OT_export_vehicle,
+)
+
+custom_keymaps = []
+
+
+def init_keymaps():
+    kc = bpy.context.window_manager.keyconfigs.addon
+    km = kc.keymaps.new(name="Window")
+    kmi = [
+        km.keymap_items.new("jbeam_editor.undo", 'LEFT_BRACKET', 'PRESS', ctrl=True),
+        km.keymap_items.new("jbeam_editor.redo", 'RIGHT_BRACKET', 'PRESS', ctrl=True),
+    ]
+    return km, kmi
+
+
 def register():
+    global classes, custom_keymaps
+
     for c in classes:
         bpy.utils.register_class(c)
+
+    if not bpy.app.background:
+        km, kmi = init_keymaps()
+        for k in kmi:
+            k.active = True
+            custom_keymaps.append((km, k))
 
     bpy.types.Scene.ui_properties = bpy.props.PointerProperty(type=UIProperties)
 
@@ -737,8 +762,6 @@ def register():
     bpy.types.TOPBAR_MT_file_export.append(menu_func_export_vehicle)
 
     bpy.app.handlers.depsgraph_update_post.append(depsgraph_callback)
-    bpy.app.handlers.undo_post.append(undo_post_callback)
-    bpy.app.handlers.redo_post.append(redo_post_callback)
     bpy.app.handlers.save_post.append(save_post_callback)
 
     # Delayed function call to prevent "restrictcontext" error
@@ -749,8 +772,14 @@ def register():
 
 
 def unregister():
+    global classes, custom_keymaps
+
     for c in reversed(classes):
         bpy.utils.unregister_class(c)
+
+    for km, kmi in custom_keymaps:
+        km.keymap_items.remove(kmi)
+    custom_keymaps.clear()
 
     bpy.types.TOPBAR_MT_file_import.remove(menu_func_import)
     bpy.types.TOPBAR_MT_file_export.remove(menu_func_export)
@@ -758,8 +787,6 @@ def unregister():
     bpy.types.TOPBAR_MT_file_export.remove(menu_func_export_vehicle)
 
     bpy.app.handlers.depsgraph_update_post.remove(depsgraph_callback)
-    bpy.app.handlers.undo_post.remove(undo_post_callback)
-    bpy.app.handlers.redo_post.remove(redo_post_callback)
     bpy.app.handlers.save_post.remove(save_post_callback)
 
     if draw_handle:

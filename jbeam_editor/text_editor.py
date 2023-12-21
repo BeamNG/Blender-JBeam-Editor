@@ -33,6 +33,8 @@ SCENE_SHORT_TO_FULL_FILENAME = 'jbeam_editor_text_editor_short_to_full_filename'
 
 regex = re.compile(r'^.*/vehicles/(.*)$')
 
+history_stack = []
+history_stack_idx = -1
 
 def _get_short_jbeam_path(path: str):
     match = re.match(regex, path)
@@ -83,7 +85,7 @@ def write_file(filename: str, text: str):
     if short_filename not in scene[SCENE_PREV_TEXTS]:
         scene[SCENE_PREV_TEXTS][short_filename] = None
 
-    check_files_for_changes(context)
+    #check_files_for_changes(context)
 
 
 def read_file(filename: str, get_from_disk_if_not_exist=False) -> str | None:
@@ -120,7 +122,7 @@ def show_file(filename: str):
         text_area.spaces[0].text = text
 
 
-def check_files_for_changes(context: bpy.types.Context):
+def check_open_file_for_changes(context: bpy.types.Context, undoing_redoing=False):
     scene = context.scene
 
     if SCENE_PREV_TEXTS not in scene:
@@ -147,17 +149,117 @@ def check_files_for_changes(context: bpy.types.Context):
     if filename is None:
         return
 
-    file_changed = False
+    files_changed = None
 
     if curr_file_text != last_file_text:
+        # File changed!
         if constants.DEBUG:
             print('file changed!')
-        # File changed!
-        file_changed = True
+
         scene[SCENE_PREV_TEXTS][short_filename] = curr_file_text
 
         import_vehicle.on_file_change(context, filename, curr_file_text)
         import_jbeam.on_file_change(context, filename, curr_file_text)
 
-    # if file_changed:
-    #     bpy.ops.ed.undo_push(message='File Changed')
+        if files_changed is None:
+            files_changed = {}
+        files_changed[short_filename] = curr_file_text
+
+    if not undoing_redoing and files_changed is not None:
+        # Insert new history into history stack
+        # Overwrite history when stack idx is len(stack) - 1
+        global history_stack, history_stack_idx
+        history_stack_idx += 1
+        history_stack.insert(history_stack_idx, files_changed)
+        history_stack = history_stack[:history_stack_idx + 1]
+
+        if constants.DEBUG:
+            print('len(history_stack)', len(history_stack))
+            print('history_stack_idx', history_stack_idx)
+
+
+def check_files_for_changes(context: bpy.types.Context, filenames: list, undoing_redoing=False):
+    scene = context.scene
+
+    if SCENE_PREV_TEXTS not in scene:
+        return
+
+    files_changed = None
+
+    for filename in filenames:
+        short_filename = _to_short_filename(filename)
+        text = bpy.data.texts[short_filename]
+        curr_file_text = text.as_string()
+        last_file_text = scene[SCENE_PREV_TEXTS].get(short_filename, False)
+        if last_file_text == False:
+            return
+        filename = scene[SCENE_SHORT_TO_FULL_FILENAME].get(short_filename)
+        if filename is None:
+            return
+
+        if curr_file_text != last_file_text:
+            # File changed!
+            if constants.DEBUG:
+                print('file changed!', filename)
+
+            scene[SCENE_PREV_TEXTS][short_filename] = curr_file_text
+
+            import_vehicle.on_file_change(context, filename, curr_file_text)
+            import_jbeam.on_file_change(context, filename, curr_file_text)
+
+            if files_changed is None:
+                files_changed = {}
+            files_changed[short_filename] = curr_file_text
+
+    if not undoing_redoing and files_changed is not None:
+        # Insert new history into history stack
+        # Overwrite history when stack idx is len(stack) - 1
+        global history_stack, history_stack_idx
+        history_stack_idx += 1
+        history_stack.insert(history_stack_idx, files_changed)
+        history_stack = history_stack[:history_stack_idx + 1]
+
+        if constants.DEBUG:
+            print('len(history_stack)', len(history_stack))
+            print('history_stack_idx', history_stack_idx)
+
+
+def on_undo_redo(context: bpy.types.Context, undoing: bool):
+    scene = context.scene
+
+    if SCENE_SHORT_TO_FULL_FILENAME not in scene or SCENE_PREV_TEXTS not in scene:
+        return
+
+    global history_stack_idx
+
+    if history_stack_idx == -1:
+        return
+
+    if undoing:
+        history_stack_idx -= 1
+    else:
+        history_stack_idx += 1
+
+    history_stack_idx = utils.clamp(history_stack_idx, 0, len(history_stack) - 1)
+
+    if constants.DEBUG:
+        print('len(history_stack)', len(history_stack))
+        print('history_stack_idx', history_stack_idx)
+
+    entry = history_stack[history_stack_idx]
+    filepaths = []
+
+    for short_filename, text in entry.items():
+        if short_filename not in bpy.data.texts:
+            return
+
+        file = bpy.data.texts[short_filename]
+
+        curr_line, curr_char = file.current_line_index, file.current_character
+        file.clear()
+        file.write(text)
+        file.cursor_set(curr_line, character=curr_char)
+
+        filepaths.append(scene[SCENE_SHORT_TO_FULL_FILENAME].get(short_filename))
+
+    check_files_for_changes(context, filepaths, True)
