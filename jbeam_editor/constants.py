@@ -44,6 +44,5 @@ VLS_NODE_ID = 'jbeam_node_id'
 VLS_NODE_PART_ORIGIN = 'jbeam_node_part_origin'
 
 # bm.edges.layers.string Attributes
-ELS_DUPLICATE_BEAMS = 'jbeam_beam_duplicate_beams'
 ELS_BEAM_PART_ORIGIN = 'jbeam_beam_part_origin'
-
+ELS_BEAM_IDX = 'jbeam_beam_idx'

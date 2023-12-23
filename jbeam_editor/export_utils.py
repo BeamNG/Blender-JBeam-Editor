@@ -124,13 +124,7 @@ def compare_and_set_value(original_jbeam_file_data, jbeam_file_data, stack, inde
     return False
 
 
-def remove_list_from_ast(ast, i):
-    return i
-
-
-# Add jbeam nodes to end of JBeam section from list of nodes to add (this is called on node section list end character)
-def add_jbeam_nodes(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_section_end_node_idx: int, jbeam_entry_end_node_idx: int, nodes_to_add: dict):
-    # Determine indent level for node definitions
+def get_section_indent_level(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_section_end_node_idx: int):
     jbeam_entry_indent_lvl = 8
 
     j = jbeam_section_end_node_idx - 2
@@ -151,10 +145,16 @@ def add_jbeam_nodes(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_se
             break
         j -= 1
 
+    return jbeam_entry_indent_lvl
+
+
+def add_jbeam_setup(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_section_end_node_idx: int, jbeam_entry_end_node_idx: int):
+    # Determine indent level for jbeam definitions
+    jbeam_entry_indent_lvl = get_section_indent_level(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx)
     jbeam_entry_indent = '\n' + ' ' * jbeam_entry_indent_lvl
 
-    # If jbeam entry end node idx is None due to deleting last node, add node before node section end
-    # Else add node after last jbeam entry end node idx
+    # If jbeam entry end node idx is None due to deleting last jbeam, add jbeam before jbeam section end
+    # Else add jbeam after last jbeam entry end node idx
     if jbeam_entry_end_node_idx is None:
         if ast_nodes[jbeam_section_end_node_idx - 1].data_type == 'wsc':
             i = jbeam_section_end_node_idx - 1
@@ -187,6 +187,13 @@ def add_jbeam_nodes(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_se
     #print("node_after_entry", repr(node_after_entry.value))
     #if node_2_after_entry:
     #    print("node_2_after_entry", repr(node_2_after_entry.value))
+
+    return i, jbeam_entry_indent, node_after_entry, node_2_after_entry
+
+
+# Add jbeam nodes to end of JBeam section from list of nodes to add (this is called on node section list end character)
+def add_jbeam_nodes(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_section_end_node_idx: int, jbeam_entry_end_node_idx: int, nodes_to_add: dict):
+    i, jbeam_entry_indent, node_after_entry, node_2_after_entry = add_jbeam_setup(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx, jbeam_entry_end_node_idx)
 
     # Insert new nodes at bottom of nodes section
     nodes = nodes_to_add.items()
@@ -228,47 +235,86 @@ def add_jbeam_nodes(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_se
     return i
 
 
-# Delete jbeam node from JBeam section (this is called on list end character of JBeam node entry)
-def delete_jbeam_node(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_entry_start_node_idx: int, jbeam_entry_end_node_idx: int):
-    node_entry_prev_node = ast_nodes[jbeam_entry_start_node_idx - 1]
-    node_entry_next_node = ast_nodes[jbeam_entry_end_node_idx + 1]
+# Add jbeam beams to end of JBeam section from list of beams to add (this is called on beam section list end character)
+def add_jbeam_beams(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_section_end_node_idx: int, jbeam_entry_end_node_idx: int, beams_to_add: list):
+    i, jbeam_entry_indent, node_after_entry, node_2_after_entry = add_jbeam_setup(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx, jbeam_entry_end_node_idx)
 
-    node_entry_to_left = True
-    if node_entry_prev_node.data_type == 'wsc':
-        if '\n' in node_entry_prev_node.value:
-            node_entry_to_left = False
+    # Insert new beams at bottom of beams section
+    beams_to_add_len = len(beams_to_add)
+    k = 0
 
-    node_entry_to_right, deleted_right_wsc = True, False
-    if node_entry_next_node.data_type == 'wsc':
-        if '\n' in node_entry_next_node.value:
-            node_entry_to_right = False
+    for (node_id_1, node_id_2) in beams_to_add:
+        if node_after_entry:
+            node_after_entry.value += jbeam_entry_indent
+            node_after_entry = None
+        else:
+            ast_nodes.insert(i + 0, sjsonast.ASTNode('wsc', jbeam_entry_indent))
+            i += 1
+
+        ast_nodes.insert(i + 0, sjsonast.ASTNode('['))
+        ast_nodes.insert(i + 1, sjsonast.ASTNode('"', node_id_1))
+        ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ', '))
+        ast_nodes.insert(i + 3, sjsonast.ASTNode('"', node_id_2))
+        ast_nodes.insert(i + 4, sjsonast.ASTNode(']'))
+        i += 5
+
+        if k < beams_to_add_len - 1:
+            ast_nodes.insert(i, sjsonast.ASTNode('wsc', ','))
+            i += 1
+
+        k += 1
+
+    # Add modified original last WSCS back to end of section
+    if node_2_after_entry:
+        ast_nodes.insert(i, node_2_after_entry)
+
+    i += 1
+
+    #print_ast_nodes(ast_nodes, i, 10, True)
+    return i
+
+
+# Delete jbeam entry from JBeam section (this is called on list end character of JBeam node entry)
+def delete_jbeam_entry(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_entry_start_node_idx: int, jbeam_entry_end_node_idx: int):
+    jbeam_entry_prev_node = ast_nodes[jbeam_entry_start_node_idx - 1]
+    jbeam_entry_next_node = ast_nodes[jbeam_entry_end_node_idx + 1]
+
+    jbeam_entry_to_left = True
+    if jbeam_entry_prev_node.data_type == 'wsc':
+        if '\n' in jbeam_entry_prev_node.value:
+            jbeam_entry_to_left = False
+
+    jbeam_entry_to_right, deleted_right_wsc = True, False
+    if jbeam_entry_next_node.data_type == 'wsc':
+        if '\n' in jbeam_entry_next_node.value:
+            jbeam_entry_to_right = False
 
         # If node entry to left, delete right wscs before newline character
         # Else, delete up till newline character
-        for k, char in enumerate(node_entry_next_node.value):
+        for k, char in enumerate(jbeam_entry_next_node.value):
             if char == '\n':
-                if node_entry_to_left:
+                if jbeam_entry_to_left:
                     k -= 1
                 break
 
-        if k == len(node_entry_next_node.value) - 1:
+        if k == len(jbeam_entry_next_node.value) - 1:
             del ast_nodes[jbeam_entry_end_node_idx + 1] # next_node
             deleted_right_wsc = True
         else:
-            node_entry_next_node.value = node_entry_next_node.value[k + 1:]
+            jbeam_entry_next_node.value = jbeam_entry_next_node.value[k + 1:]
 
-    if not node_entry_to_left and not node_entry_to_right:
+    if not jbeam_entry_to_left and not jbeam_entry_to_right:
         # Single node entry, delete left indent (not full wsc node)
-        wscs = node_entry_prev_node.value
+        wscs = jbeam_entry_prev_node.value
         wscs_len = len(wscs)
         for k in range(wscs_len - 1, -1, -1):
             char = wscs[k]
             if char == '\n':
                 break
 
-        node_entry_prev_node.value = node_entry_prev_node.value[:k + 1]
+        jbeam_entry_prev_node.value = jbeam_entry_prev_node.value[:k + 1]
 
-    # Delete the JBeam node entry (e.g. '["a1",2,3,4]')
+    # Delete the JBeam entry
     del ast_nodes[jbeam_entry_start_node_idx:jbeam_entry_end_node_idx + 1]
     i = jbeam_entry_start_node_idx - 1
     if deleted_right_wsc:
@@ -276,13 +322,13 @@ def delete_jbeam_node(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_
 
     # If current character is a WSC and previous is also, merge them into one
     curr_node = ast_nodes[i]
-    node_entry_next_node = ast_nodes[i + 1]
+    jbeam_entry_next_node = ast_nodes[i + 1]
 
     #print(repr(curr_node.value))
     #print(repr(node_entry_next_node.value))
 
-    if curr_node.data_type == 'wsc' and node_entry_next_node.data_type == 'wsc':
-        node_entry_next_node.value = curr_node.value + node_entry_next_node.value
+    if curr_node.data_type == 'wsc' and jbeam_entry_next_node.data_type == 'wsc':
+        jbeam_entry_next_node.value = curr_node.value + jbeam_entry_next_node.value
         del ast_nodes[i]
         i -= 1
 
@@ -334,7 +380,7 @@ def undo_node_move_offset_and_apply_translation_to_expr(init_node_data: dict, ne
     return pos_tup
 
 
-def get_nodes_add_delete_rename(init_nodes_data: dict, obj: bpy.types.Object, bm: bmesh.types.BMesh, jbeam_file_data_modified: dict, jbeam_part: str, duplicate_node_ids: dict[str, int]):
+def get_nodes_add_delete_rename(init_nodes_data: dict, obj: bpy.types.Object, bm: bmesh.types.BMesh, jbeam_file_data_modified: dict, jbeam_part: str):
     nodes_to_add, nodes_to_delete, node_renames = {}, set(), {}
 
     init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
@@ -407,15 +453,10 @@ def get_beams_add_remove(init_beams_data: dict, obj: bpy.types.Object, bm: bmesh
 
     init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
 
-    init_beam_data_lookup = set()
-    for i, beam in enumerate(init_beams_data):
-        if beam['partOrigin'] != jbeam_part:
-            continue
-        n1, n2 = beam.get('id1:'), beam.get('id2:')
-        if n1 is not None and n2 is not None:
-            init_beam_data_lookup.add((n1, n2))
+    beam_origin_layer = bm.edges.layers.string[constants.ELS_BEAM_PART_ORIGIN]
+    beam_idx_layer = bm.edges.layers.int[constants.ELS_BEAM_IDX]
 
-    blender_beams = set()
+    blender_beams = {}
     # Create dictionary where key is init node id and value is current blender node id and position
     bm.edges.ensure_lookup_table()
     e: bmesh.types.BMEdge
@@ -425,17 +466,24 @@ def get_beams_add_remove(init_beams_data: dict, obj: bpy.types.Object, bm: bmesh
         beam_tup = (v1_node_id, v2_node_id)
         #print('beam:', v1_node_id, v2_node_id)
 
-        if beam_tup not in init_beam_data_lookup:
+        beam_idx = e[beam_idx_layer]
+
+        if beam_idx is None:
             beams_to_add.add(beam_tup)
             continue
 
-        blender_beams.add(beam_tup)
+        blender_beams[beam_idx] = beam_tup
         # e[init_node_id_layer] = bytes(node_id, 'utf-8')
 
     # Get beams to delete
-    for init_beam in init_beam_data_lookup:
-        if init_beam not in blender_beams:
-            beams_to_delete.add(init_beam)
+    beam_idx_in_part = 0
+
+    for i, beam in enumerate(init_beams_data):
+        if beam['partOrigin'] != jbeam_part:
+            continue
+        if beam_idx_in_part not in blender_beams:
+            beams_to_delete.add(beam_idx_in_part)
+        beam_idx_in_part += 1
 
     return beams_to_add, beams_to_delete
 
@@ -461,13 +509,16 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
     temp_dict_key = None
     dict_key = None
 
+    jbeam_section_header = []
+    jbeam_section_header_lookup = {}
+    jbeam_section_def = []
+    jbeam_section_row_def_idx = -1
     jbeam_entry_start_node_idx, jbeam_entry_end_node_idx = None, None
     jbeam_section_start_node_idx, jbeam_section_end_node_idx = None, None
-    jbeam_node_id = None
 
     i = 0
     while i < len(ast_nodes):
-        node = ast_nodes[i]
+        node: sjsonast.ASTNode = ast_nodes[i]
         if node.data_type == 'wsc':
             i += 1
             continue
@@ -534,8 +585,6 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                     changed = False
                     raise Exception('compare_and_set_value error!')
 
-                if jbeam_node_id and changed:
-                    print(str(jbeam_node_id) + ' node position changed')
                 pos_in_arr += 1
 
         # After traversal
@@ -552,52 +601,60 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                 elif stack_size == 3: # Start of JBeam entry
                     jbeam_entry_start_node_idx = i
 
-                    if stack[1][0] == 'nodes':
-                        # TODO: Just get value from AST node
-                        # If in nodes section, and at array position zero, its the jbeam node id and record it down
-                        if not in_dict and jbeam_entry_start_node_idx is not None and pos_in_arr == 0:
-                            data = current_jbeam_file_data_modified
-                            for stack_entry in stack:
-                                data = data[stack_entry[0]]
-
-                            data = data[pos_in_arr]
-                            jbeam_node_id = data
+                    if not in_dict:
+                        jbeam_section_row_def_idx += 1
 
         elif stack_size_diff == -1: # Went up level } or ]
             if in_jbeam_part:
                 if stack_size == 2: # End of JBeam entry
                     jbeam_entry_end_node_idx = i
 
+                    #assert jbeam_section_start_node_idx < jbeam_section_end_node_idx
+                    assert jbeam_section_start_node_idx < jbeam_entry_start_node_idx
+                    assert jbeam_entry_start_node_idx < jbeam_entry_end_node_idx
+                    #assert jbeam_entry_start_node_idx < jbeam_section_end_node_idx
+                    #assert jbeam_entry_end_node_idx < jbeam_section_end_node_idx
+
                     if stack[stack_size - 1][0] == 'nodes':
                         # If current jbeam node is part of delete list, remove the node definition
-                        if jbeam_node_id in nodes_to_delete:
-                            #assert jbeam_section_start_node_idx < jbeam_section_end_node_idx
-                            assert jbeam_section_start_node_idx < jbeam_entry_start_node_idx
-                            assert jbeam_entry_start_node_idx < jbeam_entry_end_node_idx
-                            #assert jbeam_entry_start_node_idx < jbeam_section_end_node_idx
-                            #assert jbeam_entry_end_node_idx < jbeam_section_end_node_idx
-                            # if constants.DEBUG:
-                            #     print('Deleting node...')
-                            #     print('-------------Before-------------')
-                            #     print_ast_nodes(ast_nodes, i, 50, True, sys.stdout)
-                            i = delete_jbeam_node(ast_nodes, jbeam_section_start_node_idx, jbeam_entry_start_node_idx, jbeam_entry_end_node_idx)
-                            # if constants.DEBUG:
-                            #     print('\n-------------After-------------')
-                            #     print_ast_nodes(ast_nodes, i, 50, True, sys.stdout)
-                        jbeam_node_id = None
+                        if len(jbeam_section_def) > 0:
+                            jbeam_node_id = jbeam_section_def[jbeam_section_header_lookup['id']]
+                            if jbeam_node_id in nodes_to_delete:
+                                # if constants.DEBUG:
+                                #     print('Deleting node...')
+                                #     print('-------------Before-------------')
+                                #     print_ast_nodes(ast_nodes, i, 50, True, sys.stdout)
+                                i = delete_jbeam_entry(ast_nodes, jbeam_section_start_node_idx, jbeam_entry_start_node_idx, jbeam_entry_end_node_idx)
+                                # if constants.DEBUG:
+                                #     print('\n-------------After-------------')
+                                #     print_ast_nodes(ast_nodes, i, 50, True, sys.stdout)
+
+                    if stack[stack_size - 1][0] == 'beams':
+                        # If current jbeam beam is part of delete list, remove the beam definition
+                        if len(jbeam_section_def) > 0:
+                            if jbeam_section_row_def_idx - 1 in beams_to_delete:
+                                #print('jbeam def idx:', jbeam_section_row_def_idx)
+                                #print('jbeam_section_def', jbeam_section_def)
+                                #jbeam_node_id = jbeam_section_row[jbeam_section_header_lookup['id']]
+                                #if jbeam_node_id in nodes_to_delete:
+                                i = delete_jbeam_entry(ast_nodes, jbeam_section_start_node_idx, jbeam_entry_start_node_idx, jbeam_entry_end_node_idx)
+
 
                     jbeam_entry_start_node_idx = None
                     jbeam_entry_end_node_idx = None
 
+                    jbeam_section_def.clear()
+
                 elif stack_size == 1: # End of JBeam section (e.g. nodes, beams)
                     jbeam_section_end_node_idx = i
-                    if prev_stack_head_key == 'nodes' and nodes_to_add:
-                        assert jbeam_section_start_node_idx < jbeam_section_end_node_idx
-                        #assert jbeam_section_start_node_idx < jbeam_entry_start_node_idx
-                        #assert jbeam_entry_start_node_idx < jbeam_entry_end_node_idx
-                        #assert jbeam_entry_start_node_idx < jbeam_section_end_node_idx
-                        #assert jbeam_entry_end_node_idx < jbeam_section_end_node_idx
 
+                    assert jbeam_section_start_node_idx < jbeam_section_end_node_idx
+                    #assert jbeam_section_start_node_idx < jbeam_entry_start_node_idx
+                    #assert jbeam_entry_start_node_idx < jbeam_entry_end_node_idx
+                    #assert jbeam_entry_start_node_idx < jbeam_section_end_node_idx
+                    #assert jbeam_entry_end_node_idx < jbeam_section_end_node_idx
+
+                    if prev_stack_head_key == 'nodes' and nodes_to_add:
                         # Add nodes to add to end of nodes section
                         # if constants.DEBUG:
                         #     print('Adding node...')
@@ -608,8 +665,27 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                         #     print('\n-------------After-------------')
                         #     print_ast_nodes(ast_nodes, i, 50, True, sys.stdout)
 
+                    elif prev_stack_head_key == 'beams' and beams_to_add:
+                        i = add_jbeam_beams(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx, jbeam_entry_end_node_idx, beams_to_add)
+
+                    jbeam_section_header.clear()
+                    jbeam_section_header_lookup.clear()
+                    jbeam_section_row_def_idx = -1
+
         elif stack_size_diff == 0: # Same level
-            pass
+            if stack_size == 3: # JBeam entry
+                if not in_dict:
+                    section_row = stack[2][0]
+                    if section_row == 0:
+                        # Section header row
+                        jbeam_section_header_lookup[node.value] = len(jbeam_section_header)
+                        jbeam_section_header.append(node.value)
+                    else:
+                        header_len = len(jbeam_section_header)
+                        if pos_in_arr - 1 < header_len:
+                            jbeam_section_def.append(node.value)
+
+
         else:
             print(f'Error! AST traversal went {stack_size_diff} levels! Only 0 or 1 levels should be done per traversal!', file=sys.stderr)
 
@@ -638,7 +714,6 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict):
     for obj in parts:
         obj_data = obj.data
         jbeam_part = obj_data[constants.MESH_JBEAM_PART]
-        duplicate_node_ids = obj_data[constants.MESH_VERTEX_DUPLICATES]
 
         bm = None
         if obj.mode == 'EDIT':
@@ -649,20 +724,9 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict):
 
         init_nodes_data = data.get('nodes')
         init_beams_data = data.get('beams')
-        # blender_nodes = {}
-
-        # init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-        # node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-        # part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
-        # for v in bm.verts:
-        #     init_node_id = v[init_node_id_layer].decode('utf-8')
-        #     node_id = v[node_id_layer].decode('utf-8')
-        #     node_part_origin = v[part_origin_layer].decode('utf-8')
-        #     pos = obj.matrix_world @ v.co
-        #     blender_nodes[init_node_id] = {'curr_node_id': node_id, 'node_part_origin': node_part_origin}
 
         if init_nodes_data is not None:
-            nodes_to_add, nodes_to_delete, node_renames = get_nodes_add_delete_rename(init_nodes_data, obj, bm, jbeam_file_data_modified, jbeam_part, duplicate_node_ids)
+            nodes_to_add, nodes_to_delete, node_renames = get_nodes_add_delete_rename(init_nodes_data, obj, bm, jbeam_file_data_modified, jbeam_part)
         else:
             nodes_to_add, nodes_to_delete, node_renames = {}, set(), {}
 
