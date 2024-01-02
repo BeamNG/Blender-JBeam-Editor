@@ -24,6 +24,7 @@ import math
 import mathutils
 from pathlib import Path
 import sys
+import traceback
 import pickle
 
 import bpy
@@ -49,30 +50,33 @@ import timeit
 
 
 def export(veh_collection: bpy.types.Collection, objs_to_export: list):
-    t0 = timeit.default_timer()
-    context = bpy.context
+    try:
+        t0 = timeit.default_timer()
+        context = bpy.context
 
-    veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
-    vdata = veh_bundle['vdata']
+        veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
+        vdata = veh_bundle['vdata']
 
-    jbeam_files_to_parts = {}
-    for obj in objs_to_export:
-        jbeam_filepath = obj.data[constants.MESH_JBEAM_FILE_PATH]
+        jbeam_files_to_parts = {}
+        for obj in objs_to_export:
+            jbeam_filepath = obj.data[constants.MESH_JBEAM_FILE_PATH]
 
-        if jbeam_filepath not in jbeam_files_to_parts:
-            jbeam_files_to_parts[jbeam_filepath] = []
-        jbeam_files_to_parts[jbeam_filepath].append(obj)
+            if jbeam_filepath not in jbeam_files_to_parts:
+                jbeam_files_to_parts[jbeam_filepath] = []
+            jbeam_files_to_parts[jbeam_filepath].append(obj)
 
-    filepaths = []
+        filepaths = []
 
-    for jbeam_filepath, parts in jbeam_files_to_parts.items():
-        export_utils.export_file(jbeam_filepath, parts, vdata)
-        filepaths.append(jbeam_filepath)
+        for jbeam_filepath, parts in jbeam_files_to_parts.items():
+            export_utils.export_file(jbeam_filepath, parts, vdata)
+            filepaths.append(jbeam_filepath)
 
-    text_editor.check_files_for_changes(context, filepaths)
+        text_editor.check_files_for_changes(context, filepaths)
 
-    tf = timeit.default_timer()
-    print('Exporting Time', round(tf - t0, 2), 's')
+        tf = timeit.default_timer()
+        print('Exporting Time', round(tf - t0, 2), 's')
+    except:
+        traceback.print_exc()
 
 
 def auto_export(data):

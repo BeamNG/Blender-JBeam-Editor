@@ -19,6 +19,7 @@
 # SOFTWARE.
 
 import pickle
+import traceback
 
 import bpy
 
@@ -128,20 +129,23 @@ def export_new_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_id_lay
 #    and also add and delete nodes
 # 4. Stringify AST and export to chosen output file
 def export_existing_jbeam(obj: bpy.types.Object):
-    t0 = timeit.default_timer()
-    context = bpy.context
-    obj_data = obj.data
+    try:
+        t0 = timeit.default_timer()
+        context = bpy.context
+        obj_data = obj.data
 
-    jbeam_filepath = obj_data[constants.MESH_JBEAM_FILE_PATH]
-    part_name = obj_data[constants.MESH_JBEAM_PART]
-    part_data = pickle.loads(obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA])
+        jbeam_filepath = obj_data[constants.MESH_JBEAM_FILE_PATH]
+        part_name = obj_data[constants.MESH_JBEAM_PART]
+        part_data = pickle.loads(obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA])
 
-    export_utils.export_file(jbeam_filepath, [obj], part_data)
+        export_utils.export_file(jbeam_filepath, [obj], part_data)
 
-    text_editor.check_files_for_changes(context, [jbeam_filepath])
+        text_editor.check_files_for_changes(context, [jbeam_filepath])
 
-    tf = timeit.default_timer()
-    print('Exporting Time', round(tf - t0, 2), 's')
+        tf = timeit.default_timer()
+        print('Exporting Time', round(tf - t0, 2), 's')
+    except:
+        traceback.print_exc()
 
 
 def auto_export(data):
