@@ -31,13 +31,16 @@ bl_info = {
     "category": "Development",
 }
 
-import bpy
-import blf
-import bmesh
 import json
 import pickle
 import sys
 import uuid
+
+import bpy
+import blf
+import bmesh
+import gpu
+from gpu_extras.batch import batch_for_shader
 
 from bpy.app.handlers import persistent
 
@@ -60,10 +63,15 @@ check_file_interval = 0.1
 poll_active_ops_interval = 0.1
 
 draw_handle = None
+draw_handle2 = None
 
 _do_export = False
 _force_do_export = False
 
+prev_veh_model = None
+curr_veh_bundle = None
+
+veh_render_dirty = False
 
 # Refresh property input field UI
 def on_input_node_id_field_updated(self, context):
@@ -255,10 +263,9 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
     bl_label = 'Properties'
     bl_options = {'DEFAULT_CLOSED'}
 
-    veh_model = None
-    veh_bundle = None
-
     def draw(self, context):
+        global curr_veh_bundle
+
         layout = self.layout
         box = layout.box()
         col = box.column()
@@ -266,7 +273,6 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
         veh_collection = context.collection
         if veh_collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
             return
-        veh_model = veh_collection[constants.COLLECTION_VEHICLE_MODEL]
 
         obj = context.active_object
         if not obj:
@@ -285,19 +291,16 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
 
         selected_verts = list(filter(lambda v: v.select, bm.verts))
         if len(selected_verts) == 1:
-            if JBEAM_EDITOR_PT_jbeam_properties_panel.veh_model != veh_model:
-                JBEAM_EDITOR_PT_jbeam_properties_panel.veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
-                JBEAM_EDITOR_PT_jbeam_properties_panel.veh_model = veh_model
+            if curr_veh_bundle is not None:
+                v = selected_verts[0]
+                node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+                node_id = v[node_id_layer].decode('utf-8')
+                node = curr_veh_bundle['vdata']['nodes'][node_id]
 
-            v = selected_verts[0]
-            node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-            node_id = v[node_id_layer].decode('utf-8')
-            node = self.veh_bundle['vdata']['nodes'][node_id]
-
-            for k in sorted(node.keys(), key=lambda x: str(x)):
-                v = node[k]
-                str_v = str(v)
-                col.row().label(text=f'- {k}: {str_v}')
+                for k in sorted(node.keys(), key=lambda x: str(x)):
+                    v = node[k]
+                    str_v = str(v)
+                    col.row().label(text=f'- {k}: {str_v}')
 
         bm.free()
 
@@ -306,6 +309,8 @@ part_name_to_obj: dict[str, bpy.types.Object] = {}
 
 # Draws a 3D text at each vertex position of their assigned node ID
 def draw_callback_px(context: bpy.types.Context):
+    global curr_veh_bundle
+
     scene = context.scene
     ui_props = scene.ui_properties
     if not hasattr(ui_props, 'toggle_node_ids_text'):
@@ -313,7 +318,7 @@ def draw_callback_px(context: bpy.types.Context):
     font_id = 0
 
     collection = context.collection
-    if collection is not None and collection.get(constants.COLLECTION_VEHICLE_MODEL) is not None:
+    if collection is not None and collection.get(constants.COLLECTION_VEHICLE_MODEL) is not None and curr_veh_bundle is not None:
         part_name_to_obj.clear()
         for obj in collection.all_objects:
             part_name_to_obj[obj.data[constants.MESH_JBEAM_PART]] = obj
@@ -331,10 +336,19 @@ def draw_callback_px(context: bpy.types.Context):
             bm = bmesh.new()
             bm.from_mesh(obj_data)
 
+        bm.verts.ensure_lookup_table()
+
         node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
         part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
 
-        for v in bm.verts:
+        vdata = curr_veh_bundle['vdata']
+        nodes = vdata['nodes']
+        len_nodes = len(nodes)
+        len_verts = len(bm.verts)
+
+
+        for i in range(len_verts - 1, len_verts - len_nodes - 1, -1):
+            v = bm.verts[i]
             coord = obj.matrix_world @ v.co
             node_id = v[node_id_layer].decode('utf-8')
             part_origin = v[part_origin_layer].decode('utf-8')
@@ -382,6 +396,38 @@ def draw_callback_px(context: bpy.types.Context):
                 blf.draw(font_id, str(node_id))
 
         bm.free()
+
+beam_render_width = 3.0
+shader = gpu.shader.from_builtin('UNIFORM_COLOR')
+batch = None
+
+def draw_callback_view(context: bpy.types.Context):
+    global curr_veh_bundle
+    global shader
+    global batch
+
+    if veh_render_dirty and curr_veh_bundle is not None:
+        vdata = curr_veh_bundle['vdata']
+        nodes = vdata['nodes']
+        beams = vdata['beams']
+        coords = []
+        for beam in beams:
+            id1, id2 = beam['id1:'], beam['id2:']
+            n1, n2 = nodes[id1], nodes[id2]
+            coords.append(n1['pos'])
+            coords.append(n2['pos'])
+
+        batch = batch_for_shader(shader, 'LINES', {"pos": coords})
+
+    if batch is not None:
+        shader.uniform_float("color", (0, 1, 0, 1))
+
+        gpu.state.line_width_set(beam_render_width)
+        gpu.state.depth_test_set('LESS_EQUAL')
+        gpu.state.depth_mask_set(True)
+        batch.draw(shader)
+        gpu.state.depth_mask_set(False)
+        gpu.state.line_width_set(1.0)
 
 
 def menu_func_import(self, context):
@@ -650,12 +696,23 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
 
 @persistent
 def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
+    global curr_veh_bundle
+    global veh_render_dirty
+
     context = bpy.context
 
     if constants.DEBUG:
         print('depsgraph_callback')
 
     _depsgraph_callback(context, scene, depsgraph)
+
+    veh_collection = context.collection
+    if veh_collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
+        curr_veh_bundle = None
+        return
+
+    curr_veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
+    veh_render_dirty = True
 
 
 # If active file in text editor changed, reimport jbeam file/vehicle
@@ -713,6 +770,8 @@ def on_post_register():
     #print(bpy.context.view_layer)
     global draw_handle
     draw_handle = bpy.types.SpaceView3D.draw_handler_add(draw_callback_px, (bpy.context,), 'WINDOW', 'POST_PIXEL')
+    global draw_handle2
+    draw_handle2 = bpy.types.SpaceView3D.draw_handler_add(draw_callback_view, (bpy.context,), 'WINDOW', 'POST_VIEW')
 
 
 classes = (
@@ -791,6 +850,9 @@ def unregister():
 
     if draw_handle:
         bpy.types.SpaceView3D.draw_handler_remove(draw_handle, 'WINDOW')
+
+    if draw_handle2:
+        bpy.types.SpaceView3D.draw_handler_remove(draw_handle2, 'WINDOW')
 
     bpy.app.timers.unregister(check_files_for_changes)
     bpy.app.timers.unregister(poll_active_operators)
