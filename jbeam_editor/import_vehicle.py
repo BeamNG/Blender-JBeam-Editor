@@ -168,11 +168,7 @@ def get_vertices_edges_faces(vehicle_bundle: dict):
     edges_added = {}
     faces_added = {}
 
-    # Translate nodes to vertices
-    for i, (node_id, node) in enumerate(nodes.items()):
-        node_index_to_id.append(node_id)
-        node_id_to_index[node_id] = i
-        vertices.append(node['pos'])
+    # TODO make beams use vertices defined first before creating seperate vertices
 
     # Translate beams to edges
     for beam in beams:
@@ -181,25 +177,37 @@ def get_vertices_edges_faces(vehicle_bundle: dict):
 
         # Duplicates will have their own vertices
         id1, id2 = beam['id1:'], beam['id2:']
-        if id1 in node_id_to_index and id2 in node_id_to_index:
-            edge_tup_sorted = tuple(sorted((id1, id2)))
-            if edge_tup_sorted in edges_added:
-                # Duplicate
-                n1, n2 = nodes[id1], nodes[id2]
-                node_index_to_id.append(id1)
-                n1_vert_idx = len(node_index_to_id) - 1
-                vertices.append(n1['pos'])
+        n1, n2 = nodes[id1], nodes[id2]
 
-                node_index_to_id.append(id2)
-                n2_vert_idx = len(node_index_to_id) - 1
-                vertices.append(n2['pos'])
+        node_index_to_id.append(id1)
+        n1_vert_idx = len(node_index_to_id) - 1
+        vertices.append(n1['pos'])
 
-                edges.append((n1_vert_idx, n2_vert_idx))
+        node_index_to_id.append(id2)
+        n2_vert_idx = len(node_index_to_id) - 1
+        vertices.append(n2['pos'])
 
-                edges_added[edge_tup_sorted] += 1
-            else:
-                edges.append((node_id_to_index[id1], node_id_to_index[id2]))
-                edges_added[edge_tup_sorted] = 1
+        edges.append((n1_vert_idx, n2_vert_idx))
+
+        # if id1 in node_id_to_index and id2 in node_id_to_index:
+        #     edge_tup_sorted = tuple(sorted((id1, id2)))
+        #     if edge_tup_sorted in edges_added:
+        #         # Duplicate
+        #         n1, n2 = nodes[id1], nodes[id2]
+        #         node_index_to_id.append(id1)
+        #         n1_vert_idx = len(node_index_to_id) - 1
+        #         vertices.append(n1['pos'])
+
+        #         node_index_to_id.append(id2)
+        #         n2_vert_idx = len(node_index_to_id) - 1
+        #         vertices.append(n2['pos'])
+
+        #         edges.append((n1_vert_idx, n2_vert_idx))
+
+        #         edges_added[edge_tup_sorted] += 1
+        #     else:
+        #         edges.append((node_id_to_index[id1], node_id_to_index[id2]))
+        #         edges_added[edge_tup_sorted] = 1
 
     # Translate triangles to faces
     for tri in triangles:
@@ -208,29 +216,51 @@ def get_vertices_edges_faces(vehicle_bundle: dict):
 
         # Duplicates will have their own vertices
         id1, id2, id3 = tri['id1:'], tri['id2:'], tri['id3:']
-        if id1 in node_id_to_index and id2 in node_id_to_index and id3 in node_id_to_index:
-            face_tup_sorted = tuple(sorted((id1, id2, id3)))
-            if face_tup_sorted in faces_added:
-                # Duplicate
-                n1, n2, n3 = nodes[id1], nodes[id2], nodes[id3]
-                node_index_to_id.append(id1)
-                n1_vert_idx = len(node_index_to_id) - 1
-                vertices.append(n1['pos'])
+        n1, n2, n3 = nodes[id1], nodes[id2], nodes[id3]
 
-                node_index_to_id.append(id2)
-                n2_vert_idx = len(node_index_to_id) - 1
-                vertices.append(n2['pos'])
+        node_index_to_id.append(id1)
+        n1_vert_idx = len(node_index_to_id) - 1
+        vertices.append(n1['pos'])
 
-                node_index_to_id.append(id3)
-                n3_vert_idx = len(node_index_to_id) - 1
-                vertices.append(n3['pos'])
+        node_index_to_id.append(id2)
+        n2_vert_idx = len(node_index_to_id) - 1
+        vertices.append(n2['pos'])
 
-                faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx))
+        node_index_to_id.append(id3)
+        n3_vert_idx = len(node_index_to_id) - 1
+        vertices.append(n3['pos'])
 
-                faces_added[face_tup_sorted] += 1
-            else:
-                faces.append((node_id_to_index[id1], node_id_to_index[id2], node_id_to_index[id3]))
-                faces_added[face_tup_sorted] = 0
+        faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx))
+
+        # if id1 in node_id_to_index and id2 in node_id_to_index and id3 in node_id_to_index:
+        #     face_tup_sorted = tuple(sorted((id1, id2, id3)))
+        #     if face_tup_sorted in faces_added:
+        #         # Duplicate
+        #         n1, n2, n3 = nodes[id1], nodes[id2], nodes[id3]
+        #         node_index_to_id.append(id1)
+        #         n1_vert_idx = len(node_index_to_id) - 1
+        #         vertices.append(n1['pos'])
+
+        #         node_index_to_id.append(id2)
+        #         n2_vert_idx = len(node_index_to_id) - 1
+        #         vertices.append(n2['pos'])
+
+        #         node_index_to_id.append(id3)
+        #         n3_vert_idx = len(node_index_to_id) - 1
+        #         vertices.append(n3['pos'])
+
+        #         faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx))
+
+        #         faces_added[face_tup_sorted] += 1
+        #     else:
+        #         faces.append((node_id_to_index[id1], node_id_to_index[id2], node_id_to_index[id3]))
+        #         faces_added[face_tup_sorted] = 0
+
+    # Translate nodes to vertices
+    for i, (node_id, node) in enumerate(nodes.items()):
+        node_index_to_id.append(node_id)
+        node_id_to_index[node_id] = i
+        vertices.append(node['pos'])
 
     return vertices, parts_edges, parts_faces, node_index_to_id
 
