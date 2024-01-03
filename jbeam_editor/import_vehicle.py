@@ -154,9 +154,6 @@ def build_config(config_path):
 
 def get_vertices_edges_faces(vehicle_bundle: dict):
     vdata = vehicle_bundle['vdata']
-    nodes: dict[str, dict] = vdata['nodes']
-    beams: list[dict] = vdata['beams']
-    triangles: list[dict] = vdata['triangles']
 
     node_index_to_id = []
     node_id_to_index = {}
@@ -165,104 +162,221 @@ def get_vertices_edges_faces(vehicle_bundle: dict):
     parts_edges = {}
     parts_faces = {}
 
-    edges_added = {}
-    faces_added = {}
+    #edges_added = {}
+    #faces_added = {}
 
-    # TODO make beams use vertices defined first before creating seperate vertices
+    if 'nodes' in vdata:
+        nodes: dict[str, dict] = vdata['nodes']
 
-    # Translate beams to edges
-    for beam in beams:
-        part_origin = beam['partOrigin']
-        edges = parts_edges.setdefault(part_origin, [])
+        # TODO make beams use vertices defined first before creating seperate vertices
+        # Translate beams to edges
+        if 'beams' in vdata:
+            for beam in vdata['beams']:
+                part_origin = beam['partOrigin']
+                edges = parts_edges.setdefault(part_origin, [])
 
-        # Duplicates will have their own vertices
-        id1, id2 = beam['id1:'], beam['id2:']
-        n1, n2 = nodes[id1], nodes[id2]
+                # Duplicates will have their own vertices
+                id1, id2 = beam['id1:'], beam['id2:']
+                n1, n2 = nodes[id1], nodes[id2]
 
-        node_index_to_id.append(id1)
-        n1_vert_idx = len(node_index_to_id) - 1
-        vertices.append(n1['pos'])
+                node_index_to_id.append(id1)
+                n1_vert_idx = len(node_index_to_id) - 1
+                vertices.append(n1['pos'])
 
-        node_index_to_id.append(id2)
-        n2_vert_idx = len(node_index_to_id) - 1
-        vertices.append(n2['pos'])
+                node_index_to_id.append(id2)
+                n2_vert_idx = len(node_index_to_id) - 1
+                vertices.append(n2['pos'])
 
-        edges.append((n1_vert_idx, n2_vert_idx))
+                edges.append((n1_vert_idx, n2_vert_idx))
 
-        # if id1 in node_id_to_index and id2 in node_id_to_index:
-        #     edge_tup_sorted = tuple(sorted((id1, id2)))
-        #     if edge_tup_sorted in edges_added:
-        #         # Duplicate
-        #         n1, n2 = nodes[id1], nodes[id2]
-        #         node_index_to_id.append(id1)
-        #         n1_vert_idx = len(node_index_to_id) - 1
-        #         vertices.append(n1['pos'])
+                # if id1 in node_id_to_index and id2 in node_id_to_index:
+                #     edge_tup_sorted = tuple(sorted((id1, id2)))
+                #     if edge_tup_sorted in edges_added:
+                #         # Duplicate
+                #         n1, n2 = nodes[id1], nodes[id2]
+                #         node_index_to_id.append(id1)
+                #         n1_vert_idx = len(node_index_to_id) - 1
+                #         vertices.append(n1['pos'])
 
-        #         node_index_to_id.append(id2)
-        #         n2_vert_idx = len(node_index_to_id) - 1
-        #         vertices.append(n2['pos'])
+                #         node_index_to_id.append(id2)
+                #         n2_vert_idx = len(node_index_to_id) - 1
+                #         vertices.append(n2['pos'])
 
-        #         edges.append((n1_vert_idx, n2_vert_idx))
+                #         edges.append((n1_vert_idx, n2_vert_idx))
 
-        #         edges_added[edge_tup_sorted] += 1
-        #     else:
-        #         edges.append((node_id_to_index[id1], node_id_to_index[id2]))
-        #         edges_added[edge_tup_sorted] = 1
+                #         edges_added[edge_tup_sorted] += 1
+                #     else:
+                #         edges.append((node_id_to_index[id1], node_id_to_index[id2]))
+                #         edges_added[edge_tup_sorted] = 1
 
-    # Translate triangles to faces
-    for tri in triangles:
-        part_origin = tri['partOrigin']
-        faces = parts_faces.setdefault(part_origin, [])
+        # Translate triangles to faces
+        if 'triangles' in vdata:
+            for tri in vdata['triangles']:
+                part_origin = tri['partOrigin']
+                faces = parts_faces.setdefault(part_origin, [])
 
-        # Duplicates will have their own vertices
-        id1, id2, id3 = tri['id1:'], tri['id2:'], tri['id3:']
-        n1, n2, n3 = nodes[id1], nodes[id2], nodes[id3]
+                # Duplicates will have their own vertices
+                id1, id2, id3 = tri['id1:'], tri['id2:'], tri['id3:']
+                n1, n2, n3 = nodes[id1], nodes[id2], nodes[id3]
 
-        node_index_to_id.append(id1)
-        n1_vert_idx = len(node_index_to_id) - 1
-        vertices.append(n1['pos'])
+                node_index_to_id.append(id1)
+                n1_vert_idx = len(node_index_to_id) - 1
+                vertices.append(n1['pos'])
 
-        node_index_to_id.append(id2)
-        n2_vert_idx = len(node_index_to_id) - 1
-        vertices.append(n2['pos'])
+                node_index_to_id.append(id2)
+                n2_vert_idx = len(node_index_to_id) - 1
+                vertices.append(n2['pos'])
 
-        node_index_to_id.append(id3)
-        n3_vert_idx = len(node_index_to_id) - 1
-        vertices.append(n3['pos'])
+                node_index_to_id.append(id3)
+                n3_vert_idx = len(node_index_to_id) - 1
+                vertices.append(n3['pos'])
 
-        faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx))
+                faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx))
 
-        # if id1 in node_id_to_index and id2 in node_id_to_index and id3 in node_id_to_index:
-        #     face_tup_sorted = tuple(sorted((id1, id2, id3)))
-        #     if face_tup_sorted in faces_added:
-        #         # Duplicate
-        #         n1, n2, n3 = nodes[id1], nodes[id2], nodes[id3]
-        #         node_index_to_id.append(id1)
-        #         n1_vert_idx = len(node_index_to_id) - 1
-        #         vertices.append(n1['pos'])
+                # if id1 in node_id_to_index and id2 in node_id_to_index and id3 in node_id_to_index:
+                #     face_tup_sorted = tuple(sorted((id1, id2, id3)))
+                #     if face_tup_sorted in faces_added:
+                #         # Duplicate
+                #         n1, n2, n3 = nodes[id1], nodes[id2], nodes[id3]
+                #         node_index_to_id.append(id1)
+                #         n1_vert_idx = len(node_index_to_id) - 1
+                #         vertices.append(n1['pos'])
 
-        #         node_index_to_id.append(id2)
-        #         n2_vert_idx = len(node_index_to_id) - 1
-        #         vertices.append(n2['pos'])
+                #         node_index_to_id.append(id2)
+                #         n2_vert_idx = len(node_index_to_id) - 1
+                #         vertices.append(n2['pos'])
 
-        #         node_index_to_id.append(id3)
-        #         n3_vert_idx = len(node_index_to_id) - 1
-        #         vertices.append(n3['pos'])
+                #         node_index_to_id.append(id3)
+                #         n3_vert_idx = len(node_index_to_id) - 1
+                #         vertices.append(n3['pos'])
 
-        #         faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx))
+                #         faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx))
 
-        #         faces_added[face_tup_sorted] += 1
-        #     else:
-        #         faces.append((node_id_to_index[id1], node_id_to_index[id2], node_id_to_index[id3]))
-        #         faces_added[face_tup_sorted] = 0
+                #         faces_added[face_tup_sorted] += 1
+                #     else:
+                #         faces.append((node_id_to_index[id1], node_id_to_index[id2], node_id_to_index[id3]))
+                #         faces_added[face_tup_sorted] = 0
 
-    # Translate nodes to vertices
-    for i, (node_id, node) in enumerate(nodes.items()):
-        node_index_to_id.append(node_id)
-        node_id_to_index[node_id] = i
-        vertices.append(node['pos'])
+        # Translate quads to faces
+        if 'quads' in vdata:
+            for quad in vdata['quads']:
+                part_origin = quad['partOrigin']
+                faces = parts_faces.setdefault(part_origin, [])
+
+                # Duplicates will have their own vertices
+                id1, id2, id3, id4 = quad['id1:'], quad['id2:'], quad['id3:'], quad['id4:']
+                n1, n2, n3, n4 = nodes[id1], nodes[id2], nodes[id3], nodes[id4]
+
+                node_index_to_id.append(id1)
+                n1_vert_idx = len(node_index_to_id) - 1
+                vertices.append(n1['pos'])
+
+                node_index_to_id.append(id2)
+                n2_vert_idx = len(node_index_to_id) - 1
+                vertices.append(n2['pos'])
+
+                node_index_to_id.append(id3)
+                n3_vert_idx = len(node_index_to_id) - 1
+                vertices.append(n3['pos'])
+
+                node_index_to_id.append(id4)
+                n4_vert_idx = len(node_index_to_id) - 1
+                vertices.append(n4['pos'])
+
+                faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx, n4_vert_idx))
+
+        # Translate nodes to vertices
+        for i, (node_id, node) in enumerate(nodes.items()):
+            node_index_to_id.append(node_id)
+            node_id_to_index[node_id] = i
+            vertices.append(node['pos'])
 
     return vertices, parts_edges, parts_faces, node_index_to_id
+
+
+def generate_part_mesh(obj_data, bm, vehicle_bundle, part, vertices, parts_edges, parts_faces, node_index_to_id):
+    vdata = vehicle_bundle['vdata']
+    vehicle_model = vdata['model']
+    jbeam_filepath = vehicle_bundle['partToFileMap'][part]
+
+    # Add node ID field to all vertices/edges/faces
+    init_node_id_layer = bm.verts.layers.string.new(constants.VLS_INIT_NODE_ID)
+    node_id_layer = bm.verts.layers.string.new(constants.VLS_NODE_ID)
+    node_origin_layer = bm.verts.layers.string.new(constants.VLS_NODE_PART_ORIGIN)
+
+    beam_origin_layer = bm.edges.layers.string.new(constants.ELS_BEAM_PART_ORIGIN)
+    beam_idx_layer = bm.edges.layers.int.new(constants.ELS_BEAM_IDX)
+
+    face_is_quad = bm.faces.layers.int.new(constants.FLS_IS_QUAD)
+    face_origin_layer = bm.faces.layers.string.new(constants.FLS_FACE_PART_ORIGIN)
+    face_idx_layer = bm.faces.layers.int.new(constants.FLS_FACE_IDX)
+
+    for v in vertices:
+        bm.verts.new(v)
+    bm.verts.ensure_lookup_table()
+
+    edges = parts_edges[part] if part in parts_edges else []
+    faces = parts_faces[part] if part in parts_faces else []
+
+    edges_len = len(edges)
+    faces_len = len(faces)
+
+    for i, e in enumerate(edges):
+        bm.edges.new((bm.verts[e[0]], bm.verts[e[1]]))
+    for i, f in enumerate(faces):
+        if len(f) == 3:
+            face = bm.faces.new((bm.verts[f[0]], bm.verts[f[1]], bm.verts[f[2]]))
+            #face[face_is_quad] = 0
+        else:
+            face = bm.faces.new((bm.verts[f[0]], bm.verts[f[1]], bm.verts[f[2]], bm.verts[f[3]]))
+            face[face_is_quad] = 1
+
+    # Update node IDs field from JBeam data to match JBeam nodes
+    bm.verts.ensure_lookup_table()
+
+    if 'nodes' in vdata:
+        nodes: dict[str, dict] = vdata['nodes']
+        v: bmesh.types.BMVert
+        for i, v in enumerate(bm.verts):
+            node_id = node_index_to_id[i]
+            bytes_node_id = bytes(node_id, 'utf-8')
+            v[init_node_id_layer] = bytes_node_id
+            v[node_id_layer] = bytes_node_id
+            v[node_origin_layer] = bytes(nodes[node_id]['partOrigin'], 'utf-8')
+
+    bm.edges.ensure_lookup_table()
+
+    if 'beams' in vdata:
+        e: bmesh.types.BMEdge
+        for i, e in enumerate(bm.edges):
+            e[beam_origin_layer] = bytes(part, 'utf-8')
+            if i < edges_len:
+                e[beam_idx_layer] = i
+            else:
+                e[beam_idx_layer] = -1
+
+    bm.faces.ensure_lookup_table()
+    tri_idx = 0
+    quad_idx = 0
+    f: bmesh.types.BMFace
+    for f in bm.faces:
+        if f[face_is_quad] == 0:
+            # Triangle
+            f[face_origin_layer] = bytes(part, 'utf-8')
+            f[face_idx_layer] = tri_idx
+            tri_idx += 1
+        else:
+            # Quad
+            f[face_origin_layer] = bytes(part, 'utf-8')
+            f[face_idx_layer] = quad_idx
+            quad_idx += 1
+
+    obj_data[constants.MESH_JBEAM_PART] = part
+    obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_filepath
+    obj_data[constants.MESH_VEHICLE_MODEL] = vehicle_model
+    obj_data[constants.MESH_VERTEX_COUNT] = len(bm.verts)
+    obj_data[constants.MESH_EDGE_COUNT] = len(bm.edges)
+    obj_data[constants.MESH_FACE_COUNT] = len(bm.faces)
 
 
 def generate_meshes(vehicle_bundle: dict):
@@ -270,20 +384,15 @@ def generate_meshes(vehicle_bundle: dict):
     io_ctx = vehicle_bundle['ioCtx']
     veh_files = vehicle_bundle['vehFiles']
     vdata = vehicle_bundle['vdata']
-    nodes: dict[str, dict] = vdata['nodes']
-    beams: list[dict] = vdata['beams']
-    triangles: list[dict] = vdata['triangles']
-
     vehicle_model = vdata['model']
     main_part_name = vehicle_bundle['mainPartName']
     pc_filepath = vehicle_bundle['config']['partConfigFilename']
+    parts = vehicle_bundle['chosenParts'].values()
 
     # Prevent overriding a vehicle that already exists in scene!
     if bpy.data.collections.get(vehicle_model):
         print(f'Collection named {vehicle_model} already exists! Vehicle will not be generated to avoid overriding it...', file=sys.stderr)
         return None
-
-    parts = vehicle_bundle['chosenParts'].values()
 
     vertices, parts_edges, parts_faces, node_index_to_id = get_vertices_edges_faces(vehicle_bundle)
 
@@ -295,66 +404,10 @@ def generate_meshes(vehicle_bundle: dict):
         if part == '': # skip slots with empty parts
             continue
 
-        jbeam_filepath = vehicle_bundle['partToFileMap'][part]
-
         bm = bmesh.new()
         obj_data = bpy.data.meshes.new(part)
-
-        # Add node ID field to all vertices/edges/faces
-        init_node_id_layer = bm.verts.layers.string.new(constants.VLS_INIT_NODE_ID)
-        node_id_layer = bm.verts.layers.string.new(constants.VLS_NODE_ID)
-        node_origin_layer = bm.verts.layers.string.new(constants.VLS_NODE_PART_ORIGIN)
-
-        beam_origin_layer = bm.edges.layers.string.new(constants.ELS_BEAM_PART_ORIGIN)
-        beam_idx_layer = bm.edges.layers.int.new(constants.ELS_BEAM_IDX)
-
-        for v in vertices:
-            bm.verts.new(v)
-        bm.verts.ensure_lookup_table()
-
-        edges = parts_edges[part] if part in parts_edges else []
-        faces = parts_faces[part] if part in parts_faces else []
-
-        edges_len = len(edges)
-        faces_len = len(faces)
-
-        if edges:
-            for i, e in enumerate(edges):
-                edge = bm.edges.new((bm.verts[e[0]], bm.verts[e[1]]))
-        if faces:
-            for i, f in enumerate(faces):
-                face = bm.faces.new((bm.verts[f[0]], bm.verts[f[1]], bm.verts[f[2]]))
-
-        #obj_data.from_pydata(vertices, parts_edges.get(part, []), parts_faces.get(part, []))
-
-        # Update node IDs field from JBeam data to match JBeam nodes
-        bm.verts.ensure_lookup_table()
-        v: bmesh.types.BMVert
-        for i, v in enumerate(bm.verts):
-            node_id = node_index_to_id[i]
-            bytes_node_id = bytes(node_id, 'utf-8')
-            v[init_node_id_layer] = bytes_node_id
-            v[node_id_layer] = bytes_node_id
-            v[node_origin_layer] = bytes(nodes[node_id].get('partOrigin'), 'utf-8')
-
-        bm.edges.ensure_lookup_table()
-        e: bmesh.types.BMEdge
-        for i, e in enumerate(bm.edges):
-            e[beam_origin_layer] = bytes(beams[i].get('partOrigin'), 'utf-8')
-            if edges:
-                if i < edges_len:
-                    e[beam_idx_layer] = i
-                else:
-                    e[beam_idx_layer] = -1
-
-        obj_data[constants.MESH_JBEAM_PART] = part
-        obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_filepath
-        obj_data[constants.MESH_VEHICLE_MODEL] = vehicle_model
-        obj_data[constants.MESH_VERTEX_COUNT] = len(bm.verts)
-        obj_data[constants.MESH_EDGE_COUNT] = len(bm.edges) #len(parts_edges[part]) if part in parts_edges else 0
-
+        generate_part_mesh(obj_data, bm, vehicle_bundle, part, vertices, parts_edges, parts_faces, node_index_to_id)
         bm.to_mesh(obj_data)
-
         obj_data.update()
 
         # make object from mesh
@@ -367,8 +420,8 @@ def generate_meshes(vehicle_bundle: dict):
     vehicle_parts_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle)
     vehicle_parts_collection[constants.COLLECTION_IO_CTX] = io_ctx
     vehicle_parts_collection[constants.COLLECTION_VEH_FILES] = veh_files
-    vehicle_parts_collection[constants.COLLECTION_PC_FILEPATH] = vehicle_bundle['config']['partConfigFilename']
-    vehicle_parts_collection[constants.COLLECTION_VEHICLE_MODEL] = vehicle_bundle['vdata']['model']
+    vehicle_parts_collection[constants.COLLECTION_PC_FILEPATH] = pc_filepath
+    vehicle_parts_collection[constants.COLLECTION_VEHICLE_MODEL] = vehicle_model
     vehicle_parts_collection[constants.COLLECTION_MAIN_PART] = main_part_name
 
     return vehicle_parts_collection
@@ -379,14 +432,9 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
     io_ctx = vehicle_bundle['ioCtx']
     veh_files = vehicle_bundle['vehFiles']
     vdata = vehicle_bundle['vdata']
-    nodes: dict[str, dict] = vdata['nodes']
-    beams: list[dict] = vdata['beams']
-    triangles: list[dict] = vdata['triangles']
-
     vehicle_model = vdata['model']
     main_part_name = vehicle_bundle['mainPartName']
     pc_filepath = vehicle_bundle['config']['partConfigFilename']
-
     parts = vehicle_bundle['chosenParts'].values()
 
     context.scene['jbeam_editor_reimporting_jbeam'] = 1 # Prevents exporting jbeam
@@ -400,7 +448,6 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
         if part == '': # skip slots with empty parts
             continue
 
-        jbeam_filepath = vehicle_bundle['partToFileMap'][part]
         obj: bpy.types.Object = None
         obj_data: bpy.types.Mesh = None
         bm = None
@@ -421,58 +468,7 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
             obj = bpy.data.objects.new(part, obj_data)
             veh_collection.objects.link(obj) # add object to scene collection
 
-        # Add node ID field to all vertices/edges/faces
-        init_node_id_layer = bm.verts.layers.string.new(constants.VLS_INIT_NODE_ID)
-        node_id_layer = bm.verts.layers.string.new(constants.VLS_NODE_ID)
-        node_origin_layer = bm.verts.layers.string.new(constants.VLS_NODE_PART_ORIGIN)
-
-        beam_origin_layer = bm.edges.layers.string.new(constants.ELS_BEAM_PART_ORIGIN)
-        beam_idx_layer = bm.edges.layers.int.new(constants.ELS_BEAM_IDX)
-
-        for v in vertices:
-            bm.verts.new(v)
-        bm.verts.ensure_lookup_table()
-
-        edges = parts_edges[part] if part in parts_edges else []
-        faces = parts_faces[part] if part in parts_faces else []
-
-        edges_len = len(edges)
-        faces_len = len(faces)
-
-        if edges:
-            for i, e in enumerate(edges):
-                edge = bm.edges.new((bm.verts[e[0]], bm.verts[e[1]]))
-        if faces:
-            for i, f in enumerate(faces):
-                face = bm.faces.new((bm.verts[f[0]], bm.verts[f[1]], bm.verts[f[2]]))
-
-        bm.normal_update()
-
-        # Update node IDs field from JBeam data to match JBeam nodes
-        bm.verts.ensure_lookup_table()
-        v: bmesh.types.BMVert
-        for i, v in enumerate(bm.verts):
-            node_id = node_index_to_id[i]
-            bytes_node_id = bytes(node_id, 'utf-8')
-            v[init_node_id_layer] = bytes_node_id
-            v[node_id_layer] = bytes_node_id
-            v[node_origin_layer] = bytes(nodes[node_id].get('partOrigin'), 'utf-8')
-
-        bm.edges.ensure_lookup_table()
-        e: bmesh.types.BMEdge
-        for i, e in enumerate(bm.edges):
-            e[beam_origin_layer] = bytes(beams[i].get('partOrigin'), 'utf-8')
-            if edges:
-                if i < edges_len:
-                    e[beam_idx_layer] = i
-                else:
-                    e[beam_idx_layer] = -1
-
-        obj_data[constants.MESH_JBEAM_PART] = part
-        obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_filepath
-        obj_data[constants.MESH_VEHICLE_MODEL] = vehicle_model
-        obj_data[constants.MESH_VERTEX_COUNT] = len(bm.verts)
-        obj_data[constants.MESH_EDGE_COUNT] = len(bm.edges) #len(parts_edges[part]) if part in parts_edges else 0
+        generate_part_mesh(obj_data, bm, vehicle_bundle, part, vertices, parts_edges, parts_faces, node_index_to_id)
 
         if obj.mode == 'EDIT':
             bmesh.update_edit_mesh(obj_data)
@@ -496,8 +492,8 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
     veh_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle)
     veh_collection[constants.COLLECTION_IO_CTX] = io_ctx
     veh_collection[constants.COLLECTION_VEH_FILES] = veh_files
-    veh_collection[constants.COLLECTION_PC_FILEPATH] = vehicle_bundle['config']['partConfigFilename']
-    veh_collection[constants.COLLECTION_VEHICLE_MODEL] = vehicle_bundle['vdata']['model']
+    veh_collection[constants.COLLECTION_PC_FILEPATH] = pc_filepath
+    veh_collection[constants.COLLECTION_VEHICLE_MODEL] = vehicle_model
     veh_collection[constants.COLLECTION_MAIN_PART] = main_part_name
 
     if prev_active_obj_name in context.scene.objects:

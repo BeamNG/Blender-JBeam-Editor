@@ -36,6 +36,7 @@ MESH_JBEAM_PART = 'jbeam_part'
 MESH_JBEAM_FILE_PATH = 'jbeam_file_path'
 MESH_VERTEX_COUNT = 'mesh_vertex_count'
 MESH_EDGE_COUNT = 'mesh_edge_count'
+MESH_FACE_COUNT = 'mesh_tri_count'
 MESH_VERTEX_DUPLICATES = 'mesh_vertex_duplicates'
 MESH_SINGLE_JBEAM_PART_DATA = 'jbeam_part_data'
 
@@ -47,3 +48,8 @@ VLS_NODE_PART_ORIGIN = 'jbeam_node_part_origin'
 # bm.edges.layers.string Attributes
 ELS_BEAM_PART_ORIGIN = 'jbeam_beam_part_origin'
 ELS_BEAM_IDX = 'jbeam_beam_idx'
+
+# bm.faces.layers.string Attributes
+FLS_IS_QUAD = 'jbeam_face_is_quad'
+FLS_FACE_PART_ORIGIN = 'jbeam_face_part_origin'
+FLS_FACE_IDX = 'jbeam_face_idx'

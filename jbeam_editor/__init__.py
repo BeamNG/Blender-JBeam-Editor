@@ -292,15 +292,17 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
         selected_verts = list(filter(lambda v: v.select, bm.verts))
         if len(selected_verts) == 1:
             if curr_veh_bundle is not None:
-                v = selected_verts[0]
-                node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-                node_id = v[node_id_layer].decode('utf-8')
-                node = curr_veh_bundle['vdata']['nodes'][node_id]
+                vdata = curr_veh_bundle['vdata']
+                if 'nodes' in vdata:
+                    v = selected_verts[0]
+                    node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+                    node_id = v[node_id_layer].decode('utf-8')
+                    node = vdata['nodes'][node_id]
 
-                for k in sorted(node.keys(), key=lambda x: str(x)):
-                    v = node[k]
-                    str_v = str(v)
-                    col.row().label(text=f'- {k}: {str_v}')
+                    for k in sorted(node.keys(), key=lambda x: str(x)):
+                        v = node[k]
+                        str_v = str(v)
+                        col.row().label(text=f'- {k}: {str_v}')
 
         bm.free()
 
@@ -342,27 +344,27 @@ def draw_callback_px(context: bpy.types.Context):
         part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
 
         vdata = curr_veh_bundle['vdata']
-        nodes = vdata['nodes']
-        len_nodes = len(nodes)
-        len_verts = len(bm.verts)
+        if 'nodes' in vdata:
+            nodes = vdata['nodes']
+            len_nodes = len(nodes)
+            len_verts = len(bm.verts)
 
+            for i in range(len_verts - 1, len_verts - len_nodes - 1, -1):
+                v = bm.verts[i]
+                coord = obj.matrix_world @ v.co
+                node_id = v[node_id_layer].decode('utf-8')
+                part_origin = v[part_origin_layer].decode('utf-8')
 
-        for i in range(len_verts - 1, len_verts - len_nodes - 1, -1):
-            v = bm.verts[i]
-            coord = obj.matrix_world @ v.co
-            node_id = v[node_id_layer].decode('utf-8')
-            part_origin = v[part_origin_layer].decode('utf-8')
+                if not part_name_to_obj[part_origin].visible_get():
+                    continue
 
-            if not part_name_to_obj[part_origin].visible_get():
-                continue
-
-            pos_text = location_3d_to_region_2d(context.region, context.region_data, coord)
-            if pos_text and ui_props.toggle_node_ids_text:
-                blf.position(font_id, pos_text[0], pos_text[1], 0)
-                blf.size(font_id, 12) # dpi value defaults to 72 when omitted, and no longer usable from 4.0+ (only 2 parameters allowed).
-                blf.color(font_id, 1, 1, 1, 1)
-                #blf.draw(font_id, str(node_id) + " (" + str(v.index) + ")")
-                blf.draw(font_id, str(node_id))
+                pos_text = location_3d_to_region_2d(context.region, context.region_data, coord)
+                if pos_text and ui_props.toggle_node_ids_text:
+                    blf.position(font_id, pos_text[0], pos_text[1], 0)
+                    blf.size(font_id, 12) # dpi value defaults to 72 when omitted, and no longer usable from 4.0+ (only 2 parameters allowed).
+                    blf.color(font_id, 1, 1, 1, 1)
+                    #blf.draw(font_id, str(node_id) + " (" + str(v.index) + ")")
+                    blf.draw(font_id, str(node_id))
 
         bm.free()
 
@@ -398,34 +400,35 @@ def draw_callback_px(context: bpy.types.Context):
         bm.free()
 
 beam_render_width = 3.0
-shader = gpu.shader.from_builtin('UNIFORM_COLOR')
-batch = None
+beam_render_shader = gpu.shader.from_builtin('UNIFORM_COLOR')
+beam_render_batch = None
 
 def draw_callback_view(context: bpy.types.Context):
     global curr_veh_bundle
-    global shader
-    global batch
+    global beam_render_shader
+    global beam_render_batch
 
     if veh_render_dirty and curr_veh_bundle is not None:
         vdata = curr_veh_bundle['vdata']
-        nodes = vdata['nodes']
-        beams = vdata['beams']
-        coords = []
-        for beam in beams:
-            id1, id2 = beam['id1:'], beam['id2:']
-            n1, n2 = nodes[id1], nodes[id2]
-            coords.append(n1['pos'])
-            coords.append(n2['pos'])
+        if 'nodes' in vdata and 'beams' in vdata:
+            nodes = vdata['nodes']
+            beams = vdata['beams']
+            coords = []
+            for beam in beams:
+                id1, id2 = beam['id1:'], beam['id2:']
+                n1, n2 = nodes[id1], nodes[id2]
+                coords.append(n1['pos'])
+                coords.append(n2['pos'])
 
-        batch = batch_for_shader(shader, 'LINES', {"pos": coords})
+            beam_render_batch = batch_for_shader(beam_render_shader, 'LINES', {"pos": coords})
 
-    if batch is not None:
-        shader.uniform_float("color", (0, 1, 0, 1))
+    if beam_render_batch is not None:
+        beam_render_shader.uniform_float("color", (0, 1, 0, 1))
 
         gpu.state.line_width_set(beam_render_width)
         gpu.state.depth_test_set('LESS_EQUAL')
         gpu.state.depth_mask_set(True)
-        batch.draw(shader)
+        beam_render_batch.draw(beam_render_shader)
         gpu.state.depth_mask_set(False)
         gpu.state.line_width_set(1.0)
 
@@ -628,8 +631,6 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
                 if constants.DEBUG:
                     print('updated_geometry')
                 _do_export = True
-                # if _undo_redo['undoing'] or _undo_redo['redoing']:
-                #     _force_do_export = True
 
     veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
     if veh_model is not None:
@@ -661,11 +662,9 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
 
     bm = bmesh.from_edit_mesh(active_obj_data)
 
-    vertex_count = active_obj_data[constants.MESH_VERTEX_COUNT]
-
+    # Check if new vertices are added
     init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
     node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-
     selected_verts = []
 
     # When new vertices are added, they seem to copy the data of the old vertices they were made from,
@@ -674,30 +673,35 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
     for i,v in enumerate(bm.verts):
         if v.select:
             selected_verts.append(v)
-
-        if i >= vertex_count:
+        if i >= active_obj_data[constants.MESH_VERTEX_COUNT]:
             new_node_id_bytes = bytes(str(uuid.uuid4()), 'utf-8')
             v[init_node_id_layer] = new_node_id_bytes
             v[node_id_layer] = new_node_id_bytes
             active_obj_data[constants.MESH_VERTEX_COUNT] += 1
 
-    edge_count = active_obj_data[constants.MESH_EDGE_COUNT]
-
-    beam_origin_layer = bm.edges.layers.string[constants.ELS_BEAM_PART_ORIGIN]
+    # Check if new edges are added
     beam_idx_layer = bm.edges.layers.int[constants.ELS_BEAM_IDX]
-
     selected_edges = []
 
-    # When new vertices are added, they seem to copy the data of the old vertices they were made from,
-    # so rename their node ids to random ids (UUID)
     bm.edges.ensure_lookup_table()
     for i,e in enumerate(bm.edges):
         if e.select:
             selected_edges.append(e)
-
-        if i >= edge_count:
+        if i >= active_obj_data[constants.MESH_EDGE_COUNT]:
             e[beam_idx_layer] = -2
             active_obj_data[constants.MESH_EDGE_COUNT] += 1
+
+    # Check if new faces are added
+    face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
+    selected_faces = []
+
+    bm.faces.ensure_lookup_table()
+    for i,f in enumerate(bm.faces):
+        if f.select:
+            selected_faces.append(f)
+        if i >= active_obj_data[constants.MESH_FACE_COUNT]:
+            f[face_idx_layer] = -2
+            active_obj_data[constants.MESH_FACE_COUNT] += 1
 
     # If one vertex is selected, set the UI input node_id field to the selected vertex's node_id attribute
     if len(selected_verts) == 1:
