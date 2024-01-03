@@ -35,6 +35,7 @@ MESH_VEHICLE_MODEL = 'vehicle_model'
 MESH_JBEAM_PART = 'jbeam_part'
 MESH_JBEAM_FILE_PATH = 'jbeam_file_path'
 MESH_VERTEX_COUNT = 'mesh_vertex_count'
+MESH_EDGE_COUNT = 'mesh_edge_count'
 MESH_VERTEX_DUPLICATES = 'mesh_vertex_duplicates'
 MESH_SINGLE_JBEAM_PART_DATA = 'jbeam_part_data'
 

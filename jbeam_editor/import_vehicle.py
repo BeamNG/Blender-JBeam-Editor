@@ -312,19 +312,20 @@ def generate_meshes(vehicle_bundle: dict):
             bm.verts.new(v)
         bm.verts.ensure_lookup_table()
 
-        if part in parts_edges:
-            for i, e in enumerate(parts_edges[part]):
+        edges = parts_edges[part] if part in parts_edges else []
+        faces = parts_faces[part] if part in parts_faces else []
+
+        edges_len = len(edges)
+        faces_len = len(faces)
+
+        if edges:
+            for i, e in enumerate(edges):
                 edge = bm.edges.new((bm.verts[e[0]], bm.verts[e[1]]))
-                edge[beam_idx_layer] = i
-        if part in parts_faces:
-            for i, f in enumerate(parts_faces[part]):
+        if faces:
+            for i, f in enumerate(faces):
                 face = bm.faces.new((bm.verts[f[0]], bm.verts[f[1]], bm.verts[f[2]]))
 
         #obj_data.from_pydata(vertices, parts_edges.get(part, []), parts_faces.get(part, []))
-        obj_data[constants.MESH_JBEAM_PART] = part
-        obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_filepath
-        obj_data[constants.MESH_VEHICLE_MODEL] = vehicle_model
-        obj_data[constants.MESH_VERTEX_COUNT] = len(vertices)
 
         # Update node IDs field from JBeam data to match JBeam nodes
         bm.verts.ensure_lookup_table()
@@ -340,6 +341,17 @@ def generate_meshes(vehicle_bundle: dict):
         e: bmesh.types.BMEdge
         for i, e in enumerate(bm.edges):
             e[beam_origin_layer] = bytes(beams[i].get('partOrigin'), 'utf-8')
+            if edges:
+                if i < edges_len:
+                    e[beam_idx_layer] = i
+                else:
+                    e[beam_idx_layer] = -1
+
+        obj_data[constants.MESH_JBEAM_PART] = part
+        obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_filepath
+        obj_data[constants.MESH_VEHICLE_MODEL] = vehicle_model
+        obj_data[constants.MESH_VERTEX_COUNT] = len(bm.verts)
+        obj_data[constants.MESH_EDGE_COUNT] = len(bm.edges) #len(parts_edges[part]) if part in parts_edges else 0
 
         bm.to_mesh(obj_data)
 
@@ -421,12 +433,17 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
             bm.verts.new(v)
         bm.verts.ensure_lookup_table()
 
-        if part in parts_edges:
-            for i, e in enumerate(parts_edges[part]):
+        edges = parts_edges[part] if part in parts_edges else []
+        faces = parts_faces[part] if part in parts_faces else []
+
+        edges_len = len(edges)
+        faces_len = len(faces)
+
+        if edges:
+            for i, e in enumerate(edges):
                 edge = bm.edges.new((bm.verts[e[0]], bm.verts[e[1]]))
-                edge[beam_idx_layer] = i
-        if part in parts_faces:
-            for i, f in enumerate(parts_faces[part]):
+        if faces:
+            for i, f in enumerate(faces):
                 face = bm.faces.new((bm.verts[f[0]], bm.verts[f[1]], bm.verts[f[2]]))
 
         bm.normal_update()
@@ -445,11 +462,17 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
         e: bmesh.types.BMEdge
         for i, e in enumerate(bm.edges):
             e[beam_origin_layer] = bytes(beams[i].get('partOrigin'), 'utf-8')
+            if edges:
+                if i < edges_len:
+                    e[beam_idx_layer] = i
+                else:
+                    e[beam_idx_layer] = -1
 
         obj_data[constants.MESH_JBEAM_PART] = part
         obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_filepath
         obj_data[constants.MESH_VEHICLE_MODEL] = vehicle_model
-        obj_data[constants.MESH_VERTEX_COUNT] = len(vertices)
+        obj_data[constants.MESH_VERTEX_COUNT] = len(bm.verts)
+        obj_data[constants.MESH_EDGE_COUNT] = len(bm.edges) #len(parts_edges[part]) if part in parts_edges else 0
 
         if obj.mode == 'EDIT':
             bmesh.update_edit_mesh(obj_data)

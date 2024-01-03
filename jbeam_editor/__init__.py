@@ -659,8 +659,9 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
     if not scene.get('jbeam_editor_renaming_rename_enabled'):
         scene['jbeam_editor_renaming_rename_enabled'] = None
 
-    vertex_count = active_obj_data[constants.MESH_VERTEX_COUNT]
     bm = bmesh.from_edit_mesh(active_obj_data)
+
+    vertex_count = active_obj_data[constants.MESH_VERTEX_COUNT]
 
     init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
     node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
@@ -679,6 +680,24 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
             v[init_node_id_layer] = new_node_id_bytes
             v[node_id_layer] = new_node_id_bytes
             active_obj_data[constants.MESH_VERTEX_COUNT] += 1
+
+    edge_count = active_obj_data[constants.MESH_EDGE_COUNT]
+
+    beam_origin_layer = bm.edges.layers.string[constants.ELS_BEAM_PART_ORIGIN]
+    beam_idx_layer = bm.edges.layers.int[constants.ELS_BEAM_IDX]
+
+    selected_edges = []
+
+    # When new vertices are added, they seem to copy the data of the old vertices they were made from,
+    # so rename their node ids to random ids (UUID)
+    bm.edges.ensure_lookup_table()
+    for i,e in enumerate(bm.edges):
+        if e.select:
+            selected_edges.append(e)
+
+        if i >= edge_count:
+            e[beam_idx_layer] = -2
+            active_obj_data[constants.MESH_EDGE_COUNT] += 1
 
     # If one vertex is selected, set the UI input node_id field to the selected vertex's node_id attribute
     if len(selected_verts) == 1:

@@ -468,7 +468,7 @@ def get_beams_add_remove(init_beams_data: dict, obj: bpy.types.Object, bm: bmesh
 
         beam_idx = e[beam_idx_layer]
 
-        if beam_idx is None:
+        if beam_idx == -2:
             beams_to_add.add(beam_tup)
             continue
 
