@@ -469,6 +469,7 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
             veh_collection.objects.link(obj) # add object to scene collection
 
         generate_part_mesh(obj_data, bm, vehicle_bundle, part, vertices, parts_edges, parts_faces, node_index_to_id)
+        bm.normal_update()
 
         if obj.mode == 'EDIT':
             bmesh.update_edit_mesh(obj_data)
