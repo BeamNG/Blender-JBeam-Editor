@@ -644,7 +644,7 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
 
             # Update positions of other nodes in other meshes
             #all_changed_node_positions = {}
-            update_node_positions_and_deletions(scene, veh_collection, active_obj)
+            #update_node_positions_and_deletions(scene, veh_collection, active_obj)
 
             _do_export = True
 
@@ -719,6 +719,7 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
 
 @persistent
 def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
+    global prev_veh_model
     global curr_veh_bundle
     global veh_render_dirty
 
@@ -730,12 +731,18 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
     _depsgraph_callback(context, scene, depsgraph)
 
     veh_collection = context.collection
-    if veh_collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
-        curr_veh_bundle = None
-        return
+    veh_model = veh_collection.get(constants.COLLECTION_VEHICLE_MODEL)
 
-    curr_veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
-    veh_render_dirty = True
+    # Switched vehicles
+    if prev_veh_model != veh_model:
+        print(prev_veh_model, '!=', veh_model)
+        if veh_model is not None:
+            curr_veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
+        else:
+            curr_veh_bundle = None
+
+        veh_render_dirty = True
+        prev_veh_model = veh_model
 
 
 # If active file in text editor changed, reimport jbeam file/vehicle
@@ -743,7 +750,24 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
 def check_files_for_changes():
     context = bpy.context
 
-    text_editor.check_open_file_for_changes(context)
+    changed = text_editor.check_open_file_for_changes(context)
+    if changed:
+        global prev_veh_model
+        global curr_veh_bundle
+        global veh_render_dirty
+
+        context = bpy.context
+        veh_collection = context.collection
+        veh_model = veh_collection.get(constants.COLLECTION_VEHICLE_MODEL)
+
+        if veh_model is not None:
+            curr_veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
+        else:
+            curr_veh_bundle = None
+
+        veh_render_dirty = True
+        prev_veh_model = veh_model
+
     return check_file_interval
 
 _last_op = None

@@ -136,7 +136,7 @@ def check_open_file_for_changes(context: bpy.types.Context, undoing_redoing=Fals
     scene = context.scene
 
     if SCENE_PREV_TEXTS not in scene:
-        return
+        return False
 
     # If active file changed, reimport jbeam file/vehicle
     text = None
@@ -149,43 +149,42 @@ def check_open_file_for_changes(context: bpy.types.Context, undoing_redoing=Fals
     if text_area is not None:
         text = text_area.spaces[0].text
     if text is None:
-        return
+        return False
 
     short_filename, curr_file_text = text.name, text.as_string()
     last_file_text = scene[SCENE_PREV_TEXTS].get(short_filename, False)
     if last_file_text == False:
-        return
+        return False
     filename = scene[SCENE_SHORT_TO_FULL_FILENAME].get(short_filename)
     if filename is None:
-        return
+        return False
 
-    files_changed = None
+    file_changed = False
 
     if curr_file_text != last_file_text:
         # File changed!
         if constants.DEBUG:
-            print('file changed!')
+            print('file changed!', filename)
 
         scene[SCENE_PREV_TEXTS][short_filename] = curr_file_text
 
         import_vehicle.on_file_change(context, filename, curr_file_text)
         import_jbeam.on_file_change(context, filename, curr_file_text)
+        file_changed = True
 
-        if files_changed is None:
-            files_changed = {}
-        files_changed[short_filename] = curr_file_text
-
-    if not undoing_redoing and files_changed is not None:
+    if not undoing_redoing and file_changed:
         # Insert new history into history stack
         # Overwrite history when stack idx is len(stack) - 1
         global history_stack, history_stack_idx
         history_stack_idx += 1
-        history_stack.insert(history_stack_idx, files_changed)
+        history_stack.insert(history_stack_idx, {short_filename: curr_file_text})
         history_stack = history_stack[:history_stack_idx + 1]
 
         if constants.DEBUG:
             print('len(history_stack)', len(history_stack))
             print('history_stack_idx', history_stack_idx)
+
+    return file_changed
 
 
 def check_files_for_changes(context: bpy.types.Context, filenames: list, undoing_redoing=False):
