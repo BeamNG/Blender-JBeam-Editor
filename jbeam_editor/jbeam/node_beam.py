@@ -34,22 +34,22 @@ def process_nodes(vehicle: dict):
     k: str
     v: dict
     for k, v in vehicle['nodes'].items():
-        pos_no_offset = mathutils.Vector((v['posX'], v['posY'], v['posZ']))
-        total_offset = mathutils.Vector((0.0, 0.0, 0.0))
+        pos_no_offset = (v['posX'], v['posY'], v['posZ'])
+        total_offset_x, total_offset_y, total_offset_z = 0.0, 0.0, 0.0
 
         if 'nodeOffset' in v and isinstance(v['nodeOffset'], dict) and v['nodeOffset'].keys() >= keys_to_test:
-            total_offset.x += utils.sign(v['posX']) * v['nodeOffset']['x']
-            total_offset.y += v['nodeOffset']['y']
-            total_offset.z += v['nodeOffset']['z']
+            total_offset_x += utils.sign(v['posX']) * v['nodeOffset']['x']
+            total_offset_y += v['nodeOffset']['y']
+            total_offset_z += v['nodeOffset']['z']
 
         if 'nodeMove' in v and isinstance(v['nodeMove'], dict) and v['nodeMove'].keys() >= keys_to_test:
-            total_offset.x += v['nodeMove']['x']
-            total_offset.y += v['nodeMove']['y']
-            total_offset.z += v['nodeMove']['z']
+            total_offset_x += v['nodeMove']['x']
+            total_offset_y += v['nodeMove']['y']
+            total_offset_z += v['nodeMove']['z']
 
-        vehicle['nodes'][k]['posNoOffset'] = pos_no_offset.to_tuple()
-        vehicle['nodes'][k]['totalOffset'] = total_offset.to_tuple()
-        vehicle['nodes'][k]['pos'] = (pos_no_offset + total_offset).to_tuple()
+        vehicle['nodes'][k]['posNoOffset'] = pos_no_offset
+        vehicle['nodes'][k]['totalOffset'] = (total_offset_x, total_offset_y, total_offset_z)
+        vehicle['nodes'][k]['pos'] = (pos_no_offset[0] + total_offset_x, pos_no_offset[1] + total_offset_y, pos_no_offset[2] + total_offset_z)
 
         del v['posX']
         del v['posY']
