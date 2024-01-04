@@ -274,6 +274,90 @@ def add_jbeam_beams(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_se
     return i
 
 
+# Add jbeam triangles to end of JBeam section from list of triangles to add (this is called on triangle section list end character)
+def add_jbeam_triangles(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_section_end_node_idx: int, jbeam_entry_end_node_idx: int, tris_to_add: list):
+    i, jbeam_entry_indent, node_after_entry, node_2_after_entry = add_jbeam_setup(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx, jbeam_entry_end_node_idx)
+
+    # Insert new beams at bottom of beams section
+    tris_to_add_len = len(tris_to_add)
+    k = 0
+
+    for (node_id_1, node_id_2, node_id_3) in tris_to_add:
+        if node_after_entry:
+            node_after_entry.value += jbeam_entry_indent
+            node_after_entry = None
+        else:
+            ast_nodes.insert(i + 0, sjsonast.ASTNode('wsc', jbeam_entry_indent))
+            i += 1
+
+        ast_nodes.insert(i + 0, sjsonast.ASTNode('['))
+        ast_nodes.insert(i + 1, sjsonast.ASTNode('"', node_id_1))
+        ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ', '))
+        ast_nodes.insert(i + 3, sjsonast.ASTNode('"', node_id_2))
+        ast_nodes.insert(i + 4, sjsonast.ASTNode('wsc', ', '))
+        ast_nodes.insert(i + 5, sjsonast.ASTNode('"', node_id_3))
+        ast_nodes.insert(i + 6, sjsonast.ASTNode(']'))
+        i += 7
+
+        if k < tris_to_add_len - 1:
+            ast_nodes.insert(i, sjsonast.ASTNode('wsc', ','))
+            i += 1
+
+        k += 1
+
+    # Add modified original last WSCS back to end of section
+    if node_2_after_entry:
+        ast_nodes.insert(i, node_2_after_entry)
+
+    i += 1
+
+    #print_ast_nodes(ast_nodes, i, 10, True)
+    return i
+
+
+# Add jbeam triangles to end of JBeam section from list of triangles to add (this is called on triangle section list end character)
+def add_jbeam_quads(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_section_end_node_idx: int, jbeam_entry_end_node_idx: int, quads_to_add: list):
+    i, jbeam_entry_indent, node_after_entry, node_2_after_entry = add_jbeam_setup(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx, jbeam_entry_end_node_idx)
+
+    # Insert new beams at bottom of beams section
+    quads_to_add_len = len(quads_to_add)
+    k = 0
+
+    for (node_id_1, node_id_2, node_id_3, node_id_4) in quads_to_add:
+        if node_after_entry:
+            node_after_entry.value += jbeam_entry_indent
+            node_after_entry = None
+        else:
+            ast_nodes.insert(i + 0, sjsonast.ASTNode('wsc', jbeam_entry_indent))
+            i += 1
+
+        ast_nodes.insert(i + 0, sjsonast.ASTNode('['))
+        ast_nodes.insert(i + 1, sjsonast.ASTNode('"', node_id_1))
+        ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ', '))
+        ast_nodes.insert(i + 3, sjsonast.ASTNode('"', node_id_2))
+        ast_nodes.insert(i + 4, sjsonast.ASTNode('wsc', ', '))
+        ast_nodes.insert(i + 5, sjsonast.ASTNode('"', node_id_3))
+        ast_nodes.insert(i + 6, sjsonast.ASTNode('wsc', ', '))
+        ast_nodes.insert(i + 7, sjsonast.ASTNode('"', node_id_4))
+        ast_nodes.insert(i + 8, sjsonast.ASTNode(']'))
+        i += 9
+
+        if k < quads_to_add_len - 1:
+            ast_nodes.insert(i, sjsonast.ASTNode('wsc', ','))
+            i += 1
+
+        k += 1
+
+    # Add modified original last WSCS back to end of section
+    if node_2_after_entry:
+        ast_nodes.insert(i, node_2_after_entry)
+
+    i += 1
+
+    #print_ast_nodes(ast_nodes, i, 10, True)
+    return i
+
+
 # Delete jbeam entry from JBeam section (this is called on list end character of JBeam node entry)
 def delete_jbeam_entry(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_entry_start_node_idx: int, jbeam_entry_end_node_idx: int):
     jbeam_entry_prev_node = ast_nodes[jbeam_entry_start_node_idx - 1]
@@ -448,12 +532,10 @@ def get_nodes_add_delete_rename(init_nodes_data: dict, obj: bpy.types.Object, bm
     return nodes_to_add, nodes_to_delete, node_renames
 
 
-def get_beams_add_remove(init_beams_data: dict, obj: bpy.types.Object, bm: bmesh.types.BMesh, jbeam_file_data_modified: dict, jbeam_part: str):
+def get_beams_add_remove(init_beams_data: list, obj: bpy.types.Object, bm: bmesh.types.BMesh, jbeam_file_data_modified: dict, jbeam_part: str):
     beams_to_add, beams_to_delete = set(), set()
 
     init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-
-    beam_origin_layer = bm.edges.layers.string[constants.ELS_BEAM_PART_ORIGIN]
     beam_idx_layer = bm.edges.layers.int[constants.ELS_BEAM_IDX]
 
     blender_beams = {}
@@ -473,7 +555,6 @@ def get_beams_add_remove(init_beams_data: dict, obj: bpy.types.Object, bm: bmesh
             continue
 
         blender_beams[beam_idx] = beam_tup
-        # e[init_node_id_layer] = bytes(node_id, 'utf-8')
 
     # Get beams to delete
     beam_idx_in_part = 0
@@ -488,6 +569,63 @@ def get_beams_add_remove(init_beams_data: dict, obj: bpy.types.Object, bm: bmesh
     return beams_to_add, beams_to_delete
 
 
+def get_faces_add_remove(init_tris_data: list, init_quads_data: list, obj: bpy.types.Object, bm: bmesh.types.BMesh, jbeam_file_data_modified: dict, jbeam_part: str):
+    tris_to_add, tris_to_delete = set(), set()
+    quads_to_add, quads_to_delete = set(), set()
+
+    init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
+    face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
+    face_is_quad = bm.faces.layers.int[constants.FLS_IS_QUAD]
+
+    blender_tris = {}
+    blender_quads = {}
+    # Create dictionary where key is init node id and value is current blender node id and position
+    bm.faces.ensure_lookup_table()
+    f: bmesh.types.BMFace
+    for i, f in enumerate(bm.faces):
+        if face_is_quad == 0:
+            v1, v2, v3 = f.verts[0], f.verts[1], f.verts[2]
+            v1_node_id, v2_node_id, v3_node_id = v1[init_node_id_layer].decode('utf-8'), v2[init_node_id_layer].decode('utf-8'), v3[init_node_id_layer].decode('utf-8')
+            tri_tup = (v1_node_id, v2_node_id, v3_node_id)
+            tri_idx = f[face_idx_layer]
+
+            if tri_idx == -2:
+                tris_to_add.add(tri_tup)
+                continue
+
+            blender_tris[tri_idx] = tri_tup
+        else:
+            v1, v2, v3, v4 = f.verts[0], f.verts[1], f.verts[2], f.verts[3]
+            v1_node_id, v2_node_id, v3_node_id, v4_node_id = v1[init_node_id_layer].decode('utf-8'), v2[init_node_id_layer].decode('utf-8'), v3[init_node_id_layer].decode('utf-8'), v4[init_node_id_layer].decode('utf-8')
+            quad_tup = (v1_node_id, v2_node_id, v3_node_id, v4_node_id)
+            quad_idx = f[face_idx_layer]
+
+            if quad_idx == -2:
+                quads_to_add.add(quad_tup)
+                continue
+
+            blender_quads[quad_idx] = quad_tup
+
+    # Get tris and quads to delete
+    tri_idx_in_part, quad_idx_in_part = 0, 0
+
+    for i, tri in enumerate(init_tris_data):
+        if tri['partOrigin'] != jbeam_part:
+            continue
+        if tri_idx_in_part not in blender_tris:
+            tris_to_delete.add(tri_idx_in_part)
+        tri_idx_in_part += 1
+
+    for i, quad in enumerate(init_quads_data):
+        if quad['partOrigin'] != jbeam_part:
+            continue
+        if quad_idx_in_part not in blender_quads:
+            quads_to_delete.add(quad_idx_in_part)
+        quad_idx_in_part += 1
+
+    return tris_to_add, tris_to_delete, quads_to_add, quads_to_delete
+
+
 def go_up_level(stack: list):
     if len(stack) == 0:
         #print('Error! Attempting to go up level when stack size is 0!', file=sys.stderr)
@@ -500,8 +638,8 @@ def go_up_level(stack: list):
 
 
 def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbeam_file_data_modified: dict, jbeam_part: str,
-                     nodes_to_add: dict, nodes_to_delete: set, beams_to_add: set, beams_to_delete: set):
-    # Traverse AST nodes and update them from SJSON data, add JBeam nodes, and delete JBeam nodes
+                     nodes_to_add: dict, nodes_to_delete: set, beams_to_add: set, beams_to_delete: set, tris_to_add: set, tris_to_delete: set, quads_to_add: set, quads_to_delete: set):
+    # Traverse AST nodes and update them from SJSON data, add and delete jbeam definitions
 
     stack = []
     in_dict = True
@@ -591,6 +729,7 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
 
         stack_size = len(stack)
         stack_size_diff = stack_size - prev_stack_size # 1 = go down level, -1 = go up level, 0 = no change
+        stack_head = stack[-1]
         in_jbeam_part = stack_size > 0 and stack[0][0] == jbeam_part
 
         if stack_size_diff == 1: # Went down level { or [
@@ -615,7 +754,7 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                     #assert jbeam_entry_start_node_idx < jbeam_section_end_node_idx
                     #assert jbeam_entry_end_node_idx < jbeam_section_end_node_idx
 
-                    if stack[stack_size - 1][0] == 'nodes':
+                    if stack_head[0] == 'nodes':
                         # If current jbeam node is part of delete list, remove the node definition
                         if len(jbeam_section_def) > 0:
                             jbeam_node_id = jbeam_section_def[jbeam_section_header_lookup['id']]
@@ -629,14 +768,22 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                                 #     print('\n-------------After-------------')
                                 #     print_ast_nodes(ast_nodes, i, 50, True, sys.stdout)
 
-                    if stack[stack_size - 1][0] == 'beams':
+                    elif stack_head[0] == 'beams':
                         # If current jbeam beam is part of delete list, remove the beam definition
                         if len(jbeam_section_def) > 0:
                             if jbeam_section_row_def_idx - 1 in beams_to_delete:
-                                #print('jbeam def idx:', jbeam_section_row_def_idx)
-                                #print('jbeam_section_def', jbeam_section_def)
-                                #jbeam_node_id = jbeam_section_row[jbeam_section_header_lookup['id']]
-                                #if jbeam_node_id in nodes_to_delete:
+                                i = delete_jbeam_entry(ast_nodes, jbeam_section_start_node_idx, jbeam_entry_start_node_idx, jbeam_entry_end_node_idx)
+
+                    elif stack_head[0] == 'triangles':
+                        # If current jbeam tri is part of delete list, remove the tri definition
+                        if len(jbeam_section_def) > 0:
+                            if jbeam_section_row_def_idx - 1 in tris_to_delete:
+                                i = delete_jbeam_entry(ast_nodes, jbeam_section_start_node_idx, jbeam_entry_start_node_idx, jbeam_entry_end_node_idx)
+
+                    elif stack_head[0] == 'quads':
+                        # If current jbeam quad is part of delete list, remove the quad definition
+                        if len(jbeam_section_def) > 0:
+                            if jbeam_section_row_def_idx - 1 in quads_to_delete:
                                 i = delete_jbeam_entry(ast_nodes, jbeam_section_start_node_idx, jbeam_entry_start_node_idx, jbeam_entry_end_node_idx)
 
 
@@ -667,6 +814,12 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
 
                     elif prev_stack_head_key == 'beams' and beams_to_add:
                         i = add_jbeam_beams(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx, jbeam_entry_end_node_idx, beams_to_add)
+
+                    elif prev_stack_head_key == 'triangles' and tris_to_add:
+                        i = add_jbeam_triangles(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx, jbeam_entry_end_node_idx, tris_to_add)
+
+                    elif prev_stack_head_key == 'quads' and quads_to_add:
+                        i = add_jbeam_quads(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx, jbeam_entry_end_node_idx, quads_to_add)
 
                     jbeam_section_header.clear()
                     jbeam_section_header_lookup.clear()
@@ -724,6 +877,8 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict):
 
         init_nodes_data = data.get('nodes')
         init_beams_data = data.get('beams')
+        init_tris_data = data.get('triangles', [])
+        init_quads_data = data.get('quads', [])
 
         if init_nodes_data is not None:
             nodes_to_add, nodes_to_delete, node_renames = get_nodes_add_delete_rename(init_nodes_data, obj, bm, jbeam_file_data_modified, jbeam_part)
@@ -735,14 +890,20 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict):
         else:
             beams_to_add, beams_to_delete = set(), set()
 
+        tris_to_add, tris_to_delete, quads_to_add, quads_to_delete = get_faces_add_remove(init_tris_data, init_quads_data, obj, bm, jbeam_file_data_modified, jbeam_part)
+
         if constants.DEBUG:
             print('nodes to add:', nodes_to_add)
             print('nodes to delete:', nodes_to_delete)
             print('node renames:', node_renames)
             print('beams to add:', beams_to_add)
             print('beams to delete:', beams_to_delete)
+            print('tris to add:', tris_to_add)
+            print('tris to delete:', tris_to_delete)
+            print('quads to add:', quads_to_add)
+            print('quads to delete:', quads_to_delete)
 
-        update_ast_nodes(ast_nodes, jbeam_file_data, jbeam_file_data_modified, jbeam_part, nodes_to_add, nodes_to_delete, beams_to_add, beams_to_delete)
+        update_ast_nodes(ast_nodes, jbeam_file_data, jbeam_file_data_modified, jbeam_part, nodes_to_add, nodes_to_delete, beams_to_add, beams_to_delete, tris_to_add, tris_to_delete, quads_to_add, quads_to_delete)
         out_str_jbeam_data = sjsonast.stringify_nodes(ast_nodes)
 
         init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
