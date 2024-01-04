@@ -583,7 +583,7 @@ def get_faces_add_remove(init_tris_data: list, init_quads_data: list, obj: bpy.t
     bm.faces.ensure_lookup_table()
     f: bmesh.types.BMFace
     for i, f in enumerate(bm.faces):
-        if face_is_quad == 0:
+        if f[face_is_quad] == 0:
             v1, v2, v3 = f.verts[0], f.verts[1], f.verts[2]
             v1_node_id, v2_node_id, v3_node_id = v1[init_node_id_layer].decode('utf-8'), v2[init_node_id_layer].decode('utf-8'), v3[init_node_id_layer].decode('utf-8')
             tri_tup = (v1_node_id, v2_node_id, v3_node_id)
@@ -729,7 +729,7 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
 
         stack_size = len(stack)
         stack_size_diff = stack_size - prev_stack_size # 1 = go down level, -1 = go up level, 0 = no change
-        stack_head = stack[-1]
+        stack_head = stack[-1] if stack_size > 0 else None
         in_jbeam_part = stack_size > 0 and stack[0][0] == jbeam_part
 
         if stack_size_diff == 1: # Went down level { or [
