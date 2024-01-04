@@ -58,6 +58,16 @@ def write_file_from_disk(filepath: str):
     return filetext
 
 
+def write_file_to_disk(filepath: str):
+    short_filename = _to_short_filename(filepath)
+    text: bpy.types.Text | None = bpy.data.texts.get(short_filename)
+    if text is None:
+        return False
+
+    res = utils.write_file(filepath, text.as_string())
+    return res
+
+
 def write_file(filename: str, text: str):
     context = bpy.context
     scene = context.scene

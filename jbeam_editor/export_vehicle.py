@@ -96,20 +96,30 @@ class JBEAM_EDITOR_OT_export_vehicle(Operator):
 
     @classmethod
     def poll(cls, context):
-        return False
-        # collection = context.collection
-        # for obj in context.selected_objects:
-        #     obj_data = obj.data
-        #     if obj_data.get(constants.MESH_JBEAM_PART) is None or collection.all_objects.get(obj.name) is None:
-        #         return False
-        # return True
+        collection = context.collection
+        for obj in context.selected_objects:
+            obj_data = obj.data
+            if obj_data.get(constants.MESH_JBEAM_PART) is None: # or collection.all_objects.get(obj.name) is None:
+                return False
+        return True
 
     def execute(self, context):
-        veh_collection = context.collection
+        #veh_collection = context.collection
         #for obj in veh_collection.all_objects:
         #    parts_to_export.add(obj.data[constants.MESH_JBEAM_PART])
 
-        export(veh_collection, context.selected_objects)
+        jbeam_filepaths = set()
+
+        for obj in context.selectable_objects:
+            obj_data = obj.data
+            if obj_data.get(constants.MESH_JBEAM_PART) is None:
+                continue
+            jbeam_filepaths.add(obj_data.get(constants.MESH_JBEAM_FILE_PATH))
+
+        for filepath in jbeam_filepaths:
+            export_utils.export_file_to_disk(filepath)
+
+        #export(veh_collection, context.selected_objects)
 
         # import cProfile, pstats, io
         # import pstats
@@ -118,6 +128,5 @@ class JBEAM_EDITOR_OT_export_vehicle(Operator):
         #     manual_export(veh_collection, context.selected_objects)
         #     stats = pstats.Stats(pr)
         #     stats.strip_dirs().sort_stats('tottime').print_stats()
-
 
         return {'FINISHED'}

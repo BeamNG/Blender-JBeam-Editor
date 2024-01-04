@@ -919,3 +919,8 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict):
         # f.close()
 
         text_editor.write_file(jbeam_filepath, out_str_jbeam_data)
+
+
+def export_file_to_disk(jbeam_filepath: str):
+    res = text_editor.write_file_to_disk(jbeam_filepath)
+    return res

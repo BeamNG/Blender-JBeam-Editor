@@ -37,6 +37,18 @@ def read_file(filepath: str):
     return content
 
 
+def write_file(filepath: str, content: str):
+    """writes contents to a file"""
+    try:
+        with open(filepath, mode='w', encoding='utf8') as f:
+            f.write(content)
+    except IOError as e:
+        print(e, file=sys.stderr)
+        return False
+
+    return True
+
+
 def sjson_decode(content: str, context: str):
     """decodes a sjson string"""
     data = None
