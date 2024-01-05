@@ -813,12 +813,10 @@ def poll_active_operators():
                 veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
                 if veh_model is not None:
                     # Export
-                    data = {'obj_name': active_obj.name, 'veh_model': veh_model}
-                    export_vehicle.auto_export(data)
+                    export_vehicle.auto_export(active_obj.name, veh_model)
                 else:
                     # Export
-                    data = {'obj_name': active_obj.name}
-                    export_jbeam.auto_export(data)
+                    export_jbeam.auto_export(active_obj.name)
 
                 refresh_curr_vdata()
 

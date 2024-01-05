@@ -79,11 +79,11 @@ def export(veh_collection: bpy.types.Collection, objs_to_export: list):
         traceback.print_exc()
 
 
-def auto_export(data):
-    collection = bpy.data.collections.get(data['veh_model'])
+def auto_export(obj_name: str, veh_model: str):
+    collection = bpy.data.collections.get(veh_model)
     if collection is None:
         return
-    obj: bpy.types.Object | None = collection.all_objects.get(data['obj_name'])
+    obj: bpy.types.Object | None = collection.all_objects.get(obj_name)
     if obj is None:
         return
     export(collection, [obj])
