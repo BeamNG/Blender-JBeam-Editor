@@ -39,8 +39,6 @@ import uuid
 import bpy
 import blf
 import bmesh
-import gpu
-from gpu_extras.batch import batch_for_shader
 
 from bpy.app.handlers import persistent
 
@@ -58,6 +56,9 @@ from . import export_vehicle
 from . import utils
 from . import text_editor
 
+if not constants.UNIT_TESTING:
+    import gpu
+    from gpu_extras.batch import batch_for_shader
 
 check_file_interval = 0.1
 poll_active_ops_interval = 0.1
@@ -420,7 +421,7 @@ def draw_callback_px(context: bpy.types.Context):
         bm.free()
 
 beam_render_width = 3.0
-beam_render_shader = gpu.shader.from_builtin('UNIFORM_COLOR')
+beam_render_shader = None
 beam_render_batch = None
 
 def draw_callback_view(context: bpy.types.Context):
@@ -428,6 +429,9 @@ def draw_callback_view(context: bpy.types.Context):
     global curr_veh_bundle
     global beam_render_shader
     global beam_render_batch
+
+    if beam_render_shader is None:
+        beam_render_shader = gpu.shader.from_builtin('UNIFORM_COLOR')
 
     if veh_render_dirty and curr_veh_bundle is not None:
         vdata = curr_veh_bundle['vdata']
@@ -826,8 +830,10 @@ def on_post_register():
     #print(bpy.context.view_layer)
     global draw_handle
     draw_handle = bpy.types.SpaceView3D.draw_handler_add(draw_callback_px, (bpy.context,), 'WINDOW', 'POST_PIXEL')
-    global draw_handle2
-    draw_handle2 = bpy.types.SpaceView3D.draw_handler_add(draw_callback_view, (bpy.context,), 'WINDOW', 'POST_VIEW')
+
+    if not constants.UNIT_TESTING:
+        global draw_handle2
+        draw_handle2 = bpy.types.SpaceView3D.draw_handler_add(draw_callback_view, (bpy.context,), 'WINDOW', 'POST_VIEW')
 
 
 classes = (
@@ -907,8 +913,9 @@ def unregister():
     if draw_handle:
         bpy.types.SpaceView3D.draw_handler_remove(draw_handle, 'WINDOW')
 
-    if draw_handle2:
-        bpy.types.SpaceView3D.draw_handler_remove(draw_handle2, 'WINDOW')
+    if not constants.UNIT_TESTING:
+        if draw_handle2:
+            bpy.types.SpaceView3D.draw_handler_remove(draw_handle2, 'WINDOW')
 
     bpy.app.timers.unregister(check_files_for_changes)
     bpy.app.timers.unregister(poll_active_operators)
