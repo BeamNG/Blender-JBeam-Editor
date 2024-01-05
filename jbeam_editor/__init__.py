@@ -148,6 +148,7 @@ class JBEAM_EDITOR_OT_undo(bpy.types.Operator):
     def invoke(self, context, event):
         print('undoing!')
         text_editor.on_undo_redo(context, True)
+        refresh_vehicle_data()
         return {'FINISHED'}
 
 
@@ -159,6 +160,7 @@ class JBEAM_EDITOR_OT_redo(bpy.types.Operator):
     def invoke(self, context, event):
         print('redoing!')
         text_editor.on_undo_redo(context, False)
+        refresh_vehicle_data()
         return {'FINISHED'}
 
 
@@ -307,6 +309,24 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
         bm.free()
 
 
+def refresh_vehicle_data():
+    global prev_veh_model
+    global curr_veh_bundle
+    global veh_render_dirty
+
+    context = bpy.context
+    veh_collection = context.collection
+    veh_model = veh_collection.get(constants.COLLECTION_VEHICLE_MODEL)
+
+    if veh_model is not None:
+        curr_veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
+    else:
+        curr_veh_bundle = None
+
+    veh_render_dirty = True
+    prev_veh_model = veh_model
+
+
 part_name_to_obj: dict[str, bpy.types.Object] = {}
 
 # Draws a 3D text at each vertex position of their assigned node ID
@@ -404,6 +424,7 @@ beam_render_shader = gpu.shader.from_builtin('UNIFORM_COLOR')
 beam_render_batch = None
 
 def draw_callback_view(context: bpy.types.Context):
+    global veh_render_dirty
     global curr_veh_bundle
     global beam_render_shader
     global beam_render_batch
@@ -421,6 +442,7 @@ def draw_callback_view(context: bpy.types.Context):
                 coords.append(n2['pos'])
 
             beam_render_batch = batch_for_shader(beam_render_shader, 'LINES', {"pos": coords})
+        veh_render_dirty = False
 
     if beam_render_batch is not None:
         beam_render_shader.uniform_float("color", (0, 1, 0, 1))
@@ -735,7 +757,6 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
 
     # Switched vehicles
     if prev_veh_model != veh_model:
-        print(prev_veh_model, '!=', veh_model)
         if veh_model is not None:
             curr_veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
         else:
@@ -752,21 +773,7 @@ def check_files_for_changes():
 
     changed = text_editor.check_open_file_for_changes(context)
     if changed:
-        global prev_veh_model
-        global curr_veh_bundle
-        global veh_render_dirty
-
-        context = bpy.context
-        veh_collection = context.collection
-        veh_model = veh_collection.get(constants.COLLECTION_VEHICLE_MODEL)
-
-        if veh_model is not None:
-            curr_veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
-        else:
-            curr_veh_bundle = None
-
-        veh_render_dirty = True
-        prev_veh_model = veh_model
+        refresh_vehicle_data()
 
     return check_file_interval
 
@@ -797,6 +804,8 @@ def poll_active_operators():
                     # Export
                     data = {'obj_name': active_obj.name}
                     export_jbeam.auto_export(data)
+
+                refresh_vehicle_data()
 
                 _do_export = False
                 _force_do_export = False
