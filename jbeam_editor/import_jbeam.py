@@ -63,46 +63,48 @@ def get_vertices_edges_faces(vdata: dict):
             for tri in vdata['triangles']:
                 # Duplicates will have their own vertices
                 id1, id2, id3 = tri['id1:'], tri['id2:'], tri['id3:']
-                n1, n2, n3 = nodes[id1], nodes[id2], nodes[id3]
+                if id1 in nodes and id2 in nodes and id3 in nodes:
+                    n1, n2, n3 = nodes[id1], nodes[id2], nodes[id3]
 
-                node_index_to_id.append(id1)
-                n1_vert_idx = len(node_index_to_id) - 1
-                vertices.append(n1['pos'])
+                    node_index_to_id.append(id1)
+                    n1_vert_idx = len(node_index_to_id) - 1
+                    vertices.append(n1['pos'])
 
-                node_index_to_id.append(id2)
-                n2_vert_idx = len(node_index_to_id) - 1
-                vertices.append(n2['pos'])
+                    node_index_to_id.append(id2)
+                    n2_vert_idx = len(node_index_to_id) - 1
+                    vertices.append(n2['pos'])
 
-                node_index_to_id.append(id3)
-                n3_vert_idx = len(node_index_to_id) - 1
-                vertices.append(n3['pos'])
+                    node_index_to_id.append(id3)
+                    n3_vert_idx = len(node_index_to_id) - 1
+                    vertices.append(n3['pos'])
 
-                faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx))
+                    faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx))
 
         # Translate quads to faces
         if 'quads' in vdata:
             for quad in vdata['quads']:
                 # Duplicates will have their own vertices
                 id1, id2, id3, id4 = quad['id1:'], quad['id2:'], quad['id3:'], quad['id4:']
-                n1, n2, n3, n4 = nodes[id1], nodes[id2], nodes[id3], nodes[id4]
+                if id1 in nodes and id2 in nodes and id3 in nodes and id4 in nodes:
+                    n1, n2, n3, n4 = nodes[id1], nodes[id2], nodes[id3], nodes[id4]
 
-                node_index_to_id.append(id1)
-                n1_vert_idx = len(node_index_to_id) - 1
-                vertices.append(n1['pos'])
+                    node_index_to_id.append(id1)
+                    n1_vert_idx = len(node_index_to_id) - 1
+                    vertices.append(n1['pos'])
 
-                node_index_to_id.append(id2)
-                n2_vert_idx = len(node_index_to_id) - 1
-                vertices.append(n2['pos'])
+                    node_index_to_id.append(id2)
+                    n2_vert_idx = len(node_index_to_id) - 1
+                    vertices.append(n2['pos'])
 
-                node_index_to_id.append(id3)
-                n3_vert_idx = len(node_index_to_id) - 1
-                vertices.append(n3['pos'])
+                    node_index_to_id.append(id3)
+                    n3_vert_idx = len(node_index_to_id) - 1
+                    vertices.append(n3['pos'])
 
-                node_index_to_id.append(id4)
-                n4_vert_idx = len(node_index_to_id) - 1
-                vertices.append(n4['pos'])
+                    node_index_to_id.append(id4)
+                    n4_vert_idx = len(node_index_to_id) - 1
+                    vertices.append(n4['pos'])
 
-                faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx, n4_vert_idx))
+                    faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx, n4_vert_idx))
 
         # Translate nodes to vertices
         for i, (node_id, node) in enumerate(nodes.items()):
@@ -418,19 +420,23 @@ class JBEAM_EDITOR_OT_import_jbeam(Operator, ImportHelper):
     )'''
 
     def execute(self, context):
-        file_path = Path(self.filepath).as_posix()
+        global _jbeam_file_path
+        global _jbeam_file_data
+        global _jbeam_part_choices
 
-        data = jbeam_io.get_jbeam(file_path)
-        if not data:
+        _jbeam_file_path = Path(self.filepath).as_posix()
+        _jbeam_file_data = jbeam_io.get_jbeam(_jbeam_file_path)
+
+        if not _jbeam_file_data:
             return {'CANCELLED'}
 
         # # Set from unit tests
-        # if self.set_chosen_part:
-        #     import_jbeam_part(jbeam_file_path, str_data, data, self.chosen_part)
-        #     return {'FINISHED'}
+        if self.set_chosen_part:
+            import_jbeam_part(context, _jbeam_file_path, _jbeam_file_data, self.chosen_part)
+            return {'FINISHED'}
 
         part_choices = []
-        for k in data.keys():
+        for k in _jbeam_file_data.keys():
             part_choices.append(k)
 
         '''if self.import_all_parts:
@@ -438,12 +444,6 @@ class JBEAM_EDITOR_OT_import_jbeam(Operator, ImportHelper):
                 import_jbeam_part(jbeam_file_path, str_data, data, part)
             return {'FINISHED'}'''
 
-        global _jbeam_file_path
-        global _jbeam_file_data
-        global _jbeam_part_choices
-
-        _jbeam_file_path = file_path
-        _jbeam_file_data = data
         _jbeam_part_choices = part_choices
 
         bpy.ops.jbeam_editor.choose_jbeam('INVOKE_DEFAULT')
