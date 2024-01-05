@@ -311,8 +311,16 @@ def generate_part_mesh(obj_data: bpy.types.Mesh, bm: bmesh.types.BMesh, vehicle_
     face_origin_layer = bm.faces.layers.string.new(constants.FLS_FACE_PART_ORIGIN)
     face_idx_layer = bm.faces.layers.int.new(constants.FLS_FACE_IDX)
 
-    for v in vertices:
-        bm.verts.new(v)
+    if 'nodes' in vdata:
+        nodes: dict[str, dict] = vdata['nodes']
+        for i, vert in enumerate(vertices):
+            v = bm.verts.new(vert)
+            node_id = node_index_to_id[i]
+            bytes_node_id = bytes(node_id, 'utf-8')
+            v[init_node_id_layer] = bytes_node_id
+            v[node_id_layer] = bytes_node_id
+            v[node_origin_layer] = bytes(nodes[node_id]['partOrigin'], 'utf-8')
+
     bm.verts.ensure_lookup_table()
 
     edges = parts_edges[part] if part in parts_edges else []
@@ -330,19 +338,6 @@ def generate_part_mesh(obj_data: bpy.types.Mesh, bm: bmesh.types.BMesh, vehicle_
         else:
             face = bm.faces.new((bm.verts[f[0]], bm.verts[f[1]], bm.verts[f[2]], bm.verts[f[3]]))
             face[face_is_quad] = 1
-
-    # Update node IDs field from JBeam data to match JBeam nodes
-    bm.verts.ensure_lookup_table()
-
-    if 'nodes' in vdata:
-        nodes: dict[str, dict] = vdata['nodes']
-        v: bmesh.types.BMVert
-        for i, v in enumerate(bm.verts):
-            node_id = node_index_to_id[i]
-            bytes_node_id = bytes(node_id, 'utf-8')
-            v[init_node_id_layer] = bytes_node_id
-            v[node_id_layer] = bytes_node_id
-            v[node_origin_layer] = bytes(nodes[node_id]['partOrigin'], 'utf-8')
 
     bm.edges.ensure_lookup_table()
 
