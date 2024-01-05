@@ -162,52 +162,11 @@ def get_vertices_edges_faces(vehicle_bundle: dict):
     parts_edges = {}
     parts_faces = {}
 
-    #edges_added = {}
+    edges_added = {}
     #faces_added = {}
 
     if 'nodes' in vdata:
         nodes: dict[str, dict] = vdata['nodes']
-
-        # TODO make beams use vertices defined first before creating seperate vertices
-        # Translate beams to edges
-        if 'beams' in vdata:
-            for beam in vdata['beams']:
-                part_origin = beam['partOrigin']
-                edges = parts_edges.setdefault(part_origin, [])
-
-                # Duplicates will have their own vertices
-                id1, id2 = beam['id1:'], beam['id2:']
-                n1, n2 = nodes[id1], nodes[id2]
-
-                node_index_to_id.append(id1)
-                n1_vert_idx = len(node_index_to_id) - 1
-                vertices.append(n1['pos'])
-
-                node_index_to_id.append(id2)
-                n2_vert_idx = len(node_index_to_id) - 1
-                vertices.append(n2['pos'])
-
-                edges.append((n1_vert_idx, n2_vert_idx))
-
-                # if id1 in node_id_to_index and id2 in node_id_to_index:
-                #     edge_tup_sorted = tuple(sorted((id1, id2)))
-                #     if edge_tup_sorted in edges_added:
-                #         # Duplicate
-                #         n1, n2 = nodes[id1], nodes[id2]
-                #         node_index_to_id.append(id1)
-                #         n1_vert_idx = len(node_index_to_id) - 1
-                #         vertices.append(n1['pos'])
-
-                #         node_index_to_id.append(id2)
-                #         n2_vert_idx = len(node_index_to_id) - 1
-                #         vertices.append(n2['pos'])
-
-                #         edges.append((n1_vert_idx, n2_vert_idx))
-
-                #         edges_added[edge_tup_sorted] += 1
-                #     else:
-                #         edges.append((node_id_to_index[id1], node_id_to_index[id2]))
-                #         edges_added[edge_tup_sorted] = 1
 
         # Translate triangles to faces
         if 'triangles' in vdata:
@@ -288,13 +247,54 @@ def get_vertices_edges_faces(vehicle_bundle: dict):
         # Translate nodes to vertices
         for i, (node_id, node) in enumerate(nodes.items()):
             node_index_to_id.append(node_id)
-            node_id_to_index[node_id] = i
+            node_id_to_index[node_id] = len(vertices)
             vertices.append(node['pos'])
+
+        # Translate beams to edges
+        if 'beams' in vdata:
+            for beam in vdata['beams']:
+                part_origin = beam['partOrigin']
+                edges = parts_edges.setdefault(part_origin, [])
+
+                # Duplicates will have their own vertices
+                id1, id2 = beam['id1:'], beam['id2:']
+
+                if id1 in node_id_to_index and id2 in node_id_to_index:
+                    edge_tup_sorted = tuple(sorted((id1, id2)))
+                    if edge_tup_sorted in edges_added:
+                        # Duplicate
+                        n1, n2 = nodes[id1], nodes[id2]
+                        node_index_to_id.append(id1)
+                        n1_vert_idx = len(node_index_to_id) - 1
+                        vertices.append(n1['pos'])
+
+                        node_index_to_id.append(id2)
+                        n2_vert_idx = len(node_index_to_id) - 1
+                        vertices.append(n2['pos'])
+
+                        edges.append((n1_vert_idx, n2_vert_idx))
+
+                        edges_added[edge_tup_sorted] += 1
+                    else:
+                        edges.append((node_id_to_index[id1], node_id_to_index[id2]))
+                        edges_added[edge_tup_sorted] = 1
+
+                # n1, n2 = nodes[id1], nodes[id2]
+
+                # node_index_to_id.append(id1)
+                # n1_vert_idx = len(node_index_to_id) - 1
+                # vertices.append(n1['pos'])
+
+                # node_index_to_id.append(id2)
+                # n2_vert_idx = len(node_index_to_id) - 1
+                # vertices.append(n2['pos'])
+
+                # edges.append((n1_vert_idx, n2_vert_idx))
 
     return vertices, parts_edges, parts_faces, node_index_to_id
 
 
-def generate_part_mesh(obj_data, bm, vehicle_bundle, part, vertices, parts_edges, parts_faces, node_index_to_id):
+def generate_part_mesh(obj_data: bpy.types.Mesh, bm: bmesh.types.BMesh, vehicle_bundle: dict, part: str, vertices: list, parts_edges: dict[str, list], parts_faces: dict[str, list], node_index_to_id: list):
     vdata = vehicle_bundle['vdata']
     vehicle_model = vdata['model']
     jbeam_filepath = vehicle_bundle['partToFileMap'][part]
