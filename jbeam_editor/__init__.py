@@ -70,7 +70,7 @@ _do_export = False
 _force_do_export = False
 
 prev_veh_model = None
-curr_veh_bundle = None
+curr_vdata = None
 
 veh_render_dirty = False
 
@@ -267,7 +267,7 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
     bl_options = {'DEFAULT_CLOSED'}
 
     def draw(self, context):
-        global curr_veh_bundle
+        global curr_vdata
 
         layout = self.layout
         box = layout.box()
@@ -294,13 +294,12 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
 
         selected_verts = list(filter(lambda v: v.select, bm.verts))
         if len(selected_verts) == 1:
-            if curr_veh_bundle is not None:
-                vdata = curr_veh_bundle['vdata']
-                if 'nodes' in vdata:
+            if curr_vdata is not None:
+                if 'nodes' in curr_vdata:
                     v = selected_verts[0]
                     node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
                     node_id = v[node_id_layer].decode('utf-8')
-                    node = vdata['nodes'][node_id]
+                    node = curr_vdata['nodes'][node_id]
 
                     for k in sorted(node.keys(), key=lambda x: str(x)):
                         v = node[k]
@@ -312,7 +311,7 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
 
 def refresh_vehicle_data():
     global prev_veh_model
-    global curr_veh_bundle
+    global curr_vdata
     global veh_render_dirty
 
     context = bpy.context
@@ -320,9 +319,9 @@ def refresh_vehicle_data():
     veh_model = veh_collection.get(constants.COLLECTION_VEHICLE_MODEL)
 
     if veh_model is not None:
-        curr_veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
+        curr_vdata = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])['vdata']
     else:
-        curr_veh_bundle = None
+        curr_vdata = None
 
     veh_render_dirty = True
     prev_veh_model = veh_model
@@ -332,7 +331,7 @@ part_name_to_obj: dict[str, bpy.types.Object] = {}
 
 # Draws a 3D text at each vertex position of their assigned node ID
 def draw_callback_px(context: bpy.types.Context):
-    global curr_veh_bundle
+    global curr_vdata
 
     scene = context.scene
     ui_props = scene.ui_properties
@@ -341,7 +340,7 @@ def draw_callback_px(context: bpy.types.Context):
     font_id = 0
 
     collection = context.collection
-    if collection is not None and collection.get(constants.COLLECTION_VEHICLE_MODEL) is not None and curr_veh_bundle is not None:
+    if collection is not None and collection.get(constants.COLLECTION_VEHICLE_MODEL) is not None and curr_vdata is not None:
         part_name_to_obj.clear()
         for obj in collection.all_objects:
             part_name_to_obj[obj.data[constants.MESH_JBEAM_PART]] = obj
@@ -364,9 +363,8 @@ def draw_callback_px(context: bpy.types.Context):
         node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
         part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
 
-        vdata = curr_veh_bundle['vdata']
-        if 'nodes' in vdata:
-            nodes = vdata['nodes']
+        if 'nodes' in curr_vdata:
+            nodes = curr_vdata['nodes']
             len_nodes = len(nodes)
             len_verts = len(bm.verts)
 
@@ -426,18 +424,17 @@ beam_render_batch = None
 
 def draw_callback_view(context: bpy.types.Context):
     global veh_render_dirty
-    global curr_veh_bundle
+    global curr_vdata
     global beam_render_shader
     global beam_render_batch
 
     if beam_render_shader is None:
         beam_render_shader = gpu.shader.from_builtin('UNIFORM_COLOR')
 
-    if veh_render_dirty and curr_veh_bundle is not None:
-        vdata = curr_veh_bundle['vdata']
-        if 'nodes' in vdata and 'beams' in vdata:
-            nodes = vdata['nodes']
-            beams = vdata['beams']
+    if veh_render_dirty and curr_vdata is not None:
+        if 'nodes' in curr_vdata and 'beams' in curr_vdata:
+            nodes = curr_vdata['nodes']
+            beams = curr_vdata['beams']
             coords = []
             for beam in beams:
                 id1, id2 = beam['id1:'], beam['id2:']
@@ -746,9 +743,6 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
 @persistent
 def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
     global prev_veh_model
-    global curr_veh_bundle
-    global veh_render_dirty
-
     context = bpy.context
 
     if constants.DEBUG:
@@ -761,13 +755,7 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
 
     # Switched vehicles
     if prev_veh_model != veh_model:
-        if veh_model is not None:
-            curr_veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
-        else:
-            curr_veh_bundle = None
-
-        veh_render_dirty = True
-        prev_veh_model = veh_model
+        refresh_vehicle_data()
 
 
 # If active file in text editor changed, reimport jbeam file/vehicle

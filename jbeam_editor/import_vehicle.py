@@ -192,30 +192,6 @@ def get_vertices_edges_faces(vehicle_bundle: dict):
 
                 faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx))
 
-                # if id1 in node_id_to_index and id2 in node_id_to_index and id3 in node_id_to_index:
-                #     face_tup_sorted = tuple(sorted((id1, id2, id3)))
-                #     if face_tup_sorted in faces_added:
-                #         # Duplicate
-                #         n1, n2, n3 = nodes[id1], nodes[id2], nodes[id3]
-                #         node_index_to_id.append(id1)
-                #         n1_vert_idx = len(node_index_to_id) - 1
-                #         vertices.append(n1['pos'])
-
-                #         node_index_to_id.append(id2)
-                #         n2_vert_idx = len(node_index_to_id) - 1
-                #         vertices.append(n2['pos'])
-
-                #         node_index_to_id.append(id3)
-                #         n3_vert_idx = len(node_index_to_id) - 1
-                #         vertices.append(n3['pos'])
-
-                #         faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx))
-
-                #         faces_added[face_tup_sorted] += 1
-                #     else:
-                #         faces.append((node_id_to_index[id1], node_id_to_index[id2], node_id_to_index[id3]))
-                #         faces_added[face_tup_sorted] = 0
-
         # Translate quads to faces
         if 'quads' in vdata:
             for quad in vdata['quads']:
