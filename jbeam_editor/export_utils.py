@@ -502,7 +502,7 @@ def get_nodes_add_delete_rename(init_nodes_data: dict, obj: bpy.types.Object, bm
 
     # Get nodes to delete
     for init_node_id, init_node_data in init_nodes_data.items():
-        if init_node_data['partOrigin'] != jbeam_part:
+        if 'partOrigin' in init_node_data and init_node_data['partOrigin'] != jbeam_part:
             continue
         if init_node_id not in blender_nodes:
             nodes_to_delete.add(init_node_id)
@@ -560,7 +560,7 @@ def get_beams_add_remove(init_beams_data: list, obj: bpy.types.Object, bm: bmesh
     beam_idx_in_part = 0
 
     for i, beam in enumerate(init_beams_data):
-        if beam['partOrigin'] != jbeam_part:
+        if 'partOrigin' in beam and beam['partOrigin'] != jbeam_part:
             continue
         if beam_idx_in_part not in blender_beams:
             beams_to_delete.add(beam_idx_in_part)
@@ -610,14 +610,14 @@ def get_faces_add_remove(init_tris_data: list, init_quads_data: list, obj: bpy.t
     tri_idx_in_part, quad_idx_in_part = 0, 0
 
     for i, tri in enumerate(init_tris_data):
-        if tri['partOrigin'] != jbeam_part:
+        if 'partOrigin' in tri and tri['partOrigin'] != jbeam_part:
             continue
         if tri_idx_in_part not in blender_tris:
             tris_to_delete.add(tri_idx_in_part)
         tri_idx_in_part += 1
 
     for i, quad in enumerate(init_quads_data):
-        if quad['partOrigin'] != jbeam_part:
+        if 'partOrigin' in quad and quad['partOrigin'] != jbeam_part:
             continue
         if quad_idx_in_part not in blender_quads:
             quads_to_delete.add(quad_idx_in_part)
