@@ -26,6 +26,8 @@ import os
 import shutil
 
 from jbeam_editor import constants
+from jbeam_editor import export_vehicle
+from jbeam_editor import export_jbeam
 
 
 class JBeamEditorTest:
@@ -76,8 +78,11 @@ class JBeamEditorTest:
         chosen_part = self.import_part
         assert chosen_part in bpy.context.scene.objects
 
+        bpy.context.active_object.select_set(False)
+
         # Set added JBeam object as active object
         bpy.context.view_layer.objects.active = bpy.context.scene.objects[chosen_part]
+        bpy.context.active_object.select_set(True)
 
 
     def set_to_edit_mode_and_get_imported_mesh_bmesh(self):
@@ -193,15 +198,12 @@ class JBeamEditorTest:
         # Add nodes
         bm.verts.ensure_lookup_table()
         for node_id in node_ids:
-            bpy.ops.ed.undo_push(message = "Before node add")
             new_pos = node_id_to_new_position[node_id]
             new_vert = bm.verts.new(new_pos)
 
-            bpy.ops.ed.undo_push(message = "After node add")
             node_id_bytes = bytes(node_id, 'utf-8')
             new_vert[init_node_id_layer] = node_id_bytes
             new_vert[node_id_layer] = node_id_bytes
-            #bpy.ops.ed.undo_push(message = "After node rename")
 
         bm.free()
 
@@ -271,8 +273,27 @@ class JBeamEditorTest:
 
 
     def export_jbeam(self):
+        context = bpy.context
+        active_obj = context.active_object
+        assert active_obj is not None
+
+        active_obj_data = active_obj.data
+
+        assert active_obj_data.get(constants.MESH_JBEAM_PART) is not None
+
+        veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
+        if veh_model is not None:
+            # Export
+            export_vehicle.auto_export(active_obj.name, veh_model)
+        else:
+            # Export
+            export_jbeam.auto_export(active_obj.name)
+
+
+    def export_jbeam_to_file(self):
         #print("export_jbeam" , self.test_suite_name, self.test_name, self.temp_import_file)
-        return bpy.ops.jbeam_editor.export_jbeam(filepath=self.temp_import_file)
+        #return bpy.ops.jbeam_editor.export_jbeam(filepath=self.temp_import_file)
+        return bpy.ops.jbeam_editor.export_vehicle()
 
 
     # Check if exported result based on user input matches expected result

@@ -60,7 +60,7 @@ def test_1():
     jbeam_editor_test.rename_nodes_from_imported_jbeam_mesh(old_to_new_node_ids)
 
     # Export JBeam file and test result
-    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()
 
@@ -83,7 +83,7 @@ def test_2():
     jbeam_editor_test.rename_nodes_from_imported_jbeam_mesh(old_to_new_node_ids)
 
     # Export JBeam file and test result
-    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()
 
@@ -104,7 +104,7 @@ def test_3():
     jbeam_editor_test.rename_nodes_from_imported_jbeam_mesh(old_to_new_node_ids)
 
     # Export JBeam file and test result
-    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()
 
@@ -127,6 +127,6 @@ def test_4():
     jbeam_editor_test.rename_nodes_from_imported_jbeam_mesh(old_to_new_node_ids)
 
     # Export JBeam file and test result
-    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()

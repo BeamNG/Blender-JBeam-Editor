@@ -59,7 +59,7 @@ def test_1():
     jbeam_editor_test.delete_nodes_from_imported_jbeam_mesh(node_ids)
 
     # Export JBeam file and test result
-    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()
 
@@ -78,7 +78,7 @@ def test_2():
     jbeam_editor_test.delete_nodes_from_imported_jbeam_mesh(node_ids)
 
     # Export JBeam file and test result
-    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()
 
@@ -97,7 +97,7 @@ def test_3():
     jbeam_editor_test.delete_nodes_from_imported_jbeam_mesh(node_ids)
 
     # Export JBeam file and test result
-    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()
 
@@ -116,7 +116,7 @@ def test_4():
     jbeam_editor_test.delete_nodes_from_imported_jbeam_mesh(node_ids)
 
     # Export JBeam file and test result
-    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()
 
@@ -134,7 +134,7 @@ def test_5():
     jbeam_editor_test.delete_nodes_from_imported_jbeam_mesh(node_ids)
 
     # Export JBeam file and test result
-    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()
 
@@ -153,7 +153,7 @@ def test_6():
     jbeam_editor_test.delete_nodes_from_imported_jbeam_mesh(node_ids)
 
     # Export JBeam file and test result
-    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()
 
@@ -172,7 +172,7 @@ def test_7():
     jbeam_editor_test.delete_nodes_from_imported_jbeam_mesh(node_ids)
 
     # Export JBeam file and test result
-    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()
 
@@ -191,6 +191,6 @@ def test_8():
     jbeam_editor_test.delete_nodes_from_imported_jbeam_mesh(node_ids)
 
     # Export JBeam file and test result
-    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()

@@ -53,7 +53,7 @@ def test_1():
     jbeam_editor_test.move_nodes_from_imported_jbeam_mesh(node_ids_to_new_pos)
 
     # Export JBeam file and test result
-    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()
 
@@ -77,6 +77,6 @@ def test_2():
     jbeam_editor_test.move_nodes_from_imported_jbeam_mesh(node_ids_to_new_pos)
 
     # Export JBeam file and test result
-    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()

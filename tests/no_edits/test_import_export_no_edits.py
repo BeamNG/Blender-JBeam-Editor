@@ -50,7 +50,7 @@ def test_1():
     bpy.context.view_layer.objects.active = bpy.context.scene.objects[chosen_part]
 
     # Export JBeam file and test result
-    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()
 
@@ -71,7 +71,7 @@ def test_2():
     bpy.ops.object.mode_set(mode = 'EDIT')
 
     # Export JBeam file and test result
-    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()
 
@@ -90,7 +90,7 @@ def test_3():
 
     # Export JBeam file
     with pytest.raises(RuntimeError, match=r'Operator bpy.ops.jbeam_editor.export_jbeam.poll\(\) failed, context is incorrect'):
-        jbeam_editor_test.export_jbeam()
+        jbeam_editor_test.export_jbeam_to_file()
 
     jbeam_editor_test.cleanup()
 
@@ -112,7 +112,7 @@ def test_4():
 
     # Export JBeam file and compare result and expected result
     with pytest.raises(RuntimeError, match=r'Operator bpy.ops.jbeam_editor.export_jbeam.poll\(\) failed, context is incorrect'):
-        jbeam_editor_test.export_jbeam()
+        jbeam_editor_test.export_jbeam_to_file()
 
     jbeam_editor_test.cleanup()
 
@@ -131,7 +131,7 @@ def test_5():
 
     # Export JBeam file
     with pytest.raises(RuntimeError, match=r'Operator bpy.ops.jbeam_editor.export_jbeam.poll\(\) failed, context is incorrect'):
-        jbeam_editor_test.export_jbeam()
+        jbeam_editor_test.export_jbeam_to_file()
 
     jbeam_editor_test.cleanup()
 
@@ -145,7 +145,7 @@ def test_6():
 
     # Export JBeam file
     with pytest.raises(RuntimeError, match=r'Operator bpy.ops.jbeam_editor.export_jbeam.poll\(\) failed, context is incorrect'):
-        jbeam_editor_test.export_jbeam()
+        jbeam_editor_test.export_jbeam_to_file()
 
 
 # Export (fail because there is no selected object)
@@ -157,4 +157,4 @@ def test_7():
 
     # Export JBeam file
     with pytest.raises(RuntimeError, match=r'Operator bpy.ops.jbeam_editor.export_jbeam.poll\(\) failed, context is incorrect'):
-        jbeam_editor_test.export_jbeam()
+        jbeam_editor_test.export_jbeam_to_file()

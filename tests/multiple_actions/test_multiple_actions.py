@@ -57,7 +57,7 @@ def test_delete_rename_1():
     jbeam_editor_test.rename_nodes_from_imported_jbeam_mesh(old_to_new_node_ids)
 
     # Export JBeam file and test result
-    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()
 
@@ -113,7 +113,7 @@ def test_delete_rename_2():
     # Expected result is nr29 takes on nl9 position but nr29 remains in same row in jbeam file and nl9 is deleted in jbeam file
 
     # Export JBeam file and test result
-    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()
 
@@ -136,7 +136,7 @@ def test_rename_move_1():
     jbeam_editor_test.move_nodes_from_imported_jbeam_mesh(node_ids_to_new_pos)
 
     # Export JBeam file and test result
-    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()
 
@@ -169,6 +169,6 @@ def test_rename_move_2():
     jbeam_editor_test.move_nodes_from_imported_jbeam_mesh(node_ids_to_new_pos)
 
     # Export JBeam file and test result
-    assert jbeam_editor_test.export_jbeam() == {'FINISHED'}
+    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()
