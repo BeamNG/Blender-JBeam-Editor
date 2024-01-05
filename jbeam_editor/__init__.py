@@ -69,7 +69,7 @@ draw_handle2 = None
 _do_export = False
 _force_do_export = False
 
-prev_veh_model = None
+prev_obj_selected = None
 curr_vdata = None
 
 veh_render_dirty = False
@@ -149,7 +149,7 @@ class JBEAM_EDITOR_OT_undo(bpy.types.Operator):
     def invoke(self, context, event):
         print('undoing!')
         text_editor.on_undo_redo(context, True)
-        refresh_vehicle_data()
+        refresh_curr_vdata()
         return {'FINISHED'}
 
 
@@ -161,7 +161,7 @@ class JBEAM_EDITOR_OT_redo(bpy.types.Operator):
     def invoke(self, context, event):
         print('redoing!')
         text_editor.on_undo_redo(context, False)
-        refresh_vehicle_data()
+        refresh_curr_vdata()
         return {'FINISHED'}
 
 
@@ -273,16 +273,14 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
         box = layout.box()
         col = box.column()
 
-        veh_collection = context.collection
-        if veh_collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
-            return
-
         obj = context.active_object
         if not obj:
             return
-
         obj_data = obj.data
         if not isinstance(obj_data, bpy.types.Mesh):
+            return
+        veh_collection = obj.users_collection[0]
+        if veh_collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
             return
 
         bm = None
@@ -309,22 +307,37 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
         bm.free()
 
 
-def refresh_vehicle_data():
-    global prev_veh_model
+def refresh_curr_vdata():
+    global prev_obj_selected
     global curr_vdata
     global veh_render_dirty
 
     context = bpy.context
-    veh_collection = context.collection
-    veh_model = veh_collection.get(constants.COLLECTION_VEHICLE_MODEL)
+    selected_obj = None
+    jbeam_part = None
 
-    if veh_model is not None:
-        curr_vdata = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])['vdata']
+    obj = context.active_object
+    if obj is not None:
+        obj_data = obj.data
+        jbeam_part = obj_data.get(constants.MESH_JBEAM_PART)
+        selected_obj = obj.name
     else:
-        curr_vdata = None
+        selected_obj = None
 
-    veh_render_dirty = True
-    prev_veh_model = veh_model
+    if prev_obj_selected != selected_obj:
+        if jbeam_part is not None:
+            collection = obj.users_collection[0]
+            veh_model = collection.get(constants.COLLECTION_VEHICLE_MODEL)
+
+            if veh_model is not None:
+                curr_vdata = pickle.loads(collection[constants.COLLECTION_VEHICLE_BUNDLE])['vdata']
+            else:
+                curr_vdata = pickle.loads(obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA])
+        else:
+            curr_vdata = None
+
+        veh_render_dirty = True
+        prev_obj_selected = selected_obj
 
 
 part_name_to_obj: dict[str, bpy.types.Object] = {}
@@ -339,7 +352,14 @@ def draw_callback_px(context: bpy.types.Context):
         return
     font_id = 0
 
-    collection = context.collection
+    active_obj = context.active_object
+    if active_obj is None:
+        return
+    active_obj_data = active_obj.data
+    if active_obj_data.get(constants.MESH_JBEAM_PART) is None:
+        return
+
+    collection = active_obj.users_collection[0]
     if collection is not None and collection.get(constants.COLLECTION_VEHICLE_MODEL) is not None and curr_vdata is not None:
         part_name_to_obj.clear()
         for obj in collection.all_objects:
@@ -388,24 +408,17 @@ def draw_callback_px(context: bpy.types.Context):
         bm.free()
 
     else:
-        obj = context.active_object
-        if obj is None:
-            return
-        obj_data = obj.data
-        if obj_data.get(constants.MESH_JBEAM_PART) is None:
-            return
-
         bm = None
-        if obj.mode == 'EDIT':
-            bm = bmesh.from_edit_mesh(obj_data)
+        if active_obj.mode == 'EDIT':
+            bm = bmesh.from_edit_mesh(active_obj_data)
         else:
             bm = bmesh.new()
-            bm.from_mesh(obj_data)
+            bm.from_mesh(active_obj_data)
 
         node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
 
         for v in bm.verts:
-            coord = obj.matrix_world @ v.co
+            coord = active_obj.matrix_world @ v.co
             node_id = v[node_id_layer].decode('utf-8')
 
             pos_text = location_3d_to_region_2d(context.region, context.region_data, coord)
@@ -431,18 +444,22 @@ def draw_callback_view(context: bpy.types.Context):
     if beam_render_shader is None:
         beam_render_shader = gpu.shader.from_builtin('UNIFORM_COLOR')
 
-    if veh_render_dirty and curr_vdata is not None:
-        if 'nodes' in curr_vdata and 'beams' in curr_vdata:
-            nodes = curr_vdata['nodes']
-            beams = curr_vdata['beams']
-            coords = []
-            for beam in beams:
-                id1, id2 = beam['id1:'], beam['id2:']
-                n1, n2 = nodes[id1], nodes[id2]
-                coords.append(n1['pos'])
-                coords.append(n2['pos'])
+    if veh_render_dirty:
+        if curr_vdata is not None:
+            if 'nodes' in curr_vdata and 'beams' in curr_vdata:
+                nodes = curr_vdata['nodes']
+                beams = curr_vdata['beams']
+                coords = []
+                for beam in beams:
+                    id1, id2 = beam['id1:'], beam['id2:']
+                    if id1 in nodes and id2 in nodes:
+                        n1, n2 = nodes[id1], nodes[id2]
+                        coords.append(n1['pos'])
+                        coords.append(n2['pos'])
 
-            beam_render_batch = batch_for_shader(beam_render_shader, 'LINES', {"pos": coords})
+                beam_render_batch = batch_for_shader(beam_render_shader, 'LINES', {"pos": coords})
+        else:
+            beam_render_batch = None
         veh_render_dirty = False
 
     if beam_render_batch is not None:
@@ -618,30 +635,30 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
     ui_props = scene.ui_properties
 
     active_obj = context.active_object
-    if context.active_object is None:
+    if active_obj is None:
         return
     active_obj_data = active_obj.data
+    if active_obj_data.get(constants.MESH_JBEAM_PART) is None:
+        return
+
     active_obj_eval: bpy.types.Object = active_obj.evaluated_get(depsgraph)
 
     # If selected new object/collection unrelated to vehicles and vehicle collection was last selected, set active collection to new object's collection
     # to stop rendering stuff related to previous vehicle
-    if scene.get('jbeam_editor_veh_collection_selected') is not None:
-        collection = None
-        if context.collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
-            collection = scene.collection
-        if collection is None and len(active_obj.users_collection) > 0:
-            if active_obj.users_collection[0].get(constants.COLLECTION_VEHICLE_MODEL) is None:
-                collection = active_obj.users_collection[0]
+    # if scene.get('jbeam_editor_veh_collection_selected') is not None:
+    #     collection = None
+    #     if context.collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
+    #         collection = scene.collection
+    #     if collection is None and len(active_obj.users_collection) > 0:
+    #         if active_obj.users_collection[0].get(constants.COLLECTION_VEHICLE_MODEL) is None:
+    #             collection = active_obj.users_collection[0]
 
-        if collection is not None:
-            layer = find_layer_collection_recursive(collection, context.view_layer.layer_collection)
-            if layer is not None:
-                context.view_layer.active_layer_collection = layer
-            scene['jbeam_editor_veh_collection_selected'] = None
-            return
-
-    if active_obj_data.get(constants.MESH_JBEAM_PART) is None:
-        return
+    #     if collection is not None:
+    #         layer = find_layer_collection_recursive(collection, context.view_layer.layer_collection)
+    #         if layer is not None:
+    #             context.view_layer.active_layer_collection = layer
+    #         scene['jbeam_editor_veh_collection_selected'] = None
+    #         return
 
     # Show selected jbeam part's JBeam file in text editor
     jbeam_filepath = active_obj_data[constants.MESH_JBEAM_FILE_PATH]
@@ -742,7 +759,7 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
 
 @persistent
 def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
-    global prev_veh_model
+    global prev_obj_selected
     context = bpy.context
 
     if constants.DEBUG:
@@ -750,12 +767,18 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
 
     _depsgraph_callback(context, scene, depsgraph)
 
-    veh_collection = context.collection
-    veh_model = veh_collection.get(constants.COLLECTION_VEHICLE_MODEL)
+    # obj_selected = None
+    # obj = context.active_object
+    # if obj is not None:
+    #     obj_selected = obj.name
+    #     # obj_data = obj.data
+    #     # if obj_data.get(constants.MESH_JBEAM_PART) is not None:
+    #     #     collection = obj.users_collection[0]
+    #     #     veh_model = collection.get(constants.COLLECTION_VEHICLE_MODEL)
 
-    # Switched vehicles
-    if prev_veh_model != veh_model:
-        refresh_vehicle_data()
+    # # Switched objects
+    # if prev_obj_selected != obj_selected:
+    refresh_curr_vdata()
 
 
 # If active file in text editor changed, reimport jbeam file/vehicle
@@ -765,7 +788,7 @@ def check_files_for_changes():
 
     changed = text_editor.check_open_file_for_changes(context)
     if changed:
-        refresh_vehicle_data()
+        refresh_curr_vdata()
 
     return check_file_interval
 
@@ -797,7 +820,7 @@ def poll_active_operators():
                     data = {'obj_name': active_obj.name}
                     export_jbeam.auto_export(data)
 
-                refresh_vehicle_data()
+                refresh_curr_vdata()
 
                 _do_export = False
                 _force_do_export = False
