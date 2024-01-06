@@ -149,7 +149,7 @@ class JBEAM_EDITOR_OT_undo(bpy.types.Operator):
     def invoke(self, context, event):
         print('undoing!')
         text_editor.on_undo_redo(context, True)
-        refresh_curr_vdata()
+        refresh_curr_vdata(True)
         return {'FINISHED'}
 
 
@@ -161,7 +161,7 @@ class JBEAM_EDITOR_OT_redo(bpy.types.Operator):
     def invoke(self, context, event):
         print('redoing!')
         text_editor.on_undo_redo(context, False)
-        refresh_curr_vdata()
+        refresh_curr_vdata(True)
         return {'FINISHED'}
 
 
@@ -307,7 +307,7 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
         bm.free()
 
 
-def refresh_curr_vdata():
+def refresh_curr_vdata(force_refresh=False):
     global prev_obj_selected
     global curr_vdata
     global veh_render_dirty
@@ -324,7 +324,7 @@ def refresh_curr_vdata():
     else:
         selected_obj = None
 
-    if prev_obj_selected != selected_obj:
+    if force_refresh or prev_obj_selected != selected_obj:
         if jbeam_part is not None:
             collection = obj.users_collection[0]
             veh_model = collection.get(constants.COLLECTION_VEHICLE_MODEL)
@@ -788,7 +788,7 @@ def check_files_for_changes():
 
     changed = text_editor.check_open_file_for_changes(context)
     if changed:
-        refresh_curr_vdata()
+        refresh_curr_vdata(True)
 
     return check_file_interval
 
@@ -818,7 +818,7 @@ def poll_active_operators():
                     # Export
                     export_jbeam.auto_export(active_obj.name)
 
-                refresh_curr_vdata()
+                refresh_curr_vdata(True)
 
                 _do_export = False
                 _force_do_export = False
