@@ -240,6 +240,8 @@ def check_node_references(vehicle: dict):
     for k, jbeam_table in vehicle.items():
         if k == 'nodes':
             continue
+
+        # TODO: need to account for dictionaries
         if isinstance(jbeam_table, list):
             row_value: dict
             for row_key, row_value in enumerate(jbeam_table):
