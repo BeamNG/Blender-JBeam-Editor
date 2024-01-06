@@ -549,21 +549,23 @@ def get_beams_add_remove(init_beams_data: list, obj: bpy.types.Object, bm: bmesh
         #print('beam:', v1_node_id, v2_node_id)
 
         beam_idx = e[beam_idx_layer]
-
-        if beam_idx == -2:
+        if beam_idx == 0: # Beam doesn't exist in JBeam data and is just part of a Blender face for example
+            continue
+        if beam_idx == -1: # Newly added beam
             beams_to_add.add(beam_tup)
             continue
 
         blender_beams[beam_idx] = beam_tup
 
     # Get beams to delete
-    beam_idx_in_part = 0
+    beam_idx_in_part = 1
 
-    for i, beam in enumerate(init_beams_data):
+    for i, beam in enumerate(init_beams_data, 1):
         if 'partOrigin' in beam and beam['partOrigin'] != jbeam_part:
             continue
-        if beam_idx_in_part not in blender_beams:
-            beams_to_delete.add(beam_idx_in_part)
+        if '__virtual' not in beam:
+            if beam_idx_in_part not in blender_beams:
+                beams_to_delete.add(beam_idx_in_part)
         beam_idx_in_part += 1
 
     return beams_to_add, beams_to_delete
@@ -589,7 +591,9 @@ def get_faces_add_remove(init_tris_data: list, init_quads_data: list, obj: bpy.t
             tri_tup = (v1_node_id, v2_node_id, v3_node_id)
             tri_idx = f[face_idx_layer]
 
-            if tri_idx == -2:
+            if tri_idx == 0: # Triangle doesn't exist in JBeam data
+                continue
+            if tri_idx == -1: # Newly added triangle
                 tris_to_add.add(tri_tup)
                 continue
 
@@ -600,27 +604,31 @@ def get_faces_add_remove(init_tris_data: list, init_quads_data: list, obj: bpy.t
             quad_tup = (v1_node_id, v2_node_id, v3_node_id, v4_node_id)
             quad_idx = f[face_idx_layer]
 
-            if quad_idx == -2:
+            if quad_idx == 0: # Quad doesn't exist in JBeam data
+                continue
+            if quad_idx == -1: # Newly added quad
                 quads_to_add.add(quad_tup)
                 continue
 
             blender_quads[quad_idx] = quad_tup
 
     # Get tris and quads to delete
-    tri_idx_in_part, quad_idx_in_part = 0, 0
+    tri_idx_in_part, quad_idx_in_part = 1, 1
 
-    for i, tri in enumerate(init_tris_data):
+    for i, tri in enumerate(init_tris_data, 1):
         if 'partOrigin' in tri and tri['partOrigin'] != jbeam_part:
             continue
-        if tri_idx_in_part not in blender_tris:
-            tris_to_delete.add(tri_idx_in_part)
+        if '__virtual' not in tri:
+            if tri_idx_in_part not in blender_tris:
+                tris_to_delete.add(tri_idx_in_part)
         tri_idx_in_part += 1
 
-    for i, quad in enumerate(init_quads_data):
+    for i, quad in enumerate(init_quads_data, 1):
         if 'partOrigin' in quad and quad['partOrigin'] != jbeam_part:
             continue
-        if quad_idx_in_part not in blender_quads:
-            quads_to_delete.add(quad_idx_in_part)
+        if '__virtual' not in quad:
+            if quad_idx_in_part not in blender_quads:
+                quads_to_delete.add(quad_idx_in_part)
         quad_idx_in_part += 1
 
     return tris_to_add, tris_to_delete, quads_to_add, quads_to_delete
@@ -771,19 +779,19 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                     elif stack_head[0] == 'beams':
                         # If current jbeam beam is part of delete list, remove the beam definition
                         if len(jbeam_section_def) > 0:
-                            if jbeam_section_row_def_idx - 1 in beams_to_delete:
+                            if jbeam_section_row_def_idx in beams_to_delete:
                                 i = delete_jbeam_entry(ast_nodes, jbeam_section_start_node_idx, jbeam_entry_start_node_idx, jbeam_entry_end_node_idx)
 
                     elif stack_head[0] == 'triangles':
                         # If current jbeam tri is part of delete list, remove the tri definition
                         if len(jbeam_section_def) > 0:
-                            if jbeam_section_row_def_idx - 1 in tris_to_delete:
+                            if jbeam_section_row_def_idx in tris_to_delete:
                                 i = delete_jbeam_entry(ast_nodes, jbeam_section_start_node_idx, jbeam_entry_start_node_idx, jbeam_entry_end_node_idx)
 
                     elif stack_head[0] == 'quads':
                         # If current jbeam quad is part of delete list, remove the quad definition
                         if len(jbeam_section_def) > 0:
-                            if jbeam_section_row_def_idx - 1 in quads_to_delete:
+                            if jbeam_section_row_def_idx in quads_to_delete:
                                 i = delete_jbeam_entry(ast_nodes, jbeam_section_start_node_idx, jbeam_entry_start_node_idx, jbeam_entry_end_node_idx)
 
 
