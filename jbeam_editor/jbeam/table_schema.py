@@ -212,7 +212,7 @@ def process_table_with_schema_destructive(jbeam_table: list, new_dict: dict, inp
     return new_list_size
 
 
-def post_process(vehicle: dict):
+def convert_dict_to_list_tables(vehicle: dict):
     new_tables = {}
 
     for k, tbl in vehicle.items():
@@ -232,6 +232,33 @@ def post_process(vehicle: dict):
     # Set vehicle with new jbeam tables
     for k, tbl in new_tables.items():
         vehicle[k] = tbl
+
+
+# Checks if node references exist and assigns jbeam as 'virtual' if one or more references don't exist
+def check_node_references(vehicle: dict):
+    nodes = vehicle.get('nodes')
+    for k, jbeam_table in vehicle.items():
+        if k == 'nodes':
+            continue
+        if isinstance(jbeam_table, list):
+            row_value: dict
+            for row_key, row_value in enumerate(jbeam_table):
+                is_virtual = False
+                if nodes:
+                    for rk, rv in row_value.items():
+                        if isinstance(rk, str) and re.match(r'id\d+:', rk) is not None and rv not in nodes:
+                            is_virtual = True
+                            break
+                    if is_virtual:
+                        row_value['__virtual'] = True
+                else:
+                    row_value['__virtual'] = True
+    return True
+
+
+def post_process(vehicle: dict):
+    convert_dict_to_list_tables(vehicle)
+    check_node_references(vehicle)
 
     return True
 
