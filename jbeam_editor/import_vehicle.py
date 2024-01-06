@@ -174,23 +174,25 @@ def get_vertices_edges_faces(vehicle_bundle: dict):
                 part_origin = tri['partOrigin']
                 faces = parts_faces.setdefault(part_origin, [])
 
-                # Duplicates will have their own vertices
                 id1, id2, id3 = tri['id1:'], tri['id2:'], tri['id3:']
-                n1, n2, n3 = nodes[id1], nodes[id2], nodes[id3]
+                if id1 in nodes and id2 in nodes and id3 in nodes:
+                    n1, n2, n3 = nodes[id1], nodes[id2], nodes[id3]
 
-                node_index_to_id.append(id1)
-                n1_vert_idx = len(node_index_to_id) - 1
-                vertices.append(n1['pos'])
+                    node_index_to_id.append(id1)
+                    n1_vert_idx = len(node_index_to_id) - 1
+                    vertices.append(n1['pos'])
 
-                node_index_to_id.append(id2)
-                n2_vert_idx = len(node_index_to_id) - 1
-                vertices.append(n2['pos'])
+                    node_index_to_id.append(id2)
+                    n2_vert_idx = len(node_index_to_id) - 1
+                    vertices.append(n2['pos'])
 
-                node_index_to_id.append(id3)
-                n3_vert_idx = len(node_index_to_id) - 1
-                vertices.append(n3['pos'])
+                    node_index_to_id.append(id3)
+                    n3_vert_idx = len(node_index_to_id) - 1
+                    vertices.append(n3['pos'])
 
-                faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx))
+                    faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx))
+                else:
+                    faces.append(None)
 
         # Translate quads to faces
         if 'quads' in vdata:
@@ -198,27 +200,29 @@ def get_vertices_edges_faces(vehicle_bundle: dict):
                 part_origin = quad['partOrigin']
                 faces = parts_faces.setdefault(part_origin, [])
 
-                # Duplicates will have their own vertices
                 id1, id2, id3, id4 = quad['id1:'], quad['id2:'], quad['id3:'], quad['id4:']
-                n1, n2, n3, n4 = nodes[id1], nodes[id2], nodes[id3], nodes[id4]
+                if id1 in nodes and id2 in nodes and id3 in nodes and id4 in nodes:
+                    n1, n2, n3, n4 = nodes[id1], nodes[id2], nodes[id3], nodes[id4]
 
-                node_index_to_id.append(id1)
-                n1_vert_idx = len(node_index_to_id) - 1
-                vertices.append(n1['pos'])
+                    node_index_to_id.append(id1)
+                    n1_vert_idx = len(node_index_to_id) - 1
+                    vertices.append(n1['pos'])
 
-                node_index_to_id.append(id2)
-                n2_vert_idx = len(node_index_to_id) - 1
-                vertices.append(n2['pos'])
+                    node_index_to_id.append(id2)
+                    n2_vert_idx = len(node_index_to_id) - 1
+                    vertices.append(n2['pos'])
 
-                node_index_to_id.append(id3)
-                n3_vert_idx = len(node_index_to_id) - 1
-                vertices.append(n3['pos'])
+                    node_index_to_id.append(id3)
+                    n3_vert_idx = len(node_index_to_id) - 1
+                    vertices.append(n3['pos'])
 
-                node_index_to_id.append(id4)
-                n4_vert_idx = len(node_index_to_id) - 1
-                vertices.append(n4['pos'])
+                    node_index_to_id.append(id4)
+                    n4_vert_idx = len(node_index_to_id) - 1
+                    vertices.append(n4['pos'])
 
-                faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx, n4_vert_idx))
+                    faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx, n4_vert_idx))
+                else:
+                    faces.append(None)
 
         # Translate nodes to vertices
         for i, (node_id, node) in enumerate(nodes.items()):
@@ -254,6 +258,8 @@ def get_vertices_edges_faces(vehicle_bundle: dict):
                     else:
                         edges.append((node_id_to_index[id1], node_id_to_index[id2]))
                         edges_added[edge_tup_sorted] = 1
+                else:
+                    edges.append(None)
 
                 # n1, n2 = nodes[id1], nodes[id2]
 
@@ -302,45 +308,21 @@ def generate_part_mesh(obj_data: bpy.types.Mesh, bm: bmesh.types.BMesh, vehicle_
     edges = parts_edges[part] if part in parts_edges else []
     faces = parts_faces[part] if part in parts_faces else []
 
-    edges_len = len(edges)
-    faces_len = len(faces)
-
-    for i, e in enumerate(edges):
-        bm.edges.new((bm.verts[e[0]], bm.verts[e[1]]))
-    for i, f in enumerate(faces):
-        if len(f) == 3:
-            face = bm.faces.new((bm.verts[f[0]], bm.verts[f[1]], bm.verts[f[2]]))
-            #face[face_is_quad] = 0
-        else:
-            face = bm.faces.new((bm.verts[f[0]], bm.verts[f[1]], bm.verts[f[2]], bm.verts[f[3]]))
-            face[face_is_quad] = 1
-
-    bm.edges.ensure_lookup_table()
-
-    if 'beams' in vdata:
-        e: bmesh.types.BMEdge
-        for i, e in enumerate(bm.edges):
+    for i, edge in enumerate(edges, 1):
+        if edge is not None:
+            e = bm.edges.new((bm.verts[edge[0]], bm.verts[edge[1]]))
+            e[beam_idx_layer] = i
             e[beam_origin_layer] = bytes(part, 'utf-8')
-            if i < edges_len:
-                e[beam_idx_layer] = i
-            else:
-                e[beam_idx_layer] = -1
 
-    bm.faces.ensure_lookup_table()
-    tri_idx = 0
-    quad_idx = 0
-    f: bmesh.types.BMFace
-    for f in bm.faces:
-        if f[face_is_quad] == 0:
-            # Triangle
+    for i, face in enumerate(faces, 1):
+        if face is not None:
+            if len(face) == 3:
+                f = bm.faces.new((bm.verts[face[0]], bm.verts[face[1]], bm.verts[face[2]]))
+            else:
+                f = bm.faces.new((bm.verts[face[0]], bm.verts[face[1]], bm.verts[face[2]], bm.verts[face[3]]))
+                f[face_is_quad] = 1
+            f[face_idx_layer] = i
             f[face_origin_layer] = bytes(part, 'utf-8')
-            f[face_idx_layer] = tri_idx
-            tri_idx += 1
-        else:
-            # Quad
-            f[face_origin_layer] = bytes(part, 'utf-8')
-            f[face_idx_layer] = quad_idx
-            quad_idx += 1
 
     obj_data[constants.MESH_JBEAM_PART] = part
     obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_filepath

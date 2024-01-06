@@ -61,7 +61,6 @@ def get_vertices_edges_faces(vdata: dict):
         # Translate triangles to faces
         if 'triangles' in vdata:
             for tri in vdata['triangles']:
-                # Duplicates will have their own vertices
                 id1, id2, id3 = tri['id1:'], tri['id2:'], tri['id3:']
                 if id1 in nodes and id2 in nodes and id3 in nodes:
                     n1, n2, n3 = nodes[id1], nodes[id2], nodes[id3]
@@ -85,7 +84,6 @@ def get_vertices_edges_faces(vdata: dict):
         # Translate quads to faces
         if 'quads' in vdata:
             for quad in vdata['quads']:
-                # Duplicates will have their own vertices
                 id1, id2, id3, id4 = quad['id1:'], quad['id2:'], quad['id3:'], quad['id4:']
                 if id1 in nodes and id2 in nodes and id3 in nodes and id4 in nodes:
                     n1, n2, n3, n4 = nodes[id1], nodes[id2], nodes[id3], nodes[id4]
