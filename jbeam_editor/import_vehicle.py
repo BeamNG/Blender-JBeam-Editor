@@ -23,6 +23,7 @@ from pathlib import Path
 import re
 import sys
 import pickle
+import traceback
 
 import bpy
 import bmesh
@@ -455,53 +456,60 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
 
 
 def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Collection, jbeam_filepath: str):
-    config_path = veh_collection[constants.COLLECTION_PC_FILEPATH]
+    try:
+        config_path = veh_collection[constants.COLLECTION_PC_FILEPATH]
 
-    res = jbeam_io.invalidate_cache_for_file(jbeam_filepath)
-    if not res:
-        return
+        res = jbeam_io.invalidate_cache_for_file(jbeam_filepath)
+        if not res:
+            return
 
-    vehicle_config = build_config(config_path)
-    if vehicle_config is None:
-        return
+        vehicle_config = build_config(config_path)
+        if vehicle_config is None:
+            return
 
-    vehicle_dir = Path(config_path).parent.as_posix()
-    vehicles_dir = Path(vehicle_dir).parent.as_posix()
-    vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]
+        vehicle_dir = Path(config_path).parent.as_posix()
+        vehicles_dir = Path(vehicle_dir).parent.as_posix()
+        vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]
 
-    vehicle_bundle = load_vehicle_stage_1(vehicle_directories, vehicle_config)
-    if vehicle_bundle is None:
-        return
+        vehicle_bundle = load_vehicle_stage_1(vehicle_directories, vehicle_config)
+        if vehicle_bundle is None:
+            return
 
-    # Create Blender meshes from JBeam data
-    _reimport_vehicle(context, veh_collection, vehicle_bundle)
+        # Create Blender meshes from JBeam data
+        _reimport_vehicle(context, veh_collection, vehicle_bundle)
 
-    print('Done reimporting vehicle.')
+        print('Done reimporting vehicle.')
+    except:
+        traceback.print_exc()
 
 
 def import_vehicle(config_path: str):
-    # Import and process JBeam data
+    try:
+        # Import and process JBeam data
 
-    vehicle_dir = Path(config_path).parent.as_posix()
-    vehicles_dir = Path(vehicle_dir).parent.as_posix()
-    vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]
+        vehicle_dir = Path(config_path).parent.as_posix()
+        vehicles_dir = Path(vehicle_dir).parent.as_posix()
+        vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]
 
-    jbeam_io.invalidate_cache_on_new_import(vehicle_dir)
+        jbeam_io.invalidate_cache_on_new_import(vehicle_dir)
 
-    vehicle_config = build_config(config_path)
-    if vehicle_config is None:
+        vehicle_config = build_config(config_path)
+        if vehicle_config is None:
+            return {'CANCELLED'}
+
+        vehicle_bundle = load_vehicle_stage_1(vehicle_directories, vehicle_config)
+
+        if vehicle_bundle is None:
+            return {'CANCELLED'}
+
+        # Create Blender meshes from JBeam data
+        if generate_meshes(vehicle_bundle) is None:
+            return {'CANCELLED'}
+
+        print('Done importing vehicle.')
+    except:
+        traceback.print_exc()
         return {'CANCELLED'}
-
-    vehicle_bundle = load_vehicle_stage_1(vehicle_directories, vehicle_config)
-
-    if vehicle_bundle is None:
-        return {'CANCELLED'}
-
-    # Create Blender meshes from JBeam data
-    if generate_meshes(vehicle_bundle) is None:
-        return {'CANCELLED'}
-
-    print('Done importing vehicle.')
 
     return {'FINISHED'}
 
