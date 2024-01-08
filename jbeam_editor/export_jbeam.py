@@ -20,6 +20,7 @@
 
 import pickle
 import traceback
+import sys
 
 import bpy
 
@@ -35,6 +36,7 @@ from . import constants
 from . import utils
 from . import export_utils
 from . import text_editor
+from . import sjsonast
 
 import timeit
 
@@ -158,64 +160,158 @@ def auto_export(obj_name: str):
     export_existing_jbeam(obj)
 
 
-class JBEAM_EDITOR_OT_export_jbeam(Operator, ExportHelper):
+def go_up_level(stack: list):
+    if len(stack) == 0:
+        #print('Error! Attempting to go up level when stack size is 0!', file=sys.stderr)
+        return None, -1
+
+    stack_head = stack.pop()
+    in_dict = stack_head[1]
+    pos_in_arr = stack_head[0] + 1 if not in_dict else 0
+    return in_dict, pos_in_arr
+
+
+def get_part_in_ast_nodes(ast_nodes, jbeam_part):
+
+    sjsonast.calculate_char_positions(ast_nodes)
+
+    stack = []
+    in_dict = True
+    pos_in_arr = 0
+    temp_dict_key = None
+    dict_key = None
+
+    start_pos, end_pos = -1, -1
+
+    i = 0
+    while i < len(ast_nodes):
+        node: sjsonast.ASTNode = ast_nodes[i]
+        node_type = node.data_type
+
+        if node_type == 'wsc':
+            i += 1
+            continue
+
+        if in_dict: # In dictionary object
+            if node_type in ('{', '['): # Going down a level
+                if dict_key is not None:
+                    if len(stack) == 0 and dict_key == jbeam_part:
+                        start_pos = i
+                    stack.append((dict_key, in_dict))
+                    in_dict = node_type == '{'
+                else:
+                    if len(stack) > 0: # Ignore outer most dictionary
+                        print("{ or [ w/o key!", file=sys.stderr)
+
+                pos_in_arr = 0
+                temp_dict_key = None
+                dict_key = None
+
+            elif node_type in ('}', ']'): # Going up a level
+                in_dict, pos_in_arr = go_up_level(stack)
+                if len(stack) == 0 and start_pos != -1:
+                    end_pos = i
+                    break
+
+            else: # Defining key value pair
+                if temp_dict_key is None:
+                    if node_type == '"':
+                        temp_dict_key = node.value
+
+                elif node_type == ':':
+                    dict_key = temp_dict_key
+
+                    if temp_dict_key is None:
+                        print("key delimiter predecessor was not a key!", file=sys.stderr)
+
+                elif dict_key is not None:
+                    temp_dict_key = None
+                    dict_key = None
+
+        else: # In array object
+            if node_type in ('{', '['): # Going down a level
+                stack.append((pos_in_arr, in_dict))
+                in_dict = node_type == '{'
+                pos_in_arr = 0
+                temp_dict_key = None
+                dict_key = None
+
+            elif node_type in ('}', ']'): # Going up a level
+                in_dict, pos_in_arr = go_up_level(stack)
+
+            elif node_type not in ('}', ']'):
+                pos_in_arr += 1
+
+        i += 1
+
+    return start_pos, end_pos
+
+
+# Export the specific part from the Blender text editor to the disk
+# Only replaces the lines of text related to the specific part
+def export_to_disk(jbeam_part, jbeam_filepath):
+    internal_text = text_editor.read_file(jbeam_filepath)
+    if internal_text is None:
+        return False
+    external_text = utils.read_file(jbeam_filepath)
+    if external_text is None:
+        return False
+
+    internal_ast_data = sjsonast.parse(internal_text)
+    internal_ast_nodes: dict = internal_ast_data['ast']['nodes']
+
+    external_ast_data = sjsonast.parse(external_text)
+    external_ast_nodes: dict = external_ast_data['ast']['nodes']
+
+    internal_start_pos, internal_end_pos = get_part_in_ast_nodes(internal_ast_nodes, jbeam_part)
+    external_start_pos, external_end_pos = get_part_in_ast_nodes(external_ast_nodes, jbeam_part)
+
+    external_ast_nodes[external_start_pos : external_end_pos + 1] = internal_ast_nodes[internal_start_pos : internal_end_pos + 1]
+
+    output_text = sjsonast.stringify_nodes(external_ast_nodes)
+
+    res = utils.write_file(jbeam_filepath, output_text)
+    if not res:
+        return False
+
+    return True
+
+
+class JBEAM_EDITOR_OT_export_jbeam(Operator):
     bl_idname = 'jbeam_editor.export_jbeam'
     bl_label = "Export JBeam"
-    bl_description = 'Export to a new or existing BeamNG JBeam file'
-    # ExportHelper mixin class uses this
-    filename_ext = ".jbeam"
-
-    filter_glob: StringProperty(
-        default="*.jbeam",
-        options={'HIDDEN'},
-        maxlen=255,  # Max internal buffer length, longer would be clamped.
-    )
-
+    bl_description = 'Export to disk'
 
     @classmethod
     def poll(cls, context):
-        obj = context.active_object
-        if not obj:
-            return False
-
-        obj_data = obj.data
-        jbeam_part = obj_data.get(constants.MESH_JBEAM_PART)
-        if jbeam_part == None:
-            return False
-
+        for obj in context.selected_objects:
+            obj_data = obj.data
+            if obj_data.get(constants.MESH_JBEAM_PART) is None:
+                return False
         return True
 
-
     def execute(self, context):
-        '''out_filepath = Path(self.filepath).as_posix()
+        t0 = timeit.default_timer()
+        for obj in context.selected_objects:
+            obj_data = obj.data
+            jbeam_part = obj_data.get(constants.MESH_JBEAM_PART)
+            if jbeam_part is None:
+                continue
 
-        obj = context.active_object
-        obj_data = obj.data
+            jbeam_filepath = obj_data[constants.MESH_JBEAM_FILE_PATH]
 
-        bm = None
-        if obj.mode == 'EDIT':
-            bm = bmesh.from_edit_mesh(obj_data)
-        else:
-            bm = bmesh.new()
-            bm.from_mesh(obj_data)
+            export_to_disk(jbeam_part, jbeam_filepath)
 
-        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-        imported_jbeam_part = obj_data.get(constants.MESH_JBEAM_PART)
-        imported_jbeam_file_path = obj_data.get(constants.MESH_JBEAM_FILE_PATH)
+        tf = timeit.default_timer()
+        print('Exported to disk:', context.selected_objects)
+        print('Exporting Time', round(tf - t0, 2), 's')
 
-        if imported_jbeam_file_path != None:
-            # If last exported jbeam filepath exists, prioritize using that for the filepath over the one stored in the object to avoid undo/redo complications
-            if imported_jbeam_part in last_exported_jbeams:
-                imported_jbeam_file_path = last_exported_jbeams[imported_jbeam_part]['in_filepath']
-
-            export_existing_jbeam(obj)
-        else:
-            export_new_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_id_layer, out_filepath)
-
-        if obj.mode != 'EDIT':
-            bm.to_mesh(obj_data)
-
-        bm.free()'''
+        # import cProfile, pstats, io
+        # import pstats
+        # pr = cProfile.Profile()
+        # with cProfile.Profile() as pr:
+        #     manual_export(veh_collection, context.selected_objects)
+        #     stats = pstats.Stats(pr)
+        #     stats.strip_dirs().sort_stats('tottime').print_stats()
 
         return {'FINISHED'}

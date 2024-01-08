@@ -89,39 +89,39 @@ def auto_export(obj_name: str, veh_model: str):
     export(collection, [obj])
 
 
-class JBEAM_EDITOR_OT_export_vehicle(Operator):
-    bl_idname = 'jbeam_editor.export_vehicle'
-    bl_label = "Export Vehicle"
-    bl_description = 'Export BeamNG vehicle'
+# class JBEAM_EDITOR_OT_export_vehicle(Operator):
+#     bl_idname = 'jbeam_editor.export_vehicle'
+#     bl_label = "Export Vehicle"
+#     bl_description = 'Export BeamNG vehicle'
 
-    @classmethod
-    def poll(cls, context):
-        for obj in context.selected_objects:
-            obj_data = obj.data
-            if obj_data.get(constants.MESH_JBEAM_PART) is None:
-                return False
-        return True
+#     @classmethod
+#     def poll(cls, context):
+#         for obj in context.selected_objects:
+#             obj_data = obj.data
+#             if obj_data.get(constants.MESH_JBEAM_PART) is None:
+#                 return False
+#         return True
 
-    def execute(self, context):
-        jbeam_filepaths = set()
+#     def execute(self, context):
+#         jbeam_filepaths = set()
 
-        for obj in context.selectable_objects:
-            obj_data = obj.data
-            if obj_data.get(constants.MESH_JBEAM_PART) is None:
-                continue
-            jbeam_filepaths.add(obj_data.get(constants.MESH_JBEAM_FILE_PATH))
+#         for obj in context.selectable_objects:
+#             obj_data = obj.data
+#             if obj_data.get(constants.MESH_JBEAM_PART) is None:
+#                 continue
+#             jbeam_filepaths.add(obj_data.get(constants.MESH_JBEAM_FILE_PATH))
 
-        for filepath in jbeam_filepaths:
-            export_utils.export_file_to_disk(filepath)
+#         for filepath in jbeam_filepaths:
+#             export_utils.export_file_to_disk(filepath)
 
-        #export(veh_collection, context.selected_objects)
+#         #export(veh_collection, context.selected_objects)
 
-        # import cProfile, pstats, io
-        # import pstats
-        # pr = cProfile.Profile()
-        # with cProfile.Profile() as pr:
-        #     manual_export(veh_collection, context.selected_objects)
-        #     stats = pstats.Stats(pr)
-        #     stats.strip_dirs().sort_stats('tottime').print_stats()
+#         # import cProfile, pstats, io
+#         # import pstats
+#         # pr = cProfile.Profile()
+#         # with cProfile.Profile() as pr:
+#         #     manual_export(veh_collection, context.selected_objects)
+#         #     stats = pstats.Stats(pr)
+#         #     stats.strip_dirs().sort_stats('tottime').print_stats()
 
-        return {'FINISHED'}
+#         return {'FINISHED'}

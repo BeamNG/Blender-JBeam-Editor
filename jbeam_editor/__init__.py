@@ -485,8 +485,8 @@ def menu_func_import_vehicle(self, context):
     self.layout.operator(import_vehicle.JBEAM_EDITOR_OT_import_vehicle.bl_idname, text="Part Config File (.pc)")
 
 
-def menu_func_export_vehicle(self, context):
-    self.layout.operator(export_vehicle.JBEAM_EDITOR_OT_export_vehicle.bl_idname, text="Selected JBeam Parts")
+# def menu_func_export_vehicle(self, context):
+#     self.layout.operator(export_vehicle.JBEAM_EDITOR_OT_export_vehicle.bl_idname, text="Selected JBeam Parts")
 
 
 def update_node_positions_and_deletions(scene: bpy.types.Scene, veh_collection: bpy.types.Collection, obj_changed: bpy.types.Object):
@@ -759,7 +759,7 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
 
 @persistent
 def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
-    global prev_obj_selected
+    #global prev_obj_selected
     context = bpy.context
 
     if constants.DEBUG:
@@ -856,7 +856,7 @@ classes = (
     import_jbeam.JBEAM_EDITOR_OT_choose_jbeam,
     export_jbeam.JBEAM_EDITOR_OT_export_jbeam,
     import_vehicle.JBEAM_EDITOR_OT_import_vehicle,
-    export_vehicle.JBEAM_EDITOR_OT_export_vehicle,
+    #export_vehicle.JBEAM_EDITOR_OT_export_vehicle,
 )
 
 custom_keymaps = []
@@ -889,7 +889,7 @@ def register():
     bpy.types.TOPBAR_MT_file_import.append(menu_func_import)
     bpy.types.TOPBAR_MT_file_export.append(menu_func_export)
     bpy.types.TOPBAR_MT_file_import.append(menu_func_import_vehicle)
-    bpy.types.TOPBAR_MT_file_export.append(menu_func_export_vehicle)
+    #bpy.types.TOPBAR_MT_file_export.append(menu_func_export_vehicle)
 
     bpy.app.handlers.depsgraph_update_post.append(depsgraph_callback)
     bpy.app.handlers.save_post.append(save_post_callback)
@@ -914,7 +914,7 @@ def unregister():
     bpy.types.TOPBAR_MT_file_import.remove(menu_func_import)
     bpy.types.TOPBAR_MT_file_export.remove(menu_func_export)
     bpy.types.TOPBAR_MT_file_import.remove(menu_func_import_vehicle)
-    bpy.types.TOPBAR_MT_file_export.remove(menu_func_export_vehicle)
+    #bpy.types.TOPBAR_MT_file_export.remove(menu_func_export_vehicle)
 
     bpy.app.handlers.depsgraph_update_post.remove(depsgraph_callback)
     bpy.app.handlers.save_post.remove(save_post_callback)
