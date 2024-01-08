@@ -207,7 +207,7 @@ def _parse_number(c):
     _nodes.append(node)
 
 
-def parse_literal(c):
+def _parse_literal(c):
     global _pos
     print('using fallback literal: ' + c + ' at position ' + str(_pos))
     _nodes.append(ASTNode('literal', c))
@@ -220,10 +220,10 @@ def _parse():
             return
         pos_saved = _pos
         c = _str[_pos]
-        _peek_table.get(c, parse_literal)(c)
+        _peek_table.get(c, _parse_literal)(c)
 
         if pos_saved == _pos:
-            parse_literal(c)
+            _parse_literal(c)
 
 
 def stringify_nodes(nodes):
