@@ -714,10 +714,14 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
         if v.select:
             selected_verts.append(v)
         if i >= active_obj_data[constants.MESH_VERTEX_COUNT]:
-            new_node_id_bytes = bytes(str(uuid.uuid4()), 'utf-8')
+            new_node_id = str(uuid.uuid4())
+            new_node_id_bytes = bytes(new_node_id, 'utf-8')
             v[init_node_id_layer] = new_node_id_bytes
             v[node_id_layer] = new_node_id_bytes
             active_obj_data[constants.MESH_VERTEX_COUNT] += 1
+
+            if constants.DEBUG:
+                print('new vertex added', new_node_id)
 
     # Check if new edges are added
     beam_idx_layer = bm.edges.layers.int[constants.ELS_BEAM_IDX]
@@ -731,6 +735,9 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
             e[beam_idx_layer] = -1
             active_obj_data[constants.MESH_EDGE_COUNT] += 1
 
+            if constants.DEBUG:
+                print('new edge added', i)
+
     # Check if new faces are added
     face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
     selected_faces = []
@@ -742,6 +749,9 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
         if i >= active_obj_data[constants.MESH_FACE_COUNT]:
             f[face_idx_layer] = -1
             active_obj_data[constants.MESH_FACE_COUNT] += 1
+
+            if constants.DEBUG:
+                print('new face added', i)
 
     # If one vertex is selected, set the UI input node_id field to the selected vertex's node_id attribute
     if len(selected_verts) == 1:
