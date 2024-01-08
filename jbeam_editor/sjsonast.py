@@ -39,32 +39,11 @@ class ASTNode:
         self.precision = precision
         self.prefix_plus = prefix_plus
         self.add_post_fix_dot = add_post_fix_dot
+        self.start_pos = -1
+        self.end_pos = -1
 
     def __str__(self) -> str:
         return str(self.value) if self.value is not None else self.data_type
-
-
-def parse(s):
-    global _str
-    global _len_str
-    global _pos
-    global _nodes
-
-    _str = s
-    _len_str = len(s)
-    _pos = 0
-    _nodes = []
-
-    _parse()
-
-    return {
-        'ast': {
-            'nodes': _nodes,
-        },
-        'transient': {},
-        'str': s,
-        'pos': _pos
-    }
 
 
 def _add_node(c):
@@ -224,6 +203,57 @@ def _parse():
 
         if pos_saved == _pos:
             _parse_literal(c)
+
+
+def parse(s):
+    global _str
+    global _len_str
+    global _pos
+    global _nodes
+
+    _str = s
+    _len_str = len(s)
+    _pos = 0
+    _nodes = []
+
+    _parse()
+
+    return {
+        'ast': {
+            'nodes': _nodes,
+        },
+        'transient': {},
+        'str': s,
+        'pos': _pos
+    }
+
+
+def calculate_char_positions(nodes):
+    pos = 0
+    for i, node in enumerate(nodes):
+        node_type = node.data_type
+        chars_len = 0
+
+        if node_type in ('wsc', 'literal'):
+            chars_len += len(node.value)
+        elif node_type == 'bool':
+            chars_len += len(node.value and 'true' or 'false')
+        elif node_type == '"':
+            chars_len += len('"' + node.value + '"')
+        elif node_type == 'number':
+            num = node.value
+            precision = node.precision
+            if node.prefix_plus:
+                chars_len += 1
+            chars_len += len(f'%.{precision}f' % num)
+            if node.add_post_fix_dot:
+                chars_len += 1
+        else:
+            chars_len += len(node_type)
+
+        node.start_pos = pos
+        pos += chars_len
+        node.end_pos = pos - 1
 
 
 def stringify_nodes(nodes):
