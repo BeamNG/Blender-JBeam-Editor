@@ -31,6 +31,8 @@ SCENE_PREV_TEXTS = 'jbeam_editor_text_editor_files_text'
 #SCENE_FULL_TO_SHORT_FILENAME = 'jbeam_editor_text_editor_full_to_short_filename'
 SCENE_SHORT_TO_FULL_FILENAME = 'jbeam_editor_text_editor_short_to_full_filename'
 
+HISTORY_STACK_SIZE = 250
+
 regex = re.compile(r'^.*/vehicles/(.*)$')
 
 history_stack = []
@@ -180,6 +182,9 @@ def check_open_file_for_changes(context: bpy.types.Context, undoing_redoing=Fals
         history_stack.insert(history_stack_idx, {short_filename: curr_file_text})
         history_stack = history_stack[:history_stack_idx + 1]
 
+        if len(history_stack) > HISTORY_STACK_SIZE:
+            history_stack.pop(0)
+
         if constants.DEBUG:
             print('len(history_stack)', len(history_stack))
             print('history_stack_idx', history_stack_idx)
@@ -222,11 +227,14 @@ def check_files_for_changes(context: bpy.types.Context, filenames: list, undoing
 
     if not undoing_redoing and files_changed is not None:
         # Insert new history into history stack
-        # Overwrite history when stack idx is len(stack) - 1
+        # Overwrite history when stack idx is less than len(stack) - 1
         global history_stack, history_stack_idx
         history_stack_idx += 1
         history_stack.insert(history_stack_idx, files_changed)
         history_stack = history_stack[:history_stack_idx + 1]
+
+        if len(history_stack) > HISTORY_STACK_SIZE:
+            history_stack.pop(0)
 
         if constants.DEBUG:
             print('len(history_stack)', len(history_stack))
