@@ -665,7 +665,8 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
     i = 0
     while i < len(ast_nodes):
         node: sjsonast.ASTNode = ast_nodes[i]
-        if node.data_type == 'wsc':
+        node_type = node.data_type
+        if node_type == 'wsc':
             i += 1
             continue
 
@@ -673,10 +674,10 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
         prev_stack_head_key = stack[prev_stack_size - 1][0] if prev_stack_size > 0 else None
 
         if in_dict: # In dictionary object
-            if node.data_type in ('{', '['): # Going down a level
+            if node_type in ('{', '['): # Going down a level
                 if dict_key is not None:
                     stack.append((dict_key, in_dict))
-                    in_dict = node.data_type == '{'
+                    in_dict = node_type == '{'
                 else:
                     if len(stack) > 0: # Ignore outer most dictionary
                         print("{ or [ w/o key!", file=sys.stderr)
@@ -685,15 +686,15 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                 temp_dict_key = None
                 dict_key = None
 
-            elif node.data_type in ('}', ']'): # Going up a level
+            elif node_type in ('}', ']'): # Going up a level
                 in_dict, pos_in_arr = go_up_level(stack)
 
             else: # Defining key value pair
                 if temp_dict_key is None:
-                    if node.data_type == '"':
+                    if node_type == '"':
                         temp_dict_key = node.value
 
-                elif node.data_type == ':':
+                elif node_type == ':':
                     dict_key = temp_dict_key
 
                     if temp_dict_key is None:
@@ -711,17 +712,17 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                     dict_key = None
 
         else: # In array object
-            if node.data_type in ('{', '['): # Going down a level
+            if node_type in ('{', '['): # Going down a level
                 stack.append((pos_in_arr, in_dict))
-                in_dict = node.data_type == '{'
+                in_dict = node_type == '{'
                 pos_in_arr = 0
                 temp_dict_key = None
                 dict_key = None
 
-            elif node.data_type in ('}', ']'): # Going up a level
+            elif node_type in ('}', ']'): # Going up a level
                 in_dict, pos_in_arr = go_up_level(stack)
 
-            elif node.data_type not in ('}', ']'):
+            elif node_type not in ('}', ']'):
                 # Value definition
                 try:
                     changed = compare_and_set_value(current_jbeam_file_data, current_jbeam_file_data_modified, stack, pos_in_arr, node)
