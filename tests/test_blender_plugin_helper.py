@@ -78,14 +78,15 @@ class JBeamEditorTest:
         chosen_part = self.import_part
         assert chosen_part in bpy.context.scene.objects
 
-        bpy.context.active_object.select_set(False)
+        if bpy.context.active_object is not None:
+            bpy.context.active_object.select_set(False)
 
         # Set added JBeam object as active object
         bpy.context.view_layer.objects.active = bpy.context.scene.objects[chosen_part]
         bpy.context.active_object.select_set(True)
 
 
-    def set_to_edit_mode_and_get_imported_mesh_bmesh(self):
+    def set_to_edit_mode_and_get_imported_mesh(self):
         chosen_part = self.import_part
 
         # Set to active object to 'edit' mode
@@ -103,8 +104,9 @@ class JBeamEditorTest:
 
         init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
         node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+        node_part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
 
-        return bm, init_node_id_layer, node_id_layer
+        return obj, obj_data, bm, init_node_id_layer, node_id_layer, node_part_origin_layer
 
 
     def add_node(self, bm: bmesh.types.BMesh, pos):
@@ -193,7 +195,7 @@ class JBeamEditorTest:
 
     def add_nodes_from_imported_jbeam_mesh(self, node_ids: list, node_id_to_new_position: dict):
         self.select_imported_jbeam_mesh()
-        bm, init_node_id_layer, node_id_layer = self.set_to_edit_mode_and_get_imported_mesh_bmesh()
+        obj, obj_data, bm, init_node_id_layer, node_id_layer, part_origin_layer = self.set_to_edit_mode_and_get_imported_mesh()
 
         # Add nodes
         bm.verts.ensure_lookup_table()
@@ -202,15 +204,17 @@ class JBeamEditorTest:
             new_vert = bm.verts.new(new_pos)
 
             node_id_bytes = bytes(node_id, 'utf-8')
+            part_bytes = bytes(self.import_part, 'utf-8')
             new_vert[init_node_id_layer] = node_id_bytes
             new_vert[node_id_layer] = node_id_bytes
+            new_vert[part_origin_layer] = part_bytes
 
         bm.free()
 
 
     def delete_nodes_from_imported_jbeam_mesh(self, node_ids: set):
         self.select_imported_jbeam_mesh()
-        bm, init_node_id_layer, node_id_layer = self.set_to_edit_mode_and_get_imported_mesh_bmesh()
+        obj, obj_data, bm, init_node_id_layer, node_id_layer, part_origin_layer = self.set_to_edit_mode_and_get_imported_mesh()
         self.deselect_all_vertices(bm)
         self.select_nodes_by_node_id(bm, init_node_id_layer, node_id_layer, node_ids)
         self.delete_selected_vertices(bm)
@@ -220,7 +224,7 @@ class JBeamEditorTest:
 
     def move_nodes_from_imported_jbeam_mesh(self, node_ids_to_new_pos: dict):
         self.select_imported_jbeam_mesh()
-        bm, init_node_id_layer, node_id_layer = self.set_to_edit_mode_and_get_imported_mesh_bmesh()
+        obj, obj_data, bm, init_node_id_layer, node_id_layer, part_origin_layer = self.set_to_edit_mode_and_get_imported_mesh()
         self.deselect_all_vertices(bm)
 
         # Move nodes one at a time, replicating user behavior
@@ -260,7 +264,7 @@ class JBeamEditorTest:
 
     def rename_nodes_from_imported_jbeam_mesh(self, old_to_new_node_ids: list[tuple[str, str]]):
         self.select_imported_jbeam_mesh()
-        bm, init_node_id_layer, node_id_layer = self.set_to_edit_mode_and_get_imported_mesh_bmesh()
+        obj, obj_data, bm, init_node_id_layer, node_id_layer, part_origin_layer = self.set_to_edit_mode_and_get_imported_mesh()
         self.deselect_all_vertices(bm)
 
         # Rename nodes one at a time, replicating user behavior
@@ -293,7 +297,7 @@ class JBeamEditorTest:
     def export_jbeam_to_file(self):
         #print("export_jbeam" , self.test_suite_name, self.test_name, self.temp_import_file)
         #return bpy.ops.jbeam_editor.export_jbeam(filepath=self.temp_import_file)
-        return bpy.ops.jbeam_editor.export_vehicle()
+        return bpy.ops.jbeam_editor.export_jbeam()
 
 
     # Check if exported result based on user input matches expected result
