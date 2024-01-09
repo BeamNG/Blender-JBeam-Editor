@@ -217,12 +217,8 @@ def add_jbeam_nodes(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_se
         ast_nodes.insert(i + 6, sjsonast.ASTNode('wsc', ', '))
         ast_nodes.insert(i + 7, sjsonast.ASTNode('number', node_pos[2], precision=get_float_precision(node_pos[2])))
         ast_nodes.insert(i + 8, sjsonast.ASTNode(']'))
-        i += 9
-
-        if k < nodes_len - 1:
-            ast_nodes.insert(i, sjsonast.ASTNode('wsc', ','))
-            i += 1
-
+        ast_nodes.insert(i + 9, sjsonast.ASTNode('wsc', ','))
+        i += 10
         k += 1
 
     # Add modified original last WSCS back to end of section
