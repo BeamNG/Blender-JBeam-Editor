@@ -211,6 +211,8 @@ class JBeamEditorTest:
 
         bm.free()
 
+        self.export_jbeam()
+
 
     def delete_nodes_from_imported_jbeam_mesh(self, node_ids: set):
         self.select_imported_jbeam_mesh()
@@ -220,6 +222,8 @@ class JBeamEditorTest:
         self.delete_selected_vertices(bm)
 
         bm.free()
+
+        self.export_jbeam()
 
 
     def move_nodes_from_imported_jbeam_mesh(self, node_ids_to_new_pos: dict):
