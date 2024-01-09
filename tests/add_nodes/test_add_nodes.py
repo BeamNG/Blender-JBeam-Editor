@@ -130,20 +130,21 @@ def test_3():
 
 
 # Import, choose JBeam mesh, add new nodes in this order and export (valid):
-# 'new_node1': (100,200,300),
-# 'new_node2': (9,80,700),
-# 'new_node3': (1.1,10.11,100.111),
-# 'new_node4': (1000.21,3.55,100006.50)
+# 'new_node1': (333,444,555),
+# 'new_node2': (97,65,7600),
+# 'new_node3': (1.123,10.1234,100.12345),
+# 'new_node4': (1000.1,3.2,100006.3)
 def test_4():
     jbeam_editor_test.set_test_to_run(test_4.__name__)
     chosen_part = jbeam_editor_test.import_part
 
     node_ids = ['new_node1', 'new_node2', 'new_node3', 'new_node4']
+    #node_ids = ['new_node1']
     node_id_to_new_position = {
-        'new_node1': (100,200,300),
-        'new_node2': (9,80,700),
-        'new_node3': (1.1,10.11,100.111),
-        'new_node4': (1000.21,3.55,100006.50)
+        'new_node1': (333,444,555),
+        'new_node2': (97,65,7600),
+        'new_node3': (1.1,10.12,100.123),
+        'new_node4': (999.15,300.2,1.3)
     }
 
     # Import chosen part from JBeam file
