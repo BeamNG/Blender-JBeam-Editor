@@ -91,6 +91,8 @@ def test_2():
 
     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(node_ids, node_id_to_new_position)
 
+    jbeam_editor_test.export_jbeam()
+
     # Export JBeam file and test result
     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
@@ -118,6 +120,8 @@ def test_3():
     jbeam_editor_test.import_jbeam()
 
     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(node_ids, node_id_to_new_position)
+
+    jbeam_editor_test.export_jbeam()
 
     # Export JBeam file and test result
     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
@@ -147,6 +151,8 @@ def test_4():
 
     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(node_ids, node_id_to_new_position)
 
+    jbeam_editor_test.export_jbeam()
+
     # Export JBeam file and test result
     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
@@ -174,6 +180,8 @@ def test_5():
     jbeam_editor_test.import_jbeam()
 
     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(node_ids, node_id_to_new_position)
+
+    jbeam_editor_test.export_jbeam()
 
     # Export JBeam file and test result
     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
@@ -203,6 +211,8 @@ def test_6():
 
     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(node_ids, node_id_to_new_position)
 
+    jbeam_editor_test.export_jbeam()
+
     # Export JBeam file and test result
     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
@@ -230,6 +240,8 @@ def test_7():
     jbeam_editor_test.import_jbeam()
 
     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(node_ids, node_id_to_new_position)
+
+    jbeam_editor_test.export_jbeam()
 
     # Export JBeam file and test result
     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
@@ -259,6 +271,8 @@ def test_8():
 
     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(node_ids, node_id_to_new_position)
 
+    jbeam_editor_test.export_jbeam()
+
     # Export JBeam file and test result
     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
@@ -287,6 +301,8 @@ def test_9():
 
     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(node_ids, node_id_to_new_position)
 
+    jbeam_editor_test.export_jbeam()
+
     # Export JBeam file and test result
     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
@@ -314,6 +330,8 @@ def test_10():
     jbeam_editor_test.import_jbeam()
 
     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(node_ids, node_id_to_new_position)
+
+    jbeam_editor_test.export_jbeam()
 
     # Export JBeam file and test result
     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
