@@ -20,6 +20,7 @@
 
 import bpy
 
+import hashlib
 import re
 
 from . import constants
@@ -46,10 +47,12 @@ def _get_short_jbeam_path(path: str):
 
 
 def _to_short_filename(filename: str):
-    new_filename = _get_short_jbeam_path(filename)
-    if new_filename is None:
-        new_filename = filename
-    return new_filename[max(0, len(new_filename) - 60):] # roughly 60 character limit
+    return hashlib.md5(filename.encode('UTF-8')).hexdigest()
+
+    # new_filename = _get_short_jbeam_path(filename)
+    # if new_filename is None:
+    #     new_filename = filename
+    # return new_filename[max(0, len(new_filename) - 60):] # roughly 60 character limit
 
 
 def write_file_from_disk(filepath: str):
@@ -113,6 +116,14 @@ def read_file(filename: str, get_from_disk_if_not_exist=False) -> str | None:
     else:
         filetext = text.as_string()
     return filetext
+
+
+def delete_file(filename: str):
+    short_filename = _to_short_filename(filename)
+    text: bpy.types.Text | None = bpy.data.texts.get(short_filename)
+    if text is None:
+        return
+    bpy.data.texts.remove(text)
 
 
 def show_file(filename: str):
