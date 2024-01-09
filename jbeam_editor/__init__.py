@@ -630,6 +630,8 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
             return_early = True
 
     if return_early:
+        if constants.DEBUG:
+            print('_depsgraph_callback: Returning early')
         return
 
     ui_props = scene.ui_properties
@@ -669,7 +671,7 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
             #print('update.is_updated_geometry', update.is_updated_geometry, 'update.is_updated_shading', update.is_updated_shading, 'update.is_updated_transform', update.is_updated_transform)
             if update.id == active_obj_eval and (update.is_updated_geometry or update.is_updated_transform):
                 if constants.DEBUG:
-                    print('updated_geometry')
+                    print('_depsgraph_callback: updated_geometry')
                 _do_export = True
 
     veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
