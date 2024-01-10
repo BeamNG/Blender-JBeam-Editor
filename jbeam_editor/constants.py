@@ -18,8 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-UNIT_TESTING = False
-DEBUG = False
+UNIT_TESTING = True
+DEBUG = True
 
 # JBeam Collection Attributes
 COLLECTION_IO_CTX = 'collection_vehicle_io_ctx'
@@ -45,6 +45,7 @@ MESH_SINGLE_JBEAM_PART_DATA = 'jbeam_part_data'
 VLS_INIT_NODE_ID = 'jbeam_init_node_id'
 VLS_NODE_ID = 'jbeam_node_id'
 VLS_NODE_PART_ORIGIN = 'jbeam_node_part_origin'
+VLS_NODE_IS_FAKE = 'jbeam_node_is_fake'
 
 # bm.edges.layers.string Attributes
 ELS_BEAM_PART_ORIGIN = 'jbeam_beam_part_origin'
