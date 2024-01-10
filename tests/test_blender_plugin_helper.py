@@ -167,23 +167,19 @@ class JBeamEditorTest:
         assert selected_node
 
 
-    def select_nodes_by_node_id(self, bm: bmesh.types.BMesh, init_node_id_layer, node_id_layer, node_ids: set):
+    def select_nodes_by_node_id(self, bm: bmesh.types.BMesh, init_node_id_layer, node_id_layer, node_ids_to_select: set):
         init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
         node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
 
-        nodes_selected = {}
-        for node_id in node_ids:
-            nodes_selected[node_id] = False
-
+        nodes_selected = set()
         v: bmesh.types.BMVert
-        for v in bm.verts:
+        for v in reversed(bm.verts):
             node_id = v[node_id_layer].decode('utf-8')
-            if node_id in node_ids:
+            if node_id in node_ids_to_select and node_id not in nodes_selected:
                 v.select = True
-                nodes_selected[node_id] = True
+                nodes_selected.add(node_id)
 
-        for node_id in node_ids:
-            assert nodes_selected[node_id]
+        assert node_ids_to_select == nodes_selected
 
 
     def delete_selected_vertices(self, bm: bmesh.types.BMesh):
@@ -296,6 +292,8 @@ class JBeamEditorTest:
             self.deselect_all_vertices(bm)
 
         bm.free()
+
+        self.export_jbeam()
 
 
     def export_jbeam(self):
