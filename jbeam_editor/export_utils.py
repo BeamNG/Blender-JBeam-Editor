@@ -466,6 +466,7 @@ def get_nodes_add_delete_rename(init_nodes_data: dict, obj: bpy.types.Object, bm
     init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
     node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
     part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
+    node_is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
 
     # Update node ids and positions from Blender into the SJSON data
 
@@ -474,6 +475,9 @@ def get_nodes_add_delete_rename(init_nodes_data: dict, obj: bpy.types.Object, bm
     blender_nodes = {}
     # Create dictionary where key is init node id and value is current blender node id and position
     for v in bm.verts:
+        node_is_fake = v[node_is_fake_layer]
+        if node_is_fake == 1:
+            continue
         init_node_id = v[init_node_id_layer].decode('utf-8')
         node_id = v[node_id_layer].decode('utf-8')
         node_part_origin = v[part_origin_layer].decode('utf-8')
@@ -698,7 +702,10 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
 
                 elif dict_key is not None:
                     try:
-                        compare_and_set_value(current_jbeam_file_data, current_jbeam_file_data_modified, stack, dict_key, node)
+                        changed = compare_and_set_value(current_jbeam_file_data, current_jbeam_file_data_modified, stack, dict_key, node)
+                        if constants.DEBUG:
+                            if changed:
+                                print('value changed!', node.data_type, node.value)
                     except:
                         traceback.print_exc()
                         print_ast_nodes(ast_nodes, i, 50, True, sys.stderr)
@@ -722,6 +729,9 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                 # Value definition
                 try:
                     changed = compare_and_set_value(current_jbeam_file_data, current_jbeam_file_data_modified, stack, pos_in_arr, node)
+                    if constants.DEBUG:
+                        if changed:
+                            print('value changed!', node.data_type, node.value)
                 except:
                     traceback.print_exc()
                     print_ast_nodes(ast_nodes, i, 50, True, sys.stderr)

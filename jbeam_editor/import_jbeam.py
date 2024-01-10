@@ -67,15 +67,15 @@ def get_vertices_edges_faces(vdata: dict):
 
                     node_index_to_id.append(id1)
                     n1_vert_idx = len(node_index_to_id) - 1
-                    vertices.append(n1['pos'])
+                    vertices.append((n1['pos'], True))
 
                     node_index_to_id.append(id2)
                     n2_vert_idx = len(node_index_to_id) - 1
-                    vertices.append(n2['pos'])
+                    vertices.append((n2['pos'], True))
 
                     node_index_to_id.append(id3)
                     n3_vert_idx = len(node_index_to_id) - 1
-                    vertices.append(n3['pos'])
+                    vertices.append((n3['pos'], True))
 
                     faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx))
                 else:
@@ -90,19 +90,19 @@ def get_vertices_edges_faces(vdata: dict):
 
                     node_index_to_id.append(id1)
                     n1_vert_idx = len(node_index_to_id) - 1
-                    vertices.append(n1['pos'])
+                    vertices.append((n1['pos'], True))
 
                     node_index_to_id.append(id2)
                     n2_vert_idx = len(node_index_to_id) - 1
-                    vertices.append(n2['pos'])
+                    vertices.append((n2['pos'], True))
 
                     node_index_to_id.append(id3)
                     n3_vert_idx = len(node_index_to_id) - 1
-                    vertices.append(n3['pos'])
+                    vertices.append((n3['pos'], True))
 
                     node_index_to_id.append(id4)
                     n4_vert_idx = len(node_index_to_id) - 1
-                    vertices.append(n4['pos'])
+                    vertices.append((n4['pos'], True))
 
                     faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx, n4_vert_idx))
                 else:
@@ -112,7 +112,7 @@ def get_vertices_edges_faces(vdata: dict):
         for i, (node_id, node) in enumerate(nodes.items()):
             node_index_to_id.append(node_id)
             node_id_to_index[node_id] = len(vertices)
-            vertices.append(node['pos'])
+            vertices.append((node['pos'], False))
 
         # Translate beams to edges
         if 'beams' in vdata:
@@ -127,11 +127,11 @@ def get_vertices_edges_faces(vdata: dict):
                         n1, n2 = nodes[id1], nodes[id2]
                         node_index_to_id.append(id1)
                         n1_vert_idx = len(node_index_to_id) - 1
-                        vertices.append(n1['pos'])
+                        vertices.append((n1['pos'], True))
 
                         node_index_to_id.append(id2)
                         n2_vert_idx = len(node_index_to_id) - 1
-                        vertices.append(n2['pos'])
+                        vertices.append((n2['pos'], True))
 
                         edges.append((n1_vert_idx, n2_vert_idx))
 
@@ -161,6 +161,7 @@ def generate_part_mesh(obj_data: bpy.types.Mesh, bm: bmesh.types.BMesh, vdata: d
     init_node_id_layer = bm.verts.layers.string.new(constants.VLS_INIT_NODE_ID)
     node_id_layer = bm.verts.layers.string.new(constants.VLS_NODE_ID)
     node_origin_layer = bm.verts.layers.string.new(constants.VLS_NODE_PART_ORIGIN)
+    node_is_fake_layer = bm.verts.layers.int.new(constants.VLS_NODE_IS_FAKE)
 
     beam_origin_layer = bm.edges.layers.string.new(constants.ELS_BEAM_PART_ORIGIN)
     beam_idx_layer = bm.edges.layers.int.new(constants.ELS_BEAM_IDX)
@@ -169,13 +170,14 @@ def generate_part_mesh(obj_data: bpy.types.Mesh, bm: bmesh.types.BMesh, vdata: d
     face_origin_layer = bm.faces.layers.string.new(constants.FLS_FACE_PART_ORIGIN)
     face_idx_layer = bm.faces.layers.int.new(constants.FLS_FACE_IDX)
 
-    for i, vert in enumerate(vertices):
-        v = bm.verts.new(vert)
+    for i, (pos, is_fake) in enumerate(vertices):
+        v = bm.verts.new(pos)
         node_id = node_index_to_id[i]
         bytes_node_id = bytes(node_id, 'utf-8')
         v[init_node_id_layer] = bytes_node_id
         v[node_id_layer] = bytes_node_id
         v[node_origin_layer] = bytes(part, 'utf-8')
+        v[node_is_fake_layer] = int(is_fake)
 
     bm.verts.ensure_lookup_table()
 

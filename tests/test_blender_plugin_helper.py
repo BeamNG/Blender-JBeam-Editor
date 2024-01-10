@@ -146,28 +146,44 @@ class JBeamEditorTest:
         #depsgraph.debug_tag_update()
 
 
-    def select_node_by_node_id(self, bm: bmesh.types.BMesh, init_node_id_layer, node_id_layer, node_id):
+    def select_node_by_node_id(self, bm: bmesh.types.BMesh, init_node_id_layer, node_id_layer, the_node_id):
         init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
         node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+        node_is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
+        selected_node = False
 
         v: bmesh.types.BMVert
         for v in bm.verts:
-            v_node_id = v[node_id_layer].decode('utf-8')
-            if v_node_id == node_id:
+            node_is_fake = v[node_is_fake_layer]
+            if node_is_fake == 1:
+                continue
+            node_id = v[node_id_layer].decode('utf-8')
+            if node_id == the_node_id:
                 v.select = True
                 #v.select_set(True)
+                selected_node = True
                 break
+
+        assert selected_node
 
 
     def select_nodes_by_node_id(self, bm: bmesh.types.BMesh, init_node_id_layer, node_id_layer, node_ids: set):
         init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
         node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
 
+        nodes_selected = {}
+        for node_id in node_ids:
+            nodes_selected[node_id] = False
+
         v: bmesh.types.BMVert
         for v in bm.verts:
-            v_node_id = v[node_id_layer].decode('utf-8')
-            if v_node_id in node_ids:
+            node_id = v[node_id_layer].decode('utf-8')
+            if node_id in node_ids:
                 v.select = True
+                nodes_selected[node_id] = True
+
+        for node_id in node_ids:
+            assert nodes_selected[node_id]
 
 
     def delete_selected_vertices(self, bm: bmesh.types.BMesh):
@@ -238,6 +254,8 @@ class JBeamEditorTest:
             self.deselect_all_vertices(bm)
 
         bm.free()
+
+        self.export_jbeam()
 
 
     # Could not get to this work :'( sniff sniff. This attempts to rename the nodes through replicating user behavior of using the UI to do so.

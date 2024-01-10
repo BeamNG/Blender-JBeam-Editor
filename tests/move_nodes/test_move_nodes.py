@@ -39,7 +39,7 @@ from test_blender_plugin_helper import JBeamEditorTest
 jbeam_editor_test = JBeamEditorTest('move_nodes')
 
 
-# Import, choose JBeam mesh, move node nl10 from (-0.84,  0.99, 0.21) to (-0.84,  0.99, 10), export (valid)
+# Import, choose JBeam mesh, move node nl10 from (0.8,-0.8,-0.2) to (-0.84,0.99,10), export (valid)
 def test_1():
     jbeam_editor_test.set_test_to_run(test_1.__name__)
     chosen_part = jbeam_editor_test.import_part
