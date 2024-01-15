@@ -18,8 +18,8 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-UNIT_TESTING = True
-DEBUG = True
+UNIT_TESTING = False
+DEBUG = False
 
 # JBeam Collection Attributes
 COLLECTION_IO_CTX = 'collection_vehicle_io_ctx'
