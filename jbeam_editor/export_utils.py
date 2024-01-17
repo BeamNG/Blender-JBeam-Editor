@@ -788,6 +788,8 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                     #assert jbeam_entry_start_node_idx < jbeam_section_end_node_idx
                     #assert jbeam_entry_end_node_idx < jbeam_section_end_node_idx
 
+                    jbeam_def_deleted = False
+
                     if stack_head[0] == 'nodes':
                         # If current jbeam node is part of delete list, remove the node definition
                         if len(jbeam_section_def) > 0:
@@ -801,27 +803,31 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                                 # if constants.DEBUG:
                                 #     print('\n-------------After-------------')
                                 #     print_ast_nodes(ast_nodes, i, 50, True, sys.stdout)
+                                jbeam_def_deleted = True
 
                     elif stack_head[0] == 'beams':
                         # If current jbeam beam is part of delete list, remove the beam definition
                         if len(jbeam_section_def) > 0:
                             if jbeam_section_row_def_idx in beams_to_delete:
                                 i = delete_jbeam_entry(ast_nodes, jbeam_section_start_node_idx, jbeam_entry_start_node_idx, jbeam_entry_end_node_idx)
+                                jbeam_def_deleted = True
 
                     elif stack_head[0] == 'triangles':
                         # If current jbeam tri is part of delete list, remove the tri definition
                         if len(jbeam_section_def) > 0:
                             if jbeam_section_row_def_idx in tris_to_delete:
                                 i = delete_jbeam_entry(ast_nodes, jbeam_section_start_node_idx, jbeam_entry_start_node_idx, jbeam_entry_end_node_idx)
+                                jbeam_def_deleted = True
 
                     elif stack_head[0] == 'quads':
                         # If current jbeam quad is part of delete list, remove the quad definition
                         if len(jbeam_section_def) > 0:
                             if jbeam_section_row_def_idx in quads_to_delete:
                                 i = delete_jbeam_entry(ast_nodes, jbeam_section_start_node_idx, jbeam_entry_start_node_idx, jbeam_entry_end_node_idx)
+                                jbeam_def_deleted = True
 
                     # Delete jbeam entries if referenced node is deleted
-                    if affect_node_references:
+                    if not jbeam_def_deleted and affect_node_references:
                         if len(jbeam_section_def) > 0:
                             len_row_header = len(jbeam_section_header)
                             for col_idx, col in enumerate(jbeam_section_def):
