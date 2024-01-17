@@ -661,7 +661,7 @@ def go_up_level(stack: list):
     return in_dict, pos_in_arr
 
 
-def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbeam_file_data_modified: dict, jbeam_part: str,
+def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbeam_file_data_modified: dict, jbeam_part: str, affect_node_references: bool,
                      nodes_to_add: dict, nodes_to_delete: set,
                      beams_to_add: set, beams_to_delete: set,
                      tris_to_add: set, tris_to_delete: set,
@@ -820,6 +820,14 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                             if jbeam_section_row_def_idx in quads_to_delete:
                                 i = delete_jbeam_entry(ast_nodes, jbeam_section_start_node_idx, jbeam_entry_start_node_idx, jbeam_entry_end_node_idx)
 
+                    # Delete jbeam entries if referenced node is deleted
+                    if affect_node_references:
+                        if len(jbeam_section_def) > 0:
+                            len_row_header = len(jbeam_section_header)
+                            for col_idx, col in enumerate(jbeam_section_def):
+                                if col_idx < len_row_header and jbeam_section_header[col_idx].find(':') != -1:
+                                    if col in nodes_to_delete:
+                                        i = delete_jbeam_entry(ast_nodes, jbeam_section_start_node_idx, jbeam_entry_start_node_idx, jbeam_entry_end_node_idx)
 
                     jbeam_entry_start_node_idx = None
                     jbeam_entry_end_node_idx = None
@@ -934,7 +942,11 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, 
             print('quads to add:', quads_to_add)
             print('quads to delete:', quads_to_delete)
 
-        update_ast_nodes(ast_nodes, jbeam_file_data, jbeam_file_data_modified, jbeam_part, nodes_to_add, nodes_to_delete, beams_to_add, beams_to_delete, tris_to_add, tris_to_delete, quads_to_add, quads_to_delete)
+        update_ast_nodes(ast_nodes, jbeam_file_data, jbeam_file_data_modified, jbeam_part, affect_node_references,
+                         nodes_to_add, nodes_to_delete,
+                         beams_to_add, beams_to_delete,
+                         tris_to_add, tris_to_delete,
+                         quads_to_add, quads_to_delete)
         out_str_jbeam_data = sjsonast.stringify_nodes(ast_nodes)
 
         init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
