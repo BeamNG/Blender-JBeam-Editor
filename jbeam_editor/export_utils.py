@@ -494,7 +494,7 @@ def set_node_renames_positions(jbeam_file_data_modified: dict, jbeam_part: str, 
                 for row_idx, row_data in enumerate(section_data, 1):
                     if isinstance(row_data, list):
                         for col_idx, col in enumerate(row_data):
-                            if col_idx < len_row_header and re.match(r'id\d+:', row_header[col_idx]):
+                            if col_idx < len_row_header and row_header[col_idx].find(':') != -1:
                                 if col in node_renames:
                                     row_data[col_idx] = node_renames[col]
 

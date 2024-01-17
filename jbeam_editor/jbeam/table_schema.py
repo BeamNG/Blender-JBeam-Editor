@@ -248,7 +248,7 @@ def check_node_references(vehicle: dict):
                 is_virtual = False
                 if nodes:
                     for rk, rv in row_value.items():
-                        if isinstance(rk, str) and re.match(r'id\d+:', rk) is not None and rv not in nodes:
+                        if isinstance(rk, str) and rk.find(':') != -1 and rv not in nodes:
                             is_virtual = True
                             break
                     if is_virtual:
