@@ -158,16 +158,32 @@ def get_vertices_edges_faces(vehicle_bundle: dict):
 
     node_index_to_id = []
     node_id_to_index = {}
-    vertices = []
 
+    vertices = []
     parts_edges = {}
     parts_faces = {}
 
-    edges_added = {}
-    #faces_added = {}
-
     if 'nodes' in vdata:
         nodes: dict[str, dict] = vdata['nodes']
+
+        # Translate nodes to vertices
+        for i, (node_id, node) in enumerate(nodes.items()):
+            node_index_to_id.append(node_id)
+            node_id_to_index[node_id] = len(vertices)
+            vertices.append((node['pos']))
+
+        # Translate beams to edges
+        if 'beams' in vdata:
+            for beam in vdata['beams']:
+                part_origin = beam['partOrigin']
+                edges = parts_edges.setdefault(part_origin, [])
+
+                ids = (beam['id1:'], beam['id2:'])
+                if all(x in nodes for x in ids):
+                    edge_tup_sorted = tuple(sorted(ids))
+                    edges.append((node_id_to_index[edge_tup_sorted[0]], node_id_to_index[edge_tup_sorted[1]]))
+                else:
+                    edges.append(None)
 
         # Translate triangles to faces
         if 'triangles' in vdata:
@@ -175,23 +191,10 @@ def get_vertices_edges_faces(vehicle_bundle: dict):
                 part_origin = tri['partOrigin']
                 faces = parts_faces.setdefault(part_origin, [])
 
-                id1, id2, id3 = tri['id1:'], tri['id2:'], tri['id3:']
-                if id1 in nodes and id2 in nodes and id3 in nodes:
-                    n1, n2, n3 = nodes[id1], nodes[id2], nodes[id3]
-
-                    node_index_to_id.append(id1)
-                    n1_vert_idx = len(node_index_to_id) - 1
-                    vertices.append(n1['pos'])
-
-                    node_index_to_id.append(id2)
-                    n2_vert_idx = len(node_index_to_id) - 1
-                    vertices.append(n2['pos'])
-
-                    node_index_to_id.append(id3)
-                    n3_vert_idx = len(node_index_to_id) - 1
-                    vertices.append(n3['pos'])
-
-                    faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx))
+                ids = (tri['id1:'], tri['id2:'], tri['id3:'])
+                if all(x in nodes for x in ids):
+                    face_tup_sorted = tuple(sorted(ids))
+                    faces.append((node_id_to_index[face_tup_sorted[0]], node_id_to_index[face_tup_sorted[1]], node_id_to_index[face_tup_sorted[2]]))
                 else:
                     faces.append(None)
 
@@ -201,78 +204,12 @@ def get_vertices_edges_faces(vehicle_bundle: dict):
                 part_origin = quad['partOrigin']
                 faces = parts_faces.setdefault(part_origin, [])
 
-                id1, id2, id3, id4 = quad['id1:'], quad['id2:'], quad['id3:'], quad['id4:']
-                if id1 in nodes and id2 in nodes and id3 in nodes and id4 in nodes:
-                    n1, n2, n3, n4 = nodes[id1], nodes[id2], nodes[id3], nodes[id4]
-
-                    node_index_to_id.append(id1)
-                    n1_vert_idx = len(node_index_to_id) - 1
-                    vertices.append(n1['pos'])
-
-                    node_index_to_id.append(id2)
-                    n2_vert_idx = len(node_index_to_id) - 1
-                    vertices.append(n2['pos'])
-
-                    node_index_to_id.append(id3)
-                    n3_vert_idx = len(node_index_to_id) - 1
-                    vertices.append(n3['pos'])
-
-                    node_index_to_id.append(id4)
-                    n4_vert_idx = len(node_index_to_id) - 1
-                    vertices.append(n4['pos'])
-
-                    faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx, n4_vert_idx))
+                ids = (quad['id1:'], quad['id2:'], quad['id3:'], quad['id4:'])
+                if all(x in nodes for x in ids):
+                    face_tup_sorted = tuple(sorted(ids))
+                    faces.append((node_id_to_index[face_tup_sorted[0]], node_id_to_index[face_tup_sorted[1]], node_id_to_index[face_tup_sorted[2]], node_id_to_index[face_tup_sorted[3]]))
                 else:
                     faces.append(None)
-
-        # Translate nodes to vertices
-        for i, (node_id, node) in enumerate(nodes.items()):
-            node_index_to_id.append(node_id)
-            node_id_to_index[node_id] = len(vertices)
-            vertices.append(node['pos'])
-
-        # Translate beams to edges
-        if 'beams' in vdata:
-            for beam in vdata['beams']:
-                part_origin = beam['partOrigin']
-                edges = parts_edges.setdefault(part_origin, [])
-
-                # Duplicates will have their own vertices
-                id1, id2 = beam['id1:'], beam['id2:']
-
-                if id1 in node_id_to_index and id2 in node_id_to_index:
-                    edge_tup_sorted = tuple(sorted((id1, id2)))
-                    if edge_tup_sorted in edges_added:
-                        # Duplicate
-                        n1, n2 = nodes[id1], nodes[id2]
-                        node_index_to_id.append(id1)
-                        n1_vert_idx = len(node_index_to_id) - 1
-                        vertices.append(n1['pos'])
-
-                        node_index_to_id.append(id2)
-                        n2_vert_idx = len(node_index_to_id) - 1
-                        vertices.append(n2['pos'])
-
-                        edges.append((n1_vert_idx, n2_vert_idx))
-
-                        edges_added[edge_tup_sorted] += 1
-                    else:
-                        edges.append((node_id_to_index[id1], node_id_to_index[id2]))
-                        edges_added[edge_tup_sorted] = 1
-                else:
-                    edges.append(None)
-
-                # n1, n2 = nodes[id1], nodes[id2]
-
-                # node_index_to_id.append(id1)
-                # n1_vert_idx = len(node_index_to_id) - 1
-                # vertices.append(n1['pos'])
-
-                # node_index_to_id.append(id2)
-                # n2_vert_idx = len(node_index_to_id) - 1
-                # vertices.append(n2['pos'])
-
-                # edges.append((n1_vert_idx, n2_vert_idx))
 
     return vertices, parts_edges, parts_faces, node_index_to_id
 
@@ -288,16 +225,16 @@ def generate_part_mesh(obj_data: bpy.types.Mesh, bm: bmesh.types.BMesh, vehicle_
     node_origin_layer = bm.verts.layers.string.new(constants.VLS_NODE_PART_ORIGIN)
 
     beam_origin_layer = bm.edges.layers.string.new(constants.ELS_BEAM_PART_ORIGIN)
-    beam_idx_layer = bm.edges.layers.int.new(constants.ELS_BEAM_IDX)
+    beam_indices_layer = bm.edges.layers.string.new(constants.ELS_BEAM_INDICES)
 
     face_is_quad = bm.faces.layers.int.new(constants.FLS_IS_QUAD)
     face_origin_layer = bm.faces.layers.string.new(constants.FLS_FACE_PART_ORIGIN)
-    face_idx_layer = bm.faces.layers.int.new(constants.FLS_FACE_IDX)
+    face_indices_layer = bm.faces.layers.string.new(constants.FLS_FACE_INDICES)
 
     if 'nodes' in vdata:
         nodes: dict[str, dict] = vdata['nodes']
-        for i, vert in enumerate(vertices):
-            v = bm.verts.new(vert)
+        for i, (pos) in enumerate(vertices):
+            v = bm.verts.new(pos)
             node_id = node_index_to_id[i]
             bytes_node_id = bytes(node_id, 'utf-8')
             v[init_node_id_layer] = bytes_node_id
@@ -309,21 +246,37 @@ def generate_part_mesh(obj_data: bpy.types.Mesh, bm: bmesh.types.BMesh, vehicle_
     edges = parts_edges[part] if part in parts_edges else []
     faces = parts_faces[part] if part in parts_faces else []
 
+    added_edges = {}
+
     for i, edge in enumerate(edges, 1):
         if edge is not None:
-            e = bm.edges.new((bm.verts[edge[0]], bm.verts[edge[1]]))
-            e[beam_idx_layer] = i
-            e[beam_origin_layer] = bytes(part, 'utf-8')
+            if not edge in added_edges:
+                e = bm.edges.new((bm.verts[edge[0]], bm.verts[edge[1]]))
+                e[beam_indices_layer] = bytes(f'{i}', 'utf-8')
+                e[beam_origin_layer] = bytes(part, 'utf-8')
+                added_edges[edge] = e
+            else:
+                e = added_edges[edge]
+                last_indices = e[beam_indices_layer].decode('utf-8')
+                e[beam_indices_layer] = bytes(f'{last_indices},{i}', 'utf-8')
+
+    added_faces = {}
 
     for i, face in enumerate(faces, 1):
         if face is not None:
-            if len(face) == 3:
-                f = bm.faces.new((bm.verts[face[0]], bm.verts[face[1]], bm.verts[face[2]]))
+            if not face in added_faces:
+                if len(face) == 3:
+                    f = bm.faces.new((bm.verts[face[0]], bm.verts[face[1]], bm.verts[face[2]]))
+                else:
+                    f = bm.faces.new((bm.verts[face[0]], bm.verts[face[1]], bm.verts[face[2]], bm.verts[face[3]]))
+                    f[face_is_quad] = 1
+                f[face_indices_layer] = bytes(f'{i}', 'utf-8')
+                f[face_origin_layer] = bytes(part, 'utf-8')
+                added_faces[face] = f
             else:
-                f = bm.faces.new((bm.verts[face[0]], bm.verts[face[1]], bm.verts[face[2]], bm.verts[face[3]]))
-                f[face_is_quad] = 1
-            f[face_idx_layer] = i
-            f[face_origin_layer] = bytes(part, 'utf-8')
+                f = added_faces[face]
+                last_indices = f[face_indices_layer].decode('utf-8')
+                f[face_indices_layer] = bytes(f'{last_indices},{i}', 'utf-8')
 
     obj_data[constants.MESH_JBEAM_PART] = part
     obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_filepath

@@ -72,6 +72,10 @@ _force_do_export = False
 prev_obj_selected = None
 curr_vdata = None
 
+selected_verts = []
+selected_edges = []
+selected_faces = []
+
 veh_render_dirty = False
 
 # Refresh property input field UI
@@ -137,6 +141,12 @@ class UIProperties(bpy.types.PropertyGroup):
     toggle_node_ids_text: bpy.props.BoolProperty(
         name="Toggle NodeIDs Text",
         description="Toggles the text of NodeIDs",
+        default=True
+    )
+
+    affect_node_references: bpy.props.BoolProperty(
+        name="Affect Node References",
+        description="Toggles updating JBeam entries who references nodes. E.g. deleting a JBeam entry when a node that that entry references gets deleted.",
         default=True
     )
 
@@ -245,8 +255,13 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
             box = layout.box()
             col = box.column()
 
+            col.prop(ui_props, 'affect_node_references', text="Affect Node References")
+
+            box = layout.box()
+            col = box.column()
+
             # Only displays node information if one node selected
-            selected_verts = list(filter(lambda v: v.select, bm.verts))
+            global selected_verts
             if len(selected_verts) == 1:
                 col.row().label(text='JBeam Node ID')
                 col.row().prop(ui_props, 'input_node_id', text = "")
@@ -290,11 +305,11 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
             bm = bmesh.new()
             bm.from_mesh(obj_data)
 
-        selected_verts = list(filter(lambda v: v.select, bm.verts))
+        global selected_verts
         if len(selected_verts) == 1:
             if curr_vdata is not None:
                 if 'nodes' in curr_vdata:
-                    v = selected_verts[0]
+                    v = selected_verts[0][0]
                     node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
                     node_id = v[node_id_layer].decode('utf-8')
                     node = curr_vdata['nodes'][node_id]
@@ -383,27 +398,29 @@ def draw_callback_px(context: bpy.types.Context):
         node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
         part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
 
-        if 'nodes' in curr_vdata:
-            nodes = curr_vdata['nodes']
-            len_nodes = len(nodes)
-            len_verts = len(bm.verts)
+        lblf = blf
+        toggleNodeText = ui_props.toggle_node_ids_text
+        ctxRegion = context.region
+        ctxRegionData = context.region_data
+        lblfPosition = lblf.position
+        lblfDraw = lblf.draw
+        lblf.size(font_id, 12) # dpi value defaults to 72 when omitted, and no longer usable from 4.0+ (only 2 parameters allowed).
+        lblf.color(font_id, 1, 1, 1, 1)
 
-            for i in range(len_verts - 1, len_verts - len_nodes - 1, -1):
-                v = bm.verts[i]
-                coord = obj.matrix_world @ v.co
-                node_id = v[node_id_layer].decode('utf-8')
-                part_origin = v[part_origin_layer].decode('utf-8')
+        for v in bm.verts:
+            coord = obj.matrix_world @ v.co
+            node_id = v[node_id_layer].decode('utf-8')
+            part_origin = v[part_origin_layer].decode('utf-8')
 
-                if not part_name_to_obj[part_origin].visible_get():
-                    continue
+            if not part_name_to_obj[part_origin].visible_get():
+                continue
 
-                pos_text = location_3d_to_region_2d(context.region, context.region_data, coord)
-                if pos_text and ui_props.toggle_node_ids_text:
-                    blf.position(font_id, pos_text[0], pos_text[1], 0)
-                    blf.size(font_id, 12) # dpi value defaults to 72 when omitted, and no longer usable from 4.0+ (only 2 parameters allowed).
-                    blf.color(font_id, 1, 1, 1, 1)
-                    #blf.draw(font_id, str(node_id) + " (" + str(v.index) + ")")
-                    blf.draw(font_id, str(node_id))
+            pos_text = location_3d_to_region_2d(ctxRegion, ctxRegionData, coord)
+            if pos_text and toggleNodeText:
+                lblfPosition(font_id, pos_text[0], pos_text[1], 0)
+
+                #blf.draw(font_id, str(node_id) + " (" + str(v.index) + ")")
+                lblfDraw(font_id, node_id)
 
         bm.free()
 
@@ -707,14 +724,22 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
     # Check if new vertices are added
     init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
     node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-    selected_verts = []
+
+    global selected_verts
+    global selected_edges
+    global selected_faces
+
+    selected_verts.clear()
+    selected_edges.clear()
+    selected_faces.clear()
 
     # When new vertices are added, they seem to copy the data of the old vertices they were made from,
     # so rename their node ids to random ids (UUID)
     bm.verts.ensure_lookup_table()
+    v: bmesh.types.BMVert
     for i,v in enumerate(bm.verts):
         if v.select:
-            selected_verts.append(v)
+            selected_verts.append((v, v[init_node_id_layer].decode('utf-8')))
         if i >= active_obj_data[constants.MESH_VERTEX_COUNT]:
             new_node_id = str(uuid.uuid4())
             new_node_id_bytes = bytes(new_node_id, 'utf-8')
@@ -726,30 +751,29 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
                 print('new vertex added', new_node_id)
 
     # Check if new edges are added
-    beam_idx_layer = bm.edges.layers.int[constants.ELS_BEAM_IDX]
-    selected_edges = []
+    beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
 
     bm.edges.ensure_lookup_table()
     for i,e in enumerate(bm.edges):
         if e.select:
             selected_edges.append(e)
+            #print(e[beam_indices_layer].decode('utf-8'))
         if i >= active_obj_data[constants.MESH_EDGE_COUNT]:
-            e[beam_idx_layer] = -1
+            e[beam_indices_layer] = bytes('-1', 'utf-8')
             active_obj_data[constants.MESH_EDGE_COUNT] += 1
 
             if constants.DEBUG:
                 print('new edge added', i)
 
     # Check if new faces are added
-    face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
-    selected_faces = []
+    face_indices_layer = bm.faces.layers.string[constants.FLS_FACE_INDICES]
 
     bm.faces.ensure_lookup_table()
     for i,f in enumerate(bm.faces):
         if f.select:
             selected_faces.append(f)
         if i >= active_obj_data[constants.MESH_FACE_COUNT]:
-            f[face_idx_layer] = -1
+            f[face_indices_layer] = bytes('-1', 'utf-8')
             active_obj_data[constants.MESH_FACE_COUNT] += 1
 
             if constants.DEBUG:
@@ -757,7 +781,7 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
 
     # If one vertex is selected, set the UI input node_id field to the selected vertex's node_id attribute
     if len(selected_verts) == 1:
-        v = selected_verts[0]
+        v = selected_verts[0][0]
         node_id = v[node_id_layer].decode('utf-8')
 
         scene['jbeam_editor_renaming_selected_obj'] = active_obj

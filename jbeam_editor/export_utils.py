@@ -460,53 +460,7 @@ def undo_node_move_offset_and_apply_translation_to_expr(init_node_data: dict, ne
     return pos_tup
 
 
-def get_nodes_add_delete_rename(init_nodes_data: dict, obj: bpy.types.Object, bm: bmesh.types.BMesh, jbeam_file_data_modified: dict, jbeam_part: str):
-    nodes_to_add, nodes_to_delete, node_renames = {}, set(), {}
-
-    init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-    node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-    part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
-    node_is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
-
-    # Update node ids and positions from Blender into the SJSON data
-
-    #init_node_id_to_part_origin = {}
-
-    blender_nodes = {}
-    # Create dictionary where key is init node id and value is current blender node id and position
-    for v in bm.verts:
-        node_is_fake = v[node_is_fake_layer]
-        if node_is_fake == 1:
-            continue
-        init_node_id = v[init_node_id_layer].decode('utf-8')
-        node_id = v[node_id_layer].decode('utf-8')
-        node_part_origin = v[part_origin_layer].decode('utf-8')
-        pos = obj.matrix_world @ v.co
-
-        # Filter out nodes that aren't part of this part
-        if node_part_origin != jbeam_part:
-            continue
-
-        init_node_data = init_nodes_data.get(init_node_id)
-        if init_node_data is None:
-            nodes_to_add[init_node_id] = pos
-            continue
-
-        new_pos_tup = undo_node_move_offset_and_apply_translation_to_expr(init_node_data, pos)
-
-        if init_node_id != node_id:
-            node_renames[init_node_id] = node_id
-
-        blender_nodes[init_node_id] = {'curr_node_id': node_id, 'pos': new_pos_tup}
-        #v[init_node_id_layer] = bytes(node_id, 'utf-8')
-
-    # Get nodes to delete
-    for init_node_id, init_node_data in init_nodes_data.items():
-        if 'partOrigin' in init_node_data and init_node_data['partOrigin'] != jbeam_part:
-            continue
-        if init_node_id not in blender_nodes:
-            nodes_to_delete.add(init_node_id)
-
+def set_node_renames_positions(jbeam_file_data_modified: dict, jbeam_part: str, blender_nodes: dict, node_renames: dict):
     # Update current JBeam file data with blender data (only renames and moving, no additions or deletions)
     if jbeam_part in jbeam_file_data_modified and 'nodes' in jbeam_file_data_modified[jbeam_part]:
         nodes_section = jbeam_file_data_modified[jbeam_part]['nodes']
@@ -519,8 +473,8 @@ def get_nodes_add_delete_rename(init_nodes_data: dict, obj: bpy.types.Object, bm
 
                 # # Ignore if node is defined in a different part.
                 # # Its possible depending on part loading order.
-                # if row_node_id not in init_node_id_to_part_origin or jbeam_part != init_node_id_to_part_origin[row_node_id]:
-                #     continue
+                if row_node_id not in blender_nodes or blender_nodes[row_node_id]['partOrigin'] != jbeam_part:
+                    continue
 
                 if row_node_id in node_renames:
                     row_data[0] = node_renames[row_node_id]
@@ -529,14 +483,54 @@ def get_nodes_add_delete_rename(init_nodes_data: dict, obj: bpy.types.Object, bm
                     pos = blender_nodes[row_node_id]['pos']
                     row_data[1], row_data[2], row_data[3] = pos[0], pos[1], pos[2]
 
-    return nodes_to_add, nodes_to_delete, node_renames
+
+def get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_nodes_data: dict):
+    nodes_to_add, nodes_to_delete, node_renames = {}, set(), {}
+
+    init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
+    node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+    part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
+
+    # Update node ids and positions from Blender into the SJSON data
+
+    #init_node_id_to_part_origin = {}
+
+    blender_nodes = {}
+    # Create dictionary where key is init node id and value is current blender node id and position
+    for v in bm.verts:
+        init_node_id = v[init_node_id_layer].decode('utf-8')
+        node_id = v[node_id_layer].decode('utf-8')
+        node_part_origin = v[part_origin_layer].decode('utf-8')
+        pos = obj.matrix_world @ v.co
+
+        init_node_data = init_nodes_data.get(init_node_id)
+        if init_node_data is None:
+            nodes_to_add[init_node_id] = pos
+            continue
+
+        new_pos_tup = undo_node_move_offset_and_apply_translation_to_expr(init_node_data, pos)
+
+        if init_node_id != node_id:
+            node_renames[init_node_id] = node_id
+
+        blender_nodes[init_node_id] = {'curr_node_id': node_id, 'pos': new_pos_tup, 'partOrigin': node_part_origin}
+        #v[init_node_id_layer] = bytes(node_id, 'utf-8')
+
+    # Get nodes to delete
+    for init_node_id, init_node_data in init_nodes_data.items():
+        # if 'partOrigin' in init_node_data and init_node_data['partOrigin'] != jbeam_part:
+        #     continue
+        if init_node_id not in blender_nodes:
+            nodes_to_delete.add(init_node_id)
+
+    return blender_nodes, nodes_to_add, nodes_to_delete, node_renames
 
 
-def get_beams_add_remove(init_beams_data: list, obj: bpy.types.Object, bm: bmesh.types.BMesh, jbeam_file_data_modified: dict, jbeam_part: str):
+def get_beams_add_remove(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_beams_data: list, jbeam_file_data_modified: dict, jbeam_part: str, nodes_to_delete: set, affect_node_references: bool):
     beams_to_add, beams_to_delete = set(), set()
 
     init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-    beam_idx_layer = bm.edges.layers.int[constants.ELS_BEAM_IDX]
+    beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
 
     blender_beams = {}
     # Create dictionary where key is init node id and value is current blender node id and position
@@ -548,14 +542,15 @@ def get_beams_add_remove(init_beams_data: list, obj: bpy.types.Object, bm: bmesh
         beam_tup = (v1_node_id, v2_node_id)
         #print('beam:', v1_node_id, v2_node_id)
 
-        beam_idx = e[beam_idx_layer]
-        if beam_idx == 0: # Beam doesn't exist in JBeam data and is just part of a Blender face for example
+        beam_indices = e[beam_indices_layer].decode('utf-8')
+        if beam_indices == '': # Beam doesn't exist in JBeam data and is just part of a Blender face for example
             continue
-        if beam_idx == -1: # Newly added beam
+        if beam_indices == '-1': # Newly added beam
             beams_to_add.add(beam_tup)
             continue
 
-        blender_beams[beam_idx] = beam_tup
+        for idx in beam_indices.split(','):
+            blender_beams[int(idx)] = beam_tup
 
     # Get beams to delete
     beam_idx_in_part = 1
@@ -564,19 +559,21 @@ def get_beams_add_remove(init_beams_data: list, obj: bpy.types.Object, bm: bmesh
         if 'partOrigin' in beam and beam['partOrigin'] != jbeam_part:
             continue
         if '__virtual' not in beam:
-            if beam_idx_in_part not in blender_beams:
+            delete_nodes = (beam['id1:'] in nodes_to_delete, beam['id2:'] in nodes_to_delete)
+            if (any(delete_nodes) and affect_node_references) or (not any(delete_nodes) and beam_idx_in_part not in blender_beams):
                 beams_to_delete.add(beam_idx_in_part)
+
         beam_idx_in_part += 1
 
     return beams_to_add, beams_to_delete
 
 
-def get_faces_add_remove(init_tris_data: list, init_quads_data: list, obj: bpy.types.Object, bm: bmesh.types.BMesh, jbeam_file_data_modified: dict, jbeam_part: str):
+def get_faces_add_remove(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_tris_data: list, init_quads_data: list, jbeam_file_data_modified: dict, jbeam_part: str, nodes_to_delete: set, affect_node_references: bool):
     tris_to_add, tris_to_delete = set(), set()
     quads_to_add, quads_to_delete = set(), set()
 
     init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-    face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
+    face_indices_layer = bm.faces.layers.string[constants.FLS_FACE_INDICES]
     face_is_quad = bm.faces.layers.int[constants.FLS_IS_QUAD]
 
     blender_tris = {}
@@ -589,28 +586,30 @@ def get_faces_add_remove(init_tris_data: list, init_quads_data: list, obj: bpy.t
             v1, v2, v3 = f.verts[0], f.verts[1], f.verts[2]
             v1_node_id, v2_node_id, v3_node_id = v1[init_node_id_layer].decode('utf-8'), v2[init_node_id_layer].decode('utf-8'), v3[init_node_id_layer].decode('utf-8')
             tri_tup = (v1_node_id, v2_node_id, v3_node_id)
-            tri_idx = f[face_idx_layer]
+            tri_indices: str = f[face_indices_layer].decode('utf-8')
 
-            if tri_idx == 0: # Triangle doesn't exist in JBeam data
+            if tri_indices == '': # Triangle doesn't exist in JBeam data
                 continue
-            if tri_idx == -1: # Newly added triangle
+            if tri_indices == '-1': # Newly added triangle
                 tris_to_add.add(tri_tup)
                 continue
 
-            blender_tris[tri_idx] = tri_tup
+            for idx in tri_indices.split(','):
+                blender_tris[int(idx)] = tri_tup
         else:
             v1, v2, v3, v4 = f.verts[0], f.verts[1], f.verts[2], f.verts[3]
             v1_node_id, v2_node_id, v3_node_id, v4_node_id = v1[init_node_id_layer].decode('utf-8'), v2[init_node_id_layer].decode('utf-8'), v3[init_node_id_layer].decode('utf-8'), v4[init_node_id_layer].decode('utf-8')
             quad_tup = (v1_node_id, v2_node_id, v3_node_id, v4_node_id)
-            quad_idx = f[face_idx_layer]
+            quad_indices = f[face_indices_layer].decode('utf-8')
 
-            if quad_idx == 0: # Quad doesn't exist in JBeam data
+            if quad_indices == '': # Quad doesn't exist in JBeam data
                 continue
-            if quad_idx == -1: # Newly added quad
+            if quad_indices == '-1': # Newly added quad
                 quads_to_add.add(quad_tup)
                 continue
 
-            blender_quads[quad_idx] = quad_tup
+            for idx in quad_indices.split(','):
+                blender_quads[int(idx)] = quad_tup
 
     # Get tris and quads to delete
     tri_idx_in_part, quad_idx_in_part = 1, 1
@@ -619,7 +618,8 @@ def get_faces_add_remove(init_tris_data: list, init_quads_data: list, obj: bpy.t
         if 'partOrigin' in tri and tri['partOrigin'] != jbeam_part:
             continue
         if '__virtual' not in tri:
-            if tri_idx_in_part not in blender_tris:
+            delete_nodes = (tri['id1:'] in nodes_to_delete, tri['id2:'] in nodes_to_delete, tri['id3:'] in nodes_to_delete)
+            if (any(delete_nodes) and affect_node_references) or (not any(delete_nodes) and tri_idx_in_part not in blender_tris):
                 tris_to_delete.add(tri_idx_in_part)
         tri_idx_in_part += 1
 
@@ -627,7 +627,8 @@ def get_faces_add_remove(init_tris_data: list, init_quads_data: list, obj: bpy.t
         if 'partOrigin' in quad and quad['partOrigin'] != jbeam_part:
             continue
         if '__virtual' not in quad:
-            if quad_idx_in_part not in blender_quads:
+            delete_nodes = (quad['id1:'] in nodes_to_delete, quad['id2:'] in nodes_to_delete, quad['id3:'] in nodes_to_delete, quad['id4:'] in nodes_to_delete)
+            if (any(delete_nodes) and affect_node_references) or (not any(delete_nodes) and quad_idx_in_part not in blender_quads):
                 quads_to_delete.add(quad_idx_in_part)
         quad_idx_in_part += 1
 
@@ -646,7 +647,10 @@ def go_up_level(stack: list):
 
 
 def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbeam_file_data_modified: dict, jbeam_part: str,
-                     nodes_to_add: dict, nodes_to_delete: set, beams_to_add: set, beams_to_delete: set, tris_to_add: set, tris_to_delete: set, quads_to_add: set, quads_to_delete: set):
+                     nodes_to_add: dict, nodes_to_delete: set,
+                     beams_to_add: set, beams_to_delete: set,
+                     tris_to_add: set, tris_to_delete: set,
+                     quads_to_add: set, quads_to_delete: set):
     # Traverse AST nodes and update them from SJSON data, add and delete jbeam definitions
 
     stack = []
@@ -860,7 +864,7 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
         i += 1
 
 
-def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict):
+def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, blender_nodes: dict, nodes_to_add: dict, nodes_to_delete: set, node_renames: dict, affect_node_references: bool):
     #current_jbeam_file_data_str: dict = jbeam_io.get_jbeam(io_ctx, jbeam_filepath, True)
     #current_jbeam_file_data: dict = jbeam_io.get_jbeam(io_ctx, jbeam_filepath, False)
     jbeam_file_str = text_editor.read_file(jbeam_filepath)
@@ -890,22 +894,19 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict):
             bm = bmesh.new()
             bm.from_mesh(obj_data)
 
-        init_nodes_data = data.get('nodes')
+        #init_nodes_data = data.get('nodes')
         init_beams_data = data.get('beams')
         init_tris_data = data.get('triangles', [])
         init_quads_data = data.get('quads', [])
 
-        if init_nodes_data is not None:
-            nodes_to_add, nodes_to_delete, node_renames = get_nodes_add_delete_rename(init_nodes_data, obj, bm, jbeam_file_data_modified, jbeam_part)
-        else:
-            nodes_to_add, nodes_to_delete, node_renames = {}, set(), {}
+        set_node_renames_positions(jbeam_file_data_modified, jbeam_part, blender_nodes, node_renames)
 
         if init_beams_data is not None:
-            beams_to_add, beams_to_delete = get_beams_add_remove(init_beams_data, obj, bm, jbeam_file_data_modified, jbeam_part)
+            beams_to_add, beams_to_delete = get_beams_add_remove(obj, bm, init_beams_data, jbeam_file_data_modified, jbeam_part, nodes_to_delete, affect_node_references)
         else:
             beams_to_add, beams_to_delete = set(), set()
 
-        tris_to_add, tris_to_delete, quads_to_add, quads_to_delete = get_faces_add_remove(init_tris_data, init_quads_data, obj, bm, jbeam_file_data_modified, jbeam_part)
+        tris_to_add, tris_to_delete, quads_to_add, quads_to_delete = get_faces_add_remove(obj, bm, init_tris_data, init_quads_data, jbeam_file_data_modified, jbeam_part, nodes_to_delete, affect_node_references)
 
         if constants.DEBUG:
             print('nodes to add:', nodes_to_add)

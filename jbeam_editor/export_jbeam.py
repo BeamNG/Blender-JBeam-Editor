@@ -134,13 +134,25 @@ def export_existing_jbeam(obj: bpy.types.Object):
     try:
         t0 = timeit.default_timer()
         context = bpy.context
+        scene = context.scene
+        ui_props = scene.ui_properties
+        affect_node_references = ui_props.affect_node_references
         obj_data = obj.data
 
         jbeam_filepath = obj_data[constants.MESH_JBEAM_FILE_PATH]
         part_name = obj_data[constants.MESH_JBEAM_PART]
         part_data = pickle.loads(obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA])
+        init_nodes_data = part_data.get('nodes')
 
-        export_utils.export_file(jbeam_filepath, [obj], part_data)
+        bm = None
+        if obj.mode == 'EDIT':
+            bm = bmesh.from_edit_mesh(obj_data)
+        else:
+            bm = bmesh.new()
+            bm.from_mesh(obj_data)
+
+        blender_nodes, nodes_to_add, nodes_to_delete, node_renames = export_utils.get_nodes_add_delete_rename(obj, bm, init_nodes_data)
+        export_utils.export_file(jbeam_filepath, [obj], part_data, blender_nodes, nodes_to_add, nodes_to_delete, node_renames, affect_node_references)
 
         text_editor.check_files_for_changes(context, [jbeam_filepath])
 

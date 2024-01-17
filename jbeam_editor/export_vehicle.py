@@ -49,16 +49,31 @@ from .jbeam import utils as jbeam_utils
 import timeit
 
 
-def export(veh_collection: bpy.types.Collection, objs_to_export: list):
+def export(veh_collection: bpy.types.Collection, active_obj: bpy.types.Object):
     try:
         t0 = timeit.default_timer()
         context = bpy.context
+        scene = context.scene
+        ui_props = scene.ui_properties
+        affect_node_references = ui_props.affect_node_references
 
         veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
         vdata = veh_bundle['vdata']
+        init_nodes_data = vdata.get('nodes')
+
+        active_obj_data = active_obj.data
+
+        bm = None
+        if active_obj.mode == 'EDIT':
+            bm = bmesh.from_edit_mesh(active_obj_data)
+        else:
+            bm = bmesh.new()
+            bm.from_mesh(active_obj_data)
+
+        blender_nodes, nodes_to_add, nodes_to_delete, node_renames = export_utils.get_nodes_add_delete_rename(active_obj, bm, init_nodes_data)
 
         jbeam_files_to_parts = {}
-        for obj in objs_to_export:
+        for obj in (veh_collection.all_objects[:] if affect_node_references else [active_obj]):
             jbeam_filepath = obj.data[constants.MESH_JBEAM_FILE_PATH]
 
             if jbeam_filepath not in jbeam_files_to_parts:
@@ -68,7 +83,7 @@ def export(veh_collection: bpy.types.Collection, objs_to_export: list):
         filepaths = []
 
         for jbeam_filepath, parts in jbeam_files_to_parts.items():
-            export_utils.export_file(jbeam_filepath, parts, vdata)
+            export_utils.export_file(jbeam_filepath, parts, vdata, blender_nodes, nodes_to_add, nodes_to_delete, node_renames, affect_node_references)
             filepaths.append(jbeam_filepath)
 
         text_editor.check_files_for_changes(context, filepaths)
@@ -86,7 +101,7 @@ def auto_export(obj_name: str, veh_model: str):
     obj: bpy.types.Object | None = collection.all_objects.get(obj_name)
     if obj is None:
         return
-    export(collection, [obj])
+    export(collection, obj)
 
 
 # class JBEAM_EDITOR_OT_export_vehicle(Operator):
