@@ -134,12 +134,19 @@ class JBeamEditorTest:
         bm.verts[vertex_id]'''
 
 
-    def deselect_all_vertices(self, bm: bmesh.types.BMesh):
+    def deselect_all_vertices_edges_faces(self, bm: bmesh.types.BMesh):
         # WHY DOESN'T THIS UPDATE THE DEPSGRAPH!!!
         v: bmesh.types.BMVert
         for v in bm.verts:
             v.select = False
-            #v.select_set(False)
+
+        e: bmesh.types.BMVert
+        for e in bm.edges:
+            e.select = False
+
+        f: bmesh.types.BMVert
+        for f in bm.faces:
+            f.select = False
 
         #bpy.context.view_layer.update()
         #depsgraph = bpy.context.evaluated_depsgraph_get()
@@ -239,7 +246,7 @@ class JBeamEditorTest:
     def delete_nodes_from_imported_jbeam_mesh(self, node_ids: set):
         self.select_imported_jbeam_mesh()
         obj, obj_data, bm, init_node_id_layer, node_id_layer, part_origin_layer = self.set_to_edit_mode_and_get_imported_mesh()
-        self.deselect_all_vertices(bm)
+        self.deselect_all_vertices_edges_faces(bm)
         self.select_nodes_by_node_id(bm, init_node_id_layer, node_id_layer, node_ids)
         self.delete_selected_vertices(bm)
 
@@ -251,13 +258,13 @@ class JBeamEditorTest:
     def move_nodes_from_imported_jbeam_mesh(self, node_ids_to_new_pos: dict):
         self.select_imported_jbeam_mesh()
         obj, obj_data, bm, init_node_id_layer, node_id_layer, part_origin_layer = self.set_to_edit_mode_and_get_imported_mesh()
-        self.deselect_all_vertices(bm)
+        self.deselect_all_vertices_edges_faces(bm)
 
         # Move nodes one at a time, replicating user behavior
         for node_id, new_pos in node_ids_to_new_pos.items():
             self.select_node_by_node_id(bm, init_node_id_layer, node_id_layer, node_id)
             self.move_selected_node(bm, init_node_id_layer, node_id_layer, new_pos)
-            self.deselect_all_vertices(bm)
+            self.deselect_all_vertices_edges_faces(bm)
 
         bm.free()
 
@@ -293,17 +300,51 @@ class JBeamEditorTest:
     def rename_nodes_from_imported_jbeam_mesh(self, old_to_new_node_ids: list[tuple[str, str]]):
         self.select_imported_jbeam_mesh()
         obj, obj_data, bm, init_node_id_layer, node_id_layer, part_origin_layer = self.set_to_edit_mode_and_get_imported_mesh()
-        self.deselect_all_vertices(bm)
+        self.deselect_all_vertices_edges_faces(bm)
 
         # Rename nodes one at a time, replicating user behavior
         for (old_node_id, new_node_id) in old_to_new_node_ids:
             self.select_node_by_node_id(bm, init_node_id_layer, node_id_layer, old_node_id)
             self.rename_selected_node(bm, init_node_id_layer, node_id_layer, new_node_id)
-            self.deselect_all_vertices(bm)
+            self.deselect_all_vertices_edges_faces(bm)
 
         bm.free()
 
         self.export_jbeam()
+
+
+    def delete_selected_edges(self, bm: bmesh.types.BMesh):
+        e: bmesh.types.BMEdge
+        for e in bm.edges:
+            if e.select:
+                bm.edges.remove(e)
+
+
+    def select_beams(self, bm: bmesh.types.BMesh, init_node_id_layer, node_id_layer, beams_to_select: set):
+        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+        node_is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
+        beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
+
+        beams_selected = set()
+        edges_selected = set()
+        e: bmesh.types.BMEdge
+        for e in reversed(bm.edges):
+            beam_indices = e[beam_indices_layer].decode('utf-8')
+            if beam_indices == '': # Beam doesn't exist in JBeam data and is just part of a Blender face for example
+                continue
+
+            v1, v2 = e.verts[0], e.verts[1]
+            n1, n2 = v1[node_id_layer].decode('utf-8'), v2[node_id_layer].decode('utf-8')
+            sorted_tup = tuple(sorted((n1, n2)))
+
+            if sorted_tup in beams_to_select:
+                e.select = True
+                beams_selected.add(sorted_tup)
+                edges_selected.add(e)
+
+        assert beams_to_select == beams_selected
+        return edges_selected
 
 
     def add_beams_from_imported_jbeam_mesh(self, beams: list):
@@ -320,6 +361,18 @@ class JBeamEditorTest:
             self.export_jbeam()
 
         bm.free()
+
+
+    def delete_beams_from_imported_jbeam_mesh(self, beams: set):
+        self.select_imported_jbeam_mesh()
+        obj, obj_data, bm, init_node_id_layer, node_id_layer, part_origin_layer = self.set_to_edit_mode_and_get_imported_mesh()
+        self.deselect_all_vertices_edges_faces(bm)
+        self.select_beams(bm, init_node_id_layer, node_id_layer, beams)
+        self.delete_selected_edges(bm)
+
+        bm.free()
+
+        self.export_jbeam()
 
 
     def export_jbeam(self):
