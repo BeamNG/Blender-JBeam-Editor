@@ -153,7 +153,7 @@ class JBeamEditorTest:
         #depsgraph.debug_tag_update()
 
 
-    def select_node_by_node_id(self, bm: bmesh.types.BMesh, init_node_id_layer, node_id_layer, the_node_id):
+    def select_node_by_node_id(self, bm: bmesh.types.BMesh, the_node_id):
         init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
         node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
         node_is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
@@ -177,7 +177,7 @@ class JBeamEditorTest:
         return selected_vert
 
 
-    def select_nodes_by_node_id(self, bm: bmesh.types.BMesh, init_node_id_layer, node_id_layer, node_ids_to_select: set):
+    def select_nodes_by_node_id(self, bm: bmesh.types.BMesh, node_ids_to_select: set):
         init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
         node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
         node_is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
@@ -200,13 +200,17 @@ class JBeamEditorTest:
 
 
     def delete_selected_vertices(self, bm: bmesh.types.BMesh):
+        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
         v: bmesh.types.BMVert
         for v in bm.verts:
             if v.select:
                 bm.verts.remove(v)
 
 
-    def move_selected_node(self, bm: bmesh.types.BMesh, init_node_id_layer, node_id_layer, new_pos):
+    def move_selected_node(self, bm: bmesh.types.BMesh, new_pos):
+        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
         v: bmesh.types.BMVert
         for v in bm.verts:
             if v.select:
@@ -214,7 +218,9 @@ class JBeamEditorTest:
                 break
 
 
-    def rename_selected_node(self, bm: bmesh.types.BMesh, init_node_id_layer, node_id_layer, new_node_id):
+    def rename_selected_node(self, bm: bmesh.types.BMesh, new_node_id):
+        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
         v: bmesh.types.BMVert
         for v in bm.verts:
             if v.select:
@@ -247,7 +253,7 @@ class JBeamEditorTest:
         self.select_imported_jbeam_mesh()
         obj, obj_data, bm, init_node_id_layer, node_id_layer, part_origin_layer = self.set_to_edit_mode_and_get_imported_mesh()
         self.deselect_all_vertices_edges_faces(bm)
-        self.select_nodes_by_node_id(bm, init_node_id_layer, node_id_layer, node_ids)
+        self.select_nodes_by_node_id(bm, node_ids)
         self.delete_selected_vertices(bm)
 
         bm.free()
@@ -262,8 +268,8 @@ class JBeamEditorTest:
 
         # Move nodes one at a time, replicating user behavior
         for node_id, new_pos in node_ids_to_new_pos.items():
-            self.select_node_by_node_id(bm, init_node_id_layer, node_id_layer, node_id)
-            self.move_selected_node(bm, init_node_id_layer, node_id_layer, new_pos)
+            self.select_node_by_node_id(bm, node_id)
+            self.move_selected_node(bm, new_pos)
             self.deselect_all_vertices_edges_faces(bm)
 
         bm.free()
@@ -304,8 +310,8 @@ class JBeamEditorTest:
 
         # Rename nodes one at a time, replicating user behavior
         for (old_node_id, new_node_id) in old_to_new_node_ids:
-            self.select_node_by_node_id(bm, init_node_id_layer, node_id_layer, old_node_id)
-            self.rename_selected_node(bm, init_node_id_layer, node_id_layer, new_node_id)
+            self.select_node_by_node_id(bm, old_node_id)
+            self.rename_selected_node(bm, new_node_id)
             self.deselect_all_vertices_edges_faces(bm)
 
         bm.free()
@@ -320,7 +326,7 @@ class JBeamEditorTest:
                 bm.edges.remove(e)
 
 
-    def select_beams(self, bm: bmesh.types.BMesh, init_node_id_layer, node_id_layer, beams_to_select: set):
+    def select_beams(self, bm: bmesh.types.BMesh, beams_to_select: set):
         init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
         node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
         node_is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
@@ -354,8 +360,8 @@ class JBeamEditorTest:
             obj, obj_data, bm, init_node_id_layer, node_id_layer, part_origin_layer = self.set_to_edit_mode_and_get_imported_mesh()
             beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
 
-            v1 = self.select_node_by_node_id(bm, init_node_id_layer, node_id_layer, n1)
-            v2 = self.select_node_by_node_id(bm, init_node_id_layer, node_id_layer, n2)
+            v1 = self.select_node_by_node_id(bm, n1)
+            v2 = self.select_node_by_node_id(bm, n2)
             e = bm.edges.new((v1, v2))
             e[beam_indices_layer] = bytes('-1', 'utf-8')
             self.export_jbeam()
@@ -367,7 +373,7 @@ class JBeamEditorTest:
         self.select_imported_jbeam_mesh()
         obj, obj_data, bm, init_node_id_layer, node_id_layer, part_origin_layer = self.set_to_edit_mode_and_get_imported_mesh()
         self.deselect_all_vertices_edges_faces(bm)
-        self.select_beams(bm, init_node_id_layer, node_id_layer, beams)
+        self.select_beams(bm, beams)
         self.delete_selected_edges(bm)
 
         bm.free()
