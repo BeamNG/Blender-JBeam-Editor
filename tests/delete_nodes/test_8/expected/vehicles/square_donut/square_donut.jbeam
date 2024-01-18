@@ -13,7 +13,6 @@
     "slotType":"main",
     "refNodes":[
        ["ref:", "back:", "left:", "up:", "leftCorner:", "rightCorner:"],
-       ["nl18", "nl26", "nl24", "nl27", "nl10", "nr6"]
     ],
     "cameraExternal":{
        "distance":5.5,
