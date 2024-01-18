@@ -151,6 +151,7 @@ class JBeamEditorTest:
         node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
         node_is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
         selected_node = False
+        selected_vert = None
 
         v: bmesh.types.BMVert
         for v in reversed(bm.verts):
@@ -162,9 +163,11 @@ class JBeamEditorTest:
                 v.select = True
                 #v.select_set(True)
                 selected_node = True
+                selected_vert = v
                 break
 
         assert selected_node
+        return selected_vert
 
 
     def select_nodes_by_node_id(self, bm: bmesh.types.BMesh, init_node_id_layer, node_id_layer, node_ids_to_select: set):
@@ -173,6 +176,7 @@ class JBeamEditorTest:
         node_is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
 
         nodes_selected = set()
+        verts_selected = set()
         v: bmesh.types.BMVert
         for v in reversed(bm.verts):
             if v[node_is_fake_layer] == 1:
@@ -182,8 +186,10 @@ class JBeamEditorTest:
             if node_id in node_ids_to_select and node_id not in nodes_selected:
                 v.select = True
                 nodes_selected.add(node_id)
+                verts_selected.add(v)
 
         assert node_ids_to_select == nodes_selected
+        return verts_selected
 
 
     def delete_selected_vertices(self, bm: bmesh.types.BMesh):
@@ -298,6 +304,22 @@ class JBeamEditorTest:
         bm.free()
 
         self.export_jbeam()
+
+
+    def add_beams_from_imported_jbeam_mesh(self, beams: list):
+        self.select_imported_jbeam_mesh()
+
+        for (n1, n2) in beams:
+            obj, obj_data, bm, init_node_id_layer, node_id_layer, part_origin_layer = self.set_to_edit_mode_and_get_imported_mesh()
+            beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
+
+            v1 = self.select_node_by_node_id(bm, init_node_id_layer, node_id_layer, n1)
+            v2 = self.select_node_by_node_id(bm, init_node_id_layer, node_id_layer, n2)
+            e = bm.edges.new((v1, v2))
+            e[beam_indices_layer] = bytes('-1', 'utf-8')
+            self.export_jbeam()
+
+        bm.free()
 
 
     def export_jbeam(self):
