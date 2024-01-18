@@ -46,8 +46,7 @@ def test_1():
     jbeam_editor_test.import_jbeam()
     assert chosen_part in bpy.context.scene.objects
 
-    # Set added JBeam object as active object
-    bpy.context.view_layer.objects.active = bpy.context.scene.objects[chosen_part]
+    jbeam_editor_test.select_imported_jbeam_mesh()
 
     # Export JBeam file and test result
     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
@@ -64,8 +63,7 @@ def test_2():
     jbeam_editor_test.import_jbeam()
     assert chosen_part in bpy.context.scene.objects
 
-    # Set added JBeam object as active object
-    bpy.context.view_layer.objects.active = bpy.context.scene.objects[chosen_part]
+    jbeam_editor_test.select_imported_jbeam_mesh()
 
     # Set to 'edit' mode
     bpy.ops.object.mode_set(mode = 'EDIT')
@@ -87,6 +85,7 @@ def test_3():
 
     # Set default cube as active object
     bpy.context.view_layer.objects.active = bpy.context.scene.objects['Cube']
+    bpy.context.active_object.select_set(True)
 
     # Export JBeam file
     with pytest.raises(RuntimeError, match=r'Operator bpy.ops.jbeam_editor.export_jbeam.poll\(\) failed, context is incorrect'):
@@ -106,6 +105,7 @@ def test_4():
 
     # Set default cube as active object
     bpy.context.view_layer.objects.active = bpy.context.scene.objects['Cube']
+    bpy.context.active_object.select_set(True)
 
     # Set to 'edit' mode
     bpy.ops.object.mode_set(mode = 'EDIT')
@@ -142,6 +142,7 @@ def test_6():
 
     # Set default cube as active object
     bpy.context.view_layer.objects.active = bpy.context.scene.objects['Cube']
+    bpy.context.active_object.select_set(True)
 
     # Export JBeam file
     with pytest.raises(RuntimeError, match=r'Operator bpy.ops.jbeam_editor.export_jbeam.poll\(\) failed, context is incorrect'):

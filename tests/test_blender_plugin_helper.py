@@ -149,10 +149,14 @@ class JBeamEditorTest:
     def select_node_by_node_id(self, bm: bmesh.types.BMesh, init_node_id_layer, node_id_layer, the_node_id):
         init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
         node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+        node_is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
         selected_node = False
 
         v: bmesh.types.BMVert
-        for v in bm.verts:
+        for v in reversed(bm.verts):
+            if v[node_is_fake_layer] == 1:
+                continue
+
             node_id = v[node_id_layer].decode('utf-8')
             if node_id == the_node_id:
                 v.select = True
@@ -166,10 +170,14 @@ class JBeamEditorTest:
     def select_nodes_by_node_id(self, bm: bmesh.types.BMesh, init_node_id_layer, node_id_layer, node_ids_to_select: set):
         init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
         node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+        node_is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
 
         nodes_selected = set()
         v: bmesh.types.BMVert
-        for v in bm.verts:
+        for v in reversed(bm.verts):
+            if v[node_is_fake_layer] == 1:
+                continue
+
             node_id = v[node_id_layer].decode('utf-8')
             if node_id in node_ids_to_select and node_id not in nodes_selected:
                 v.select = True
