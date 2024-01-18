@@ -74,7 +74,6 @@ def test_delete_rename_2():
     # Import chosen part from JBeam file
     jbeam_editor_test.import_jbeam()
 
-
     # 1st step, delete node nl0, rename node nr5 to hello_world, then rename node hello_world to nl0
     del_node_ids_1 = {'nl0'}
     old_to_new_node_ids_1a = [('nr5', 'hello_world')]
@@ -86,7 +85,6 @@ def test_delete_rename_2():
     jbeam_editor_test.rename_nodes_from_imported_jbeam_mesh(old_to_new_node_ids_1a)
     # Rename node hello_world to nl0
     jbeam_editor_test.rename_nodes_from_imported_jbeam_mesh(old_to_new_node_ids_1b)
-    # Expected result is nl0 takes on nr5 position but nl0 remains in same row in jbeam file and nr5 is deleted in jbeam file
 
     # 2nd step, delete node nr13 and nl25, rename node nr31 to nr13, rename node nr13 to nl25
     del_node_ids_2 = {'nr13', 'nl25'}
@@ -99,8 +97,6 @@ def test_delete_rename_2():
     jbeam_editor_test.rename_nodes_from_imported_jbeam_mesh(old_to_new_node_ids_2a)
     # Rename node nr13 to nl25
     jbeam_editor_test.rename_nodes_from_imported_jbeam_mesh(old_to_new_node_ids_2b)
-    # Expected result is nl25 takes on nr31 position but nl25 remains in same row in jbeam file,
-    # and nr31 and nr13 are deleted in jbeam file
 
     # 3rd step, delete node nr29, rename node nl9 to nr29
     del_node_ids_3 = {'nr29'}
@@ -110,7 +106,6 @@ def test_delete_rename_2():
     jbeam_editor_test.delete_nodes_from_imported_jbeam_mesh(del_node_ids_3)
     # Rename node nl9 to nr29
     jbeam_editor_test.rename_nodes_from_imported_jbeam_mesh(old_to_new_node_ids_3)
-    # Expected result is nr29 takes on nl9 position but nr29 remains in same row in jbeam file and nl9 is deleted in jbeam file
 
     # Export JBeam file and test result
     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
