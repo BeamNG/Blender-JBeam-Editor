@@ -59,9 +59,9 @@ def process_nodes(vehicle: dict):
 def process(vehicle: dict):
     process_nodes(vehicle)
 
-    if 'refNodes' not in vehicle:
-        vehicle['refNodes'] = []
+    # if 'refNodes' not in vehicle:
+    #     vehicle['refNodes'] = []
 
-    if len(vehicle['refNodes']) == 0:
-        print('Reference nodes missing. Please add them', file=sys.stderr)
-        vehicle['refNodes'].append({'ref': 0, 'back': 1, 'left': 2, 'up': 0})
+    # if len(vehicle['refNodes']) == 0:
+    #     print('Reference nodes missing. Please add them', file=sys.stderr)
+    #     vehicle['refNodes'].append({'ref': 0, 'back': 1, 'left': 2, 'up': 0})

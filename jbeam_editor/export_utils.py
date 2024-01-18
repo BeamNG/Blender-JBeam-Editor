@@ -834,6 +834,8 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                                 if col_idx < len_row_header and jbeam_section_header[col_idx].find(':') != -1:
                                     if col in nodes_to_delete:
                                         i = delete_jbeam_entry(ast_nodes, jbeam_section_start_node_idx, jbeam_entry_start_node_idx, jbeam_entry_end_node_idx)
+                                        jbeam_def_deleted = True
+                                        break
 
                     jbeam_entry_start_node_idx = None
                     jbeam_entry_end_node_idx = None
