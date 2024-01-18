@@ -250,15 +250,11 @@ def add_jbeam_beams(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_se
 
         ast_nodes.insert(i + 0, sjsonast.ASTNode('['))
         ast_nodes.insert(i + 1, sjsonast.ASTNode('"', node_id_1))
-        ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ', '))
+        ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ','))
         ast_nodes.insert(i + 3, sjsonast.ASTNode('"', node_id_2))
         ast_nodes.insert(i + 4, sjsonast.ASTNode(']'))
-        i += 5
-
-        if k < beams_to_add_len - 1:
-            ast_nodes.insert(i, sjsonast.ASTNode('wsc', ','))
-            i += 1
-
+        ast_nodes.insert(i + 5, sjsonast.ASTNode('wsc', ','))
+        i += 6
         k += 1
 
     # Add modified original last WSCS back to end of section
@@ -289,17 +285,13 @@ def add_jbeam_triangles(ast_nodes: list, jbeam_section_start_node_idx: int, jbea
 
         ast_nodes.insert(i + 0, sjsonast.ASTNode('['))
         ast_nodes.insert(i + 1, sjsonast.ASTNode('"', node_id_1))
-        ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ', '))
+        ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ','))
         ast_nodes.insert(i + 3, sjsonast.ASTNode('"', node_id_2))
-        ast_nodes.insert(i + 4, sjsonast.ASTNode('wsc', ', '))
+        ast_nodes.insert(i + 4, sjsonast.ASTNode('wsc', ','))
         ast_nodes.insert(i + 5, sjsonast.ASTNode('"', node_id_3))
         ast_nodes.insert(i + 6, sjsonast.ASTNode(']'))
-        i += 7
-
-        if k < tris_to_add_len - 1:
-            ast_nodes.insert(i, sjsonast.ASTNode('wsc', ','))
-            i += 1
-
+        ast_nodes.insert(i + 7, sjsonast.ASTNode('wsc', ','))
+        i += 8
         k += 1
 
     # Add modified original last WSCS back to end of section
