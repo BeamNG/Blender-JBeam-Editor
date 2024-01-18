@@ -78,8 +78,8 @@ class JBeamEditorTest:
         chosen_part = self.import_part
         assert chosen_part in bpy.context.scene.objects
 
-        if bpy.context.active_object is not None:
-            bpy.context.active_object.select_set(False)
+        for obj in bpy.context.selected_objects:
+            obj.select_set(False)
 
         # Set added JBeam object as active object
         bpy.context.view_layer.objects.active = bpy.context.scene.objects[chosen_part]
