@@ -495,7 +495,7 @@ def set_node_renames_positions(jbeam_file_data_modified: dict, jbeam_part: str, 
                     if isinstance(row_data, list):
                         for col_idx, col in enumerate(row_data):
                             if col_idx < len_row_header and row_header[col_idx].find(':') != -1:
-                                if col in node_renames:
+                                if isinstance(col, str) and col in node_renames:
                                     row_data[col_idx] = node_renames[col]
 
 
@@ -505,6 +505,7 @@ def get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, in
     init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
     node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
     part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
+    node_is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
 
     # Update node ids and positions from Blender into the SJSON data
 
@@ -513,6 +514,9 @@ def get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, in
     blender_nodes = {}
     # Create dictionary where key is init node id and value is current blender node id and position
     for v in bm.verts:
+        if v[node_is_fake_layer] == 1:
+            continue
+
         init_node_id = v[init_node_id_layer].decode('utf-8')
         node_id = v[node_id_layer].decode('utf-8')
         node_part_origin = v[part_origin_layer].decode('utf-8')
@@ -588,7 +592,7 @@ def get_faces_add_remove(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_tris
     quads_to_add, quads_to_delete = set(), set()
 
     init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-    face_indices_layer = bm.faces.layers.string[constants.FLS_FACE_INDICES]
+    face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
     face_is_quad = bm.faces.layers.int[constants.FLS_IS_QUAD]
 
     blender_tris = {}
@@ -601,30 +605,32 @@ def get_faces_add_remove(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_tris
             v1, v2, v3 = f.verts[0], f.verts[1], f.verts[2]
             v1_node_id, v2_node_id, v3_node_id = v1[init_node_id_layer].decode('utf-8'), v2[init_node_id_layer].decode('utf-8'), v3[init_node_id_layer].decode('utf-8')
             tri_tup = (v1_node_id, v2_node_id, v3_node_id)
-            tri_indices: str = f[face_indices_layer].decode('utf-8')
+            tri_idx = f[face_idx_layer]
 
-            if tri_indices == '': # Triangle doesn't exist in JBeam data
+            if tri_idx == 0: # Triangle doesn't exist in JBeam data
                 continue
-            if tri_indices == '-1': # Newly added triangle
+            if tri_idx == -1: # Newly added triangle
                 tris_to_add.add(tri_tup)
                 continue
 
-            for idx in tri_indices.split(','):
-                blender_tris[int(idx)] = tri_tup
+            # for idx in tri_indices.split(','):
+            #     blender_tris[int(idx)] = tri_tup
+            blender_tris[tri_idx] = tri_tup
         else:
             v1, v2, v3, v4 = f.verts[0], f.verts[1], f.verts[2], f.verts[3]
             v1_node_id, v2_node_id, v3_node_id, v4_node_id = v1[init_node_id_layer].decode('utf-8'), v2[init_node_id_layer].decode('utf-8'), v3[init_node_id_layer].decode('utf-8'), v4[init_node_id_layer].decode('utf-8')
             quad_tup = (v1_node_id, v2_node_id, v3_node_id, v4_node_id)
-            quad_indices = f[face_indices_layer].decode('utf-8')
+            quad_idx = f[face_idx_layer]
 
-            if quad_indices == '': # Quad doesn't exist in JBeam data
+            if quad_idx == 0: # Quad doesn't exist in JBeam data
                 continue
-            if quad_indices == '-1': # Newly added quad
+            if quad_idx == -1: # Newly added quad
                 quads_to_add.add(quad_tup)
                 continue
 
-            for idx in quad_indices.split(','):
-                blender_quads[int(idx)] = quad_tup
+            # for idx in quad_indices.split(','):
+            #     blender_quads[int(idx)] = quad_tup
+            blender_quads[quad_idx] = quad_tup
 
     # Get tris and quads to delete
     tri_idx_in_part, quad_idx_in_part = 1, 1

@@ -766,14 +766,14 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
                 print('new edge added', i)
 
     # Check if new faces are added
-    face_indices_layer = bm.faces.layers.string[constants.FLS_FACE_INDICES]
+    face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
 
     bm.faces.ensure_lookup_table()
     for i,f in enumerate(bm.faces):
         if f.select:
             selected_faces.append(f)
         if i >= active_obj_data[constants.MESH_FACE_COUNT]:
-            f[face_indices_layer] = bytes('-1', 'utf-8')
+            f[face_idx_layer] = -1
             active_obj_data[constants.MESH_FACE_COUNT] += 1
 
             if constants.DEBUG:
