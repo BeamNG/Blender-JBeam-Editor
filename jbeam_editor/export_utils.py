@@ -237,7 +237,6 @@ def add_jbeam_beams(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_se
     i, jbeam_entry_indent, node_after_entry, node_2_after_entry = add_jbeam_setup(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx, jbeam_entry_end_node_idx)
 
     # Insert new beams at bottom of beams section
-    beams_to_add_len = len(beams_to_add)
     k = 0
 
     for (node_id_1, node_id_2) in beams_to_add:
@@ -272,7 +271,6 @@ def add_jbeam_triangles(ast_nodes: list, jbeam_section_start_node_idx: int, jbea
     i, jbeam_entry_indent, node_after_entry, node_2_after_entry = add_jbeam_setup(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx, jbeam_entry_end_node_idx)
 
     # Insert new beams at bottom of beams section
-    tris_to_add_len = len(tris_to_add)
     k = 0
 
     for (node_id_1, node_id_2, node_id_3) in tris_to_add:
@@ -309,7 +307,6 @@ def add_jbeam_quads(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_se
     i, jbeam_entry_indent, node_after_entry, node_2_after_entry = add_jbeam_setup(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx, jbeam_entry_end_node_idx)
 
     # Insert new beams at bottom of beams section
-    quads_to_add_len = len(quads_to_add)
     k = 0
 
     for (node_id_1, node_id_2, node_id_3, node_id_4) in quads_to_add:
@@ -322,19 +319,15 @@ def add_jbeam_quads(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_se
 
         ast_nodes.insert(i + 0, sjsonast.ASTNode('['))
         ast_nodes.insert(i + 1, sjsonast.ASTNode('"', node_id_1))
-        ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ', '))
+        ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ','))
         ast_nodes.insert(i + 3, sjsonast.ASTNode('"', node_id_2))
-        ast_nodes.insert(i + 4, sjsonast.ASTNode('wsc', ', '))
+        ast_nodes.insert(i + 4, sjsonast.ASTNode('wsc', ','))
         ast_nodes.insert(i + 5, sjsonast.ASTNode('"', node_id_3))
-        ast_nodes.insert(i + 6, sjsonast.ASTNode('wsc', ', '))
+        ast_nodes.insert(i + 6, sjsonast.ASTNode('wsc', ','))
         ast_nodes.insert(i + 7, sjsonast.ASTNode('"', node_id_4))
         ast_nodes.insert(i + 8, sjsonast.ASTNode(']'))
-        i += 9
-
-        if k < quads_to_add_len - 1:
-            ast_nodes.insert(i, sjsonast.ASTNode('wsc', ','))
-            i += 1
-
+        ast_nodes.insert(i + 9, sjsonast.ASTNode('wsc', ','))
+        i += 10
         k += 1
 
     # Add modified original last WSCS back to end of section
