@@ -326,6 +326,13 @@ class JBeamEditorTest:
                 bm.edges.remove(e)
 
 
+    def delete_selected_faces(self, bm: bmesh.types.BMesh):
+        f: bmesh.types.BMFace
+        for f in bm.faces:
+            if f.select:
+                bm.faces.remove(f)
+
+
     def select_beams(self, bm: bmesh.types.BMesh, beams_to_select: set):
         init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
         node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
@@ -353,6 +360,30 @@ class JBeamEditorTest:
         return edges_selected
 
 
+    def select_faces(self, bm: bmesh.types.BMesh, faces_to_select: set):
+        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+        node_is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
+        face_idx_layer = bm.edges.layers.int[constants.FLS_FACE_IDX]
+
+        tris_quads_selected = set()
+        faces_selected = set()
+        f: bmesh.types.BMFace
+        for f in reversed(bm.faces):
+            face_idx = f[face_idx_layer].decode('utf-8')
+            if face_idx == 0: # Beam doesn't exist in JBeam data and is just part of a Blender face for example
+                continue
+
+            sorted_tup = tuple(sorted((v[node_id_layer].decode('utf-8') for v in f.verts)))
+            if sorted_tup in faces_to_select:
+                f.select = True
+                tris_quads_selected.add(sorted_tup)
+                faces_selected.add(f)
+
+        assert faces_to_select == tris_quads_selected
+        return faces_selected
+
+
     def add_beams_from_imported_jbeam_mesh(self, beams: list):
         self.select_imported_jbeam_mesh()
 
@@ -375,6 +406,35 @@ class JBeamEditorTest:
         self.deselect_all_vertices_edges_faces(bm)
         self.select_beams(bm, beams)
         self.delete_selected_edges(bm)
+
+        bm.free()
+
+        self.export_jbeam()
+
+
+    def add_faces_from_imported_jbeam_mesh(self, faces: list):
+        self.select_imported_jbeam_mesh()
+
+        for face in faces:
+            obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh()
+            face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
+            face_list = [self.select_node_by_node_id(bm, node) for node in face]
+            len_face_list = len(face_list)
+            assert len_face_list in (3,4)
+
+            f = bm.faces.new(face_list)
+            f[face_idx_layer] = -1
+            self.export_jbeam()
+
+        bm.free()
+
+
+    def delete_faces_from_imported_jbeam_mesh(self, faces: set):
+        self.select_imported_jbeam_mesh()
+        obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh()
+        self.deselect_all_vertices_edges_faces(bm)
+        self.select_faces(bm, faces)
+        self.delete_selected_faces(bm)
 
         bm.free()
 

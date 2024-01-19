@@ -1,0 +1,23 @@
+{
+  "Material.001": {
+    "name": "Material.001",
+    "mapTo": "Material.001",
+    "class": "Material",
+    "persistentId": "9bb1b50b-0ad7-4485-8341-81a8a649d5a7",
+    "Stages": [
+      {
+        "diffuseColor": [
+          0.639999986,
+          0.639999986,
+          0.639999986,
+          1
+        ]
+      },
+      {},
+      {},
+      {}
+    ],
+    "order_simset": 1028334744,
+    "translucentBlendOp": "None"
+  }
+}
