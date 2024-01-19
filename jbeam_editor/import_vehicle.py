@@ -257,7 +257,6 @@ def generate_part_mesh(obj_data: bpy.types.Mesh, bm: bmesh.types.BMesh, vehicle_
     beam_origin_layer = bm.edges.layers.string.new(constants.ELS_BEAM_PART_ORIGIN)
     beam_indices_layer = bm.edges.layers.string.new(constants.ELS_BEAM_INDICES)
 
-    face_is_quad = bm.faces.layers.int.new(constants.FLS_IS_QUAD)
     face_origin_layer = bm.faces.layers.string.new(constants.FLS_FACE_PART_ORIGIN)
     face_idx_layer = bm.faces.layers.int.new(constants.FLS_FACE_IDX)
 
@@ -297,7 +296,6 @@ def generate_part_mesh(obj_data: bpy.types.Mesh, bm: bmesh.types.BMesh, vehicle_
                 f = bm.faces.new((bm.verts[face[0]], bm.verts[face[1]], bm.verts[face[2]]))
             else:
                 f = bm.faces.new((bm.verts[face[0]], bm.verts[face[1]], bm.verts[face[2]], bm.verts[face[3]]))
-                f[face_is_quad] = 1
             f[face_idx_layer] = i
             f[face_origin_layer] = bytes(part, 'utf-8')
 

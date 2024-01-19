@@ -578,7 +578,6 @@ def get_faces_add_remove(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_tris
 
     init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
     face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
-    face_is_quad = bm.faces.layers.int[constants.FLS_IS_QUAD]
 
     blender_tris = {}
     blender_quads = {}
@@ -586,7 +585,8 @@ def get_faces_add_remove(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_tris
     bm.faces.ensure_lookup_table()
     f: bmesh.types.BMFace
     for i, f in enumerate(bm.faces):
-        if f[face_is_quad] == 0:
+        num_verts = len(f.verts)
+        if num_verts == 3:
             v1, v2, v3 = f.verts[0], f.verts[1], f.verts[2]
             v1_node_id, v2_node_id, v3_node_id = v1[init_node_id_layer].decode('utf-8'), v2[init_node_id_layer].decode('utf-8'), v3[init_node_id_layer].decode('utf-8')
             tri_tup = (v1_node_id, v2_node_id, v3_node_id)
@@ -601,7 +601,7 @@ def get_faces_add_remove(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_tris
             # for idx in tri_indices.split(','):
             #     blender_tris[int(idx)] = tri_tup
             blender_tris[tri_idx] = tri_tup
-        else:
+        elif num_verts == 4:
             v1, v2, v3, v4 = f.verts[0], f.verts[1], f.verts[2], f.verts[3]
             v1_node_id, v2_node_id, v3_node_id, v4_node_id = v1[init_node_id_layer].decode('utf-8'), v2[init_node_id_layer].decode('utf-8'), v3[init_node_id_layer].decode('utf-8'), v4[init_node_id_layer].decode('utf-8')
             quad_tup = (v1_node_id, v2_node_id, v3_node_id, v4_node_id)
@@ -616,6 +616,9 @@ def get_faces_add_remove(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_tris
             # for idx in quad_indices.split(','):
             #     blender_quads[int(idx)] = quad_tup
             blender_quads[quad_idx] = quad_tup
+
+        else:
+            print("Warning! Won't export face with 5 or more vertices!", file=sys.stderr)
 
     # Get tris and quads to delete
     tri_idx_in_part, quad_idx_in_part = 1, 1

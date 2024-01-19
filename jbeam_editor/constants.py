@@ -45,12 +45,12 @@ MESH_SINGLE_JBEAM_PART_DATA = 'jbeam_part_data'
 VLS_INIT_NODE_ID = 'jbeam_init_node_id'
 VLS_NODE_ID = 'jbeam_node_id'
 VLS_NODE_PART_ORIGIN = 'jbeam_node_part_origin'
+VLS_NODE_IS_FAKE = 'jbeam_node_is_fake'
 
 # bm.edges.layers.string Attributes
 ELS_BEAM_PART_ORIGIN = 'jbeam_beam_part_origin'
 ELS_BEAM_INDICES = 'jbeam_beam_indices'
 
 # bm.faces.layers.string Attributes
-FLS_IS_QUAD = 'jbeam_face_is_quad'
 FLS_FACE_PART_ORIGIN = 'jbeam_face_part_origin'
-FLS_FACE_INDICES = 'jbeam_face_indices'
+FLS_FACE_IDX = 'jbeam_face_indices'
