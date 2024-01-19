@@ -364,17 +364,17 @@ class JBeamEditorTest:
         init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
         node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
         node_is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
-        face_idx_layer = bm.edges.layers.int[constants.FLS_FACE_IDX]
+        face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
 
         tris_quads_selected = set()
         faces_selected = set()
         f: bmesh.types.BMFace
         for f in reversed(bm.faces):
-            face_idx = f[face_idx_layer].decode('utf-8')
+            face_idx = f[face_idx_layer]
             if face_idx == 0: # Beam doesn't exist in JBeam data and is just part of a Blender face for example
                 continue
 
-            sorted_tup = tuple(sorted((v[node_id_layer].decode('utf-8') for v in f.verts)))
+            sorted_tup = tuple((v[node_id_layer].decode('utf-8') for v in f.verts))
             if sorted_tup in faces_to_select:
                 f.select = True
                 tris_quads_selected.add(sorted_tup)

@@ -83,6 +83,7 @@ what's good?
         {"deformLimitExpansion":1.2},
 
         // Beams defined in Blender
+        ["nr14","nr15"],
         ["nr22","nr14"],
         ["nr15","nr23"],
         ["nr14","nr12"],
@@ -90,6 +91,7 @@ what's good?
         ["nr20","nr22"],
         ["nr23","nr21"],
         ["nr14","nr6"],
+        ["nr6","nr7"],
         ["nr6","nr4"],
         ["nr5","nr4"],
         ["nr30","nr22"],
@@ -108,6 +110,7 @@ what's good?
         ["nl19","nl18"],
         ["nl18","nl16"],
         ["nl17","nl16"],
+        ["nl9","nl1"],
         ["nl27","nl26"],
         ["nl26","nl24"],
         ["nl25","nl24"],
@@ -211,6 +214,7 @@ what's good?
         ["nr21","nl18"],
         ["nr20","nl19"],
         ["nl18","nr28"],
+        ["nr20","nl26"],
     ],
     "triangles":[
         ["id1:", "id2:", "id3:"],
@@ -220,7 +224,6 @@ what's good?
         {"groundModel":"plastic"},
 
         // Triangles defined in Blender
-        ["nr15","nr22","nr14"],
         ["nr21","nr31","nr23"],
         ["nr21","nr12","nr20"],
         ["nr4","nl3","nr5"],
@@ -237,7 +240,6 @@ what's good?
         ["nl10","nl0","nl2"],
         ["nr13","nl10","nr12"],
         ["nr5","nl11","nr13"],
-        ["nr12","nl2","nr4"],
         ["nl9","nl0","nl8"],
         ["nl2","nl1","nl3"],
         ["nl3","nl9","nl11"],
@@ -257,7 +259,6 @@ what's good?
         ["nr15","nr23","nr22"],
         ["nr21","nr29","nr31"],
         ["nr21","nr13","nr12"],
-        ["nr4","nl2","nl3"],
         ["nr20","nr12","nr14"],
         ["nr23","nr15","nr13"],
         ["nr5","nr7","nr6"],
@@ -287,7 +288,6 @@ what's good?
         ["nl26","nr28","nr29"],
         ["nl19","nl27","nr29"],
         ["nr20","nl18","nl19"],
-        ["nr20","nr28","nl26"],
     ],
 },
 }

@@ -45,17 +45,17 @@ def jbeam_editor_test():
     # Cleanup code'''
 
 
-# Import, choose JBeam mesh, and delete beams and export (valid):
+# Import, choose JBeam mesh, and delete tris and export (valid):
 def test_1():
     jbeam_editor_test.set_test_to_run(test_1.__name__)
     chosen_part = jbeam_editor_test.import_part
 
-    beams = {tuple(sorted(('nr20', 'nl26')))}
+    tris = {('nr20', 'nr28', 'nl26')}
 
     # Import chosen part from JBeam file
     jbeam_editor_test.import_jbeam()
 
-    jbeam_editor_test.delete_beams_from_imported_jbeam_mesh(beams)
+    jbeam_editor_test.delete_faces_from_imported_jbeam_mesh(tris)
 
     # Export JBeam file and test result
     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
@@ -63,22 +63,22 @@ def test_1():
     jbeam_editor_test.cleanup()
 
 
-# Import, choose JBeam mesh, and delete beams and export (valid):
+# Import, choose JBeam mesh, and delete tris and export (valid):
 def test_2():
     jbeam_editor_test.set_test_to_run(test_2.__name__)
     chosen_part = jbeam_editor_test.import_part
 
-    beams = {
-                tuple(sorted(('nr14', 'nr15'))),
-                tuple(sorted(('nr20', 'nl26'))),
-                tuple(sorted(('nr6', 'nr7'))),
-                tuple(sorted(('nl9', 'nl1'))),
+    tris = {
+                ('nr20', 'nr28', 'nl26'),
+                ("nr15","nr22","nr14"),
+                ("nr12","nl2","nr4"),
+                ("nr4","nl2","nl3"),
             }
 
     # Import chosen part from JBeam file
     jbeam_editor_test.import_jbeam()
 
-    jbeam_editor_test.delete_beams_from_imported_jbeam_mesh(beams)
+    jbeam_editor_test.delete_faces_from_imported_jbeam_mesh(tris)
 
     # Export JBeam file and test result
     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
