@@ -214,6 +214,85 @@ class JBEAM_EDITOR_OT_convert_to_jbeam_mesh(bpy.types.Operator):
         return {'FINISHED'}
 
 
+# Add JBeam beam
+class JBEAM_EDITOR_OT_add_beam_tri_quad(bpy.types.Operator):
+    bl_idname = "jbeam_editor.add_beam_tri_quad"
+    bl_label = "Add Beam/Triangle/Quad"
+
+    @classmethod
+    def poll(cls, context):
+        obj = context.active_object
+        if not obj:
+            return False
+        obj_data = obj.data
+        if not isinstance(obj_data, bpy.types.Mesh):
+            return False
+        if obj_data.get(constants.MESH_JBEAM_PART) is None:
+            return False
+
+        bm = None
+        if obj.mode == 'EDIT':
+            bm = bmesh.from_edit_mesh(obj_data)
+        else:
+            bm = bmesh.new()
+            bm.from_mesh(obj_data)
+
+        verts_selected = [x for x in bm.verts if x.select]
+        len_verts_selected = len(verts_selected)
+
+        bm.free()
+
+        if len_verts_selected in (2,3,4):
+            return True
+        else:
+            return False
+
+    def invoke(self, context, event):
+        obj = context.active_object
+        if not obj:
+            return {'CANCELLED'}
+        obj_data = obj.data
+        if not isinstance(obj_data, bpy.types.Mesh):
+            return {'CANCELLED'}
+        if obj_data.get(constants.MESH_JBEAM_PART) is None:
+            return {'CANCELLED'}
+
+        bm = None
+        if obj.mode == 'EDIT':
+            bm = bmesh.from_edit_mesh(obj_data)
+        else:
+            bm = bmesh.new()
+            bm.from_mesh(obj_data)
+
+        export = False
+
+        verts_selected = [x for x in bm.verts if x.select]
+        len_verts_selected = len(verts_selected)
+        if len_verts_selected == 2:
+            beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
+            e = bm.edges.new(verts_selected)
+            e[beam_indices_layer] = bytes('-1', 'utf-8')
+            if obj.mode != 'EDIT':
+                bm.to_mesh(obj_data)
+            export = True
+
+        elif len_verts_selected in (3,4):
+            face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
+            f = bm.faces.new(verts_selected)
+            f[face_idx_layer] = -1
+            if obj.mode != 'EDIT':
+                bm.to_mesh(obj_data)
+            export = True
+
+        bm.free()
+
+        if export:
+            global _force_do_export
+            _force_do_export = True
+
+        return {'FINISHED'}
+
+
 class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
@@ -244,7 +323,6 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
         # If mesh isn't a JBeam mesh (it doesn't have node id attributes), give user option to convert it to one (add node id attributes)
         if obj_data.get(constants.MESH_JBEAM_PART) is None:
             layout.operator('jbeam_editor.convert_to_jbeam_mesh', text='Convert to JBeam Mesh')
-
         else:
             box = layout.box()
             col = box.column()
@@ -261,16 +339,28 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
             col = box.column()
 
             # Only displays node information if one node selected
-            global selected_verts
-            if len(selected_verts) == 1:
+            verts_selected = [x for x in bm.verts if x.select]
+            len_verts_selected = len(verts_selected)
+
+            if len_verts_selected == 1:
                 col.row().label(text='JBeam Node ID')
                 col.row().prop(ui_props, 'input_node_id', text = "")
+
+            elif len_verts_selected in (2,3,4):
+                label = None
+                if len_verts_selected == 2:
+                    label = 'Add Beam'
+                elif len_verts_selected == 3:
+                    label = 'Add Triangle'
+                else:
+                    label = 'Add Quad'
+                col.row().operator('jbeam_editor.add_beam_tri_quad', text=label)
 
             else:
                 rows = [col.row() for i in range(1)]
                 rows[0].label(text='Select a node to rename')
 
-            bm.free()
+        bm.free()
 
 
 class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
@@ -886,6 +976,7 @@ classes = (
     JBEAM_EDITOR_OT_undo,
     JBEAM_EDITOR_OT_redo,
     JBEAM_EDITOR_OT_convert_to_jbeam_mesh,
+    JBEAM_EDITOR_OT_add_beam_tri_quad,
     JBEAM_EDITOR_PT_jbeam_panel,
     JBEAM_EDITOR_PT_jbeam_properties_panel,
     import_jbeam.JBEAM_EDITOR_OT_import_jbeam,
