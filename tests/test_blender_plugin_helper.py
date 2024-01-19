@@ -95,18 +95,14 @@ class JBeamEditorTest:
         # Do checks such as if object data is of correct type and node id attributes are part of mesh's vertex layer
         assert chosen_part in bpy.data.objects
         obj = bpy.data.objects[chosen_part]
-        assert obj != None
+        assert obj is not None
         obj_data = obj.data
         assert type(obj_data) is bpy.types.Mesh
 
         bm = bmesh.from_edit_mesh(obj_data)
         assert obj_data.get(constants.MESH_JBEAM_PART) == obj.name and constants.VLS_INIT_NODE_ID in bm.verts.layers.string and constants.VLS_NODE_ID in bm.verts.layers.string
 
-        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-        node_part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
-
-        return obj, obj_data, bm, init_node_id_layer, node_id_layer, node_part_origin_layer
+        return obj, obj_data, bm
 
 
     def add_node(self, bm: bmesh.types.BMesh, pos):
@@ -230,7 +226,11 @@ class JBeamEditorTest:
 
     def add_nodes_from_imported_jbeam_mesh(self, node_ids: list, node_id_to_new_position: dict):
         self.select_imported_jbeam_mesh()
-        obj, obj_data, bm, init_node_id_layer, node_id_layer, part_origin_layer = self.set_to_edit_mode_and_get_imported_mesh()
+        obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh()
+
+        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+        part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
 
         # Add nodes
         bm.verts.ensure_lookup_table()
@@ -251,7 +251,7 @@ class JBeamEditorTest:
 
     def delete_nodes_from_imported_jbeam_mesh(self, node_ids: set):
         self.select_imported_jbeam_mesh()
-        obj, obj_data, bm, init_node_id_layer, node_id_layer, part_origin_layer = self.set_to_edit_mode_and_get_imported_mesh()
+        obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh()
         self.deselect_all_vertices_edges_faces(bm)
         self.select_nodes_by_node_id(bm, node_ids)
         self.delete_selected_vertices(bm)
@@ -263,7 +263,7 @@ class JBeamEditorTest:
 
     def move_nodes_from_imported_jbeam_mesh(self, node_ids_to_new_pos: dict):
         self.select_imported_jbeam_mesh()
-        obj, obj_data, bm, init_node_id_layer, node_id_layer, part_origin_layer = self.set_to_edit_mode_and_get_imported_mesh()
+        obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh()
         self.deselect_all_vertices_edges_faces(bm)
 
         # Move nodes one at a time, replicating user behavior
@@ -305,7 +305,7 @@ class JBeamEditorTest:
 
     def rename_nodes_from_imported_jbeam_mesh(self, old_to_new_node_ids: list[tuple[str, str]]):
         self.select_imported_jbeam_mesh()
-        obj, obj_data, bm, init_node_id_layer, node_id_layer, part_origin_layer = self.set_to_edit_mode_and_get_imported_mesh()
+        obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh()
         self.deselect_all_vertices_edges_faces(bm)
 
         # Rename nodes one at a time, replicating user behavior
@@ -357,7 +357,7 @@ class JBeamEditorTest:
         self.select_imported_jbeam_mesh()
 
         for (n1, n2) in beams:
-            obj, obj_data, bm, init_node_id_layer, node_id_layer, part_origin_layer = self.set_to_edit_mode_and_get_imported_mesh()
+            obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh()
             beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
 
             v1 = self.select_node_by_node_id(bm, n1)
@@ -371,7 +371,7 @@ class JBeamEditorTest:
 
     def delete_beams_from_imported_jbeam_mesh(self, beams: set):
         self.select_imported_jbeam_mesh()
-        obj, obj_data, bm, init_node_id_layer, node_id_layer, part_origin_layer = self.set_to_edit_mode_and_get_imported_mesh()
+        obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh()
         self.deselect_all_vertices_edges_faces(bm)
         self.select_beams(bm, beams)
         self.delete_selected_edges(bm)
