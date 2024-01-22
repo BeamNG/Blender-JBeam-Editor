@@ -55,15 +55,15 @@ def _to_short_filename(filename: str):
     # return new_filename[max(0, len(new_filename) - 60):] # roughly 60 character limit
 
 
-def write_file_from_disk(filepath: str):
+def write_from_ext_to_int_file(filepath: str):
     filetext = utils.read_file(filepath)
     if filetext is None:
         return None
-    write_file(filepath, filetext)
+    write_int_file(filepath, filetext)
     return filetext
 
 
-def write_file_to_disk(filepath: str):
+def write_from_int_to_ext_file(filepath: str):
     short_filename = _to_short_filename(filepath)
     text: bpy.types.Text | None = bpy.data.texts.get(short_filename)
     if text is None:
@@ -73,7 +73,7 @@ def write_file_to_disk(filepath: str):
     return res
 
 
-def write_file(filename: str, text: str):
+def write_int_file(filename: str, text: str):
     context = bpy.context
     scene = context.scene
 
@@ -103,12 +103,12 @@ def write_file(filename: str, text: str):
     #check_files_for_changes(context)
 
 
-def read_file(filename: str, get_from_disk_if_not_exist=False) -> str | None:
+def read_int_file(filename: str, get_from_disk_if_not_exist=False) -> str | None:
     short_filename = _to_short_filename(filename)
     text: bpy.types.Text | None = bpy.data.texts.get(short_filename)
     if text is None:
         if get_from_disk_if_not_exist:
-            filetext = write_file_from_disk(filename)
+            filetext = write_from_ext_to_int_file(filename)
             if filetext is None:
                 return None
         else:
@@ -118,7 +118,7 @@ def read_file(filename: str, get_from_disk_if_not_exist=False) -> str | None:
     return filetext
 
 
-def delete_file(filename: str):
+def delete_int_file(filename: str):
     short_filename = _to_short_filename(filename)
     text: bpy.types.Text | None = bpy.data.texts.get(short_filename)
     if text is None:
@@ -126,7 +126,7 @@ def delete_file(filename: str):
     bpy.data.texts.remove(text)
 
 
-def show_file(filename: str):
+def show_int_file(filename: str):
     short_filename = _to_short_filename(filename)
     text: bpy.types.Text | None = bpy.data.texts.get(short_filename)
     if text is None:
@@ -145,7 +145,7 @@ def show_file(filename: str):
         text_area.spaces[0].text = text
 
 
-def check_open_file_for_changes(context: bpy.types.Context, undoing_redoing=False):
+def check_open_int_file_for_changes(context: bpy.types.Context, undoing_redoing=False):
     scene = context.scene
 
     if SCENE_PREV_TEXTS not in scene:
@@ -203,7 +203,7 @@ def check_open_file_for_changes(context: bpy.types.Context, undoing_redoing=Fals
     return file_changed
 
 
-def check_files_for_changes(context: bpy.types.Context, filenames: list, undoing_redoing=False):
+def check_int_files_for_changes(context: bpy.types.Context, filenames: list, undoing_redoing=False):
     scene = context.scene
 
     if SCENE_PREV_TEXTS not in scene:
@@ -290,4 +290,4 @@ def on_undo_redo(context: bpy.types.Context, undoing: bool):
 
         filepaths.append(scene[SCENE_SHORT_TO_FULL_FILENAME].get(short_filename))
 
-    check_files_for_changes(context, filepaths, True)
+    check_int_files_for_changes(context, filepaths, True)

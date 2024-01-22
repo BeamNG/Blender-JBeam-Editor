@@ -111,7 +111,7 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: li
     if filepath not in jbeam_cache:
         if parts is not None:
             # As optimization, only read file and check if file text contains part name before parsing it with SJSON parser
-            file_text = text_editor.read_file(filepath, True)
+            file_text = text_editor.read_int_file(filepath, True)
             if file_text is None:
                 print(f'Cannot read file: {filepath}', file=sys.stderr)
                 return None
@@ -121,7 +121,7 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: li
 
             file_content = utils.sjson_decode(file_text, filepath)
         else:
-            file_text = text_editor.read_file(filepath, True)
+            file_text = text_editor.read_int_file(filepath, True)
             if file_text is None:
                 print(f'Cannot read file: {filepath}', file=sys.stderr)
                 return None
@@ -195,7 +195,7 @@ def load_single_jbeam_file(filepath: str, add_to_cache: bool):
     file_content = None
 
     if filepath not in jbeam_cache:
-        file_text = text_editor.read_file(filepath, True)
+        file_text = text_editor.read_int_file(filepath, True)
         if file_text is None:
             print(f'Cannot read file: {filepath}', file=sys.stderr)
             return False
@@ -236,7 +236,7 @@ def start_loading(directories: list[str], vehicle_config: dict):
                 #    print('parsed file', filepath)
                 #art_count_total += part_count
 
-    text_editor.check_files_for_changes(bpy.context, filepaths)
+    text_editor.check_int_files_for_changes(bpy.context, filepaths)
 
     return {'dirs': directories}
 

@@ -154,7 +154,7 @@ def export_existing_jbeam(obj: bpy.types.Object):
         blender_nodes, nodes_to_add, nodes_to_delete, node_renames = export_utils.get_nodes_add_delete_rename(obj, bm, init_nodes_data)
         export_utils.export_file(jbeam_filepath, [obj], part_data, blender_nodes, nodes_to_add, nodes_to_delete, node_renames, affect_node_references)
 
-        text_editor.check_files_for_changes(context, [jbeam_filepath])
+        text_editor.check_int_files_for_changes(context, [jbeam_filepath])
 
         tf = timeit.default_timer()
         print('Exporting Time', round(tf - t0, 2), 's')
@@ -262,7 +262,7 @@ def get_part_in_ast_nodes(ast_nodes, jbeam_part):
 # Export the specific part from the Blender text editor to the disk
 # Only replaces the lines of text related to the specific part
 def export_to_disk(jbeam_part, jbeam_filepath):
-    internal_text = text_editor.read_file(jbeam_filepath)
+    internal_text = text_editor.read_int_file(jbeam_filepath)
     if internal_text is None:
         return False
     external_text = utils.read_file(jbeam_filepath)

@@ -135,7 +135,7 @@ def load_vehicle_stage_1(vehicle_directories: list, vehicle_config: dict):
 
 def build_config(config_path):
     res = {}
-    pc_filetext = text_editor.read_file(config_path, True)
+    pc_filetext = text_editor.read_int_file(config_path, True)
     if pc_filetext is None:
         return None
 

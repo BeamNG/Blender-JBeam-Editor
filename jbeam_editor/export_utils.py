@@ -1056,7 +1056,7 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
 def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, blender_nodes: dict, nodes_to_add: dict, nodes_to_delete: set, node_renames: dict, affect_node_references: bool):
     #current_jbeam_file_data_str: dict = jbeam_io.get_jbeam(io_ctx, jbeam_filepath, True)
     #current_jbeam_file_data: dict = jbeam_io.get_jbeam(io_ctx, jbeam_filepath, False)
-    jbeam_file_str = text_editor.read_file(jbeam_filepath)
+    jbeam_file_str = text_editor.read_int_file(jbeam_filepath)
     if jbeam_file_str is None:
         print(f"File doesn't exist! {jbeam_filepath}", file=sys.stderr)
         return
@@ -1127,9 +1127,9 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, 
         # f.write(out_str_jbeam_data)
         # f.close()
 
-        text_editor.write_file(jbeam_filepath, out_str_jbeam_data)
+        text_editor.write_int_file(jbeam_filepath, out_str_jbeam_data)
 
 
 def export_file_to_disk(jbeam_filepath: str):
-    res = text_editor.write_file_to_disk(jbeam_filepath)
+    res = text_editor.write_from_int_to_ext_file(jbeam_filepath)
     return res

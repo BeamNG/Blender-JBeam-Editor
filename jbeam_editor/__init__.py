@@ -817,7 +817,7 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
 
     # Show selected jbeam part's JBeam file in text editor
     jbeam_filepath = active_obj_data[constants.MESH_JBEAM_FILE_PATH]
-    text_editor.show_file(jbeam_filepath)
+    text_editor.show_int_file(jbeam_filepath)
 
     for update in depsgraph.updates:
         if update.id == active_obj_eval:
@@ -958,7 +958,7 @@ def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
 def check_files_for_changes():
     context = bpy.context
 
-    changed = text_editor.check_open_file_for_changes(context)
+    changed = text_editor.check_open_int_file_for_changes(context)
     if changed:
         refresh_curr_vdata(True)
 

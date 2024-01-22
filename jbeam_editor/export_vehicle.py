@@ -88,7 +88,7 @@ def export(veh_collection: bpy.types.Collection, active_obj: bpy.types.Object):
             export_utils.export_file(jbeam_filepath, parts, vdata, blender_nodes, nodes_to_add, nodes_to_delete, node_renames, update_all_parts)
             filepaths.append(jbeam_filepath)
 
-        text_editor.check_files_for_changes(context, filepaths)
+        text_editor.check_int_files_for_changes(context, filepaths)
 
         tf = timeit.default_timer()
         print('Exporting Time', round(tf - t0, 2), 's')
