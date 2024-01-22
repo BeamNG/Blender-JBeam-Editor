@@ -1,0 +1,23 @@
+{
+"square_donut_no_mesh": {
+    "information":{
+        "authors":"BeamNG",
+        "name":"No Mesh",
+    },
+    "slotType" : "square_donut_meshes",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+    ],
+},
+"square_donut_mesh": {
+    "information":{
+        "authors":"BeamNG",
+        "name":"Mesh",
+    },
+    "slotType" : "square_donut_meshes",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+        ["square_donut", ["square_donut"]]
+    ],
+},
+}
