@@ -225,7 +225,7 @@ def get_vertices_edges_faces(vehicle_bundle: dict):
         for i, (node_id, node) in enumerate(nodes.items()):
             node_index_to_id.append(node_id)
             node_id_to_index[node_id] = len(vertices)
-            vertices.append((node['pos']))
+            vertices.append((node['pos'], False))
 
         # Translate beams to edges
         if 'beams' in vdata:
