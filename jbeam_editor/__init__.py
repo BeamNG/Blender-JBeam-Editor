@@ -147,7 +147,7 @@ class UIProperties(bpy.types.PropertyGroup):
     affect_node_references: bpy.props.BoolProperty(
         name="Affect Node References",
         description="Toggles updating JBeam entries who references nodes. E.g. deleting a JBeam entry when a node that that entry references gets deleted.",
-        default=True
+        default=False
     )
 
 
@@ -449,8 +449,6 @@ part_name_to_obj: dict[str, bpy.types.Object] = {}
 
 # Draws a 3D text at each vertex position of their assigned node ID
 def draw_callback_px(context: bpy.types.Context):
-    global curr_vdata
-
     scene = context.scene
     ui_props = scene.ui_properties
     if not hasattr(ui_props, 'toggle_node_ids_text'):
@@ -465,7 +463,7 @@ def draw_callback_px(context: bpy.types.Context):
         return
 
     collection = active_obj.users_collection[0]
-    if collection is not None and collection.get(constants.COLLECTION_VEHICLE_MODEL) is not None and curr_vdata is not None:
+    if collection is not None and collection.get(constants.COLLECTION_VEHICLE_MODEL) is not None:
         part_name_to_obj.clear()
         for obj in collection.all_objects:
             part_name_to_obj[obj.data[constants.MESH_JBEAM_PART]] = obj
@@ -483,10 +481,9 @@ def draw_callback_px(context: bpy.types.Context):
             bm = bmesh.new()
             bm.from_mesh(obj_data)
 
-        bm.verts.ensure_lookup_table()
-
         node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
         part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
+        is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
 
         lblf = blf
         toggleNodeText = ui_props.toggle_node_ids_text
@@ -498,6 +495,9 @@ def draw_callback_px(context: bpy.types.Context):
         lblf.color(font_id, 1, 1, 1, 1)
 
         for v in bm.verts:
+            if v[is_fake_layer] == 1:
+                continue
+
             coord = obj.matrix_world @ v.co
             node_id = v[node_id_layer].decode('utf-8')
             part_origin = v[part_origin_layer].decode('utf-8')
@@ -515,36 +515,40 @@ def draw_callback_px(context: bpy.types.Context):
         bm.free()
 
     else:
-        bm = None
-        if active_obj.mode == 'EDIT':
-            bm = bmesh.from_edit_mesh(active_obj_data)
-        else:
-            bm = bmesh.new()
-            bm.from_mesh(active_obj_data)
+        if active_obj.visible_get():
+            bm = None
+            if active_obj.mode == 'EDIT':
+                bm = bmesh.from_edit_mesh(active_obj_data)
+            else:
+                bm = bmesh.new()
+                bm.from_mesh(active_obj_data)
 
-        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+            node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+            is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
 
-        for v in bm.verts:
-            coord = active_obj.matrix_world @ v.co
-            node_id = v[node_id_layer].decode('utf-8')
+            for v in bm.verts:
+                if v[is_fake_layer] == 1:
+                    continue
+                coord = active_obj.matrix_world @ v.co
+                node_id = v[node_id_layer].decode('utf-8')
 
-            pos_text = location_3d_to_region_2d(context.region, context.region_data, coord)
-            if pos_text and ui_props.toggle_node_ids_text:
-                blf.position(font_id, pos_text[0], pos_text[1], 0)
-                blf.size(font_id, 12) # dpi value defaults to 72 when omitted, and no longer usable from 4.0+ (only 2 parameters allowed).
-                blf.color(font_id, 1, 1, 1, 1)
-                #blf.draw(font_id, str(node_id) + " (" + str(v.index) + ")")
-                blf.draw(font_id, str(node_id))
+                pos_text = location_3d_to_region_2d(context.region, context.region_data, coord)
+                if pos_text and ui_props.toggle_node_ids_text:
+                    blf.position(font_id, pos_text[0], pos_text[1], 0)
+                    blf.size(font_id, 12) # dpi value defaults to 72 when omitted, and no longer usable from 4.0+ (only 2 parameters allowed).
+                    blf.color(font_id, 1, 1, 1, 1)
+                    #blf.draw(font_id, str(node_id) + " (" + str(v.index) + ")")
+                    blf.draw(font_id, str(node_id))
 
-        bm.free()
+            bm.free()
 
 beam_render_width = 3.0
 beam_render_shader = None
 beam_render_batch = None
+coords = []
 
 def draw_callback_view(context: bpy.types.Context):
     global veh_render_dirty
-    global curr_vdata
     global beam_render_shader
     global beam_render_batch
 
@@ -552,21 +556,63 @@ def draw_callback_view(context: bpy.types.Context):
         beam_render_shader = gpu.shader.from_builtin('UNIFORM_COLOR')
 
     if veh_render_dirty:
-        if curr_vdata is not None:
-            if 'nodes' in curr_vdata and 'beams' in curr_vdata:
-                nodes = curr_vdata['nodes']
-                beams = curr_vdata['beams']
-                coords = []
-                for beam in beams:
-                    id1, id2 = beam['id1:'], beam['id2:']
-                    if id1 in nodes and id2 in nodes:
-                        n1, n2 = nodes[id1], nodes[id2]
-                        coords.append(n1['pos'])
-                        coords.append(n2['pos'])
+        coords.clear()
+
+        scene = context.scene
+        active_obj = context.active_object
+        if active_obj is None:
+            beam_render_batch = None
+            veh_render_dirty = False
+            return
+        active_obj_data = active_obj.data
+        if active_obj_data.get(constants.MESH_JBEAM_PART) is None:
+            beam_render_batch = None
+            veh_render_dirty = False
+            return
+
+        collection = active_obj.users_collection[0]
+        if collection is not None and collection.get(constants.COLLECTION_VEHICLE_MODEL) is not None:
+            for obj in collection.all_objects:
+                if obj.visible_get():
+                    obj_data = obj.data
+                    bm = None
+                    if obj.mode == 'EDIT':
+                        bm = bmesh.from_edit_mesh(obj_data)
+                    else:
+                        bm = bmesh.new()
+                        bm.from_mesh(obj_data)
+
+                    e: bmesh.types.BMEdge
+                    for e in bm.edges:
+                        v1, v2 = e.verts[0], e.verts[1]
+                        coords.append(obj.matrix_world @ v1.co)
+                        coords.append(obj.matrix_world @ v2.co)
+
+                    bm.free()
+
+            beam_render_batch = batch_for_shader(beam_render_shader, 'LINES', {"pos": coords})
+
+        else:
+            if active_obj.visible_get():
+                bm = None
+                if active_obj.mode == 'EDIT':
+                    bm = bmesh.from_edit_mesh(active_obj_data)
+                else:
+                    bm = bmesh.new()
+                    bm.from_mesh(active_obj_data)
+
+                e: bmesh.types.BMEdge
+                for e in bm.edges:
+                    v1, v2 = e.verts[0], e.verts[1]
+                    coords.append(active_obj.matrix_world @ v1.co)
+                    coords.append(active_obj.matrix_world @ v2.co)
+
+                bm.free()
 
                 beam_render_batch = batch_for_shader(beam_render_shader, 'LINES', {"pos": coords})
-        else:
-            beam_render_batch = None
+            else:
+                beam_render_batch = None
+                veh_render_dirty = False
         veh_render_dirty = False
 
     if beam_render_batch is not None:
