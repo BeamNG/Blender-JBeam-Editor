@@ -318,3 +318,31 @@ def test_10():
     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup()
+
+
+# Import, choose JBeam mesh, add new nodes in this order and export (valid):
+# 'new_node1': (1,2,3),
+# 'new_node2': (9,8,7),
+# 'new_node3': (0.1,0.11,0.111),
+# 'new_node4': (1.21,3.55,6.50),
+def test_11():
+    jbeam_editor_test.set_test_to_run(test_11.__name__)
+    chosen_part = jbeam_editor_test.import_part
+
+    node_ids = ['new_node1', 'new_node2', 'new_node3', 'new_node4']
+    node_id_to_new_position = {
+        'new_node1': (1,2,3),
+        'new_node2': (9,8,7),
+        'new_node3': (0.1,0.11,0.111),
+        'new_node4': (1.21,3.55,6.50)
+    }
+
+    # Import chosen part from JBeam file
+    jbeam_editor_test.import_jbeam()
+
+    jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(node_ids, node_id_to_new_position)
+
+    # Export JBeam file and test result
+    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
+    assert jbeam_editor_test.test_result()
+    jbeam_editor_test.cleanup()
