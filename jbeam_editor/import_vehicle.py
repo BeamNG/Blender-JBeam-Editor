@@ -290,13 +290,20 @@ def generate_part_mesh(obj_data: bpy.types.Mesh, bm: bmesh.types.BMesh, vehicle_
                 last_indices = e[beam_indices_layer].decode('utf-8')
                 e[beam_indices_layer] = bytes(f'{last_indices},{i}', 'utf-8')
 
-    for i, face in enumerate(faces, 1):
+    tri_idx_in_part, quad_idx_in_part = 1, 1
+    for face in faces:
         if face is not None:
-            if len(face) == 3:
+            num_verts = len(face)
+            assert num_verts in (3,4)
+            if num_verts == 3:
                 f = bm.faces.new((bm.verts[face[0]], bm.verts[face[1]], bm.verts[face[2]]))
+                f[face_idx_layer] = tri_idx_in_part
+                tri_idx_in_part += 1
             else:
                 f = bm.faces.new((bm.verts[face[0]], bm.verts[face[1]], bm.verts[face[2]], bm.verts[face[3]]))
-            f[face_idx_layer] = i
+                f[face_idx_layer] = quad_idx_in_part
+                quad_idx_in_part += 1
+
             f[face_origin_layer] = bytes(part, 'utf-8')
 
     obj_data[constants.MESH_JBEAM_PART] = part

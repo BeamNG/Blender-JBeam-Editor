@@ -374,10 +374,10 @@ class JBeamEditorTest:
             if face_idx == 0: # Beam doesn't exist in JBeam data and is just part of a Blender face for example
                 continue
 
-            sorted_tup = tuple((v[node_id_layer].decode('utf-8') for v in f.verts))
-            if sorted_tup in faces_to_select:
+            tup = tuple((v[node_id_layer].decode('utf-8') for v in f.verts))
+            if tup in faces_to_select:
                 f.select = True
-                tris_quads_selected.add(sorted_tup)
+                tris_quads_selected.add(tup)
                 faces_selected.add(f)
 
         assert faces_to_select == tris_quads_selected
