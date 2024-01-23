@@ -47,6 +47,8 @@ def test_delete_rename_1():
     del_node_ids = {'nr6'}
     old_to_new_node_ids = [('nl10', 'nr6')]
 
+    bpy.context.scene.ui_properties.affect_node_references = True
+
     # Import chosen part from JBeam file
     jbeam_editor_test.import_jbeam()
 
@@ -78,6 +80,8 @@ def test_delete_rename_2():
     del_node_ids_1 = {'nl0'}
     old_to_new_node_ids_1a = [('nr5', 'hello_world')]
     old_to_new_node_ids_1b = [('hello_world', 'nl0')]
+
+    bpy.context.scene.ui_properties.affect_node_references = True
 
     # Delete node nl0
     jbeam_editor_test.delete_nodes_from_imported_jbeam_mesh(del_node_ids_1)
@@ -121,6 +125,8 @@ def test_rename_move_1():
     old_to_new_node_ids = [('nr12', 'twelve')]
     node_ids_to_new_pos = {'twelve': (-0.8,-0.8,3.0)}
 
+    bpy.context.scene.ui_properties.affect_node_references = True
+
     # Import chosen part from JBeam file
     jbeam_editor_test.import_jbeam()
 
@@ -153,6 +159,8 @@ def test_rename_move_2():
         'nr_fourteen': (1,2,3),
         'nr_twentynine': (3.3,0.159,0.692)
     }
+
+    bpy.context.scene.ui_properties.affect_node_references = True
 
     # Import chosen part from JBeam file
     jbeam_editor_test.import_jbeam()

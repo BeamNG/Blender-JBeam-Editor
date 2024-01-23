@@ -53,6 +53,8 @@ def test_1():
 
     old_to_new_node_ids = [('nr29', '29')]
 
+    bpy.context.scene.ui_properties.affect_node_references = True
+
     # Import chosen part from JBeam file
     jbeam_editor_test.import_jbeam()
 
@@ -76,6 +78,8 @@ def test_2():
 
     old_to_new_node_ids = [('nl3', 'hey'), ('nr4', 'hi'), ('nl10', 'hello_world'), ('nl25', '25')]
 
+    bpy.context.scene.ui_properties.affect_node_references = True
+
     # Import chosen part from JBeam file
     jbeam_editor_test.import_jbeam()
 
@@ -96,6 +100,8 @@ def test_3():
     chosen_part = jbeam_editor_test.import_part
 
     old_to_new_node_ids = [('nl0', 'okay'), ('nr31', 'cool')]
+
+    bpy.context.scene.ui_properties.affect_node_references = True
 
     # Import chosen part from JBeam file
     jbeam_editor_test.import_jbeam()
@@ -119,6 +125,8 @@ def test_4():
     chosen_part = jbeam_editor_test.import_part
 
     old_to_new_node_ids = [('nr7', 'hey_there'), ('nr14', 'cool_car'), ('nr21', 'yooo'), ('nr22', 'my_name_is_john_smith')]
+
+    bpy.context.scene.ui_properties.affect_node_references = True
 
     # Import chosen part from JBeam file
     jbeam_editor_test.import_jbeam()

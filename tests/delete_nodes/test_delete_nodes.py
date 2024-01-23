@@ -53,6 +53,8 @@ def test_1():
 
     node_ids = {'nr29'}
 
+    bpy.context.scene.ui_properties.affect_node_references = True
+
     # Import chosen part from JBeam file
     jbeam_editor_test.import_jbeam()
 
@@ -71,6 +73,8 @@ def test_2():
     chosen_part = jbeam_editor_test.import_part
 
     node_ids = {'nl0'}
+
+    bpy.context.scene.ui_properties.affect_node_references = True
 
     # Import chosen part from JBeam file
     jbeam_editor_test.import_jbeam()
@@ -91,6 +95,8 @@ def test_3():
 
     node_ids = {'nr31'}
 
+    bpy.context.scene.ui_properties.affect_node_references = True
+
     # Import chosen part from JBeam file
     jbeam_editor_test.import_jbeam()
 
@@ -110,6 +116,8 @@ def test_4():
 
     node_ids = {'nl3', 'nr4', 'nl16', 'nl17', 'nl18', 'nl19', 'nl24', 'nl25'}
 
+    bpy.context.scene.ui_properties.affect_node_references = True
+
     # Import chosen part from JBeam file
     jbeam_editor_test.import_jbeam()
 
@@ -127,6 +135,8 @@ def test_5():
     chosen_part = jbeam_editor_test.import_part
 
     node_ids = {'nr5', 'nl11', 'nr12', 'nr31'}
+
+    bpy.context.scene.ui_properties.affect_node_references = True
 
     # Import chosen part from JBeam file
     jbeam_editor_test.import_jbeam()
@@ -147,6 +157,8 @@ def test_6():
 
     node_ids = {'nr29', 'nr30', 'nr31'}
 
+    bpy.context.scene.ui_properties.affect_node_references = True
+
     # Import chosen part from JBeam file
     jbeam_editor_test.import_jbeam()
 
@@ -166,6 +178,8 @@ def test_7():
 
     node_ids = {'nl10', 'nr23'}
 
+    bpy.context.scene.ui_properties.affect_node_references = True
+
     # Import chosen part from JBeam file
     jbeam_editor_test.import_jbeam()
 
@@ -184,6 +198,8 @@ def test_8():
     chosen_part = jbeam_editor_test.import_part
 
     node_ids = {'nl3', 'nl9', 'nl17', 'nl19', 'nl24', 'nr28'}
+
+    bpy.context.scene.ui_properties.affect_node_references = True
 
     # Import chosen part from JBeam file
     jbeam_editor_test.import_jbeam()
