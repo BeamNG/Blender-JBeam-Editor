@@ -48,11 +48,11 @@ from .jbeam import node_beam as jbeam_node_beam
 
 import timeit
 
-def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
+def load_jbeam(vehicle_directories: list[str], vehicle_config: dict, reimporting: bool):
     """load all the jbeam and construct the thing in memory"""
     print('Reading JBeam files...')
     t0 = timeit.default_timer()
-    io_ctx = jbeam_io.start_loading(vehicle_directories, vehicle_config)
+    io_ctx = jbeam_io.start_loading(vehicle_directories, vehicle_config, reimporting)
     if io_ctx is None:
         return None
 
@@ -128,14 +128,16 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict):
     }
 
 
-def load_vehicle_stage_1(vehicle_directories: list, vehicle_config: dict):
-    vehicle_bundle = load_jbeam(vehicle_directories, vehicle_config)
-    return vehicle_bundle
-
-
-def build_config(config_path):
+def build_config(config_path, reimporting=False):
     res = {}
-    pc_filetext = text_editor.read_int_file(config_path, True)
+    pc_filetext = None
+
+    # On importing vehicle, read from disk. On reimporting vehicle, read from internal Blender text.
+    if reimporting:
+        pc_filetext = text_editor.read_int_file(config_path)
+    else:
+        pc_filetext = text_editor.write_from_ext_to_int_file(config_path)
+
     if pc_filetext is None:
         return None
 
@@ -436,15 +438,14 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
         context.view_layer.objects.active = context.scene.objects[prev_active_obj_name]
 
 
-def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Collection, jbeam_filepath: str):
+def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Collection, jbeam_files: dict):
     try:
         config_path = veh_collection[constants.COLLECTION_PC_FILEPATH]
 
-        res = jbeam_io.invalidate_cache_for_file(jbeam_filepath)
-        if not res:
-            return
+        for filename, text in jbeam_files.items():
+            jbeam_io.invalidate_cache_for_file(filename)
 
-        vehicle_config = build_config(config_path)
+        vehicle_config = build_config(config_path, True)
         if vehicle_config is None:
             return
 
@@ -452,7 +453,7 @@ def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Colle
         vehicles_dir = Path(vehicle_dir).parent.as_posix()
         vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]
 
-        vehicle_bundle = load_vehicle_stage_1(vehicle_directories, vehicle_config)
+        vehicle_bundle = load_jbeam(vehicle_directories, vehicle_config, True)
         if vehicle_bundle is None:
             return
 
@@ -478,7 +479,7 @@ def import_vehicle(config_path: str):
         if vehicle_config is None:
             return {'CANCELLED'}
 
-        vehicle_bundle = load_vehicle_stage_1(vehicle_directories, vehicle_config)
+        vehicle_bundle = load_jbeam(vehicle_directories, vehicle_config, False)
 
         if vehicle_bundle is None:
             return {'CANCELLED'}
@@ -495,21 +496,25 @@ def import_vehicle(config_path: str):
     return {'FINISHED'}
 
 
-def on_file_change(context: bpy.types.Context, filename: str, filetext: str):
+def on_files_change(context: bpy.types.Context, files_changed: dict):
     collections = bpy.data.collections
+
+    # Only use jbeam files that are parseable for reimporting vehicle
+    sjson_valid_files_changed = {}
+    for filename, text in files_changed.items():
+        if utils.sjson_decode(text, filename):
+            sjson_valid_files_changed[filename] = text
 
     for collection in collections:
         if collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
             continue
 
-        veh_files = collection[constants.COLLECTION_VEH_FILES]
-        if filename not in veh_files:
-            continue
+        changed_files_in_vehicle = {}
 
-        # Check if jbeam file is parseable before reimporting vehicle
-        data = utils.sjson_decode(filetext, filename)
-        if data is None:
-            continue
+        veh_files = collection[constants.COLLECTION_VEH_FILES]
+        for filename, text in sjson_valid_files_changed.items():
+            if filename in veh_files:
+                changed_files_in_vehicle[filename] = text
 
         # import cProfile, pstats, io
         # import pstats
@@ -519,7 +524,7 @@ def on_file_change(context: bpy.types.Context, filename: str, filetext: str):
         #     stats = pstats.Stats(pr)
         #     stats.strip_dirs().sort_stats('cumtime').print_stats()
 
-        reimport_vehicle(context, collection, filename)
+        reimport_vehicle(context, collection, changed_files_in_vehicle)
 
 
 class JBEAM_EDITOR_OT_import_vehicle(Operator, ImportHelper):

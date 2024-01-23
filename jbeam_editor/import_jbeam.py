@@ -234,7 +234,7 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
     jbeam_io.jbeam_cache.pop(jbeam_file_path, None)
 
     # Reimport object
-    jbeam_file_data = jbeam_io.get_jbeam(jbeam_file_path)
+    jbeam_file_data = jbeam_io.get_jbeam(jbeam_file_path, True)
     if jbeam_file_data is None:
         return
 
@@ -387,7 +387,7 @@ class JBEAM_EDITOR_OT_import_jbeam(Operator, ImportHelper):
         global _jbeam_part_choices
 
         _jbeam_file_path = Path(self.filepath).as_posix()
-        _jbeam_file_data = jbeam_io.get_jbeam(_jbeam_file_path)
+        _jbeam_file_data = jbeam_io.get_jbeam(_jbeam_file_path, False)
 
         if not _jbeam_file_data:
             return {'CANCELLED'}

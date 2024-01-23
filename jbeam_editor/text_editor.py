@@ -103,19 +103,12 @@ def write_int_file(filename: str, text: str):
     #check_files_for_changes(context)
 
 
-def read_int_file(filename: str, get_from_disk_if_not_exist=False) -> str | None:
+def read_int_file(filename: str) -> str | None:
     short_filename = _to_short_filename(filename)
     text: bpy.types.Text | None = bpy.data.texts.get(short_filename)
     if text is None:
-        if get_from_disk_if_not_exist:
-            filetext = write_from_ext_to_int_file(filename)
-            if filetext is None:
-                return None
-        else:
-            return None
-    else:
-        filetext = text.as_string()
-    return filetext
+        return None
+    return text.as_string()
 
 
 def delete_int_file(filename: str):
@@ -181,7 +174,7 @@ def check_open_int_file_for_changes(context: bpy.types.Context, undoing_redoing=
 
         scene[SCENE_PREV_TEXTS][short_filename] = curr_file_text
 
-        import_vehicle.on_file_change(context, filename, curr_file_text)
+        import_vehicle.on_files_change(context, {filename: curr_file_text})
         import_jbeam.on_file_change(context, filename, curr_file_text)
         file_changed = True
 
@@ -209,6 +202,7 @@ def check_int_files_for_changes(context: bpy.types.Context, filenames: list, und
     if SCENE_PREV_TEXTS not in scene:
         return
 
+    files_changed_short_names = None
     files_changed = None
 
     for filename in filenames:
@@ -229,19 +223,23 @@ def check_int_files_for_changes(context: bpy.types.Context, filenames: list, und
 
             scene[SCENE_PREV_TEXTS][short_filename] = curr_file_text
 
-            import_vehicle.on_file_change(context, filename, curr_file_text)
             import_jbeam.on_file_change(context, filename, curr_file_text)
 
-            if files_changed is None:
+            if files_changed_short_names is None:
+                files_changed_short_names = {}
                 files_changed = {}
-            files_changed[short_filename] = curr_file_text
+            files_changed_short_names[short_filename] = curr_file_text
+            files_changed[filename] = curr_file_text
 
-    if not undoing_redoing and files_changed is not None:
+    if files_changed is not None:
+        import_vehicle.on_files_change(context, files_changed)
+
+    if not undoing_redoing and files_changed_short_names is not None:
         # Insert new history into history stack
         # Overwrite history when stack idx is less than len(stack) - 1
         global history_stack, history_stack_idx
         history_stack_idx += 1
-        history_stack.insert(history_stack_idx, files_changed)
+        history_stack.insert(history_stack_idx, files_changed_short_names)
         history_stack = history_stack[:history_stack_idx + 1]
 
         if len(history_stack) > HISTORY_STACK_SIZE:

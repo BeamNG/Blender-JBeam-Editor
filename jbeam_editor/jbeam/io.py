@@ -105,28 +105,33 @@ def process_slots_destructive(part: dict, source_filename: str):
     return res
 
 
-def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: list | None = None):
+def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, reimporting: bool):
     file_content = None
 
     if filepath not in jbeam_cache:
-        if parts is not None:
-            # As optimization, only read file and check if file text contains part name before parsing it with SJSON parser
-            file_text = text_editor.read_int_file(filepath, True)
-            if file_text is None:
-                print(f'Cannot read file: {filepath}', file=sys.stderr)
-                return None
+        # if parts is not None:
+        #     # As optimization, only read file and check if file text contains part name before parsing it with SJSON parser
+        #     file_text = text_editor.write_from_ext_to_int_file(filepath)
+        #     if file_text is None:
+        #         print(f'Cannot read file: {filepath}', file=sys.stderr)
+        #         return None
 
-            if next((substring for substring in parts if substring in file_text), None) is None:
-                return 0
+        #     if next((substring for substring in parts if substring in file_text), None) is None:
+        #         return 0
 
-            file_content = utils.sjson_decode(file_text, filepath)
+        #     file_content = utils.sjson_decode(file_text, filepath)
+        # else:
+        file_text = None
+        if reimporting:
+            file_text = text_editor.read_int_file(filepath)
         else:
-            file_text = text_editor.read_int_file(filepath, True)
-            if file_text is None:
-                print(f'Cannot read file: {filepath}', file=sys.stderr)
-                return None
+            file_text = text_editor.write_from_ext_to_int_file(filepath)
 
-            file_content = utils.sjson_decode(file_text, filepath)
+        if file_text is None:
+            print(f'Cannot read file: {filepath}', file=sys.stderr)
+            return None
+
+        file_content = utils.sjson_decode(file_text, filepath)
 
         if file_content is None:
             print(f'Cannot read file: {filepath}', file=sys.stderr)
@@ -191,52 +196,44 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, parts: li
     return part_count
 
 
-def load_single_jbeam_file(filepath: str, add_to_cache: bool):
-    file_content = None
-
-    if filepath not in jbeam_cache:
-        file_text = text_editor.read_int_file(filepath, True)
-        if file_text is None:
-            print(f'Cannot read file: {filepath}', file=sys.stderr)
-            return False
-
-        file_content = utils.sjson_decode(file_text, filepath)
-
-        if file_content is None:
-            print(f'Cannot read file: {filepath}', file=sys.stderr)
-            return False
-
-        if add_to_cache:
-            jbeam_cache[filepath] = file_content
-
+def load_single_jbeam_file(filepath: str, add_to_cache: bool, reimporting: bool):
+    if reimporting:
+        file_text = text_editor.read_int_file(filepath)
     else:
-        file_content = jbeam_cache[filepath]
+        file_text = text_editor.write_from_ext_to_int_file(filepath)
+    if file_text is None:
+        print(f'Cannot read file: {filepath}', file=sys.stderr)
+        return False
+
+    file_content = utils.sjson_decode(file_text, filepath)
+    if file_content is None:
+        print(f'Cannot read file: {filepath}', file=sys.stderr)
+        return False
+
+    if add_to_cache:
+        jbeam_cache[filepath] = file_content
 
     return True
 
 
-def start_loading(directories: list[str], vehicle_config: dict):
+def start_loading(directories: list[str], vehicle_config: dict, reimporting: bool):
     slots_to_part: dict = vehicle_config['parts']
     parts = list(filter(lambda part: part != '', slots_to_part.values()))
     parts = ['"' + part + '"' for part in slots_to_part.values() if part != '']
     parts.append('main') # main isn't a part but a slotType, but still find the file with it
-
-    filepaths = []
 
     for directory in directories:
         if directory not in dir_part_to_file_map:
             #part_count_total = 0
             for filepath_obj in Path(directory).rglob('*.jbeam'):
                 filepath = filepath_obj.as_posix()
-                part_count = load_jbeam_file(directory, filepath, True)
-                filepaths.append(filepath)
+                part_count = load_jbeam_file(directory, filepath, True, reimporting)
+                #filepaths.append(filepath)
                 if part_count is None:
                     return None
                 #if part_count:
                 #    print('parsed file', filepath)
                 #art_count_total += part_count
-
-    text_editor.check_int_files_for_changes(bpy.context, filepaths)
 
     return {'dirs': directories}
 
@@ -249,7 +246,7 @@ def get_part(io_ctx: dict, part_name: str | None):
         jbeam_filename = dir_part_to_file_map[directory].get(part_name)
         if jbeam_filename is not None:
             if jbeam_filename not in jbeam_cache:
-                part_count = load_jbeam_file(directory, jbeam_filename, False)
+                part_count = load_jbeam_file(directory, jbeam_filename, False, True)
                 print(f'Loaded {part_count} part(s) from file {jbeam_filename}')
             if jbeam_filename in jbeam_cache:
                 return copy.deepcopy(jbeam_cache[jbeam_filename][part_name]), jbeam_filename
@@ -257,12 +254,12 @@ def get_part(io_ctx: dict, part_name: str | None):
     return None, None
 
 
-def get_jbeam(jbeam_filename: str | None):
+def get_jbeam(jbeam_filename: str | None, reimporting: bool):
     if jbeam_filename is None:
         return None
 
-    if jbeam_filename not in jbeam_cache:
-        load_single_jbeam_file(jbeam_filename, True)
+    #if jbeam_filename not in jbeam_cache:
+    load_single_jbeam_file(jbeam_filename, True, reimporting)
     if jbeam_filename in jbeam_cache:
         return copy.deepcopy(jbeam_cache[jbeam_filename])
 
