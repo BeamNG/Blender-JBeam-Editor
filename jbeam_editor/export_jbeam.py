@@ -24,10 +24,6 @@ import sys
 
 import bpy
 
-# ExportHelper is a helper class, defines filename and
-# invoke() function which calls the file selector.
-from bpy_extras.io_utils import ExportHelper
-from bpy.props import StringProperty, BoolProperty, EnumProperty
 from bpy.types import Operator
 
 import bmesh

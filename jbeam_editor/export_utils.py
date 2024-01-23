@@ -20,12 +20,8 @@
 
 import copy
 import ctypes
-import math
 import mathutils
-from pathlib import Path
-import re
 import sys
-import pickle
 import traceback
 
 import bpy
@@ -39,13 +35,8 @@ from . import utils
 from . import text_editor
 
 from .jbeam import expression_parser
-from .jbeam import io as jbeam_io
-from .jbeam import slot_system as jbeam_slot_system
-from .jbeam import variables as jbeam_variables
-from .jbeam import table_schema as jbeam_table_schema
 from .jbeam import utils as jbeam_utils
 
-import timeit
 
 INDENT = ' ' * 4
 TWO_INDENT = INDENT * 2

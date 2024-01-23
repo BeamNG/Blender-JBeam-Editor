@@ -19,9 +19,7 @@
 # SOFTWARE.
 
 import copy
-import math
 import re
-import string
 import sys
 
 from . import expression_parser

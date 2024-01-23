@@ -20,7 +20,6 @@
 
 from _json import scanstring
 
-import sys
 import re
 
 parse_num_re = re.compile(r'^[+-]?\d+\.?\d*[eE]?[+-]?\d*')

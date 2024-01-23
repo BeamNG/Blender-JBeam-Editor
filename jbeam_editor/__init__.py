@@ -31,9 +31,7 @@ bl_info = {
     "category": "Development",
 }
 
-import json
 import pickle
-import sys
 import uuid
 
 import bpy
@@ -45,6 +43,7 @@ from bpy.app.handlers import persistent
 from blf import position as blfpos   #import the function can improve the performance
 from blf import size as blfsize
 from blf import draw as blfdraw
+from blf import color as blfcolor
 
 from bpy_extras.view3d_utils import location_3d_to_region_2d
 
@@ -53,7 +52,6 @@ from . import import_jbeam
 from . import export_jbeam
 from . import import_vehicle
 from . import export_vehicle
-from . import utils
 from . import text_editor
 
 if not constants.UNIT_TESTING:
@@ -499,14 +497,13 @@ def draw_callback_px(context: bpy.types.Context):
         part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
         is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
 
-        lblf = blf
         toggleNodeText = ui_props.toggle_node_ids_text
         ctxRegion = context.region
         ctxRegionData = context.region_data
-        lblfPosition = lblf.position
-        lblfDraw = lblf.draw
-        lblf.size(font_id, 12) # dpi value defaults to 72 when omitted, and no longer usable from 4.0+ (only 2 parameters allowed).
-        lblf.color(font_id, 1, 1, 1, 1)
+        lblfPosition = blfpos
+        lblfDraw = blfdraw
+        blfsize(font_id, 12) # dpi value defaults to 72 when omitted, and no longer usable from 4.0+ (only 2 parameters allowed).
+        blfcolor(font_id, 1, 1, 1, 1)
 
         for v in bm.verts:
             if v[is_fake_layer] == 1:
