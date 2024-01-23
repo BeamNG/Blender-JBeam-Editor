@@ -384,30 +384,94 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
         obj_data = obj.data
         if not isinstance(obj_data, bpy.types.Mesh):
             return
-        veh_collection = obj.users_collection[0]
-        if veh_collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
+        veh_model = obj_data.get(constants.MESH_VEHICLE_MODEL)
+
+        if obj.mode != 'EDIT':
             return
 
-        bm = None
-        if obj.mode == 'EDIT':
-            bm = bmesh.from_edit_mesh(obj_data)
-        else:
-            bm = bmesh.new()
-            bm.from_mesh(obj_data)
+        bm = bmesh.from_edit_mesh(obj_data)
 
         global selected_verts
+        global selected_edges
+        global selected_faces
         if len(selected_verts) == 1:
-            if curr_vdata is not None:
-                if 'nodes' in curr_vdata:
-                    v = selected_verts[0][0]
-                    node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-                    node_id = v[node_id_layer].decode('utf-8')
+            if curr_vdata is not None and 'nodes' in curr_vdata:
+                vert_data = selected_verts[0]
+                v, node_id = vert_data[0], vert_data[1]
+
+                if node_id in curr_vdata['nodes']:
                     node = curr_vdata['nodes'][node_id]
 
                     for k in sorted(node.keys(), key=lambda x: str(x)):
-                        v = node[k]
-                        str_v = str(v)
-                        col.row().label(text=f'- {k}: {str_v}')
+                        val = node[k]
+                        str_val = repr(val)
+                        col.row().label(text=f'- {k}: {str_val}')
+
+        elif len(selected_edges) == 1:
+            if curr_vdata is not None and 'beams' in curr_vdata:
+                edge_data = selected_edges[0]
+                e, beam_indices = edge_data[0], edge_data[1]
+                part_origin_layer = bm.edges.layers.string[constants.ELS_BEAM_PART_ORIGIN]
+                part_origin = e[part_origin_layer].decode('utf-8')
+                beam_idx = int(beam_indices.split(',')[0])
+
+                exist = False
+                i = 0
+                if veh_model is not None:
+                    for i, b in enumerate(curr_vdata['beams']):
+                        if b['partOrigin'] == part_origin:
+                            exist = True
+                            break
+                else:
+                    exist = True
+
+                global_beam_idx = i + beam_idx - 1
+                if exist and global_beam_idx < len(curr_vdata['beams']):
+                    beam = curr_vdata['beams'][global_beam_idx]
+
+                    for k in sorted(beam.keys(), key=lambda x: str(x)):
+                        val = beam[k]
+                        str_val = repr(val)
+                        col.row().label(text=f'- {k}: {str_val}')
+
+        elif len(selected_faces) == 1:
+            if curr_vdata is not None:
+                face_data = selected_faces[0]
+                f, face_indices = face_data[0], face_data[1]
+                num_verts = len(f.verts)
+
+                face_type = None
+
+                if num_verts == 3:
+                    face_type = 'triangles'
+                elif num_verts == 4:
+                    face_type = 'quads'
+
+                if face_type in curr_vdata:
+                    face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
+                    part_origin_layer = bm.faces.layers.string[constants.FLS_FACE_PART_ORIGIN]
+
+                    face_idx = f[face_idx_layer]
+                    part_origin = f[part_origin_layer].decode('utf-8')
+
+                    exist = False
+                    i = 0
+                    if veh_model is not None:
+                        for i, b in enumerate(curr_vdata[face_type]):
+                            if b['partOrigin'] == part_origin:
+                                exist = True
+                                break
+                    else:
+                        exist = True
+
+                    global_face_idx = i + face_idx - 1
+                    if exist and global_face_idx < len(curr_vdata[face_type]):
+                        face = curr_vdata[face_type][global_face_idx]
+
+                        for k in sorted(face.keys(), key=lambda x: str(x)):
+                            val = face[k]
+                            str_val = repr(val)
+                            col.row().label(text=f'- {k}: {str_val}')
 
         bm.free()
 
@@ -770,7 +834,7 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
     bm.edges.ensure_lookup_table()
     for i,e in enumerate(bm.edges):
         if e.select:
-            selected_edges.append(e)
+            selected_edges.append((e, e[beam_indices_layer].decode('utf-8')))
             #print(e[beam_indices_layer].decode('utf-8'))
         if i >= active_obj_data[constants.MESH_EDGE_COUNT]:
             e[beam_indices_layer] = bytes('-1', 'utf-8')
@@ -785,7 +849,7 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
     bm.faces.ensure_lookup_table()
     for i,f in enumerate(bm.faces):
         if f.select:
-            selected_faces.append(f)
+            selected_faces.append((f, f[face_idx_layer]))
         if i >= active_obj_data[constants.MESH_FACE_COUNT]:
             f[face_idx_layer] = -1
             active_obj_data[constants.MESH_FACE_COUNT] += 1
