@@ -642,124 +642,6 @@ def menu_func_import_vehicle(self, context):
 #     self.layout.operator(export_vehicle.JBEAM_EDITOR_OT_export_vehicle.bl_idname, text="Selected JBeam Parts")
 
 
-def update_node_positions_and_deletions(scene: bpy.types.Scene, veh_collection: bpy.types.Collection, obj_changed: bpy.types.Object):
-    changed_node_positions = {}
-    obj_changed_data = obj_changed.data
-    main_obj = scene.objects.get(veh_collection[constants.COLLECTION_MAIN_PART])
-    if main_obj is None:
-        return changed_node_positions
-
-    main_obj_data = main_obj.data
-
-    obj_changed_verts, main_obj_verts = None, None
-
-    # if obj_changed.mode == 'EDIT':
-    #     bm = bmesh.from_edit_mesh(obj_changed_data)
-    #     obj_changed_verts = bm.verts
-    # else:
-    #     obj_changed_verts = obj_changed_data.vertices
-
-    # if main_obj.mode == 'EDIT':
-    #     bm = bmesh.from_edit_mesh(main_obj_data)
-    #     main_obj_verts = bm.verts
-    #     main_obj_verts.ensure_lookup_table()
-    # else:
-    #     main_obj_verts = main_obj_data.vertices
-
-    bm_obj_changed = None
-    if obj_changed.mode == 'EDIT':
-        bm_obj_changed = bmesh.from_edit_mesh(obj_changed_data)
-    else:
-        bm_obj_changed = bmesh.new()
-        bm_obj_changed.from_mesh(obj_changed_data)
-
-    bm_main_obj = None
-    if main_obj.mode == 'EDIT':
-        bm_main_obj = bmesh.from_edit_mesh(main_obj_data)
-    else:
-        bm_main_obj = bmesh.new()
-        bm_main_obj.from_mesh(main_obj_data)
-
-    obj_changed_verts = bm_obj_changed.verts
-    main_obj_verts = bm_main_obj.verts
-
-    obj_changed_verts.ensure_lookup_table()
-    main_obj_verts.ensure_lookup_table()
-
-    obj_changed_verts_len = len(obj_changed_verts)
-    main_obj_verts_len = len(main_obj_verts)
-
-    obj_changed_init_node_id_layer = bm_obj_changed.verts.layers.string[constants.VLS_INIT_NODE_ID]
-    obj_changed_node_id_layer = bm_obj_changed.verts.layers.string[constants.VLS_NODE_ID]
-    obj_changed_node_origin_layer = bm_obj_changed.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
-
-    main_obj_init_node_id_layer = bm_main_obj.verts.layers.string[constants.VLS_INIT_NODE_ID]
-    main_obj_changed_node_id_layer = bm_main_obj.verts.layers.string[constants.VLS_NODE_ID]
-    main_obj_changed_node_origin_layer = bm_main_obj.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
-
-    # Node deletion happened, update nodes
-    if obj_changed_verts_len < main_obj_verts_len:
-        obj_changed_node_ids_count = {}
-        main_obj_node_ids_count = {}
-
-        v: bmesh.types.BMVert
-        for v in obj_changed_verts:
-            node_id = v[obj_changed_init_node_id_layer]
-            obj_changed_node_ids_count.setdefault(node_id, 0)
-            obj_changed_node_ids_count[node_id] += 1
-
-        for v in main_obj_verts:
-            node_id = v[main_obj_init_node_id_layer]
-            main_obj_node_ids_count.setdefault(node_id, 0)
-            main_obj_node_ids_count[node_id] += 1
-
-        nodes_to_delete = set()
-
-        for node_id, count in main_obj_node_ids_count.items():
-            if node_id not in obj_changed_node_ids_count or obj_changed_node_ids_count[node_id] < count:
-                nodes_to_delete.add(node_id)
-
-        # Delete node id from all meshes in vehicle collection
-        for obj in veh_collection.objects:
-            obj_data = obj.data
-            if obj.mode == 'EDIT':
-                bm = bmesh.from_edit_mesh(obj_data)
-            else:
-                bm = bmesh.new()
-                bm.from_mesh(obj_data)
-
-            init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-            for v in bm.verts[:]:
-                node_id = v[init_node_id_layer]
-                if node_id in nodes_to_delete:
-                    bm.verts.remove(v)
-
-            bm.normal_update()
-            if obj.mode == 'EDIT':
-                bmesh.update_edit_mesh(obj_data)
-            else:
-                bm.to_mesh(obj_data)
-            bm.free()
-            obj_data.update()
-
-    else:
-        # Get node positions changed
-        for i, v in enumerate(obj_changed_verts):
-            if i < main_obj_verts_len and v.co != main_obj_verts[i].co:
-                changed_node_positions[i] = (v[obj_changed_node_id_layer].decode('utf-8'), v[obj_changed_node_origin_layer].decode('utf-8'), v.co) #.append((i, v.co))
-
-        # Set node positions
-        for obj in veh_collection.objects:
-            if obj == obj_changed or obj.mode == 'EDIT':
-                continue
-            vertices = obj.data.vertices
-            for i, (node_id, part_origin, pos) in changed_node_positions.items():
-                vertices[i].co = pos
-
-    bm_obj_changed.free()
-    bm_main_obj.free()
-
-
 # https://blenderartists.org/t/make-latest-created-collection-active/1350762/5
 def find_layer_collection_recursive(find, col):
     for c in col.children:
@@ -836,10 +718,6 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
             if layer is not None:
                 context.view_layer.active_layer_collection = layer
                 scene['jbeam_editor_veh_collection_selected'] = veh_collection
-
-            # Update positions of other nodes in other meshes
-            #all_changed_node_positions = {}
-            #update_node_positions_and_deletions(scene, veh_collection, active_obj)
 
             _do_export = True
 
