@@ -52,7 +52,10 @@ TWO_INDENT = INDENT * 2
 NL_INDENT = '\n' + INDENT
 NL_TWO_INDENT = '\n' + TWO_INDENT
 
-def print_ast_nodes(ast_nodes, start_idx, size, bidirectional, file):
+def print_ast_nodes(ast_nodes, start_idx, size, bidirectional, file=None):
+    if file is None:
+        file = sys.stdout
+
     if not (start_idx >= 0 and start_idx < len(ast_nodes)):
         return
 
@@ -100,6 +103,17 @@ def get_prev_node(ast_nodes, start_idx, data_types):
         if node.data_type in data_types:
             return i
         i -= 1
+    return -1
+
+
+def get_next_non_wsc_node(ast_nodes, start_idx):
+    i = start_idx
+    len_nodes = len(ast_nodes)
+    while i < len_nodes:
+        node = ast_nodes[i]
+        if node.data_type != 'wsc':
+            return i
+        i += 1
     return -1
 
 
@@ -190,8 +204,7 @@ def add_jbeam_nodes(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_se
 
     # Add modified original last WSCS back to end of section
     if node_2_after_entry:
-        ast_nodes.insert(i, node_2_after_entry)
-        i += 1
+        ast_nodes[i - 1].value += node_2_after_entry.value
 
     #print_ast_nodes(ast_nodes, i, 10, True)
     return i
@@ -221,8 +234,7 @@ def add_jbeam_beams(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_se
 
     # Add modified original last WSCS back to end of section
     if node_2_after_entry:
-        ast_nodes.insert(i, node_2_after_entry)
-        i += 1
+        ast_nodes[i - 1].value += node_2_after_entry.value
 
     #print_ast_nodes(ast_nodes, i, 10, True)
     return i
@@ -232,7 +244,7 @@ def add_jbeam_beams(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_se
 def add_jbeam_triangles(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_section_end_node_idx: int, tris_to_add: list):
     i, node_after_entry, node_2_after_entry = add_jbeam_setup(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx)
 
-    # Insert new beams at bottom of beams section
+    # Insert new tris at bottom of triangles section
 
     for (node_id_1, node_id_2, node_id_3) in tris_to_add:
         if node_after_entry:
@@ -254,18 +266,17 @@ def add_jbeam_triangles(ast_nodes: list, jbeam_section_start_node_idx: int, jbea
 
     # Add modified original last WSCS back to end of section
     if node_2_after_entry:
-        ast_nodes.insert(i, node_2_after_entry)
-        i += 1
+        ast_nodes[i - 1].value += node_2_after_entry.value
 
     #print_ast_nodes(ast_nodes, i, 10, True)
     return i
 
 
-# Add jbeam triangles to end of JBeam section from list of triangles to add (this is called on triangle section list end character)
+# Add jbeam quads to end of JBeam section from list of quads to add (this is called on triangle section list end character)
 def add_jbeam_quads(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_section_end_node_idx: int, quads_to_add: list):
     i, node_after_entry, node_2_after_entry = add_jbeam_setup(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx)
 
-    # Insert new beams at bottom of beams section
+    # Insert new quads at bottom of quads section
 
     for (node_id_1, node_id_2, node_id_3, node_id_4) in quads_to_add:
         if node_after_entry:
@@ -289,10 +300,9 @@ def add_jbeam_quads(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_se
 
     # Add modified original last WSCS back to end of section
     if node_2_after_entry:
-        ast_nodes.insert(i, node_2_after_entry)
-        i += 1
+        ast_nodes[i - 1].value += node_2_after_entry.value
 
-    #print_ast_nodes(ast_nodes, i, 10, True)
+    #print_ast_nodes(ast_nodes, i, 50, True)
     return i
 
 
@@ -656,18 +666,16 @@ def add_nodes_section(ast_nodes: list, jbeam_section_end_node_idx: int):
     ast_nodes.insert(i + 6, sjsonast.ASTNode('wsc', ', '))
     ast_nodes.insert(i + 7, sjsonast.ASTNode('"', 'posZ'))
     ast_nodes.insert(i + 8, sjsonast.ASTNode(']'))
-    ast_nodes.insert(i + 9, sjsonast.ASTNode('wsc', ','))
+    ast_nodes.insert(i + 9, sjsonast.ASTNode('wsc', ',' + NL_INDENT))
     i += 10
-    ast_nodes.insert(i + 0, sjsonast.ASTNode('wsc', NL_INDENT))
-    ast_nodes.insert(i + 1, sjsonast.ASTNode(']'))
-    jbeam_section_end_node_idx = i + 1
-    ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ','))
-    i += 3
+    ast_nodes.insert(i + 0, sjsonast.ASTNode(']'))
+    jbeam_section_end_node_idx = i + 0
+    ast_nodes.insert(i + 1, sjsonast.ASTNode('wsc', ','))
+    i += 2
 
     # Add modified original last WSCS back to end of section
     if node_2_after_last_section:
-        ast_nodes.insert(i, node_2_after_last_section)
-        i += 1
+        ast_nodes[i - 1].value += node_2_after_last_section.value
 
     return i, jbeam_section_start_node_idx, jbeam_section_end_node_idx
 
@@ -689,18 +697,16 @@ def add_beams_section(ast_nodes: list, jbeam_section_end_node_idx: int):
     ast_nodes.insert(i + 1, sjsonast.ASTNode('"', 'id1:'))
     ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ','))
     ast_nodes.insert(i + 3, sjsonast.ASTNode('"', 'id2:'))
-    ast_nodes.insert(i + 4, sjsonast.ASTNode('wsc', ','))
+    ast_nodes.insert(i + 4, sjsonast.ASTNode('wsc', ',' + NL_INDENT))
     i += 5
-    ast_nodes.insert(i + 0, sjsonast.ASTNode('wsc', NL_INDENT))
-    ast_nodes.insert(i + 1, sjsonast.ASTNode(']'))
-    jbeam_section_end_node_idx = i + 1
-    ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ','))
-    i += 3
+    ast_nodes.insert(i + 0, sjsonast.ASTNode(']'))
+    jbeam_section_end_node_idx = i + 0
+    ast_nodes.insert(i + 1, sjsonast.ASTNode('wsc', ','))
+    i += 2
 
     # Add modified original last WSCS back to end of section
     if node_2_after_last_section:
-        ast_nodes.insert(i, node_2_after_last_section)
-        i += 1
+        ast_nodes[i - 1].value += node_2_after_last_section.value
 
     return i, jbeam_section_start_node_idx, jbeam_section_end_node_idx
 
@@ -724,18 +730,16 @@ def add_triangles_section(ast_nodes: list, jbeam_section_end_node_idx: int):
     ast_nodes.insert(i + 3, sjsonast.ASTNode('"', 'id2:'))
     ast_nodes.insert(i + 4, sjsonast.ASTNode('wsc', ','))
     ast_nodes.insert(i + 5, sjsonast.ASTNode('"', 'id3:'))
-    ast_nodes.insert(i + 6, sjsonast.ASTNode('wsc', ','))
+    ast_nodes.insert(i + 6, sjsonast.ASTNode('wsc', ',' + NL_INDENT))
     i += 7
-    ast_nodes.insert(i + 0, sjsonast.ASTNode('wsc', NL_INDENT))
-    ast_nodes.insert(i + 1, sjsonast.ASTNode(']'))
-    jbeam_section_end_node_idx = i + 1
-    ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ','))
-    i += 3
+    ast_nodes.insert(i + 0, sjsonast.ASTNode(']'))
+    jbeam_section_end_node_idx = i + 0
+    ast_nodes.insert(i + 1, sjsonast.ASTNode('wsc', ','))
+    i += 2
 
     # Add modified original last WSCS back to end of section
     if node_2_after_last_section:
-        ast_nodes.insert(i, node_2_after_last_section)
-        i += 1
+        ast_nodes[i - 1].value += node_2_after_last_section.value
 
     return i, jbeam_section_start_node_idx, jbeam_section_end_node_idx
 
@@ -762,18 +766,18 @@ def add_quads_section(ast_nodes: list, jbeam_section_end_node_idx: int):
     ast_nodes.insert(i + 6, sjsonast.ASTNode('wsc', ','))
     ast_nodes.insert(i + 7, sjsonast.ASTNode('"', 'id4:'))
     ast_nodes.insert(i + 8, sjsonast.ASTNode(']'))
-    ast_nodes.insert(i + 9, sjsonast.ASTNode('wsc', ','))
+    ast_nodes.insert(i + 9, sjsonast.ASTNode('wsc', ',' + NL_INDENT))
     i += 10
-    ast_nodes.insert(i + 0, sjsonast.ASTNode('wsc', NL_INDENT))
-    ast_nodes.insert(i + 1, sjsonast.ASTNode(']'))
-    jbeam_section_end_node_idx = i + 1
-    ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ','))
-    i += 3
+    ast_nodes.insert(i + 0, sjsonast.ASTNode(']'))
+    jbeam_section_end_node_idx = i + 0
+    ast_nodes.insert(i + 1, sjsonast.ASTNode('wsc', ','))
+    i += 2
 
     # Add modified original last WSCS back to end of section
     if node_2_after_last_section:
-        ast_nodes.insert(i, node_2_after_last_section)
-        i += 1
+        ast_nodes[i - 1].value += node_2_after_last_section.value
+
+    #print_ast_nodes(ast_nodes, i, 50, True)
 
     return i, jbeam_section_start_node_idx, jbeam_section_end_node_idx
 
@@ -862,7 +866,7 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                                 print('value changed!', node.data_type, node.value)
                     except:
                         traceback.print_exc()
-                        print_ast_nodes(ast_nodes, i, 50, True, sys.stderr)
+                        print_ast_nodes(ast_nodes, i, 75, True, sys.stderr)
                         raise Exception('compare_and_set_value error!')
 
                     temp_dict_key = None
@@ -888,7 +892,7 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                             print('value changed!', node.data_type, node.value)
                 except:
                     traceback.print_exc()
-                    print_ast_nodes(ast_nodes, i, 50, True, sys.stderr)
+                    print_ast_nodes(ast_nodes, i, 75, True, sys.stderr)
                     changed = False
                     raise Exception('compare_and_set_value error!')
 
@@ -900,6 +904,14 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
         stack_size_diff = stack_size - prev_stack_size # 1 = go down level, -1 = go up level, 0 = no change
         stack_head = stack[-1] if stack_size > 0 else None
         in_jbeam_part = stack_size > 0 and stack[0][0] == jbeam_part
+
+        # if constants.DEBUG:
+        #     prev_node = ast_nodes[0]
+        #     for j in range(1, len(ast_nodes)):
+        #         curr_node = ast_nodes[j]
+        #         if (curr_node.data_type == 'wsc' and prev_node.data_type == 'wsc'):
+        #             print_ast_nodes(ast_nodes, j, 75, True, sys.stderr)
+        #         prev_node = curr_node
 
         if stack_size_diff == 1: # Went down level { or [
             if in_jbeam_part:
@@ -1016,22 +1028,26 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                 # and create the sections if so
                 if add_nodes_flag:
                     i, jbeam_section_start_node_idx, jbeam_section_end_node_idx = add_nodes_section(ast_nodes, jbeam_section_end_node_idx)
-                    i = add_jbeam_nodes(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx, nodes_to_add)
+                    add_jbeam_nodes(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx, nodes_to_add)
+                    i = get_next_non_wsc_node(ast_nodes, i + 1)
                     add_nodes_flag = False
 
                 if add_beams_flag:
                     i, jbeam_section_start_node_idx, jbeam_section_end_node_idx = add_beams_section(ast_nodes, jbeam_section_end_node_idx)
-                    i = add_jbeam_beams(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx, beams_to_add)
+                    add_jbeam_beams(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx, beams_to_add)
+                    i = get_next_non_wsc_node(ast_nodes, i + 1)
                     add_nodes_flag = False
 
                 if add_tris_flag:
                     i, jbeam_section_start_node_idx, jbeam_section_end_node_idx = add_triangles_section(ast_nodes, jbeam_section_end_node_idx)
-                    i = add_jbeam_triangles(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx, tris_to_add)
+                    add_jbeam_triangles(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx, tris_to_add)
+                    i = get_next_non_wsc_node(ast_nodes, i + 1)
                     add_nodes_flag = False
 
                 if add_quads_flag:
                     i, jbeam_section_start_node_idx, jbeam_section_end_node_idx = add_quads_section(ast_nodes, jbeam_section_end_node_idx)
                     i = add_jbeam_quads(ast_nodes, jbeam_section_start_node_idx, jbeam_section_end_node_idx, quads_to_add)
+                    i = get_next_non_wsc_node(ast_nodes, i + 1)
                     add_quads_flag = False
 
         elif stack_size_diff == 0: # Same level
