@@ -78,51 +78,34 @@ selected_faces = []
 
 veh_render_dirty = False
 
+rename_enabled = False
+
 # Refresh property input field UI
-def on_input_node_id_field_updated(self, context):
+def on_input_node_id_field_updated(self, context: bpy.types.Context):
     global _force_do_export
+    global selected_verts
+    global rename_enabled
+
     scene = context.scene
     ui_props = scene.ui_properties
 
-    obj = scene['jbeam_editor_renaming_selected_obj']
-    obj_vert_idx = scene['jbeam_editor_renaming_selected_vert_idx']
-
-    if obj is None or obj_vert_idx is None or scene['jbeam_editor_renaming_rename_enabled'] is None:
-        print("obj is None or obj_vert_idx is None or scene['jbeam_editor_renaming_rename_enabled'] is None. This shouldn't be possible!", file=sys.stderr)
+    obj = context.active_object
+    if obj is None or len(selected_verts) == 0:
         return
 
-    if obj.mode != 'EDIT':
-        print("obj.mode != 'EDIT'", file=sys.stderr)
-        return
-
-    # Set the selected mesh's selected vertex node_id attribute to the UI node_id input field value
-    if scene['jbeam_editor_renaming_rename_enabled']:
-        #bpy.ops.ed.undo_push(message = "Before node rename " + str(obj_vert_idx))
+    if rename_enabled:
+        selected_vert = selected_verts[0][0]
         obj_data = obj.data
         bm = bmesh.from_edit_mesh(obj_data)
 
+        # Set the selected mesh's selected vertex node_id attribute to the UI node_id input field value
         node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-        bm.verts.ensure_lookup_table()
-        old_node_id = bm.verts[obj_vert_idx][node_id_layer].decode('utf-8')
-        bm.verts[obj_vert_idx][node_id_layer] = bytes(ui_props.input_node_id, 'utf-8')
+        selected_vert[node_id_layer] = bytes(ui_props.input_node_id, 'utf-8')
 
         bm.free()
-        #bpy.ops.ed.undo_push(message = 'Node Rename (' + str(old_node_id) + ' -> ' + str(ui_props.input_node_id) + ')')
-
         _force_do_export = True
 
-    scene['jbeam_editor_renaming_rename_enabled'] = True
-
-    # Refresh the UI, context.area can be None for some reason
-    '''if context.area:
-        for region in context.area.regions:
-            if region.type == "UI":
-                region.tag_redraw()
-    else:
-        print("wtf")'''
-
-    '''for area in bpy.context.screen.areas:
-        area.tag_redraw()'''
+    rename_enabled = True
 
     for window in context.window_manager.windows:
         for area in window.screen.areas:
@@ -214,71 +197,37 @@ class JBEAM_EDITOR_OT_convert_to_jbeam_mesh(bpy.types.Operator):
         return {'FINISHED'}
 
 
-# Add JBeam beam
+# Add JBeam beam/triangle/quad
 class JBEAM_EDITOR_OT_add_beam_tri_quad(bpy.types.Operator):
     bl_idname = "jbeam_editor.add_beam_tri_quad"
     bl_label = "Add Beam/Triangle/Quad"
 
     @classmethod
     def poll(cls, context):
-        obj = context.active_object
-        if not obj:
-            return False
-        obj_data = obj.data
-        if not isinstance(obj_data, bpy.types.Mesh):
-            return False
-        if obj_data.get(constants.MESH_JBEAM_PART) is None:
-            return False
-
-        bm = None
-        if obj.mode == 'EDIT':
-            bm = bmesh.from_edit_mesh(obj_data)
-        else:
-            bm = bmesh.new()
-            bm.from_mesh(obj_data)
-
-        verts_selected = [x for x in bm.verts if x.select]
-        len_verts_selected = len(verts_selected)
-
-        bm.free()
-
-        if len_verts_selected in (2,3,4):
-            return True
-        else:
-            return False
+        global selected_verts
+        return len(selected_verts) in (2,3,4)
 
     def invoke(self, context, event):
-        obj = context.active_object
-        if not obj:
-            return {'CANCELLED'}
-        obj_data = obj.data
-        if not isinstance(obj_data, bpy.types.Mesh):
-            return {'CANCELLED'}
-        if obj_data.get(constants.MESH_JBEAM_PART) is None:
-            return {'CANCELLED'}
+        global selected_verts
 
-        bm = None
-        if obj.mode == 'EDIT':
-            bm = bmesh.from_edit_mesh(obj_data)
-        else:
-            bm = bmesh.new()
-            bm.from_mesh(obj_data)
+        obj = context.active_object
+        obj_data = obj.data
+        bm = bmesh.from_edit_mesh(obj_data)
 
         export = False
 
-        verts_selected = [x for x in bm.verts if x.select]
-        len_verts_selected = len(verts_selected)
-        if len_verts_selected == 2:
+        len_selected_verts = len(selected_verts)
+        if len_selected_verts == 2:
             beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
-            e = bm.edges.new(verts_selected)
+            e = bm.edges.new((x[0] for x in selected_verts))
             e[beam_indices_layer] = bytes('-1', 'utf-8')
             if obj.mode != 'EDIT':
                 bm.to_mesh(obj_data)
             export = True
 
-        elif len_verts_selected in (3,4):
+        elif len_selected_verts in (3,4):
             face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
-            f = bm.faces.new(verts_selected)
+            f = bm.faces.new((x[0] for x in selected_verts))
             f[face_idx_layer] = -1
             if obj.mode != 'EDIT':
                 bm.to_mesh(obj_data)
@@ -338,24 +287,25 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
             box = layout.box()
             col = box.column()
 
-            # Only displays node information if one node selected
-            verts_selected = [x for x in bm.verts if x.select]
-            len_verts_selected = len(verts_selected)
+            global selected_verts
+            global selected_edges
+            global selected_faces
+            len_selected_verts = len(selected_verts)
+            len_selected_faces = len(selected_faces)
 
-            if len_verts_selected == 1:
+            if len_selected_verts == 1:
                 col.row().label(text='JBeam Node ID')
                 col.row().prop(ui_props, 'input_node_id', text = "")
 
-            elif len_verts_selected in (2,3,4):
+            elif len_selected_verts in (2,3,4):
                 label = None
-                if len_verts_selected == 2:
+                if len_selected_verts == 2:
                     label = 'Add Beam'
-                elif len_verts_selected == 3:
+                elif len_selected_verts == 3:
                     label = 'Add Triangle'
                 else:
                     label = 'Add Quad'
                 col.row().operator('jbeam_editor.add_beam_tri_quad', text=label)
-
             else:
                 rows = [col.row() for i in range(1)]
                 rows[0].label(text='Select a node to rename')
@@ -702,10 +652,6 @@ def menu_func_import_vehicle(self, context):
     self.layout.operator(import_vehicle.JBEAM_EDITOR_OT_import_vehicle.bl_idname, text="Part Config File (.pc)")
 
 
-# def menu_func_export_vehicle(self, context):
-#     self.layout.operator(export_vehicle.JBEAM_EDITOR_OT_export_vehicle.bl_idname, text="Selected JBeam Parts")
-
-
 # https://blenderartists.org/t/make-latest-created-collection-active/1350762/5
 def find_layer_collection_recursive(find, col):
     for c in col.children:
@@ -718,6 +664,14 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
     global _do_export
     global _force_do_export
     return_early = False
+
+    global selected_verts
+    global selected_edges
+    global selected_faces
+
+    selected_verts.clear()
+    selected_edges.clear()
+    selected_faces.clear()
 
     # Don't act on reimporting mesh
     if type(scene.get('jbeam_editor_reimporting_jbeam')) == int:
@@ -788,28 +742,11 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
     if active_obj.mode != 'EDIT':
         return
 
-    if not scene.get('jbeam_editor_renaming_selected_obj'):
-        scene['jbeam_editor_renaming_selected_obj'] = None
-
-    if not scene.get('jbeam_editor_renaming_selected_vert_idx'):
-        scene['jbeam_editor_renaming_selected_vert_idx'] = None
-
-    if not scene.get('jbeam_editor_renaming_rename_enabled'):
-        scene['jbeam_editor_renaming_rename_enabled'] = None
-
     bm = bmesh.from_edit_mesh(active_obj_data)
 
     # Check if new vertices are added
     init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
     node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-
-    global selected_verts
-    global selected_edges
-    global selected_faces
-
-    selected_verts.clear()
-    selected_edges.clear()
-    selected_faces.clear()
 
     # When new vertices are added, they seem to copy the data of the old vertices they were made from,
     # so rename their node ids to random ids (UUID)
@@ -861,10 +798,8 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
     if len(selected_verts) == 1:
         v = selected_verts[0][0]
         node_id = v[node_id_layer].decode('utf-8')
-
-        scene['jbeam_editor_renaming_selected_obj'] = active_obj
-        scene['jbeam_editor_renaming_selected_vert_idx'] = v.index
-        scene['jbeam_editor_renaming_rename_enabled'] = False
+        global rename_enabled
+        rename_enabled = False
 
         ui_props.input_node_id = node_id
 
@@ -873,25 +808,12 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
 
 @persistent
 def depsgraph_callback(scene: bpy.types.Scene, depsgraph: bpy.types.Depsgraph):
-    #global prev_obj_selected
     context = bpy.context
 
     if constants.DEBUG:
         print('depsgraph_callback')
 
     _depsgraph_callback(context, scene, depsgraph)
-
-    # obj_selected = None
-    # obj = context.active_object
-    # if obj is not None:
-    #     obj_selected = obj.name
-    #     # obj_data = obj.data
-    #     # if obj_data.get(constants.MESH_JBEAM_PART) is not None:
-    #     #     collection = obj.users_collection[0]
-    #     #     veh_model = collection.get(constants.COLLECTION_VEHICLE_MODEL)
-
-    # # Switched objects
-    # if prev_obj_selected != obj_selected:
     refresh_curr_vdata()
 
 
