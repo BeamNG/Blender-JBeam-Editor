@@ -23,9 +23,8 @@ import pickle
 
 import bpy
 import bmesh
+import mathutils
 
-# ImportHelper is a helper class, defines filename and
-# invoke() function which calls the file selector.
 from bpy_extras.io_utils import ImportHelper
 from bpy.props import StringProperty, BoolProperty
 from bpy.types import Operator
@@ -122,7 +121,7 @@ def get_vertices_edges_faces(vdata: dict):
     return vertices, edges, faces, node_index_to_id
 
 
-def generate_part_mesh(obj_data: bpy.types.Mesh, bm: bmesh.types.BMesh, vdata: dict, part: str, jbeam_file_path: str, vertices: list, edges: list, faces: list, node_index_to_id: list):
+def generate_part_mesh(obj: bpy.types.Object, obj_data: bpy.types.Mesh, bm: bmesh.types.BMesh, vdata: dict, part: str, jbeam_file_path: str, vertices: list, edges: list, faces: list, node_index_to_id: list):
     # Add node ID field to all vertices
     init_node_id_layer = bm.verts.layers.string.new(constants.VLS_INIT_NODE_ID)
     node_id_layer = bm.verts.layers.string.new(constants.VLS_NODE_ID)
@@ -135,8 +134,10 @@ def generate_part_mesh(obj_data: bpy.types.Mesh, bm: bmesh.types.BMesh, vdata: d
     face_origin_layer = bm.faces.layers.string.new(constants.FLS_FACE_PART_ORIGIN)
     face_idx_layer = bm.faces.layers.int.new(constants.FLS_FACE_IDX)
 
+    inv_matrix_world = obj.matrix_world.inverted()
+
     for i, (pos, is_fake) in enumerate(vertices):
-        v = bm.verts.new(pos)
+        v = bm.verts.new((inv_matrix_world @ mathutils.Vector(pos)).to_tuple())
         node_id = node_index_to_id[i]
         bytes_node_id = bytes(node_id, 'utf-8')
         v[init_node_id_layer] = bytes_node_id
@@ -204,15 +205,16 @@ def import_jbeam_part(context: bpy.types.Context, jbeam_file_path: str, jbeam_fi
     obj_data = bpy.data.meshes.new(chosen_part)
     #export_jbeam.last_exported_jbeams[chosen_part] = {'in_filepath': jbeam_file_path}
 
+    # make object from mesh
+    obj = bpy.data.objects.new(chosen_part, obj_data)
+
     bm = bmesh.new()
     bm.from_mesh(obj_data)
-    generate_part_mesh(obj_data, bm, part_data, chosen_part, jbeam_file_path, vertices, edges, faces, node_ids)
+    generate_part_mesh(obj, obj_data, bm, part_data, chosen_part, jbeam_file_path, vertices, edges, faces, node_ids)
     bm.to_mesh(obj_data)
 
     obj_data.update()
 
-    # make object from mesh
-    new_object = bpy.data.objects.new(chosen_part, obj_data)
     # make collection
     jbeam_collection = bpy.data.collections.get('JBeam Objects')
     if jbeam_collection is None:
@@ -220,11 +222,11 @@ def import_jbeam_part(context: bpy.types.Context, jbeam_file_path: str, jbeam_fi
         context.scene.collection.children.link(jbeam_collection)
 
     # add object to scene collection
-    jbeam_collection.objects.link(new_object)
+    jbeam_collection.objects.link(obj)
 
     print('Done importing JBeam.')
 
-    return new_object
+    return obj
 
 
 def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collection, obj: bpy.types.Object, jbeam_file_path: str):
@@ -260,7 +262,7 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
         bm.from_mesh(obj_data)
         bm.clear()
 
-    generate_part_mesh(obj_data, bm, part_data, chosen_part, jbeam_file_path, vertices, edges, faces, node_ids)
+    generate_part_mesh(obj, obj_data, bm, part_data, chosen_part, jbeam_file_path, vertices, edges, faces, node_ids)
     bm.normal_update()
     #export_jbeam.last_exported_jbeams[chosen_part] = {'in_filepath': jbeam_file_path}
 

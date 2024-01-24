@@ -26,18 +26,15 @@ import traceback
 
 import bpy
 import bmesh
+import mathutils
 
-from . import utils
-from . import text_editor
-
-# ImportHelper is a helper class, defines filename and
-# invoke() function which calls the file selector.
 from bpy_extras.io_utils import ImportHelper
-from bpy.props import StringProperty, BoolProperty, EnumProperty
+from bpy.props import StringProperty
 from bpy.types import Operator
 
 from . import constants
-from . import export_jbeam
+from . import utils
+from . import text_editor
 
 from .jbeam import io as jbeam_io
 from .jbeam import slot_system as jbeam_slot_system
@@ -46,6 +43,7 @@ from .jbeam import table_schema as jbeam_table_schema
 from .jbeam import node_beam as jbeam_node_beam
 
 import timeit
+
 
 def load_jbeam(vehicle_directories: list[str], vehicle_config: dict, reimporting: bool):
     """load all the jbeam and construct the thing in memory"""
@@ -244,7 +242,7 @@ def get_vertices_edges_faces(vehicle_bundle: dict):
     return vertices, parts_edges, parts_faces, node_index_to_id
 
 
-def generate_part_mesh(obj_data: bpy.types.Mesh, bm: bmesh.types.BMesh, vehicle_bundle: dict, part: str, vertices: list, parts_edges: dict[str, list], parts_faces: dict[str, list], node_index_to_id: list):
+def generate_part_mesh(obj: bpy.types.Object, obj_data: bpy.types.Mesh, bm: bmesh.types.BMesh, vehicle_bundle: dict, part: str, vertices: list, parts_edges: dict[str, list], parts_faces: dict[str, list], node_index_to_id: list):
     vdata = vehicle_bundle['vdata']
     vehicle_model = vdata['model']
     jbeam_filepath = vehicle_bundle['partToFileMap'][part]
@@ -261,10 +259,12 @@ def generate_part_mesh(obj_data: bpy.types.Mesh, bm: bmesh.types.BMesh, vehicle_
     face_origin_layer = bm.faces.layers.string.new(constants.FLS_FACE_PART_ORIGIN)
     face_idx_layer = bm.faces.layers.int.new(constants.FLS_FACE_IDX)
 
+    inv_matrix_world = obj.matrix_world.inverted()
+
     if 'nodes' in vdata:
         nodes: dict[str, dict] = vdata['nodes']
         for i, (pos, is_fake) in enumerate(vertices):
-            v = bm.verts.new(pos)
+            v = bm.verts.new((inv_matrix_world @ mathutils.Vector(pos)).to_tuple())
             node_id = node_index_to_id[i]
             bytes_node_id = bytes(node_id, 'utf-8')
             v[init_node_id_layer] = bytes_node_id
@@ -342,12 +342,11 @@ def generate_meshes(vehicle_bundle: dict):
 
         bm = bmesh.new()
         obj_data = bpy.data.meshes.new(part)
-        generate_part_mesh(obj_data, bm, vehicle_bundle, part, vertices, parts_edges, parts_faces, node_index_to_id)
-        bm.to_mesh(obj_data)
-        obj_data.update()
-
         # make object from mesh
         part_obj = bpy.data.objects.new(part, obj_data)
+        generate_part_mesh(part_obj, obj_data, bm, vehicle_bundle, part, vertices, parts_edges, parts_faces, node_index_to_id)
+        bm.to_mesh(obj_data)
+        obj_data.update()
 
         # add object to vehicle collection
         vehicle_parts_collection.objects.link(part_obj)
@@ -404,7 +403,7 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
             obj = bpy.data.objects.new(part, obj_data)
             veh_collection.objects.link(obj) # add object to scene collection
 
-        generate_part_mesh(obj_data, bm, vehicle_bundle, part, vertices, parts_edges, parts_faces, node_index_to_id)
+        generate_part_mesh(obj, obj_data, bm, vehicle_bundle, part, vertices, parts_edges, parts_faces, node_index_to_id)
         bm.normal_update()
 
         if obj.mode == 'EDIT':
