@@ -24,22 +24,20 @@ import re
 import math
 
 _nil = chr(127)
-
 _split_line_re = re.compile(r'([^\n]*)')
+_math_inf = math.inf
 
-_s: str
 
-
-def _error_input(si):
-    _json_error('Invalid input', si)
+def _error_input(s, si):
+    _json_error(s, 'Invalid input', si)
 
 _peek_table: list = [_error_input] * 256
 
 
-def _json_error(msg, i):
+def _json_error(s, msg, i):
     curlen = 0
     n = 1
-    for match in re.finditer(_split_line_re, _s):
+    for match in re.finditer(_split_line_re, s):
         w = match.group(0)
         curlen += len(w)
         if curlen >= i:
@@ -49,87 +47,85 @@ def _json_error(msg, i):
             curlen += 1
 
 
-def _read_number(si):
-    c = ord(_s[si])
+def _read_number(s, si):
+    c = ord(s[si])
     i = si
     r = 0
     while c >= 48 and c <= 57: # \d
         i += 1
         r = r * 10 + (c - 48)
-        c = ord(_s[i])
+        c = ord(s[i])
     if c == 46: # .
         i += 1
-        c = ord(_s[i])
+        c = ord(s[i])
         f = 0
         scale = 0.1
         while c >= 48 and c <= 57: # \d
             i += 1
             f += (c - 48) * scale
-            c = ord(_s[i])
+            c = ord(s[i])
             scale *= 0.1
         r += f
     elif c == 73: # I
         infend = i + 7
-        if r == 0 and i <= si + 1 and (ord(_s[i - 1])) != 48 and _s[i:infend] == "Infinity":
-            return math.inf, infend + 1
-        else:
-            pm = ord(_s[si - 1])
-            _json_error(f"Invalid number: '{_s[si - (1 if pm in ('-', '+') else 0):infend]}'", si)
+        if r == 0 and i <= si + 1 and (ord(s[i - 1])) != 48 and s[i:infend] == "Infinity":
+            return _math_inf, infend + 1
+        pm = ord(s[si - 1])
+        _json_error(s, f"Invalid number: '{s[si - (1 if pm in ('-', '+') else 0):infend]}'", si)
     elif c == 35: # #
         infend = si + 6
-        if _s[si:infend] == "1#INF00":
-            return math.inf, infend + 1
-        else:
-            pm = ord(_s[si - 1])
-            _json_error(f"Invalid number: '{_s[si - (1 if pm in ('-', '+') else 0):infend]}'", si)
+        if s[si:infend] == "1#INF00":
+            return _math_inf, infend + 1
+        pm = ord(s[si - 1])
+        _json_error(s, f"Invalid number: '{s[si - (1 if pm in ('-', '+') else 0):infend]}'", si)
     if c in (101, 69): # e E
         i += 1
-        c = ord(_s[i])
+        c = ord(s[i])
         while (c >= 45 and c <= 57) or c == 43: # \d-+
             i += 1
-            c = ord(_s[i])
+            c = ord(s[i])
         try:
-            r = float(_s[si:i])
+            r = float(s[si:i])
         except ValueError:
-            pm = ord(_s[si - 1])
-            _json_error(f"Invalid number: '{_s[si - (1 if pm in ('-', '+') else 0):i]}'", si)
+            pm = ord(s[si - 1])
+            _json_error(s, f"Invalid number: '{s[si - (1 if pm in ('-', '+') else 0):i]}'", si)
 
     return r, i
 
 
-def _read_string(si):
+def _read_string(s, si):
     # scanstring implemented as a C function for fast string parsing
-    key, i = scanstring(_s, si + 1, False)
+    key, i = scanstring(s, si + 1, False)
     #i -= 1
     return key, i
 
 
-def _skip_comment_space(i):
+def _skip_comment_space(s, i):
     while True:
-        p = ord(_s[i])
+        p = ord(s[i])
         if p == 47:  # / - Single-line comment "//"
             while True:
                 i += 1
-                p = ord(_s[i])
+                p = ord(s[i])
                 if p in (10, 13, 127):
                     break
             i += 1
         elif p == 42:  # * - Block comment "/* xxxxxxx */"
             while True:
                 i += 1
-                p = ord(_s[i])
+                p = ord(s[i])
                 if p == 42:
-                    if ord(_s[i+1]) == 47:  # */
+                    if ord(s[i+1]) == 47:  # */
                         break
-                    elif ord(_s[i-1]) == 47:  # /*
-                        _json_error("'/*' inside another '/*' comment is not permitted", i)
+                    if ord(s[i-1]) == 47:  # /*
+                        _json_error(s, "'/*' inside another '/*' comment is not permitted", i)
                 if p == 127:
                     break
             i += 2
         else:
-            _json_error('Invalid comment', i)
+            _json_error(s, 'Invalid comment', i)
         while True:
-            p = ord(_s[i])
+            p = ord(s[i])
             i += 1
             if p > 32 and p != 44: # Matches space, tab, newline, or comma
                 break
@@ -137,51 +133,51 @@ def _skip_comment_space(i):
             return p, i
 
 
-def _skip_white_space(i):
-    c = ord(_s[i])
+def _skip_white_space(s, i):
+    c = ord(s[i])
     i += 1
     while c <= 32 or c == 44: # Matches space, tab, newline, or comma
-        c = ord(_s[i])
+        c = ord(s[i])
         i += 1
     if c == 47:
-        c, i = _skip_comment_space(i) # / -- read comment
+        c, i = _skip_comment_space(s, i) # / -- read comment
     return c, i - 1
 
 
-def _read_key(si, c):
+def _read_key(s, si, c):
     key = None
     i = None
 
     if c == 34:  # '"'
-        key, i = _read_string(si)
+        key, i = _read_string(s, si)
     else:
         if c == 127:
-            _json_error("Expected dictionary key", si)
+            _json_error(s, "Expected dictionary key", si)
         i = si
-        ch = ord(_s[i])
+        ch = ord(s[i])
         while (ch >= 97 and ch <= 122) or (ch >= 65 and ch <= 90) or (ch >= 48 and ch <= 57) or ch == 95: # [a z] [A Z] or [0 9] or _
             i += 1
-            ch = ord(_s[i])
+            ch = ord(s[i])
 
         i -= 1
-        key = _s[si:i + 1]
+        key = s[si:i + 1]
 
         if i < si:
-            _json_error("Expected dictionary key", i)
+            _json_error(s, "Expected dictionary key", i)
 
         i += 1
 
     # _skip_white_space
     while True:
-        c = ord(_s[i])
+        c = ord(s[i])
         i += 1
         if c > 32 and c != 44: # Matches space, tab, newline, or comma
             break
     if c == 47:
-        c, i = _skip_comment_space(i) # / -- read comment
+        c, i = _skip_comment_space(s, i) # / -- read comment
 
     if c not in (58, 61): # : =
-        _json_error(f"Expected dictionary separator ':' or '=' instead of: '{chr(c)}'", i)
+        _json_error(s, f"Expected dictionary separator ':' or '=' instead of: '{chr(c)}'", i)
 
     return key, i
 
@@ -191,99 +187,104 @@ def decode(s: str):
     if s is None:
         return None
 
-    global _s
-    _s = s + _nil * 2 # padding to end of string to prevent out of bound indexing
-    c, i = _skip_white_space(0)
+    s += _nil * 2 # padding to end of string to prevent out of bound indexing
+    c, i = _skip_white_space(s, 0)
     result = None
     if c in (123, 91): # { or [
-        result, i = _peek_table[c](i)
+        result, i = _peek_table[c](s, i)
     else:
         result = {}
         key = None
         while c:
-            key, i = _read_key(i, c)
-            c, i = _skip_white_space(i)
-            result[key], i = _peek_table[c](i)
-            c, i = _skip_white_space(i)
+            key, i = _read_key(s, i, c)
+            c, i = _skip_white_space(s, i)
+            result[key], i = _peek_table[c](s, i)
+            c, i = _skip_white_space(s, i)
 
-    _s = None # type: ignore
+    s = None # type: ignore
     return result
 
 
 ### Build dispatch table ###
 
-def _read_infinity(si): # I
-    if _s[si] == 'n' and _s[si+1] == 'f' and _s[si+2] == 'i' and _s[si+3] == 'n' and _s[si+4] == 'i' and _s[si+5] == 't' and _s[si+6] == 'y':
-        return math.inf, si + 8
-    else:
-        _json_error("Error reading value: Infinity", si)
+def _read_infinity(s, si): # I
+    if s[si] == 'n' and s[si+1] == 'f' and s[si+2] == 'i' and s[si+3] == 'n' and s[si+4] == 'i' and s[si+5] == 't' and s[si+6] == 'y':
+        return _math_inf, si + 8
+    _json_error(s, "Error reading value: Infinity", si)
 
-def _read_object(si): # {
+
+def _read_object(s, si): # {
     key = None
     result = {}
-    c, i = _skip_white_space(si + 1)
+    c, i = _skip_white_space(s, si + 1)
     while c != 125: # }
-        key, i = _read_key(i, c)
+        key, i = _read_key(s, i, c)
         while True: # _skip_white_space
-            c = ord(_s[i])
+            c = ord(s[i])
             i += 1
             if c > 32 and c != 44: # matches space tab newline or comma
                 break
-        result[key], i = _peek_table[c](i - 1)
+        result[key], i = _peek_table[c](s, i - 1)
         while True: # -- _skip_white_space
-            c = ord(_s[i])
+            c = ord(s[i])
             i += 1
             if c != 44 and c > 32: # matches space tab newline or comma
                 break
         if c == 47:
-            c, i = _skip_comment_space(i) # / -- read comment
+            c, i = _skip_comment_space(s, i) # / -- read comment
         i -= 1
     return result, i + 1
 
-def _read_true(si): # t
-    if _s[si+1] == 'r' and _s[si+2] == 'u' and _s[si+3] == 'e':
+
+def _read_true(s, si): # t
+    if s[si+1] == 'r' and s[si+2] == 'u' and s[si+3] == 'e':
         return True, si + 4
-    else:
-        _json_error("Error reading value: true", si)
+    _json_error(s, "Error reading value: true", si)
 
-def _read_false(si): # f
-    if _s[si+1] == 'a' and _s[si+2] == 'l' and _s[si+3] == 's' and _s[si+4] == 'e':
+
+def _read_false(s, si): # f
+    if s[si+1] == 'a' and s[si+2] == 'l' and s[si+3] == 's' and s[si+4] == 'e':
         return False, si + 5
-    else:
-        _json_error("Error reading value: false", si)
+    _json_error(s, "Error reading value: false", si)
 
-def _read_null(si): # n
-    if _s[si+1] == 'u' and _s[si+2] == 'l' and _s[si+3] == 'l':
+
+def _read_null(s, si): # n
+    if s[si+1] == 'u' and s[si+2] == 'l' and s[si+3] == 'l':
         return None, si + 4
-    else:
-        _json_error("Error reading value: null", si)
+    _json_error(s, "Error reading value: null", si)
 
-def _read_array(si): # [
+
+def _read_array(s, si): # [
     result = []
-    c, i = _skip_white_space(si + 1)
+    res_append = result.append
+    c, i = _skip_white_space(s, si + 1)
     while c != 93: # ]
-        res, i = _peek_table[c](i)
-        result.append(res)
+        res, i = _peek_table[c](s, i)
+        res_append(res)
         while True: # _skip_white_space
-            c = ord(_s[i])
+            c = ord(s[i])
             i += 1
             if c != 44 and c > 32: # matches space tab newline or comma
                 break
         if c == 47:
-            c, i = _skip_comment_space(i) # / -- read comment
+            c, i = _skip_comment_space(s, i) # / -- read comment
         i -= 1
     return result, i + 1
 
-def _read_positive_number(si):
-    return _read_number(si+1)
 
-def _read_negative_number(si):
-    num, i = _read_number(si+1)
+def _read_positive_number(s, si):
+    return _read_number(s, si+1)
+
+
+def _read_negative_number(s, si):
+    num, i = _read_number(s, si+1)
     return -num, i
 
-def _skip_comment_space_2(si):
-    c, i = _skip_comment_space(si + 1)
-    return _peek_table[c](i - 1)
+
+def _skip_comment_space_2(s, si):
+    c, i = _skip_comment_space(s, si + 1)
+    return _peek_table[c](s, i - 1)
+
 
 _peek_table[73] = _read_infinity # I
 _peek_table[123] = _read_object # {
