@@ -70,9 +70,9 @@ _force_do_export = False
 prev_obj_selected = None
 curr_vdata = None
 
-selected_verts = []
-selected_edges = []
-selected_faces = []
+selected_nodes = []
+selected_beams = []
+selected_tris_quads = []
 
 veh_render_dirty = False
 
@@ -81,18 +81,18 @@ rename_enabled = False
 # Refresh property input field UI
 def on_input_node_id_field_updated(self, context: bpy.types.Context):
     global _force_do_export
-    global selected_verts
+    global selected_nodes
     global rename_enabled
 
     scene = context.scene
     ui_props = scene.ui_properties
 
     obj = context.active_object
-    if obj is None or len(selected_verts) == 0:
+    if obj is None or len(selected_nodes) == 0:
         return
 
     if rename_enabled:
-        selected_vert = selected_verts[0][0]
+        selected_vert = selected_nodes[0][0]
         obj_data = obj.data
         bm = bmesh.from_edit_mesh(obj_data)
 
@@ -203,11 +203,11 @@ class JBEAM_EDITOR_OT_add_beam_tri_quad(bpy.types.Operator):
 
     @classmethod
     def poll(cls, context):
-        global selected_verts
-        return len(selected_verts) in (2,3,4)
+        global selected_nodes
+        return len(selected_nodes) in (2,3,4)
 
     def invoke(self, context, event):
-        global selected_verts
+        global selected_nodes
 
         obj = context.active_object
         obj_data = obj.data
@@ -215,10 +215,10 @@ class JBEAM_EDITOR_OT_add_beam_tri_quad(bpy.types.Operator):
 
         export = False
 
-        len_selected_verts = len(selected_verts)
+        len_selected_verts = len(selected_nodes)
         if len_selected_verts == 2:
             beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
-            e = bm.edges.new((x[0] for x in selected_verts))
+            e = bm.edges.new((x[0] for x in selected_nodes))
             e[beam_indices_layer] = bytes('-1', 'utf-8')
             if obj.mode != 'EDIT':
                 bm.to_mesh(obj_data)
@@ -226,7 +226,7 @@ class JBEAM_EDITOR_OT_add_beam_tri_quad(bpy.types.Operator):
 
         elif len_selected_verts in (3,4):
             face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
-            f = bm.faces.new((x[0] for x in selected_verts))
+            f = bm.faces.new((x[0] for x in selected_nodes))
             f[face_idx_layer] = -1
             if obj.mode != 'EDIT':
                 bm.to_mesh(obj_data)
@@ -288,11 +288,11 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
             box = layout.box()
             col = box.column()
 
-            global selected_verts
-            global selected_edges
-            global selected_faces
-            len_selected_verts = len(selected_verts)
-            len_selected_faces = len(selected_faces)
+            global selected_nodes
+            global selected_beams
+            global selected_tris_quads
+            len_selected_verts = len(selected_nodes)
+            len_selected_faces = len(selected_tris_quads)
 
             if len_selected_verts == 1:
                 col.row().label(text='JBeam Node ID')
@@ -342,12 +342,12 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
 
         bm = bmesh.from_edit_mesh(obj_data)
 
-        global selected_verts
-        global selected_edges
-        global selected_faces
-        if len(selected_verts) == 1:
+        global selected_nodes
+        global selected_beams
+        global selected_tris_quads
+        if len(selected_nodes) == 1:
             if curr_vdata is not None and 'nodes' in curr_vdata:
-                vert_data = selected_verts[0]
+                vert_data = selected_nodes[0]
                 v, node_id = vert_data[0], vert_data[1]
 
                 if node_id in curr_vdata['nodes']:
@@ -358,9 +358,9 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
                         str_val = repr(val)
                         col.row().label(text=f'- {k}: {str_val}')
 
-        elif len(selected_edges) == 1:
+        elif len(selected_beams) == 1:
             if curr_vdata is not None and 'beams' in curr_vdata:
-                edge_data = selected_edges[0]
+                edge_data = selected_beams[0]
                 e, beam_indices = edge_data[0], edge_data[1]
                 part_origin_layer = bm.edges.layers.string[constants.ELS_BEAM_PART_ORIGIN]
                 part_origin = e[part_origin_layer].decode('utf-8')
@@ -385,9 +385,9 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
                         str_val = repr(val)
                         col.row().label(text=f'- {k}: {str_val}')
 
-        elif len(selected_faces) == 1:
+        elif len(selected_tris_quads) == 1:
             if curr_vdata is not None:
-                face_data = selected_faces[0]
+                face_data = selected_tris_quads[0]
                 f, face_indices = face_data[0], face_data[1]
                 num_verts = len(f.verts)
 
@@ -596,8 +596,13 @@ def draw_callback_view(context: bpy.types.Context):
                         bm = bmesh.new()
                         bm.from_mesh(obj_data)
 
+                    beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
+
                     e: bmesh.types.BMEdge
                     for e in bm.edges:
+                        if e[beam_indices_layer].decode('utf-8') == '':
+                            continue
+
                         v1, v2 = e.verts[0], e.verts[1]
                         coords.append(obj.matrix_world @ v1.co)
                         coords.append(obj.matrix_world @ v2.co)
@@ -615,8 +620,13 @@ def draw_callback_view(context: bpy.types.Context):
                     bm = bmesh.new()
                     bm.from_mesh(active_obj_data)
 
+                beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
+
                 e: bmesh.types.BMEdge
                 for e in bm.edges:
+                    if e[beam_indices_layer].decode('utf-8') == '':
+                        continue
+
                     v1, v2 = e.verts[0], e.verts[1]
                     coords.append(active_obj.matrix_world @ v1.co)
                     coords.append(active_obj.matrix_world @ v2.co)
@@ -665,13 +675,13 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
     global _force_do_export
     return_early = False
 
-    global selected_verts
-    global selected_edges
-    global selected_faces
+    global selected_nodes
+    global selected_beams
+    global selected_tris_quads
 
-    selected_verts.clear()
-    selected_edges.clear()
-    selected_faces.clear()
+    selected_nodes.clear()
+    selected_beams.clear()
+    selected_tris_quads.clear()
 
     # Don't act on reimporting mesh
     if type(scene.get('jbeam_editor_reimporting_jbeam')) == int:
@@ -747,14 +757,17 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
     # Check if new vertices are added
     init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
     node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+    is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
 
     # When new vertices are added, they seem to copy the data of the old vertices they were made from,
     # so rename their node ids to random ids (UUID)
     bm.verts.ensure_lookup_table()
     v: bmesh.types.BMVert
     for i,v in enumerate(bm.verts):
+        if v[is_fake_layer]:
+            continue
         if v.select:
-            selected_verts.append((v, v[init_node_id_layer].decode('utf-8')))
+            selected_nodes.append((v, v[init_node_id_layer].decode('utf-8')))
         if i >= active_obj_data[constants.MESH_VERTEX_COUNT]:
             new_node_id = str(uuid.uuid4())
             new_node_id_bytes = bytes(new_node_id, 'utf-8')
@@ -770,15 +783,18 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
 
     bm.edges.ensure_lookup_table()
     for i,e in enumerate(bm.edges):
-        if e.select:
-            selected_edges.append((e, e[beam_indices_layer].decode('utf-8')))
-            #print(e[beam_indices_layer].decode('utf-8'))
+        beam_indices = e[beam_indices_layer].decode('utf-8')
         if i >= active_obj_data[constants.MESH_EDGE_COUNT]:
             e[beam_indices_layer] = bytes('-1', 'utf-8')
             active_obj_data[constants.MESH_EDGE_COUNT] += 1
 
             if constants.DEBUG:
                 print('new edge added', i)
+        if beam_indices == '':
+            continue
+        if e.select:
+            selected_beams.append((e, beam_indices))
+            #print(e[beam_indices_layer].decode('utf-8'))
 
     # Check if new faces are added
     face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
@@ -786,7 +802,7 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
     bm.faces.ensure_lookup_table()
     for i,f in enumerate(bm.faces):
         if f.select:
-            selected_faces.append((f, f[face_idx_layer]))
+            selected_tris_quads.append((f, f[face_idx_layer]))
         if i >= active_obj_data[constants.MESH_FACE_COUNT]:
             f[face_idx_layer] = -1
             active_obj_data[constants.MESH_FACE_COUNT] += 1
@@ -795,8 +811,8 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
                 print('new face added', i)
 
     # If one vertex is selected, set the UI input node_id field to the selected vertex's node_id attribute
-    if len(selected_verts) == 1:
-        v = selected_verts[0][0]
+    if len(selected_nodes) == 1:
+        v = selected_nodes[0][0]
         node_id = v[node_id_layer].decode('utf-8')
         global rename_enabled
         rename_enabled = False
