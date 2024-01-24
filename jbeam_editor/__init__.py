@@ -156,43 +156,44 @@ class JBEAM_EDITOR_OT_redo(bpy.types.Operator):
         return {'FINISHED'}
 
 
-# Convert active mesh to a "JBeam" mesh by adding a Node ID attribute
-class JBEAM_EDITOR_OT_convert_to_jbeam_mesh(bpy.types.Operator):
-    bl_idname = "jbeam_editor.convert_to_jbeam_mesh"
-    bl_label = "Convert to JBeam Mesh"
+# TODO: FIX FOR NEXT UPDATE!!!
+# # Convert active mesh to a "JBeam" mesh by adding a Node ID attribute
+# class JBEAM_EDITOR_OT_convert_to_jbeam_mesh(bpy.types.Operator):
+#     bl_idname = "jbeam_editor.convert_to_jbeam_mesh"
+#     bl_label = "Convert to JBeam Mesh"
 
-    def invoke(self, context, event):
-        obj = context.active_object
-        if not obj:
-            return {'CANCELLED'}
+#     def invoke(self, context, event):
+#         obj = context.active_object
+#         if not obj:
+#             return {'CANCELLED'}
 
-        obj_data = obj.data
-        if not type(obj_data) is bpy.types.Mesh:
-            return {'CANCELLED'}
+#         obj_data = obj.data
+#         if not type(obj_data) is bpy.types.Mesh:
+#             return {'CANCELLED'}
 
-        bm = None
-        if obj.mode == 'EDIT':
-            bm = bmesh.from_edit_mesh(obj_data)
-        else:
-            bm = bmesh.new()
-            bm.from_mesh(obj_data)
+#         bm = None
+#         if obj.mode == 'EDIT':
+#             bm = bmesh.from_edit_mesh(obj_data)
+#         else:
+#             bm = bmesh.new()
+#             bm.from_mesh(obj_data)
 
-        # If mesh is not a JBeam mesh, make it into one
-        if obj_data.get(constants.MESH_JBEAM_PART) is None:
-            obj_data[constants.MESH_JBEAM_PART] = obj.name
-            init_node_id_layer = bm.verts.layers.string.new(constants.VLS_INIT_NODE_ID)
-            node_id_layer = bm.verts.layers.string.new(constants.VLS_NODE_ID)
+#         # If mesh is not a JBeam mesh, make it into one
+#         if obj_data.get(constants.MESH_JBEAM_PART) is None:
+#             obj_data[constants.MESH_JBEAM_PART] = obj.name
+#             init_node_id_layer = bm.verts.layers.string.new(constants.VLS_INIT_NODE_ID)
+#             node_id_layer = bm.verts.layers.string.new(constants.VLS_NODE_ID)
 
-            for v in bm.verts:
-                new_node_id_bytes = bytes(f'node_{v.index}', 'utf-8') #bytes(str(uuid.uuid4()), 'utf-8')
-                v[init_node_id_layer] = new_node_id_bytes
-                v[node_id_layer] = new_node_id_bytes
+#             for v in bm.verts:
+#                 new_node_id_bytes = bytes(f'node_{v.index}', 'utf-8') #bytes(str(uuid.uuid4()), 'utf-8')
+#                 v[init_node_id_layer] = new_node_id_bytes
+#                 v[node_id_layer] = new_node_id_bytes
 
-            if obj.mode != 'EDIT':
-                bm.to_mesh(obj_data)
+#             if obj.mode != 'EDIT':
+#                 bm.to_mesh(obj_data)
 
-        bm.free()
-        return {'FINISHED'}
+#         bm.free()
+#         return {'FINISHED'}
 
 
 # Add JBeam beam/triangle/quad
@@ -269,7 +270,9 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
 
         # If mesh isn't a JBeam mesh (it doesn't have node id attributes), give user option to convert it to one (add node id attributes)
         if obj_data.get(constants.MESH_JBEAM_PART) is None:
-            layout.operator('jbeam_editor.convert_to_jbeam_mesh', text='Convert to JBeam Mesh')
+            # TODO: FIX FOR NEXT UPDATE
+            #layout.operator('jbeam_editor.convert_to_jbeam_mesh', text='Convert to JBeam Mesh')
+            pass
         else:
             box = layout.box()
             col = box.column()
@@ -882,7 +885,7 @@ classes = (
     UIProperties,
     JBEAM_EDITOR_OT_undo,
     JBEAM_EDITOR_OT_redo,
-    JBEAM_EDITOR_OT_convert_to_jbeam_mesh,
+    #JBEAM_EDITOR_OT_convert_to_jbeam_mesh,
     JBEAM_EDITOR_OT_add_beam_tri_quad,
     JBEAM_EDITOR_PT_jbeam_panel,
     JBEAM_EDITOR_PT_jbeam_properties_panel,
