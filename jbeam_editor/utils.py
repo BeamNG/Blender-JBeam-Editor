@@ -21,7 +21,7 @@
 import sys
 
 from . import bng_sjson
-from .jbeam import utils as jbeam_utils
+from .jbeam.utils import Metadata
 
 
 def read_file(filepath: str):
@@ -72,8 +72,8 @@ def row_dict_deepcopy(in_d: dict):
     for k,v in in_d.items():
         if isinstance(v, dict):
             out_d[k] = v.copy()
-        elif k == jbeam_utils.Metadata:
-            out_d[k] = jbeam_utils.Metadata(v)
+        elif k == Metadata:
+            out_d[k] = Metadata(v)
         else:
             out_d[k] = v
     return out_d
