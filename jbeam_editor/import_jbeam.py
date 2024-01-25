@@ -23,7 +23,7 @@ import pickle
 
 import bpy
 import bmesh
-import mathutils
+from mathutils import Vector
 
 from bpy_extras.io_utils import ImportHelper
 from bpy.props import StringProperty, BoolProperty
@@ -122,39 +122,50 @@ def get_vertices_edges_faces(vdata: dict):
 
 
 def generate_part_mesh(obj: bpy.types.Object, obj_data: bpy.types.Mesh, bm: bmesh.types.BMesh, vdata: dict, part: str, jbeam_file_path: str, vertices: list, edges: list, faces: list, node_index_to_id: list):
+    bm_verts = bm.verts
+    bm_verts_new = bm_verts.new
+    bm_edges = bm.edges
+    bm_edges_new = bm_edges.new
+    bm_faces = bm.faces
+    bm_faces_new = bm_faces.new
+
     # Add node ID field to all vertices
-    init_node_id_layer = bm.verts.layers.string.new(constants.VLS_INIT_NODE_ID)
-    node_id_layer = bm.verts.layers.string.new(constants.VLS_NODE_ID)
-    node_origin_layer = bm.verts.layers.string.new(constants.VLS_NODE_PART_ORIGIN)
-    node_is_fake_layer = bm.verts.layers.int.new(constants.VLS_NODE_IS_FAKE)
+    init_node_id_layer = bm_verts.layers.string.new(constants.VLS_INIT_NODE_ID)
+    node_id_layer = bm_verts.layers.string.new(constants.VLS_NODE_ID)
+    node_origin_layer = bm_verts.layers.string.new(constants.VLS_NODE_PART_ORIGIN)
+    node_is_fake_layer = bm_verts.layers.int.new(constants.VLS_NODE_IS_FAKE)
 
-    beam_origin_layer = bm.edges.layers.string.new(constants.ELS_BEAM_PART_ORIGIN)
-    beam_indices_layer = bm.edges.layers.string.new(constants.ELS_BEAM_INDICES)
+    beam_origin_layer = bm_edges.layers.string.new(constants.ELS_BEAM_PART_ORIGIN)
+    beam_indices_layer = bm_edges.layers.string.new(constants.ELS_BEAM_INDICES)
 
-    face_origin_layer = bm.faces.layers.string.new(constants.FLS_FACE_PART_ORIGIN)
-    face_idx_layer = bm.faces.layers.int.new(constants.FLS_FACE_IDX)
+    face_origin_layer = bm_faces.layers.string.new(constants.FLS_FACE_PART_ORIGIN)
+    face_idx_layer = bm_faces.layers.int.new(constants.FLS_FACE_IDX)
 
     inv_matrix_world = obj.matrix_world.inverted()
+    bytes_part = bytes(part, 'utf-8')
+    transformed_positions = {}
 
     for i, (pos, is_fake) in enumerate(vertices):
-        v = bm.verts.new((inv_matrix_world @ mathutils.Vector(pos)).to_tuple())
         node_id = node_index_to_id[i]
+        if node_id not in transformed_positions:
+            transformed_positions[node_id] = (inv_matrix_world @ Vector(pos)).to_tuple()
+        v = bm_verts_new(transformed_positions[node_id])
         bytes_node_id = bytes(node_id, 'utf-8')
         v[init_node_id_layer] = bytes_node_id
         v[node_id_layer] = bytes_node_id
-        v[node_origin_layer] = bytes(part, 'utf-8')
+        v[node_origin_layer] = bytes_part
         v[node_is_fake_layer] = int(is_fake)
 
-    bm.verts.ensure_lookup_table()
+    bm_verts.ensure_lookup_table()
 
     added_edges = {}
 
     for i, edge in enumerate(edges, 1):
         if edge is not None:
             if not edge in added_edges:
-                e = bm.edges.new((bm.verts[edge[0]], bm.verts[edge[1]]))
+                e = bm_edges_new((bm_verts[edge[0]], bm_verts[edge[1]]))
                 e[beam_indices_layer] = bytes(f'{i}', 'utf-8')
-                e[beam_origin_layer] = bytes(part, 'utf-8')
+                e[beam_origin_layer] = bytes_part
                 added_edges[edge] = e
             else:
                 e = added_edges[edge]
@@ -167,22 +178,22 @@ def generate_part_mesh(obj: bpy.types.Object, obj_data: bpy.types.Mesh, bm: bmes
             num_verts = len(face)
             assert num_verts in (3,4)
             if num_verts == 3:
-                f = bm.faces.new((bm.verts[face[0]], bm.verts[face[1]], bm.verts[face[2]]))
+                f = bm_faces_new((bm_verts[face[0]], bm_verts[face[1]], bm_verts[face[2]]))
                 f[face_idx_layer] = tri_idx_in_part
                 tri_idx_in_part += 1
             else:
-                f = bm.faces.new((bm.verts[face[0]], bm.verts[face[1]], bm.verts[face[2]], bm.verts[face[3]]))
+                f = bm_faces_new((bm_verts[face[0]], bm_verts[face[1]], bm_verts[face[2]], bm_verts[face[3]]))
                 f[face_idx_layer] = quad_idx_in_part
                 quad_idx_in_part += 1
 
-            f[face_origin_layer] = bytes(part, 'utf-8')
+            f[face_origin_layer] = bytes_part
 
     obj_data[constants.MESH_JBEAM_PART] = part
     obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_file_path
     obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(vdata)
-    obj_data[constants.MESH_VERTEX_COUNT] = len(bm.verts)
-    obj_data[constants.MESH_EDGE_COUNT] = len(bm.edges)
-    obj_data[constants.MESH_FACE_COUNT] = len(bm.faces)
+    obj_data[constants.MESH_VERTEX_COUNT] = len(bm_verts)
+    obj_data[constants.MESH_EDGE_COUNT] = len(bm_edges)
+    obj_data[constants.MESH_FACE_COUNT] = len(bm_faces)
     #obj_data[constants.MESH_JBEAM_INIT_NODE_IDS] = copy.deepcopy(node_ids)
 
 

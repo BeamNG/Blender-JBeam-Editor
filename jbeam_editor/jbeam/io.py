@@ -193,26 +193,6 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, reimporti
     return part_count
 
 
-def load_single_jbeam_file(filepath: str, add_to_cache: bool, reimporting: bool):
-    if reimporting:
-        file_text = text_editor.read_int_file(filepath)
-    else:
-        file_text = text_editor.write_from_ext_to_int_file(filepath)
-    if file_text is None:
-        print(f'Cannot read file: {filepath}', file=sys.stderr)
-        return False
-
-    file_content = utils.sjson_decode(file_text, filepath)
-    if file_content is None:
-        print(f'Cannot read file: {filepath}', file=sys.stderr)
-        return False
-
-    if add_to_cache:
-        jbeam_cache[filepath] = file_content
-
-    return True
-
-
 def start_loading(directories: list[str], vehicle_config: dict, reimporting: bool):
     slots_to_part: dict = vehicle_config['parts']
     parts = list(filter(lambda part: part != '', slots_to_part.values()))
@@ -251,16 +231,25 @@ def get_part(io_ctx: dict, part_name: str | None):
     return None, None
 
 
-def get_jbeam(jbeam_filename: str | None, reimporting: bool):
-    if jbeam_filename is None:
+def get_jbeam(filepath: str | None, reimporting: bool):
+    if filepath is None:
         return None
 
-    #if jbeam_filename not in jbeam_cache:
-    load_single_jbeam_file(jbeam_filename, True, reimporting)
-    if jbeam_filename in jbeam_cache:
-        return copy.deepcopy(jbeam_cache[jbeam_filename])
+    if reimporting:
+        file_text = text_editor.read_int_file(filepath)
+    else:
+        file_text = text_editor.write_from_ext_to_int_file(filepath)
+    if file_text is None:
+        print(f'Cannot read file: {filepath}', file=sys.stderr)
+        return None
 
-    return None
+    file_content = utils.sjson_decode(file_text, filepath)
+    if file_content is None:
+        print(f'Cannot read file: {filepath}', file=sys.stderr)
+        return None
+
+    jbeam_cache[filepath] = file_content
+    return copy.deepcopy(file_content)
 
 
 def is_context_valid(io_ctx):
