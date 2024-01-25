@@ -23,7 +23,8 @@ from _json import scanstring
 import re
 import math
 
-_nil = chr(127)
+# 127 char code is our string termination character
+
 _split_line_re = re.compile(r'([^\n]*)')
 _math_inf = math.inf
 
@@ -48,6 +49,7 @@ def _json_error(s, msg, i):
 
 
 def _read_number(s, si):
+    global _math_inf
     c = ord(s[si])
     i = si
     r = 0
@@ -187,7 +189,7 @@ def decode(s: str):
     if s is None:
         return None
 
-    s += _nil * 2 # padding to end of string to prevent out of bound indexing
+    s += chr(127) * 2 # padding to end of string to prevent out of bound indexing
     c, i = _skip_white_space(s, 0)
     result = None
     if c in (123, 91): # { or [
@@ -208,6 +210,7 @@ def decode(s: str):
 ### Build dispatch table ###
 
 def _read_infinity(s, si): # I
+    global _math_inf
     if s[si] == 'n' and s[si+1] == 'f' and s[si+2] == 'i' and s[si+3] == 'n' and s[si+4] == 'i' and s[si+5] == 't' and s[si+6] == 'y':
         return _math_inf, si + 8
     _json_error(s, "Error reading value: Infinity", si)
