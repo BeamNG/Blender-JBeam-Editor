@@ -19,13 +19,15 @@
 # SOFTWARE.
 
 import math
-import pickle
-import re
+from pickle import loads as pickle_loads
+from pickle import dumps as pickle_dumps
+from re import match as re_match
 import sys
 
-from . import utils as jbeam_utils
+from .utils import Metadata
+from .utils import ignore_sections
 
-from .. import utils
+from ..utils import row_dict_deepcopy
 
 # these are defined in C, do not change the values
 NORMALTYPE = 0
@@ -92,10 +94,10 @@ def replace_special_values(val):
 memo = {}
 
 def process_table_with_schema_destructive(jbeam_table: list, new_dict: dict, input_options=None):
-    encoded = (pickle.dumps(jbeam_table), pickle.dumps(input_options))
+    encoded = (pickle_dumps(jbeam_table), pickle_dumps(input_options))
     if memo.get(encoded) is not None:
         out = memo[encoded]
-        new_dict.update(pickle.loads(out[0]))
+        new_dict.update(pickle_loads(out[0]))
         return out[1]
 
     # its a list, so a table for us. Verify that the first row is the header
@@ -109,10 +111,11 @@ def process_table_with_schema_destructive(jbeam_table: list, new_dict: dict, inp
     if header[-1] != 'options':
         header.append('options')
     new_list_size = 0
-    local_options = utils.row_dict_deepcopy(input_options) if input_options is not None else {}
+    local_options = row_dict_deepcopy(input_options) if input_options is not None else {}
+    local_options_update = local_options.update
 
-    if not local_options.get(jbeam_utils.Metadata):
-        local_options[jbeam_utils.Metadata] = jbeam_utils.Metadata()
+    if not local_options.get(Metadata):
+        local_options[Metadata] = Metadata()
 
     # remove the header from the data, as we dont need it anymore
     jbeam_table.pop(0)
@@ -125,17 +128,17 @@ def process_table_with_schema_destructive(jbeam_table: list, new_dict: dict, inp
             # Get metadata from previous options and current row and merge them
             # Afterwards, merge regular row values into options
 
-            if jbeam_utils.Metadata not in row_value:
-                row_value[jbeam_utils.Metadata] = jbeam_utils.Metadata()
-            row_metadata = row_value[jbeam_utils.Metadata]
+            if Metadata not in row_value:
+                row_value[Metadata] = Metadata()
+            row_metadata = row_value[Metadata]
 
-            options_metadata = local_options[jbeam_utils.Metadata]
+            options_metadata = local_options[Metadata]
             options_metadata.merge(row_metadata)
 
-            #local_options.pop(jbeam_utils.Metadata, None)
-            local_options.update(row_value)
+            #local_options.pop(Metadata, None)
+            local_options_update(row_value)
 
-            local_options[jbeam_utils.Metadata] = options_metadata
+            local_options[Metadata] = options_metadata
 
         elif isinstance(row_value, list):
             # case where its a jbeam definition
@@ -151,21 +154,22 @@ def process_table_with_schema_destructive(jbeam_table: list, new_dict: dict, inp
 
             # walk the table row
             # replace row: reassociate the header colums as keys to the row cells
-            new_row = utils.row_dict_deepcopy(local_options)
+            new_row = row_dict_deepcopy(local_options)
+            new_row_update = new_row.update
 
             if len_row_value == header_size:
-                row_value.append({jbeam_utils.Metadata: jbeam_utils.Metadata()})
+                row_value.append({Metadata: Metadata()})
                 len_row_value += 1
 
             # check if inline options are provided, merge them then
             for rk in range(header_size, len_row_value):
                 rv = row_value[rk]
                 if isinstance(rv, dict):
-                    if jbeam_utils.Metadata not in rv:
-                        rv[jbeam_utils.Metadata] = jbeam_utils.Metadata()
-                    rv_metadata = rv[jbeam_utils.Metadata]
+                    if Metadata not in rv:
+                        rv[Metadata] = Metadata()
+                    rv_metadata = rv[Metadata]
 
-                    new_row_metadata = new_row[jbeam_utils.Metadata]
+                    new_row_metadata = new_row[Metadata]
                     new_row_metadata.merge(rv_metadata)
 
                     # Convert metadata variable reference in list from index to key using header
@@ -173,8 +177,8 @@ def process_table_with_schema_destructive(jbeam_table: list, new_dict: dict, inp
                         if isinstance(var, int):
                             new_row_metadata._data[header[var]] = new_row_metadata._data.pop(var)
 
-                    new_row.update(rv)
-                    new_row[jbeam_utils.Metadata] = new_row_metadata
+                    new_row_update(rv)
+                    new_row[Metadata] = new_row_metadata
 
                     # remove the options
                     del row_value[rk] # remove them for now
@@ -207,7 +211,7 @@ def process_table_with_schema_destructive(jbeam_table: list, new_dict: dict, inp
             print('*** Invalid table row:', row_value, file=sys.stderr)
             return -1
 
-    memo[encoded] = (pickle.dumps(new_dict), new_list_size)
+    memo[encoded] = (pickle_dumps(new_dict), new_list_size)
     return new_list_size
 
 
@@ -218,13 +222,14 @@ def convert_dict_to_list_tables(vehicle: dict):
         if isinstance(tbl, dict) and len(tbl) > 0 and isinstance(next(iter(tbl)), int):
             # Dictionary contains integer keys, so convert it into a list
             new_table = []
+            new_table_append = new_table.append
 
             for row_key, row_value in tbl.items():
                 if not isinstance(row_key, int):
                     print(f'Table unexpectedly has non integer key! row key: {row_key}, row value {row_value}', file=sys.stderr)
                     return False
 
-                new_table.append(row_value)
+                new_table_append(row_value)
 
             new_tables[k] = new_table
 
@@ -284,7 +289,7 @@ def process(vehicle: dict):
     # Then walk through all keys/entries of the vehicle
     for key_entry, entry in vehicle.items():
         # verify element name
-        if re.match(r'^[a-zA-Z_]+[a-zA-Z0-9_]*$', key_entry) is None:
+        if re_match(r'^[a-zA-Z_]+[a-zA-Z0-9_]*$', key_entry) is None:
             print(f"*** Invalid attribute name '{key_entry}'", sys.stderr)
 
             return False
@@ -293,7 +298,7 @@ def process(vehicle: dict):
         vehicle['maxIDs'][key_entry] = 0
 
         # Then walk the tables
-        if isinstance(entry, (list, dict)) and (key_entry not in jbeam_utils.ignore_sections) and len(entry) > 0:
+        if isinstance(entry, (list, dict)) and (key_entry not in ignore_sections) and len(entry) > 0:
             if isinstance(entry, dict):
                 # slots are actually a dictionary due to translation from Lua to Python
                 if key_entry == 'slots':
