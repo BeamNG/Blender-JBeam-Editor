@@ -1104,6 +1104,12 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, 
 
         tris_to_add, tris_to_delete, quads_to_add, quads_to_delete = get_faces_add_remove(obj, bm, init_tris_data, init_quads_data, jbeam_file_data_modified, jbeam_part, nodes_to_delete, affect_node_references)
 
+        # Remove beams that were added due to adding triangle
+        for beam in beams_to_add.copy():
+            for tri in tris_to_add:
+                if set(beam).issubset(tri):
+                    beams_to_add.remove(beam)
+
         if constants.DEBUG:
             print('nodes to add:', nodes_to_add)
             print('nodes to delete:', nodes_to_delete)
