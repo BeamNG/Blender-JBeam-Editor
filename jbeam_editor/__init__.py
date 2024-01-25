@@ -655,7 +655,7 @@ def menu_func_import(self, context):
 
 
 def menu_func_export(self, context):
-    self.layout.operator(export_jbeam.JBEAM_EDITOR_OT_export_jbeam.bl_idname, text="JBeam File (.jbeam)")
+    self.layout.operator(export_jbeam.JBEAM_EDITOR_OT_export_jbeam.bl_idname, text="Selected JBeam Part(s)")
 
 
 def menu_func_import_vehicle(self, context):
