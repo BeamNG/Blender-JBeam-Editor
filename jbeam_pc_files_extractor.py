@@ -45,6 +45,15 @@ def extract_files(src_folder, dest_folder):
                         zip_ref.extract(file_info, dest_folder)
 
 
-source_folder = select_folder("Select the \"vehicles\" folder containing all the vehicles' zip files")
-destination_folder = select_folder("Select the folder to extract to")
-extract_files(source_folder, destination_folder)
+def main():
+    source_folder = select_folder("Select the \"vehicles\" folder containing all the vehicles' zip files")
+    if source_folder == '':
+        # User cancelled
+        return
+    destination_folder = select_folder("Select the folder to extract to")
+    if destination_folder == '':
+        # User cancelled
+        return
+    extract_files(source_folder, destination_folder)
+
+main()
