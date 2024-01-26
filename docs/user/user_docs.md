@@ -89,37 +89,33 @@ With the JBeam imported, you should see Blender meshes that represent the JBeam 
 
 We are ready to start editing the JBeam parts! For the most part, if you know how to use Blender, editing a JBeam part is just like editing a regular mesh. For example, moving a node is exactly the same as moving a regular vertex. The same applies for adding and deleting a node as well, although renaming a node is something unique to JBeam.
 
+The rest of the instructions below will be using the *Square Donut* JBeam part and please have the JBeam part selected and be in *Edit Mode*.
+
+![](after_importing.png)
+
 <br>
 
 #### Moving a Node
 Moving a node is just like moving a regular mesh vertex. There are multiple ways to move a node, but I'll show you one way to do it using the *Move* tool.
 
-1. First, select the part, go into *Edit Mode* through the dropdown menu in the upper left hand corner, go into *Vertex selection mode* (selected by default), and select the *Select Box* tool.
-2. Next, click on a node you want to move.
-
-    ![](all_steps_begin.png)
-
-3. Then select the *Move* tool and move the node using the axes arrows.
+1. Click on a node you want to move.
+2. Then select the *Move* tool and move the node using the axes arrows.
 
     ![](move_node.png)
 
-That wasn't too bad right? ;) Also thanks to Blender, you can undo (and redo) your changes simply with *Ctrl + Z* (and *Shift + Ctrl + Z*) to follow along with the next tutorial.
+That wasn't too bad right? ;) Also you can use Ctrl + [ and Ctrl + ] to undo and redo your changes  to follow along with the next tutorials. **Do not use Ctrl + Z and Ctrl + Shift + Z as Blender's undo system doesn't work well with this plugin.**
 
 <br>
 
 #### Renaming a Node
 Renaming a node is something unique to JBeam but is easy to do :)
 
-1. First, select the part, go into *Edit Mode* through the dropdown menu in the upper left hand corner, go into *Vertex selection mode* (selected by default), and select the *Select Box* tool.
-2. Next, click on the node you want to rename.
-
-    ![](all_steps_begin.png)
-
-3. Then, on the right hand side of the 3D Viewport right next to the 3D axes arrows, click on the little arrow pointing to the left.
+1. Click on the node you want to rename.
+2. Then, on the right hand side of the 3D Viewport right next to the 3D axes arrows, click on the little arrow pointing to the left.
 
     ![](rename_node_1.png)
 
-4. Several tabs will pop out such as *Item*, *Tool*, *View*, *JBeam*. Click on the *JBeam* tab and you will be greeted to a UI that shows you the JBeam part selected and allows you to rename the selected node. Rename the node to whatever you'd like and press enter. I renamed the node to "hey". You will see that the rename is also reflected in the node name labels on the part.
+3. Several tabs will pop out such as *Item*, *Tool*, *View*, *JBeam*. Click on the *JBeam* tab and you will be greeted to a UI that shows you the JBeam part selected and allows you to rename the selected node. Rename the node to whatever you'd like and press enter. I renamed the node to "hey". You will see that the rename is also reflected in the node name labels on the part.
 
     ![](rename_node_2.png)
 
@@ -128,12 +124,8 @@ Renaming a node is something unique to JBeam but is easy to do :)
 #### Adding a Node
 Adding a node is just like adding a regular mesh vertex. There are many ways to add a node, but one way you can add them is using the *Extrude to Cursor or Add* function with your mouse and *Ctrl + Right Mouse Button*.
 
-1. First, select the part, go into *Edit Mode* through the dropdown menu in the upper left hand corner, go into *Vertex selection mode* (selected by default), and select the *Select Box* tool.
-2. Next, click on a node you want to extrude a node from.
-
-    ![](all_steps_begin.png)
-
-4. Then, move your mouse to the place where you want to add a node and press *Ctrl + Right Mouse Button*. And a new node should appear under a new name of a long string of random characters. You can rename the node to whatever you like since you already know how to do that ;)
+1. Click on a node you want to extrude a node from.
+2. Then, move your mouse to the place where you want to add a node and press *Ctrl + Right Mouse Button*. And a new node should appear under a new name of a long string of random characters. You can rename the node to whatever you like since you already know how to do that ;)
 
     ![](add_node.png)
 
@@ -142,19 +134,13 @@ Adding a node is just like adding a regular mesh vertex. There are many ways to 
 #### Deleting a Node
 And again, deleting a node is just like deleting a regular mesh vertex. I'll show you how to delete them using the *del* key.
 
-1. First, select the part, go into *Edit Mode* through the dropdown menu in the upper left hand corner, go into *Vertex selection mode* (selected by default), and select the *Select Box* tool.
-2. Next, click on a node you want to delete.
-
-   ![](all_steps_begin.png)
-
-4. Then simply press the *del* key and delete *Vertices*.
-
-   ![](delete_node.png)
+1. Click on a node you want to delete.
+2. Then simply press the *del* key and delete *Vertices*.
 
 <br>
 
 #### Adding a Beam
-There are two ways to add a beam. Assuming you've already selected the part and are in *Edit Mode*,
+There are two ways to add a beam.
 
 The first way is:
 1. Click on two nodes
@@ -164,16 +150,20 @@ The second way allows you to add multiple beams per pair of nodes:
 1. Click on two nodes
 2. In the JBeam UI tab to the right of the viewport, click on *Add Beam*
 
+    ![](add_beam_2.png)
 
 #### Deleting a Beam
-Deleting a beam is pretty straight forward. Assuming you've already selected the part and are in *Edit Mode*:
+Deleting a beam is pretty straight forward.
 
 1. Switch into *Edge select* mode
+
+    ![](edge_select_mode.png)
+
 2. Click on the beam you want to delete (beams are highlighted in green)
 3. Press the *del* key and in the pop up click *Only Edges & Faces*
 
 #### Adding a Triangle/Quad
-There are two ways to add a triangle/quad. Assuming you've already selected the part and are in *Edit Mode*,
+There are two ways to add a triangle/quad.
 
 The first way is:
 1. Click on three/four nodes
@@ -183,11 +173,15 @@ The second way allows you to add multiple triangles/quads per set of nodes:
 1. Click on three/four nodes
 2. In the JBeam UI tab to the right of the viewport, click on *Add Triangle* / *Add Quad*
 
+    ![](add_triangle_quad_2.png)
 
 #### Deleting a Triangle/Quad
-And deleting a triangle/quad is also pretty straight forward. Assuming you've already selected the part and are in *Edit Mode*:
+And deleting a triangle/quad is also pretty straight forward.
 
 1. Switch into *Face select* mode
+
+    ![](face_select_mode.png)
+
 2. Click on the triangle/quad you want to delete
 3. Press the *del* key and in the pop up click *Only Edges & Faces*
 
