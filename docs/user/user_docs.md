@@ -52,20 +52,18 @@ The very first thing to do is import your JBeam part in order to actually edit i
 
     ![](usage_import.png)
 
-3. A *Choose JBeam* UI will popup which prompts you to select the part(s) you want to import into Blender. You can either choose a single part to import using the dropdown menu, or you can tick the *Import All Parts* checkbox to import all the parts. I chose to import a single part called *square_donut*. Press the *OK* button to import the part(s).
+2. A *Choose JBeam* UI will popup which prompts you to select the part(s) you want to import into Blender. You can either choose a single part to import using the dropdown menu, or you can tick the *Import All Parts* checkbox to import all the parts. I chose to import a single part called *square_donut*. Press the *OK* button to import the part(s).
 
     ![](usage_dropdown_parts.png)
 
-4. The JBeam parts should be imported now and you should see Blender meshes that look like JBeam structures. The JBeam parts are represented by a Blender mesh, where the vertices are the JBeam nodes, the edges are the JBeam beams, and the faces are the JBeam collision triangles. You should see node names next to the vertices (nodes). **From now on, I will only speak in JBeam terms (nodes, beams, collision triangles, etc.)**.
+3. Wait a second or two and the JBeam part(s) will be imported!
 
     ![](usage_imported.png)
-
-We are ready to start editing JBeam parts! For the most part, if you know how to use Blender, editing a JBeam part is just like editing a regular mesh. For example, moving a node is exactly the same as moving a regular vertex. The same applies for adding and deleting a node as well, although renaming a node is something unique to JBeam.
 
 <br>
 
 #### Importing a Vehicle to Edit
-Or you can import a full vehicle! This requires you need to extract the JBeam files and .pc files from BeamNG.drive's game installation folder so you can actually load in the vehicle.
+Or you can import a full vehicle! Initially, this requires you need to extract the JBeam files and .pc files from BeamNG.drive's game installation folder so you can actually load in the vehicle.
 
 1. Run the jbeam_pc_files_extractor.bat script (make sure Python is installed) to extract the .jbeam files and .pc files from the BeamNG.drive's installation folder. You'll be prompted to choose the *\content\vehicles* folder located in the game installation folder (e.g. *C:\Program Files (x86)\Steam\steamapps\common\BeamNG.drive\content\vehicles*). Then choose the folder to export the files to, and you can pick any folder.
     ![](usage_extractor_1.png)
@@ -81,6 +79,15 @@ Or you can import a full vehicle! This requires you need to extract the JBeam fi
 3. Wait a few seconds and the vehicle will be imported!
 
     ![](usage_imported_vehicle.png)
+
+<br>
+
+#### After Importing
+With the JBeam imported, you should see Blender meshes that represent the JBeam structures. The vertices are the JBeam nodes, the **green** edges are the JBeam beams (black edges are just part of a triangle/quad and aren't JBeam beams), and the faces are the JBeam triangles/quads. When you click on a JBeam part, you should see node names appear next to the vertices/nodes (if Toggle Node IDs Text is on, on by default). **From now on, I will only speak in JBeam terms (nodes, beams, triangles, quads, etc.)**.
+
+![](usage_vehicle_selected.png)
+
+We are ready to start editing the JBeam parts! For the most part, if you know how to use Blender, editing a JBeam part is just like editing a regular mesh. For example, moving a node is exactly the same as moving a regular vertex. The same applies for adding and deleting a node as well, although renaming a node is something unique to JBeam.
 
 <br>
 
