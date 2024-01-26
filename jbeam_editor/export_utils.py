@@ -18,11 +18,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import copy
+from copy import deepcopy
 import ctypes
-import mathutils
+from mathutils import Vector
 import sys
 import traceback
+from typing import Callable
 
 import bpy
 import numpy as np
@@ -30,12 +31,12 @@ import numpy as np
 import bmesh
 
 from . import constants
-from . import sjsonast
-from . import utils
+from .sjsonast import ASTNode, parse as sjsonast_parse, stringify_nodes as sjsonast_stringify_nodes
+from .utils import sign, sjson_decode
 from . import text_editor
 
-from .jbeam import expression_parser
-from .jbeam import utils as jbeam_utils
+from .jbeam.expression_parser import add_offset_expr
+from .jbeam.utils import Metadata
 
 
 INDENT = ' ' * 4
@@ -153,9 +154,9 @@ def add_jbeam_setup(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_se
                 break
 
         node_after_entry.value = wscs[:k] if nl_found else wscs
-        node_2_after_entry = sjsonast.ASTNode('wsc', wscs[k:]) if nl_found else None
+        node_2_after_entry = ASTNode('wsc', wscs[k:]) if nl_found else None
     else:
-        node_after_entry = sjsonast.ASTNode('wsc', '')
+        node_after_entry = ASTNode('wsc', '')
         ast_nodes.insert(i, node_after_entry)
     i += 1
 
@@ -178,19 +179,19 @@ def add_jbeam_nodes(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_se
             node_after_entry.value += NL_TWO_INDENT
             node_after_entry = None
         else:
-            ast_nodes.insert(i + 0, sjsonast.ASTNode('wsc', NL_TWO_INDENT))
+            ast_nodes.insert(i + 0, ASTNode('wsc', NL_TWO_INDENT))
             i += 1
 
-        ast_nodes.insert(i + 0, sjsonast.ASTNode('['))
-        ast_nodes.insert(i + 1, sjsonast.ASTNode('"', node_id))
-        ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ', '))
-        ast_nodes.insert(i + 3, sjsonast.ASTNode('number', node_pos[0], precision=get_float_precision(node_pos[0])))
-        ast_nodes.insert(i + 4, sjsonast.ASTNode('wsc', ', '))
-        ast_nodes.insert(i + 5, sjsonast.ASTNode('number', node_pos[1], precision=get_float_precision(node_pos[1])))
-        ast_nodes.insert(i + 6, sjsonast.ASTNode('wsc', ', '))
-        ast_nodes.insert(i + 7, sjsonast.ASTNode('number', node_pos[2], precision=get_float_precision(node_pos[2])))
-        ast_nodes.insert(i + 8, sjsonast.ASTNode(']'))
-        ast_nodes.insert(i + 9, sjsonast.ASTNode('wsc', ','))
+        ast_nodes.insert(i + 0, ASTNode('['))
+        ast_nodes.insert(i + 1, ASTNode('"', node_id))
+        ast_nodes.insert(i + 2, ASTNode('wsc', ', '))
+        ast_nodes.insert(i + 3, ASTNode('number', node_pos[0], precision=get_float_precision(node_pos[0])))
+        ast_nodes.insert(i + 4, ASTNode('wsc', ', '))
+        ast_nodes.insert(i + 5, ASTNode('number', node_pos[1], precision=get_float_precision(node_pos[1])))
+        ast_nodes.insert(i + 6, ASTNode('wsc', ', '))
+        ast_nodes.insert(i + 7, ASTNode('number', node_pos[2], precision=get_float_precision(node_pos[2])))
+        ast_nodes.insert(i + 8, ASTNode(']'))
+        ast_nodes.insert(i + 9, ASTNode('wsc', ','))
         i += 10
 
     # Add modified original last WSCS back to end of section
@@ -212,15 +213,15 @@ def add_jbeam_beams(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_se
             node_after_entry.value += NL_TWO_INDENT
             node_after_entry = None
         else:
-            ast_nodes.insert(i + 0, sjsonast.ASTNode('wsc', NL_TWO_INDENT))
+            ast_nodes.insert(i + 0, ASTNode('wsc', NL_TWO_INDENT))
             i += 1
 
-        ast_nodes.insert(i + 0, sjsonast.ASTNode('['))
-        ast_nodes.insert(i + 1, sjsonast.ASTNode('"', node_id_1))
-        ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ','))
-        ast_nodes.insert(i + 3, sjsonast.ASTNode('"', node_id_2))
-        ast_nodes.insert(i + 4, sjsonast.ASTNode(']'))
-        ast_nodes.insert(i + 5, sjsonast.ASTNode('wsc', ','))
+        ast_nodes.insert(i + 0, ASTNode('['))
+        ast_nodes.insert(i + 1, ASTNode('"', node_id_1))
+        ast_nodes.insert(i + 2, ASTNode('wsc', ','))
+        ast_nodes.insert(i + 3, ASTNode('"', node_id_2))
+        ast_nodes.insert(i + 4, ASTNode(']'))
+        ast_nodes.insert(i + 5, ASTNode('wsc', ','))
         i += 6
 
     # Add modified original last WSCS back to end of section
@@ -242,17 +243,17 @@ def add_jbeam_triangles(ast_nodes: list, jbeam_section_start_node_idx: int, jbea
             node_after_entry.value += NL_TWO_INDENT
             node_after_entry = None
         else:
-            ast_nodes.insert(i + 0, sjsonast.ASTNode('wsc', NL_TWO_INDENT))
+            ast_nodes.insert(i + 0, ASTNode('wsc', NL_TWO_INDENT))
             i += 1
 
-        ast_nodes.insert(i + 0, sjsonast.ASTNode('['))
-        ast_nodes.insert(i + 1, sjsonast.ASTNode('"', node_id_1))
-        ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ','))
-        ast_nodes.insert(i + 3, sjsonast.ASTNode('"', node_id_2))
-        ast_nodes.insert(i + 4, sjsonast.ASTNode('wsc', ','))
-        ast_nodes.insert(i + 5, sjsonast.ASTNode('"', node_id_3))
-        ast_nodes.insert(i + 6, sjsonast.ASTNode(']'))
-        ast_nodes.insert(i + 7, sjsonast.ASTNode('wsc', ','))
+        ast_nodes.insert(i + 0, ASTNode('['))
+        ast_nodes.insert(i + 1, ASTNode('"', node_id_1))
+        ast_nodes.insert(i + 2, ASTNode('wsc', ','))
+        ast_nodes.insert(i + 3, ASTNode('"', node_id_2))
+        ast_nodes.insert(i + 4, ASTNode('wsc', ','))
+        ast_nodes.insert(i + 5, ASTNode('"', node_id_3))
+        ast_nodes.insert(i + 6, ASTNode(']'))
+        ast_nodes.insert(i + 7, ASTNode('wsc', ','))
         i += 8
 
     # Add modified original last WSCS back to end of section
@@ -274,19 +275,19 @@ def add_jbeam_quads(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_se
             node_after_entry.value += NL_TWO_INDENT
             node_after_entry = None
         else:
-            ast_nodes.insert(i + 0, sjsonast.ASTNode('wsc', NL_TWO_INDENT))
+            ast_nodes.insert(i + 0, ASTNode('wsc', NL_TWO_INDENT))
             i += 1
 
-        ast_nodes.insert(i + 0, sjsonast.ASTNode('['))
-        ast_nodes.insert(i + 1, sjsonast.ASTNode('"', node_id_1))
-        ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ','))
-        ast_nodes.insert(i + 3, sjsonast.ASTNode('"', node_id_2))
-        ast_nodes.insert(i + 4, sjsonast.ASTNode('wsc', ','))
-        ast_nodes.insert(i + 5, sjsonast.ASTNode('"', node_id_3))
-        ast_nodes.insert(i + 6, sjsonast.ASTNode('wsc', ','))
-        ast_nodes.insert(i + 7, sjsonast.ASTNode('"', node_id_4))
-        ast_nodes.insert(i + 8, sjsonast.ASTNode(']'))
-        ast_nodes.insert(i + 9, sjsonast.ASTNode('wsc', ','))
+        ast_nodes.insert(i + 0, ASTNode('['))
+        ast_nodes.insert(i + 1, ASTNode('"', node_id_1))
+        ast_nodes.insert(i + 2, ASTNode('wsc', ','))
+        ast_nodes.insert(i + 3, ASTNode('"', node_id_2))
+        ast_nodes.insert(i + 4, ASTNode('wsc', ','))
+        ast_nodes.insert(i + 5, ASTNode('"', node_id_3))
+        ast_nodes.insert(i + 6, ASTNode('wsc', ','))
+        ast_nodes.insert(i + 7, ASTNode('"', node_id_4))
+        ast_nodes.insert(i + 8, ASTNode(']'))
+        ast_nodes.insert(i + 9, ASTNode('wsc', ','))
         i += 10
 
     # Add modified original last WSCS back to end of section
@@ -360,23 +361,23 @@ def delete_jbeam_entry(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam
     return i
 
 
-def undo_node_move_offset_and_apply_translation_to_expr(init_node_data: dict, new_pos: mathutils.Vector):
+def undo_node_move_offset_and_apply_translation_to_expr(init_node_data: dict, new_pos: Vector):
     # Undo node move/offset
-    pos_no_offset = mathutils.Vector(init_node_data['posNoOffset'])
-    init_pos = mathutils.Vector(init_node_data['pos'])
-    metadata = init_node_data[jbeam_utils.Metadata]
+    pos_no_offset = Vector(init_node_data['posNoOffset'])
+    init_pos = Vector(init_node_data['pos'])
+    metadata = init_node_data[Metadata]
 
     offset_from_init_pos = new_pos - init_pos
     offset_from_init_pos_tup = offset_from_init_pos.to_tuple()
 
     if 'nodeMove' in init_node_data and init_node_data.get('nodeMove') != '':
-        node_move = mathutils.Vector((init_node_data['nodeMove']['x'], init_node_data['nodeMove']['y'], init_node_data['nodeMove']['z']))
+        node_move = Vector((init_node_data['nodeMove']['x'], init_node_data['nodeMove']['y'], init_node_data['nodeMove']['z']))
         new_pos = new_pos - node_move
 
     if 'nodeOffset' in init_node_data and init_node_data.get('nodeOffset') != '':
         # Undoing nodeOffset.x is an exception as posX is equal to v.posX = v.posX + sign(v.posX) * v.nodeOffset.x
-        node_offset = mathutils.Vector((init_node_data['nodeOffset']['x'], init_node_data['nodeOffset']['y'], init_node_data['nodeOffset']['z']))
-        if utils.sign(pos_no_offset.x + offset_from_init_pos.x) > 0:
+        node_offset = Vector((init_node_data['nodeOffset']['x'], init_node_data['nodeOffset']['y'], init_node_data['nodeOffset']['z']))
+        if sign(pos_no_offset.x + offset_from_init_pos.x) > 0:
             new_pos.x = new_pos.x - node_offset.x
         else:
             new_pos.x = new_pos.x + node_offset.x
@@ -392,7 +393,7 @@ def undo_node_move_offset_and_apply_translation_to_expr(init_node_data: dict, ne
     for i in range(3):
         if pos_expr[i] is not None:
             if to_c_float(offset_from_init_pos_tup[i]) != 0:
-                positions[i] = expression_parser.add_offset_expr(pos_expr[i], to_float_str(offset_from_init_pos_tup[i]))
+                positions[i] = add_offset_expr(pos_expr[i], to_float_str(offset_from_init_pos_tup[i]))
             else:
                 positions[i] = pos_expr[i]
         else:
@@ -618,9 +619,9 @@ def add_jbeam_section(ast_nodes: list, jbeam_section_end_node_idx: int):
                 break
 
         node_after_last_section.value = wscs[:k]
-        node_2_after_last_section = sjsonast.ASTNode('wsc', wscs[k:]) if nl_found else None
+        node_2_after_last_section = ASTNode('wsc', wscs[k:]) if nl_found else None
     else:
-        node_after_last_section = sjsonast.ASTNode('wsc', '')
+        node_after_last_section = ASTNode('wsc', '')
         ast_nodes.insert(i, node_after_last_section)
 
     i += 1
@@ -629,7 +630,7 @@ def add_jbeam_section(ast_nodes: list, jbeam_section_end_node_idx: int):
         node_after_last_section.value += NL_INDENT
         node_after_last_section = None
     else:
-        ast_nodes.insert(i + 0, sjsonast.ASTNode('wsc', NL_INDENT))
+        ast_nodes.insert(i + 0, ASTNode('wsc', NL_INDENT))
         i += 1
 
     return i, node_2_after_last_section
@@ -642,26 +643,26 @@ def add_nodes_section(ast_nodes: list, jbeam_section_end_node_idx: int):
     # "nodes":[
     #     ["id", "posX", "posY", "posZ"],
     # ],
-    ast_nodes.insert(i + 0, sjsonast.ASTNode('"', 'nodes'))
-    ast_nodes.insert(i + 1, sjsonast.ASTNode(':'))
-    ast_nodes.insert(i + 2, sjsonast.ASTNode('['))
+    ast_nodes.insert(i + 0, ASTNode('"', 'nodes'))
+    ast_nodes.insert(i + 1, ASTNode(':'))
+    ast_nodes.insert(i + 2, ASTNode('['))
     jbeam_section_start_node_idx = i + 2
-    ast_nodes.insert(i + 3, sjsonast.ASTNode('wsc', NL_TWO_INDENT))
+    ast_nodes.insert(i + 3, ASTNode('wsc', NL_TWO_INDENT))
     i += 4
-    ast_nodes.insert(i + 0, sjsonast.ASTNode('['))
-    ast_nodes.insert(i + 1, sjsonast.ASTNode('"', 'id'))
-    ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ', '))
-    ast_nodes.insert(i + 3, sjsonast.ASTNode('"', 'posX'))
-    ast_nodes.insert(i + 4, sjsonast.ASTNode('wsc', ', '))
-    ast_nodes.insert(i + 5, sjsonast.ASTNode('"', 'posY'))
-    ast_nodes.insert(i + 6, sjsonast.ASTNode('wsc', ', '))
-    ast_nodes.insert(i + 7, sjsonast.ASTNode('"', 'posZ'))
-    ast_nodes.insert(i + 8, sjsonast.ASTNode(']'))
-    ast_nodes.insert(i + 9, sjsonast.ASTNode('wsc', ',' + NL_INDENT))
+    ast_nodes.insert(i + 0, ASTNode('['))
+    ast_nodes.insert(i + 1, ASTNode('"', 'id'))
+    ast_nodes.insert(i + 2, ASTNode('wsc', ', '))
+    ast_nodes.insert(i + 3, ASTNode('"', 'posX'))
+    ast_nodes.insert(i + 4, ASTNode('wsc', ', '))
+    ast_nodes.insert(i + 5, ASTNode('"', 'posY'))
+    ast_nodes.insert(i + 6, ASTNode('wsc', ', '))
+    ast_nodes.insert(i + 7, ASTNode('"', 'posZ'))
+    ast_nodes.insert(i + 8, ASTNode(']'))
+    ast_nodes.insert(i + 9, ASTNode('wsc', ',' + NL_INDENT))
     i += 10
-    ast_nodes.insert(i + 0, sjsonast.ASTNode(']'))
+    ast_nodes.insert(i + 0, ASTNode(']'))
     jbeam_section_end_node_idx = i + 0
-    ast_nodes.insert(i + 1, sjsonast.ASTNode('wsc', ','))
+    ast_nodes.insert(i + 1, ASTNode('wsc', ','))
     i += 2
 
     # Add modified original last WSCS back to end of section
@@ -678,21 +679,21 @@ def add_beams_section(ast_nodes: list, jbeam_section_end_node_idx: int):
     # "beams":[
     #     ["id1:","id2:"],
     # ],
-    ast_nodes.insert(i + 0, sjsonast.ASTNode('"', 'beams'))
-    ast_nodes.insert(i + 1, sjsonast.ASTNode(':'))
-    ast_nodes.insert(i + 2, sjsonast.ASTNode('['))
+    ast_nodes.insert(i + 0, ASTNode('"', 'beams'))
+    ast_nodes.insert(i + 1, ASTNode(':'))
+    ast_nodes.insert(i + 2, ASTNode('['))
     jbeam_section_start_node_idx = i + 2
-    ast_nodes.insert(i + 3, sjsonast.ASTNode('wsc', NL_TWO_INDENT))
+    ast_nodes.insert(i + 3, ASTNode('wsc', NL_TWO_INDENT))
     i += 4
-    ast_nodes.insert(i + 0, sjsonast.ASTNode('['))
-    ast_nodes.insert(i + 1, sjsonast.ASTNode('"', 'id1:'))
-    ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ','))
-    ast_nodes.insert(i + 3, sjsonast.ASTNode('"', 'id2:'))
-    ast_nodes.insert(i + 4, sjsonast.ASTNode('wsc', ',' + NL_INDENT))
+    ast_nodes.insert(i + 0, ASTNode('['))
+    ast_nodes.insert(i + 1, ASTNode('"', 'id1:'))
+    ast_nodes.insert(i + 2, ASTNode('wsc', ','))
+    ast_nodes.insert(i + 3, ASTNode('"', 'id2:'))
+    ast_nodes.insert(i + 4, ASTNode('wsc', ',' + NL_INDENT))
     i += 5
-    ast_nodes.insert(i + 0, sjsonast.ASTNode(']'))
+    ast_nodes.insert(i + 0, ASTNode(']'))
     jbeam_section_end_node_idx = i + 0
-    ast_nodes.insert(i + 1, sjsonast.ASTNode('wsc', ','))
+    ast_nodes.insert(i + 1, ASTNode('wsc', ','))
     i += 2
 
     # Add modified original last WSCS back to end of section
@@ -709,23 +710,23 @@ def add_triangles_section(ast_nodes: list, jbeam_section_end_node_idx: int):
     # "triangles":[
     #     ["id1:","id2:","id3:"],
     # ],
-    ast_nodes.insert(i + 0, sjsonast.ASTNode('"', 'triangles'))
-    ast_nodes.insert(i + 1, sjsonast.ASTNode(':'))
-    ast_nodes.insert(i + 2, sjsonast.ASTNode('['))
+    ast_nodes.insert(i + 0, ASTNode('"', 'triangles'))
+    ast_nodes.insert(i + 1, ASTNode(':'))
+    ast_nodes.insert(i + 2, ASTNode('['))
     jbeam_section_start_node_idx = i + 2
-    ast_nodes.insert(i + 3, sjsonast.ASTNode('wsc', NL_TWO_INDENT))
+    ast_nodes.insert(i + 3, ASTNode('wsc', NL_TWO_INDENT))
     i += 4
-    ast_nodes.insert(i + 0, sjsonast.ASTNode('['))
-    ast_nodes.insert(i + 1, sjsonast.ASTNode('"', 'id1:'))
-    ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ','))
-    ast_nodes.insert(i + 3, sjsonast.ASTNode('"', 'id2:'))
-    ast_nodes.insert(i + 4, sjsonast.ASTNode('wsc', ','))
-    ast_nodes.insert(i + 5, sjsonast.ASTNode('"', 'id3:'))
-    ast_nodes.insert(i + 6, sjsonast.ASTNode('wsc', ',' + NL_INDENT))
+    ast_nodes.insert(i + 0, ASTNode('['))
+    ast_nodes.insert(i + 1, ASTNode('"', 'id1:'))
+    ast_nodes.insert(i + 2, ASTNode('wsc', ','))
+    ast_nodes.insert(i + 3, ASTNode('"', 'id2:'))
+    ast_nodes.insert(i + 4, ASTNode('wsc', ','))
+    ast_nodes.insert(i + 5, ASTNode('"', 'id3:'))
+    ast_nodes.insert(i + 6, ASTNode('wsc', ',' + NL_INDENT))
     i += 7
-    ast_nodes.insert(i + 0, sjsonast.ASTNode(']'))
+    ast_nodes.insert(i + 0, ASTNode(']'))
     jbeam_section_end_node_idx = i + 0
-    ast_nodes.insert(i + 1, sjsonast.ASTNode('wsc', ','))
+    ast_nodes.insert(i + 1, ASTNode('wsc', ','))
     i += 2
 
     # Add modified original last WSCS back to end of section
@@ -742,26 +743,26 @@ def add_quads_section(ast_nodes: list, jbeam_section_end_node_idx: int):
     # "quads":[
     #     ["id1:","id2:","id3:","id4:"],
     # ],
-    ast_nodes.insert(i + 0, sjsonast.ASTNode('"', 'quads'))
-    ast_nodes.insert(i + 1, sjsonast.ASTNode(':'))
-    ast_nodes.insert(i + 2, sjsonast.ASTNode('['))
+    ast_nodes.insert(i + 0, ASTNode('"', 'quads'))
+    ast_nodes.insert(i + 1, ASTNode(':'))
+    ast_nodes.insert(i + 2, ASTNode('['))
     jbeam_section_start_node_idx = i + 2
-    ast_nodes.insert(i + 3, sjsonast.ASTNode('wsc', NL_TWO_INDENT))
+    ast_nodes.insert(i + 3, ASTNode('wsc', NL_TWO_INDENT))
     i += 4
-    ast_nodes.insert(i + 0, sjsonast.ASTNode('['))
-    ast_nodes.insert(i + 1, sjsonast.ASTNode('"', 'id1:'))
-    ast_nodes.insert(i + 2, sjsonast.ASTNode('wsc', ','))
-    ast_nodes.insert(i + 3, sjsonast.ASTNode('"', 'id2:'))
-    ast_nodes.insert(i + 4, sjsonast.ASTNode('wsc', ','))
-    ast_nodes.insert(i + 5, sjsonast.ASTNode('"', 'id3:'))
-    ast_nodes.insert(i + 6, sjsonast.ASTNode('wsc', ','))
-    ast_nodes.insert(i + 7, sjsonast.ASTNode('"', 'id4:'))
-    ast_nodes.insert(i + 8, sjsonast.ASTNode(']'))
-    ast_nodes.insert(i + 9, sjsonast.ASTNode('wsc', ',' + NL_INDENT))
+    ast_nodes.insert(i + 0, ASTNode('['))
+    ast_nodes.insert(i + 1, ASTNode('"', 'id1:'))
+    ast_nodes.insert(i + 2, ASTNode('wsc', ','))
+    ast_nodes.insert(i + 3, ASTNode('"', 'id2:'))
+    ast_nodes.insert(i + 4, ASTNode('wsc', ','))
+    ast_nodes.insert(i + 5, ASTNode('"', 'id3:'))
+    ast_nodes.insert(i + 6, ASTNode('wsc', ','))
+    ast_nodes.insert(i + 7, ASTNode('"', 'id4:'))
+    ast_nodes.insert(i + 8, ASTNode(']'))
+    ast_nodes.insert(i + 9, ASTNode('wsc', ',' + NL_INDENT))
     i += 10
-    ast_nodes.insert(i + 0, sjsonast.ASTNode(']'))
+    ast_nodes.insert(i + 0, ASTNode(']'))
     jbeam_section_end_node_idx = i + 0
-    ast_nodes.insert(i + 1, sjsonast.ASTNode('wsc', ','))
+    ast_nodes.insert(i + 1, ASTNode('wsc', ','))
     i += 2
 
     # Add modified original last WSCS back to end of section
@@ -773,12 +774,12 @@ def add_quads_section(ast_nodes: list, jbeam_section_end_node_idx: int):
     return i, jbeam_section_start_node_idx, jbeam_section_end_node_idx
 
 
-def go_up_level(stack: list):
-    if len(stack) == 0:
+def go_up_level(stack_size: int, stack_pop: Callable):
+    if stack_size == 0:
         #print('Error! Attempting to go up level when stack size is 0!', file=sys.stderr)
         return None, -1
 
-    stack_head = stack.pop()
+    stack_head = stack_pop()
     in_dict = stack_head[1]
     pos_in_arr = stack_head[0] + 1 if not in_dict else 0
     return in_dict, pos_in_arr
@@ -792,6 +793,8 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
     # Traverse AST nodes and update them from SJSON data, add and delete jbeam definitions
 
     stack = []
+    stack_append = stack.append
+    stack_pop = stack.pop
     in_dict = True
     pos_in_arr = 0
     temp_dict_key = None
@@ -812,7 +815,7 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
 
     i = 0
     while i < len(ast_nodes):
-        node: sjsonast.ASTNode = ast_nodes[i]
+        node: ASTNode = ast_nodes[i]
         node_type = node.data_type
         if node_type == 'wsc':
             i += 1
@@ -825,7 +828,7 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
         if in_dict: # In dictionary object
             if node_type in ('{', '['): # Going down a level
                 if dict_key is not None:
-                    stack.append((dict_key, in_dict))
+                    stack_append((dict_key, in_dict))
                     in_dict = node_type == '{'
                 else:
                     if len(stack) > 0: # Ignore outer most dictionary
@@ -836,7 +839,7 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                 dict_key = None
 
             elif node_type in ('}', ']'): # Going up a level
-                in_dict, pos_in_arr = go_up_level(stack)
+                in_dict, pos_in_arr = go_up_level(prev_stack_size, stack_pop)
 
             else: # Defining key value pair
                 if temp_dict_key is None:
@@ -865,14 +868,14 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
 
         else: # In array object
             if node_type in ('{', '['): # Going down a level
-                stack.append((pos_in_arr, in_dict))
+                stack_append((pos_in_arr, in_dict))
                 in_dict = node_type == '{'
                 pos_in_arr = 0
                 temp_dict_key = None
                 dict_key = None
 
             elif node_type in ('}', ']'): # Going up a level
-                in_dict, pos_in_arr = go_up_level(stack)
+                in_dict, pos_in_arr = go_up_level(prev_stack_size, stack_pop)
 
             elif node_type not in ('}', ']'):
                 # Value definition
@@ -1067,13 +1070,13 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, 
     if jbeam_file_str is None:
         print(f"File doesn't exist! {jbeam_filepath}", file=sys.stderr)
         return
-    jbeam_file_data = utils.sjson_decode(jbeam_file_str, jbeam_filepath)
+    jbeam_file_data = sjson_decode(jbeam_file_str, jbeam_filepath)
     if jbeam_file_data is None:
         return
-    jbeam_file_data_modified = copy.deepcopy(jbeam_file_data)
+    jbeam_file_data_modified = deepcopy(jbeam_file_data)
 
     # The imported jbeam data is used to build an AST from
-    ast_data = sjsonast.parse(jbeam_file_str)
+    ast_data = sjsonast_parse(jbeam_file_str)
     if ast_data is None:
         print("SJSON AST parsing failed!", file=sys.stderr)
         return
@@ -1126,7 +1129,7 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, 
                          beams_to_add, beams_to_delete,
                          tris_to_add, tris_to_delete,
                          quads_to_add, quads_to_delete)
-        out_str_jbeam_data = sjsonast.stringify_nodes(ast_nodes)
+        out_str_jbeam_data = sjsonast_stringify_nodes(ast_nodes)
 
         init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
         node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
