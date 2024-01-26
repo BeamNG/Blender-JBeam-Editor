@@ -20,14 +20,16 @@
 
 from _json import scanstring
 
-import re
+from re import compile as re_compile, match as re_match
+from typing import Callable
 
-parse_num_re = re.compile(r'^[+-]?\d+\.?\d*[eE]?[+-]?\d*')
+parse_num_re = re_compile(r'^[+-]?\d+\.?\d*[eE]?[+-]?\d*')
 
 _str: str
 _len_str: int
 _pos: int
 _nodes: list
+_nodes_append: Callable
 
 _peek_table: dict
 
@@ -47,7 +49,7 @@ class ASTNode:
 
 def _add_node(c):
     global _pos
-    _nodes.append(ASTNode(c))
+    _nodes_append(ASTNode(c))
     _pos += len(c)
 
 
@@ -65,7 +67,7 @@ def _parse_comment(wscs):
             if c == '\n':
                 newline = '\n'
                 break
-            elif c == '\r' and next_char == '\n':
+            if c == '\r' and next_char == '\n':
                 _pos += 1
                 newline = '\r\n'
                 break
@@ -106,7 +108,7 @@ def _add_wsc_comment_node(c):
             else:
                 break
 
-    _nodes.append(ASTNode('wsc', wscs))
+    _nodes_append(ASTNode('wsc', wscs))
 
 
 def _add_comment_wsc_node(c):
@@ -117,7 +119,7 @@ def _add_comment_wsc_node(c):
 
     while _pos < _len_str:
         c = _str[_pos]
-        if c in (' ', '\t', '\n', '\r', ',', ''):
+        if c in (' ', '\t', '\n', '\r', ','):
             wscs += c
             _pos += 1
         else:
@@ -128,24 +130,20 @@ def _add_comment_wsc_node(c):
             else:
                 break
 
-    _nodes.append(ASTNode('wsc', wscs))
+    _nodes_append(ASTNode('wsc', wscs))
 
 
 def _add_true_node(c):
     global _pos
-    s = _str
-    si = _pos
-    if s[si+1] == 'r' and s[si+2] == 'u' and s[si+3] == 'e':
-        _nodes.append(ASTNode('bool', True))
+    if _str[_pos+1] == 'r' and _str[_pos+2] == 'u' and _str[_pos+3] == 'e':
+        _nodes_append(ASTNode('bool', True))
         _pos += 4
 
 
 def _add_false_node(c):
     global _pos
-    s = _str
-    si = _pos
-    if s[si+1] == 'a' and s[si+2] == 'l' and s[si+3] == 's' and s[si+4] == 'e':
-        _nodes.append(ASTNode('bool', False))
+    if _str[_pos+1] == 'a' and _str[_pos+2] == 'l' and _str[_pos+3] == 's' and _str[_pos+4] == 'e':
+        _nodes_append(ASTNode('bool', False))
         _pos += 5
 
 
@@ -153,17 +151,17 @@ def _parse_string(c):
     global _pos
     # scanstring implemented as a C function for fast string parsing
     res, _pos = scanstring(_str, _pos + 1, False)
-    _nodes.append(ASTNode(c, res))
+    _nodes_append(ASTNode(c, res))
 
 
 def _parse_number(c):
     global _pos
-    re_match = re.match(parse_num_re, _str[_pos:])
+    m = re_match(parse_num_re, _str[_pos:])
     num_str = None
     num = None
 
-    if re_match:
-        num_str = re_match.group()
+    if m:
+        num_str = m.group()
         try:
             num = float(num_str)
         except ValueError:
@@ -182,13 +180,13 @@ def _parse_number(c):
     if num_str[0] == '+':
         node.prefix_plus = True
     node.add_post_fix_dot = num_str[-1] == '.'
-    _nodes.append(node)
+    _nodes_append(node)
 
 
 def _parse_literal(c):
     global _pos
     print('using fallback literal: ' + c + ' at position ' + str(_pos))
-    _nodes.append(ASTNode('literal', c))
+    _nodes_append(ASTNode('literal', c))
     _pos += 1
 
 
@@ -196,12 +194,8 @@ def _parse():
     while True:
         if _pos >= _len_str:
             return
-        pos_saved = _pos
         c = _str[_pos]
         _peek_table.get(c, _parse_literal)(c)
-
-        if pos_saved == _pos:
-            _parse_literal(c)
 
 
 def parse(s):
@@ -209,11 +203,13 @@ def parse(s):
     global _len_str
     global _pos
     global _nodes
+    global _nodes_append
 
     _str = s
     _len_str = len(s)
     _pos = 0
     _nodes = []
+    _nodes_append = _nodes.append
 
     _parse()
 
@@ -229,7 +225,7 @@ def parse(s):
 
 def calculate_char_positions(nodes):
     pos = 0
-    for i, node in enumerate(nodes):
+    for node in nodes:
         node_type = node.data_type
         chars_len = 0
 
@@ -257,7 +253,7 @@ def calculate_char_positions(nodes):
 
 def stringify_nodes(nodes):
     res = ''
-    for i, node in enumerate(nodes):
+    for node in nodes:
         node_type = node.data_type
 
         if node_type in ('wsc', 'literal'):
