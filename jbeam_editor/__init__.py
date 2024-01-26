@@ -212,13 +212,24 @@ class JBEAM_EDITOR_OT_add_beam_tri_quad(bpy.types.Operator):
         obj = context.active_object
         obj_data = obj.data
         bm = bmesh.from_edit_mesh(obj_data)
+        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
+        is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
 
         export = False
 
         len_selected_verts = len(selected_nodes)
+
+        new_verts = []
+        for node in selected_nodes:
+            v, node_id = node[0], node[1]
+            new_v = bm.verts.new(v.co)
+            new_v[init_node_id_layer] = bytes(node_id, 'utf-8')
+            new_v[is_fake_layer] = 1
+            new_verts.append(new_v)
+
         if len_selected_verts == 2:
             beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
-            e = bm.edges.new((x[0] for x in selected_nodes))
+            e = bm.edges.new(new_verts)
             e[beam_indices_layer] = bytes('-1', 'utf-8')
             if obj.mode != 'EDIT':
                 bm.to_mesh(obj_data)
@@ -226,7 +237,7 @@ class JBEAM_EDITOR_OT_add_beam_tri_quad(bpy.types.Operator):
 
         elif len_selected_verts in (3,4):
             face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
-            f = bm.faces.new((x[0] for x in selected_nodes))
+            f = bm.faces.new(new_verts)
             f[face_idx_layer] = -1
             if obj.mode != 'EDIT':
                 bm.to_mesh(obj_data)
