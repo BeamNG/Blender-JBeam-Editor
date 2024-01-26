@@ -87,6 +87,11 @@ With the JBeam imported, you should see Blender meshes that represent the JBeam 
 
 ![](usage_vehicle_selected.png)
 
+One more step before moving on is to add a *Text Editor* view. Open it by placing your cursor on the top right hand corner of the viewport until you see your cursor turn into a '+' symbol and then LMB drag to the left and you should see a 2nd viewport. And then click on the top left button in that viewport that looks like a "grid and a circle" and click on *Text Editor*. Afterwards the text editor may appear blank. Just click on the JBeam part and the text editor should open the JBeam file that the part originates from.
+
+![](opening_text_editor.gif)
+
+
 We are ready to start editing the JBeam parts! For the most part, if you know how to use Blender, editing a JBeam part is just like editing a regular mesh. For example, moving a node is exactly the same as moving a regular vertex. The same applies for adding and deleting a node as well, although renaming a node is something unique to JBeam.
 
 The rest of the instructions below will be using the *Square Donut* JBeam part and please have the JBeam part selected and be in *Edit Mode*.
