@@ -1,27 +1,25 @@
 ## Blender JBeam Editor User Documentation
 
 ### Introduction
-This Blender plugin allows you to create JBeam parts from scratch, import existing JBeam parts, modify them, and export them to a new or existing JBeam file, all within Blender, requiring **no** copying and pasting of JBeam code! This tutorial will teach you how to use it.
+This Blender plugin allows you to import existing JBeam parts or whole vehicles, modify them with Blender's advanced modelling tools, and export them! This tutorial will teach you how to use it.
 
 ---
 
-**Notice:**
-This plugin can currently only create and edit **nodes!** Full editing capabilities such as beams and triangles are still a work in progress.
-
 ### JBeam Editor Features
 
-* Create JBeam from scratch
 * Import JBeam files
-* Move nodes
-* Rename nodes
-* Add/delete nodes
+* Import Full Vehicle (.pc file)
+* Create JBeam from scratch (on hold)
+* Move/rename/add/delete nodes
+* Add/delete beams, triangles, and quads
 * Undo/redo changes
-* Export changes directly to JBeam file
+* Live updates reflected in Blender text editor
+* Export changes directly to disk
 
 ---
 
 ### Prerequisites
-* Blender 3.6
+* Blender 4.0
     * Download and install from the official site https://www.blender.org/
 * Blender JBeam Editor
     * Download from the *GitHub Releases* page https://github.com/BeamNG/Blender-JBeam-Editor/releases or build the plugin yourself from the source code
@@ -29,7 +27,7 @@ This plugin can currently only create and edit **nodes!** Full editing capabilit
 ---
 
 ### Plugin Installation
-1. Open Blender 3.6
+1. Open Blender 4.0
 2. On the upper left hand corner, click on *Edit* > *Preferences...*
 
     ![](installation_1.png)
@@ -63,29 +61,6 @@ The very first thing to do is import your JBeam part in order to actually edit i
     ![](usage_imported.png)
 
 We are ready to start editing JBeam parts! For the most part, if you know how to use Blender, editing a JBeam part is just like editing a regular mesh. For example, moving a node is exactly the same as moving a regular vertex. The same applies for adding and deleting a node as well, although renaming a node is something unique to JBeam.
-
-<br>
-
-#### Create Part From Scratch
-Another way to edit JBeam parts is to actually create them from scratch!
-
-1. Select a regular mesh you want to turn into a JBeam part in *Object Mode* (default mode) through the dropdown menu in the upper left hand corner.
-
-    ![](scratch_1.png)
-
-2. On the right hand side of the 3D Viewport right next to the 3D axes arrows, click on the little arrow pointing to the left.
-
-    ![](scratch_2.png)
-
-3. Several tabs will pop out such as *Item*, *Tool*, *View*, *JBeam*. Click on the *JBeam* tab and a UI will pop up showing you the JBeam part selected and allows you to convert the mesh into a "JBeam mesh/part". Click on the *Convert to JBeam Mesh* button.
-
-    ![](scratch_3.png)
-
-4. The cube mesh is now a "JBeam mesh/part" which allows you to edit it as a JBeam part and export it to a JBeam file. To confirm, you should see node names displayed on top of the JBeam part.
-
-    ![](scratch_4.png)
-
-The rest of the tutorial uses the "Square Donut" JBeam part but can be followed along using this cube.
 
 <br>
 
@@ -151,12 +126,51 @@ And again, deleting a node is just like deleting a regular mesh vertex. I'll sho
 
 <br>
 
+#### Adding a Beam
+There are two ways to add a beam. Assuming you've already selected the part and are in *Edit Mode*,
+
+The first way is:
+1. Click on two nodes
+2. Press *F*
+
+The second way allows you to add multiple beams per pair of nodes:
+1. Click on two nodes
+2. In the JBeam UI tab to the right of the viewport, click on *Add Beam*
+
+
+#### Deleting a Beam
+Deleting a beam is pretty straight forward. Assuming you've already selected the part and are in *Edit Mode*:
+
+1. Switch into *Edge select* mode
+2. Click on the beam you want to delete (beams are highlighted in green)
+3. Press the *del* key and in the pop up click *Only Edges & Faces*
+
+#### Adding a Triangle/Quad
+There are two ways to add a triangle/quad. Assuming you've already selected the part and are in *Edit Mode*,
+
+The first way is:
+1. Click on three/four nodes
+2. Press *F*
+
+The second way allows you to add multiple triangles/quads per set of nodes:
+1. Click on three/four nodes
+2. In the JBeam UI tab to the right of the viewport, click on *Add Triangle* / *Add Quad*
+
+
+#### Deleting a Triangle/Quad
+And deleting a triangle/quad is also pretty straight forward. Assuming you've already selected the part and are in *Edit Mode*:
+
+1. Switch into *Face select* mode
+2. Click on the triangle/quad you want to delete
+3. Press the *del* key and in the pop up click *Only Edges & Faces*
+
+
 #### Exporting a JBeam Part
-1. When you want to export, select the JBeam part in *Object Mode*, *File* > *Export* > *JBeam File* and export to a file (recommended to export back to imported JBeam file).
+1. When you want to export, select the JBeam part in *Object Mode*, and in the top menu bar *File* > *Export* > *Selected JBeam Parts(s)*.
 
    ![](export_1.png)
 
-3. The exported JBeam file should be updated with minimal changes and no copying and pasting required :)
+2. The JBeam file the part originated from will be exported to. And the file should be updated with minimal changes and no copying and pasting required :)
 
     ![](export_before_after.png)
     ![](export_diff.png)
