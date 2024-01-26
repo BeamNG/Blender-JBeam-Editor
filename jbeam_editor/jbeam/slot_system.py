@@ -20,8 +20,8 @@
 
 import sys
 
-from . import io as jbeam_io
-from .. import utils
+from .io import get_part
+from ..utils import row_dict_deepcopy, ipairs, dict_array_size
 
 
 def unify_parts(target: dict[str, dict|list], source: dict[str, dict|list], level: int, slot_options: dict, part_path: str, slot: dict):
@@ -36,7 +36,7 @@ def unify_parts(target: dict[str, dict|list], source: dict[str, dict|list], leve
 
             # Care about the slot options if we are first
             if isinstance(section, list):
-                local_slot_options = utils.row_dict_deepcopy(slot_options) if slot_options is not None else {}
+                local_slot_options = row_dict_deepcopy(slot_options) if slot_options is not None else {}
                 local_slot_options['partOrigin'] = source['partName']
                 target[section_key].insert(1, local_slot_options)
                 # Now we need to negate the slot options out again
@@ -56,14 +56,14 @@ def unify_parts(target: dict[str, dict|list], source: dict[str, dict|list], leve
                         if isinstance(target[section_key], list):
                             target[section_key].append(v3)
                         else:
-                            target[section_key][utils.dict_array_size(target[section_key])] = v3
+                            target[section_key][dict_array_size(target[section_key])] = v3
                     else:
-                        local_slot_options = utils.row_dict_deepcopy(slot_options) if slot_options is not None else {}
+                        local_slot_options = row_dict_deepcopy(slot_options) if slot_options is not None else {}
                         local_slot_options['partOrigin'] = source['partName']
                         if isinstance(target[section_key], list):
                             target[section_key].append(local_slot_options)
                         else:
-                            target[section_key][utils.dict_array_size(target[section_key])] = local_slot_options
+                            target[section_key][dict_array_size(target[section_key])] = local_slot_options
                 elif isinstance(target[section_key], dict):
                     # It's a key-value pair, check how to proceed with merging potentially existing values
                     # Check if magic $ appears in the KEY, if the new value is a number (for example "$+MyFoo": 42)
@@ -108,7 +108,7 @@ def unify_parts(target: dict[str, dict|list], source: dict[str, dict|list], leve
                 if isinstance(target[section_key], list):
                     target[section_key].append(slot_option_reset)
                 else:
-                    target[section_key][utils.dict_array_size(target[section_key])] = slot_option_reset
+                    target[section_key][dict_array_size(target[section_key])] = slot_option_reset
         else:
             # Just overwrite any basic data
             if section_key not in ('slotType', 'partName'):
@@ -121,14 +121,14 @@ def fill_slots_rec(io_ctx: dict, user_part_config: dict, current_part: dict, lev
         return
 
     if 'slots' in current_part:
-        for _, slot in utils.ipairs(current_part['slots']):
-            slot_options = utils.row_dict_deepcopy(_slot_options) if _slot_options is not None else {}
+        for _, slot in ipairs(current_part['slots']):
+            slot_options = row_dict_deepcopy(_slot_options) if _slot_options is not None else {}
             # the options are only valid for this hierarchy.
             # if we do not clone/deepcopy it, the childs will leak options to the parents
 
             slot_id = slot['name'] if 'name' in slot else slot.get('type')
 
-            slot_options.update(utils.row_dict_deepcopy(slot))
+            slot_options.update(row_dict_deepcopy(slot))
             # remove the slot table from the options
             slot_options.pop('name', None)
             slot_options.pop('type', None)
@@ -157,7 +157,7 @@ def fill_slots_rec(io_ctx: dict, user_part_config: dict, current_part: dict, lev
             chosen_part_name = None
             if user_part_name is not None:
                 chosen_part_name = user_part_name
-                chosen_part, jbeam_filename = jbeam_io.get_part(io_ctx, chosen_part_name)
+                chosen_part, jbeam_filename = get_part(io_ctx, chosen_part_name)
                 if chosen_part is None:
                     print(f'slot "{slot["type"]}" reset to default part "{slot.get("default")}" as the wished part "{chosen_part_name}" was not found', file=sys.stderr)
                 else:
@@ -170,9 +170,8 @@ def fill_slots_rec(io_ctx: dict, user_part_config: dict, current_part: dict, lev
                 if slot['default'] == '':
                     chosen_parts[slot_id] = ''
                     continue
-                else:
-                    chosen_part_name = slot['default']
-                    chosen_part, jbeam_filename = jbeam_io.get_part(io_ctx, chosen_part_name)
+                chosen_part_name = slot['default']
+                chosen_part, jbeam_filename = get_part(io_ctx, chosen_part_name)
 
             if chosen_part is not None:
                 if chosen_part.get('slotType') != slot.get('type'):
@@ -208,7 +207,7 @@ def find_parts(io_ctx: dict, vehicle_config: dict):
     chosen_parts = {}
     active_parts_orig = {}  # key = partname, value = part deep-copied in the original state
 
-    root_part, jbeam_filename = jbeam_io.get_part(io_ctx, vehicle_config['mainPartName'])
+    root_part, jbeam_filename = get_part(io_ctx, vehicle_config['mainPartName'])
     if not root_part:
         print("main slot not found, unable to spawn", file=sys.stderr)
         return None, None, None, None
