@@ -91,8 +91,9 @@ One more step before moving on is to add a *Text Editor* view. Open it by placin
 
 ![](opening_text_editor.gif)
 
+The *Text Editor* allows you to view the changes to the JBeam file after modifying the Blender mesh in realtime and also allows you to modify it to view the changes to the Blender mesh in realtime as well!
 
-We are ready to start editing the JBeam parts! For the most part, if you know how to use Blender, editing a JBeam part is just like editing a regular mesh. For example, moving a node is exactly the same as moving a regular vertex. The same applies for adding and deleting a node as well, although renaming a node is something unique to JBeam.
+We are now ready to start editing the JBeam parts! For the most part, if you know how to use Blender, editing a JBeam part is just like editing a regular mesh. For example, moving a node is exactly the same as moving a regular vertex. The same applies for adding and deleting a node as well, although renaming a node is something unique to JBeam.
 
 The rest of the instructions below will be using the *Square Donut* JBeam part and please have the JBeam part selected and be in *Edit Mode*.
 
