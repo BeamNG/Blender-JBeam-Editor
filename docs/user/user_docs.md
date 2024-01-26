@@ -95,6 +95,11 @@ The rest of the instructions below will be using the *Square Donut* JBeam part a
 
 <br>
 
+#### Undoing/Redoing
+Please use **Ctrl + [ and Ctrl + ]** to undo and redo your changes. **DO NOT** use Ctrl + Z and Ctrl + Shift + Z as Blender's undo system doesn't work well with this plugin and can break things.
+
+<br>
+
 #### Moving a Node
 Moving a node is just like moving a regular mesh vertex. There are multiple ways to move a node, but I'll show you one way to do it using the *Move* tool.
 
@@ -103,7 +108,7 @@ Moving a node is just like moving a regular mesh vertex. There are multiple ways
 
     ![](move_node.png)
 
-That wasn't too bad right? ;) Also you can use Ctrl + [ and Ctrl + ] to undo and redo your changes  to follow along with the next tutorials. **Do not use Ctrl + Z and Ctrl + Shift + Z as Blender's undo system doesn't work well with this plugin.**
+That wasn't too bad right? ;)
 
 <br>
 
