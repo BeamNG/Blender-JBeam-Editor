@@ -196,7 +196,7 @@ def check_open_int_file_for_changes(context: bpy.types.Context, undoing_redoing=
     return file_changed
 
 
-def check_int_files_for_changes(context: bpy.types.Context, filenames: list, undoing_redoing=False):
+def check_int_files_for_changes(context: bpy.types.Context, filenames: list, undoing_redoing=False, reimport=True):
     scene = context.scene
 
     if SCENE_PREV_TEXTS not in scene:
@@ -223,7 +223,8 @@ def check_int_files_for_changes(context: bpy.types.Context, filenames: list, und
 
             scene[SCENE_PREV_TEXTS][short_filename] = curr_file_text
 
-            import_jbeam.on_file_change(context, filename, curr_file_text)
+            if reimport:
+                import_jbeam.on_file_change(context, filename, curr_file_text)
 
             if files_changed_short_names is None:
                 files_changed_short_names = {}
@@ -231,7 +232,7 @@ def check_int_files_for_changes(context: bpy.types.Context, filenames: list, und
             files_changed_short_names[short_filename] = curr_file_text
             files_changed[filename] = curr_file_text
 
-    if files_changed is not None:
+    if reimport and files_changed is not None:
         import_vehicle.on_files_change(context, files_changed)
 
     if not undoing_redoing and files_changed_short_names is not None:
@@ -248,6 +249,11 @@ def check_int_files_for_changes(context: bpy.types.Context, filenames: list, und
         if constants.DEBUG:
             print('len(history_stack)', len(history_stack))
             print('history_stack_idx', history_stack_idx)
+
+
+def check_all_int_files_for_changes(context: bpy.types.Context, undoing_redoing=False, reimport=True):
+    scene = context.scene
+    check_int_files_for_changes(context, scene[SCENE_SHORT_TO_FULL_FILENAME].values(), undoing_redoing, reimport)
 
 
 def on_undo_redo(context: bpy.types.Context, undoing: bool):

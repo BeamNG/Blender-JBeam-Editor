@@ -475,7 +475,7 @@ def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Colle
         traceback.print_exc()
 
 
-def import_vehicle(config_path: str):
+def import_vehicle(context: bpy.types.Context, config_path: str):
     try:
         # Import and process JBeam data
 
@@ -497,6 +497,8 @@ def import_vehicle(config_path: str):
         # Create Blender meshes from JBeam data
         if generate_meshes(vehicle_bundle) is None:
             return {'CANCELLED'}
+
+        text_editor.check_all_int_files_for_changes(context, False, False)
 
         print('Done importing vehicle.')
     except:
@@ -551,5 +553,5 @@ class JBEAM_EDITOR_OT_import_vehicle(Operator, ImportHelper):
 
     def execute(self, context):
         pc_config_path = Path(self.filepath).as_posix()
-        import_vehicle(pc_config_path)
+        import_vehicle(context, pc_config_path)
         return {'FINISHED'}

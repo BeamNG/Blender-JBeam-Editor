@@ -31,6 +31,7 @@ from bpy.types import Operator
 
 from . import constants
 from . import utils
+from . import text_editor
 
 from .jbeam import io as jbeam_io
 from .jbeam import table_schema as jbeam_table_schema
@@ -357,6 +358,8 @@ class JBEAM_EDITOR_OT_choose_jbeam(Operator):
         else:
             import_jbeam_part(context, _jbeam_file_path, _jbeam_file_data, chosen_part)
 
+        #text_editor.check_int_files_for_changes(context, [_jbeam_file_path], False, False)
+
         return {'FINISHED'}
 
     # Show dialog of JBeam parts to choose from after importing JBeam file
@@ -406,6 +409,7 @@ class JBEAM_EDITOR_OT_import_jbeam(Operator, ImportHelper):
         # # Set from unit tests
         if self.set_chosen_part:
             import_jbeam_part(context, _jbeam_file_path, _jbeam_file_data, self.chosen_part)
+            text_editor.check_int_files_for_changes(context, [_jbeam_file_path], False, False)
             return {'FINISHED'}
 
         part_choices = []
