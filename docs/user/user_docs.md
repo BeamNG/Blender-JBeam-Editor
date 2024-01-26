@@ -163,6 +163,8 @@ The second way allows you to add multiple beams per pair of nodes:
 
     ![](add_beam_2.png)
 
+<br>
+
 #### Deleting a Beam
 Deleting a beam is pretty straight forward.
 
@@ -172,6 +174,8 @@ Deleting a beam is pretty straight forward.
 
 2. Click on the beam you want to delete (beams are highlighted in green)
 3. Press the *del* key and in the pop up click *Only Edges & Faces*
+
+<br>
 
 #### Adding a Triangle/Quad
 There are two ways to add a triangle/quad.
@@ -186,6 +190,8 @@ The second way allows you to add multiple triangles/quads per set of nodes:
 
     ![](add_triangle_quad_2.png)
 
+<br>
+
 #### Deleting a Triangle/Quad
 And deleting a triangle/quad is also pretty straight forward.
 
@@ -196,6 +202,7 @@ And deleting a triangle/quad is also pretty straight forward.
 2. Click on the triangle/quad you want to delete
 3. Press the *del* key and in the pop up click *Only Edges & Faces*
 
+<br>
 
 #### Exporting a JBeam Part
 1. When you want to export, select the JBeam part in *Object Mode*, and in the top menu bar *File* > *Export* > *Selected JBeam Parts(s)*.
