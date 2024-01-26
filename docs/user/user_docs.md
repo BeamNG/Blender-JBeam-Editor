@@ -64,6 +64,26 @@ We are ready to start editing JBeam parts! For the most part, if you know how to
 
 <br>
 
+#### Importing a Vehicle to Edit
+Or you can import a full vehicle! This requires you need to extract the JBeam files and .pc files from BeamNG.drive's game installation folder so you can actually load in the vehicle.
+
+1. Run the jbeam_pc_files_extractor.bat script (make sure Python is installed) to extract the .jbeam files and .pc files from the BeamNG.drive's installation folder. You'll be prompted to choose the *\content\vehicles* folder located in the game installation folder (e.g. *C:\Program Files (x86)\Steam\steamapps\common\BeamNG.drive\content\vehicles*). Then choose the folder to export the files to, and you can pick any folder.
+    ![](usage_extractor_1.png)
+    ![](usage_extractor_2.png)
+
+    The resulting files should look like this, for example in the *bastion* folder:
+    ![](usage_extractor_3.png)
+
+2. Now in Blender, on the upper left hand corner, click on *File* > *Import* > *Part Config File (.pc)*, and select the .pc file to import from the exported JBeam/PC files folder.
+
+    ![](usage_import_vehicle.png)
+
+3. Wait a few seconds and the vehicle will be imported!
+
+    ![](usage_imported_vehicle.png)
+
+<br>
+
 #### Moving a Node
 Moving a node is just like moving a regular mesh vertex. There are multiple ways to move a node, but I'll show you one way to do it using the *Move* tool.
 
