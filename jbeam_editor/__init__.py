@@ -26,7 +26,8 @@ bl_info = {
     "blender": (4, 0, 2),
     "location": "File > Import > JBeam File / File > Export > JBeam File",
     "warning": "",
-    "tracker_url": "",
+    "doc_url": "https://github.com/BeamNG/Blender-JBeam-Editor/blob/vehicle_importer/docs/user/user_docs.md",
+    "tracker_url": "https://github.com/BeamNG/Blender-JBeam-Editor/issues",
     "support": "COMMUNITY",
     "category": "Development",
 }
