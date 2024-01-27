@@ -55,7 +55,7 @@ def export(veh_collection: bpy.types.Collection, active_obj: bpy.types.Object):
 
         blender_nodes, nodes_to_add, nodes_to_delete, node_renames = export_utils.get_nodes_add_delete_rename(active_obj, bm, init_nodes_data)
 
-        update_all_parts = affect_node_references and (len(nodes_to_delete) > 0 or len(node_renames) > 0)
+        update_all_parts = True #affect_node_references and (len(nodes_to_delete) > 0 or len(node_renames) > 0)
 
         jbeam_files_to_parts = {}
         for obj in (veh_collection.all_objects[:] if update_all_parts else [active_obj]):
@@ -68,7 +68,7 @@ def export(veh_collection: bpy.types.Collection, active_obj: bpy.types.Object):
         filepaths = []
 
         for jbeam_filepath, parts in jbeam_files_to_parts.items():
-            export_utils.export_file(jbeam_filepath, parts, vdata, blender_nodes, nodes_to_add, nodes_to_delete, node_renames, update_all_parts)
+            export_utils.export_file(jbeam_filepath, parts, vdata, blender_nodes, nodes_to_add, nodes_to_delete, node_renames, affect_node_references)
             filepaths.append(jbeam_filepath)
 
         text_editor.check_int_files_for_changes(context, filepaths)
