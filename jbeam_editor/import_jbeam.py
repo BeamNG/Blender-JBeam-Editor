@@ -358,7 +358,7 @@ class JBEAM_EDITOR_OT_choose_jbeam(Operator):
         else:
             import_jbeam_part(context, _jbeam_file_path, _jbeam_file_data, chosen_part)
 
-        #text_editor.check_int_files_for_changes(context, [_jbeam_file_path], False, False)
+        text_editor.check_int_files_for_changes(context, [_jbeam_file_path], False, False)
 
         return {'FINISHED'}
 
