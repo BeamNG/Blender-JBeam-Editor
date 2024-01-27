@@ -119,13 +119,6 @@ def export_new_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_id_lay
     obj_data[constants.MESH_JBEAM_FILE_PATH] = filepath
 
 
-# Exports by using jbeam file imported to make changes on it:
-# 1. Import original file, parse using an SJSON parser into Python data
-# 2. Get node moves, renames, additions, deletions,
-# 2. Make a clone of the data and modify it with moves and renames
-# 3. Traverse AST and keep track of position in the SJSON data structure and modify AST node values where the data has changed between the two SJSON parsed data
-#    and also add and delete nodes
-# 4. Stringify AST and export to chosen output file
 def export_existing_jbeam(obj: bpy.types.Object):
     try:
         t0 = timeit.default_timer()
