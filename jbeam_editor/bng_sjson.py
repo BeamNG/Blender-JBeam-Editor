@@ -197,7 +197,7 @@ def decode(s: str):
     else:
         result = {}
         key = None
-        while c:
+        while c != 127:
             key, i = _read_key(s, i, c)
             c, i = _skip_white_space(s, i)
             result[key], i = _peek_table[c](s, i)
