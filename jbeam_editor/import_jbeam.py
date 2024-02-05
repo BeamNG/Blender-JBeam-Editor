@@ -50,74 +50,79 @@ def get_vertices_edges_faces(vdata: dict):
     edges = []
     faces = []
 
+    node_index_to_id_append = node_index_to_id.append
+    vertices_append = vertices.append
+    edges_append = edges.append
+    faces_append = faces.append
+
     # Process nodes section
     if 'nodes' in vdata:
         nodes: dict[str, dict] = vdata['nodes']
 
         if 'triangles' in vdata:
             for tri in vdata['triangles']:
-                id1, id2, id3 = tri['id1:'], tri['id2:'], tri['id3:']
-                if id1 in nodes and id2 in nodes and id3 in nodes:
-                    n1, n2, n3 = nodes[id1], nodes[id2], nodes[id3]
+                ids = (tri['id1:'], tri['id2:'], tri['id3:'])
+                if len(set(ids)) == 3 and all(x in nodes for x in ids):
+                    n1, n2, n3 = nodes[ids[0]], nodes[ids[1]], nodes[ids[2]]
 
                     n1_vert_idx = len(node_index_to_id)
-                    node_index_to_id.append(id1)
-                    vertices.append((n1['pos'], True))
+                    node_index_to_id_append(ids[0])
+                    vertices_append((n1['pos'], True))
 
                     n2_vert_idx = len(node_index_to_id)
-                    node_index_to_id.append(id2)
-                    vertices.append((n2['pos'], True))
+                    node_index_to_id_append(ids[1])
+                    vertices_append((n2['pos'], True))
 
                     n3_vert_idx = len(node_index_to_id)
-                    node_index_to_id.append(id3)
-                    vertices.append((n3['pos'], True))
+                    node_index_to_id_append(ids[2])
+                    vertices_append((n3['pos'], True))
 
-                    faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx))
+                    faces_append((n1_vert_idx, n2_vert_idx, n3_vert_idx))
                 else:
-                    faces.append(None)
+                    faces_append(None)
 
         # Translate quads to faces
         if 'quads' in vdata:
             for quad in vdata['quads']:
-                id1, id2, id3, id4 = quad['id1:'], quad['id2:'], quad['id3:'], quad['id4:']
-                if id1 in nodes and id2 in nodes and id3 in nodes and id4 in nodes:
-                    n1, n2, n3, n4 = nodes[id1], nodes[id2], nodes[id3], nodes[id4]
+                ids = (quad['id1:'], quad['id2:'], quad['id3:'], quad['id4:'])
+                if len(set(ids)) == 4 and all(x in nodes for x in ids):
+                    n1, n2, n3, n4 = nodes[ids[0]], nodes[ids[1]], nodes[ids[2]], nodes[ids[3]]
 
                     n1_vert_idx = len(node_index_to_id)
-                    node_index_to_id.append(id1)
-                    vertices.append((n1['pos'], True))
+                    node_index_to_id_append(ids[0])
+                    vertices_append((n1['pos'], True))
 
                     n2_vert_idx = len(node_index_to_id)
-                    node_index_to_id.append(id2)
-                    vertices.append((n2['pos'], True))
+                    node_index_to_id_append(ids[1])
+                    vertices_append((n2['pos'], True))
 
                     n3_vert_idx = len(node_index_to_id)
-                    node_index_to_id.append(id3)
-                    vertices.append((n3['pos'], True))
+                    node_index_to_id_append(ids[2])
+                    vertices_append((n3['pos'], True))
 
                     n4_vert_idx = len(node_index_to_id)
-                    node_index_to_id.append(id4)
-                    vertices.append((n4['pos'], True))
+                    node_index_to_id_append(ids[3])
+                    vertices_append((n4['pos'], True))
 
-                    faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx, n4_vert_idx))
+                    faces_append((n1_vert_idx, n2_vert_idx, n3_vert_idx, n4_vert_idx))
                 else:
-                    faces.append(None)
+                    faces_append(None)
 
         # Translate nodes to vertices
         for i, (node_id, node) in enumerate(nodes.items()):
-            node_index_to_id.append(node_id)
+            node_index_to_id_append(node_id)
             node_id_to_index[node_id] = len(vertices)
-            vertices.append((node['pos'], False))
+            vertices_append((node['pos'], False))
 
         # Translate beams to edges
         if 'beams' in vdata:
             for beam in vdata['beams']:
                 ids = (beam['id1:'], beam['id2:'])
-                if all(x in nodes for x in ids):
+                if len(set(ids)) == 2 and all(x in nodes for x in ids):
                     edge_tup_sorted = tuple(sorted(ids))
-                    edges.append((node_id_to_index[edge_tup_sorted[0]], node_id_to_index[edge_tup_sorted[1]]))
+                    edges_append((node_id_to_index[edge_tup_sorted[0]], node_id_to_index[edge_tup_sorted[1]]))
                 else:
-                    edges.append(None)
+                    edges_append(None)
 
     return vertices, edges, faces, node_index_to_id
 
