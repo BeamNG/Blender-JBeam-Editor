@@ -242,9 +242,6 @@ def import_jbeam_part(context: bpy.types.Context, jbeam_file_path: str, jbeam_fi
 
 
 def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collection, obj: bpy.types.Object, jbeam_file_path: str):
-    # Invalidate cache
-    jbeam_io.jbeam_cache.pop(jbeam_file_path, None)
-
     # Reimport object
     jbeam_file_data = jbeam_io.get_jbeam(jbeam_file_path, True)
     if jbeam_file_data is None:

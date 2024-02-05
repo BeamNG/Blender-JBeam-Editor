@@ -45,11 +45,11 @@ from .jbeam import node_beam as jbeam_node_beam
 import timeit
 
 
-def load_jbeam(vehicle_directories: list[str], vehicle_config: dict, reimporting: bool):
+def load_jbeam(vehicle_directories: list[str], vehicle_config: dict, reimporting_files_changed: dict | None):
     """load all the jbeam and construct the thing in memory"""
     print('Reading JBeam files...')
     t0 = timeit.default_timer()
-    io_ctx = jbeam_io.start_loading(vehicle_directories, vehicle_config, reimporting)
+    io_ctx = jbeam_io.start_loading(vehicle_directories, vehicle_config, reimporting_files_changed)
     if io_ctx is None:
         return None
 
@@ -452,9 +452,6 @@ def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Colle
     try:
         config_path = veh_collection[constants.COLLECTION_PC_FILEPATH]
 
-        for filename, text in jbeam_files.items():
-            jbeam_io.invalidate_cache_for_file(filename)
-
         vehicle_config = build_config(config_path, True)
         if vehicle_config is None:
             return
@@ -463,7 +460,7 @@ def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Colle
         vehicles_dir = Path(vehicle_dir).parent.as_posix()
         vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]
 
-        vehicle_bundle = load_jbeam(vehicle_directories, vehicle_config, True)
+        vehicle_bundle = load_jbeam(vehicle_directories, vehicle_config, jbeam_files)
         if vehicle_bundle is None:
             return
 
@@ -489,7 +486,7 @@ def import_vehicle(context: bpy.types.Context, config_path: str):
         if vehicle_config is None:
             return {'CANCELLED'}
 
-        vehicle_bundle = load_jbeam(vehicle_directories, vehicle_config, False)
+        vehicle_bundle = load_jbeam(vehicle_directories, vehicle_config, None)
 
         if vehicle_bundle is None:
             return {'CANCELLED'}
@@ -511,22 +508,9 @@ def import_vehicle(context: bpy.types.Context, config_path: str):
 def on_files_change(context: bpy.types.Context, files_changed: dict):
     collections = bpy.data.collections
 
-    # Only use jbeam files that are parseable for reimporting vehicle
-    sjson_valid_files_changed = {}
-    for filename, text in files_changed.items():
-        if utils.sjson_decode(text, filename):
-            sjson_valid_files_changed[filename] = text
-
     for collection in collections:
         if collection.get(constants.COLLECTION_VEHICLE_MODEL) is None:
             continue
-
-        changed_files_in_vehicle = {}
-
-        veh_files = collection[constants.COLLECTION_VEH_FILES]
-        for filename, text in sjson_valid_files_changed.items():
-            if filename in veh_files:
-                changed_files_in_vehicle[filename] = text
 
         # import cProfile, pstats, io
         # import pstats
@@ -536,7 +520,7 @@ def on_files_change(context: bpy.types.Context, files_changed: dict):
         #     stats = pstats.Stats(pr)
         #     stats.strip_dirs().sort_stats('cumtime').print_stats()
 
-        reimport_vehicle(context, collection, changed_files_in_vehicle)
+        reimport_vehicle(context, collection, files_changed)
 
 
 class JBEAM_EDITOR_OT_import_vehicle(Operator, ImportHelper):

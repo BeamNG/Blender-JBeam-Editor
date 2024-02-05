@@ -32,8 +32,6 @@ jbeam_cache = {}
 dir_to_files_map: dict[str, list] = {}
 dir_part_to_file_map: dict[str, dict[str, str]] = {}
 dir_slot_to_part_map: dict[str, dict[str, list]] = {}
-dir_part_to_desc_map: dict[str, dict[str, dict]] = {}
-file_part_to_slot_info: dict[str, dict[str, dict]] = {}
 
 file_to_parts_name_map: dict[str, list] = {}
 
@@ -102,10 +100,8 @@ def process_slots_destructive(part: dict, source_filename: str):
     return res
 
 
-def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, reimporting: bool):
-    file_content = None
-
-    if filepath not in jbeam_cache:
+def load_jbeam_file(filepath: str, reimporting: bool, file_changed: bool):
+    if not reimporting or filepath not in jbeam_cache or file_changed:
         # if parts is not None:
         #     # As optimization, only read file and check if file text contains part name before parsing it with SJSON parser
         #     file_text = text_editor.write_from_ext_to_int_file(filepath)
@@ -126,91 +122,80 @@ def load_jbeam_file(directory: str, filepath: str, add_to_cache: bool, reimporti
 
         if file_text is None:
             print(f'Cannot read file: {filepath}', file=sys.stderr)
-            return None
+            return False
 
         file_content = utils.sjson_decode(file_text, filepath)
 
         if file_content is None:
             print(f'Cannot read file: {filepath}', file=sys.stderr)
-            return None
+            return False
 
-        if add_to_cache:
-            jbeam_cache[filepath] = file_content
+        jbeam_cache[filepath] = file_content
 
-    else:
-        file_content = jbeam_cache[filepath]
+        for part_name, part in file_content.items():
+            part['partName'] = part_name
+            slot_info: dict = process_slots_destructive(part, filepath)
 
-    if add_to_cache:
-        if filepath not in file_part_to_slot_info:
-            if not directory in dir_to_files_map:
-                dir_to_files_map[directory] = []
-            dir_to_files_map[directory].append(filepath)
-            file_part_to_slot_info[filepath] = {}
-            file_to_parts_name_map[filepath] = []
+        return True
+    return False
 
-    part_count = 0
+
+def add_jbeam_metadata_to_cache(directory: str, filepath: str):
+    if filepath not in jbeam_cache:
+        return
+    file_content = jbeam_cache[filepath]
+
+    if filepath not in file_to_parts_name_map:
+        if not directory in dir_to_files_map:
+            dir_to_files_map[directory] = []
+        dir_to_files_map[directory].append(filepath)
+        file_to_parts_name_map[filepath] = []
+
     part_name: str
     part: dict
     for part_name, part in file_content.items():
-        part_count += 1
-        part['partName'] = part_name
+        file_to_parts_name_map[filepath].append(part_name)
 
-        if filepath in file_part_to_slot_info and part_name in file_part_to_slot_info[filepath]:
-            slot_info: dict = file_part_to_slot_info[filepath][part_name]
-        else:
-            slot_info: dict = process_slots_destructive(part, filepath)
+        if directory not in dir_part_to_file_map:
+            dir_part_to_file_map[directory] = {}
+            dir_slot_to_part_map[directory] = {}
 
-        if add_to_cache:
-            file_part_to_slot_info[filepath][part_name] = slot_info
-            file_to_parts_name_map[filepath].append(part_name)
+        if not isinstance(part.get('slotType'), str):
+            print(f'Part does not have a slot type. Ignoring: {filepath}', file=sys.stderr)
+            continue
 
-            if directory not in dir_part_to_file_map:
-                dir_part_to_file_map[directory] = {}
-                dir_slot_to_part_map[directory] = {}
-                dir_part_to_desc_map[directory] = {}
+        dir_slot_to_part_map[directory].setdefault(part['slotType'], [])
 
-            if not isinstance(part.get('slotType'), str):
-                print(f'Part does not have a slot type. Ignoring: {filepath}', file=sys.stderr)
-                continue
-
-            dir_slot_to_part_map[directory].setdefault(part['slotType'], [])
-            part_desc = {
-                'description': part['information'].get('name', ''),
-                'authors': part['information'].get('authors', ''),
-                'isAuxiliary': part['information'].get('isAuxiliary'),
-                'slots': slot_info,
-            }
-
-            if part_name in dir_slot_to_part_map[directory][part['slotType']]:
-                if (part_name in dir_part_to_file_map[directory] and len(file_content) > len(jbeam_cache[dir_part_to_file_map[directory][part_name]])):
-                    dir_part_to_file_map[directory][part_name] = filepath
-                    dir_part_to_desc_map[directory][part_name] = part_desc
-                print(f'Duplicate part found: {part_name} from file {filepath}', file=sys.stderr)
-            else:
+        if part_name in dir_slot_to_part_map[directory][part['slotType']]:
+            if (part_name in dir_part_to_file_map[directory] and len(file_content) > len(jbeam_cache[dir_part_to_file_map[directory][part_name]])):
                 dir_part_to_file_map[directory][part_name] = filepath
-                dir_part_to_desc_map[directory][part_name] = part_desc
-                dir_slot_to_part_map[directory][part['slotType']].append(part_name)
-    return part_count
+            print(f'Duplicate part found: {part_name} from file {filepath}', file=sys.stderr)
+        else:
+            dir_part_to_file_map[directory][part_name] = filepath
+            dir_slot_to_part_map[directory][part['slotType']].append(part_name)
 
 
-def start_loading(directories: list[str], vehicle_config: dict, reimporting: bool):
-    slots_to_part: dict = vehicle_config['parts']
-    parts = list(filter(lambda part: part != '', slots_to_part.values()))
-    parts = ['"' + part + '"' for part in slots_to_part.values() if part != '']
-    parts.append('main') # main isn't a part but a slotType, but still find the file with it
+def start_loading(directories: list[str], vehicle_config: dict, reimporting_files_changed: dict | None):
+    # slots_to_part: dict = vehicle_config['parts']
+    # parts = list(filter(lambda part: part != '', slots_to_part.values()))
+    # parts = ['"' + part + '"' for part in slots_to_part.values() if part != '']
+    # parts.append('main') # main isn't a part but a slotType, but still find the file with it
+    is_reimporting = reimporting_files_changed is not None
 
     for directory in directories:
-        if directory not in dir_part_to_file_map:
-            #part_count_total = 0
-            for filepath_obj in Path(directory).rglob('*.jbeam'):
-                filepath = filepath_obj.as_posix()
-                part_count = load_jbeam_file(directory, filepath, True, reimporting)
-                #filepaths.append(filepath)
-                if part_count is None:
-                    return None
-                #if part_count:
-                #    print('parsed file', filepath)
-                #art_count_total += part_count
+        filepaths = [path.as_posix() for path in Path(directory).rglob('*.jbeam')]
+
+        invalidate_cache = False
+        for filepath in filepaths:
+            file_changed = filepath in reimporting_files_changed if is_reimporting else False
+            res = load_jbeam_file(filepath, is_reimporting, file_changed)
+            if res:
+                invalidate_cache_for_file(filepath)
+                invalidate_cache = True
+
+        if invalidate_cache:
+            for filepath in filepaths:
+                add_jbeam_metadata_to_cache(directory, filepath)
 
     return {'dirs': directories}
 
@@ -223,7 +208,7 @@ def get_part(io_ctx: dict, part_name: str | None):
         jbeam_filename = dir_part_to_file_map[directory].get(part_name)
         if jbeam_filename is not None:
             if jbeam_filename not in jbeam_cache:
-                part_count = load_jbeam_file(directory, jbeam_filename, False, True)
+                part_count = load_jbeam_file(jbeam_filename, True, False)
                 print(f'Loaded {part_count} part(s) from file {jbeam_filename}')
             if jbeam_filename in jbeam_cache:
                 return copy.deepcopy(jbeam_cache[jbeam_filename][part_name]), jbeam_filename
@@ -284,21 +269,15 @@ def invalidate_cache_for_file(filepath):
         return False
     directory = match.group(1)
 
-    if filepath in jbeam_cache:
-        del jbeam_cache[filepath]
-
     file_to_parts_name_map.pop(filepath, None)
-    file_part_to_slot_info.pop(filepath, None)
     dir_part_to_file_map.pop(directory, None)
     dir_slot_to_part_map.pop(directory, None)
-    dir_part_to_desc_map.pop(directory, None)
     return True
 
 
 def invalidate_cache_on_new_import(vehicle_dir: str):
     dir_part_to_file_map.pop(vehicle_dir, None)
     dir_slot_to_part_map.pop(vehicle_dir, None)
-    dir_part_to_desc_map.pop(vehicle_dir, None)
 
 '''
 def get_available_parts(io_ctx):
