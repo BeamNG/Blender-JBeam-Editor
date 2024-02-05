@@ -140,13 +140,15 @@ def export_existing_jbeam(obj: bpy.types.Object):
             bm = bmesh.new()
             bm.from_mesh(obj_data)
 
-        blender_nodes, nodes_to_add, nodes_to_delete, node_renames = export_utils.get_nodes_add_delete_rename(obj, bm, init_nodes_data)
+        blender_nodes, nodes_to_add, nodes_to_delete, node_renames, node_moves = export_utils.get_nodes_add_delete_rename(obj, bm, init_nodes_data)
         export_utils.export_file(jbeam_filepath, [obj], part_data, blender_nodes, nodes_to_add, nodes_to_delete, node_renames, affect_node_references)
+        t1 = timeit.default_timer()
+        print('Exporting Time', round(t1 - t0, 2), 's')
 
         text_editor.check_int_files_for_changes(context, [jbeam_filepath])
+        t2 = timeit.default_timer()
+        print('Reimporting Time', round(t2 - t1, 2), 's')
 
-        tf = timeit.default_timer()
-        print('Exporting Time', round(tf - t0, 2), 's')
     except:
         traceback.print_exc()
 

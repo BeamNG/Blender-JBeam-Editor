@@ -53,7 +53,7 @@ def export(veh_collection: bpy.types.Collection, active_obj: bpy.types.Object):
             bm = bmesh.new()
             bm.from_mesh(active_obj_data)
 
-        blender_nodes, nodes_to_add, nodes_to_delete, node_renames = export_utils.get_nodes_add_delete_rename(active_obj, bm, init_nodes_data)
+        blender_nodes, nodes_to_add, nodes_to_delete, node_renames, node_moves = export_utils.get_nodes_add_delete_rename(active_obj, bm, init_nodes_data)
 
         update_all_parts = True #affect_node_references and (len(nodes_to_delete) > 0 or len(node_renames) > 0)
 
@@ -70,11 +70,13 @@ def export(veh_collection: bpy.types.Collection, active_obj: bpy.types.Object):
         for jbeam_filepath, parts in jbeam_files_to_parts.items():
             export_utils.export_file(jbeam_filepath, parts, vdata, blender_nodes, nodes_to_add, nodes_to_delete, node_renames, affect_node_references)
             filepaths.append(jbeam_filepath)
+        t1 = timeit.default_timer()
+        print('Exporting Time', round(t1 - t0, 2), 's')
 
         text_editor.check_int_files_for_changes(context, filepaths)
+        t2 = timeit.default_timer()
+        print('Reimporting Time', round(t2 - t1, 2), 's')
 
-        tf = timeit.default_timer()
-        print('Exporting Time', round(tf - t0, 2), 's')
     except:
         traceback.print_exc()
 

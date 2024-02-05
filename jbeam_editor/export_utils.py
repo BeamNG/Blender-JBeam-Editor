@@ -443,7 +443,7 @@ def set_node_renames_positions(jbeam_file_data_modified: dict, jbeam_part: str, 
 
 
 def get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_nodes_data: dict):
-    nodes_to_add, nodes_to_delete, node_renames = {}, set(), {}
+    nodes_to_add, nodes_to_delete, node_renames, node_moves = {}, set(), {}, set()
 
     init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
     node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
@@ -463,12 +463,17 @@ def get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, in
         init_node_id = v[init_node_id_layer].decode('utf-8')
         node_id = v[node_id_layer].decode('utf-8')
         node_part_origin = v[part_origin_layer].decode('utf-8')
-        pos = obj.matrix_world @ v.co
+        pos: Vector = obj.matrix_world @ v.co
 
         init_node_data = init_nodes_data.get(init_node_id)
         if init_node_data is None:
             nodes_to_add[init_node_id] = pos
             continue
+
+        init_pos = Vector(init_node_data['pos'])
+        pos_diff = pos - init_pos
+        if abs(pos_diff.x) > 0.000001 or abs(pos_diff.y) > 0.000001 or abs(pos_diff.z) > 0.000001:
+            node_moves.add(node_id)
 
         new_pos_tup = undo_node_move_offset_and_apply_translation_to_expr(init_node_data, pos)
 
@@ -485,7 +490,7 @@ def get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, in
         if init_node_id not in blender_nodes:
             nodes_to_delete.add(init_node_id)
 
-    return blender_nodes, nodes_to_add, nodes_to_delete, node_renames
+    return blender_nodes, nodes_to_add, nodes_to_delete, node_renames, node_moves
 
 
 def get_beams_add_remove(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_beams_data: list, jbeam_file_data_modified: dict, jbeam_part: str, nodes_to_delete: set, affect_node_references: bool):
