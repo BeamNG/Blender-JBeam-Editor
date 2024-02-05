@@ -251,28 +251,31 @@ def calculate_char_positions(nodes):
         node.end_pos = pos - 1
 
 
-def stringify_nodes(nodes):
-    res = ''
-    for node in nodes:
-        node_type = node.data_type
+def _stringify_node(node):
+    node_type = node.data_type
 
-        if node_type in ('wsc', 'literal'):
-            res += node.value
-        elif node_type == 'bool':
-            res += node.value and 'true' or 'false'
-        elif node_type == '"':
-            res += '"' + node.value + '"'
-        elif node_type == 'number':
-            num = node.value
-            precision = node.precision
-            if node.prefix_plus:
-                res += '+'
-            res += f'%.{precision}f' % num
-            if node.add_post_fix_dot:
-                res += '.'
-        else:
-            res += node_type
-    return res
+    if node_type in ('wsc', 'literal'):
+        return node.value
+    if node_type == 'bool':
+        return 'true' if node.value else 'false'
+    if node_type == '"':
+        return '"' + node.value + '"'
+    if node_type == 'number':
+        res = ''
+        num = node.value
+        precision = node.precision
+        if node.prefix_plus:
+            res += '+'
+        res += f'%.{precision}f' % num
+        if node.add_post_fix_dot:
+            res += '.'
+        return res
+
+    return node_type
+
+
+def stringify_nodes(nodes):
+    return ''.join(_stringify_node(node) for node in nodes)
 
 
 _peek_table = {
