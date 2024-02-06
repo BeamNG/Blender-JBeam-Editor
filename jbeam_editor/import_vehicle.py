@@ -457,7 +457,7 @@ def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Colle
 
         vehicle_config = build_config(config_path, True)
         if vehicle_config is None:
-            return
+            return False
 
         vehicle_dir = Path(config_path).parent.as_posix()
         vehicles_dir = Path(vehicle_dir).parent.as_posix()
@@ -465,14 +465,16 @@ def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Colle
 
         vehicle_bundle = load_jbeam(vehicle_directories, vehicle_config, jbeam_files)
         if vehicle_bundle is None:
-            return
+            return False
 
         # Create Blender meshes from JBeam data
         _reimport_vehicle(context, veh_collection, vehicle_bundle)
 
         print('Done reimporting vehicle.')
+        return True
     except:
         traceback.print_exc()
+        return False
 
 
 def import_vehicle(context: bpy.types.Context, config_path: str):
@@ -487,25 +489,24 @@ def import_vehicle(context: bpy.types.Context, config_path: str):
 
         vehicle_config = build_config(config_path)
         if vehicle_config is None:
-            return {'CANCELLED'}
+            return False
 
         vehicle_bundle = load_jbeam(vehicle_directories, vehicle_config, None)
 
         if vehicle_bundle is None:
-            return {'CANCELLED'}
+            return False
 
         # Create Blender meshes from JBeam data
         if generate_meshes(vehicle_bundle) is None:
-            return {'CANCELLED'}
+            return False
 
         text_editor.check_all_int_files_for_changes(context, False, False)
 
         print('Done importing vehicle.')
+        return True
     except:
         traceback.print_exc()
-        return {'CANCELLED'}
-
-    return {'FINISHED'}
+        return False
 
 
 def on_files_change(context: bpy.types.Context, files_changed: dict):
