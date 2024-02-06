@@ -24,10 +24,7 @@ from pickle import dumps as pickle_dumps
 from re import match as re_match
 import sys
 
-from .utils import Metadata
-from .utils import ignore_sections
-
-from ..utils import row_dict_deepcopy
+from ..utils import ignore_sections, row_dict_deepcopy, Metadata
 
 # these are defined in C, do not change the values
 NORMALTYPE = 0

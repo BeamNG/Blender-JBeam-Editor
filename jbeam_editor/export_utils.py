@@ -18,7 +18,6 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-from copy import deepcopy
 import ctypes
 from mathutils import Vector
 import sys
@@ -32,12 +31,11 @@ import bmesh
 
 from . import constants
 from .sjsonast import ASTNode, parse as sjsonast_parse, stringify_nodes as sjsonast_stringify_nodes
-from .utils import sign, sjson_decode
+from .utils import sign, sjson_decode, Metadata
 from . import text_editor
 
 from .jbeam import io as jbeam_io
 from .jbeam.expression_parser import add_offset_expr
-from .jbeam.utils import Metadata
 
 
 INDENT = ' ' * 4
@@ -1074,17 +1072,14 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
 
 
 def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, blender_nodes: dict, nodes_to_add: dict, nodes_to_delete: set, node_renames: dict, affect_node_references: bool, parts_to_update: set):
-    #current_jbeam_file_data_str: dict = jbeam_io.get_jbeam(io_ctx, jbeam_filepath, True)
-    #current_jbeam_file_data: dict = jbeam_io.get_jbeam(io_ctx, jbeam_filepath, False)
     jbeam_file_str = text_editor.read_int_file(jbeam_filepath)
     if jbeam_file_str is None:
         print(f"File doesn't exist! {jbeam_filepath}", file=sys.stderr)
         return
     jbeam_file_data, cached_changed = jbeam_io.get_jbeam(jbeam_filepath, True, False)
-    # jbeam_file_data = sjson_decode(jbeam_file_str, jbeam_filepath)
-    if jbeam_file_data is None:
+    jbeam_file_data_modified, cached_changed = jbeam_io.get_jbeam(jbeam_filepath, True, False)
+    if jbeam_file_data is None or jbeam_file_data_modified is None:
         return
-    jbeam_file_data_modified = deepcopy(jbeam_file_data)
 
     # The imported jbeam data is used to build an AST from
     ast_data = sjsonast_parse(jbeam_file_str)

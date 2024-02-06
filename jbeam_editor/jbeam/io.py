@@ -18,14 +18,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import copy
 from pathlib import Path
 import re
 import sys
 
 from . import table_schema as jbeam_table_schema
 
-from .. import utils
+from ..utils import fast_deepcopy, sjson_decode, ipairs
 from .. import text_editor
 
 jbeam_cache = {}
@@ -91,7 +90,7 @@ def process_slots_destructive(part: dict, source_filename: str):
     part['slots'] = new_slots
 
     res = {}
-    for _, slot in utils.ipairs(part['slots']):
+    for _, slot in ipairs(part['slots']):
         res[slot.get('name', slot['type'])] = {
             'type': slot['type'],
             'description': slot['description'],
@@ -125,7 +124,7 @@ def load_jbeam(filepath: str, reimporting: bool, invalidate_cache: bool):
             print(f'Cannot read file: {filepath}', file=sys.stderr)
             return False, False
 
-        file_content = utils.sjson_decode(file_text, filepath)
+        file_content = sjson_decode(file_text, filepath)
 
         if file_content is None:
             print(f'Cannot read file: {filepath}', file=sys.stderr)
@@ -144,7 +143,7 @@ def load_jbeam(filepath: str, reimporting: bool, invalidate_cache: bool):
 def get_jbeam(filepath: str, reimporting: bool, invalidate_cache: bool):
     res, cache_changed = load_jbeam(filepath, reimporting, invalidate_cache)
     if res:
-        return copy.deepcopy(jbeam_cache[filepath]), cache_changed
+        return fast_deepcopy(jbeam_cache[filepath]), cache_changed
     return None, cache_changed
 
 

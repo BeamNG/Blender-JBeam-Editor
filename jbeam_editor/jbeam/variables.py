@@ -24,8 +24,7 @@ import sys
 
 from .expression_parser import parse_safe as expr_parse_safe
 from .table_schema import process_table_with_schema_destructive
-from .utils import Metadata
-from ..utils import row_dict_deepcopy, ipairs, clamp
+from ..utils import fast_deepcopy, row_dict_deepcopy, ipairs, clamp, Metadata
 
 var_re = re_compile(r'(.*)\.(.*)')
 
@@ -222,7 +221,7 @@ def process_parts(root_part: dict, unify_journal: list, vehicle_config: dict):
             slot_vars = {}
         svars = apply_slot_vars(slot_vars, var_stack[id(parent_part)])
 
-        temp = copy.deepcopy(var_stack[id(parent_part)])
+        temp = fast_deepcopy(var_stack[id(parent_part)])
         temp.update(svars)
         svars = temp
 
