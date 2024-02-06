@@ -100,8 +100,9 @@ def process_slots_destructive(part: dict, source_filename: str):
     return res
 
 
-def load_jbeam_file(filepath: str, reimporting: bool, file_changed: bool):
-    if not reimporting or filepath not in jbeam_cache or file_changed:
+# Returns res, cache_changed
+def load_jbeam(filepath: str, reimporting: bool, invalidate_cache: bool):
+    if not reimporting or filepath not in jbeam_cache or invalidate_cache:
         # if parts is not None:
         #     # As optimization, only read file and check if file text contains part name before parsing it with SJSON parser
         #     file_text = text_editor.write_from_ext_to_int_file(filepath)
@@ -122,13 +123,13 @@ def load_jbeam_file(filepath: str, reimporting: bool, file_changed: bool):
 
         if file_text is None:
             print(f'Cannot read file: {filepath}', file=sys.stderr)
-            return False
+            return False, False
 
         file_content = utils.sjson_decode(file_text, filepath)
 
         if file_content is None:
             print(f'Cannot read file: {filepath}', file=sys.stderr)
-            return False
+            return False, False
 
         jbeam_cache[filepath] = file_content
 
@@ -136,8 +137,15 @@ def load_jbeam_file(filepath: str, reimporting: bool, file_changed: bool):
             part['partName'] = part_name
             slot_info: dict = process_slots_destructive(part, filepath)
 
-        return True
-    return False
+        return True, True
+    return True, False
+
+
+def get_jbeam(filepath: str, reimporting: bool, invalidate_cache: bool):
+    res, cache_changed = load_jbeam(filepath, reimporting, invalidate_cache)
+    if res:
+        return copy.deepcopy(jbeam_cache[filepath]), cache_changed
+    return None, cache_changed
 
 
 def add_jbeam_metadata_to_cache(directory: str, filepath: str):
@@ -188,8 +196,8 @@ def start_loading(directories: list[str], vehicle_config: dict, reimporting_file
         invalidate_cache = False
         for filepath in filepaths:
             file_changed = filepath in reimporting_files_changed if is_reimporting else False
-            res = load_jbeam_file(filepath, is_reimporting, file_changed)
-            if res:
+            res, cache_changed = load_jbeam(filepath, is_reimporting, file_changed)
+            if cache_changed:
                 invalidate_cache_for_file(filepath)
                 invalidate_cache = True
 
@@ -207,34 +215,11 @@ def get_part(io_ctx: dict, part_name: str | None):
     for directory in io_ctx['dirs']:
         jbeam_filename = dir_part_to_file_map[directory].get(part_name)
         if jbeam_filename is not None:
-            if jbeam_filename not in jbeam_cache:
-                part_count = load_jbeam_file(jbeam_filename, True, False)
-                print(f'Loaded {part_count} part(s) from file {jbeam_filename}')
-            if jbeam_filename in jbeam_cache:
-                return copy.deepcopy(jbeam_cache[jbeam_filename][part_name]), jbeam_filename
+            content, cache_changed = get_jbeam(jbeam_filename, True, False)
+            if content is not None:
+                return content[part_name], jbeam_filename
 
     return None, None
-
-
-def get_jbeam(filepath: str | None, reimporting: bool):
-    if filepath is None:
-        return None
-
-    if reimporting:
-        file_text = text_editor.read_int_file(filepath)
-    else:
-        file_text = text_editor.write_from_ext_to_int_file(filepath)
-    if file_text is None:
-        print(f'Cannot read file: {filepath}', file=sys.stderr)
-        return None
-
-    file_content = utils.sjson_decode(file_text, filepath)
-    if file_content is None:
-        print(f'Cannot read file: {filepath}', file=sys.stderr)
-        return None
-
-    jbeam_cache[filepath] = file_content
-    return copy.deepcopy(file_content)
 
 
 def is_context_valid(io_ctx):

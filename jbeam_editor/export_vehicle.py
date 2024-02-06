@@ -45,6 +45,7 @@ def export(veh_collection: bpy.types.Collection, active_obj: bpy.types.Object):
         init_nodes_data = vdata.get('nodes')
 
         active_obj_data = active_obj.data
+        jbeam_part = active_obj_data[constants.MESH_JBEAM_PART]
 
         bm = None
         if active_obj.mode == 'EDIT':
@@ -55,21 +56,45 @@ def export(veh_collection: bpy.types.Collection, active_obj: bpy.types.Object):
 
         blender_nodes, nodes_to_add, nodes_to_delete, node_renames, node_moves = export_utils.get_nodes_add_delete_rename(active_obj, bm, init_nodes_data)
 
-        update_all_parts = True #affect_node_references and (len(nodes_to_delete) > 0 or len(node_renames) > 0)
+        parts_to_update = set()
+        if len(nodes_to_add) > 0:
+            parts_to_update.add(jbeam_part)
+        if len(nodes_to_delete) > 0:
+            if affect_node_references:
+                parts_to_update.add(True)
+            else:
+                for node_id in nodes_to_delete:
+                    parts_to_update.add(init_nodes_data[node_id]['partOrigin'])
+        if len(node_renames) > 0:
+            if affect_node_references:
+                parts_to_update.add(True)
+            else:
+                for init_node_id, note_id in node_renames.items():
+                    parts_to_update.add(init_nodes_data[init_node_id]['partOrigin'])
 
-        jbeam_files_to_parts = {}
-        for obj in (veh_collection.all_objects[:] if update_all_parts else [active_obj]):
+        for node_id in node_moves:
+            parts_to_update.add(init_nodes_data[node_id]['partOrigin'])
+
+        jbeam_files_to_jbeam_part_objs = {}
+        jbeam_files_to_jbeam_parts = {}
+        for obj in veh_collection.all_objects[:]:
             jbeam_filepath = obj.data[constants.MESH_JBEAM_FILE_PATH]
+            jbeam_part = obj.data[constants.MESH_JBEAM_PART]
 
-            if jbeam_filepath not in jbeam_files_to_parts:
-                jbeam_files_to_parts[jbeam_filepath] = []
-            jbeam_files_to_parts[jbeam_filepath].append(obj)
+            if jbeam_filepath not in jbeam_files_to_jbeam_part_objs:
+                jbeam_files_to_jbeam_part_objs[jbeam_filepath] = []
+                jbeam_files_to_jbeam_parts[jbeam_filepath] = set()
+            jbeam_files_to_jbeam_part_objs[jbeam_filepath].append(obj)
+            jbeam_files_to_jbeam_parts[jbeam_filepath].add(jbeam_part)
 
         filepaths = []
 
-        for jbeam_filepath, parts in jbeam_files_to_parts.items():
-            export_utils.export_file(jbeam_filepath, parts, vdata, blender_nodes, nodes_to_add, nodes_to_delete, node_renames, affect_node_references)
-            filepaths.append(jbeam_filepath)
+        for jbeam_filepath, objs in jbeam_files_to_jbeam_part_objs.items():
+            parts = jbeam_files_to_jbeam_parts[jbeam_filepath]
+
+            if True in parts_to_update or parts <= parts_to_update:
+                export_utils.export_file(jbeam_filepath, objs, vdata, blender_nodes, nodes_to_add, nodes_to_delete, node_renames, affect_node_references, parts_to_update)
+                filepaths.append(jbeam_filepath)
         t1 = timeit.default_timer()
         print('Exporting Time', round(t1 - t0, 2), 's')
 

@@ -248,7 +248,7 @@ def import_jbeam_part(context: bpy.types.Context, jbeam_file_path: str, jbeam_fi
 
 def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collection, obj: bpy.types.Object, jbeam_file_path: str):
     # Reimport object
-    jbeam_file_data = jbeam_io.get_jbeam(jbeam_file_path, True)
+    jbeam_file_data, cached_changed = jbeam_io.get_jbeam(jbeam_file_path, True, True)
     if jbeam_file_data is None:
         return
 
@@ -403,9 +403,9 @@ class JBEAM_EDITOR_OT_import_jbeam(Operator, ImportHelper):
         global _jbeam_part_choices
 
         _jbeam_file_path = Path(self.filepath).as_posix()
-        _jbeam_file_data = jbeam_io.get_jbeam(_jbeam_file_path, False)
+        _jbeam_file_data, cached_changed = jbeam_io.get_jbeam(_jbeam_file_path, False, True)
 
-        if not _jbeam_file_data:
+        if _jbeam_file_data is None:
             return {'CANCELLED'}
 
         # # Set from unit tests

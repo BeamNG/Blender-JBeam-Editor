@@ -35,6 +35,7 @@ from .sjsonast import ASTNode, parse as sjsonast_parse, stringify_nodes as sjson
 from .utils import sign, sjson_decode
 from . import text_editor
 
+from .jbeam import io as jbeam_io
 from .jbeam.expression_parser import add_offset_expr
 from .jbeam.utils import Metadata
 
@@ -858,15 +859,17 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                         print("key delimiter predecessor was not a key!", file=sys.stderr)
 
                 elif dict_key is not None:
-                    try:
-                        changed = compare_and_set_value(current_jbeam_file_data, current_jbeam_file_data_modified, stack, dict_key, node)
-                        if constants.DEBUG:
-                            if changed:
-                                print('value changed!', node.data_type, node.value)
-                    except:
-                        traceback.print_exc()
-                        print_ast_nodes(ast_nodes, i, 75, True, sys.stderr)
-                        raise Exception('compare_and_set_value error!')
+                    # Ignore slots section and other parts
+                    if not (prev_stack_size > 1 and stack[1][0] == 'slots') and not prev_in_jbeam_part:
+                        try:
+                            changed = compare_and_set_value(current_jbeam_file_data, current_jbeam_file_data_modified, stack, dict_key, node)
+                            if constants.DEBUG:
+                                if changed:
+                                    print('value changed!', node.data_type, node.value)
+                        except:
+                            traceback.print_exc()
+                            print_ast_nodes(ast_nodes, i, 75, True, sys.stderr)
+                            raise Exception('compare_and_set_value error!')
 
                     temp_dict_key = None
                     dict_key = None
@@ -883,17 +886,19 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                 in_dict, pos_in_arr = go_up_level(prev_stack_size, stack_pop)
 
             elif node_type not in ('}', ']'):
-                # Value definition
-                try:
-                    changed = compare_and_set_value(current_jbeam_file_data, current_jbeam_file_data_modified, stack, pos_in_arr, node)
-                    if constants.DEBUG:
-                        if changed:
-                            print('value changed!', node.data_type, node.value)
-                except:
-                    traceback.print_exc()
-                    print_ast_nodes(ast_nodes, i, 75, True, sys.stderr)
-                    changed = False
-                    raise Exception('compare_and_set_value error!')
+                # Ignore slots section
+                if not (prev_stack_size > 1 and stack[1][0] == 'slots'):
+                    # Value definition
+                    try:
+                        changed = compare_and_set_value(current_jbeam_file_data, current_jbeam_file_data_modified, stack, pos_in_arr, node)
+                        if constants.DEBUG:
+                            if changed:
+                                print('value changed!', node.data_type, node.value)
+                    except:
+                        traceback.print_exc()
+                        print_ast_nodes(ast_nodes, i, 75, True, sys.stderr)
+                        changed = False
+                        raise Exception('compare_and_set_value error!')
 
                 pos_in_arr += 1
 
@@ -1068,14 +1073,15 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
         i += 1
 
 
-def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, blender_nodes: dict, nodes_to_add: dict, nodes_to_delete: set, node_renames: dict, affect_node_references: bool):
+def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, blender_nodes: dict, nodes_to_add: dict, nodes_to_delete: set, node_renames: dict, affect_node_references: bool, parts_to_update: set):
     #current_jbeam_file_data_str: dict = jbeam_io.get_jbeam(io_ctx, jbeam_filepath, True)
     #current_jbeam_file_data: dict = jbeam_io.get_jbeam(io_ctx, jbeam_filepath, False)
     jbeam_file_str = text_editor.read_int_file(jbeam_filepath)
     if jbeam_file_str is None:
         print(f"File doesn't exist! {jbeam_filepath}", file=sys.stderr)
         return
-    jbeam_file_data = sjson_decode(jbeam_file_str, jbeam_filepath)
+    jbeam_file_data, cached_changed = jbeam_io.get_jbeam(jbeam_filepath, True, False)
+    # jbeam_file_data = sjson_decode(jbeam_file_str, jbeam_filepath)
     if jbeam_file_data is None:
         return
     jbeam_file_data_modified = deepcopy(jbeam_file_data)
@@ -1087,9 +1093,14 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, 
         return
     ast_nodes = ast_data['ast']['nodes']
 
+    update_all_parts = True in parts_to_update
+
     for obj in parts:
         obj_data = obj.data
         jbeam_part = obj_data[constants.MESH_JBEAM_PART]
+
+        if not update_all_parts and jbeam_part not in parts_to_update:
+            continue
 
         bm = None
         if obj.mode == 'EDIT':
