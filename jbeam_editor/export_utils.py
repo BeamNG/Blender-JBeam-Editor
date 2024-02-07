@@ -43,6 +43,15 @@ TWO_INDENT = INDENT * 2
 NL_INDENT = '\n' + INDENT
 NL_TWO_INDENT = '\n' + TWO_INDENT
 
+
+class PartNodesActions:
+    def __init__(self):
+        self.nodes_to_add = {}
+        self.nodes_to_delete = set()
+        self.nodes_to_rename = {}
+        self.nodes_to_move = set()
+
+
 def print_ast_nodes(ast_nodes, start_idx, size, bidirectional, file=None):
     if file is None:
         file = sys.stdout
@@ -441,8 +450,11 @@ def set_node_renames_positions(jbeam_file_data_modified: dict, jbeam_part: str, 
                                     row_data[col_idx] = node_renames[col]
 
 
-def get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_nodes_data: dict):
-    nodes_to_add, nodes_to_delete, node_renames, node_moves = {}, set(), {}, set()
+def get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, jbeam_part: str, init_nodes_data: dict):
+    parts_actions = {jbeam_part: PartNodesActions()}
+    is_deleting, is_renaming = False, False
+
+    # parts_nodes_to_add, parts_nodes_to_delete, parts_nodes_to_rename, parts_nodes_to_move = {}, {}, {}, {}
 
     init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
     node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
@@ -466,18 +478,22 @@ def get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, in
 
         init_node_data = init_nodes_data.get(init_node_id)
         if init_node_data is None:
-            nodes_to_add[init_node_id] = pos
+            part_actions: PartNodesActions = parts_actions.setdefault(jbeam_part, PartNodesActions())
+            part_actions.nodes_to_add[init_node_id] = pos
             continue
 
         init_pos = Vector(init_node_data['pos'])
         pos_diff = pos - init_pos
         if abs(pos_diff.x) > 0.000001 or abs(pos_diff.y) > 0.000001 or abs(pos_diff.z) > 0.000001:
-            node_moves.add(node_id)
+            part_actions: PartNodesActions = parts_actions.setdefault(node_part_origin, PartNodesActions())
+            part_actions.nodes_to_move.add(node_id)
 
         new_pos_tup = undo_node_move_offset_and_apply_translation_to_expr(init_node_data, pos)
 
         if init_node_id != node_id:
-            node_renames[init_node_id] = node_id
+            part_actions: PartNodesActions = parts_actions.setdefault(node_part_origin, PartNodesActions())
+            part_actions.nodes_to_rename[init_node_id] = node_id
+            is_renaming = True
 
         blender_nodes[init_node_id] = {'curr_node_id': node_id, 'pos': new_pos_tup, 'partOrigin': node_part_origin}
         #v[init_node_id_layer] = bytes(node_id, 'utf-8')
@@ -487,9 +503,12 @@ def get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, in
         # if 'partOrigin' in init_node_data and init_node_data['partOrigin'] != jbeam_part:
         #     continue
         if init_node_id not in blender_nodes:
-            nodes_to_delete.add(init_node_id)
+            node_part_origin = init_node_data.get('partOrigin', jbeam_part)
+            part_actions: PartNodesActions = parts_actions.setdefault(node_part_origin, PartNodesActions())
+            part_actions.nodes_to_delete.add(init_node_id)
+            is_deleting = True
 
-    return blender_nodes, nodes_to_add, nodes_to_delete, node_renames, node_moves
+    return blender_nodes, parts_actions, is_deleting, is_renaming
 
 
 def get_beams_add_remove(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_beams_data: list, jbeam_file_data_modified: dict, jbeam_part: str, nodes_to_delete: set, affect_node_references: bool):
@@ -1071,7 +1090,7 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
         i += 1
 
 
-def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, blender_nodes: dict, nodes_to_add: dict, nodes_to_delete: set, node_renames: dict, affect_node_references: bool, parts_to_update: set):
+def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, blender_nodes: dict, parts_nodes_actions: dict, affect_node_references: bool, parts_to_update: set):
     jbeam_file_str = text_editor.read_int_file(jbeam_filepath)
     if jbeam_file_str is None:
         print(f"File doesn't exist! {jbeam_filepath}", file=sys.stderr)
@@ -1103,6 +1122,9 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, 
         else:
             bm = bmesh.new()
             bm.from_mesh(obj_data)
+
+        part_nodes_actions: PartNodesActions = parts_nodes_actions[jbeam_part]
+        nodes_to_add, nodes_to_delete, node_renames = part_nodes_actions.nodes_to_add, part_nodes_actions.nodes_to_delete, part_nodes_actions.nodes_to_rename
 
         #init_nodes_data = data.get('nodes')
         init_beams_data = data.get('beams')

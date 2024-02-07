@@ -54,26 +54,11 @@ def export(veh_collection: bpy.types.Collection, active_obj: bpy.types.Object):
             bm = bmesh.new()
             bm.from_mesh(active_obj_data)
 
-        blender_nodes, nodes_to_add, nodes_to_delete, node_renames, node_moves = export_utils.get_nodes_add_delete_rename(active_obj, bm, init_nodes_data)
+        blender_nodes, parts_nodes_actions, is_deleting_nodes, is_renaming_nodes = export_utils.get_nodes_add_delete_rename(active_obj, bm, jbeam_part, init_nodes_data)
+        parts_to_update = set(parts_nodes_actions.keys())
 
-        parts_to_update = set()
-        if len(nodes_to_add) > 0:
-            parts_to_update.add(jbeam_part)
-        if len(nodes_to_delete) > 0:
-            if affect_node_references:
-                parts_to_update.add(True)
-            else:
-                for node_id in nodes_to_delete:
-                    parts_to_update.add(init_nodes_data[node_id]['partOrigin'])
-        if len(node_renames) > 0:
-            if affect_node_references:
-                parts_to_update.add(True)
-            else:
-                for init_node_id, note_id in node_renames.items():
-                    parts_to_update.add(init_nodes_data[init_node_id]['partOrigin'])
-
-        for node_id in node_moves:
-            parts_to_update.add(init_nodes_data[node_id]['partOrigin'])
+        if is_deleting_nodes or is_renaming_nodes:
+            parts_to_update.add(True)
 
         jbeam_files_to_jbeam_part_objs = {}
         jbeam_files_to_jbeam_parts = {}
@@ -93,7 +78,7 @@ def export(veh_collection: bpy.types.Collection, active_obj: bpy.types.Object):
             parts = jbeam_files_to_jbeam_parts[jbeam_filepath]
 
             if True in parts_to_update or parts <= parts_to_update:
-                export_utils.export_file(jbeam_filepath, objs, vdata, blender_nodes, nodes_to_add, nodes_to_delete, node_renames, affect_node_references, parts_to_update)
+                export_utils.export_file(jbeam_filepath, objs, vdata, blender_nodes, parts_nodes_actions, affect_node_references, parts_to_update)
                 filepaths.append(jbeam_filepath)
         t1 = timeit.default_timer()
         print('Exporting Time', round(t1 - t0, 2), 's')
