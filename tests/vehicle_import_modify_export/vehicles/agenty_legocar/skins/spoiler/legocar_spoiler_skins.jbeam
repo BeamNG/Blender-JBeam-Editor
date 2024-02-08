@@ -1,0 +1,84 @@
+{
+"legocar_skin_spoiler_grey": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Grey Paint",
+    },
+    "slotType" : "skin_spoiler",
+},
+"legocar_skin_spoiler_black": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Black Paint",
+    },
+    "slotType" : "skin_spoiler",
+    "skinName" : "black",
+},
+
+"legocar_skin_spoiler_col1": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Colorable (Palette 1)",
+    },
+    "slotType" : "skin_spoiler",
+    "skinName" : "col1",
+},
+"legocar_skin_spoiler_col2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Colorable (Palette 2)",
+    },
+    "slotType" : "skin_spoiler",
+    "skinName" : "col2",
+},
+"legocar_skin_spoiler_col3": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Colorable (Palette 3)",
+    },
+    "slotType" : "skin_spoiler",
+    "skinName" : "col3",
+},
+
+"legocar_skin_spoiler_twinturbo": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Twin Turbo Sticker",
+    },
+    "slotType" : "skin_spoiler",
+    "skinName" : "twinturbo",
+},
+"legocar_skin_spoiler_bcpd": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Belasco City Police Department Sticker",
+    },
+    "slotType" : "skin_spoiler",
+    "skinName" : "bcpd",
+},
+"legocar_skin_spoiler_sponsor": {
+    "information":{
+        "authors":"AgentY",
+        "name":"AgentY Solid Rubber Tires Sponsor Sticker",
+    },
+    "slotType" : "skin_spoiler",
+    "skinName" : "sponsor",
+},
+"legocar_skin_spoiler_sponsor2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"TBB Motors Co. Sponsor Sticker",
+    },
+    "slotType" : "skin_spoiler",
+    "skinName" : "sponsor2",
+},
+"legocar_skin_spoiler_pacecar": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Official Pace Car Sticker",
+    },
+    "slotType" : "skin_spoiler",
+    "skinName" : "pacecar",
+},
+
+}

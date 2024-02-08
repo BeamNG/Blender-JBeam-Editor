@@ -1,0 +1,224 @@
+{
+"legocar_taillight_RR_facelift_EU": {
+    "information":{
+        "name":"Right Facelift Outer Taillight (EU)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_taillight_RR",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"taillight_RR_break", "deformMaterialBase":"legocar_taillight_lowhighbeam_stock", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_taillight_facelift_lowhighbeam_R_stock", ["legocar_taillight_RR"],[], {"pos":{"x":-0.625, "y":1.850, "z":0.475},"rot":{"x":-90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"taillight_RR_break", "deformMaterialBase":"legocar_signal_L_white", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_taillight_facelift_signal_R_white", ["legocar_taillight_RR"],[], {"pos":{"x":-0.625, "y":1.850, "z":0.475},"rot":{"x":-90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightColor":{"r":240, "g":143, "b":28, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":true,
+            "flareName":"vehicleBrakeLightFlare",
+        },
+	["wigwag_signal_R",   "SPOTLIGHT", "RRtllight2r", "RRtllight1r", "RRtllight2l",{"x":0, "y":0, "z":-15}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0},"lightOuterAngle":75,"flareScale":0.06,"lightBrightness":0.04,"lightRange":8, "deformGroup":"taillight_RR_break"}],
+	{"lightColor":{"r":201, "g":26, "b":9, "a":255}},
+	["lowhighbeam_wigwag_R","SPOTLIGHT", "RRtllight2r", "RRtllight1r", "RRtllight2l",{"x":0, "y":0, "z":-15}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0},"lightOuterAngle":75,"flareScale":0.05,"lightBrightness":0.03,"lightRange":10",deformGroup":"taillight_RR_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_taillight_RR"},
+	["RRtllight1l",-0.530, 1.90, 0.380],
+	["RRtllight2l",-0.530, 1.90, 0.570],
+	["RRtllight1r",-0.720, 1.90, 0.380],
+	["RRtllight2r",-0.720, 1.90, 0.570],
+
+	//rigidifier
+	["RRtllight0", -0.625, 1.75, 0.475, {"collision":false, "selfCollision":false, "group":""}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["RRtllight1l", "RRtllight1r"],
+	["RRtllight2l", "RRtllight2r"],
+	["RRtllight1l", "RRtllight2r"],
+	["RRtllight2l", "RRtllight1r"],
+	["RRtllight1l", "RRtllight2l"],
+	["RRtllight1r", "RRtllight2r"],
+
+	//tip
+	["RRtllight1l", "RRtllight0"],
+	["RRtllight1r", "RRtllight0"],
+	["RRtllight2l", "RRtllight0"],
+	["RRtllight2r", "RRtllight0"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*91000", "beamDamp":"$=$weight*9"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"taillight_RR_break"},
+	{"deformGroup":"taillight_RR_break"},
+	
+	["RRtllight1l", "Rfasc1l"],
+	["RRtllight1l", "Rfasc1r"],
+	["RRtllight1l", "Rfasc2r"],
+
+	["RRtllight2l", "Rfasc1l"],
+	["RRtllight2l", "Rfasc2r"],
+	["RRtllight2l", "Rfasc1r"],
+
+	["RRtllight1r", "Rfasc1l"],
+	["RRtllight1r", "Rfasc1r"],
+	["RRtllight1r", "Rfasc2r"],
+
+	["RRtllight2r", "Rfasc1l"],
+	["RRtllight2r", "Rfasc2r"],
+	["RRtllight2r", "Rfasc1r"],
+
+	["RRtllight0", "Rfasc1l"],
+	["RRtllight0", "Rfasc1r"],
+	["RRtllight0", "Rfasc2r"],
+
+	//stiffeners
+	["RRtllight1l", "Rfascrig"],
+	["RRtllight1r", "Rfascrig"],
+	["RRtllight2l", "Rfascrig"],
+	["RRtllight2r", "Rfascrig"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_taillight_RR"},   
+	["RRtllight1l","RRtllight1r","RRtllight2r","RRtllight2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_taillight_RR_facelift_EU_clear": {
+    "information":{
+        "name":"Right Facelift Clear Outer Taillight",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_taillight_RR",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"taillight_RR_break", "deformMaterialBase":"legocar_taillight_lowhighbeam_clear", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_taillight_facelift_lowhighbeam_R_clear", ["legocar_taillight_RR"],[], {"pos":{"x":-0.625, "y":1.850, "z":0.475},"rot":{"x":-90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"taillight_RR_break", "deformMaterialBase":"legocar_signal_L_white", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_taillight_facelift_signal_R_white", ["legocar_taillight_RR"],[], {"pos":{"x":-0.625, "y":1.850, "z":0.475},"rot":{"x":-90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightColor":{"r":240, "g":143, "b":28, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":true,
+            "flareName":"vehicleBrakeLightFlare",
+        },
+	["wigwag_signal_R",   "SPOTLIGHT", "RRtllight2r", "RRtllight1r", "RRtllight2l",{"x":0, "y":0, "z":-15}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0},"lightOuterAngle":75,"flareScale":0.06,"lightBrightness":0.04,"lightRange":8, "deformGroup":"taillight_RR_break"}],
+	{"lightColor":{"r":201, "g":26, "b":9, "a":255}},
+	["lowhighbeam_wigwag_R","SPOTLIGHT", "RRtllight2r", "RRtllight1r", "RRtllight2l",{"x":0, "y":0, "z":-15}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0},"lightOuterAngle":75,"flareScale":0.05,"lightBrightness":0.03,"lightRange":10",deformGroup":"taillight_RR_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_taillight_RR"},
+	["RRtllight1l",-0.530, 1.90, 0.380],
+	["RRtllight2l",-0.530, 1.90, 0.570],
+	["RRtllight1r",-0.720, 1.90, 0.380],
+	["RRtllight2r",-0.720, 1.90, 0.570],
+
+	//rigidifier
+	["RRtllight0", -0.625, 1.75, 0.475, {"collision":false, "selfCollision":false, "group":""}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["RRtllight1l", "RRtllight1r"],
+	["RRtllight2l", "RRtllight2r"],
+	["RRtllight1l", "RRtllight2r"],
+	["RRtllight2l", "RRtllight1r"],
+	["RRtllight1l", "RRtllight2l"],
+	["RRtllight1r", "RRtllight2r"],
+
+	//tip
+	["RRtllight1l", "RRtllight0"],
+	["RRtllight1r", "RRtllight0"],
+	["RRtllight2l", "RRtllight0"],
+	["RRtllight2r", "RRtllight0"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*91000", "beamDamp":"$=$weight*9"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"taillight_RR_break"},
+	{"deformGroup":"taillight_RR_break"},
+	
+	["RRtllight1l", "Rfasc1l"],
+	["RRtllight1l", "Rfasc1r"],
+	["RRtllight1l", "Rfasc2r"],
+
+	["RRtllight2l", "Rfasc1l"],
+	["RRtllight2l", "Rfasc2r"],
+	["RRtllight2l", "Rfasc1r"],
+
+	["RRtllight1r", "Rfasc1l"],
+	["RRtllight1r", "Rfasc1r"],
+	["RRtllight1r", "Rfasc2r"],
+
+	["RRtllight2r", "Rfasc1l"],
+	["RRtllight2r", "Rfasc2r"],
+	["RRtllight2r", "Rfasc1r"],
+
+	["RRtllight0", "Rfasc1l"],
+	["RRtllight0", "Rfasc1r"],
+	["RRtllight0", "Rfasc2r"],
+
+	//stiffeners
+	["RRtllight1l", "Rfascrig"],
+	["RRtllight1r", "Rfascrig"],
+	["RRtllight2l", "Rfascrig"],
+	["RRtllight2r", "Rfascrig"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_taillight_RR"},   
+	["RRtllight1l","RRtllight1r","RRtllight2r","RRtllight2l"],
+        {"group":""},
+    ],
+},
+
+}

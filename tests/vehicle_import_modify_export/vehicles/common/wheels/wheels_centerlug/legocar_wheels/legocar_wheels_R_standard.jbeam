@@ -1,0 +1,137 @@
+{
+"legocar_wheel_standard_19.43x8.44_R": {
+    "information":{
+        "authors":"AgentY",
+        "name":"19.5x8.5 Toy Car 11208c01 Standard Rear Wheels",
+    },
+    "slotType" : "wheel_R_centerlug",
+    "slots": [
+        ["type", "default", "description"],
+	["skin_legocar_wheel_R","legocar_skin_wheel_R_grey", "Wheels Color",{"coreSlot":true}],
+        ["tire_R_19.43x8.44","tire_R_270_30_19.43", "Rear Tires"],
+	["hubcaps_R_19.5_legocar","", "Rear Hubcaps"],
+    ],
+    "flexbodies": [
+         ["mesh", "[group]:", "nonFlexMaterials"],
+         ["legocar_wheel_R_sport", ["wheel_RR","wheelhub_RR"], [], {"pos":{"x":-0.375, "y":-0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+         ["legocar_wheel_R_sport", ["wheel_RL","wheelhub_RL"], [], {"pos":{"x": 0.375, "y":-0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0},   "scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+        {"collision":true},
+        {"selfCollision":true},
+        //rear wheels
+        {"nodeWeight":5.0},
+        {"nodeMaterial":"|NM_PLASTIC"},
+        {"frictionCoef":0.5},
+        {"group":"wheelhub_RR"},
+        ["rw1r", -0.375, 0.0, 0.0, {"staticCollision":false}],
+        {"group":"wheelhub_RR"},
+        ["rw1rr", -0.625, 0.0, 0.0, {"staticCollision":false}],
+        {"group":"wheelhub_RL"},
+        ["rw1l", 0.375, 0.0, 0.0, {"staticCollision":false}],
+        {"group":"wheelhub_RL"},
+        ["rw1ll", 0.625, 0.0, 0.0, {"staticCollision":false}],
+        {"group":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+        {"breakGroup":""},
+        {"beamDeform":"FLT_MAX","beamStrength":"FLT_MAX"},
+        {"beamSpring":1501000,"beamDamp":25},
+        //rear wheel
+        ["rw1r","rw1rr"],
+        ["rw1l","rw1ll"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+    ],
+    "pressureWheels": [
+        ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+        {"disableMeshBreaking":false,"disableHubMeshBreaking":false,"enableHubcaps":false,"hasTire":false},
+
+        //general settings
+        {"hubRadius":0.246792},
+        {"wheelOffset":-0.025},
+        {"hubWidth":0.28},
+        {"numRays":16},
+
+        //hub options
+        {"hubTreadBeamSpring":1001000, "hubTreadBeamDamp":10},
+        {"hubPeripheryBeamSpring":1001000, "hubPeripheryBeamDamp":10},
+        {"hubSideBeamSpring":1501000, "hubSideBeamDamp":10},
+        {"hubNodeWeight":0.5},
+        {"hubNodeMaterial":"|NM_PLASTIC"},
+        {"hubFrictionCoef":0.5},
+        {"hubBeamDeform":"FLT_MAX", "hubBeamStrength":"FLT_MAX"},
+    ],
+},
+
+"legocar_wheel_standard_19.43x8.44_R_alt": {
+    "information":{
+        "authors":"AgentY",
+        "name":"19.5x8.5 Toy Car 33690 Sport Rear Wheels",
+    },
+    "slotType" : "wheel_R_centerlug",
+    "slots": [
+        ["type", "default", "description"],
+	["skin_legocar_wheel_R","legocar_skin_wheel_R_grey", "Wheels Color",{"coreSlot":true}],
+        ["tire_R_19.43x8.44","tire_R_270_30_19.43", "Rear Tires"],
+	["hubcaps_R_19.5_legocar","", "Rear Hubcaps"],
+    ],
+    "flexbodies": [
+         ["mesh", "[group]:", "nonFlexMaterials"],
+	 //same wheels, but rotated
+         ["legocar_wheel_R_sport", ["wheel_RR","wheelhub_RR"], [], {"pos":{"x":-0.675, "y":-0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0},   "scale":{"x":1, "y":1, "z":1}}],
+         ["legocar_wheel_R_sport", ["wheel_RL","wheelhub_RL"], [], {"pos":{"x": 0.675, "y":-0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+        {"collision":true},
+        {"selfCollision":true},
+        //rear wheels
+        {"nodeWeight":5.0},
+        {"nodeMaterial":"|NM_PLASTIC"},
+        {"frictionCoef":0.5},
+        {"group":"wheelhub_RR"},
+        ["rw1r", -0.375, 0.0, 0.0, {"staticCollision":false}],
+        {"group":"wheelhub_RR"},
+        ["rw1rr", -0.625, 0.0, 0.0, {"staticCollision":false}],
+        {"group":"wheelhub_RL"},
+        ["rw1l", 0.375, 0.0, 0.0, {"staticCollision":false}],
+        {"group":"wheelhub_RL"},
+        ["rw1ll", 0.625, 0.0, 0.0, {"staticCollision":false}],
+        {"group":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+        {"breakGroup":""},
+        {"beamDeform":"FLT_MAX","beamStrength":"FLT_MAX"},
+        {"beamSpring":1501000,"beamDamp":25},
+        //rear wheel
+        ["rw1r","rw1rr"],
+        ["rw1l","rw1ll"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+    ],
+    "pressureWheels": [
+        ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+        {"disableMeshBreaking":false,"disableHubMeshBreaking":false,"enableHubcaps":false,"hasTire":false},
+
+        //general settings
+        {"hubRadius":0.246792},
+        {"wheelOffset":-0.025},
+        {"hubWidth":0.28},
+        {"numRays":16},
+
+        //hub options
+        {"hubTreadBeamSpring":1001000, "hubTreadBeamDamp":10},
+        {"hubPeripheryBeamSpring":1001000, "hubPeripheryBeamDamp":10},
+        {"hubSideBeamSpring":1501000, "hubSideBeamDamp":10},
+        {"hubNodeWeight":0.5},
+        {"hubNodeMaterial":"|NM_PLASTIC"},
+        {"hubFrictionCoef":0.5},
+        {"hubBeamDeform":"FLT_MAX", "hubBeamStrength":"FLT_MAX"},
+    ],
+},
+
+}

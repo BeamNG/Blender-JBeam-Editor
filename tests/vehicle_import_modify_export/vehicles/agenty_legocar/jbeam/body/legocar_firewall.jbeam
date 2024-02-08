@@ -1,0 +1,560 @@
+{
+//--INCLUDE RIGIDIFIER WEIGHT IN SPRING AND DAMP SETTINGS, LOWER STIFFNESS NEEDED DUE TO MANY PARTS ATTACHED--
+
+"legocar_firewall_col1": {
+    "information":{
+        "name":"Firewall (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_firewall",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_windshield", "legocar_windshield", "Windshield"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_col1", ["legocar_firewall"], [], {"pos":{"x": 0.000, "y":-0.875, "z":0.7},"rot":{"x":0, "y":0, "z":90 },"scale":{"x":0.99, "y":1, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//front
+	{"group":"legocar_firewall"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["fwall1l",  0.75, -0.78, 0.75],
+	["fwall1r", -0.75, -0.78, 0.75],
+	["fwall2l",  0.75, -1.00, 0.75],
+	["fwall2r", -0.75, -1.00, 0.75],
+	//rigidifier
+	["fwallrig", 0, -0.875, 0.3, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FIREWALL--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1201000", "beamDamp":"$=$weight*120"},
+
+	//uniform structure
+	["fwall1l", "fwall1r"],
+	["fwall2l", "fwall2r"],
+	["fwall1l", "fwall2l"],
+	["fwall1r", "fwall2r"],
+	["fwall1l", "fwall2r"],
+	["fwall2l", "fwall1r"],
+
+	//rigidifier
+	["fwall1l", "fwallrig"],
+	["fwall1r", "fwallrig"],
+	["fwall2l", "fwallrig"],
+	["fwall2r", "fwallrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to cowl panel
+	{"beamSpring":"$=$weight*601000", "beamDamp":"$=$weight*60"},
+	{"breakGroup":"firewall_cowlpanel_break"},
+
+	["fwall1l", "cowl1l"],
+	["fwall1l", "cowl3r"],
+	["fwall1l", "cowl4l"],
+
+	["fwall1r", "cowl1r"],
+	["fwall1r", "cowl3l"],
+	["fwall1r", "cowl4r"],
+
+	["fwall2l", "cowl2l"],
+	["fwall2l", "cowl4r"],
+	["fwall2l", "cowl3l"],
+
+	["fwall2r", "cowl2r"],
+	["fwall2r", "cowl4l"],
+	["fwall2r", "cowl3r"],
+
+	["fwallrig", "cowl3r"],
+	["fwallrig", "cowl3l"],
+	["fwallrig", "cowl4r"],
+	["fwallrig", "cowl4l"],
+	
+
+	{"optional":true},
+
+	//to left fender bar
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"firewall_fenderbar_L_break"},
+
+	["fwall1l", "fendbarFL1"],
+	["fwall1l", "fendbarFL2"],
+	["fwall1l", "fendbarFL3"],
+
+	["fwall2l", "fendbarFL1"],
+	["fwall2l", "fendbarFL2"],
+	["fwall2l", "fendbarFL3"],
+
+	["fwall1r", "fendbarFL1"],
+	["fwall1r", "fendbarFL2"],
+	["fwall1r", "fendbarFL3"],
+
+	["fwall2r", "fendbarFL1"],
+	["fwall2r", "fendbarFL2"],
+	["fwall2r", "fendbarFL3"],
+
+	["fwallrig", "fendbarFL1"],
+	["fwallrig", "fendbarFL2"],
+	["fwallrig", "fendbarFL3"],
+
+	//to right fender bar
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"firewall_fenderbar_R_break"},
+
+	["fwall1l", "fendbarFR1"],
+	["fwall1l", "fendbarFR2"],
+	["fwall1l", "fendbarFR3"],
+
+	["fwall2l", "fendbarFR1"],
+	["fwall2l", "fendbarFR2"],
+	["fwall2l", "fendbarFR3"],
+
+	["fwall1r", "fendbarFR1"],
+	["fwall1r", "fendbarFR2"],
+	["fwall1r", "fendbarFR3"],
+
+	["fwall2r", "fendbarFR1"],
+	["fwall2r", "fendbarFR2"],
+	["fwall2r", "fendbarFR3"],
+
+	["fwallrig", "fendbarFR1"],
+	["fwallrig", "fendbarFR2"],
+	["fwallrig", "fendbarFR3"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//to engine
+	["fwall1l", "eng1l"],
+	["fwall2l", "eng1l"],
+	["fwall1r", "eng1l"],
+	["fwall2r", "eng1l"],
+
+	["fwall1l", "eng2l"],
+	["fwall2l", "eng2l"],
+	["fwall1r", "eng2l"],
+	["fwall2r", "eng2l"],
+
+	["fwall1l", "eng3l"],
+	["fwall2l", "eng3l"],
+	["fwall1r", "eng3l"],
+	["fwall2r", "eng3l"],
+
+	["fwall1l", "eng1r"],
+	["fwall2l", "eng1r"],
+	["fwall1r", "eng1r"],
+	["fwall2r", "eng1r"],
+
+	["fwall1l", "eng2r"],
+	["fwall2l", "eng2r"],
+	["fwall1r", "eng2r"],
+	["fwall2r", "eng2r"],
+
+	["fwall1l", "eng3r"],
+	["fwall2l", "eng3r"],
+	["fwall1r", "eng3r"],
+	["fwall2r", "eng3r"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_firewall"},
+	["fwall1l","fwall1r","fwall2r","fwall2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_firewall_col2": {
+    "information":{
+        "name":"Firewall (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_firewall",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_windshield", "legocar_windshield_blacktint", "Windshield"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_col2", ["legocar_firewall"], [], {"pos":{"x": 0.000, "y":-0.875, "z":0.7},"rot":{"x":0, "y":0, "z":90 },"scale":{"x":0.99, "y":1, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//front
+	{"group":"legocar_firewall"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["fwall1l",  0.75, -0.78, 0.75],
+	["fwall1r", -0.75, -0.78, 0.75],
+	["fwall2l",  0.75, -1.00, 0.75],
+	["fwall2r", -0.75, -1.00, 0.75],
+	//rigidifier
+	["fwallrig", 0, -0.875, 0.3, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FIREWALL--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1201000", "beamDamp":"$=$weight*120"},
+
+	//uniform structure
+	["fwall1l", "fwall1r"],
+	["fwall2l", "fwall2r"],
+	["fwall1l", "fwall2l"],
+	["fwall1r", "fwall2r"],
+	["fwall1l", "fwall2r"],
+	["fwall2l", "fwall1r"],
+
+	//rigidifier
+	["fwall1l", "fwallrig"],
+	["fwall1r", "fwallrig"],
+	["fwall2l", "fwallrig"],
+	["fwall2r", "fwallrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to cowl panel
+	{"beamSpring":"$=$weight*601000", "beamDamp":"$=$weight*60"},
+	{"breakGroup":"firewall_cowlpanel_break"},
+
+	["fwall1l", "cowl1l"],
+	["fwall1l", "cowl3r"],
+	["fwall1l", "cowl4l"],
+
+	["fwall1r", "cowl1r"],
+	["fwall1r", "cowl3l"],
+	["fwall1r", "cowl4r"],
+
+	["fwall2l", "cowl2l"],
+	["fwall2l", "cowl4r"],
+	["fwall2l", "cowl3l"],
+
+	["fwall2r", "cowl2r"],
+	["fwall2r", "cowl4l"],
+	["fwall2r", "cowl3r"],
+
+	["fwallrig", "cowl3r"],
+	["fwallrig", "cowl3l"],
+	["fwallrig", "cowl4r"],
+	["fwallrig", "cowl4l"],
+	
+
+	{"optional":true},
+
+	//to left fender bar
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"firewall_fenderbar_L_break"},
+
+	["fwall1l", "fendbarFL1"],
+	["fwall1l", "fendbarFL2"],
+	["fwall1l", "fendbarFL3"],
+
+	["fwall2l", "fendbarFL1"],
+	["fwall2l", "fendbarFL2"],
+	["fwall2l", "fendbarFL3"],
+
+	["fwall1r", "fendbarFL1"],
+	["fwall1r", "fendbarFL2"],
+	["fwall1r", "fendbarFL3"],
+
+	["fwall2r", "fendbarFL1"],
+	["fwall2r", "fendbarFL2"],
+	["fwall2r", "fendbarFL3"],
+
+	["fwallrig", "fendbarFL1"],
+	["fwallrig", "fendbarFL2"],
+	["fwallrig", "fendbarFL3"],
+
+	//to right fender bar
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"firewall_fenderbar_R_break"},
+
+	["fwall1l", "fendbarFR1"],
+	["fwall1l", "fendbarFR2"],
+	["fwall1l", "fendbarFR3"],
+
+	["fwall2l", "fendbarFR1"],
+	["fwall2l", "fendbarFR2"],
+	["fwall2l", "fendbarFR3"],
+
+	["fwall1r", "fendbarFR1"],
+	["fwall1r", "fendbarFR2"],
+	["fwall1r", "fendbarFR3"],
+
+	["fwall2r", "fendbarFR1"],
+	["fwall2r", "fendbarFR2"],
+	["fwall2r", "fendbarFR3"],
+
+	["fwallrig", "fendbarFR1"],
+	["fwallrig", "fendbarFR2"],
+	["fwallrig", "fendbarFR3"],
+
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//to engine
+	["fwall1l", "eng1l"],
+	["fwall2l", "eng1l"],
+	["fwall1r", "eng1l"],
+	["fwall2r", "eng1l"],
+
+	["fwall1l", "eng2l"],
+	["fwall2l", "eng2l"],
+	["fwall1r", "eng2l"],
+	["fwall2r", "eng2l"],
+
+	["fwall1l", "eng3l"],
+	["fwall2l", "eng3l"],
+	["fwall1r", "eng3l"],
+	["fwall2r", "eng3l"],
+
+	["fwall1l", "eng1r"],
+	["fwall2l", "eng1r"],
+	["fwall1r", "eng1r"],
+	["fwall2r", "eng1r"],
+
+	["fwall1l", "eng2r"],
+	["fwall2l", "eng2r"],
+	["fwall1r", "eng2r"],
+	["fwall2r", "eng2r"],
+
+	["fwall1l", "eng3r"],
+	["fwall2l", "eng3r"],
+	["fwall1r", "eng3r"],
+	["fwall2r", "eng3r"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_firewall"},
+	["fwall1l","fwall1r","fwall2r","fwall2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_firewall_col3": {
+    "information":{
+        "name":"Firewall (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_firewall",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_windshield", "legocar_windshield_blacktint", "Windshield"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_col3", ["legocar_firewall"], [], {"pos":{"x": 0.000, "y":-0.875, "z":0.7},"rot":{"x":0, "y":0, "z":90 },"scale":{"x":0.99, "y":1, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//front
+	{"group":"legocar_firewall"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["fwall1l",  0.75, -0.78, 0.75],
+	["fwall1r", -0.75, -0.78, 0.75],
+	["fwall2l",  0.75, -1.00, 0.75],
+	["fwall2r", -0.75, -1.00, 0.75],
+	//rigidifier
+	["fwallrig", 0, -0.875, 0.3, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FIREWALL--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1201000", "beamDamp":"$=$weight*120"},
+
+	//uniform structure
+	["fwall1l", "fwall1r"],
+	["fwall2l", "fwall2r"],
+	["fwall1l", "fwall2l"],
+	["fwall1r", "fwall2r"],
+	["fwall1l", "fwall2r"],
+	["fwall2l", "fwall1r"],
+
+	//rigidifier
+	["fwall1l", "fwallrig"],
+	["fwall1r", "fwallrig"],
+	["fwall2l", "fwallrig"],
+	["fwall2r", "fwallrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to cowl panel
+	{"beamSpring":"$=$weight*601000", "beamDamp":"$=$weight*60"},
+	{"breakGroup":"firewall_cowlpanel_break"},
+
+	["fwall1l", "cowl1l"],
+	["fwall1l", "cowl3r"],
+	["fwall1l", "cowl4l"],
+
+	["fwall1r", "cowl1r"],
+	["fwall1r", "cowl3l"],
+	["fwall1r", "cowl4r"],
+
+	["fwall2l", "cowl2l"],
+	["fwall2l", "cowl4r"],
+	["fwall2l", "cowl3l"],
+
+	["fwall2r", "cowl2r"],
+	["fwall2r", "cowl4l"],
+	["fwall2r", "cowl3r"],
+
+	["fwallrig", "cowl3r"],
+	["fwallrig", "cowl3l"],
+	["fwallrig", "cowl4r"],
+	["fwallrig", "cowl4l"],
+	
+
+	{"optional":true},
+
+	//to left fender bar
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"firewall_fenderbar_L_break"},
+
+	["fwall1l", "fendbarFL1"],
+	["fwall1l", "fendbarFL2"],
+	["fwall1l", "fendbarFL3"],
+
+	["fwall2l", "fendbarFL1"],
+	["fwall2l", "fendbarFL2"],
+	["fwall2l", "fendbarFL3"],
+
+	["fwall1r", "fendbarFL1"],
+	["fwall1r", "fendbarFL2"],
+	["fwall1r", "fendbarFL3"],
+
+	["fwall2r", "fendbarFL1"],
+	["fwall2r", "fendbarFL2"],
+	["fwall2r", "fendbarFL3"],
+
+	["fwallrig", "fendbarFL1"],
+	["fwallrig", "fendbarFL2"],
+	["fwallrig", "fendbarFL3"],
+
+	//to right fender bar
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"firewall_fenderbar_R_break"},
+
+	["fwall1l", "fendbarFR1"],
+	["fwall1l", "fendbarFR2"],
+	["fwall1l", "fendbarFR3"],
+
+	["fwall2l", "fendbarFR1"],
+	["fwall2l", "fendbarFR2"],
+	["fwall2l", "fendbarFR3"],
+
+	["fwall1r", "fendbarFR1"],
+	["fwall1r", "fendbarFR2"],
+	["fwall1r", "fendbarFR3"],
+
+	["fwall2r", "fendbarFR1"],
+	["fwall2r", "fendbarFR2"],
+	["fwall2r", "fendbarFR3"],
+
+	["fwallrig", "fendbarFR1"],
+	["fwallrig", "fendbarFR2"],
+	["fwallrig", "fendbarFR3"],
+
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//to engine
+	["fwall1l", "eng1l"],
+	["fwall2l", "eng1l"],
+	["fwall1r", "eng1l"],
+	["fwall2r", "eng1l"],
+
+	["fwall1l", "eng2l"],
+	["fwall2l", "eng2l"],
+	["fwall1r", "eng2l"],
+	["fwall2r", "eng2l"],
+
+	["fwall1l", "eng3l"],
+	["fwall2l", "eng3l"],
+	["fwall1r", "eng3l"],
+	["fwall2r", "eng3l"],
+
+	["fwall1l", "eng1r"],
+	["fwall2l", "eng1r"],
+	["fwall1r", "eng1r"],
+	["fwall2r", "eng1r"],
+
+	["fwall1l", "eng2r"],
+	["fwall2l", "eng2r"],
+	["fwall1r", "eng2r"],
+	["fwall2r", "eng2r"],
+
+	["fwall1l", "eng3r"],
+	["fwall2l", "eng3r"],
+	["fwall1r", "eng3r"],
+	["fwall2r", "eng3r"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_firewall"},
+	["fwall1l","fwall1r","fwall2r","fwall2l"],
+        {"group":""},
+    ],
+},
+
+}

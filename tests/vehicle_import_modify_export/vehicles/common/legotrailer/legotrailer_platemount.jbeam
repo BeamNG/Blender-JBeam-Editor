@@ -1,0 +1,198 @@
+{
+"legotrailer_platemount_filler": {
+    "information":{
+        "name":"Filler Panel",
+        "authors":"AgentY",
+    },
+    "slotType":"legotrailer_platemount",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legotrailer_platemount_filler",["legotrailer_platemount"]],
+    ],   
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legotrailer_platemount"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["trailer_pm2l", 0.22, 3.455, 0.175],
+	["trailer_pm2r",-0.22, 3.455, 0.175],
+	["trailer_pm1l", 0.22, 3.675, 0.175],
+	["trailer_pm1r",-0.22, 3.675, 0.175],
+
+	//rigidifier
+	["trailer_pm0", 0, 3.55, 0, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["trailer_pm1l", "trailer_pm1r"],
+	["trailer_pm2l", "trailer_pm2r"],
+	["trailer_pm1l", "trailer_pm2l"],
+	["trailer_pm1r", "trailer_pm2r"],
+	["trailer_pm1l", "trailer_pm2r"],
+	["trailer_pm2l", "trailer_pm1r"],
+
+	//rigidifier
+	["trailer_pm1l", "trailer_pm0"],
+	["trailer_pm1r", "trailer_pm0"],
+	["trailer_pm2l", "trailer_pm0"],
+	["trailer_pm2r", "trailer_pm0"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"trailer_platemount_break"},
+
+	["trailer_pm1l", "trailer_f6l"],
+	["trailer_pm1l", "trailer_f6r"],
+	["trailer_pm1l", "trailer_f8l"],
+	["trailer_pm1l", "trailer_f16l"],
+
+	["trailer_pm1r", "trailer_f6l"],
+	["trailer_pm1r", "trailer_f6r"],
+	["trailer_pm1r", "trailer_f8r"],
+	["trailer_pm1r", "trailer_f16r"],
+
+	["trailer_pm2l", "trailer_f6l"],
+	["trailer_pm2l", "trailer_f6r"],
+	["trailer_pm2l", "trailer_f8l"],
+	["trailer_pm2l", "trailer_f16l"],
+
+	["trailer_pm2r", "trailer_f6l"],
+	["trailer_pm2r", "trailer_f6r"],
+	["trailer_pm2r", "trailer_f8r"],
+	["trailer_pm2r", "trailer_f16r"],
+
+	["trailer_pm0", "trailer_f6l"],
+	["trailer_pm0", "trailer_f6r"],
+	["trailer_pm0", "trailer_f8r"],
+	["trailer_pm0", "trailer_f8l"],
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legotrailer_platemount"},   
+	["trailer_pm1l","trailer_pm1r","trailer_pm2r","trailer_pm2l"],
+        {"group":""},
+    ],
+},
+
+"legotrailer_platemount": {
+    "information":{
+        "name":"License Plate Mount",
+        "authors":"AgentY",
+    },
+    "slotType":"legotrailer_platemount",
+    "slots": [
+        ["type", "default", "description"],
+	["legotrailer_licenseplate", "legotrailer_licenseplate_EU", "License Plate"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legotrailer_platemount",["legotrailer_platemount"]],
+    ],   
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legotrailer_platemount"},
+	//4 pieces, 6 nodes - 0.67 kg/node
+	{"nodeWeight": "$=$weight*0.67"},
+	
+	["trailer_pm2l", 0.25, 3.455, 0.225],
+	["trailer_pm2r",-0.25, 3.455, 0.225],
+	["trailer_pm1l", 0.25, 3.725, 0.225],
+	["trailer_pm1r",-0.25, 3.725, 0.225],
+	["trailer_pm3l", 0.25, 3.725,-0.025],
+	["trailer_pm3r",-0.25, 3.725,-0.025],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*671000", "beamDamp":"$=$weight*67"},
+
+	//bottom
+	["trailer_pm1l", "trailer_pm1r"],
+	["trailer_pm2l", "trailer_pm2r"],
+	["trailer_pm1l", "trailer_pm2l"],
+	["trailer_pm1r", "trailer_pm2r"],
+	["trailer_pm1l", "trailer_pm2r"],
+	["trailer_pm2l", "trailer_pm1r"],
+
+	//back
+	["trailer_pm3l", "trailer_pm3r"],
+	["trailer_pm1l", "trailer_pm3l"],
+	["trailer_pm1r", "trailer_pm3r"],
+	["trailer_pm1l", "trailer_pm3r"],
+	["trailer_pm3l", "trailer_pm1r"],
+
+	//bottom to back
+	["trailer_pm2l", "trailer_pm3l"],
+	["trailer_pm2r", "trailer_pm3r"],
+	["trailer_pm2l", "trailer_pm3r"],
+	["trailer_pm3l", "trailer_pm2r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"breakGroup":"trailer_platemount_break"},
+
+	["trailer_pm1l", "trailer_f6l"],
+	["trailer_pm1l", "trailer_f6r"],
+	["trailer_pm1l", "trailer_f8l"],
+	["trailer_pm1l", "trailer_f16l"],
+
+	["trailer_pm1r", "trailer_f6l"],
+	["trailer_pm1r", "trailer_f6r"],
+	["trailer_pm1r", "trailer_f8r"],
+	["trailer_pm1r", "trailer_f16r"],
+
+	["trailer_pm2l", "trailer_f6l"],
+	["trailer_pm2l", "trailer_f6r"],
+	["trailer_pm2l", "trailer_f8l"],
+	["trailer_pm2l", "trailer_f16l"],
+
+	["trailer_pm2r", "trailer_f6l"],
+	["trailer_pm2r", "trailer_f6r"],
+	["trailer_pm2r", "trailer_f8r"],
+	["trailer_pm2r", "trailer_f16r"],
+
+	["trailer_pm3l", "trailer_f6l"],
+	["trailer_pm3l", "trailer_f6r"],
+	["trailer_pm3l", "trailer_f8l"],
+	["trailer_pm3l", "trailer_f16l"],
+
+	["trailer_pm3r", "trailer_f6l"],
+	["trailer_pm3r", "trailer_f6r"],
+	["trailer_pm3r", "trailer_f8r"],
+	["trailer_pm3r", "trailer_f16r"],
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legotrailer_platemount"},   
+	["trailer_pm1l","trailer_pm1r","trailer_pm2r","trailer_pm2l"],
+	["trailer_pm3l","trailer_pm3r","trailer_pm1r","trailer_pm1l"],
+        {"group":""},
+    ],
+},
+
+}

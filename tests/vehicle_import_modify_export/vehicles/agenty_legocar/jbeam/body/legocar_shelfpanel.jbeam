@@ -1,0 +1,412 @@
+{
+//--INCLUDE RIGIDIFIER WEIGHT IN SPRING AND DAMP SETTINGS, LOWER STIFFNESS NEEDED DUE TO MANY PARTS ATTACHED--
+
+"legocar_shelfpanel": {
+    "information":{
+        "name":"Shelf Panel (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_shelfpanel",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_backlight", "legocar_backlight_blacktint", "Backlight"],
+	["legocar_parcelshelf", "legocar_parcelshelf", "Parcel Shelf"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_col1", ["legocar_shelfpanel"], [], {"pos":{"x": 0.000, "y":0.875, "z":0.7},"rot":{"x":0, "y":0, "z":90 },"scale":{"x":0.99, "y":1, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_shelfpanel"},
+
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["shelfpan1l",  0.75, 0.78, 0.75],
+	["shelfpan1r", -0.75, 0.78, 0.75],
+	["shelfpan2l",  0.75, 1.00, 0.75],
+	["shelfpan2r", -0.75, 1.00, 0.75],
+	//rigidifier
+	["shelfpanrig", 0, 0.875, 0.3, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--SHELF PANEL--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1201000", "beamDamp":"$=$weight*120"},
+
+	//uniform structure
+	["shelfpan1l", "shelfpan1r"],
+	["shelfpan2l", "shelfpan2r"],
+	["shelfpan1l", "shelfpan2l"],
+	["shelfpan1r", "shelfpan2r"],
+	["shelfpan1l", "shelfpan2r"],
+	["shelfpan2l", "shelfpan1r"],
+
+	//rigidifier
+	["shelfpan1l", "shelfpanrig"],
+	["shelfpan1r", "shelfpanrig"],
+	["shelfpan2l", "shelfpanrig"],
+	["shelfpan2r", "shelfpanrig"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//left
+	{"breakGroup":"shelfpanel_L_break"},
+
+	["shelfpan1l", "Lqpan1l"],
+	["shelfpan1l", "Lqpan1r"],
+	["shelfpan1l", "Lqpan2l"],
+
+	["shelfpan1r", "Lqpan1l"],
+	["shelfpan1r", "Lqpan1r"],
+	["shelfpan1r", "Lqpan2r"],
+
+	["shelfpan2l", "Lqpan1l"],
+	["shelfpan2l", "Lqpan2r"],
+	["shelfpan2l", "Lqpan2l"],
+
+	["shelfpan2r", "Lqpan2l"],
+	["shelfpan2r", "Lqpan1r"],
+	["shelfpan2r", "Lqpan2r"],
+
+
+	//right
+	{"breakGroup":"shelfpanel_R_break"},
+
+	["shelfpan1l", "Rqpan1l"],
+	["shelfpan1l", "Rqpan1r"],
+	["shelfpan1l", "Rqpan2l"],
+
+	["shelfpan1r", "Rqpan1l"],
+	["shelfpan1r", "Rqpan1r"],
+	["shelfpan1r", "Rqpan2r"],
+
+	["shelfpan2l", "Rqpan1l"],
+	["shelfpan2l", "Rqpan2r"],
+	["shelfpan2l", "Rqpan2l"],
+
+	["shelfpan2r", "Rqpan2l"],
+	["shelfpan2r", "Rqpan1r"],
+	["shelfpan2r", "Rqpan2r"],
+	
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*601000", "beamDamp":"$=$weight*60"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["shelfpan1l", "chassis7l"],
+	["shelfpan1l", "chassis7r"],
+	["shelfpan1l", "chassis8l"],
+	["shelfpan1l", "chassis8r"],
+
+	["shelfpan1r", "chassis7l"],
+	["shelfpan1r", "chassis7r"],
+	["shelfpan1r", "chassis8l"],
+	["shelfpan1r", "chassis8r"],
+
+	["shelfpan2l", "chassis7l"],
+	["shelfpan2l", "chassis7r"],
+	["shelfpan2l", "chassis8l"],
+	["shelfpan2l", "chassis8r"],
+
+	["shelfpan2r", "chassis7l"],
+	["shelfpan2r", "chassis7r"],
+	["shelfpan2r", "chassis8l"],
+	["shelfpan2r", "chassis8r"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_shelfpanel"},
+	["shelfpan2l","shelfpan2r","shelfpan1r","shelfpan1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_shelfpanel_col2": {
+    "information":{
+        "name":"Shelf Panel (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_shelfpanel",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_backlight", "legocar_backlight_blacktint", "Backlight"],
+	["legocar_parcelshelf", "legocar_parcelshelf", "Parcel Shelf"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_col2", ["legocar_shelfpanel"], [], {"pos":{"x": 0.000, "y":0.875, "z":0.7},"rot":{"x":0, "y":0, "z":90 },"scale":{"x":0.99, "y":1, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_shelfpanel"},
+
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["shelfpan1l",  0.75, 0.78, 0.75],
+	["shelfpan1r", -0.75, 0.78, 0.75],
+	["shelfpan2l",  0.75, 1.00, 0.75],
+	["shelfpan2r", -0.75, 1.00, 0.75],
+	//rigidifier
+	["shelfpanrig", 0, 0.875, 0.3, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--SHELF PANEL--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1201000", "beamDamp":"$=$weight*120"},
+
+	//uniform structure
+	["shelfpan1l", "shelfpan1r"],
+	["shelfpan2l", "shelfpan2r"],
+	["shelfpan1l", "shelfpan2l"],
+	["shelfpan1r", "shelfpan2r"],
+	["shelfpan1l", "shelfpan2r"],
+	["shelfpan2l", "shelfpan1r"],
+
+	//rigidifier
+	["shelfpan1l", "shelfpanrig"],
+	["shelfpan1r", "shelfpanrig"],
+	["shelfpan2l", "shelfpanrig"],
+	["shelfpan2r", "shelfpanrig"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//left
+	{"breakGroup":"shelfpanel_L_break"},
+
+	["shelfpan1l", "Lqpan1l"],
+	["shelfpan1l", "Lqpan1r"],
+	["shelfpan1l", "Lqpan2l"],
+
+	["shelfpan1r", "Lqpan1l"],
+	["shelfpan1r", "Lqpan1r"],
+	["shelfpan1r", "Lqpan2r"],
+
+	["shelfpan2l", "Lqpan1l"],
+	["shelfpan2l", "Lqpan2r"],
+	["shelfpan2l", "Lqpan2l"],
+
+	["shelfpan2r", "Lqpan2l"],
+	["shelfpan2r", "Lqpan1r"],
+	["shelfpan2r", "Lqpan2r"],
+
+
+	//right
+	{"breakGroup":"shelfpanel_R_break"},
+
+	["shelfpan1l", "Rqpan1l"],
+	["shelfpan1l", "Rqpan1r"],
+	["shelfpan1l", "Rqpan2l"],
+
+	["shelfpan1r", "Rqpan1l"],
+	["shelfpan1r", "Rqpan1r"],
+	["shelfpan1r", "Rqpan2r"],
+
+	["shelfpan2l", "Rqpan1l"],
+	["shelfpan2l", "Rqpan2r"],
+	["shelfpan2l", "Rqpan2l"],
+
+	["shelfpan2r", "Rqpan2l"],
+	["shelfpan2r", "Rqpan1r"],
+	["shelfpan2r", "Rqpan2r"],
+	
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*601000", "beamDamp":"$=$weight*60"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["shelfpan1l", "chassis7l"],
+	["shelfpan1l", "chassis7r"],
+	["shelfpan1l", "chassis8l"],
+	["shelfpan1l", "chassis8r"],
+
+	["shelfpan1r", "chassis7l"],
+	["shelfpan1r", "chassis7r"],
+	["shelfpan1r", "chassis8l"],
+	["shelfpan1r", "chassis8r"],
+
+	["shelfpan2l", "chassis7l"],
+	["shelfpan2l", "chassis7r"],
+	["shelfpan2l", "chassis8l"],
+	["shelfpan2l", "chassis8r"],
+
+	["shelfpan2r", "chassis7l"],
+	["shelfpan2r", "chassis7r"],
+	["shelfpan2r", "chassis8l"],
+	["shelfpan2r", "chassis8r"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_shelfpanel"},
+	["shelfpan2l","shelfpan2r","shelfpan1r","shelfpan1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_shelfpanel_col3": {
+    "information":{
+        "name":"Shelf Panel (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_shelfpanel",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_backlight", "legocar_backlight_blacktint", "Backlight"],
+	["legocar_parcelshelf", "legocar_parcelshelf", "Parcel Shelf"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_col3", ["legocar_shelfpanel"], [], {"pos":{"x": 0.000, "y":0.875, "z":0.7},"rot":{"x":0, "y":0, "z":90 },"scale":{"x":0.99, "y":1, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_shelfpanel"},
+
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["shelfpan1l",  0.75, 0.78, 0.75],
+	["shelfpan1r", -0.75, 0.78, 0.75],
+	["shelfpan2l",  0.75, 1.00, 0.75],
+	["shelfpan2r", -0.75, 1.00, 0.75],
+	//rigidifier
+	["shelfpanrig", 0, 0.875, 0.3, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--SHELF PANEL--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1201000", "beamDamp":"$=$weight*120"},
+
+	//uniform structure
+	["shelfpan1l", "shelfpan1r"],
+	["shelfpan2l", "shelfpan2r"],
+	["shelfpan1l", "shelfpan2l"],
+	["shelfpan1r", "shelfpan2r"],
+	["shelfpan1l", "shelfpan2r"],
+	["shelfpan2l", "shelfpan1r"],
+
+	//rigidifier
+	["shelfpan1l", "shelfpanrig"],
+	["shelfpan1r", "shelfpanrig"],
+	["shelfpan2l", "shelfpanrig"],
+	["shelfpan2r", "shelfpanrig"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//left
+	{"breakGroup":"shelfpanel_L_break"},
+
+	["shelfpan1l", "Lqpan1l"],
+	["shelfpan1l", "Lqpan1r"],
+	["shelfpan1l", "Lqpan2l"],
+
+	["shelfpan1r", "Lqpan1l"],
+	["shelfpan1r", "Lqpan1r"],
+	["shelfpan1r", "Lqpan2r"],
+
+	["shelfpan2l", "Lqpan1l"],
+	["shelfpan2l", "Lqpan2r"],
+	["shelfpan2l", "Lqpan2l"],
+
+	["shelfpan2r", "Lqpan2l"],
+	["shelfpan2r", "Lqpan1r"],
+	["shelfpan2r", "Lqpan2r"],
+
+
+	//right
+	{"breakGroup":"shelfpanel_R_break"},
+
+	["shelfpan1l", "Rqpan1l"],
+	["shelfpan1l", "Rqpan1r"],
+	["shelfpan1l", "Rqpan2l"],
+
+	["shelfpan1r", "Rqpan1l"],
+	["shelfpan1r", "Rqpan1r"],
+	["shelfpan1r", "Rqpan2r"],
+
+	["shelfpan2l", "Rqpan1l"],
+	["shelfpan2l", "Rqpan2r"],
+	["shelfpan2l", "Rqpan2l"],
+
+	["shelfpan2r", "Rqpan2l"],
+	["shelfpan2r", "Rqpan1r"],
+	["shelfpan2r", "Rqpan2r"],
+	
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*601000", "beamDamp":"$=$weight*60"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["shelfpan1l", "chassis7l"],
+	["shelfpan1l", "chassis7r"],
+	["shelfpan1l", "chassis8l"],
+	["shelfpan1l", "chassis8r"],
+
+	["shelfpan1r", "chassis7l"],
+	["shelfpan1r", "chassis7r"],
+	["shelfpan1r", "chassis8l"],
+	["shelfpan1r", "chassis8r"],
+
+	["shelfpan2l", "chassis7l"],
+	["shelfpan2l", "chassis7r"],
+	["shelfpan2l", "chassis8l"],
+	["shelfpan2l", "chassis8r"],
+
+	["shelfpan2r", "chassis7l"],
+	["shelfpan2r", "chassis7r"],
+	["shelfpan2r", "chassis8l"],
+	["shelfpan2r", "chassis8r"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_shelfpanel"},
+	["shelfpan2l","shelfpan2r","shelfpan1r","shelfpan1l"],
+        {"group":""},
+    ],
+},
+
+}

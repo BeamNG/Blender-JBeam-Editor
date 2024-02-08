@@ -1,0 +1,223 @@
+{
+"legocar_wheeliebar_mount": {
+    "information":{
+        "name":"Wheelie Bar Mount",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_wheeliebar_mount",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_wheeliebar", "legocar_wheeliebar", "Wheelie Bar"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_wheeliebar_mount_T",["legocar_wheeliebar_mount_T"]],
+	["legocar_wheeliebar_mount_L",["legocar_wheeliebar_mount_L"]],
+	["legocar_wheeliebar_mount_R",["legocar_wheeliebar_mount_R"]],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//mount top
+	{"group":"legocar_wheeliebar_mount_T"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["whbarmtT1l",  0.75, 1.50, 0.05],
+	["whbarmtT1r", -0.75, 1.50, 0.05],
+	["whbarmtT2l",  0.75, 1.75, 0.05],
+	["whbarmtT2r", -0.75, 1.75, 0.05],
+
+	//rigidifier
+	["whbarmtTrig", 0, 1.625, 0.5, {"collision":false, "selfCollision":false, "group":""}],
+
+
+	//mount sides
+	//3 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	{"group":"legocar_wheeliebar_mount_L"},
+	["whbarmtL1l", 0.50, 1.500, -0.025],
+	["whbarmtL1r", 0.02, 1.500, -0.025],
+	["whbarmtL2l", 0.50, 1.875, -0.025],
+	["whbarmtL2r", 0.02, 1.875, -0.025],
+	//rigidifier
+	["whbarmtLrig", 0.25, 1.7, 0.1, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":"legocar_wheeliebar_mount_R"},
+	["whbarmtR1r", -0.50, 1.500, -0.025],
+	["whbarmtR1l", -0.02, 1.500, -0.025],
+	["whbarmtR2r", -0.50, 1.875, -0.025],
+	["whbarmtR2l", -0.02, 1.875, -0.025],
+	//rigidifier
+	["whbarmtRrig", -0.25, 1.7, 0.1, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--MOUNT TOP--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["whbarmtT1l", "whbarmtT1r"],
+	["whbarmtT2l", "whbarmtT2r"],
+	["whbarmtT1l", "whbarmtT2l"],
+	["whbarmtT1r", "whbarmtT2r"],
+	["whbarmtT1l", "whbarmtT2r"],
+	["whbarmtT2l", "whbarmtT1r"],
+
+	//rigidifier
+	["whbarmtT1l", "whbarmtTrig"],
+	["whbarmtT1r", "whbarmtTrig"],
+	["whbarmtT2l", "whbarmtTrig"],
+	["whbarmtT2r", "whbarmtTrig"],
+
+
+	//--MOUNT SIDES--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//left uniform structure
+	["whbarmtL1l", "whbarmtL1r"],
+	["whbarmtL2l", "whbarmtL2r"],
+	["whbarmtL1l", "whbarmtL2l"],
+	["whbarmtL1r", "whbarmtL2r"],
+	["whbarmtL1l", "whbarmtL2r"],
+	["whbarmtL2l", "whbarmtL1r"],
+
+	//left rigidifier
+	["whbarmtL1l", "whbarmtLrig"],
+	["whbarmtL1r", "whbarmtLrig"],
+	["whbarmtL2l", "whbarmtLrig"],
+	["whbarmtL2r", "whbarmtLrig"],
+
+	//right uniform structure
+	["whbarmtR1l", "whbarmtR1r"],
+	["whbarmtR2l", "whbarmtR2r"],
+	["whbarmtR1l", "whbarmtR2l"],
+	["whbarmtR1r", "whbarmtR2r"],
+	["whbarmtR1l", "whbarmtR2r"],
+	["whbarmtR2l", "whbarmtR1r"],
+
+	//right rigidifier
+	["whbarmtR1l", "whbarmtRrig"],
+	["whbarmtR1r", "whbarmtRrig"],
+	["whbarmtR2l", "whbarmtRrig"],
+	["whbarmtR2r", "whbarmtRrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//top to filler
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	{"breakGroup":"wheeliebar_mount_T_break"},
+
+	["whbarmtT1l", "sptpan2l"],
+	["whbarmtT1l", "sptpan2r"],
+	["whbarmtT1l", "sptpan1l"],
+	["whbarmtT1l", "sptpan4l"],
+
+	["whbarmtT1r", "sptpan2r"],
+	["whbarmtT1r", "sptpan2l"],
+	["whbarmtT1r", "sptpan1r"],
+	["whbarmtT1r", "sptpan4r"],
+
+	["whbarmtT2l", "sptpan2l"],
+	["whbarmtT2l", "sptpan2r"],
+	["whbarmtT2l", "sptpan1l"],
+	["whbarmtT2l", "sptpan4l"],
+
+	["whbarmtT2r", "sptpan2r"],
+	["whbarmtT2r", "sptpan2l"],
+	["whbarmtT2r", "sptpan1r"],
+	["whbarmtT2r", "sptpan4r"],
+	
+	["whbarmtTrig", "sptpan2l"],
+	["whbarmtTrig", "sptpan2r"],
+	["whbarmtTrig", "sptpan1l"],
+	["whbarmtTrig", "sptpan1r"],
+
+
+	//left to top
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+	{"breakGroup":"wheeliebar_mount_L_break"},
+
+	["whbarmtL1l", "whbarmtT1l"],
+	["whbarmtL1l", "whbarmtT1r"],
+	["whbarmtL1l", "whbarmtT2l"],
+	["whbarmtL1l", "whbarmtTrig"],
+
+	["whbarmtL1r", "whbarmtT1l"],
+	["whbarmtL1r", "whbarmtT1r"],
+	["whbarmtL1r", "whbarmtT2l"],
+	["whbarmtL1r", "whbarmtTrig"],
+
+	["whbarmtL2l", "whbarmtT1l"],
+	["whbarmtL2l", "whbarmtT2r"],
+	["whbarmtL2l", "whbarmtT2l"],
+	["whbarmtL2l", "whbarmtTrig"],
+
+	["whbarmtL2r", "whbarmtT1l"],
+	["whbarmtL2r", "whbarmtT2r"],
+	["whbarmtL2r", "whbarmtT2l"],
+	["whbarmtL2r", "whbarmtTrig"],
+
+	["whbarmtLrig", "whbarmtT1l"],
+	["whbarmtLrig", "whbarmtT1r"],
+	["whbarmtLrig", "whbarmtT2l"],
+	["whbarmtLrig", "whbarmtT2r"],
+
+
+	//right to top
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+	{"breakGroup":"wheeliebar_mount_R_break"},
+
+	["whbarmtR1l", "whbarmtT1r"],
+	["whbarmtR1l", "whbarmtT1l"],
+	["whbarmtR1l", "whbarmtT2r"],
+	["whbarmtR1l", "whbarmtTrig"],
+
+	["whbarmtR1r", "whbarmtT1r"],
+	["whbarmtR1r", "whbarmtT1l"],
+	["whbarmtR1r", "whbarmtT2r"],
+	["whbarmtR1r", "whbarmtTrig"],
+
+	["whbarmtR2l", "whbarmtT1r"],
+	["whbarmtR2l", "whbarmtT2r"],
+	["whbarmtR2l", "whbarmtT2l"],
+	["whbarmtR2l", "whbarmtTrig"],
+
+	["whbarmtR2r", "whbarmtT1r"],
+	["whbarmtR2r", "whbarmtT2r"],
+	["whbarmtR2r", "whbarmtT2l"],
+	["whbarmtR2r", "whbarmtTrig"],
+
+	["whbarmtRrig", "whbarmtT1l"],
+	["whbarmtRrig", "whbarmtT1r"],
+	["whbarmtRrig", "whbarmtT2l"],
+	["whbarmtRrig", "whbarmtT2r"],
+
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_wheeliebar_mount_T"},
+	["whbarmtT1r","whbarmtT1l","whbarmtT2l","whbarmtT2r"],
+	{"group":"legocar_wheeliebar_mount_L"},
+	["whbarmtL1r","whbarmtL1l","whbarmtL2l","whbarmtL2r"],
+	{"group":"legocar_wheeliebar_mount_R"},
+	["whbarmtR1r","whbarmtR1l","whbarmtR2l","whbarmtR2r"],
+        {"group":""},
+    ],
+},
+
+}

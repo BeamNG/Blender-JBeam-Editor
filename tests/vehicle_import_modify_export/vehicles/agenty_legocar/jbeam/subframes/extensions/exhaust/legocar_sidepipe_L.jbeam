@@ -1,0 +1,108 @@
+{
+"legocar_sidepipe_L": {
+    "information":{
+        "name":"Left Side Pipe",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_sidepipe_L",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_exhausttip_side_L", "", "Left Exhaust Tip"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_sidepipe",["legocar_sidepipe_L"], [], {"pos":{"x":0.90, "y":0.025, "z":0.180},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//sidepipe
+	{"group":"legocar_sidepipe_L"},
+	//4 half pieces, 3 nodes - 0.67 kg/node
+	{"nodeWeight": "$=$weight*0.67"},
+
+	["sidepipeL1", 0.90,-0.475, 0.18, {"selfCollision":false}],
+	["sidepipeL2", 0.90, 0.525, 0.18, {"afterFireAudioCoef":1,"afterFireVisualCoef":1, "afterFireVolumeCoef":0.7, "afterFireMufflingCoef": 0.6, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-1}],
+	//rigidifier
+	["sidepipeL3", 0.15, 0.025, 0.18, {"collision":false, "selfCollision":false}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--SIDE PIPE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*671000", "beamDamp":"$=$weight*67"},
+
+	//uniform structure
+	["sidepipeL1", "sidepipeL2", {"isExhaust":"mainEngine"}],
+	["sidepipeL2", "sidepipeL3"],
+	["sidepipeL3", "sidepipeL1"],
+	
+	
+	//--ATTACH--
+	{"beamDeform":"$=$strength*5", "beamStrength":"$=$strength*5"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"sidepipe_L_break"},
+
+	["sidepipeL1", "FLsideskirt1l"],
+	["sidepipeL1", "FLsideskirt2l", {"isExhaust":"mainEngine"}],
+	["sidepipeL1", "FLsideskirt1r"],
+	["sidepipeL1", "FLsideskirt2r"],
+	["sidepipeL1", "FLsideskirtrig"],
+
+	["sidepipeL2", "FLsideskirt1l"],
+	["sidepipeL2", "FLsideskirt2l"],
+	["sidepipeL2", "FLsideskirt1r"],
+	["sidepipeL2", "FLsideskirt2r"],
+	["sidepipeL2", "FLsideskirtrig"],
+
+	["sidepipeL3", "FLsideskirt1l"],
+	["sidepipeL3", "FLsideskirt2l"],
+	["sidepipeL3", "FLsideskirt1r"],
+	["sidepipeL3", "FLsideskirt2r"],
+	["sidepipeL3", "FLsideskirtrig"],
+	
+	{"breakGroup":""},
+
+
+	//--AFTERFIRE DISABLE TRIGGER--
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+
+	{"deformGroup":"afterfire_side_L_disable","deformationTriggerRatio":0.25},
+	["eng3l", "sidepipeL2", {"deformLimit":"","deformLimitExpansion":"", "optional":true}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "rails": {
+        "sidepipe_L":{"links:":["FLsideskirt1l","sidepipeL2"],"broken:":[], "looped":false, "capped":false},
+    },
+    "slidenodes": [
+        ["id:", "railName", "attached", "fixToRail", "tolerance", "spring", "strength", "capStrength"],
+        ["FLsideskirt2l","sidepipe_L", true, true, 0.00, "$=$weight*501000", "FLT_MAX", "FLT_MAX"],
+	["sidepipeL1",   "sidepipe_L", true, true, 0.00, "$=$weight*501000", "FLT_MAX", "FLT_MAX"],
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	//breakable side collision quads
+
+	{"group":"sideskirt_subframe_FL_break"},
+	{"breakGroup":"sideskirt_subframe_FL_break"},
+	["Lsubf1l","Lsubf2l","sidepipeL2","FLsideskirt1l"],
+
+	{"group":"sideskirt_rocker_FL_break"},
+	{"breakGroup":"sideskirt_rocker_FL_break"},
+	["LrockB2l","LrockB1l","FLsideskirt1l","sidepipeL2", {"optional":true}],
+
+	{"breakGroup":""},
+        {"group":""},
+    ], 
+},
+
+}

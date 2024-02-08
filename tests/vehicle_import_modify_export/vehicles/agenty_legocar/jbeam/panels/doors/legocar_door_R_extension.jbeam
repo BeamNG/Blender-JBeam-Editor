@@ -1,0 +1,467 @@
+{
+"legocar_door_R_welded_extension_col1": {
+    "information":{
+        "name":"Right Door Extension (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_door_R_welded_extension",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_col1",["legocar_door_extension_R"], [], {"pos":{"x":-0.625, "y":0.000, "z":0.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_door_extension_R"},
+
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["doorext1rr",-0.75,  0.22, 0.75],
+	["doorext1r", -0.53,  0.22, 0.75],
+	["doorext2rr",-0.75, -0.22, 0.75],
+	["doorext2r", -0.53, -0.22, 0.75],
+	//rigidifier
+	["doorext0r", -0.625, 0, 0.50, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//bottom square
+	["doorext1r", "doorext2r"],
+	["doorext1r", "doorext1rr"],
+	["doorext2r", "doorext2rr"],
+	["doorext1r", "doorext2rr"],
+	["doorext2r", "doorext1rr"],
+	["doorext1rr", "doorext2rr"],
+
+	//rigidifier
+	["doorext1r", "doorext0r"],
+	["doorext2r", "doorext0r"],
+	["doorext1rr", "doorext0r"],
+	["doorext2rr", "doorext0r"],
+
+	
+	//--ATTACH TO DOOR--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"door_R_extension_break"},
+	
+	["doorext1r", "Rdoor1l"],
+	["doorext2r", "Rdoor1l"],
+	["doorext1rr", "Rdoor1l"],
+	["doorext2rr", "Rdoor1l"],
+
+	["doorext1r", "Rdoor2l"],
+	["doorext2r", "Rdoor2l"],
+	["doorext1rr", "Rdoor2l"],
+	["doorext2rr", "Rdoor2l"],
+
+	["doorext1r", "Rdoor3l"],
+	["doorext2r", "Rdoor3l"],
+	["doorext1rr", "Rdoor3l"],
+	["doorext2rr", "Rdoor3l"],
+
+	["doorext1r", "Rdoor4l"],
+	["doorext2r", "Rdoor4l"],
+	["doorext1rr", "Rdoor4l"],
+	["doorext2rr", "Rdoor4l"],
+
+	["doorext1r", "Rdoor1r"],
+	["doorext2r", "Rdoor1r"],
+	["doorext1rr", "Rdoor1r"],
+	["doorext2rr", "Rdoor1r"],
+
+	["doorext1r", "Rdoor2r"],
+	["doorext2r", "Rdoor2r"],
+	["doorext1rr", "Rdoor2r"],
+	["doorext2rr", "Rdoor2r"],
+
+	["doorext1r", "Rdoor3r"],
+	["doorext2r", "Rdoor3r"],
+	["doorext1rr", "Rdoor3r"],
+	["doorext2rr", "Rdoor3r"],
+
+	["doorext1r", "Rdoor4r"],
+	["doorext2r", "Rdoor4r"],
+	["doorext1rr", "Rdoor4r"],
+	["doorext2rr", "Rdoor4r"],
+	
+
+	//--ATTACH TO NET-
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"door_R_net_break"},
+	{"optional":true},
+
+	["doorext1r", "Rnet1l"],
+	["doorext2r", "Rnet1l"],
+	["doorext1rr", "Rnet1l"],
+	["doorext2rr", "Rnet1l"],
+
+	["doorext1r", "Rnet2l"],
+	["doorext2r", "Rnet2l"],
+	["doorext1rr", "Rnet2l"],
+	["doorext2rr", "Rnet2l"],
+
+	["doorext1r", "Rnet3l"],
+	["doorext2r", "Rnet3l"],
+	["doorext1rr", "Rnet3l"],
+	["doorext2rr", "Rnet3l"],
+
+	["doorext1r", "Rnet4l"],
+	["doorext2r", "Rnet4l"],
+	["doorext1rr", "Rnet4l"],
+	["doorext2rr", "Rnet4l"],
+
+	["doorext1r", "Rnet1r"],
+	["doorext2r", "Rnet1r"],
+	["doorext1rr", "Rnet1r"],
+	["doorext2rr", "Rnet1r"],
+
+	["doorext1r", "Rnet2r"],
+	["doorext2r", "Rnet2r"],
+	["doorext1rr", "Rnet2r"],
+	["doorext2rr", "Rnet2r"],
+
+	["doorext1r", "Rnet3r"],
+	["doorext2r", "Rnet3r"],
+	["doorext1rr", "Rnet3r"],
+	["doorext2rr", "Rnet3r"],
+
+	["doorext1r", "Rnet4r"],
+	["doorext2r", "Rnet4r"],
+	["doorext1rr", "Rnet4r"],
+	["doorext2rr", "Rnet4r"],
+
+
+	{"breakGroup":""},
+	{"optional":false},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_door_extension_R"}, 
+  	["doorext1r","doorext2r","doorext2rr","doorext1rr"],
+        {"group":""},
+    ],
+},
+
+"legocar_door_R_welded_extension_col2": {
+    "information":{
+        "name":"Right Door Extension (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_door_R_welded_extension",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_col2",["legocar_door_extension_R"], [], {"pos":{"x":-0.625, "y":0.000, "z":0.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_door_extension_R"},
+
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["doorext1rr",-0.75,  0.22, 0.75],
+	["doorext1r", -0.53,  0.22, 0.75],
+	["doorext2rr",-0.75, -0.22, 0.75],
+	["doorext2r", -0.53, -0.22, 0.75],
+	//rigidifier
+	["doorext0r", -0.625, 0, 0.50, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//bottom square
+	["doorext1r", "doorext2r"],
+	["doorext1r", "doorext1rr"],
+	["doorext2r", "doorext2rr"],
+	["doorext1r", "doorext2rr"],
+	["doorext2r", "doorext1rr"],
+	["doorext1rr", "doorext2rr"],
+
+	//rigidifier
+	["doorext1r", "doorext0r"],
+	["doorext2r", "doorext0r"],
+	["doorext1rr", "doorext0r"],
+	["doorext2rr", "doorext0r"],
+
+	
+	//--ATTACH TO DOOR--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"door_R_extension_break"},
+	
+	["doorext1r", "Rdoor1l"],
+	["doorext2r", "Rdoor1l"],
+	["doorext1rr", "Rdoor1l"],
+	["doorext2rr", "Rdoor1l"],
+
+	["doorext1r", "Rdoor2l"],
+	["doorext2r", "Rdoor2l"],
+	["doorext1rr", "Rdoor2l"],
+	["doorext2rr", "Rdoor2l"],
+
+	["doorext1r", "Rdoor3l"],
+	["doorext2r", "Rdoor3l"],
+	["doorext1rr", "Rdoor3l"],
+	["doorext2rr", "Rdoor3l"],
+
+	["doorext1r", "Rdoor4l"],
+	["doorext2r", "Rdoor4l"],
+	["doorext1rr", "Rdoor4l"],
+	["doorext2rr", "Rdoor4l"],
+
+	["doorext1r", "Rdoor1r"],
+	["doorext2r", "Rdoor1r"],
+	["doorext1rr", "Rdoor1r"],
+	["doorext2rr", "Rdoor1r"],
+
+	["doorext1r", "Rdoor2r"],
+	["doorext2r", "Rdoor2r"],
+	["doorext1rr", "Rdoor2r"],
+	["doorext2rr", "Rdoor2r"],
+
+	["doorext1r", "Rdoor3r"],
+	["doorext2r", "Rdoor3r"],
+	["doorext1rr", "Rdoor3r"],
+	["doorext2rr", "Rdoor3r"],
+
+	["doorext1r", "Rdoor4r"],
+	["doorext2r", "Rdoor4r"],
+	["doorext1rr", "Rdoor4r"],
+	["doorext2rr", "Rdoor4r"],
+	
+
+	//--ATTACH TO NET-
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"door_R_net_break"},
+	{"optional":true},
+
+	["doorext1r", "Rnet1l"],
+	["doorext2r", "Rnet1l"],
+	["doorext1rr", "Rnet1l"],
+	["doorext2rr", "Rnet1l"],
+
+	["doorext1r", "Rnet2l"],
+	["doorext2r", "Rnet2l"],
+	["doorext1rr", "Rnet2l"],
+	["doorext2rr", "Rnet2l"],
+
+	["doorext1r", "Rnet3l"],
+	["doorext2r", "Rnet3l"],
+	["doorext1rr", "Rnet3l"],
+	["doorext2rr", "Rnet3l"],
+
+	["doorext1r", "Rnet4l"],
+	["doorext2r", "Rnet4l"],
+	["doorext1rr", "Rnet4l"],
+	["doorext2rr", "Rnet4l"],
+
+	["doorext1r", "Rnet1r"],
+	["doorext2r", "Rnet1r"],
+	["doorext1rr", "Rnet1r"],
+	["doorext2rr", "Rnet1r"],
+
+	["doorext1r", "Rnet2r"],
+	["doorext2r", "Rnet2r"],
+	["doorext1rr", "Rnet2r"],
+	["doorext2rr", "Rnet2r"],
+
+	["doorext1r", "Rnet3r"],
+	["doorext2r", "Rnet3r"],
+	["doorext1rr", "Rnet3r"],
+	["doorext2rr", "Rnet3r"],
+
+	["doorext1r", "Rnet4r"],
+	["doorext2r", "Rnet4r"],
+	["doorext1rr", "Rnet4r"],
+	["doorext2rr", "Rnet4r"],
+
+
+	{"breakGroup":""},
+	{"optional":false},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_door_extension_R"}, 
+  	["doorext1r","doorext2r","doorext2rr","doorext1rr"],
+        {"group":""},
+    ],
+},
+
+"legocar_door_R_welded_extension_col3": {
+    "information":{
+        "name":"Right Door Extension (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_door_R_welded_extension",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_col3",["legocar_door_extension_R"], [], {"pos":{"x":-0.625, "y":0.000, "z":0.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_door_extension_R"},
+
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["doorext1rr",-0.75,  0.22, 0.75],
+	["doorext1r", -0.53,  0.22, 0.75],
+	["doorext2rr",-0.75, -0.22, 0.75],
+	["doorext2r", -0.53, -0.22, 0.75],
+	//rigidifier
+	["doorext0r", -0.625, 0, 0.50, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//bottom square
+	["doorext1r", "doorext2r"],
+	["doorext1r", "doorext1rr"],
+	["doorext2r", "doorext2rr"],
+	["doorext1r", "doorext2rr"],
+	["doorext2r", "doorext1rr"],
+	["doorext1rr", "doorext2rr"],
+
+	//rigidifier
+	["doorext1r", "doorext0r"],
+	["doorext2r", "doorext0r"],
+	["doorext1rr", "doorext0r"],
+	["doorext2rr", "doorext0r"],
+
+	
+	//--ATTACH TO DOOR--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"door_R_extension_break"},
+	
+	["doorext1r", "Rdoor1l"],
+	["doorext2r", "Rdoor1l"],
+	["doorext1rr", "Rdoor1l"],
+	["doorext2rr", "Rdoor1l"],
+
+	["doorext1r", "Rdoor2l"],
+	["doorext2r", "Rdoor2l"],
+	["doorext1rr", "Rdoor2l"],
+	["doorext2rr", "Rdoor2l"],
+
+	["doorext1r", "Rdoor3l"],
+	["doorext2r", "Rdoor3l"],
+	["doorext1rr", "Rdoor3l"],
+	["doorext2rr", "Rdoor3l"],
+
+	["doorext1r", "Rdoor4l"],
+	["doorext2r", "Rdoor4l"],
+	["doorext1rr", "Rdoor4l"],
+	["doorext2rr", "Rdoor4l"],
+
+	["doorext1r", "Rdoor1r"],
+	["doorext2r", "Rdoor1r"],
+	["doorext1rr", "Rdoor1r"],
+	["doorext2rr", "Rdoor1r"],
+
+	["doorext1r", "Rdoor2r"],
+	["doorext2r", "Rdoor2r"],
+	["doorext1rr", "Rdoor2r"],
+	["doorext2rr", "Rdoor2r"],
+
+	["doorext1r", "Rdoor3r"],
+	["doorext2r", "Rdoor3r"],
+	["doorext1rr", "Rdoor3r"],
+	["doorext2rr", "Rdoor3r"],
+
+	["doorext1r", "Rdoor4r"],
+	["doorext2r", "Rdoor4r"],
+	["doorext1rr", "Rdoor4r"],
+	["doorext2rr", "Rdoor4r"],
+	
+
+	//--ATTACH TO NET-
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"door_R_net_break"},
+	{"optional":true},
+
+	["doorext1r", "Rnet1l"],
+	["doorext2r", "Rnet1l"],
+	["doorext1rr", "Rnet1l"],
+	["doorext2rr", "Rnet1l"],
+
+	["doorext1r", "Rnet2l"],
+	["doorext2r", "Rnet2l"],
+	["doorext1rr", "Rnet2l"],
+	["doorext2rr", "Rnet2l"],
+
+	["doorext1r", "Rnet3l"],
+	["doorext2r", "Rnet3l"],
+	["doorext1rr", "Rnet3l"],
+	["doorext2rr", "Rnet3l"],
+
+	["doorext1r", "Rnet4l"],
+	["doorext2r", "Rnet4l"],
+	["doorext1rr", "Rnet4l"],
+	["doorext2rr", "Rnet4l"],
+
+	["doorext1r", "Rnet1r"],
+	["doorext2r", "Rnet1r"],
+	["doorext1rr", "Rnet1r"],
+	["doorext2rr", "Rnet1r"],
+
+	["doorext1r", "Rnet2r"],
+	["doorext2r", "Rnet2r"],
+	["doorext1rr", "Rnet2r"],
+	["doorext2rr", "Rnet2r"],
+
+	["doorext1r", "Rnet3r"],
+	["doorext2r", "Rnet3r"],
+	["doorext1rr", "Rnet3r"],
+	["doorext2rr", "Rnet3r"],
+
+	["doorext1r", "Rnet4r"],
+	["doorext2r", "Rnet4r"],
+	["doorext1rr", "Rnet4r"],
+	["doorext2rr", "Rnet4r"],
+
+
+	{"breakGroup":""},
+	{"optional":false},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_door_extension_R"}, 
+  	["doorext1r","doorext2r","doorext2rr","doorext1rr"],
+        {"group":""},
+    ],
+},
+
+}

@@ -1,0 +1,670 @@
+{
+"legocar_enginebay_electric_grey": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Engine Bay (Grey)",
+    },
+    "slotType" : "legocar_enginebay_electric",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_enginebaystuff_stock","", "Engine Bay Stuff"],
+	["legocar_hood_stock","legocar_hood_stock", "Hood"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_tall_slope_inverted_grey",["legocar_engbay_L"], [], {"pos":{"x": 0.500, "y":-1.375,"z":0.3},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_tall_slope_inverted_grey",["legocar_engbay_R"], [], {"pos":{"x":-0.500, "y":-1.375,"z":0.3},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//4.5 pieces, 6 nodes - 0.75 kg/node
+	{"nodeWeight": "$=$weight*0.75"},
+	
+	{"group":"legocar_engbay_L"},
+	["engbay1l",  0.28, -1.25, 0.33],
+	["engbay2l",  0.28, -1.50, 0.33],
+	["engbay3l",  0.28, -1.25, 0.60],
+	["engbay4l",  0.28, -1.50, 0.60],
+	["engbay3ll", 0.75, -1.25, 0.60],
+	["engbay4ll", 0.75, -1.50, 0.60],
+
+	{"group":"legocar_engbay_R"},
+	["engbay1r", -0.28, -1.25, 0.33],
+	["engbay2r", -0.28, -1.50, 0.33],
+	["engbay3r", -0.28, -1.25, 0.60],
+	["engbay4r", -0.28, -1.50, 0.60],
+	["engbay3rr",-0.75, -1.25, 0.60],
+	["engbay4rr",-0.75, -1.50, 0.60],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--ENGINE BAY--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//left uniform structure
+	["engbay1l", "engbay2l"],
+	["engbay1l", "engbay3l"],
+	["engbay1l", "engbay3ll"],
+	["engbay1l", "engbay4l"],
+	["engbay1l", "engbay4ll"],
+
+	["engbay2l", "engbay3l"],
+	["engbay2l", "engbay3ll"],
+	["engbay2l", "engbay4l"],
+	["engbay2l", "engbay4ll"],
+
+	["engbay3l", "engbay3ll"],
+	["engbay3l", "engbay4l"],
+	["engbay3l", "engbay4ll"],
+
+	["engbay3ll", "engbay4l"],
+	["engbay4ll", "engbay4l"],
+	["engbay3ll", "engbay4ll"],
+
+
+	//right uniform structure
+	["engbay1r", "engbay2r"],
+	["engbay1r", "engbay3r"],
+	["engbay1r", "engbay3rr"],
+	["engbay1r", "engbay4r"],
+	["engbay1r", "engbay4rr"],
+
+	["engbay2r", "engbay3r"],
+	["engbay2r", "engbay3rr"],
+	["engbay2r", "engbay4r"],
+	["engbay2r", "engbay4rr"],
+
+	["engbay3r", "engbay3rr"],
+	["engbay3r", "engbay4r"],
+	["engbay3r", "engbay4rr"],
+
+	["engbay3rr", "engbay4r"],
+	["engbay4rr", "engbay4r"],
+	["engbay3rr", "engbay4rr"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	
+	{"breakGroup":"engbay_L_break"},
+	
+	["engbay3l", "bulk3l"],
+	["engbay3l", "bulk4l"],
+	["engbay3l", "bulk3r"],
+
+	["engbay3ll", "bulk3l"],
+	["engbay3ll", "bulk4l"],
+	["engbay3ll", "bulk3r"],
+
+	["engbay4l", "bulk3l"],
+	["engbay4l", "bulk4l"],
+	["engbay4l", "bulk3r"],
+	["engbay4l", "bulk4r"],
+
+	["engbay4ll", "bulk3l"],
+	["engbay4ll", "bulk4l"],
+	["engbay4ll", "bulk3r"],
+	["engbay4ll", "bulk4r"],
+
+	{"breakGroup":"engbay_R_break"},
+	
+	["engbay3r", "bulk3r"],
+	["engbay3r", "bulk4r"],
+	["engbay3r", "bulk3l"],
+
+	["engbay3rr", "bulk3r"],
+	["engbay3rr", "bulk4r"],
+	["engbay3rr", "bulk3l"],
+
+	["engbay4r", "bulk3l"],
+	["engbay4r", "bulk4l"],
+	["engbay4r", "bulk3r"],
+	["engbay4r", "bulk4r"],
+
+	["engbay4rr", "bulk3l"],
+	["engbay4rr", "bulk4l"],
+	["engbay4rr", "bulk3r"],
+	["engbay4rr", "bulk4r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_engbay_L"},
+	["engbay1l","engbay3l","engbay3ll"],
+	["engbay2l","engbay4ll","engbay4l"],
+
+	{"group":"legocar_engbay_R"},
+	["engbay1r","engbay3rr","engbay3r"],
+	["engbay2r","engbay4r","engbay4rr"],
+   
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_engbay_L"},   
+	["engbay1l","engbay3ll","engbay4ll","engbay2l"],
+	["engbay1l","engbay2l","engbay4l","engbay3l"],
+	["engbay3l","engbay4l","engbay4ll","engbay3ll"],
+
+	{"group":"legocar_engbay_R"},   
+	["engbay2r","engbay4rr","engbay3rr","engbay1r"],
+	["engbay3r","engbay4r","engbay2r","engbay1r"],
+	["engbay3rr","engbay4rr","engbay4r","engbay3r"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_enginebay_electric_col1": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Engine Bay (Color 1)",
+    },
+    "slotType" : "legocar_enginebay_electric",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_enginebaystuff_stock","", "Engine Bay Stuff"],
+	["legocar_hood_stock","legocar_hood_stock", "Hood"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_tall_slope_inverted_col1",["legocar_engbay_L"], [], {"pos":{"x": 0.500, "y":-1.375,"z":0.3},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_tall_slope_inverted_col1",["legocar_engbay_R"], [], {"pos":{"x":-0.500, "y":-1.375,"z":0.3},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//4.5 pieces, 6 nodes - 0.75 kg/node
+	{"nodeWeight": "$=$weight*0.75"},
+	
+	{"group":"legocar_engbay_L"},
+	["engbay1l",  0.28, -1.25, 0.33],
+	["engbay2l",  0.28, -1.50, 0.33],
+	["engbay3l",  0.28, -1.25, 0.60],
+	["engbay4l",  0.28, -1.50, 0.60],
+	["engbay3ll", 0.75, -1.25, 0.60],
+	["engbay4ll", 0.75, -1.50, 0.60],
+
+	{"group":"legocar_engbay_R"},
+	["engbay1r", -0.28, -1.25, 0.33],
+	["engbay2r", -0.28, -1.50, 0.33],
+	["engbay3r", -0.28, -1.25, 0.60],
+	["engbay4r", -0.28, -1.50, 0.60],
+	["engbay3rr",-0.75, -1.25, 0.60],
+	["engbay4rr",-0.75, -1.50, 0.60],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--ENGINE BAY--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//left uniform structure
+	["engbay1l", "engbay2l"],
+	["engbay1l", "engbay3l"],
+	["engbay1l", "engbay3ll"],
+	["engbay1l", "engbay4l"],
+	["engbay1l", "engbay4ll"],
+
+	["engbay2l", "engbay3l"],
+	["engbay2l", "engbay3ll"],
+	["engbay2l", "engbay4l"],
+	["engbay2l", "engbay4ll"],
+
+	["engbay3l", "engbay3ll"],
+	["engbay3l", "engbay4l"],
+	["engbay3l", "engbay4ll"],
+
+	["engbay3ll", "engbay4l"],
+	["engbay4ll", "engbay4l"],
+	["engbay3ll", "engbay4ll"],
+
+
+	//right uniform structure
+	["engbay1r", "engbay2r"],
+	["engbay1r", "engbay3r"],
+	["engbay1r", "engbay3rr"],
+	["engbay1r", "engbay4r"],
+	["engbay1r", "engbay4rr"],
+
+	["engbay2r", "engbay3r"],
+	["engbay2r", "engbay3rr"],
+	["engbay2r", "engbay4r"],
+	["engbay2r", "engbay4rr"],
+
+	["engbay3r", "engbay3rr"],
+	["engbay3r", "engbay4r"],
+	["engbay3r", "engbay4rr"],
+
+	["engbay3rr", "engbay4r"],
+	["engbay4rr", "engbay4r"],
+	["engbay3rr", "engbay4rr"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	
+	{"breakGroup":"engbay_L_break"},
+	
+	["engbay3l", "bulk3l"],
+	["engbay3l", "bulk4l"],
+	["engbay3l", "bulk3r"],
+
+	["engbay3ll", "bulk3l"],
+	["engbay3ll", "bulk4l"],
+	["engbay3ll", "bulk3r"],
+
+	["engbay4l", "bulk3l"],
+	["engbay4l", "bulk4l"],
+	["engbay4l", "bulk3r"],
+	["engbay4l", "bulk4r"],
+
+	["engbay4ll", "bulk3l"],
+	["engbay4ll", "bulk4l"],
+	["engbay4ll", "bulk3r"],
+	["engbay4ll", "bulk4r"],
+
+	{"breakGroup":"engbay_R_break"},
+	
+	["engbay3r", "bulk3r"],
+	["engbay3r", "bulk4r"],
+	["engbay3r", "bulk3l"],
+
+	["engbay3rr", "bulk3r"],
+	["engbay3rr", "bulk4r"],
+	["engbay3rr", "bulk3l"],
+
+	["engbay4r", "bulk3l"],
+	["engbay4r", "bulk4l"],
+	["engbay4r", "bulk3r"],
+	["engbay4r", "bulk4r"],
+
+	["engbay4rr", "bulk3l"],
+	["engbay4rr", "bulk4l"],
+	["engbay4rr", "bulk3r"],
+	["engbay4rr", "bulk4r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_engbay_L"},
+	["engbay1l","engbay3l","engbay3ll"],
+	["engbay2l","engbay4ll","engbay4l"],
+
+	{"group":"legocar_engbay_R"},
+	["engbay1r","engbay3rr","engbay3r"],
+	["engbay2r","engbay4r","engbay4rr"],
+   
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_engbay_L"},   
+	["engbay1l","engbay3ll","engbay4ll","engbay2l"],
+	["engbay1l","engbay2l","engbay4l","engbay3l"],
+	["engbay3l","engbay4l","engbay4ll","engbay3ll"],
+
+	{"group":"legocar_engbay_R"},   
+	["engbay2r","engbay4rr","engbay3rr","engbay1r"],
+	["engbay3r","engbay4r","engbay2r","engbay1r"],
+	["engbay3rr","engbay4rr","engbay4r","engbay3r"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_enginebay_electric_col2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Engine Bay (Color 2)",
+    },
+    "slotType" : "legocar_enginebay_electric",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_enginebaystuff_stock","", "Engine Bay Stuff"],
+	["legocar_hood_stock","legocar_hood_stock", "Hood"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_tall_slope_inverted_col2",["legocar_engbay_L"], [], {"pos":{"x": 0.500, "y":-1.375,"z":0.3},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_tall_slope_inverted_col2",["legocar_engbay_R"], [], {"pos":{"x":-0.500, "y":-1.375,"z":0.3},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//4.5 pieces, 6 nodes - 0.75 kg/node
+	{"nodeWeight": "$=$weight*0.75"},
+	
+	{"group":"legocar_engbay_L"},
+	["engbay1l",  0.28, -1.25, 0.33],
+	["engbay2l",  0.28, -1.50, 0.33],
+	["engbay3l",  0.28, -1.25, 0.60],
+	["engbay4l",  0.28, -1.50, 0.60],
+	["engbay3ll", 0.75, -1.25, 0.60],
+	["engbay4ll", 0.75, -1.50, 0.60],
+
+	{"group":"legocar_engbay_R"},
+	["engbay1r", -0.28, -1.25, 0.33],
+	["engbay2r", -0.28, -1.50, 0.33],
+	["engbay3r", -0.28, -1.25, 0.60],
+	["engbay4r", -0.28, -1.50, 0.60],
+	["engbay3rr",-0.75, -1.25, 0.60],
+	["engbay4rr",-0.75, -1.50, 0.60],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--ENGINE BAY--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//left uniform structure
+	["engbay1l", "engbay2l"],
+	["engbay1l", "engbay3l"],
+	["engbay1l", "engbay3ll"],
+	["engbay1l", "engbay4l"],
+	["engbay1l", "engbay4ll"],
+
+	["engbay2l", "engbay3l"],
+	["engbay2l", "engbay3ll"],
+	["engbay2l", "engbay4l"],
+	["engbay2l", "engbay4ll"],
+
+	["engbay3l", "engbay3ll"],
+	["engbay3l", "engbay4l"],
+	["engbay3l", "engbay4ll"],
+
+	["engbay3ll", "engbay4l"],
+	["engbay4ll", "engbay4l"],
+	["engbay3ll", "engbay4ll"],
+
+
+	//right uniform structure
+	["engbay1r", "engbay2r"],
+	["engbay1r", "engbay3r"],
+	["engbay1r", "engbay3rr"],
+	["engbay1r", "engbay4r"],
+	["engbay1r", "engbay4rr"],
+
+	["engbay2r", "engbay3r"],
+	["engbay2r", "engbay3rr"],
+	["engbay2r", "engbay4r"],
+	["engbay2r", "engbay4rr"],
+
+	["engbay3r", "engbay3rr"],
+	["engbay3r", "engbay4r"],
+	["engbay3r", "engbay4rr"],
+
+	["engbay3rr", "engbay4r"],
+	["engbay4rr", "engbay4r"],
+	["engbay3rr", "engbay4rr"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	
+	{"breakGroup":"engbay_L_break"},
+	
+	["engbay3l", "bulk3l"],
+	["engbay3l", "bulk4l"],
+	["engbay3l", "bulk3r"],
+
+	["engbay3ll", "bulk3l"],
+	["engbay3ll", "bulk4l"],
+	["engbay3ll", "bulk3r"],
+
+	["engbay4l", "bulk3l"],
+	["engbay4l", "bulk4l"],
+	["engbay4l", "bulk3r"],
+	["engbay4l", "bulk4r"],
+
+	["engbay4ll", "bulk3l"],
+	["engbay4ll", "bulk4l"],
+	["engbay4ll", "bulk3r"],
+	["engbay4ll", "bulk4r"],
+
+	{"breakGroup":"engbay_R_break"},
+	
+	["engbay3r", "bulk3r"],
+	["engbay3r", "bulk4r"],
+	["engbay3r", "bulk3l"],
+
+	["engbay3rr", "bulk3r"],
+	["engbay3rr", "bulk4r"],
+	["engbay3rr", "bulk3l"],
+
+	["engbay4r", "bulk3l"],
+	["engbay4r", "bulk4l"],
+	["engbay4r", "bulk3r"],
+	["engbay4r", "bulk4r"],
+
+	["engbay4rr", "bulk3l"],
+	["engbay4rr", "bulk4l"],
+	["engbay4rr", "bulk3r"],
+	["engbay4rr", "bulk4r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_engbay_L"},
+	["engbay1l","engbay3l","engbay3ll"],
+	["engbay2l","engbay4ll","engbay4l"],
+
+	{"group":"legocar_engbay_R"},
+	["engbay1r","engbay3rr","engbay3r"],
+	["engbay2r","engbay4r","engbay4rr"],
+   
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_engbay_L"},   
+	["engbay1l","engbay3ll","engbay4ll","engbay2l"],
+	["engbay1l","engbay2l","engbay4l","engbay3l"],
+	["engbay3l","engbay4l","engbay4ll","engbay3ll"],
+
+	{"group":"legocar_engbay_R"},   
+	["engbay2r","engbay4rr","engbay3rr","engbay1r"],
+	["engbay3r","engbay4r","engbay2r","engbay1r"],
+	["engbay3rr","engbay4rr","engbay4r","engbay3r"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_enginebay_electric_col3": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Engine Bay (Color 3)",
+    },
+    "slotType" : "legocar_enginebay_electric",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_enginebaystuff_stock","", "Engine Bay Stuff"],
+	["legocar_hood_stock","legocar_hood_stock", "Hood"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_tall_slope_inverted_col3",["legocar_engbay_L"], [], {"pos":{"x": 0.500, "y":-1.375,"z":0.3},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_tall_slope_inverted_col3",["legocar_engbay_R"], [], {"pos":{"x":-0.500, "y":-1.375,"z":0.3},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//4.5 pieces, 6 nodes - 0.75 kg/node
+	{"nodeWeight": "$=$weight*0.75"},
+	
+	{"group":"legocar_engbay_L"},
+	["engbay1l",  0.28, -1.25, 0.33],
+	["engbay2l",  0.28, -1.50, 0.33],
+	["engbay3l",  0.28, -1.25, 0.60],
+	["engbay4l",  0.28, -1.50, 0.60],
+	["engbay3ll", 0.75, -1.25, 0.60],
+	["engbay4ll", 0.75, -1.50, 0.60],
+
+	{"group":"legocar_engbay_R"},
+	["engbay1r", -0.28, -1.25, 0.33],
+	["engbay2r", -0.28, -1.50, 0.33],
+	["engbay3r", -0.28, -1.25, 0.60],
+	["engbay4r", -0.28, -1.50, 0.60],
+	["engbay3rr",-0.75, -1.25, 0.60],
+	["engbay4rr",-0.75, -1.50, 0.60],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--ENGINE BAY--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//left uniform structure
+	["engbay1l", "engbay2l"],
+	["engbay1l", "engbay3l"],
+	["engbay1l", "engbay3ll"],
+	["engbay1l", "engbay4l"],
+	["engbay1l", "engbay4ll"],
+
+	["engbay2l", "engbay3l"],
+	["engbay2l", "engbay3ll"],
+	["engbay2l", "engbay4l"],
+	["engbay2l", "engbay4ll"],
+
+	["engbay3l", "engbay3ll"],
+	["engbay3l", "engbay4l"],
+	["engbay3l", "engbay4ll"],
+
+	["engbay3ll", "engbay4l"],
+	["engbay4ll", "engbay4l"],
+	["engbay3ll", "engbay4ll"],
+
+
+	//right uniform structure
+	["engbay1r", "engbay2r"],
+	["engbay1r", "engbay3r"],
+	["engbay1r", "engbay3rr"],
+	["engbay1r", "engbay4r"],
+	["engbay1r", "engbay4rr"],
+
+	["engbay2r", "engbay3r"],
+	["engbay2r", "engbay3rr"],
+	["engbay2r", "engbay4r"],
+	["engbay2r", "engbay4rr"],
+
+	["engbay3r", "engbay3rr"],
+	["engbay3r", "engbay4r"],
+	["engbay3r", "engbay4rr"],
+
+	["engbay3rr", "engbay4r"],
+	["engbay4rr", "engbay4r"],
+	["engbay3rr", "engbay4rr"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	
+	{"breakGroup":"engbay_L_break"},
+	
+	["engbay3l", "bulk3l"],
+	["engbay3l", "bulk4l"],
+	["engbay3l", "bulk3r"],
+
+	["engbay3ll", "bulk3l"],
+	["engbay3ll", "bulk4l"],
+	["engbay3ll", "bulk3r"],
+
+	["engbay4l", "bulk3l"],
+	["engbay4l", "bulk4l"],
+	["engbay4l", "bulk3r"],
+	["engbay4l", "bulk4r"],
+
+	["engbay4ll", "bulk3l"],
+	["engbay4ll", "bulk4l"],
+	["engbay4ll", "bulk3r"],
+	["engbay4ll", "bulk4r"],
+
+	{"breakGroup":"engbay_R_break"},
+	
+	["engbay3r", "bulk3r"],
+	["engbay3r", "bulk4r"],
+	["engbay3r", "bulk3l"],
+
+	["engbay3rr", "bulk3r"],
+	["engbay3rr", "bulk4r"],
+	["engbay3rr", "bulk3l"],
+
+	["engbay4r", "bulk3l"],
+	["engbay4r", "bulk4l"],
+	["engbay4r", "bulk3r"],
+	["engbay4r", "bulk4r"],
+
+	["engbay4rr", "bulk3l"],
+	["engbay4rr", "bulk4l"],
+	["engbay4rr", "bulk3r"],
+	["engbay4rr", "bulk4r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_engbay_L"},
+	["engbay1l","engbay3l","engbay3ll"],
+	["engbay2l","engbay4ll","engbay4l"],
+
+	{"group":"legocar_engbay_R"},
+	["engbay1r","engbay3rr","engbay3r"],
+	["engbay2r","engbay4r","engbay4rr"],
+   
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_engbay_L"},   
+	["engbay1l","engbay3ll","engbay4ll","engbay2l"],
+	["engbay1l","engbay2l","engbay4l","engbay3l"],
+	["engbay3l","engbay4l","engbay4ll","engbay3ll"],
+
+	{"group":"legocar_engbay_R"},   
+	["engbay2r","engbay4rr","engbay3rr","engbay1r"],
+	["engbay3r","engbay4r","engbay2r","engbay1r"],
+	["engbay3rr","engbay4rr","engbay4r","engbay3r"],
+
+        {"group":""},
+    ],
+},
+
+}

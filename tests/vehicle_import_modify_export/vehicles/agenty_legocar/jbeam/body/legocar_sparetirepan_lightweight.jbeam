@@ -1,0 +1,170 @@
+{
+"legocar_sparetirepan_lightweight": {
+    "information":{
+        "name":"Lightweight Filler",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_sparetirepan",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fuelcell_race", "", "Race Fuel Cell"],
+	["legocar_wheeliebar_mount", "", "Wheelie Bar Mount"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_sparetirefiller", ["legocar_sparetirepan"], [], {"pos":{"x":0, "y":1.500, "z":0.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//spare tire pan
+	//4 pieces, 8 half pieces, 8 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+	{"group":"legocar_sparetirepan"},
+
+	["sptpan1l", 0.50, 1.28, 0.1],
+	["sptpan1r",-0.50, 1.28, 0.1],
+	["sptpan2l", 0.50, 1.75, 0.1],
+	["sptpan2r",-0.50, 1.75, 0.1],
+
+	["sptpan3l", 0.50, 1.28, 0.3],
+	["sptpan3r",-0.50, 1.28, 0.3],
+	["sptpan4l", 0.50, 1.75, 0.3],
+	["sptpan4r",-0.50, 1.75, 0.3],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--SPARE TIRE PAN--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["sptpan1l", "sptpan1r"],
+	["sptpan2l", "sptpan2r"],
+	["sptpan3l", "sptpan3r"],
+	["sptpan4l", "sptpan4r"],
+
+	["sptpan1l", "sptpan2r"],
+	["sptpan2l", "sptpan3r"],
+	["sptpan3l", "sptpan4r"],
+	["sptpan4l", "sptpan1r"],
+
+	["sptpan1l", "sptpan3r"],
+	["sptpan2l", "sptpan4r"],
+	["sptpan3l", "sptpan1r"],
+	["sptpan4l", "sptpan2r"],
+
+	["sptpan1l", "sptpan4r"],
+	["sptpan2l", "sptpan1r"],
+	["sptpan3l", "sptpan2r"],
+	["sptpan4l", "sptpan3r"],
+
+	["sptpan1l", "sptpan2l"],
+	["sptpan2l", "sptpan3l"],
+	["sptpan3l", "sptpan4l"],
+	["sptpan4l", "sptpan1l"],
+
+	["sptpan1l", "sptpan3l"],
+	["sptpan2l", "sptpan4l"],
+
+	["sptpan1r", "sptpan2r"],
+	["sptpan2r", "sptpan3r"],
+	["sptpan3r", "sptpan4r"],
+	["sptpan4r", "sptpan1r"],
+
+	["sptpan1r", "sptpan3r"],
+	["sptpan2r", "sptpan4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"sparetirepan_break"},
+
+	//bottom
+	["sptpan1l", "Bsubf1l"],
+	["sptpan1l", "Bsubf3l"],
+	["sptpan1l", "Bsubf3ll"],
+	["sptpan1l", "Bsubf4l"],
+
+	["sptpan1r", "Bsubf1r"],
+	["sptpan1r", "Bsubf3r"],
+	["sptpan1r", "Bsubf3rr"],
+	["sptpan1r", "Bsubf4r"],
+
+	["sptpan2l", "Bsubf2l"],
+	["sptpan2l", "Bsubf3l"],
+	["sptpan2l", "Bsubf4ll"],
+	["sptpan2l", "Bsubf4l"],
+
+	["sptpan2r", "Bsubf2r"],
+	["sptpan2r", "Bsubf3r"],
+	["sptpan2r", "Bsubf4rr"],
+	["sptpan2r", "Bsubf4r"],
+
+	//top
+	["sptpan3l", "Bsubf1l"],
+	["sptpan3l", "Bsubf3l"],
+	["sptpan3l", "Bsubf3ll"],
+	["sptpan3l", "Bsubf4l"],
+
+	["sptpan3r", "Bsubf1r"],
+	["sptpan3r", "Bsubf3r"],
+	["sptpan3r", "Bsubf3rr"],
+	["sptpan3r", "Bsubf4r"],
+
+	["sptpan4l", "Bsubf2l"],
+	["sptpan4l", "Bsubf3l"],
+	["sptpan4l", "Bsubf4ll"],
+	["sptpan4l", "Bsubf4l"],
+
+	["sptpan4r", "Bsubf2r"],
+	["sptpan4r", "Bsubf3r"],
+	["sptpan4r", "Bsubf4rr"],
+	["sptpan4r", "Bsubf4r"],
+
+	{"breakGroup":""},
+
+	//--SUPPORT ANTI-WOBBLE--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*301000", "beamDamp":"$=$weight*30"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"optional":true},
+
+	["sptpan2l", "wheelaxle1rl"],
+	["sptpan2l", "wheelaxle1rr"],
+	["sptpan2l", "wheelaxle3rll"],
+	["sptpan2l", "wheelaxle3rrr"],
+	["sptpan2l", "fueltank2l"],
+	["sptpan2l", "fueltank2r"],
+
+	["sptpan2r", "wheelaxle1rl"],
+	["sptpan2r", "wheelaxle1rr"],
+	["sptpan2r", "wheelaxle3rll"],
+	["sptpan2r", "wheelaxle3rrr"],
+	["sptpan2r", "fueltank2l"],
+	["sptpan2r", "fueltank2r"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_sparetirepan"},   
+	["sptpan2r","sptpan2l","sptpan1l","sptpan1r"],
+	["sptpan4l","sptpan4r","sptpan3r","sptpan3l"],
+	["sptpan3r","sptpan4r","sptpan2r","sptpan1r"],
+	["sptpan4l","sptpan3l","sptpan1l","sptpan2l"],
+	["sptpan4r","sptpan4l","sptpan2l","sptpan2r"],
+	["sptpan3l","sptpan3r","sptpan1r","sptpan1l"],
+
+        {"group":""},
+    ],
+},
+
+}

@@ -1,0 +1,248 @@
+{
+"legocar_steeringcolumn": {
+    "information":{
+        "name":"Steering Column",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_steeringcolumn",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_steeringwheel", "legocar_steeringwheel", "Steering Wheel"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_steeringcolumn",["legocar_steeringcolumn"], [], {"pos":{"x": 0, "y":-0.625, "z":0.4},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_steeringcolumn"},
+	//2 pieces, 2 half pieces, 6 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+
+	["steercol1l", 0.25, -0.500, 0.400],
+	["steercol1r",-0.25, -0.500, 0.400],
+	["steercol2l", 0.25, -0.720, 0.400],
+	["steercol2r",-0.25, -0.720, 0.400],
+	["steercol3",  0.00, -0.720, 0.755],
+
+	//steering center node
+	{"group":""},
+	["steercol0",  0.00, -0.625, 0.810, {"collision":false, "selfCollision":false}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--STEERING COLUMN--	
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["steercol1l", "steercol1r"],
+	["steercol2l", "steercol2r"],
+	["steercol1l", "steercol2l"],
+	["steercol1r", "steercol2r"],
+	["steercol1l", "steercol2r"],
+	["steercol2l", "steercol1r"],
+
+	["steercol1l", "steercol3"],
+	["steercol2l", "steercol3"],
+	["steercol1r", "steercol3"],
+	["steercol2r", "steercol3"],
+	
+	["steercol1l", "steercol0"],
+	["steercol2l", "steercol0"],
+	["steercol1r", "steercol0"],
+	["steercol2r", "steercol0"],
+
+	//this is the steering axis, it breaks when steering column detaches to disable steering wheel rotation control
+	["steercol3", "steercol0", {"breakGroup":"steeringcolumn_break", "disableMeshBreaking":true}],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"steeringcolumn_break"},
+
+	["dash1l", "steercol0", {"name": "steeringcolumn"}],
+	["dash1l", "steercol1l"],
+	["dash1l", "steercol2l"],
+
+	["dash1r", "steercol0"],
+	["dash1r", "steercol1r"],
+	["dash1r", "steercol2r"],
+
+	["dash2l", "steercol3"],
+	["dash2l", "steercol1l"],
+	["dash2l", "steercol2l"],
+
+	["dash2r", "steercol3"],
+	["dash2r", "steercol1r"],
+	["dash2r", "steercol2r"],
+
+
+	//support damper that disables at a certain distance and/or if steering wheel breaks off
+	{"beamPrecompression":1,"beamType":"|SUPPORT", "beamLongBound":0.5},
+	{"beamSpring":0, "beamDamp":"$=$weight*500"},
+	["chassis0", "steercol0", {"breakGroupType":1}],
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_steeringcolumn"},
+	["steercol1r","steercol2r","steercol3"],
+	["steercol2l","steercol1l","steercol3"],
+	["steercol2r","steercol2l","steercol3"],
+	["steercol1l","steercol1r","steercol3"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_steeringcolumn"},
+	["steercol1r","steercol1l","steercol2l","steercol2r"],
+        {"group":""},
+    ],
+    "soundscape": [
+        ["name", "src"]
+	//set steering center as sound source
+	//affects all sounds because the soundscape is loaded after
+        {"node:":"steercol0"},
+    ], 
+},
+
+"legocar_steeringwheel": {
+    "information":{
+        "name":"Steering Wheel",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_steeringwheel",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_steeringwheel", ["legocar_steeringwheel"], [], {"pos":{"x": 0, "y":-0.625, "z":0.4},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+     ],
+     "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_steeringwheel"},
+
+	//1 piece, 3 nodes - 0.33 kg/node
+	{"nodeWeight": "$=$weight*0.33"},
+
+	["steer1",  0.000, -0.710, 0.940],
+	["steer2r",-0.140, -0.595, 0.740],
+	["steer2l", 0.140, -0.595, 0.740],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--STEERING WHEEL--	
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+
+	//uniform structure
+	["steer1", "steer2r"],
+	["steer1", "steer2l"],
+	["steer2l", "steer2r"],
+
+	//to steering center
+	{"beamSpring":"$=$weight*831000", "beamDamp":"$=$weight*83"},
+	["steer1", "steercol0"],
+	["steer2l", "steercol0"],
+	["steer2r", "steercol0"],
+
+	//other end of axis further back
+	["steer1", "steercol3"],
+	["steer2l", "steercol3"],
+	["steer2r", "steercol3"],	
+	
+	{"breakGroup":""},	
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "torsionHydros": [
+        ["id1:","id2:","id3:","id4:"],
+	//spring = weight * 100000
+        {"spring":"$=$weight*33000", "damp":0, "deform":"FLT_MAX", "strength":"FLT_MAX"},
+	//steering wheel animation
+	//factor: -3*pi
+        ["steer1","steercol0","steercol3","steercol1l", {"factor":-9.4247779607693797153879301498385,"inRate":15,"outRate":15,"inputSource":"steering_input"}],
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_steeringwheel"},
+	["steer1","steer2l","steer2r"],
+        {"group":""},
+    ],
+},
+"legocar_steeringwheel_race": {
+    "information":{
+        "name":"Race Steering Wheel",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_steeringwheel",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_steeringwheel_race", ["legocar_steeringwheel"], [], {"pos":{"x": 0, "y":-0.625, "z":0.4},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+     ],
+     "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_steeringwheel"},
+
+	//1 piece, 3 nodes - 0.33 kg/node
+	{"nodeWeight": "$=$weight*0.33"},
+
+	["steer1",  0.000, -0.710, 0.940],
+	["steer2r",-0.140, -0.595, 0.740],
+	["steer2l", 0.140, -0.595, 0.740],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--STEERING WHEEL--	
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+
+	//uniform structure
+	["steer1", "steer2r"],
+	["steer1", "steer2l"],
+	["steer2l", "steer2r"],
+
+	//to steering center
+	{"beamSpring":"$=$weight*831000", "beamDamp":"$=$weight*83"},
+	["steer1", "steercol0"],
+	["steer2l", "steercol0"],
+	["steer2r", "steercol0"],
+
+	//other end of axis further back
+	["steer1", "steercol3"],
+	["steer2l", "steercol3"],
+	["steer2r", "steercol3"],	
+	
+	{"breakGroup":""},	
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "torsionHydros": [
+        ["id1:","id2:","id3:","id4:"],
+	//spring = weight * 100000
+        {"spring":"$=$weight*33000", "damp":0, "deform":"FLT_MAX", "strength":"FLT_MAX"},
+	//steering wheel animation
+	//factor: -2*pi
+        ["steer1","steercol0","steercol3","steercol1l", {"factor":-6.283185307179586476925286766559,"inRate":15,"outRate":15,"inputSource":"steering_input"}],
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_steeringwheel"},
+	["steer1","steer2l","steer2r"],
+        {"group":""},
+    ],
+},
+
+}

@@ -1,0 +1,219 @@
+{
+"legotrailer_signal_R": {
+    "information":{
+        "name":"Right Turn Signal",
+        "authors":"AgentY",
+    },
+    "slotType":"legotrailer_signal_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"trailer_signal_R_break", "deformMaterialBase":"legocar_signal_R_orange_EU", "deformMaterialDamaged":"lego_transcol_orange"},
+	["legotrailer_signal_R", ["legotrailer_signal_R"]],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightRange":8,
+            "lightColor":{"r":240, "g":143, "b":28, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleBrakeLightFlare",
+        },
+        ["wigwag_signal_R", "SPOTLIGHT", "trailer_sR1l", "trailer_sR1r", "trailer_sR2l", {"x":40, "y":-90, "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.0, "y":-0.4, "z":0.05},"flareScale":0.02, "lightBrightness":0.03,"deformGroup":"trailer_signal_R_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//signal
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legotrailer_signal_R"},
+	["trailer_sR1r", -0.50, 2.705, 0.125],
+	["trailer_sR1l", -0.25, 2.705, 0.125],
+	["trailer_sR2r", -0.50, 2.895, 0.125],
+	["trailer_sR2l", -0.25, 2.895, 0.125],
+	["trailer_sR0",-0.375, 2.8, 0.275, {"selfCollision":false}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT TURN SIGNAL--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["trailer_sR1l", "trailer_sR1r"],
+	["trailer_sR2l", "trailer_sR2r"],
+	["trailer_sR1l", "trailer_sR2l"],
+	["trailer_sR1r", "trailer_sR2r"],
+	["trailer_sR1l", "trailer_sR2r"],
+	["trailer_sR2l", "trailer_sR1r"],
+
+	//tip
+	["trailer_sR1l", "trailer_sR0"],
+	["trailer_sR1r", "trailer_sR0"],
+	["trailer_sR2l", "trailer_sR0"],
+	["trailer_sR2r", "trailer_sR0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*101000", "beamDamp":"$=$weight*10"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"trailer_signal_R_break"},
+	{"deformGroup":"trailer_signal_R_break"},
+
+	["trailer_sR1l", "trailer_f3l"],
+	["trailer_sR1l", "trailer_f3r"],
+	["trailer_sR1l", "trailer_f1r"],
+	["trailer_sR1l", "trailer_f13r"],
+
+	["trailer_sR1r", "trailer_f3l"],
+	["trailer_sR1r", "trailer_f3r"],
+	["trailer_sR1r", "trailer_f1r"],
+	["trailer_sR1r", "trailer_f13r"],
+
+	["trailer_sR2l", "trailer_f3l"],
+	["trailer_sR2l", "trailer_f3r"],
+	["trailer_sR2l", "trailer_f1r"],
+	["trailer_sR2l", "trailer_f13r"],
+
+	["trailer_sR2r", "trailer_f3l"],
+	["trailer_sR2r", "trailer_f3r"],
+	["trailer_sR2r", "trailer_f1r"],
+	["trailer_sR2r", "trailer_f13r"],
+
+	["trailer_sR0", "trailer_f3l"],
+	["trailer_sR0", "trailer_f3r"],
+	["trailer_sR0", "trailer_f1r"],
+	["trailer_sR0", "trailer_f13r"],
+
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legotrailer_signal_R"},
+	["trailer_sR0","trailer_sR1l","trailer_sR2l"],
+	["trailer_sR0","trailer_sR2l","trailer_sR2r"],
+	["trailer_sR0","trailer_sR2r","trailer_sR1r"],
+	["trailer_sR0","trailer_sR1r","trailer_sR1l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legotrailer_signal_R"},
+	["trailer_sR2r","trailer_sR2l","trailer_sR1l","trailer_sR1r"],
+        {"group":""},
+    ],
+},
+
+"legotrailer_signal_R_filler": {
+    "information":{
+        "name":"Right Filler",
+        "authors":"AgentY",
+    },
+    "slotType":"legotrailer_signal_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legotrailer_signal_R_filler", ["legotrailer_signal_R"]],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//signal
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legotrailer_signal_R"},
+	["trailer_sR1r", -0.50, 2.705, 0.125],
+	["trailer_sR1l", -0.25, 2.705, 0.125],
+	["trailer_sR2r", -0.50, 2.895, 0.125],
+	["trailer_sR2l", -0.25, 2.895, 0.125],
+	["trailer_sR0",-0.375, 2.8, 0.275, {"selfCollision":false}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT TURN SIGNAL--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["trailer_sR1l", "trailer_sR1r"],
+	["trailer_sR2l", "trailer_sR2r"],
+	["trailer_sR1l", "trailer_sR2l"],
+	["trailer_sR1r", "trailer_sR2r"],
+	["trailer_sR1l", "trailer_sR2r"],
+	["trailer_sR2l", "trailer_sR1r"],
+
+	//tip
+	["trailer_sR1l", "trailer_sR0"],
+	["trailer_sR1r", "trailer_sR0"],
+	["trailer_sR2l", "trailer_sR0"],
+	["trailer_sR2r", "trailer_sR0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*101000", "beamDamp":"$=$weight*10"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"trailer_signal_R_break"},
+
+	["trailer_sR1l", "trailer_f3l"],
+	["trailer_sR1l", "trailer_f3r"],
+	["trailer_sR1l", "trailer_f1r"],
+	["trailer_sR1l", "trailer_f13r"],
+
+	["trailer_sR1r", "trailer_f3l"],
+	["trailer_sR1r", "trailer_f3r"],
+	["trailer_sR1r", "trailer_f1r"],
+	["trailer_sR1r", "trailer_f13r"],
+
+	["trailer_sR2l", "trailer_f3l"],
+	["trailer_sR2l", "trailer_f3r"],
+	["trailer_sR2l", "trailer_f1r"],
+	["trailer_sR2l", "trailer_f13r"],
+
+	["trailer_sR2r", "trailer_f3l"],
+	["trailer_sR2r", "trailer_f3r"],
+	["trailer_sR2r", "trailer_f1r"],
+	["trailer_sR2r", "trailer_f13r"],
+
+	["trailer_sR0", "trailer_f3l"],
+	["trailer_sR0", "trailer_f3r"],
+	["trailer_sR0", "trailer_f1r"],
+	["trailer_sR0", "trailer_f13r"],
+
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legotrailer_signal_R"},
+	["trailer_sR0","trailer_sR1l","trailer_sR2l"],
+	["trailer_sR0","trailer_sR2l","trailer_sR2r"],
+	["trailer_sR0","trailer_sR2r","trailer_sR1r"],
+	["trailer_sR0","trailer_sR1r","trailer_sR1l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legotrailer_signal_R"},
+	["trailer_sR2r","trailer_sR2l","trailer_sR1l","trailer_sR1r"],
+        {"group":""},
+    ],
+},
+
+}

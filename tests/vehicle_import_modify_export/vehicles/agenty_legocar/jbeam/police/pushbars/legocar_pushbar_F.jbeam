@@ -1,0 +1,247 @@
+{
+"legocar_pushbar_F": {
+    "information":{
+        "name":"Front Push Bar",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_pushbar_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_pushbar_F_crossmember","", "Front Push Bar Crossmember"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_pushbar_side",  ["legocar_pushbar_FL"],[], {"pos":{"x": 0.265, "y":-2.250, "z":0.225},"rot":{"x": 0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_pushbar_side",  ["legocar_pushbar_FR"],[], {"pos":{"x":-0.265, "y":-2.250, "z":0.225},"rot":{"x": 0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//5 pieces, 10 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+
+	//left
+	{"group":"legocar_pushbar_FL"},
+	["FLpushbar1l", 0.350, -2.25, 0.225, {"selfCollision":false}],
+	["FLpushbar1r", 0.180, -2.25, 0.225, {"selfCollision":false}],
+	["FLpushbar2l", 0.350, -2.35, 0.450],
+	["FLpushbar2r", 0.180, -2.35, 0.450],
+	["FLpushbar3l", 0.375, -2.27, 0.600, {"selfCollision":false}],
+	["FLpushbar3r", 0.155, -2.27, 0.600, {"selfCollision":false}],
+	["FLpushbar4l", 0.375, -2.23, 0.800],
+	["FLpushbar4r", 0.155, -2.23, 0.800],
+	["FLpushbar5l", 0.375, -2.10, 0.710],
+	["FLpushbar5r", 0.155, -2.10, 0.710],
+	
+	//right
+	{"group":"legocar_pushbar_FR"},
+	["FRpushbar1r", -0.350, -2.25, 0.225, {"selfCollision":false}],
+	["FRpushbar1l", -0.180, -2.25, 0.225, {"selfCollision":false}],
+	["FRpushbar2r", -0.350, -2.35, 0.450],
+	["FRpushbar2l", -0.180, -2.35, 0.450],
+	["FRpushbar3r", -0.375, -2.27, 0.600, {"selfCollision":false}],
+	["FRpushbar3l", -0.155, -2.27, 0.600, {"selfCollision":false}],
+	["FRpushbar4r", -0.375, -2.23, 0.800],
+	["FRpushbar4l", -0.155, -2.23, 0.800],
+	["FRpushbar5r", -0.375, -2.10, 0.710],
+	["FRpushbar5l", -0.155, -2.10, 0.710],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--PUSH BAR--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//left uniform structure
+	["FLpushbar1l", "FLpushbar1r"],
+	["FLpushbar2l", "FLpushbar2r"],
+	["FLpushbar3l", "FLpushbar3r"],
+	["FLpushbar4l", "FLpushbar4r"],
+	["FLpushbar5l", "FLpushbar5r"],
+
+	["FLpushbar1l", "FLpushbar2r"],
+	["FLpushbar2l", "FLpushbar3r"],
+	["FLpushbar3l", "FLpushbar4r"],
+	["FLpushbar4l", "FLpushbar5r"],
+	["FLpushbar5l", "FLpushbar1r"],
+
+	["FLpushbar1l", "FLpushbar3r"],
+	["FLpushbar2l", "FLpushbar4r"],
+	["FLpushbar3l", "FLpushbar5r"],
+	["FLpushbar5l", "FLpushbar2r"],
+	["FLpushbar4l", "FLpushbar1r"],
+
+	["FLpushbar1l", "FLpushbar4r"],
+	["FLpushbar2l", "FLpushbar5r"],
+	["FLpushbar3l", "FLpushbar1r"],
+	["FLpushbar4l", "FLpushbar2r"],
+	["FLpushbar5l", "FLpushbar3r"],
+
+	["FLpushbar1l", "FLpushbar5r"],
+	["FLpushbar2l", "FLpushbar1r"],
+	["FLpushbar3l", "FLpushbar2r"],
+	["FLpushbar4l", "FLpushbar3r"],
+	["FLpushbar5l", "FLpushbar4r"],
+
+	["FLpushbar1l", "FLpushbar2l"],
+	["FLpushbar2l", "FLpushbar3l"],
+	["FLpushbar3l", "FLpushbar4l"],
+	["FLpushbar4l", "FLpushbar5l"],
+	["FLpushbar5l", "FLpushbar1l"],
+
+	["FLpushbar1l", "FLpushbar3l"],
+	["FLpushbar2l", "FLpushbar4l"],
+	["FLpushbar3l", "FLpushbar5l"],
+	["FLpushbar4l", "FLpushbar1l"],
+
+	["FLpushbar1r", "FLpushbar2r"],
+	["FLpushbar2r", "FLpushbar3r"],
+	["FLpushbar3r", "FLpushbar4r"],
+	["FLpushbar4r", "FLpushbar5r"],
+	["FLpushbar5r", "FLpushbar1r"],
+
+	["FLpushbar1r", "FLpushbar3r"],
+	["FLpushbar2r", "FLpushbar4r"],
+	["FLpushbar3r", "FLpushbar5r"],
+	["FLpushbar4r", "FLpushbar1r"],
+	
+	
+	//right uniform structure
+	["FRpushbar1l", "FRpushbar1r"],
+	["FRpushbar2l", "FRpushbar2r"],
+	["FRpushbar3l", "FRpushbar3r"],
+	["FRpushbar4l", "FRpushbar4r"],
+	["FRpushbar5l", "FRpushbar5r"],
+
+	["FRpushbar1l", "FRpushbar2r"],
+	["FRpushbar2l", "FRpushbar3r"],
+	["FRpushbar3l", "FRpushbar4r"],
+	["FRpushbar4l", "FRpushbar5r"],
+	["FRpushbar5l", "FRpushbar1r"],
+
+	["FRpushbar1l", "FRpushbar3r"],
+	["FRpushbar2l", "FRpushbar4r"],
+	["FRpushbar3l", "FRpushbar5r"],
+	["FRpushbar5l", "FRpushbar2r"],
+	["FRpushbar4l", "FRpushbar1r"],
+
+	["FRpushbar1l", "FRpushbar4r"],
+	["FRpushbar2l", "FRpushbar5r"],
+	["FRpushbar3l", "FRpushbar1r"],
+	["FRpushbar4l", "FRpushbar2r"],
+	["FRpushbar5l", "FRpushbar3r"],
+
+	["FRpushbar1l", "FRpushbar5r"],
+	["FRpushbar2l", "FRpushbar1r"],
+	["FRpushbar3l", "FRpushbar2r"],
+	["FRpushbar4l", "FRpushbar3r"],
+	["FRpushbar5l", "FRpushbar4r"],
+
+	["FRpushbar1l", "FRpushbar2l"],
+	["FRpushbar2l", "FRpushbar3l"],
+	["FRpushbar3l", "FRpushbar4l"],
+	["FRpushbar4l", "FRpushbar5l"],
+	["FRpushbar5l", "FRpushbar1l"],
+
+	["FRpushbar1l", "FRpushbar3l"],
+	["FRpushbar2l", "FRpushbar4l"],
+	["FRpushbar3l", "FRpushbar5l"],
+	["FRpushbar4l", "FRpushbar1l"],
+
+	["FRpushbar1r", "FRpushbar2r"],
+	["FRpushbar2r", "FRpushbar3r"],
+	["FRpushbar3r", "FRpushbar4r"],
+	["FRpushbar4r", "FRpushbar5r"],
+	["FRpushbar5r", "FRpushbar1r"],
+
+	["FRpushbar1r", "FRpushbar3r"],
+	["FRpushbar2r", "FRpushbar4r"],
+	["FRpushbar3r", "FRpushbar5r"],
+	["FRpushbar4r", "FRpushbar1r"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*671000", "beamDamp":"$=$weight*67"},
+	{"beamDeform":"$=$strength*0.1", "beamStrength":"$strength"},
+	{"breakGroup":"pushbar_F_break"},
+
+	["FLpushbar1l", "FpushbarmtR"],
+	["FRpushbar1r", "FpushbarmtL"],
+
+
+	//--SUPPORT LIMITERS--
+	{"beamPrecompression":1,"beamType":"|SUPPORT", "beamLongBound":100},
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	["FLpushbar1r", "FpushbarmtL"],
+	["FRpushbar1l", "FpushbarmtR"],
+	["FLpushbar1r", "FLbguardrig"],
+	["FRpushbar1l", "FRbguardrig"],
+
+
+	//--SUPPORT DAMPERS--
+	{"beamPrecompression":1,"beamType":"|SUPPORT", "beamLongBound":0.5},
+	{"beamSpring":0, "beamDamp":"$=$weight*10"},
+
+	["chassis0", "FLpushbar4r", {"breakGroupType":1}],
+	["chassis0", "FLpushbar4l", {"breakGroupType":1}],
+	["chassis0", "FLpushbar5r", {"breakGroupType":1}],
+	["chassis0", "FLpushbar5l", {"breakGroupType":1}],
+	["chassis0", "FRpushbar4r", {"breakGroupType":1}],
+	["chassis0", "FRpushbar4l", {"breakGroupType":1}],
+	["chassis0", "FRpushbar5r", {"breakGroupType":1}],
+	["chassis0", "FRpushbar5l", {"breakGroupType":1}],
+
+	{"optional":true},
+
+	["chassis4", "FLpushbar4r", {"breakGroupType":1}],
+	["chassis4", "FLpushbar4l", {"breakGroupType":1}],
+	["chassis4", "FLpushbar5r", {"breakGroupType":1}],
+	["chassis4", "FLpushbar5l", {"breakGroupType":1}],
+	["chassis4", "FRpushbar4r", {"breakGroupType":1}],
+	["chassis4", "FRpushbar4l", {"breakGroupType":1}],
+	["chassis4", "FRpushbar5r", {"breakGroupType":1}],
+	["chassis4", "FRpushbar5l", {"breakGroupType":1}],
+
+	{"optional":false},
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "rails": {
+        "pushbar_F":{"links:":["FpushbarmtL","FpushbarmtR"],"broken:":[], "looped":false, "capped":false},
+    },
+    "slidenodes": [
+        ["id:", "railName", "attached", "fixToRail", "tolerance", "spring", "strength", "capStrength"],
+        ["FLpushbar1l", "pushbar_F", true, true, 0.00, "$=$weight*501000", "FLT_MAX", "FLT_MAX"],
+	["FLpushbar1r", "pushbar_F", true, true, 0.00, "$=$weight*501000", "FLT_MAX", "FLT_MAX"],
+	["FRpushbar1l", "pushbar_F", true, true, 0.00, "$=$weight*501000", "FLT_MAX", "FLT_MAX"],
+	["FRpushbar1r", "pushbar_F", true, true, 0.00, "$=$weight*501000", "FLT_MAX", "FLT_MAX"],
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_pushbar_FL"},   
+	["FLpushbar1r","FLpushbar1l","FLpushbar2l","FLpushbar2r"],
+	["FLpushbar5l","FLpushbar5r","FLpushbar4r","FLpushbar4l"],
+	["FLpushbar4r","FLpushbar5r","FLpushbar1r","FLpushbar2r"],
+	["FLpushbar5l","FLpushbar4l","FLpushbar2l","FLpushbar1l"],
+	["FLpushbar5r","FLpushbar5l","FLpushbar1l","FLpushbar1r"],
+	["FLpushbar4l","FLpushbar4r","FLpushbar2r","FLpushbar2l"],
+	
+	{"group":"legocar_pushbar_FR"},   
+	["FRpushbar1r","FRpushbar1l","FRpushbar2l","FRpushbar2r"],
+	["FRpushbar5l","FRpushbar5r","FRpushbar4r","FRpushbar4l"],
+	["FRpushbar4r","FRpushbar5r","FRpushbar1r","FRpushbar2r"],
+	["FRpushbar5l","FRpushbar4l","FRpushbar2l","FRpushbar1l"],
+	["FRpushbar5r","FRpushbar5l","FRpushbar1l","FRpushbar1r"],
+	["FRpushbar4l","FRpushbar4r","FRpushbar2r","FRpushbar2l"],
+
+        {"group":""},
+    ],
+},
+
+}

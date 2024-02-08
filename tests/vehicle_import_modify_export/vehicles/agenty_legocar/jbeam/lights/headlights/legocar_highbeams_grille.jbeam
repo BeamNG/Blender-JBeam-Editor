@@ -1,0 +1,1028 @@
+{
+"legocar_highbeams_grille": {
+    "information":{
+        "name":"High Beam Headlights",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grillelights_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"grillelight_L_break", "deformMaterialBase":"legocar_highbeam_stock", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_headlight_L_circle_stock_highbeam", ["legocar_grillelight_L"],[], {"pos":{"x": 0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"grillelight_R_break"},
+	["legocar_headlight_R_circle_stock_highbeam", ["legocar_grillelight_R"],[], {"pos":{"x":-0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightColor":{"r":252, "g":252, "b":252, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":true,
+            "flareName":"vehicleHeadLightFlare",
+            "cookieName":"art/special/BNG_light_cookie_headlight.dds",
+            "texSize":512,
+            "shadowSoftness":0.5
+        },
+        ["highbeam_wigwag_L","SPOTLIGHT", "Lgrlight2r", "Lgrlight1r", "Lgrlight2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":80,"lightBrightness":0.7,"lightOuterAngle":90,"flareScale":0.08,"deformGroup":"grillelight_L_break"}],
+	["highbeam_wigwag_R","SPOTLIGHT", "Rgrlight2r", "Rgrlight1r", "Rgrlight2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":80,"lightBrightness":0.7,"lightOuterAngle":90,"flareScale":0.08,"deformGroup":"grillelight_R_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	//left
+	{"group":"legocar_grillelight_L"},
+	["Lgrlight1r", 0.280, -1.95, 0.380],
+	["Lgrlight2r", 0.280, -1.95, 0.570],
+	["Lgrlight1l", 0.470, -1.95, 0.380],
+	["Lgrlight2l", 0.470, -1.95, 0.570],
+	["Lgrlight0",  0.375, -2.10, 0.475],
+
+	//right
+	{"group":"legocar_grillelight_R"},
+	["Rgrlight1l",-0.280, -1.95, 0.380],
+	["Rgrlight2l",-0.280, -1.95, 0.570],
+	["Rgrlight1r",-0.470, -1.95, 0.380],
+	["Rgrlight2r",-0.470, -1.95, 0.570],
+	["Rgrlight0", -0.375, -2.10, 0.475],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//left square
+	["Lgrlight1l", "Lgrlight1r"],
+	["Lgrlight2l", "Lgrlight2r"],
+	["Lgrlight1l", "Lgrlight2r"],
+	["Lgrlight2l", "Lgrlight1r"],
+	["Lgrlight1l", "Lgrlight2l"],
+	["Lgrlight1r", "Lgrlight2r"],
+
+	//left tip
+	["Lgrlight1l", "Lgrlight0"],
+	["Lgrlight1r", "Lgrlight0"],
+	["Lgrlight2l", "Lgrlight0"],
+	["Lgrlight2r", "Lgrlight0"],
+
+	//right square
+	["Rgrlight1l", "Rgrlight1r"],
+	["Rgrlight2l", "Rgrlight2r"],
+	["Rgrlight1l", "Rgrlight2r"],
+	["Rgrlight2l", "Rgrlight1r"],
+	["Rgrlight1l", "Rgrlight2l"],
+	["Rgrlight1r", "Rgrlight2r"],
+
+	//right tip
+	["Rgrlight1l", "Rgrlight0"],
+	["Rgrlight1r", "Rgrlight0"],
+	["Rgrlight2l", "Rgrlight0"],
+	["Rgrlight2r", "Rgrlight0"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left
+	{"breakGroup":"grillelight_L_break"},
+	{"deformGroup":"grillelight_L_break"},
+	
+	["Lgrlight1l", "hdlight1l"],
+	["Lgrlight1l", "hdlight1r"],
+	["Lgrlight1l", "hdlight2l"],
+
+	["Lgrlight2l", "hdlight1l"],
+	["Lgrlight2l", "hdlight2r"],
+	["Lgrlight2l", "hdlight2l"],
+
+	["Lgrlight1r", "hdlight1l"],
+	["Lgrlight1r", "hdlight1r"],
+	["Lgrlight1r", "hdlight2l"],
+
+	["Lgrlight2r", "hdlight1l"],
+	["Lgrlight2r", "hdlight2r"],
+	["Lgrlight2r", "hdlight2l"],
+
+	["Lgrlight0", "hdlight1l"],
+	["Lgrlight0", "hdlight1r"],
+	["Lgrlight0", "hdlight2l"],
+	
+	//right
+	{"breakGroup":"grillelight_R_break"},
+	{"deformGroup":"grillelight_R_break"},
+	
+	["Rgrlight1r", "hdlight1r"],
+	["Rgrlight1r", "hdlight1l"],
+	["Rgrlight1r", "hdlight2r"],
+
+	["Rgrlight2r", "hdlight1r"],
+	["Rgrlight2r", "hdlight2l"],
+	["Rgrlight2r", "hdlight2r"],
+
+	["Rgrlight1l", "hdlight1r"],
+	["Rgrlight1l", "hdlight1l"],
+	["Rgrlight1l", "hdlight2r"],
+
+	["Rgrlight2l", "hdlight1r"],
+	["Rgrlight2l", "hdlight2l"],
+	["Rgrlight2l", "hdlight2r"],
+
+	["Rgrlight0", "hdlight1r"],
+	["Rgrlight0", "hdlight1l"],
+	["Rgrlight0", "hdlight2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_grillelight_L"},
+	["Lgrlight0","Lgrlight1l","Lgrlight2l"],
+	["Lgrlight0","Lgrlight2l","Lgrlight2r"],
+	["Lgrlight0","Lgrlight2r","Lgrlight1r"],
+	["Lgrlight0","Lgrlight1r","Lgrlight1l"],
+
+	{"group":"legocar_grillelight_R"},
+	["Rgrlight0","Rgrlight1l","Rgrlight2l"],
+	["Rgrlight0","Rgrlight2l","Rgrlight2r"],
+	["Rgrlight0","Rgrlight2r","Rgrlight1r"],
+	["Rgrlight0","Rgrlight1r","Rgrlight1l"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_grillelight_L"},   
+	["Lgrlight1l","Lgrlight1r","Lgrlight2r","Lgrlight2l"],
+	{"group":"legocar_grillelight_R"},   
+	["Rgrlight1l","Rgrlight1r","Rgrlight2r","Rgrlight2l"],	
+        {"group":""},
+    ],
+},
+
+"legocar_highbeams_grille_smoked": {
+    "information":{
+        "name":"High Beam Smoked Headlights",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grillelights_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"grillelight_L_break", "deformMaterialBase":"legocar_highbeam_smoked", "deformMaterialDamaged":"lego_transcol_black"},
+	["legocar_headlight_L_circle_smoked_highbeam", ["legocar_grillelight_L"],[], {"pos":{"x": 0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"grillelight_R_break"},
+	["legocar_headlight_R_circle_smoked_highbeam", ["legocar_grillelight_R"],[], {"pos":{"x":-0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightColor":{"r":100, "g":94, "b":81, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":true,
+            "flareName":"vehicleHeadLightFlare",
+            "cookieName":"art/special/BNG_light_cookie_headlight.dds",
+            "texSize":512,
+            "shadowSoftness":0.5
+        },
+        ["highbeam_wigwag_L","SPOTLIGHT", "Lgrlight2r", "Lgrlight1r", "Lgrlight2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":80,"lightBrightness":0.7,"lightOuterAngle":90,"flareScale":0.08,"deformGroup":"grillelight_L_break"}],
+	["highbeam_wigwag_R","SPOTLIGHT", "Rgrlight2r", "Rgrlight1r", "Rgrlight2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":80,"lightBrightness":0.7,"lightOuterAngle":90,"flareScale":0.08,"deformGroup":"grillelight_R_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	//left
+	{"group":"legocar_grillelight_L"},
+	["Lgrlight1r", 0.280, -1.95, 0.380],
+	["Lgrlight2r", 0.280, -1.95, 0.570],
+	["Lgrlight1l", 0.470, -1.95, 0.380],
+	["Lgrlight2l", 0.470, -1.95, 0.570],
+	["Lgrlight0",  0.375, -2.10, 0.475],
+
+	//right
+	{"group":"legocar_grillelight_R"},
+	["Rgrlight1l",-0.280, -1.95, 0.380],
+	["Rgrlight2l",-0.280, -1.95, 0.570],
+	["Rgrlight1r",-0.470, -1.95, 0.380],
+	["Rgrlight2r",-0.470, -1.95, 0.570],
+	["Rgrlight0", -0.375, -2.10, 0.475],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//left square
+	["Lgrlight1l", "Lgrlight1r"],
+	["Lgrlight2l", "Lgrlight2r"],
+	["Lgrlight1l", "Lgrlight2r"],
+	["Lgrlight2l", "Lgrlight1r"],
+	["Lgrlight1l", "Lgrlight2l"],
+	["Lgrlight1r", "Lgrlight2r"],
+
+	//left tip
+	["Lgrlight1l", "Lgrlight0"],
+	["Lgrlight1r", "Lgrlight0"],
+	["Lgrlight2l", "Lgrlight0"],
+	["Lgrlight2r", "Lgrlight0"],
+
+	//right square
+	["Rgrlight1l", "Rgrlight1r"],
+	["Rgrlight2l", "Rgrlight2r"],
+	["Rgrlight1l", "Rgrlight2r"],
+	["Rgrlight2l", "Rgrlight1r"],
+	["Rgrlight1l", "Rgrlight2l"],
+	["Rgrlight1r", "Rgrlight2r"],
+
+	//right tip
+	["Rgrlight1l", "Rgrlight0"],
+	["Rgrlight1r", "Rgrlight0"],
+	["Rgrlight2l", "Rgrlight0"],
+	["Rgrlight2r", "Rgrlight0"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left
+	{"breakGroup":"grillelight_L_break"},
+	{"deformGroup":"grillelight_L_break"},
+	
+	["Lgrlight1l", "hdlight1l"],
+	["Lgrlight1l", "hdlight1r"],
+	["Lgrlight1l", "hdlight2l"],
+
+	["Lgrlight2l", "hdlight1l"],
+	["Lgrlight2l", "hdlight2r"],
+	["Lgrlight2l", "hdlight2l"],
+
+	["Lgrlight1r", "hdlight1l"],
+	["Lgrlight1r", "hdlight1r"],
+	["Lgrlight1r", "hdlight2l"],
+
+	["Lgrlight2r", "hdlight1l"],
+	["Lgrlight2r", "hdlight2r"],
+	["Lgrlight2r", "hdlight2l"],
+
+	["Lgrlight0", "hdlight1l"],
+	["Lgrlight0", "hdlight1r"],
+	["Lgrlight0", "hdlight2l"],
+	
+	//right
+	{"breakGroup":"grillelight_R_break"},
+	{"deformGroup":"grillelight_R_break"},
+	
+	["Rgrlight1r", "hdlight1r"],
+	["Rgrlight1r", "hdlight1l"],
+	["Rgrlight1r", "hdlight2r"],
+
+	["Rgrlight2r", "hdlight1r"],
+	["Rgrlight2r", "hdlight2l"],
+	["Rgrlight2r", "hdlight2r"],
+
+	["Rgrlight1l", "hdlight1r"],
+	["Rgrlight1l", "hdlight1l"],
+	["Rgrlight1l", "hdlight2r"],
+
+	["Rgrlight2l", "hdlight1r"],
+	["Rgrlight2l", "hdlight2l"],
+	["Rgrlight2l", "hdlight2r"],
+
+	["Rgrlight0", "hdlight1r"],
+	["Rgrlight0", "hdlight1l"],
+	["Rgrlight0", "hdlight2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_grillelight_L"},
+	["Lgrlight0","Lgrlight1l","Lgrlight2l"],
+	["Lgrlight0","Lgrlight2l","Lgrlight2r"],
+	["Lgrlight0","Lgrlight2r","Lgrlight1r"],
+	["Lgrlight0","Lgrlight1r","Lgrlight1l"],
+
+	{"group":"legocar_grillelight_R"},
+	["Rgrlight0","Rgrlight1l","Rgrlight2l"],
+	["Rgrlight0","Rgrlight2l","Rgrlight2r"],
+	["Rgrlight0","Rgrlight2r","Rgrlight1r"],
+	["Rgrlight0","Rgrlight1r","Rgrlight1l"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_grillelight_L"},   
+	["Lgrlight1l","Lgrlight1r","Lgrlight2r","Lgrlight2l"],
+	{"group":"legocar_grillelight_R"},   
+	["Rgrlight1l","Rgrlight1r","Rgrlight2r","Rgrlight2l"],	
+        {"group":""},
+    ],
+},
+
+"legocar_highbeams_grille_red": {
+    "information":{
+        "name":"High Beam Red Headlights",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grillelights_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"grillelight_L_break", "deformMaterialBase":"legocar_highbeam_red", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_headlight_L_circle_red_highbeam", ["legocar_grillelight_L"],[], {"pos":{"x": 0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"grillelight_R_break"},
+	["legocar_headlight_R_circle_red_highbeam", ["legocar_grillelight_R"],[], {"pos":{"x":-0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightColor":{"r":201, "g":26, "b":9, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":true,
+            "flareName":"vehicleHeadLightFlare",
+            "cookieName":"art/special/BNG_light_cookie_headlight.dds",
+            "texSize":512,
+            "shadowSoftness":0.5
+        },
+        ["highbeam_wigwag_L","SPOTLIGHT", "Lgrlight2r", "Lgrlight1r", "Lgrlight2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":80,"lightBrightness":0.7,"lightOuterAngle":90,"flareScale":0.08,"deformGroup":"grillelight_L_break"}],
+	["highbeam_wigwag_R","SPOTLIGHT", "Rgrlight2r", "Rgrlight1r", "Rgrlight2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":80,"lightBrightness":0.7,"lightOuterAngle":90,"flareScale":0.08,"deformGroup":"grillelight_R_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	//left
+	{"group":"legocar_grillelight_L"},
+	["Lgrlight1r", 0.280, -1.95, 0.380],
+	["Lgrlight2r", 0.280, -1.95, 0.570],
+	["Lgrlight1l", 0.470, -1.95, 0.380],
+	["Lgrlight2l", 0.470, -1.95, 0.570],
+	["Lgrlight0",  0.375, -2.10, 0.475],
+
+	//right
+	{"group":"legocar_grillelight_R"},
+	["Rgrlight1l",-0.280, -1.95, 0.380],
+	["Rgrlight2l",-0.280, -1.95, 0.570],
+	["Rgrlight1r",-0.470, -1.95, 0.380],
+	["Rgrlight2r",-0.470, -1.95, 0.570],
+	["Rgrlight0", -0.375, -2.10, 0.475],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//left square
+	["Lgrlight1l", "Lgrlight1r"],
+	["Lgrlight2l", "Lgrlight2r"],
+	["Lgrlight1l", "Lgrlight2r"],
+	["Lgrlight2l", "Lgrlight1r"],
+	["Lgrlight1l", "Lgrlight2l"],
+	["Lgrlight1r", "Lgrlight2r"],
+
+	//left tip
+	["Lgrlight1l", "Lgrlight0"],
+	["Lgrlight1r", "Lgrlight0"],
+	["Lgrlight2l", "Lgrlight0"],
+	["Lgrlight2r", "Lgrlight0"],
+
+	//right square
+	["Rgrlight1l", "Rgrlight1r"],
+	["Rgrlight2l", "Rgrlight2r"],
+	["Rgrlight1l", "Rgrlight2r"],
+	["Rgrlight2l", "Rgrlight1r"],
+	["Rgrlight1l", "Rgrlight2l"],
+	["Rgrlight1r", "Rgrlight2r"],
+
+	//right tip
+	["Rgrlight1l", "Rgrlight0"],
+	["Rgrlight1r", "Rgrlight0"],
+	["Rgrlight2l", "Rgrlight0"],
+	["Rgrlight2r", "Rgrlight0"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left
+	{"breakGroup":"grillelight_L_break"},
+	{"deformGroup":"grillelight_L_break"},
+	
+	["Lgrlight1l", "hdlight1l"],
+	["Lgrlight1l", "hdlight1r"],
+	["Lgrlight1l", "hdlight2l"],
+
+	["Lgrlight2l", "hdlight1l"],
+	["Lgrlight2l", "hdlight2r"],
+	["Lgrlight2l", "hdlight2l"],
+
+	["Lgrlight1r", "hdlight1l"],
+	["Lgrlight1r", "hdlight1r"],
+	["Lgrlight1r", "hdlight2l"],
+
+	["Lgrlight2r", "hdlight1l"],
+	["Lgrlight2r", "hdlight2r"],
+	["Lgrlight2r", "hdlight2l"],
+
+	["Lgrlight0", "hdlight1l"],
+	["Lgrlight0", "hdlight1r"],
+	["Lgrlight0", "hdlight2l"],
+	
+	//right
+	{"breakGroup":"grillelight_R_break"},
+	{"deformGroup":"grillelight_R_break"},
+	
+	["Rgrlight1r", "hdlight1r"],
+	["Rgrlight1r", "hdlight1l"],
+	["Rgrlight1r", "hdlight2r"],
+
+	["Rgrlight2r", "hdlight1r"],
+	["Rgrlight2r", "hdlight2l"],
+	["Rgrlight2r", "hdlight2r"],
+
+	["Rgrlight1l", "hdlight1r"],
+	["Rgrlight1l", "hdlight1l"],
+	["Rgrlight1l", "hdlight2r"],
+
+	["Rgrlight2l", "hdlight1r"],
+	["Rgrlight2l", "hdlight2l"],
+	["Rgrlight2l", "hdlight2r"],
+
+	["Rgrlight0", "hdlight1r"],
+	["Rgrlight0", "hdlight1l"],
+	["Rgrlight0", "hdlight2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_grillelight_L"},
+	["Lgrlight0","Lgrlight1l","Lgrlight2l"],
+	["Lgrlight0","Lgrlight2l","Lgrlight2r"],
+	["Lgrlight0","Lgrlight2r","Lgrlight1r"],
+	["Lgrlight0","Lgrlight1r","Lgrlight1l"],
+
+	{"group":"legocar_grillelight_R"},
+	["Rgrlight0","Rgrlight1l","Rgrlight2l"],
+	["Rgrlight0","Rgrlight2l","Rgrlight2r"],
+	["Rgrlight0","Rgrlight2r","Rgrlight1r"],
+	["Rgrlight0","Rgrlight1r","Rgrlight1l"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_grillelight_L"},   
+	["Lgrlight1l","Lgrlight1r","Lgrlight2r","Lgrlight2l"],
+	{"group":"legocar_grillelight_R"},   
+	["Rgrlight1l","Rgrlight1r","Rgrlight2r","Rgrlight2l"],	
+        {"group":""},
+    ],
+},
+
+"legocar_highbeams_grille_yellow": {
+    "information":{
+        "name":"High Beam Yellow Headlights",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grillelights_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"grillelight_L_break", "deformMaterialBase":"legocar_highbeam_yellow", "deformMaterialDamaged":"lego_transcol_yellow"},
+	["legocar_headlight_L_circle_yellow_highbeam", ["legocar_grillelight_L"],[], {"pos":{"x": 0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"grillelight_R_break"},
+	["legocar_headlight_R_circle_yellow_highbeam", ["legocar_grillelight_R"],[], {"pos":{"x":-0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightColor":{"r":245, "g":205, "b":47, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":true,
+            "flareName":"vehicleHeadLightFlare",
+            "cookieName":"art/special/BNG_light_cookie_headlight.dds",
+            "texSize":512,
+            "shadowSoftness":0.5
+        },
+        ["highbeam_wigwag_L","SPOTLIGHT", "Lgrlight2r", "Lgrlight1r", "Lgrlight2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":80,"lightBrightness":0.7,"lightOuterAngle":90,"flareScale":0.08,"deformGroup":"grillelight_L_break"}],
+	["highbeam_wigwag_R","SPOTLIGHT", "Rgrlight2r", "Rgrlight1r", "Rgrlight2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":80,"lightBrightness":0.7,"lightOuterAngle":90,"flareScale":0.08,"deformGroup":"grillelight_R_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	//left
+	{"group":"legocar_grillelight_L"},
+	["Lgrlight1r", 0.280, -1.95, 0.380],
+	["Lgrlight2r", 0.280, -1.95, 0.570],
+	["Lgrlight1l", 0.470, -1.95, 0.380],
+	["Lgrlight2l", 0.470, -1.95, 0.570],
+	["Lgrlight0",  0.375, -2.10, 0.475],
+
+	//right
+	{"group":"legocar_grillelight_R"},
+	["Rgrlight1l",-0.280, -1.95, 0.380],
+	["Rgrlight2l",-0.280, -1.95, 0.570],
+	["Rgrlight1r",-0.470, -1.95, 0.380],
+	["Rgrlight2r",-0.470, -1.95, 0.570],
+	["Rgrlight0", -0.375, -2.10, 0.475],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//left square
+	["Lgrlight1l", "Lgrlight1r"],
+	["Lgrlight2l", "Lgrlight2r"],
+	["Lgrlight1l", "Lgrlight2r"],
+	["Lgrlight2l", "Lgrlight1r"],
+	["Lgrlight1l", "Lgrlight2l"],
+	["Lgrlight1r", "Lgrlight2r"],
+
+	//left tip
+	["Lgrlight1l", "Lgrlight0"],
+	["Lgrlight1r", "Lgrlight0"],
+	["Lgrlight2l", "Lgrlight0"],
+	["Lgrlight2r", "Lgrlight0"],
+
+	//right square
+	["Rgrlight1l", "Rgrlight1r"],
+	["Rgrlight2l", "Rgrlight2r"],
+	["Rgrlight1l", "Rgrlight2r"],
+	["Rgrlight2l", "Rgrlight1r"],
+	["Rgrlight1l", "Rgrlight2l"],
+	["Rgrlight1r", "Rgrlight2r"],
+
+	//right tip
+	["Rgrlight1l", "Rgrlight0"],
+	["Rgrlight1r", "Rgrlight0"],
+	["Rgrlight2l", "Rgrlight0"],
+	["Rgrlight2r", "Rgrlight0"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left
+	{"breakGroup":"grillelight_L_break"},
+	{"deformGroup":"grillelight_L_break"},
+	
+	["Lgrlight1l", "hdlight1l"],
+	["Lgrlight1l", "hdlight1r"],
+	["Lgrlight1l", "hdlight2l"],
+
+	["Lgrlight2l", "hdlight1l"],
+	["Lgrlight2l", "hdlight2r"],
+	["Lgrlight2l", "hdlight2l"],
+
+	["Lgrlight1r", "hdlight1l"],
+	["Lgrlight1r", "hdlight1r"],
+	["Lgrlight1r", "hdlight2l"],
+
+	["Lgrlight2r", "hdlight1l"],
+	["Lgrlight2r", "hdlight2r"],
+	["Lgrlight2r", "hdlight2l"],
+
+	["Lgrlight0", "hdlight1l"],
+	["Lgrlight0", "hdlight1r"],
+	["Lgrlight0", "hdlight2l"],
+	
+	//right
+	{"breakGroup":"grillelight_R_break"},
+	{"deformGroup":"grillelight_R_break"},
+	
+	["Rgrlight1r", "hdlight1r"],
+	["Rgrlight1r", "hdlight1l"],
+	["Rgrlight1r", "hdlight2r"],
+
+	["Rgrlight2r", "hdlight1r"],
+	["Rgrlight2r", "hdlight2l"],
+	["Rgrlight2r", "hdlight2r"],
+
+	["Rgrlight1l", "hdlight1r"],
+	["Rgrlight1l", "hdlight1l"],
+	["Rgrlight1l", "hdlight2r"],
+
+	["Rgrlight2l", "hdlight1r"],
+	["Rgrlight2l", "hdlight2l"],
+	["Rgrlight2l", "hdlight2r"],
+
+	["Rgrlight0", "hdlight1r"],
+	["Rgrlight0", "hdlight1l"],
+	["Rgrlight0", "hdlight2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_grillelight_L"},
+	["Lgrlight0","Lgrlight1l","Lgrlight2l"],
+	["Lgrlight0","Lgrlight2l","Lgrlight2r"],
+	["Lgrlight0","Lgrlight2r","Lgrlight1r"],
+	["Lgrlight0","Lgrlight1r","Lgrlight1l"],
+
+	{"group":"legocar_grillelight_R"},
+	["Rgrlight0","Rgrlight1l","Rgrlight2l"],
+	["Rgrlight0","Rgrlight2l","Rgrlight2r"],
+	["Rgrlight0","Rgrlight2r","Rgrlight1r"],
+	["Rgrlight0","Rgrlight1r","Rgrlight1l"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_grillelight_L"},   
+	["Lgrlight1l","Lgrlight1r","Lgrlight2r","Lgrlight2l"],
+	{"group":"legocar_grillelight_R"},   
+	["Rgrlight1l","Rgrlight1r","Rgrlight2r","Rgrlight2l"],	
+        {"group":""},
+    ],
+},
+
+"legocar_highbeams_grille_green": {
+    "information":{
+        "name":"High Beam Green Headlights",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grillelights_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"grillelight_L_break", "deformMaterialBase":"legocar_highbeam_green", "deformMaterialDamaged":"lego_transcol_bgreen"},
+	["legocar_headlight_L_circle_green_highbeam", ["legocar_grillelight_L"],[], {"pos":{"x": 0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"grillelight_R_break"},
+	["legocar_headlight_R_circle_green_highbeam", ["legocar_grillelight_R"],[], {"pos":{"x":-0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightColor":{"r":217, "g":228, "b":167, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":true,
+            "flareName":"vehicleHeadLightFlare",
+            "cookieName":"art/special/BNG_light_cookie_headlight.dds",
+            "texSize":512,
+            "shadowSoftness":0.5
+        },
+        ["highbeam_wigwag_L","SPOTLIGHT", "Lgrlight2r", "Lgrlight1r", "Lgrlight2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":80,"lightBrightness":0.7,"lightOuterAngle":90,"flareScale":0.08,"deformGroup":"grillelight_L_break"}],
+	["highbeam_wigwag_R","SPOTLIGHT", "Rgrlight2r", "Rgrlight1r", "Rgrlight2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":80,"lightBrightness":0.7,"lightOuterAngle":90,"flareScale":0.08,"deformGroup":"grillelight_R_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	//left
+	{"group":"legocar_grillelight_L"},
+	["Lgrlight1r", 0.280, -1.95, 0.380],
+	["Lgrlight2r", 0.280, -1.95, 0.570],
+	["Lgrlight1l", 0.470, -1.95, 0.380],
+	["Lgrlight2l", 0.470, -1.95, 0.570],
+	["Lgrlight0",  0.375, -2.10, 0.475],
+
+	//right
+	{"group":"legocar_grillelight_R"},
+	["Rgrlight1l",-0.280, -1.95, 0.380],
+	["Rgrlight2l",-0.280, -1.95, 0.570],
+	["Rgrlight1r",-0.470, -1.95, 0.380],
+	["Rgrlight2r",-0.470, -1.95, 0.570],
+	["Rgrlight0", -0.375, -2.10, 0.475],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//left square
+	["Lgrlight1l", "Lgrlight1r"],
+	["Lgrlight2l", "Lgrlight2r"],
+	["Lgrlight1l", "Lgrlight2r"],
+	["Lgrlight2l", "Lgrlight1r"],
+	["Lgrlight1l", "Lgrlight2l"],
+	["Lgrlight1r", "Lgrlight2r"],
+
+	//left tip
+	["Lgrlight1l", "Lgrlight0"],
+	["Lgrlight1r", "Lgrlight0"],
+	["Lgrlight2l", "Lgrlight0"],
+	["Lgrlight2r", "Lgrlight0"],
+
+	//right square
+	["Rgrlight1l", "Rgrlight1r"],
+	["Rgrlight2l", "Rgrlight2r"],
+	["Rgrlight1l", "Rgrlight2r"],
+	["Rgrlight2l", "Rgrlight1r"],
+	["Rgrlight1l", "Rgrlight2l"],
+	["Rgrlight1r", "Rgrlight2r"],
+
+	//right tip
+	["Rgrlight1l", "Rgrlight0"],
+	["Rgrlight1r", "Rgrlight0"],
+	["Rgrlight2l", "Rgrlight0"],
+	["Rgrlight2r", "Rgrlight0"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left
+	{"breakGroup":"grillelight_L_break"},
+	{"deformGroup":"grillelight_L_break"},
+	
+	["Lgrlight1l", "hdlight1l"],
+	["Lgrlight1l", "hdlight1r"],
+	["Lgrlight1l", "hdlight2l"],
+
+	["Lgrlight2l", "hdlight1l"],
+	["Lgrlight2l", "hdlight2r"],
+	["Lgrlight2l", "hdlight2l"],
+
+	["Lgrlight1r", "hdlight1l"],
+	["Lgrlight1r", "hdlight1r"],
+	["Lgrlight1r", "hdlight2l"],
+
+	["Lgrlight2r", "hdlight1l"],
+	["Lgrlight2r", "hdlight2r"],
+	["Lgrlight2r", "hdlight2l"],
+
+	["Lgrlight0", "hdlight1l"],
+	["Lgrlight0", "hdlight1r"],
+	["Lgrlight0", "hdlight2l"],
+	
+	//right
+	{"breakGroup":"grillelight_R_break"},
+	{"deformGroup":"grillelight_R_break"},
+	
+	["Rgrlight1r", "hdlight1r"],
+	["Rgrlight1r", "hdlight1l"],
+	["Rgrlight1r", "hdlight2r"],
+
+	["Rgrlight2r", "hdlight1r"],
+	["Rgrlight2r", "hdlight2l"],
+	["Rgrlight2r", "hdlight2r"],
+
+	["Rgrlight1l", "hdlight1r"],
+	["Rgrlight1l", "hdlight1l"],
+	["Rgrlight1l", "hdlight2r"],
+
+	["Rgrlight2l", "hdlight1r"],
+	["Rgrlight2l", "hdlight2l"],
+	["Rgrlight2l", "hdlight2r"],
+
+	["Rgrlight0", "hdlight1r"],
+	["Rgrlight0", "hdlight1l"],
+	["Rgrlight0", "hdlight2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_grillelight_L"},
+	["Lgrlight0","Lgrlight1l","Lgrlight2l"],
+	["Lgrlight0","Lgrlight2l","Lgrlight2r"],
+	["Lgrlight0","Lgrlight2r","Lgrlight1r"],
+	["Lgrlight0","Lgrlight1r","Lgrlight1l"],
+
+	{"group":"legocar_grillelight_R"},
+	["Rgrlight0","Rgrlight1l","Rgrlight2l"],
+	["Rgrlight0","Rgrlight2l","Rgrlight2r"],
+	["Rgrlight0","Rgrlight2r","Rgrlight1r"],
+	["Rgrlight0","Rgrlight1r","Rgrlight1l"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_grillelight_L"},   
+	["Lgrlight1l","Lgrlight1r","Lgrlight2r","Lgrlight2l"],
+	{"group":"legocar_grillelight_R"},   
+	["Rgrlight1l","Rgrlight1r","Rgrlight2r","Rgrlight2l"],	
+        {"group":""},
+    ],
+},
+
+"legocar_highbeams_grille_blue": {
+    "information":{
+        "name":"High Beam Blue Headlights",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grillelights_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"grillelight_L_break", "deformMaterialBase":"legocar_highbeam_blue", "deformMaterialDamaged":"lego_transcol_lblue"},
+	["legocar_headlight_L_circle_blue_highbeam", ["legocar_grillelight_L"],[], {"pos":{"x": 0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"grillelight_R_break"},
+	["legocar_headlight_R_circle_blue_highbeam", ["legocar_grillelight_R"],[], {"pos":{"x":-0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightColor":{"r":174, "g":239, "b":236, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":true,
+            "flareName":"vehicleHeadLightFlare",
+            "cookieName":"art/special/BNG_light_cookie_headlight.dds",
+            "texSize":512,
+            "shadowSoftness":0.5
+        },
+        ["highbeam_wigwag_L","SPOTLIGHT", "Lgrlight2r", "Lgrlight1r", "Lgrlight2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":80,"lightBrightness":0.7,"lightOuterAngle":90,"flareScale":0.08,"deformGroup":"grillelight_L_break"}],
+	["highbeam_wigwag_R","SPOTLIGHT", "Rgrlight2r", "Rgrlight1r", "Rgrlight2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":80,"lightBrightness":0.7,"lightOuterAngle":90,"flareScale":0.08,"deformGroup":"grillelight_R_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	//left
+	{"group":"legocar_grillelight_L"},
+	["Lgrlight1r", 0.280, -1.95, 0.380],
+	["Lgrlight2r", 0.280, -1.95, 0.570],
+	["Lgrlight1l", 0.470, -1.95, 0.380],
+	["Lgrlight2l", 0.470, -1.95, 0.570],
+	["Lgrlight0",  0.375, -2.10, 0.475],
+
+	//right
+	{"group":"legocar_grillelight_R"},
+	["Rgrlight1l",-0.280, -1.95, 0.380],
+	["Rgrlight2l",-0.280, -1.95, 0.570],
+	["Rgrlight1r",-0.470, -1.95, 0.380],
+	["Rgrlight2r",-0.470, -1.95, 0.570],
+	["Rgrlight0", -0.375, -2.10, 0.475],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//left square
+	["Lgrlight1l", "Lgrlight1r"],
+	["Lgrlight2l", "Lgrlight2r"],
+	["Lgrlight1l", "Lgrlight2r"],
+	["Lgrlight2l", "Lgrlight1r"],
+	["Lgrlight1l", "Lgrlight2l"],
+	["Lgrlight1r", "Lgrlight2r"],
+
+	//left tip
+	["Lgrlight1l", "Lgrlight0"],
+	["Lgrlight1r", "Lgrlight0"],
+	["Lgrlight2l", "Lgrlight0"],
+	["Lgrlight2r", "Lgrlight0"],
+
+	//right square
+	["Rgrlight1l", "Rgrlight1r"],
+	["Rgrlight2l", "Rgrlight2r"],
+	["Rgrlight1l", "Rgrlight2r"],
+	["Rgrlight2l", "Rgrlight1r"],
+	["Rgrlight1l", "Rgrlight2l"],
+	["Rgrlight1r", "Rgrlight2r"],
+
+	//right tip
+	["Rgrlight1l", "Rgrlight0"],
+	["Rgrlight1r", "Rgrlight0"],
+	["Rgrlight2l", "Rgrlight0"],
+	["Rgrlight2r", "Rgrlight0"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left
+	{"breakGroup":"grillelight_L_break"},
+	{"deformGroup":"grillelight_L_break"},
+	
+	["Lgrlight1l", "hdlight1l"],
+	["Lgrlight1l", "hdlight1r"],
+	["Lgrlight1l", "hdlight2l"],
+
+	["Lgrlight2l", "hdlight1l"],
+	["Lgrlight2l", "hdlight2r"],
+	["Lgrlight2l", "hdlight2l"],
+
+	["Lgrlight1r", "hdlight1l"],
+	["Lgrlight1r", "hdlight1r"],
+	["Lgrlight1r", "hdlight2l"],
+
+	["Lgrlight2r", "hdlight1l"],
+	["Lgrlight2r", "hdlight2r"],
+	["Lgrlight2r", "hdlight2l"],
+
+	["Lgrlight0", "hdlight1l"],
+	["Lgrlight0", "hdlight1r"],
+	["Lgrlight0", "hdlight2l"],
+	
+	//right
+	{"breakGroup":"grillelight_R_break"},
+	{"deformGroup":"grillelight_R_break"},
+	
+	["Rgrlight1r", "hdlight1r"],
+	["Rgrlight1r", "hdlight1l"],
+	["Rgrlight1r", "hdlight2r"],
+
+	["Rgrlight2r", "hdlight1r"],
+	["Rgrlight2r", "hdlight2l"],
+	["Rgrlight2r", "hdlight2r"],
+
+	["Rgrlight1l", "hdlight1r"],
+	["Rgrlight1l", "hdlight1l"],
+	["Rgrlight1l", "hdlight2r"],
+
+	["Rgrlight2l", "hdlight1r"],
+	["Rgrlight2l", "hdlight2l"],
+	["Rgrlight2l", "hdlight2r"],
+
+	["Rgrlight0", "hdlight1r"],
+	["Rgrlight0", "hdlight1l"],
+	["Rgrlight0", "hdlight2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_grillelight_L"},
+	["Lgrlight0","Lgrlight1l","Lgrlight2l"],
+	["Lgrlight0","Lgrlight2l","Lgrlight2r"],
+	["Lgrlight0","Lgrlight2r","Lgrlight1r"],
+	["Lgrlight0","Lgrlight1r","Lgrlight1l"],
+
+	{"group":"legocar_grillelight_R"},
+	["Rgrlight0","Rgrlight1l","Rgrlight2l"],
+	["Rgrlight0","Rgrlight2l","Rgrlight2r"],
+	["Rgrlight0","Rgrlight2r","Rgrlight1r"],
+	["Rgrlight0","Rgrlight1r","Rgrlight1l"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_grillelight_L"},   
+	["Lgrlight1l","Lgrlight1r","Lgrlight2r","Lgrlight2l"],
+	{"group":"legocar_grillelight_R"},   
+	["Rgrlight1l","Rgrlight1r","Rgrlight2r","Rgrlight2l"],	
+        {"group":""},
+    ],
+},
+
+}

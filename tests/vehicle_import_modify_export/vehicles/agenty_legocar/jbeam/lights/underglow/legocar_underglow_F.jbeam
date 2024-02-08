@@ -1,0 +1,956 @@
+{
+"legocar_underglow_F_white": {
+    "information":{
+        "name":"White Underglow Neon",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_underglow_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"neon_F_break", "deformMaterialBase":"legocar_underglow_white", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_underglow_white",["legocar_neon_F"], [], {"pos":{"x":0, "y":-1.625, "z":-0.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":179,
+            "lightRange":2.0,
+            "lightColor":{"r":252, "g":252, "b":252, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleHeadLightFlare",
+            "cookieName":"/art/special/BNG_light_cookie_underglow.dds"
+            "texSize":512,
+            "shadowSoftness":0.4,
+        },
+        ["underglow", "SPOTLIGHT", "Fneon2l", "Fneon2r", "Fneon1l", {"x":90, "y":180, "z":0},  {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.25, "y":0.625, "z":0.2},"lightRange":1.5,"flareScale":0.0,"lightBrightness":0.6,"deformGroup":"neon_F_break"}],
+	["underglow", "SPOTLIGHT", "Fneon2l", "Fneon2r", "Fneon1l", {"x":90, "y":180, "z":0},  {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.625, "z":0.2},"lightRange":1.5,"flareScale":0.0,"lightBrightness":0.6,"deformGroup":"neon_F_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_neon_F"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["Fneon1l",  0.50, -1.50, -0.05],
+	["Fneon1r", -0.50, -1.50, -0.05],
+	["Fneon2l",  0.50, -1.75, -0.05],
+	["Fneon2r", -0.50, -1.75, -0.05],
+
+	//rigidifier
+	["Fneonrig", 0, -1.625, 0.3, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FRONT NEON--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["Fneon1l", "Fneon1r"],
+	["Fneon2l", "Fneon2r"],
+	["Fneon1l", "Fneon2l"],
+	["Fneon1r", "Fneon2r"],
+	["Fneon1l", "Fneon2r"],
+	["Fneon2l", "Fneon1r"],
+
+	//rigidifier
+	["Fneon1l", "Fneonrig"],
+	["Fneon1r", "Fneonrig"],
+	["Fneon2l", "Fneonrig"],
+	["Fneon2r", "Fneonrig"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"neon_F_break"},
+	{"deformGroup":"neon_F_break"},
+
+	["Fneon1l", "Fsubf2l"],
+	["Fneon1l", "Fsubf2r"],
+	["Fneon1l", "Fsubf1l"],
+	["Fneon1l", "Fsubfrig"],
+
+	["Fneon1r", "Fsubf2r"],
+	["Fneon1r", "Fsubf2l"],
+	["Fneon1r", "Fsubf1r"],
+	["Fneon1r", "Fsubfrig"],
+
+	["Fneon2l", "Fsubf2l"],
+	["Fneon2l", "Fsubf2r"],
+	["Fneon2l", "Fsubf1l"],
+	["Fneon2l", "Fsubfrig"],
+
+	["Fneon2r", "Fsubf2r"],
+	["Fneon2r", "Fsubf2l"],
+	["Fneon2r", "Fsubf1r"],
+	["Fneon2r", "Fsubfrig"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_neon_F"},
+	["Fneon1r","Fneon1l","Fneon2l","Fneon2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_underglow_F_red": {
+    "information":{
+        "name":"Red Underglow Neon",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_underglow_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"neon_F_break", "deformMaterialBase":"legocar_underglow_red", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_underglow_red",["legocar_neon_F"], [], {"pos":{"x":0, "y":-1.625, "z":-0.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":179,
+            "lightRange":2.0,
+            "lightColor":{"r":201, "g":26, "b":9, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleHeadLightFlare",
+            "cookieName":"/art/special/BNG_light_cookie_underglow.dds"
+            "texSize":512,
+            "shadowSoftness":0.4,
+        },
+        ["underglow", "SPOTLIGHT", "Fneon2l", "Fneon2r", "Fneon1l", {"x":90, "y":180, "z":0},  {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.25, "y":0.625, "z":0.2},"lightRange":1.5,"flareScale":0.0,"lightBrightness":0.6,"deformGroup":"neon_F_break"}],
+	["underglow", "SPOTLIGHT", "Fneon2l", "Fneon2r", "Fneon1l", {"x":90, "y":180, "z":0},  {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.625, "z":0.2},"lightRange":1.5,"flareScale":0.0,"lightBrightness":0.6,"deformGroup":"neon_F_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_neon_F"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["Fneon1l",  0.50, -1.50, -0.05],
+	["Fneon1r", -0.50, -1.50, -0.05],
+	["Fneon2l",  0.50, -1.75, -0.05],
+	["Fneon2r", -0.50, -1.75, -0.05],
+
+	//rigidifier
+	["Fneonrig", 0, -1.625, 0.3, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FRONT NEON--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["Fneon1l", "Fneon1r"],
+	["Fneon2l", "Fneon2r"],
+	["Fneon1l", "Fneon2l"],
+	["Fneon1r", "Fneon2r"],
+	["Fneon1l", "Fneon2r"],
+	["Fneon2l", "Fneon1r"],
+
+	//rigidifier
+	["Fneon1l", "Fneonrig"],
+	["Fneon1r", "Fneonrig"],
+	["Fneon2l", "Fneonrig"],
+	["Fneon2r", "Fneonrig"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"neon_F_break"},
+	{"deformGroup":"neon_F_break"},
+
+	["Fneon1l", "Fsubf2l"],
+	["Fneon1l", "Fsubf2r"],
+	["Fneon1l", "Fsubf1l"],
+	["Fneon1l", "Fsubfrig"],
+
+	["Fneon1r", "Fsubf2r"],
+	["Fneon1r", "Fsubf2l"],
+	["Fneon1r", "Fsubf1r"],
+	["Fneon1r", "Fsubfrig"],
+
+	["Fneon2l", "Fsubf2l"],
+	["Fneon2l", "Fsubf2r"],
+	["Fneon2l", "Fsubf1l"],
+	["Fneon2l", "Fsubfrig"],
+
+	["Fneon2r", "Fsubf2r"],
+	["Fneon2r", "Fsubf2l"],
+	["Fneon2r", "Fsubf1r"],
+	["Fneon2r", "Fsubfrig"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_neon_F"},
+	["Fneon1r","Fneon1l","Fneon2l","Fneon2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_underglow_F_orange": {
+    "information":{
+        "name":"Orange Underglow Neon",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_underglow_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"neon_F_break", "deformMaterialBase":"legocar_underglow_orange", "deformMaterialDamaged":"lego_transcol_orange"},
+	["legocar_underglow_orange",["legocar_neon_F"], [], {"pos":{"x":0, "y":-1.625, "z":-0.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":179,
+            "lightRange":2.0,
+            "lightColor":{"r":240, "g":143, "b":28, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleHeadLightFlare",
+            "cookieName":"/art/special/BNG_light_cookie_underglow.dds"
+            "texSize":512,
+            "shadowSoftness":0.4,
+        },
+        ["underglow", "SPOTLIGHT", "Fneon2l", "Fneon2r", "Fneon1l", {"x":90, "y":180, "z":0},  {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.25, "y":0.625, "z":0.2},"lightRange":1.5,"flareScale":0.0,"lightBrightness":0.6,"deformGroup":"neon_F_break"}],
+	["underglow", "SPOTLIGHT", "Fneon2l", "Fneon2r", "Fneon1l", {"x":90, "y":180, "z":0},  {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.625, "z":0.2},"lightRange":1.5,"flareScale":0.0,"lightBrightness":0.6,"deformGroup":"neon_F_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_neon_F"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["Fneon1l",  0.50, -1.50, -0.05],
+	["Fneon1r", -0.50, -1.50, -0.05],
+	["Fneon2l",  0.50, -1.75, -0.05],
+	["Fneon2r", -0.50, -1.75, -0.05],
+
+	//rigidifier
+	["Fneonrig", 0, -1.625, 0.3, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FRONT NEON--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["Fneon1l", "Fneon1r"],
+	["Fneon2l", "Fneon2r"],
+	["Fneon1l", "Fneon2l"],
+	["Fneon1r", "Fneon2r"],
+	["Fneon1l", "Fneon2r"],
+	["Fneon2l", "Fneon1r"],
+
+	//rigidifier
+	["Fneon1l", "Fneonrig"],
+	["Fneon1r", "Fneonrig"],
+	["Fneon2l", "Fneonrig"],
+	["Fneon2r", "Fneonrig"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"neon_F_break"},
+	{"deformGroup":"neon_F_break"},
+
+	["Fneon1l", "Fsubf2l"],
+	["Fneon1l", "Fsubf2r"],
+	["Fneon1l", "Fsubf1l"],
+	["Fneon1l", "Fsubfrig"],
+
+	["Fneon1r", "Fsubf2r"],
+	["Fneon1r", "Fsubf2l"],
+	["Fneon1r", "Fsubf1r"],
+	["Fneon1r", "Fsubfrig"],
+
+	["Fneon2l", "Fsubf2l"],
+	["Fneon2l", "Fsubf2r"],
+	["Fneon2l", "Fsubf1l"],
+	["Fneon2l", "Fsubfrig"],
+
+	["Fneon2r", "Fsubf2r"],
+	["Fneon2r", "Fsubf2l"],
+	["Fneon2r", "Fsubf1r"],
+	["Fneon2r", "Fsubfrig"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_neon_F"},
+	["Fneon1r","Fneon1l","Fneon2l","Fneon2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_underglow_F_yellow": {
+    "information":{
+        "name":"Yellow Underglow Neon",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_underglow_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"neon_F_break", "deformMaterialBase":"legocar_underglow_yellow", "deformMaterialDamaged":"lego_transcol_yellow"},
+	["legocar_underglow_yellow",["legocar_neon_F"], [], {"pos":{"x":0, "y":-1.625, "z":-0.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":179,
+            "lightRange":2.0,
+            "lightColor":{"r":245, "g":205, "b":47, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleHeadLightFlare",
+            "cookieName":"/art/special/BNG_light_cookie_underglow.dds"
+            "texSize":512,
+            "shadowSoftness":0.4,
+        },
+        ["underglow", "SPOTLIGHT", "Fneon2l", "Fneon2r", "Fneon1l", {"x":90, "y":180, "z":0},  {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.25, "y":0.625, "z":0.2},"lightRange":1.5,"flareScale":0.0,"lightBrightness":0.6,"deformGroup":"neon_F_break"}],
+	["underglow", "SPOTLIGHT", "Fneon2l", "Fneon2r", "Fneon1l", {"x":90, "y":180, "z":0},  {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.625, "z":0.2},"lightRange":1.5,"flareScale":0.0,"lightBrightness":0.6,"deformGroup":"neon_F_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_neon_F"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["Fneon1l",  0.50, -1.50, -0.05],
+	["Fneon1r", -0.50, -1.50, -0.05],
+	["Fneon2l",  0.50, -1.75, -0.05],
+	["Fneon2r", -0.50, -1.75, -0.05],
+
+	//rigidifier
+	["Fneonrig", 0, -1.625, 0.3, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FRONT NEON--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["Fneon1l", "Fneon1r"],
+	["Fneon2l", "Fneon2r"],
+	["Fneon1l", "Fneon2l"],
+	["Fneon1r", "Fneon2r"],
+	["Fneon1l", "Fneon2r"],
+	["Fneon2l", "Fneon1r"],
+
+	//rigidifier
+	["Fneon1l", "Fneonrig"],
+	["Fneon1r", "Fneonrig"],
+	["Fneon2l", "Fneonrig"],
+	["Fneon2r", "Fneonrig"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"neon_F_break"},
+	{"deformGroup":"neon_F_break"},
+
+	["Fneon1l", "Fsubf2l"],
+	["Fneon1l", "Fsubf2r"],
+	["Fneon1l", "Fsubf1l"],
+	["Fneon1l", "Fsubfrig"],
+
+	["Fneon1r", "Fsubf2r"],
+	["Fneon1r", "Fsubf2l"],
+	["Fneon1r", "Fsubf1r"],
+	["Fneon1r", "Fsubfrig"],
+
+	["Fneon2l", "Fsubf2l"],
+	["Fneon2l", "Fsubf2r"],
+	["Fneon2l", "Fsubf1l"],
+	["Fneon2l", "Fsubfrig"],
+
+	["Fneon2r", "Fsubf2r"],
+	["Fneon2r", "Fsubf2l"],
+	["Fneon2r", "Fsubf1r"],
+	["Fneon2r", "Fsubfrig"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_neon_F"},
+	["Fneon1r","Fneon1l","Fneon2l","Fneon2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_underglow_F_bgreen": {
+    "information":{
+        "name":"Bright Green Underglow Neon",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_underglow_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"neon_F_break", "deformMaterialBase":"legocar_underglow_bgreen", "deformMaterialDamaged":"lego_transcol_bgreen"},
+	["legocar_underglow_bgreen",["legocar_neon_F"], [], {"pos":{"x":0, "y":-1.625, "z":-0.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":179,
+            "lightRange":2.0,
+            "lightColor":{"r":217, "g":228, "b":167, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleHeadLightFlare",
+            "cookieName":"/art/special/BNG_light_cookie_underglow.dds"
+            "texSize":512,
+            "shadowSoftness":0.4,
+        },
+        ["underglow", "SPOTLIGHT", "Fneon2l", "Fneon2r", "Fneon1l", {"x":90, "y":180, "z":0},  {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.25, "y":0.625, "z":0.2},"lightRange":1.5,"flareScale":0.0,"lightBrightness":0.6,"deformGroup":"neon_F_break"}],
+	["underglow", "SPOTLIGHT", "Fneon2l", "Fneon2r", "Fneon1l", {"x":90, "y":180, "z":0},  {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.625, "z":0.2},"lightRange":1.5,"flareScale":0.0,"lightBrightness":0.6,"deformGroup":"neon_F_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_neon_F"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["Fneon1l",  0.50, -1.50, -0.05],
+	["Fneon1r", -0.50, -1.50, -0.05],
+	["Fneon2l",  0.50, -1.75, -0.05],
+	["Fneon2r", -0.50, -1.75, -0.05],
+
+	//rigidifier
+	["Fneonrig", 0, -1.625, 0.3, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FRONT NEON--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["Fneon1l", "Fneon1r"],
+	["Fneon2l", "Fneon2r"],
+	["Fneon1l", "Fneon2l"],
+	["Fneon1r", "Fneon2r"],
+	["Fneon1l", "Fneon2r"],
+	["Fneon2l", "Fneon1r"],
+
+	//rigidifier
+	["Fneon1l", "Fneonrig"],
+	["Fneon1r", "Fneonrig"],
+	["Fneon2l", "Fneonrig"],
+	["Fneon2r", "Fneonrig"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"neon_F_break"},
+	{"deformGroup":"neon_F_break"},
+
+	["Fneon1l", "Fsubf2l"],
+	["Fneon1l", "Fsubf2r"],
+	["Fneon1l", "Fsubf1l"],
+	["Fneon1l", "Fsubfrig"],
+
+	["Fneon1r", "Fsubf2r"],
+	["Fneon1r", "Fsubf2l"],
+	["Fneon1r", "Fsubf1r"],
+	["Fneon1r", "Fsubfrig"],
+
+	["Fneon2l", "Fsubf2l"],
+	["Fneon2l", "Fsubf2r"],
+	["Fneon2l", "Fsubf1l"],
+	["Fneon2l", "Fsubfrig"],
+
+	["Fneon2r", "Fsubf2r"],
+	["Fneon2r", "Fsubf2l"],
+	["Fneon2r", "Fsubf1r"],
+	["Fneon2r", "Fsubfrig"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_neon_F"},
+	["Fneon1r","Fneon1l","Fneon2l","Fneon2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_underglow_F_green": {
+    "information":{
+        "name":"Dark Green Underglow Neon",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_underglow_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"neon_F_break", "deformMaterialBase":"legocar_underglow_green", "deformMaterialDamaged":"lego_transcol_green"},
+	["legocar_underglow_green",["legocar_neon_F"], [], {"pos":{"x":0, "y":-1.625, "z":-0.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":179,
+            "lightRange":2.0,
+            "lightColor":{"r":132, "g":182, "b":141, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleHeadLightFlare",
+            "cookieName":"/art/special/BNG_light_cookie_underglow.dds"
+            "texSize":512,
+            "shadowSoftness":0.4,
+        },
+        ["underglow", "SPOTLIGHT", "Fneon2l", "Fneon2r", "Fneon1l", {"x":90, "y":180, "z":0},  {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.25, "y":0.625, "z":0.2},"lightRange":1.5,"flareScale":0.0,"lightBrightness":0.6,"deformGroup":"neon_F_break"}],
+	["underglow", "SPOTLIGHT", "Fneon2l", "Fneon2r", "Fneon1l", {"x":90, "y":180, "z":0},  {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.625, "z":0.2},"lightRange":1.5,"flareScale":0.0,"lightBrightness":0.6,"deformGroup":"neon_F_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_neon_F"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["Fneon1l",  0.50, -1.50, -0.05],
+	["Fneon1r", -0.50, -1.50, -0.05],
+	["Fneon2l",  0.50, -1.75, -0.05],
+	["Fneon2r", -0.50, -1.75, -0.05],
+
+	//rigidifier
+	["Fneonrig", 0, -1.625, 0.3, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FRONT NEON--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["Fneon1l", "Fneon1r"],
+	["Fneon2l", "Fneon2r"],
+	["Fneon1l", "Fneon2l"],
+	["Fneon1r", "Fneon2r"],
+	["Fneon1l", "Fneon2r"],
+	["Fneon2l", "Fneon1r"],
+
+	//rigidifier
+	["Fneon1l", "Fneonrig"],
+	["Fneon1r", "Fneonrig"],
+	["Fneon2l", "Fneonrig"],
+	["Fneon2r", "Fneonrig"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"neon_F_break"},
+	{"deformGroup":"neon_F_break"},
+
+	["Fneon1l", "Fsubf2l"],
+	["Fneon1l", "Fsubf2r"],
+	["Fneon1l", "Fsubf1l"],
+	["Fneon1l", "Fsubfrig"],
+
+	["Fneon1r", "Fsubf2r"],
+	["Fneon1r", "Fsubf2l"],
+	["Fneon1r", "Fsubf1r"],
+	["Fneon1r", "Fsubfrig"],
+
+	["Fneon2l", "Fsubf2l"],
+	["Fneon2l", "Fsubf2r"],
+	["Fneon2l", "Fsubf1l"],
+	["Fneon2l", "Fsubfrig"],
+
+	["Fneon2r", "Fsubf2r"],
+	["Fneon2r", "Fsubf2l"],
+	["Fneon2r", "Fsubf1r"],
+	["Fneon2r", "Fsubfrig"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_neon_F"},
+	["Fneon1r","Fneon1l","Fneon2l","Fneon2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_underglow_F_lblue": {
+    "information":{
+        "name":"Light Blue Underglow Neon",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_underglow_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"neon_F_break", "deformMaterialBase":"legocar_underglow_lblue", "deformMaterialDamaged":"lego_transcol_lblue"},
+	["legocar_underglow_lblue",["legocar_neon_F"], [], {"pos":{"x":0, "y":-1.625, "z":-0.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":179,
+            "lightRange":2.0,
+            "lightColor":{"r":174, "g":239, "b":236, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleHeadLightFlare",
+            "cookieName":"/art/special/BNG_light_cookie_underglow.dds"
+            "texSize":512,
+            "shadowSoftness":0.4,
+        },
+        ["underglow", "SPOTLIGHT", "Fneon2l", "Fneon2r", "Fneon1l", {"x":90, "y":180, "z":0},  {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.25, "y":0.625, "z":0.2},"lightRange":1.5,"flareScale":0.0,"lightBrightness":0.6,"deformGroup":"neon_F_break"}],
+	["underglow", "SPOTLIGHT", "Fneon2l", "Fneon2r", "Fneon1l", {"x":90, "y":180, "z":0},  {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.625, "z":0.2},"lightRange":1.5,"flareScale":0.0,"lightBrightness":0.6,"deformGroup":"neon_F_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_neon_F"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["Fneon1l",  0.50, -1.50, -0.05],
+	["Fneon1r", -0.50, -1.50, -0.05],
+	["Fneon2l",  0.50, -1.75, -0.05],
+	["Fneon2r", -0.50, -1.75, -0.05],
+
+	//rigidifier
+	["Fneonrig", 0, -1.625, 0.3, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FRONT NEON--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["Fneon1l", "Fneon1r"],
+	["Fneon2l", "Fneon2r"],
+	["Fneon1l", "Fneon2l"],
+	["Fneon1r", "Fneon2r"],
+	["Fneon1l", "Fneon2r"],
+	["Fneon2l", "Fneon1r"],
+
+	//rigidifier
+	["Fneon1l", "Fneonrig"],
+	["Fneon1r", "Fneonrig"],
+	["Fneon2l", "Fneonrig"],
+	["Fneon2r", "Fneonrig"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"neon_F_break"},
+	{"deformGroup":"neon_F_break"},
+
+	["Fneon1l", "Fsubf2l"],
+	["Fneon1l", "Fsubf2r"],
+	["Fneon1l", "Fsubf1l"],
+	["Fneon1l", "Fsubfrig"],
+
+	["Fneon1r", "Fsubf2r"],
+	["Fneon1r", "Fsubf2l"],
+	["Fneon1r", "Fsubf1r"],
+	["Fneon1r", "Fsubfrig"],
+
+	["Fneon2l", "Fsubf2l"],
+	["Fneon2l", "Fsubf2r"],
+	["Fneon2l", "Fsubf1l"],
+	["Fneon2l", "Fsubfrig"],
+
+	["Fneon2r", "Fsubf2r"],
+	["Fneon2r", "Fsubf2l"],
+	["Fneon2r", "Fsubf1r"],
+	["Fneon2r", "Fsubfrig"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_neon_F"},
+	["Fneon1r","Fneon1l","Fneon2l","Fneon2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_underglow_F_blue": {
+    "information":{
+        "name":"Dark Blue Underglow Neon",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_underglow_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"neon_F_break", "deformMaterialBase":"legocar_underglow_blue", "deformMaterialDamaged":"lego_transcol_blue"},
+	["legocar_underglow_blue",["legocar_neon_F"], [], {"pos":{"x":0, "y":-1.625, "z":-0.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":179,
+            "lightRange":2.0,
+            "lightColor":{"r":0, "g":32, "b":160, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleHeadLightFlare",
+            "cookieName":"/art/special/BNG_light_cookie_underglow.dds"
+            "texSize":512,
+            "shadowSoftness":0.4,
+        },
+        ["underglow", "SPOTLIGHT", "Fneon2l", "Fneon2r", "Fneon1l", {"x":90, "y":180, "z":0},  {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.25, "y":0.625, "z":0.2},"lightRange":1.5,"flareScale":0.0,"lightBrightness":0.6,"deformGroup":"neon_F_break"}],
+	["underglow", "SPOTLIGHT", "Fneon2l", "Fneon2r", "Fneon1l", {"x":90, "y":180, "z":0},  {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.625, "z":0.2},"lightRange":1.5,"flareScale":0.0,"lightBrightness":0.6,"deformGroup":"neon_F_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_neon_F"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["Fneon1l",  0.50, -1.50, -0.05],
+	["Fneon1r", -0.50, -1.50, -0.05],
+	["Fneon2l",  0.50, -1.75, -0.05],
+	["Fneon2r", -0.50, -1.75, -0.05],
+
+	//rigidifier
+	["Fneonrig", 0, -1.625, 0.3, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FRONT NEON--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["Fneon1l", "Fneon1r"],
+	["Fneon2l", "Fneon2r"],
+	["Fneon1l", "Fneon2l"],
+	["Fneon1r", "Fneon2r"],
+	["Fneon1l", "Fneon2r"],
+	["Fneon2l", "Fneon1r"],
+
+	//rigidifier
+	["Fneon1l", "Fneonrig"],
+	["Fneon1r", "Fneonrig"],
+	["Fneon2l", "Fneonrig"],
+	["Fneon2r", "Fneonrig"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"neon_F_break"},
+	{"deformGroup":"neon_F_break"},
+
+	["Fneon1l", "Fsubf2l"],
+	["Fneon1l", "Fsubf2r"],
+	["Fneon1l", "Fsubf1l"],
+	["Fneon1l", "Fsubfrig"],
+
+	["Fneon1r", "Fsubf2r"],
+	["Fneon1r", "Fsubf2l"],
+	["Fneon1r", "Fsubf1r"],
+	["Fneon1r", "Fsubfrig"],
+
+	["Fneon2l", "Fsubf2l"],
+	["Fneon2l", "Fsubf2r"],
+	["Fneon2l", "Fsubf1l"],
+	["Fneon2l", "Fsubfrig"],
+
+	["Fneon2r", "Fsubf2r"],
+	["Fneon2r", "Fsubf2l"],
+	["Fneon2r", "Fsubf1r"],
+	["Fneon2r", "Fsubfrig"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_neon_F"},
+	["Fneon1r","Fneon1l","Fneon2l","Fneon2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_underglow_F_pink": {
+    "information":{
+        "name":"Pink Underglow Neon",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_underglow_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"neon_F_break", "deformMaterialBase":"legocar_underglow_pink", "deformMaterialDamaged":"lego_transcol_pink"},
+	["legocar_underglow_pink",["legocar_neon_F"], [], {"pos":{"x":0, "y":-1.625, "z":-0.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":179,
+            "lightRange":2.0,
+            "lightColor":{"r":228, "g":173, "b":200, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleHeadLightFlare",
+            "cookieName":"/art/special/BNG_light_cookie_underglow.dds"
+            "texSize":512,
+            "shadowSoftness":0.4,
+        },
+        ["underglow", "SPOTLIGHT", "Fneon2l", "Fneon2r", "Fneon1l", {"x":90, "y":180, "z":0},  {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.25, "y":0.625, "z":0.2},"lightRange":1.5,"flareScale":0.0,"lightBrightness":0.6,"deformGroup":"neon_F_break"}],
+	["underglow", "SPOTLIGHT", "Fneon2l", "Fneon2r", "Fneon1l", {"x":90, "y":180, "z":0},  {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.625, "z":0.2},"lightRange":1.5,"flareScale":0.0,"lightBrightness":0.6,"deformGroup":"neon_F_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_neon_F"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["Fneon1l",  0.50, -1.50, -0.05],
+	["Fneon1r", -0.50, -1.50, -0.05],
+	["Fneon2l",  0.50, -1.75, -0.05],
+	["Fneon2r", -0.50, -1.75, -0.05],
+
+	//rigidifier
+	["Fneonrig", 0, -1.625, 0.3, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FRONT NEON--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["Fneon1l", "Fneon1r"],
+	["Fneon2l", "Fneon2r"],
+	["Fneon1l", "Fneon2l"],
+	["Fneon1r", "Fneon2r"],
+	["Fneon1l", "Fneon2r"],
+	["Fneon2l", "Fneon1r"],
+
+	//rigidifier
+	["Fneon1l", "Fneonrig"],
+	["Fneon1r", "Fneonrig"],
+	["Fneon2l", "Fneonrig"],
+	["Fneon2r", "Fneonrig"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"neon_F_break"},
+	{"deformGroup":"neon_F_break"},
+
+	["Fneon1l", "Fsubf2l"],
+	["Fneon1l", "Fsubf2r"],
+	["Fneon1l", "Fsubf1l"],
+	["Fneon1l", "Fsubfrig"],
+
+	["Fneon1r", "Fsubf2r"],
+	["Fneon1r", "Fsubf2l"],
+	["Fneon1r", "Fsubf1r"],
+	["Fneon1r", "Fsubfrig"],
+
+	["Fneon2l", "Fsubf2l"],
+	["Fneon2l", "Fsubf2r"],
+	["Fneon2l", "Fsubf1l"],
+	["Fneon2l", "Fsubfrig"],
+
+	["Fneon2r", "Fsubf2r"],
+	["Fneon2r", "Fsubf2l"],
+	["Fneon2r", "Fsubf1r"],
+	["Fneon2r", "Fsubfrig"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_neon_F"},
+	["Fneon1r","Fneon1l","Fneon2l","Fneon2r"],
+        {"group":""},
+    ],
+},
+
+}

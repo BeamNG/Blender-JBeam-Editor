@@ -1,0 +1,221 @@
+{
+"legotrailer_load_loose": {
+    "information":{
+        "name":"Loose Load",
+        "authors":"AgentY",
+    },
+    "slotType":"legotrailer_load",
+    "slots": [
+        ["type", "default", "description"],
+	["legotrailer_sparewheel", "legotrailer_sparewheel", "Spare Wheel", {"nodeOffset":{"x":-0.35, "y":2.925, "z":0.300}}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legotrailer_load_alt_a", ["legotrailer_load_a"]],
+	["legotrailer_load_alt_b", ["legotrailer_load_b"]],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//front load
+	{"group":"legotrailer_load_a"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["trailer_lA1l", -0.22, 2.775, 0.075],
+	["trailer_lA1r", -0.00, 2.775, 0.075],
+	["trailer_lA2l", -0.22, 2.775, 0.575],
+	["trailer_lA2r", -0.00, 2.775, 0.575],
+	//rigidifier
+	["trailer_lA0", -0.125, 2.925, 0.325, {"collision":false, "selfCollision":false, "group":""}],
+
+	//rear load
+	{"group":"legotrailer_load_b"},
+	//3 pieces, 8 nodes - 0.375 kg/node
+	{"nodeWeight": "$=$weight*0.375"},
+
+	["trailer_lo3l", -0.08, 2.85, 0.075],
+	["trailer_lo3r", -0.22, 2.85, 0.075],
+	["trailer_lo4l", -0.08, 3.15, 0.075],
+	["trailer_lo4r", -0.22, 3.15, 0.075],
+	["trailer_lo1l", -0.08, 2.85, 0.425],
+	["trailer_lo1r", -0.22, 2.85, 0.425],
+	["trailer_lo2l", -0.08, 3.15, 0.425],
+	["trailer_lo2r", -0.22, 3.15, 0.425],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LOAD A--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["trailer_lA1l", "trailer_lA1r"],
+	["trailer_lA2l", "trailer_lA2r"],
+	["trailer_lA1l", "trailer_lA2l"],
+	["trailer_lA1r", "trailer_lA2r"],
+	["trailer_lA1l", "trailer_lA2r"],
+	["trailer_lA2l", "trailer_lA1r"],
+
+	//rigidifier
+	["trailer_lA1l", "trailer_lA0"],
+	["trailer_lA1r", "trailer_lA0"],
+	["trailer_lA2l", "trailer_lA0"],
+	["trailer_lA2r", "trailer_lA0"],
+
+
+	//--LOAD B--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+
+	//uniform structure
+	["trailer_lo1l", "trailer_lo1r"],
+	["trailer_lo2l", "trailer_lo2r"],
+	["trailer_lo3l", "trailer_lo3r"],
+	["trailer_lo4l", "trailer_lo4r"],
+
+	["trailer_lo1l", "trailer_lo2r"],
+	["trailer_lo2l", "trailer_lo3r"],
+	["trailer_lo3l", "trailer_lo4r"],
+	["trailer_lo4l", "trailer_lo1r"],
+
+	["trailer_lo1l", "trailer_lo3r"],
+	["trailer_lo2l", "trailer_lo4r"],
+	["trailer_lo3l", "trailer_lo1r"],
+	["trailer_lo4l", "trailer_lo2r"],
+
+	["trailer_lo1l", "trailer_lo4r"],
+	["trailer_lo2l", "trailer_lo1r"],
+	["trailer_lo3l", "trailer_lo2r"],
+	["trailer_lo4l", "trailer_lo3r"],
+
+	["trailer_lo1l", "trailer_lo2l"],
+	["trailer_lo2l", "trailer_lo3l"],
+	["trailer_lo3l", "trailer_lo4l"],
+	["trailer_lo4l", "trailer_lo1l"],
+
+	["trailer_lo1l", "trailer_lo3l"],
+	["trailer_lo2l", "trailer_lo4l"],
+
+	["trailer_lo1r", "trailer_lo2r"],
+	["trailer_lo2r", "trailer_lo3r"],
+	["trailer_lo3r", "trailer_lo4r"],
+	["trailer_lo4r", "trailer_lo1r"],
+
+	["trailer_lo1r", "trailer_lo3r"],
+	["trailer_lo2r", "trailer_lo4r"],
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+
+	//front to front
+	{"beamPrecompression":0.95, "beamLongBound":5, "beamShortBound":1},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	["trailer_lA1l", "trailer_wF1l"],
+	["trailer_lA1l", "trailer_wF1r"],
+	["trailer_lA1l", "trailer_wF2l"],
+	["trailer_lA1l", "trailer_wF2r"],
+
+	["trailer_lA2l", "trailer_wF1l"],
+	["trailer_lA2l", "trailer_wF1r"],
+	["trailer_lA2l", "trailer_wF2l"],
+	["trailer_lA2l", "trailer_wF2r"],
+
+	["trailer_lA1r", "trailer_wF1l"],
+	["trailer_lA1r", "trailer_wF1r"],
+	["trailer_lA1r", "trailer_wF2l"],
+	["trailer_lA1r", "trailer_wF2r"],
+
+	["trailer_lA2r", "trailer_wF1l"],
+	["trailer_lA2r", "trailer_wF1r"],
+	["trailer_lA2r", "trailer_wF2l"],
+	["trailer_lA2r", "trailer_wF2r"],
+
+	["trailer_lA1l", "trailer_wF3l"],
+	["trailer_lA1l", "trailer_wF3r"],
+	["trailer_lA1l", "trailer_wF4l"],
+	["trailer_lA1l", "trailer_wF4r"],
+
+	["trailer_lA2l", "trailer_wF3l"],
+	["trailer_lA2l", "trailer_wF3r"],
+	["trailer_lA2l", "trailer_wF4l"],
+	["trailer_lA2l", "trailer_wF4r"],
+
+	["trailer_lA1r", "trailer_wF3l"],
+	["trailer_lA1r", "trailer_wF3r"],
+	["trailer_lA1r", "trailer_wF4l"],
+	["trailer_lA1r", "trailer_wF4r"],
+
+	["trailer_lA2r", "trailer_wF3l"],
+	["trailer_lA2r", "trailer_wF3r"],
+	["trailer_lA2r", "trailer_wF4l"],
+	["trailer_lA2r", "trailer_wF4r"],
+
+
+	//back to back
+	{"beamPrecompression":1.00, "beamLongBound":5, "beamShortBound":1},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	["trailer_lo1l", "trailer_wB1l"],
+	["trailer_lo1l", "trailer_wB1r"],
+	["trailer_lo1l", "trailer_wB2l"],
+
+	["trailer_lo1r", "trailer_wB1l"],
+	["trailer_lo1r", "trailer_wB1r"],
+	["trailer_lo1r", "trailer_wB2l"],
+
+	["trailer_lo2l", "trailer_wB1l"],
+	["trailer_lo2l", "trailer_wB1r"],
+	["trailer_lo2l", "trailer_wB2l"],
+
+	["trailer_lo2r", "trailer_wB1l"],
+	["trailer_lo2r", "trailer_wB1r"],
+	["trailer_lo2r", "trailer_wB2l"],
+
+	["trailer_lo3l", "trailer_wB1l"],
+	["trailer_lo3l", "trailer_wB1r"],
+	["trailer_lo3l", "trailer_wB2l"],
+
+	["trailer_lo3r", "trailer_wB1l"],
+	["trailer_lo3r", "trailer_wB1r"],
+	["trailer_lo3r", "trailer_wB2l"],
+
+	["trailer_lo4l", "trailer_wB1l"],
+	["trailer_lo4l", "trailer_wB1r"],
+	["trailer_lo4l", "trailer_wB2l"],
+
+	["trailer_lo4r", "trailer_wB1l"],
+	["trailer_lo4r", "trailer_wB1r"],
+	["trailer_lo4r", "trailer_wB2l"],
+
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_trailer_load_A"},   
+	["trailer_lA1l","trailer_lA1r","trailer_lA2r","trailer_lA2l"],
+
+	{"group":"legocar_trailer_load_B"},
+	["trailer_lo1r","trailer_lo1l","trailer_lo2l","trailer_lo2r"],
+	["trailer_lo3l","trailer_lo3r","trailer_lo4r","trailer_lo4l"],
+	["trailer_lo1r","trailer_lo2r","trailer_lo4r","trailer_lo3r"],
+	["trailer_lo2l","trailer_lo1l","trailer_lo3l","trailer_lo4l"],
+	["trailer_lo2r","trailer_lo2l","trailer_lo4l","trailer_lo4r"],
+	["trailer_lo3r","trailer_lo3l","trailer_lo1l","trailer_lo1r"],
+
+        {"group":""},
+    ],
+},
+
+
+}

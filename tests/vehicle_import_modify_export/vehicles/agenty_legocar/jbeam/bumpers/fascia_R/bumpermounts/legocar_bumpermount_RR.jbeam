@@ -1,0 +1,848 @@
+{
+"legocar_bumpermount_RR_col1": {
+    "information":{
+        "name":"Rear Bumper Mount (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumpermount_RR",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_bumper_R", "legocar_bumper_R_col1", "Rear Bumper"],
+	["legocar_bumpermount_test_slot", "", "Test Slot"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x1_flat_col1", ["legocar_bumpermount_R"], [], {"pos":{"x":-0.250, "y":1.750, "z":0.225},"rot":{"x":-90, "y":0, "z":90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumpermount_R"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["Rbumpmt1l",  0.22, 1.80, 0.10],
+	["Rbumpmt1r", -0.75, 1.80, 0.10],
+	["Rbumpmt2l",  0.22, 1.80, 0.35],
+	["Rbumpmt2r", -0.75, 1.80, 0.35],
+	//rigidifier
+	["Rbumpmtrig", -0.25, 1.45, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["Rbumpmt1l", "Rbumpmt1r"],
+	["Rbumpmt2l", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2l"],
+	["Rbumpmt1r", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2r"],
+	["Rbumpmt2l", "Rbumpmt1r"],
+
+	//rigidifier
+	["Rbumpmt1l", "Rbumpmtrig"],
+	["Rbumpmt1r", "Rbumpmtrig"],
+	["Rbumpmt2l", "Rbumpmtrig"],
+	["Rbumpmt2r", "Rbumpmtrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_break"},
+	
+	["Rbumpmt1l", "RRfasc1l"],
+	["Rbumpmt1l", "RRfasc2r"],
+	["Rbumpmt1l", "RRfasc4l"],
+
+	["Rbumpmt1r", "RRfasc1r"],
+	["Rbumpmt1r", "RRfasc2l"],
+	["Rbumpmt1r", "RRfasc4r"],
+
+	["Rbumpmt2l", "RRfasc3l"],
+	["Rbumpmt2l", "RRfasc4r"],
+	["Rbumpmt2l", "RRfasc2l"],
+
+	["Rbumpmt2r", "RRfasc3r"],
+	["Rbumpmt2r", "RRfasc4l"],
+	["Rbumpmt2r", "RRfasc2r"],
+
+	["Rbumpmtrig", "RRfasc2l"],
+	["Rbumpmtrig", "RRfasc1r"],
+	["Rbumpmtrig", "RRfasc4l"],
+	["Rbumpmtrig", "RRfasc3r"],
+
+	//to rear bumper
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_Rbumper_break"},
+	{"optional":true},
+
+	["Rbump1l", "Rbumpmt1l"],
+	["Rbump1l", "Rbumpmt2l"],
+	["Rbump1l", "Rbumpmt1r"],
+	["Rbump1l", "Rbumpmtrig"],
+
+	["Rbump1r", "Rbumpmt1r"],
+	["Rbump1r", "Rbumpmt2r"],
+	["Rbump1r", "Rbumpmt1l"],
+	["Rbump1r", "Rbumpmtrig"],
+
+	["Rbump2l", "Rbumpmt2l"],
+	["Rbump2l", "Rbumpmt1l"],
+	["Rbump2l", "Rbumpmt2r"],
+	["Rbump2l", "Rbumpmtrig"],
+
+	["Rbump2r", "Rbumpmt2r"],
+	["Rbump2r", "Rbumpmt1r"],
+	["Rbump2r", "Rbumpmt2l"],
+	["Rbump2r", "Rbumpmtrig"],
+
+	["Rbumprig", "Rbumpmt1l"],
+	["Rbumprig", "Rbumpmt2l"],
+	["Rbumprig", "Rbumpmt1r"],
+	["Rbumprig", "Rbumpmt2r"],
+	["Rbumprig", "Rbumpmtrig"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-WOBBLE--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["sptpan1l", "Rbumpmt1l"],
+	["sptpan1r", "Rbumpmt1l"],
+	["sptpan3l", "Rbumpmt1l"],
+	["sptpan3r", "Rbumpmt1l"],
+
+	["sptpan1l", "Rbumpmt2l"],
+	["sptpan1r", "Rbumpmt2l"],
+	["sptpan3l", "Rbumpmt2l"],
+	["sptpan3r", "Rbumpmt2l"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumpermount_R"},
+	["Rbumpmt1l","Rbumpmt1r","Rbumpmt2r","Rbumpmt2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_bumpermount_RR_col2": {
+    "information":{
+        "name":"Rear Bumper Mount (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumpermount_RR",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_bumper_R", "legocar_bumper_R_col2", "Rear Bumper"],
+	["legocar_bumpermount_test_slot", "", "Test Slot"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x1_flat_col2", ["legocar_bumpermount_R"], [], {"pos":{"x":-0.250, "y":1.750, "z":0.225},"rot":{"x":-90, "y":0, "z":90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumpermount_R"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["Rbumpmt1l",  0.22, 1.80, 0.10],
+	["Rbumpmt1r", -0.75, 1.80, 0.10],
+	["Rbumpmt2l",  0.22, 1.80, 0.35],
+	["Rbumpmt2r", -0.75, 1.80, 0.35],
+	//rigidifier
+	["Rbumpmtrig", -0.25, 1.45, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["Rbumpmt1l", "Rbumpmt1r"],
+	["Rbumpmt2l", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2l"],
+	["Rbumpmt1r", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2r"],
+	["Rbumpmt2l", "Rbumpmt1r"],
+
+	//rigidifier
+	["Rbumpmt1l", "Rbumpmtrig"],
+	["Rbumpmt1r", "Rbumpmtrig"],
+	["Rbumpmt2l", "Rbumpmtrig"],
+	["Rbumpmt2r", "Rbumpmtrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_break"},
+	
+	["Rbumpmt1l", "RRfasc1l"],
+	["Rbumpmt1l", "RRfasc2r"],
+	["Rbumpmt1l", "RRfasc4l"],
+
+	["Rbumpmt1r", "RRfasc1r"],
+	["Rbumpmt1r", "RRfasc2l"],
+	["Rbumpmt1r", "RRfasc4r"],
+
+	["Rbumpmt2l", "RRfasc3l"],
+	["Rbumpmt2l", "RRfasc4r"],
+	["Rbumpmt2l", "RRfasc2l"],
+
+	["Rbumpmt2r", "RRfasc3r"],
+	["Rbumpmt2r", "RRfasc4l"],
+	["Rbumpmt2r", "RRfasc2r"],
+
+	["Rbumpmtrig", "RRfasc2l"],
+	["Rbumpmtrig", "RRfasc1r"],
+	["Rbumpmtrig", "RRfasc4l"],
+	["Rbumpmtrig", "RRfasc3r"],
+
+	//to rear bumper
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_Rbumper_break"},
+	{"optional":true},
+
+	["Rbump1l", "Rbumpmt1l"],
+	["Rbump1l", "Rbumpmt2l"],
+	["Rbump1l", "Rbumpmt1r"],
+	["Rbump1l", "Rbumpmtrig"],
+
+	["Rbump1r", "Rbumpmt1r"],
+	["Rbump1r", "Rbumpmt2r"],
+	["Rbump1r", "Rbumpmt1l"],
+	["Rbump1r", "Rbumpmtrig"],
+
+	["Rbump2l", "Rbumpmt2l"],
+	["Rbump2l", "Rbumpmt1l"],
+	["Rbump2l", "Rbumpmt2r"],
+	["Rbump2l", "Rbumpmtrig"],
+
+	["Rbump2r", "Rbumpmt2r"],
+	["Rbump2r", "Rbumpmt1r"],
+	["Rbump2r", "Rbumpmt2l"],
+	["Rbump2r", "Rbumpmtrig"],
+
+	["Rbumprig", "Rbumpmt1l"],
+	["Rbumprig", "Rbumpmt2l"],
+	["Rbumprig", "Rbumpmt1r"],
+	["Rbumprig", "Rbumpmt2r"],
+	["Rbumprig", "Rbumpmtrig"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-WOBBLE--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["sptpan1l", "Rbumpmt1l"],
+	["sptpan1r", "Rbumpmt1l"],
+	["sptpan3l", "Rbumpmt1l"],
+	["sptpan3r", "Rbumpmt1l"],
+
+	["sptpan1l", "Rbumpmt2l"],
+	["sptpan1r", "Rbumpmt2l"],
+	["sptpan3l", "Rbumpmt2l"],
+	["sptpan3r", "Rbumpmt2l"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumpermount_R"},
+	["Rbumpmt1l","Rbumpmt1r","Rbumpmt2r","Rbumpmt2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_bumpermount_RR_col3": {
+    "information":{
+        "name":"Rear Bumper Mount (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumpermount_RR",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_bumper_R", "legocar_bumper_R_col3", "Rear Bumper"],
+	["legocar_bumpermount_test_slot", "", "Test Slot"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x1_flat_col3", ["legocar_bumpermount_R"], [], {"pos":{"x":-0.250, "y":1.750, "z":0.225},"rot":{"x":-90, "y":0, "z":90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumpermount_R"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["Rbumpmt1l",  0.22, 1.80, 0.10],
+	["Rbumpmt1r", -0.75, 1.80, 0.10],
+	["Rbumpmt2l",  0.22, 1.80, 0.35],
+	["Rbumpmt2r", -0.75, 1.80, 0.35],
+	//rigidifier
+	["Rbumpmtrig", -0.25, 1.45, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["Rbumpmt1l", "Rbumpmt1r"],
+	["Rbumpmt2l", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2l"],
+	["Rbumpmt1r", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2r"],
+	["Rbumpmt2l", "Rbumpmt1r"],
+
+	//rigidifier
+	["Rbumpmt1l", "Rbumpmtrig"],
+	["Rbumpmt1r", "Rbumpmtrig"],
+	["Rbumpmt2l", "Rbumpmtrig"],
+	["Rbumpmt2r", "Rbumpmtrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_break"},
+	
+	["Rbumpmt1l", "RRfasc1l"],
+	["Rbumpmt1l", "RRfasc2r"],
+	["Rbumpmt1l", "RRfasc4l"],
+
+	["Rbumpmt1r", "RRfasc1r"],
+	["Rbumpmt1r", "RRfasc2l"],
+	["Rbumpmt1r", "RRfasc4r"],
+
+	["Rbumpmt2l", "RRfasc3l"],
+	["Rbumpmt2l", "RRfasc4r"],
+	["Rbumpmt2l", "RRfasc2l"],
+
+	["Rbumpmt2r", "RRfasc3r"],
+	["Rbumpmt2r", "RRfasc4l"],
+	["Rbumpmt2r", "RRfasc2r"],
+
+	["Rbumpmtrig", "RRfasc2l"],
+	["Rbumpmtrig", "RRfasc1r"],
+	["Rbumpmtrig", "RRfasc4l"],
+	["Rbumpmtrig", "RRfasc3r"],
+
+	//to rear bumper
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_Rbumper_break"},
+	{"optional":true},
+
+	["Rbump1l", "Rbumpmt1l"],
+	["Rbump1l", "Rbumpmt2l"],
+	["Rbump1l", "Rbumpmt1r"],
+	["Rbump1l", "Rbumpmtrig"],
+
+	["Rbump1r", "Rbumpmt1r"],
+	["Rbump1r", "Rbumpmt2r"],
+	["Rbump1r", "Rbumpmt1l"],
+	["Rbump1r", "Rbumpmtrig"],
+
+	["Rbump2l", "Rbumpmt2l"],
+	["Rbump2l", "Rbumpmt1l"],
+	["Rbump2l", "Rbumpmt2r"],
+	["Rbump2l", "Rbumpmtrig"],
+
+	["Rbump2r", "Rbumpmt2r"],
+	["Rbump2r", "Rbumpmt1r"],
+	["Rbump2r", "Rbumpmt2l"],
+	["Rbump2r", "Rbumpmtrig"],
+
+	["Rbumprig", "Rbumpmt1l"],
+	["Rbumprig", "Rbumpmt2l"],
+	["Rbumprig", "Rbumpmt1r"],
+	["Rbumprig", "Rbumpmt2r"],
+	["Rbumprig", "Rbumpmtrig"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-WOBBLE--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["sptpan1l", "Rbumpmt1l"],
+	["sptpan1r", "Rbumpmt1l"],
+	["sptpan3l", "Rbumpmt1l"],
+	["sptpan3r", "Rbumpmt1l"],
+
+	["sptpan1l", "Rbumpmt2l"],
+	["sptpan1r", "Rbumpmt2l"],
+	["sptpan3l", "Rbumpmt2l"],
+	["sptpan3r", "Rbumpmt2l"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumpermount_R"},
+	["Rbumpmt1l","Rbumpmt1r","Rbumpmt2r","Rbumpmt2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_bumpermount_RR_grey": {
+    "information":{
+        "name":"Rear Bumper Mount (Light Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumpermount_RR",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_bumper_R", "legocar_bumper_R_grey", "Rear Bumper"],
+	["legocar_bumpermount_test_slot", "", "Test Slot"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x1_flat_grey", ["legocar_bumpermount_R"], [], {"pos":{"x":-0.250, "y":1.750, "z":0.225},"rot":{"x":-90, "y":0, "z":90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumpermount_R"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["Rbumpmt1l",  0.22, 1.80, 0.10],
+	["Rbumpmt1r", -0.75, 1.80, 0.10],
+	["Rbumpmt2l",  0.22, 1.80, 0.35],
+	["Rbumpmt2r", -0.75, 1.80, 0.35],
+	//rigidifier
+	["Rbumpmtrig", -0.25, 1.45, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["Rbumpmt1l", "Rbumpmt1r"],
+	["Rbumpmt2l", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2l"],
+	["Rbumpmt1r", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2r"],
+	["Rbumpmt2l", "Rbumpmt1r"],
+
+	//rigidifier
+	["Rbumpmt1l", "Rbumpmtrig"],
+	["Rbumpmt1r", "Rbumpmtrig"],
+	["Rbumpmt2l", "Rbumpmtrig"],
+	["Rbumpmt2r", "Rbumpmtrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_break"},
+	
+	["Rbumpmt1l", "RRfasc1l"],
+	["Rbumpmt1l", "RRfasc2r"],
+	["Rbumpmt1l", "RRfasc4l"],
+
+	["Rbumpmt1r", "RRfasc1r"],
+	["Rbumpmt1r", "RRfasc2l"],
+	["Rbumpmt1r", "RRfasc4r"],
+
+	["Rbumpmt2l", "RRfasc3l"],
+	["Rbumpmt2l", "RRfasc4r"],
+	["Rbumpmt2l", "RRfasc2l"],
+
+	["Rbumpmt2r", "RRfasc3r"],
+	["Rbumpmt2r", "RRfasc4l"],
+	["Rbumpmt2r", "RRfasc2r"],
+
+	["Rbumpmtrig", "RRfasc2l"],
+	["Rbumpmtrig", "RRfasc1r"],
+	["Rbumpmtrig", "RRfasc4l"],
+	["Rbumpmtrig", "RRfasc3r"],
+
+	//to rear bumper
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_Rbumper_break"},
+	{"optional":true},
+
+	["Rbump1l", "Rbumpmt1l"],
+	["Rbump1l", "Rbumpmt2l"],
+	["Rbump1l", "Rbumpmt1r"],
+	["Rbump1l", "Rbumpmtrig"],
+
+	["Rbump1r", "Rbumpmt1r"],
+	["Rbump1r", "Rbumpmt2r"],
+	["Rbump1r", "Rbumpmt1l"],
+	["Rbump1r", "Rbumpmtrig"],
+
+	["Rbump2l", "Rbumpmt2l"],
+	["Rbump2l", "Rbumpmt1l"],
+	["Rbump2l", "Rbumpmt2r"],
+	["Rbump2l", "Rbumpmtrig"],
+
+	["Rbump2r", "Rbumpmt2r"],
+	["Rbump2r", "Rbumpmt1r"],
+	["Rbump2r", "Rbumpmt2l"],
+	["Rbump2r", "Rbumpmtrig"],
+
+	["Rbumprig", "Rbumpmt1l"],
+	["Rbumprig", "Rbumpmt2l"],
+	["Rbumprig", "Rbumpmt1r"],
+	["Rbumprig", "Rbumpmt2r"],
+	["Rbumprig", "Rbumpmtrig"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-WOBBLE--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["sptpan1l", "Rbumpmt1l"],
+	["sptpan1r", "Rbumpmt1l"],
+	["sptpan3l", "Rbumpmt1l"],
+	["sptpan3r", "Rbumpmt1l"],
+
+	["sptpan1l", "Rbumpmt2l"],
+	["sptpan1r", "Rbumpmt2l"],
+	["sptpan3l", "Rbumpmt2l"],
+	["sptpan3r", "Rbumpmt2l"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumpermount_R"},
+	["Rbumpmt1l","Rbumpmt1r","Rbumpmt2r","Rbumpmt2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_bumpermount_RR_dgrey": {
+    "information":{
+        "name":"Rear Bumper Mount (Dark Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumpermount_RR",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_bumper_R", "legocar_bumper_R_dgrey", "Rear Bumper"],
+	["legocar_bumpermount_test_slot", "", "Test Slot"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x1_flat_dgrey", ["legocar_bumpermount_R"], [], {"pos":{"x":-0.250, "y":1.750, "z":0.225},"rot":{"x":-90, "y":0, "z":90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumpermount_R"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["Rbumpmt1l",  0.22, 1.80, 0.10],
+	["Rbumpmt1r", -0.75, 1.80, 0.10],
+	["Rbumpmt2l",  0.22, 1.80, 0.35],
+	["Rbumpmt2r", -0.75, 1.80, 0.35],
+	//rigidifier
+	["Rbumpmtrig", -0.25, 1.45, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["Rbumpmt1l", "Rbumpmt1r"],
+	["Rbumpmt2l", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2l"],
+	["Rbumpmt1r", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2r"],
+	["Rbumpmt2l", "Rbumpmt1r"],
+
+	//rigidifier
+	["Rbumpmt1l", "Rbumpmtrig"],
+	["Rbumpmt1r", "Rbumpmtrig"],
+	["Rbumpmt2l", "Rbumpmtrig"],
+	["Rbumpmt2r", "Rbumpmtrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_break"},
+	
+	["Rbumpmt1l", "RRfasc1l"],
+	["Rbumpmt1l", "RRfasc2r"],
+	["Rbumpmt1l", "RRfasc4l"],
+
+	["Rbumpmt1r", "RRfasc1r"],
+	["Rbumpmt1r", "RRfasc2l"],
+	["Rbumpmt1r", "RRfasc4r"],
+
+	["Rbumpmt2l", "RRfasc3l"],
+	["Rbumpmt2l", "RRfasc4r"],
+	["Rbumpmt2l", "RRfasc2l"],
+
+	["Rbumpmt2r", "RRfasc3r"],
+	["Rbumpmt2r", "RRfasc4l"],
+	["Rbumpmt2r", "RRfasc2r"],
+
+	["Rbumpmtrig", "RRfasc2l"],
+	["Rbumpmtrig", "RRfasc1r"],
+	["Rbumpmtrig", "RRfasc4l"],
+	["Rbumpmtrig", "RRfasc3r"],
+
+	//to rear bumper
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_Rbumper_break"},
+	{"optional":true},
+
+	["Rbump1l", "Rbumpmt1l"],
+	["Rbump1l", "Rbumpmt2l"],
+	["Rbump1l", "Rbumpmt1r"],
+	["Rbump1l", "Rbumpmtrig"],
+
+	["Rbump1r", "Rbumpmt1r"],
+	["Rbump1r", "Rbumpmt2r"],
+	["Rbump1r", "Rbumpmt1l"],
+	["Rbump1r", "Rbumpmtrig"],
+
+	["Rbump2l", "Rbumpmt2l"],
+	["Rbump2l", "Rbumpmt1l"],
+	["Rbump2l", "Rbumpmt2r"],
+	["Rbump2l", "Rbumpmtrig"],
+
+	["Rbump2r", "Rbumpmt2r"],
+	["Rbump2r", "Rbumpmt1r"],
+	["Rbump2r", "Rbumpmt2l"],
+	["Rbump2r", "Rbumpmtrig"],
+
+	["Rbumprig", "Rbumpmt1l"],
+	["Rbumprig", "Rbumpmt2l"],
+	["Rbumprig", "Rbumpmt1r"],
+	["Rbumprig", "Rbumpmt2r"],
+	["Rbumprig", "Rbumpmtrig"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-WOBBLE--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["sptpan1l", "Rbumpmt1l"],
+	["sptpan1r", "Rbumpmt1l"],
+	["sptpan3l", "Rbumpmt1l"],
+	["sptpan3r", "Rbumpmt1l"],
+
+	["sptpan1l", "Rbumpmt2l"],
+	["sptpan1r", "Rbumpmt2l"],
+	["sptpan3l", "Rbumpmt2l"],
+	["sptpan3r", "Rbumpmt2l"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumpermount_R"},
+	["Rbumpmt1l","Rbumpmt1r","Rbumpmt2r","Rbumpmt2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_bumpermount_RR_black": {
+    "information":{
+        "name":"Rear Bumper Mount (Black)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumpermount_RR",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_bumper_R", "legocar_bumper_R_dgrey", "Rear Bumper"],
+	["legocar_bumpermount_test_slot", "", "Test Slot"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x1_flat_black", ["legocar_bumpermount_R"], [], {"pos":{"x":-0.250, "y":1.750, "z":0.225},"rot":{"x":-90, "y":0, "z":90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumpermount_R"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["Rbumpmt1l",  0.22, 1.80, 0.10],
+	["Rbumpmt1r", -0.75, 1.80, 0.10],
+	["Rbumpmt2l",  0.22, 1.80, 0.35],
+	["Rbumpmt2r", -0.75, 1.80, 0.35],
+	//rigidifier
+	["Rbumpmtrig", -0.25, 1.45, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["Rbumpmt1l", "Rbumpmt1r"],
+	["Rbumpmt2l", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2l"],
+	["Rbumpmt1r", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2r"],
+	["Rbumpmt2l", "Rbumpmt1r"],
+
+	//rigidifier
+	["Rbumpmt1l", "Rbumpmtrig"],
+	["Rbumpmt1r", "Rbumpmtrig"],
+	["Rbumpmt2l", "Rbumpmtrig"],
+	["Rbumpmt2r", "Rbumpmtrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_break"},
+	
+	["Rbumpmt1l", "RRfasc1l"],
+	["Rbumpmt1l", "RRfasc2r"],
+	["Rbumpmt1l", "RRfasc4l"],
+
+	["Rbumpmt1r", "RRfasc1r"],
+	["Rbumpmt1r", "RRfasc2l"],
+	["Rbumpmt1r", "RRfasc4r"],
+
+	["Rbumpmt2l", "RRfasc3l"],
+	["Rbumpmt2l", "RRfasc4r"],
+	["Rbumpmt2l", "RRfasc2l"],
+
+	["Rbumpmt2r", "RRfasc3r"],
+	["Rbumpmt2r", "RRfasc4l"],
+	["Rbumpmt2r", "RRfasc2r"],
+
+	["Rbumpmtrig", "RRfasc2l"],
+	["Rbumpmtrig", "RRfasc1r"],
+	["Rbumpmtrig", "RRfasc4l"],
+	["Rbumpmtrig", "RRfasc3r"],
+
+	//to rear bumper
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_Rbumper_break"},
+	{"optional":true},
+
+	["Rbump1l", "Rbumpmt1l"],
+	["Rbump1l", "Rbumpmt2l"],
+	["Rbump1l", "Rbumpmt1r"],
+	["Rbump1l", "Rbumpmtrig"],
+
+	["Rbump1r", "Rbumpmt1r"],
+	["Rbump1r", "Rbumpmt2r"],
+	["Rbump1r", "Rbumpmt1l"],
+	["Rbump1r", "Rbumpmtrig"],
+
+	["Rbump2l", "Rbumpmt2l"],
+	["Rbump2l", "Rbumpmt1l"],
+	["Rbump2l", "Rbumpmt2r"],
+	["Rbump2l", "Rbumpmtrig"],
+
+	["Rbump2r", "Rbumpmt2r"],
+	["Rbump2r", "Rbumpmt1r"],
+	["Rbump2r", "Rbumpmt2l"],
+	["Rbump2r", "Rbumpmtrig"],
+
+	["Rbumprig", "Rbumpmt1l"],
+	["Rbumprig", "Rbumpmt2l"],
+	["Rbumprig", "Rbumpmt1r"],
+	["Rbumprig", "Rbumpmt2r"],
+	["Rbumprig", "Rbumpmtrig"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-WOBBLE--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["sptpan1l", "Rbumpmt1l"],
+	["sptpan1r", "Rbumpmt1l"],
+	["sptpan3l", "Rbumpmt1l"],
+	["sptpan3r", "Rbumpmt1l"],
+
+	["sptpan1l", "Rbumpmt2l"],
+	["sptpan1r", "Rbumpmt2l"],
+	["sptpan3l", "Rbumpmt2l"],
+	["sptpan3r", "Rbumpmt2l"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumpermount_R"},
+	["Rbumpmt1l","Rbumpmt1r","Rbumpmt2r","Rbumpmt2l"],
+        {"group":""},
+    ],
+},
+
+}

@@ -1,0 +1,349 @@
+{
+"legocar_suspension_R_rally": {
+    "information":{
+        "name":" Rally Working Rear Suspension",
+        "authors":"AgentY, CrashHard",
+    },
+    "slotType":"legocar_wheelaxles_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fendermounts_R_rally","legocar_fendermounts_R_rally", "Rear Fender Mounts"],
+	["legocar_springs_R","legocar_springs_R", "Rear Springs", {"coreSlot":true}],
+	["legocar_hub_R_suspension","legocar_hub_R_suspension_centerlug", "Rear Wheel Hubs", {"nodeOffset":{"x":0, "y":0, "z":"$=-$springheight_R"}}],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$springheight_R", "range", "+m", "Suspension", 0.0, -0.1, 0.2,  "Spring Height", "Raise or lower the suspension height",{"stepDis":0.025,"subCategory":"Rear"}],
+	["$trackoffset_R", "range", "+m", "Wheels", 0.05, 0.03, 0.10, "Wheel Offset", "Spacing of the wheel from the hub", {"minDis":-0.02, "maxDis":0.05, "stepDis":0.001,"subCategory":"Rear"}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_suspension_T",          ["legocar_suspension_RT"],[], {"pos":{"x": 0.000, "y":1.000, "z":0.2                    },"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["legocar_suspension_connector_T",["legocar_suspension_RT"],[], {"pos":{"x": 0.000, "y":1.000, "z":0.2                    },"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":1.00, "y":1.00, "z":"$=1+5*$springheight_R"}}],
+	["legocar_suspension_connector_B",["legocar_suspension_RT"],[], {"pos":{"x": 0.000, "y":1.000, "z":"$=0.2-$springheight_R"},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["legocar_suspension_B_rally", ["legocar_suspension_RB"],[], {"pos":{"x": 0.000, "y":1.000, "z":"$=0.2-$springheight_R"},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+
+	//--TOP--
+	//6 pieces, 6 half-pieces, 6 nodes - 1.5 kg/node
+	{"nodeWeight": "$=$weight*1.5"},
+
+	//sliding pillar rails
+	{"group":"legocar_suspension_RT"},
+	["Rsusp1f", 0, 0.78, 0.2],
+	["Rsusp1b", 0, 1.22, 0.2],
+	["Rsusp2f", 0, 0.78, "$=0.001-$springheight_R"],
+	["Rsusp2b", 0, 1.22, "$=0.001-$springheight_R"],
+	
+	//spring tops
+	{"group":["legocar_suspension_RT","legocar_springs_R"]},
+	["Rsusp1l",  0.375, 1, 0.2],
+	["Rsusp1r", -0.375, 1, 0.2],
+	["Rsusp1l_sup",  0.325, 1, 0.32, {"collision":false, "selfCollision":false, "group":""}], //Added by CrashHard
+	["Rsusp1r_sup", -0.325, 1, 0.32, {"collision":false, "selfCollision":false, "group":""}], //Added by CrashHard
+
+
+	//--BOTTOM--
+	//7.5 pieces, 5 nodes - 1.5 kg/node
+	{"nodeWeight": "$=$weight*1.5"},
+
+	//sliding pillars
+	{"group":"legocar_suspension_RB"},
+	["Rsusp3f", 0, 0.78, "$=-$springheight_R"],
+	["Rsusp3b", 0, 1.22, "$=-$springheight_R"],
+	
+	//spring bottoms
+	{"group":["legocar_suspension_RB","legocar_springs_R"]},
+	["Rsusp3l",  0.375, 1, "$=-$springheight_R"],
+	["Rsusp3r", -0.375, 1, "$=-$springheight_R"],
+
+	//rigidifiers/stiffeners
+	["Rsusp4f", 0, 0.78, "$=0.1-$springheight_R", {"collision":false, "selfCollision":false, "group":""}],
+	["Rsusp4b", 0, 1.22, "$=0.1-$springheight_R", {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+
+	//--REAR SUSPENSION UPPER PART--
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+	
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Rsusp1f", "Rsusp1b"],
+	["Rsusp1f", "Rsusp2f"],
+	["Rsusp1f", "Rsusp2b"],
+	["Rsusp1f", "Rsusp1l"],
+	["Rsusp1f", "Rsusp1r"],
+	["Rsusp1b", "Rsusp2f"],
+	["Rsusp1b", "Rsusp2b"],
+	["Rsusp1b", "Rsusp1l"],
+	["Rsusp1b", "Rsusp1r"],
+	["Rsusp2f", "Rsusp2b"],
+	["Rsusp2f", "Rsusp1l"],
+	["Rsusp2f", "Rsusp1r"],
+	["Rsusp2b", "Rsusp1l"],
+	["Rsusp2b", "Rsusp1r"],
+	["Rsusp1l", "Rsusp1r"],
+	["Rsusp1l_sup", "Rsusp1r_sup"], //Added by CrashHard
+	["Rsusp1l_sup", "Rsusp1l"],     //Added by CrashHard
+	["Rsusp1l_sup", "Rsusp1f"],     //Added by CrashHard
+	["Rsusp1l_sup", "Rsusp1b"],     //Added by CrashHard
+	["Rsusp1l_sup", "Rsusp2f"],     //Added by CrashHard
+	["Rsusp1l_sup", "Rsusp2b"],     //Added by CrashHard
+	["Rsusp1r_sup", "Rsusp1r"],     //Added by CrashHard
+	["Rsusp1r_sup", "Rsusp1f"],     //Added by CrashHard
+	["Rsusp1r_sup", "Rsusp1b"],     //Added by CrashHard
+	["Rsusp1r_sup", "Rsusp2f"],     //Added by CrashHard
+	["Rsusp1r_sup", "Rsusp2b"],     //Added by CrashHard
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to chassis
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"suspension_R_chassis_break"},
+
+	["Rsusp1f", "chassis6l"],
+	["Rsusp1f", "chassis6r"],
+	["Rsusp1f", "chassis7l"],
+	["Rsusp1f", "chassis7r"],
+	["Rsusp1f", "chassis8l"],
+	["Rsusp1f", "chassis8r"],
+	["Rsusp1f", "chassis5",{"optional":true}],
+	["Rsusp1f", "chassis0"],
+
+	["Rsusp1b", "chassis6l"],
+	["Rsusp1b", "chassis6r"],
+	["Rsusp1b", "chassis7l"],
+	["Rsusp1b", "chassis7r"],
+	["Rsusp1b", "chassis8l"],
+	["Rsusp1b", "chassis8r"],
+	["Rsusp1b", "chassis5",{"optional":true}],
+	["Rsusp1b", "chassis0"],
+
+	["Rsusp2f", "chassis6l"],
+	["Rsusp2f", "chassis6r"],
+	["Rsusp2f", "chassis7l"],
+	["Rsusp2f", "chassis7r"],
+	["Rsusp2f", "chassis8l"],
+	["Rsusp2f", "chassis8r"],
+	["Rsusp2f", "chassis5",{"optional":true}],
+	["Rsusp2f", "chassis0"],
+
+	["Rsusp2b", "chassis6l"],
+	["Rsusp2b", "chassis6r"],
+	["Rsusp2b", "chassis7l"],
+	["Rsusp2b", "chassis7r"],
+	["Rsusp2b", "chassis8l"],
+	["Rsusp2b", "chassis8r"],
+	["Rsusp2b", "chassis5",{"optional":true}],
+	["Rsusp2b", "chassis0"],
+
+	["Rsusp1l", "chassis6l", {"name":"halfshaft_RL"}],
+	["Rsusp1l", "chassis7l"],
+	["Rsusp1l", "chassis7ll"],
+	["Rsusp1l", "chassis8l"],
+	["Rsusp1l", "chassis5",{"optional":true}],
+	["Rsusp1l", "chassis0"],
+
+	["Rsusp1r", "chassis6r", {"name":"halfshaft_RR"}],
+	["Rsusp1r", "chassis7r"],
+	["Rsusp1r", "chassis7rr"],
+	["Rsusp1r", "chassis8r"],
+	["Rsusp1r", "chassis5",{"optional":true}],
+	["Rsusp1r", "chassis0"],
+
+
+	//to fender mounts
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"optional":true},
+
+
+	{"breakGroup":"suspension_R_fendermount_L_break"},
+
+	["fendmtRL1r", "Rsusp1l"],
+	["fendmtRL1r", "Rsusp1f"],
+	["fendmtRL1r", "Rsusp1b"],
+	["fendmtRL1r", "Rsusp2f"],
+	["fendmtRL1r", "Rsusp2b"],
+
+	["fendmtRL1l", "Rsusp1l"],
+	["fendmtRL1l", "Rsusp1f"],
+	["fendmtRL1l", "Rsusp1b"],
+	["fendmtRL1l", "Rsusp2f"],
+	["fendmtRL1l", "Rsusp2b"],
+
+	["fendmtRL2r", "Rsusp1l"],
+	["fendmtRL2r", "Rsusp1f"],
+	["fendmtRL2r", "Rsusp1b"],
+	["fendmtRL2r", "Rsusp2f"],
+	["fendmtRL2r", "Rsusp2b"],
+
+	["fendmtRL2l", "Rsusp1l"],
+	["fendmtRL2l", "Rsusp1f"],
+	["fendmtRL2l", "Rsusp1b"],
+	["fendmtRL2l", "Rsusp2f"],
+	["fendmtRL2l", "Rsusp2b"],
+
+	["fendmtRL3r", "Rsusp1l"],
+	["fendmtRL3r", "Rsusp1f"],
+	["fendmtRL3r", "Rsusp1b"],
+	["fendmtRL3r", "Rsusp2f"],
+	["fendmtRL3r", "Rsusp2b"],
+
+	["fendmtRL3l", "Rsusp1l"],
+	["fendmtRL3l", "Rsusp1f"],
+	["fendmtRL3l", "Rsusp1b"],
+	["fendmtRL3l", "Rsusp2f"],
+	["fendmtRL3l", "Rsusp2b"],
+
+	["fendmtRL4r", "Rsusp1l"],
+	["fendmtRL4r", "Rsusp1f"],
+	["fendmtRL4r", "Rsusp1b"],
+	["fendmtRL4r", "Rsusp2f"],
+	["fendmtRL4r", "Rsusp2b"],
+
+	["fendmtRL4l", "Rsusp1l"],
+	["fendmtRL4l", "Rsusp1f"],
+	["fendmtRL4l", "Rsusp1b"],
+	["fendmtRL4l", "Rsusp2f"],
+	["fendmtRL4l", "Rsusp2b"],
+	
+	
+	{"breakGroup":"suspension_R_fendermount_R_break"},
+
+	["fendmtRR1r", "Rsusp1r"],
+	["fendmtRR1r", "Rsusp1f"],
+	["fendmtRR1r", "Rsusp1b"],
+	["fendmtRR1r", "Rsusp2f"],
+	["fendmtRR1r", "Rsusp2b"],
+
+	["fendmtRR1l", "Rsusp1r"],
+	["fendmtRR1l", "Rsusp1f"],
+	["fendmtRR1l", "Rsusp1b"],
+	["fendmtRR1l", "Rsusp2f"],
+	["fendmtRR1l", "Rsusp2b"],
+
+	["fendmtRR2r", "Rsusp1r"],
+	["fendmtRR2r", "Rsusp1f"],
+	["fendmtRR2r", "Rsusp1b"],
+	["fendmtRR2r", "Rsusp2f"],
+	["fendmtRR2r", "Rsusp2b"],
+
+	["fendmtRR2l", "Rsusp1r"],
+	["fendmtRR2l", "Rsusp1f"],
+	["fendmtRR2l", "Rsusp1b"],
+	["fendmtRR2l", "Rsusp2f"],
+	["fendmtRR2l", "Rsusp2b"],
+
+	["fendmtRR3r", "Rsusp1r"],
+	["fendmtRR3r", "Rsusp1f"],
+	["fendmtRR3r", "Rsusp1b"],
+	["fendmtRR3r", "Rsusp2f"],
+	["fendmtRR3r", "Rsusp2b"],
+
+	["fendmtRR3l", "Rsusp1r"],
+	["fendmtRR3l", "Rsusp1f"],
+	["fendmtRR3l", "Rsusp1b"],
+	["fendmtRR3l", "Rsusp2f"],
+	["fendmtRR3l", "Rsusp2b"],
+
+	["fendmtRR4r", "Rsusp1r"],
+	["fendmtRR4r", "Rsusp1f"],
+	["fendmtRR4r", "Rsusp1b"],
+	["fendmtRR4r", "Rsusp2f"],
+	["fendmtRR4r", "Rsusp2b"],
+
+	["fendmtRR4l", "Rsusp1r"],
+	["fendmtRR4l", "Rsusp1f"],
+	["fendmtRR4l", "Rsusp1b"],
+	["fendmtRR4l", "Rsusp2f"],
+	["fendmtRR4l", "Rsusp2b"],
+	
+
+	{"breakGroup":""},
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+
+
+	//--REAR SUSPENSION LOWER PART--
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+	
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Rsusp3f", "Rsusp3b"],
+	["Rsusp3f", "Rsusp3l"],
+	["Rsusp3f", "Rsusp3r"],
+	["Rsusp3b", "Rsusp3l"],
+	["Rsusp3b", "Rsusp3r"],
+	["Rsusp3l", "Rsusp3r"],
+	["Rsusp4f", "Rsusp4b"],
+
+	//rigidifiers
+	["Rsusp3f", "Rsusp4f"],
+	["Rsusp3b", "Rsusp4f"],
+	["Rsusp3l", "Rsusp4f"],
+	["Rsusp3r", "Rsusp4f"],
+
+	["Rsusp3f", "Rsusp4b"],
+	["Rsusp3b", "Rsusp4b"],
+	["Rsusp3l", "Rsusp4b"],
+	["Rsusp3r", "Rsusp4b"],
+	
+
+	//--SUPPORT LIMITERS--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":10, "beamShortBound":1},
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//physical travel limiters                 min length-length+offset
+	["Rsusp3f", "Rsusp1f",{"precompressionRange":"$=0.10 - (0.2 + $springheight_R)"}],
+	["Rsusp3b", "Rsusp1b",{"precompressionRange":"$=0.10 - (0.2 + $springheight_R)"}],
+	["Rsusp3l", "Rsusp1l",{"precompressionRange":"$=0.10 - (0.2 + $springheight_R)"}],
+	["Rsusp3r", "Rsusp1r",{"precompressionRange":"$=0.10 - (0.2 + $springheight_R)"}],
+	["Rsusp1r_sup", "Rsusp3r",{"precompressionRange":"$=0.10 - (0.22 + $springheight_R)"}],  //Added BY CrashHard
+	
+	["Rsusp3l", "Rsusp1f",{"precompressionRange":"$=0.10 - (0.2 + $springheight_R/2)"}],
+	["Rsusp3r", "Rsusp1f",{"precompressionRange":"$=0.10 - (0.2 + $springheight_R/2)"}],
+	["Rsusp3l", "Rsusp1b",{"precompressionRange":"$=0.10 - (0.2 + $springheight_R/2)"}],
+	["Rsusp3r", "Rsusp1b",{"precompressionRange":"$=0.10 - (0.2 + $springheight_R/2)"}],
+	["Rsusp1l_sup", "Rsusp3l",{"precompressionRange":"$=0.10 - (0.22 + $springheight_R/2)"}],  //Added BY CrashHard
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "rails": {
+	//sliding pillars
+        "susp_R_sliding_pillar_F":{"links:":["Rsusp1f","Rsusp2f"],"broken:":[], "looped":false, "capped":true},
+	"susp_R_sliding_pillar_B":{"links:":["Rsusp1b","Rsusp2b"],"broken:":[], "looped":false, "capped":true},
+    },
+    "slidenodes": [
+        ["id:", "railName", "attached", "fixToRail", "tolerance", "spring", "strength", "capStrength"],
+	//sliding pillar suspension
+        ["Rsusp3f", "susp_R_sliding_pillar_F", true, true, 0.00, "$=$weight*501000", "FLT_MAX", "FLT_MAX"],
+	["Rsusp3b", "susp_R_sliding_pillar_B", true, true, 0.00, "$=$weight*501000", "FLT_MAX", "FLT_MAX"],
+	["Rsusp4f", "susp_R_sliding_pillar_F", true, true, 0.00, "$=$weight*501000", "FLT_MAX", "FLT_MAX"],
+	["Rsusp4b", "susp_R_sliding_pillar_B", true, true, 0.00, "$=$weight*501000", "FLT_MAX", "FLT_MAX"],
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_suspension_RT"},
+	["Rsusp1l","Rsusp1b","Rsusp1r","Rsusp1f"],
+	{"group":"legocar_suspension_RB"},
+	["Rsusp3r","Rsusp3b","Rsusp3l","Rsusp3f"],
+        {"group":""},
+    ],
+},
+
+}

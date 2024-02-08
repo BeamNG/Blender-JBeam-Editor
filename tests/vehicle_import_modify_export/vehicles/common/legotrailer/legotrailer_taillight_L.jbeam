@@ -1,0 +1,120 @@
+{
+"legotrailer_taillight_L": {
+    "information":{
+        "name":"Left Taillight",
+        "authors":"AgentY",
+    },
+    "slotType":"legotrailer_taillight_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"trailer_taillight_L_break", "deformMaterialBase":"legocar_taillight_L_stock", "deformMaterialDamaged":"lego_transcol_red"},
+	["legotrailer_taillight_L", ["legotrailer_taillight_L"]],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightColor":{"r":201, "g":26, "b":9, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":true,
+            "flareName":"vehicleBrakeLightFlare",
+        },
+        ["brake",          "SPOTLIGHT", "trailer_tL1l", "trailer_tL1r", "trailer_tL2l", {"x":80, "y":0, "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.4, "y":0.8, "z":0.05},"lightOuterAngle":75,"flareScale":0.07,"lightBrightness":0.06,"lightRange":8, "deformGroup":"trailer_taillight_L_break"}],
+	["wigwag_signal_L","SPOTLIGHT", "trailer_tL1l", "trailer_tL1r", "trailer_tL2l", {"x":80, "y":0, "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.4, "y":0.8, "z":0.05},"lightOuterAngle":75,"flareScale":0.07,"lightBrightness":0.06,"lightRange":8, "deformGroup":"trailer_taillight_L_break"}],
+	["lowhighbeam",    "SPOTLIGHT", "trailer_tL1l", "trailer_tL1r", "trailer_tL2l", {"x":80, "y":0, "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.4, "y":0.8, "z":0.05},"lightOuterAngle":75,"flareScale":0.07,"lightBrightness":0.06,"lightRange":8, "deformGroup":"trailer_taillight_L_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//taillight
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legotrailer_taillight_L"},
+	["trailer_tL1l",  0.50, 3.455, 0.125],
+	["trailer_tL1r",  0.25, 3.455, 0.125],
+	["trailer_tL2l",  0.50, 3.675, 0.125],
+	["trailer_tL2r",  0.25, 3.675, 0.125],
+	["trailer_tL0", 0.375, 3.55, 0.275, {"selfCollision":false}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT TAILLIGHT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["trailer_tL1l", "trailer_tL1r"],
+	["trailer_tL2l", "trailer_tL2r"],
+	["trailer_tL1l", "trailer_tL2l"],
+	["trailer_tL1r", "trailer_tL2r"],
+	["trailer_tL1l", "trailer_tL2r"],
+	["trailer_tL2l", "trailer_tL1r"],
+
+	//tip
+	["trailer_tL1l", "trailer_tL0"],
+	["trailer_tL1r", "trailer_tL0"],
+	["trailer_tL2l", "trailer_tL0"],
+	["trailer_tL2r", "trailer_tL0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*101000", "beamDamp":"$=$weight*10"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"trailer_taillight_L_break"},
+	{"deformGroup":"trailer_taillight_L_break"},
+
+	["trailer_tL1l", "trailer_f6l"],
+	["trailer_tL1l", "trailer_f6r"],
+	["trailer_tL1l", "trailer_f8l"],
+	["trailer_tL1l", "trailer_f16l"],
+
+	["trailer_tL1r", "trailer_f6l"],
+	["trailer_tL1r", "trailer_f6r"],
+	["trailer_tL1r", "trailer_f8l"],
+	["trailer_tL1r", "trailer_f16l"],
+
+	["trailer_tL2l", "trailer_f6l"],
+	["trailer_tL2l", "trailer_f6r"],
+	["trailer_tL2l", "trailer_f8l"],
+	["trailer_tL2l", "trailer_f16l"],
+
+	["trailer_tL2r", "trailer_f6l"],
+	["trailer_tL2r", "trailer_f6r"],
+	["trailer_tL2r", "trailer_f8l"],
+	["trailer_tL2r", "trailer_f16l"],
+
+	["trailer_tL0", "trailer_f6l"],
+	["trailer_tL0", "trailer_f6r"],
+	["trailer_tL0", "trailer_f8l"],
+	["trailer_tL0", "trailer_f16l"],
+
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legotrailer_taillight_L"},
+	["trailer_tL0","trailer_tL1l","trailer_tL2l"],
+	["trailer_tL0","trailer_tL2l","trailer_tL2r"],
+	["trailer_tL0","trailer_tL2r","trailer_tL1r"],
+	["trailer_tL0","trailer_tL1r","trailer_tL1l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legotrailer_taillight_L"},
+	["trailer_tL2r","trailer_tL2l","trailer_tL1l","trailer_tL1r"],
+        {"group":""},
+    ],
+},
+
+}

@@ -1,0 +1,568 @@
+{
+"legocar_roof_chmsl": {
+    "information":{
+        "name":"Stock CHMSL",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_roof_chmsl",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"chmsl_roof_break", "deformMaterialBase":"legocar_chmsl_stock", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_chmsl_stock",["legocar_chmsl_roof"],[], {"pos":{"x": 0.000, "y":0.875, "z":1.4},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightRange":8,
+            "lightColor":{"r":201, "g":26, "b":9, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleBrakeLightFlare",
+        },
+        ["brake",      "SPOTLIGHT", "roofCHMSL1r", "roofCHMSL2r", "roofCHMSL1l",{"x":90, "y":-90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":1.0, "y":0.5, "z":0}, "flareScale":0.012,"lightBrightness":0.08, "deformGroup":"chmsl_roof_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_chmsl_roof"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["roofCHMSL1l",  0.22, 0.75, 1.45],
+	["roofCHMSL1r", -0.22, 0.75, 1.45],
+	["roofCHMSL2l",  0.22, 1.00, 1.45],
+	["roofCHMSL2r", -0.22, 1.00, 1.45],
+
+	//rigidifier
+	["roofCHMSLrig", 0, 0.875, 1.2, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["roofCHMSL1l", "roofCHMSL1r"],
+	["roofCHMSL2l", "roofCHMSL2r"],
+	["roofCHMSL1l", "roofCHMSL2l"],
+	["roofCHMSL1r", "roofCHMSL2r"],
+	["roofCHMSL1l", "roofCHMSL2r"],
+	["roofCHMSL2l", "roofCHMSL1r"],
+
+	//rigidifier
+	["roofCHMSL1l", "roofCHMSLrig"],
+	["roofCHMSL1r", "roofCHMSLrig"],
+	["roofCHMSL2l", "roofCHMSLrig"],
+	["roofCHMSL2r", "roofCHMSLrig"],
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["roofCHMSL1l", "backl3l"],
+	["roofCHMSL1l", "backl3r"],
+	["roofCHMSL1l", "backl1l"],
+	["roofCHMSL1l", "backl4l"],
+	["roofCHMSL1l", "backl0"],
+
+	["roofCHMSL1r", "backl3l"],
+	["roofCHMSL1r", "backl3r"],
+	["roofCHMSL1r", "backl1r"],
+	["roofCHMSL1r", "backl4r"],
+	["roofCHMSL1r", "backl0"],
+
+	["roofCHMSL2l", "backl4l"],
+	["roofCHMSL2l", "backl4r"],
+	["roofCHMSL2l", "backl2l"],
+	["roofCHMSL2l", "backl3l"],
+	["roofCHMSL2l", "backl0"],
+
+	["roofCHMSL2r", "backl4l"],
+	["roofCHMSL2r", "backl4r"],
+	["roofCHMSL2r", "backl2r"],
+	["roofCHMSL2r", "backl3r"],
+	["roofCHMSL2r", "backl0"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_chmsl_roof"},   
+	["roofCHMSL1r","roofCHMSL1l","roofCHMSL2l","roofCHMSL2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_roof_chmsl_smoked": {
+    "information":{
+        "name":"Smoked CHMSL",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_roof_chmsl",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"chmsl_roof_break", "deformMaterialBase":"legocar_chmsl_smoked", "deformMaterialDamaged":"lego_transcol_dred"},
+	["legocar_chmsl_smoked",["legocar_chmsl_roof"],[], {"pos":{"x": 0.000, "y":0.875, "z":1.4},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightRange":8,
+            "lightColor":{"r":100, "g":13, "b":5, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleBrakeLightFlare",
+        },
+        ["brake",      "SPOTLIGHT", "roofCHMSL1r", "roofCHMSL2r", "roofCHMSL1l",{"x":90, "y":-90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":1.0, "y":0.5, "z":0}, "flareScale":0.012,"lightBrightness":0.04, "deformGroup":"chmsl_roof_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_chmsl_roof"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["roofCHMSL1l",  0.22, 0.75, 1.45],
+	["roofCHMSL1r", -0.22, 0.75, 1.45],
+	["roofCHMSL2l",  0.22, 1.00, 1.45],
+	["roofCHMSL2r", -0.22, 1.00, 1.45],
+
+	//rigidifier
+	["roofCHMSLrig", 0, 0.875, 1.2, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["roofCHMSL1l", "roofCHMSL1r"],
+	["roofCHMSL2l", "roofCHMSL2r"],
+	["roofCHMSL1l", "roofCHMSL2l"],
+	["roofCHMSL1r", "roofCHMSL2r"],
+	["roofCHMSL1l", "roofCHMSL2r"],
+	["roofCHMSL2l", "roofCHMSL1r"],
+
+	//rigidifier
+	["roofCHMSL1l", "roofCHMSLrig"],
+	["roofCHMSL1r", "roofCHMSLrig"],
+	["roofCHMSL2l", "roofCHMSLrig"],
+	["roofCHMSL2r", "roofCHMSLrig"],
+
+		
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["roofCHMSL1l", "backl3l"],
+	["roofCHMSL1l", "backl3r"],
+	["roofCHMSL1l", "backl1l"],
+	["roofCHMSL1l", "backl4l"],
+	["roofCHMSL1l", "backl0"],
+
+	["roofCHMSL1r", "backl3l"],
+	["roofCHMSL1r", "backl3r"],
+	["roofCHMSL1r", "backl1r"],
+	["roofCHMSL1r", "backl4r"],
+	["roofCHMSL1r", "backl0"],
+
+	["roofCHMSL2l", "backl4l"],
+	["roofCHMSL2l", "backl4r"],
+	["roofCHMSL2l", "backl2l"],
+	["roofCHMSL2l", "backl3l"],
+	["roofCHMSL2l", "backl0"],
+
+	["roofCHMSL2r", "backl4l"],
+	["roofCHMSL2r", "backl4r"],
+	["roofCHMSL2r", "backl2r"],
+	["roofCHMSL2r", "backl3r"],
+	["roofCHMSL2r", "backl0"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_chmsl_roof"},   
+	["roofCHMSL1r","roofCHMSL1l","roofCHMSL2l","roofCHMSL2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_roof_chmsl_clear": {
+    "information":{
+        "name":"Clear CHMSL",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_roof_chmsl",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"chmsl_roof_break", "deformMaterialBase":"legocar_chmsl_clear", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_chmsl_clear",["legocar_chmsl_roof"],[], {"pos":{"x": 0.000, "y":0.875, "z":1.4},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightRange":8,
+            "lightColor":{"r":201, "g":26, "b":9, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleBrakeLightFlare",
+        },
+        ["brake",      "SPOTLIGHT", "roofCHMSL1r", "roofCHMSL2r", "roofCHMSL1l",{"x":90, "y":-90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":1.0, "y":0.5, "z":0}, "flareScale":0.012,"lightBrightness":0.08, "deformGroup":"chmsl_roof_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_chmsl_roof"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["roofCHMSL1l",  0.22, 0.75, 1.45],
+	["roofCHMSL1r", -0.22, 0.75, 1.45],
+	["roofCHMSL2l",  0.22, 1.00, 1.45],
+	["roofCHMSL2r", -0.22, 1.00, 1.45],
+
+	//rigidifier
+	["roofCHMSLrig", 0, 0.875, 1.2, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["roofCHMSL1l", "roofCHMSL1r"],
+	["roofCHMSL2l", "roofCHMSL2r"],
+	["roofCHMSL1l", "roofCHMSL2l"],
+	["roofCHMSL1r", "roofCHMSL2r"],
+	["roofCHMSL1l", "roofCHMSL2r"],
+	["roofCHMSL2l", "roofCHMSL1r"],
+
+	//rigidifier
+	["roofCHMSL1l", "roofCHMSLrig"],
+	["roofCHMSL1r", "roofCHMSLrig"],
+	["roofCHMSL2l", "roofCHMSLrig"],
+	["roofCHMSL2r", "roofCHMSLrig"],
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["roofCHMSL1l", "backl3l"],
+	["roofCHMSL1l", "backl3r"],
+	["roofCHMSL1l", "backl1l"],
+	["roofCHMSL1l", "backl4l"],
+	["roofCHMSL1l", "backl0"],
+
+	["roofCHMSL1r", "backl3l"],
+	["roofCHMSL1r", "backl3r"],
+	["roofCHMSL1r", "backl1r"],
+	["roofCHMSL1r", "backl4r"],
+	["roofCHMSL1r", "backl0"],
+
+	["roofCHMSL2l", "backl4l"],
+	["roofCHMSL2l", "backl4r"],
+	["roofCHMSL2l", "backl2l"],
+	["roofCHMSL2l", "backl3l"],
+	["roofCHMSL2l", "backl0"],
+
+	["roofCHMSL2r", "backl4l"],
+	["roofCHMSL2r", "backl4r"],
+	["roofCHMSL2r", "backl2r"],
+	["roofCHMSL2r", "backl3r"],
+	["roofCHMSL2r", "backl0"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_chmsl_roof"},   
+	["roofCHMSL1r","roofCHMSL1l","roofCHMSL2l","roofCHMSL2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_roof_chmsl_filler": {
+    "information":{
+        "name":"Filler Panel",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_roof_chmsl",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_roof_B",["legocar_chmsl_roof"],[], {"pos":{"x": 0.000, "y":0.875, "z":1.4},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_chmsl_roof"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["roofCHMSL1l",  0.22, 0.75, 1.45],
+	["roofCHMSL1r", -0.22, 0.75, 1.45],
+	["roofCHMSL2l",  0.22, 1.00, 1.45],
+	["roofCHMSL2r", -0.22, 1.00, 1.45],
+
+	//rigidifier
+	["roofCHMSLrig", 0, 0.875, 1.2, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["roofCHMSL1l", "roofCHMSL1r"],
+	["roofCHMSL2l", "roofCHMSL2r"],
+	["roofCHMSL1l", "roofCHMSL2l"],
+	["roofCHMSL1r", "roofCHMSL2r"],
+	["roofCHMSL1l", "roofCHMSL2r"],
+	["roofCHMSL2l", "roofCHMSL1r"],
+
+	//rigidifier
+	["roofCHMSL1l", "roofCHMSLrig"],
+	["roofCHMSL1r", "roofCHMSLrig"],
+	["roofCHMSL2l", "roofCHMSLrig"],
+	["roofCHMSL2r", "roofCHMSLrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to roof
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"chmsl_roof_break"},
+	{"optional":true},
+
+	["roofCHMSL1l", "roofR1l"],
+	["roofCHMSL1l", "roofR1r"],
+	["roofCHMSL1l", "roofR2l"],
+	["roofCHMSL1l", "roofRrig"],
+
+	["roofCHMSL1r", "roofR1l"],
+	["roofCHMSL1r", "roofR1r"],
+	["roofCHMSL1r", "roofR2r"],
+	["roofCHMSL1r", "roofRrig"],
+
+	["roofCHMSL2l", "roofR1l"],
+	["roofCHMSL2l", "roofR2r"],
+	["roofCHMSL2l", "roofR2l"],
+	["roofCHMSL2l", "roofRrig"],
+
+	["roofCHMSL2r", "roofR2l"],
+	["roofCHMSL2r", "roofR1r"],
+	["roofCHMSL2r", "roofR2r"],
+	["roofCHMSL2r", "roofRrig"],
+
+	["roofCHMSLrig", "roofR1l"],
+	["roofCHMSLrig", "roofR1r"],
+	["roofCHMSLrig", "roofR2l"],
+	["roofCHMSLrig", "roofR2r"],
+
+
+	{"breakGroup":""},
+	{"optional":false},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["roofCHMSL1l", "backl3l"],
+	["roofCHMSL1l", "backl3r"],
+	["roofCHMSL1l", "backl1l"],
+	["roofCHMSL1l", "backl4l"],
+	["roofCHMSL1l", "backl0"],
+
+	["roofCHMSL1r", "backl3l"],
+	["roofCHMSL1r", "backl3r"],
+	["roofCHMSL1r", "backl1r"],
+	["roofCHMSL1r", "backl4r"],
+	["roofCHMSL1r", "backl0"],
+
+	["roofCHMSL2l", "backl4l"],
+	["roofCHMSL2l", "backl4r"],
+	["roofCHMSL2l", "backl2l"],
+	["roofCHMSL2l", "backl3l"],
+	["roofCHMSL2l", "backl0"],
+
+	["roofCHMSL2r", "backl4l"],
+	["roofCHMSL2r", "backl4r"],
+	["roofCHMSL2r", "backl2r"],
+	["roofCHMSL2r", "backl3r"],
+	["roofCHMSL2r", "backl0"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_chmsl_roof"},   
+	["roofCHMSL1r","roofCHMSL1l","roofCHMSL2l","roofCHMSL2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_roof_chmsl_filler_alt": {
+    "information":{
+        "name":"Filler Panel (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_roof_chmsl",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_col3",["legocar_chmsl_roof"],[], {"pos":{"x": 0.000, "y":0.875, "z":1.4},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_chmsl_roof"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["roofCHMSL1l",  0.22, 0.75, 1.45],
+	["roofCHMSL1r", -0.22, 0.75, 1.45],
+	["roofCHMSL2l",  0.22, 1.00, 1.45],
+	["roofCHMSL2r", -0.22, 1.00, 1.45],
+
+	//rigidifier
+	["roofCHMSLrig", 0, 0.875, 1.2, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["roofCHMSL1l", "roofCHMSL1r"],
+	["roofCHMSL2l", "roofCHMSL2r"],
+	["roofCHMSL1l", "roofCHMSL2l"],
+	["roofCHMSL1r", "roofCHMSL2r"],
+	["roofCHMSL1l", "roofCHMSL2r"],
+	["roofCHMSL2l", "roofCHMSL1r"],
+
+	//rigidifier
+	["roofCHMSL1l", "roofCHMSLrig"],
+	["roofCHMSL1r", "roofCHMSLrig"],
+	["roofCHMSL2l", "roofCHMSLrig"],
+	["roofCHMSL2r", "roofCHMSLrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to roof
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"chmsl_roof_break"},
+	{"optional":true},
+
+	["roofCHMSL1l", "roofR1l"],
+	["roofCHMSL1l", "roofR1r"],
+	["roofCHMSL1l", "roofR2l"],
+	["roofCHMSL1l", "roofRrig"],
+
+	["roofCHMSL1r", "roofR1l"],
+	["roofCHMSL1r", "roofR1r"],
+	["roofCHMSL1r", "roofR2r"],
+	["roofCHMSL1r", "roofRrig"],
+
+	["roofCHMSL2l", "roofR1l"],
+	["roofCHMSL2l", "roofR2r"],
+	["roofCHMSL2l", "roofR2l"],
+	["roofCHMSL2l", "roofRrig"],
+
+	["roofCHMSL2r", "roofR2l"],
+	["roofCHMSL2r", "roofR1r"],
+	["roofCHMSL2r", "roofR2r"],
+	["roofCHMSL2r", "roofRrig"],
+
+	["roofCHMSLrig", "roofR1l"],
+	["roofCHMSLrig", "roofR1r"],
+	["roofCHMSLrig", "roofR2l"],
+	["roofCHMSLrig", "roofR2r"],
+
+
+	{"breakGroup":""},
+	{"optional":false},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["roofCHMSL1l", "backl3l"],
+	["roofCHMSL1l", "backl3r"],
+	["roofCHMSL1l", "backl1l"],
+	["roofCHMSL1l", "backl4l"],
+	["roofCHMSL1l", "backl0"],
+
+	["roofCHMSL1r", "backl3l"],
+	["roofCHMSL1r", "backl3r"],
+	["roofCHMSL1r", "backl1r"],
+	["roofCHMSL1r", "backl4r"],
+	["roofCHMSL1r", "backl0"],
+
+	["roofCHMSL2l", "backl4l"],
+	["roofCHMSL2l", "backl4r"],
+	["roofCHMSL2l", "backl2l"],
+	["roofCHMSL2l", "backl3l"],
+	["roofCHMSL2l", "backl0"],
+
+	["roofCHMSL2r", "backl4l"],
+	["roofCHMSL2r", "backl4r"],
+	["roofCHMSL2r", "backl2r"],
+	["roofCHMSL2r", "backl3r"],
+	["roofCHMSL2r", "backl0"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_chmsl_roof"},   
+	["roofCHMSL1r","roofCHMSL1l","roofCHMSL2l","roofCHMSL2r"],
+        {"group":""},
+    ],
+},
+
+}

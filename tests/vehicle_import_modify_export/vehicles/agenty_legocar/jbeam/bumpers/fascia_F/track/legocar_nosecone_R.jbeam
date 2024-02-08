@@ -1,0 +1,311 @@
+{
+"legocar_nosecone_R_col1": {
+    "information":{
+        "name":"Aero Nosecone (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grille_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_slope_col1", ["legocar_grille_R"],[], {"pos":{"x":-0.5, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_grille_R"},
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["FRgrille1l", -0.25, -1.95, 0.38],
+	["FRgrille2l", -0.25, -1.95, 0.60],
+	["FRgrille4r", -0.75, -2.15, 0.38],
+	["FRgrille3r", -0.25, -2.15, 0.38],
+	["FRgrille1r",-0.75, -1.95, 0.38],
+	["FRgrille2r",-0.75, -1.95, 0.60],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform horizontal
+	["FRgrille1r", "FRgrille1l"],
+	["FRgrille2r", "FRgrille2l"],
+	["FRgrille1r", "FRgrille2l"],
+	["FRgrille2r", "FRgrille1l"],
+	["FRgrille3r", "FRgrille1l"],
+	["FRgrille4r", "FRgrille2l"],
+	["FRgrille3r", "FRgrille2l"],
+	["FRgrille4r", "FRgrille1l"],
+
+	//uniform vertical
+	["FRgrille1r", "FRgrille2r"],
+	["FRgrille3r", "FRgrille4r"],
+	["FRgrille1r", "FRgrille3r"],
+	["FRgrille2r", "FRgrille4r"],
+	["FRgrille1r", "FRgrille4r"],
+	["FRgrille2r", "FRgrille3r"],
+	["FRgrille1l", "FRgrille2l"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	{"breakGroup":"grille_FR_break"},
+	
+	["FRgrille1l", "hdlightrig"],
+	["FRgrille1l", "hdlight1r"],
+	["FRgrille1l", "hdlight2l"],
+
+	["FRgrille2l", "hdlightrig"],
+	["FRgrille2l", "hdlight2r"],
+	["FRgrille2l", "hdlight1l"],
+
+	["FRgrille1r", "hdlightrig"],
+	["FRgrille1r", "hdlight1r"],
+	["FRgrille1r", "hdlight2l"],
+
+	["FRgrille2r", "hdlightrig"],
+	["FRgrille2r", "hdlight2r"],
+	["FRgrille2r", "hdlight1l"],
+
+	["FRgrille3r", "hdlightrig"],
+	["FRgrille3r", "hdlight1l"],
+	["FRgrille3r", "hdlight2r"],
+
+	["FRgrille4r", "hdlightrig"],
+	["FRgrille4r", "hdlight1r"],
+	["FRgrille4r", "hdlight2l"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_bumper_FR"},
+	["FRgrille1r","FRgrille4r","FRgrille2r"],
+  	["FRgrille1l","FRgrille2l","FRgrille3r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumper_FR"},   
+	["FRgrille1r","FRgrille2r","FRgrille2l","FRgrille1l"],
+	["FRgrille3r","FRgrille2l","FRgrille2r","FRgrille4r"],
+	["FRgrille1r","FRgrille1l","FRgrille3r","FRgrille4r"],
+        {"group":""},
+    ],
+},
+
+"legocar_nosecone_R_col2": {
+    "information":{
+        "name":"Aero Nosecone (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grille_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_slope_col2", ["legocar_grille_R"],[], {"pos":{"x":-0.5, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_grille_R"},
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["FRgrille1l", -0.25, -1.95, 0.38],
+	["FRgrille2l", -0.25, -1.95, 0.60],
+	["FRgrille4r", -0.75, -2.15, 0.38],
+	["FRgrille3r", -0.25, -2.15, 0.38],
+	["FRgrille1r",-0.75, -1.95, 0.38],
+	["FRgrille2r",-0.75, -1.95, 0.60],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform horizontal
+	["FRgrille1r", "FRgrille1l"],
+	["FRgrille2r", "FRgrille2l"],
+	["FRgrille1r", "FRgrille2l"],
+	["FRgrille2r", "FRgrille1l"],
+	["FRgrille3r", "FRgrille1l"],
+	["FRgrille4r", "FRgrille2l"],
+	["FRgrille3r", "FRgrille2l"],
+	["FRgrille4r", "FRgrille1l"],
+
+	//uniform vertical
+	["FRgrille1r", "FRgrille2r"],
+	["FRgrille3r", "FRgrille4r"],
+	["FRgrille1r", "FRgrille3r"],
+	["FRgrille2r", "FRgrille4r"],
+	["FRgrille1r", "FRgrille4r"],
+	["FRgrille2r", "FRgrille3r"],
+	["FRgrille1l", "FRgrille2l"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	{"breakGroup":"grille_FR_break"},
+	
+	["FRgrille1l", "hdlightrig"],
+	["FRgrille1l", "hdlight1r"],
+	["FRgrille1l", "hdlight2l"],
+
+	["FRgrille2l", "hdlightrig"],
+	["FRgrille2l", "hdlight2r"],
+	["FRgrille2l", "hdlight1l"],
+
+	["FRgrille1r", "hdlightrig"],
+	["FRgrille1r", "hdlight1r"],
+	["FRgrille1r", "hdlight2l"],
+
+	["FRgrille2r", "hdlightrig"],
+	["FRgrille2r", "hdlight2r"],
+	["FRgrille2r", "hdlight1l"],
+
+	["FRgrille3r", "hdlightrig"],
+	["FRgrille3r", "hdlight1l"],
+	["FRgrille3r", "hdlight2r"],
+
+	["FRgrille4r", "hdlightrig"],
+	["FRgrille4r", "hdlight1r"],
+	["FRgrille4r", "hdlight2l"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_bumper_FR"},
+	["FRgrille1r","FRgrille4r","FRgrille2r"],
+  	["FRgrille1l","FRgrille2l","FRgrille3r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumper_FR"},   
+	["FRgrille1r","FRgrille2r","FRgrille2l","FRgrille1l"],
+	["FRgrille3r","FRgrille2l","FRgrille2r","FRgrille4r"],
+	["FRgrille1r","FRgrille1l","FRgrille3r","FRgrille4r"],
+        {"group":""},
+    ],
+},
+
+"legocar_nosecone_R_col3": {
+    "information":{
+        "name":"Aero Nosecone (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grille_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_slope_col3", ["legocar_grille_R"],[], {"pos":{"x":-0.5, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_grille_R"},
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["FRgrille1l", -0.25, -1.95, 0.38],
+	["FRgrille2l", -0.25, -1.95, 0.60],
+	["FRgrille4r", -0.75, -2.15, 0.38],
+	["FRgrille3r", -0.25, -2.15, 0.38],
+	["FRgrille1r",-0.75, -1.95, 0.38],
+	["FRgrille2r",-0.75, -1.95, 0.60],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform horizontal
+	["FRgrille1r", "FRgrille1l"],
+	["FRgrille2r", "FRgrille2l"],
+	["FRgrille1r", "FRgrille2l"],
+	["FRgrille2r", "FRgrille1l"],
+	["FRgrille3r", "FRgrille1l"],
+	["FRgrille4r", "FRgrille2l"],
+	["FRgrille3r", "FRgrille2l"],
+	["FRgrille4r", "FRgrille1l"],
+
+	//uniform vertical
+	["FRgrille1r", "FRgrille2r"],
+	["FRgrille3r", "FRgrille4r"],
+	["FRgrille1r", "FRgrille3r"],
+	["FRgrille2r", "FRgrille4r"],
+	["FRgrille1r", "FRgrille4r"],
+	["FRgrille2r", "FRgrille3r"],
+	["FRgrille1l", "FRgrille2l"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	{"breakGroup":"grille_FR_break"},
+	
+	["FRgrille1l", "hdlightrig"],
+	["FRgrille1l", "hdlight1r"],
+	["FRgrille1l", "hdlight2l"],
+
+	["FRgrille2l", "hdlightrig"],
+	["FRgrille2l", "hdlight2r"],
+	["FRgrille2l", "hdlight1l"],
+
+	["FRgrille1r", "hdlightrig"],
+	["FRgrille1r", "hdlight1r"],
+	["FRgrille1r", "hdlight2l"],
+
+	["FRgrille2r", "hdlightrig"],
+	["FRgrille2r", "hdlight2r"],
+	["FRgrille2r", "hdlight1l"],
+
+	["FRgrille3r", "hdlightrig"],
+	["FRgrille3r", "hdlight1l"],
+	["FRgrille3r", "hdlight2r"],
+
+	["FRgrille4r", "hdlightrig"],
+	["FRgrille4r", "hdlight1r"],
+	["FRgrille4r", "hdlight2l"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_bumper_FR"},
+	["FRgrille1r","FRgrille4r","FRgrille2r"],
+  	["FRgrille1l","FRgrille2l","FRgrille3r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumper_FR"},   
+	["FRgrille1r","FRgrille2r","FRgrille2l","FRgrille1l"],
+	["FRgrille3r","FRgrille2l","FRgrille2r","FRgrille4r"],
+	["FRgrille1r","FRgrille1l","FRgrille3r","FRgrille4r"],
+        {"group":""},
+    ],
+},
+
+}

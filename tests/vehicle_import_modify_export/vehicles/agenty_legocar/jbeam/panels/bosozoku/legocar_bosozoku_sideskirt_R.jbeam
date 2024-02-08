@@ -1,0 +1,251 @@
+{
+"legocar_bosozoku_sideskirt_R_col1": {
+    "information":{
+        "name":" Right Bosozoku Sideskirt (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_underglow_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x4_flat_6tips_col1",["legocar_neon_R"], [], {"pos":{"x":-0.750, "y":0.0, "z":0},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_neon_R"},
+	//8 pieces, 5 nodes - 1.6 kg/node
+	{"nodeWeight": "$=$weight*1.6"},
+
+	["Rneon1l",  -1.00, -0.50, 0.05],
+	["Rneon1r",  -0.50, -0.50, 0.05],
+	["Rneon2l",  -1.00,  0.50, 0.05],
+	["Rneon2r",  -0.50,  0.50, 0.05],
+
+	//rigidifier
+	["Rneonrig", -0.75, 0, 0.4, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT NEON--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//uniform structure
+	["Rneon1l", "Rneon1r"],
+	["Rneon2l", "Rneon2r"],
+	["Rneon1l", "Rneon2l"],
+	["Rneon1r", "Rneon2r"],
+	["Rneon1l", "Rneon2r"],
+	["Rneon2l", "Rneon1r"],
+
+	//rigidifier
+	["Rneon1l", "Rneonrig"],
+	["Rneon1r", "Rneonrig"],
+	["Rneon2l", "Rneonrig"],
+	["Rneon2r", "Rneonrig"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"neon_R_break"},
+
+	["Rneon1l", "Rsubf1r"],
+	["Rneon1l", "Rsubf2r"],
+	["Rneon1l", "Rsubf1l"],
+	["Rneon1l", "Rsubf2l"],
+
+	["Rneon2l", "Rsubf2r"],
+	["Rneon2l", "Rsubf1r"],
+	["Rneon2l", "Rsubf2l"],
+	["Rneon2l", "Rsubf1l"],
+
+	["Rneon1r", "Rsubf1l"],
+	["Rneon1r", "Rsubf1r"],
+	["Rneon1r", "Rsubf2r"],
+
+	["Rneon2r", "Rsubf2l"],
+	["Rneon2r", "Rsubf2r"],
+	["Rneon2r", "Rsubf1r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_neon_R"},
+	["Rneon1l","Rneon1r","Rneon2r","Rneon2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_bosozoku_sideskirt_R_col2": {
+    "information":{
+        "name":" Right Bosozoku Sideskirt (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_underglow_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x4_flat_6tips_col2",["legocar_neon_R"], [], {"pos":{"x":-0.750, "y":0.0, "z":0},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_neon_R"},
+	//8 pieces, 5 nodes - 1.6 kg/node
+	{"nodeWeight": "$=$weight*1.6"},
+
+	["Rneon1l",  -1.00, -0.50, 0.05],
+	["Rneon1r",  -0.50, -0.50, 0.05],
+	["Rneon2l",  -1.00,  0.50, 0.05],
+	["Rneon2r",  -0.50,  0.50, 0.05],
+
+	//rigidifier
+	["Rneonrig", -0.75, 0, 0.4, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT NEON--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//uniform structure
+	["Rneon1l", "Rneon1r"],
+	["Rneon2l", "Rneon2r"],
+	["Rneon1l", "Rneon2l"],
+	["Rneon1r", "Rneon2r"],
+	["Rneon1l", "Rneon2r"],
+	["Rneon2l", "Rneon1r"],
+
+	//rigidifier
+	["Rneon1l", "Rneonrig"],
+	["Rneon1r", "Rneonrig"],
+	["Rneon2l", "Rneonrig"],
+	["Rneon2r", "Rneonrig"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"neon_R_break"},
+
+	["Rneon1l", "Rsubf1r"],
+	["Rneon1l", "Rsubf2r"],
+	["Rneon1l", "Rsubf1l"],
+	["Rneon1l", "Rsubf2l"],
+
+	["Rneon2l", "Rsubf2r"],
+	["Rneon2l", "Rsubf1r"],
+	["Rneon2l", "Rsubf2l"],
+	["Rneon2l", "Rsubf1l"],
+
+	["Rneon1r", "Rsubf1l"],
+	["Rneon1r", "Rsubf1r"],
+	["Rneon1r", "Rsubf2r"],
+
+	["Rneon2r", "Rsubf2l"],
+	["Rneon2r", "Rsubf2r"],
+	["Rneon2r", "Rsubf1r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_neon_R"},
+	["Rneon1l","Rneon1r","Rneon2r","Rneon2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_bosozoku_sideskirt_R_col3": {
+    "information":{
+        "name":" Right Bosozoku Sideskirt (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_underglow_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x4_flat_6tips_col3",["legocar_neon_R"], [], {"pos":{"x":-0.750, "y":0.0, "z":0},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_neon_R"},
+	//8 pieces, 5 nodes - 1.6 kg/node
+	{"nodeWeight": "$=$weight*1.6"},
+
+	["Rneon1l",  -1.00, -0.50, 0.05],
+	["Rneon1r",  -0.50, -0.50, 0.05],
+	["Rneon2l",  -1.00,  0.50, 0.05],
+	["Rneon2r",  -0.50,  0.50, 0.05],
+
+	//rigidifier
+	["Rneonrig", -0.75, 0, 0.4, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT NEON--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//uniform structure
+	["Rneon1l", "Rneon1r"],
+	["Rneon2l", "Rneon2r"],
+	["Rneon1l", "Rneon2l"],
+	["Rneon1r", "Rneon2r"],
+	["Rneon1l", "Rneon2r"],
+	["Rneon2l", "Rneon1r"],
+
+	//rigidifier
+	["Rneon1l", "Rneonrig"],
+	["Rneon1r", "Rneonrig"],
+	["Rneon2l", "Rneonrig"],
+	["Rneon2r", "Rneonrig"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"neon_R_break"},
+
+	["Rneon1l", "Rsubf1r"],
+	["Rneon1l", "Rsubf2r"],
+	["Rneon1l", "Rsubf1l"],
+	["Rneon1l", "Rsubf2l"],
+
+	["Rneon2l", "Rsubf2r"],
+	["Rneon2l", "Rsubf1r"],
+	["Rneon2l", "Rsubf2l"],
+	["Rneon2l", "Rsubf1l"],
+
+	["Rneon1r", "Rsubf1l"],
+	["Rneon1r", "Rsubf1r"],
+	["Rneon1r", "Rsubf2r"],
+
+	["Rneon2r", "Rsubf2l"],
+	["Rneon2r", "Rsubf2r"],
+	["Rneon2r", "Rsubf1r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_neon_R"},
+	["Rneon1l","Rneon1r","Rneon2r","Rneon2l"],
+        {"group":""},
+    ],
+},
+
+}

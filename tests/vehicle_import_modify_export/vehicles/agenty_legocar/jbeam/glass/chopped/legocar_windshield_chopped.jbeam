@@ -1,0 +1,244 @@
+{
+"legocar_windshield_chopped": {
+    "information":{
+        "name":" Chopped Windshield",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_windshield",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_roof_F", "legocar_roof_F", "Front Roof", {"nodeMove":{"x":0,"y":0,"z":-0.3}}],
+    ],
+    "sounds": {
+        "$+cabinFilterCoef": 0.04,
+    },
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_windshield_chopped", ["legocar_windshield"], [], {"pos":{"x": 0.000, "y":-0.625, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_windshield"},
+	//2 pieces, 20 half-pieces, 9 nodes - 1.33 kg/node
+	{"nodeWeight": "$=$weight*1.33"},
+
+	["wshld1l", 0.75, -0.25, 0.80],
+	["wshld1r",-0.75, -0.25, 0.80],
+	["wshld2l", 0.75, -1.00, 0.80],
+	["wshld2r",-0.75, -1.00, 0.80],
+	["wshld3l", 0.75, -0.25, 1.10],
+	["wshld3r",-0.75, -0.25, 1.10],
+	["wshld4l", 0.75, -0.55, 1.10],
+	["wshld4r",-0.75, -0.55, 1.10],
+
+	//collision helper middle node
+	["wshld0", 0, -0.775, 0.95],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--MAIN SHAPE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1331000", "beamDamp":"$=$weight*133"},
+
+	//widthwise
+	["wshld1l", "wshld1r"],
+	["wshld2l", "wshld2r"],
+	["wshld3l", "wshld3r"],
+	["wshld4l", "wshld4r"],
+	
+	//lengthwise
+	["wshld1l", "wshld2l"],
+	["wshld1r", "wshld2r"],
+	["wshld3l", "wshld4l"],
+	["wshld3r", "wshld4r"],
+
+	//vertical
+	["wshld1l", "wshld3l"],
+	["wshld1r", "wshld3r"],
+	["wshld2l", "wshld4l"],
+	["wshld2r", "wshld4r"],
+
+
+	//--SURFICIAL CROSSING--
+	{"beamSpring":"$=$weight*1331000", "beamDamp":"$=$weight*133"},
+
+	//lengthwise
+	["wshld1l", "wshld4l"],
+	["wshld1r", "wshld4r"],
+	["wshld3l", "wshld2l"],
+	["wshld3r", "wshld2r"],
+
+	//widthwise
+	["wshld1l", "wshld2r"],
+	["wshld1r", "wshld2l"],
+	["wshld3l", "wshld4r"],
+	["wshld3r", "wshld4l"],
+
+	//vertical
+	["wshld1l", "wshld3r"],
+	["wshld1r", "wshld3l"],
+	["wshld2l", "wshld4r"],
+	["wshld2r", "wshld4l"],
+	
+	
+	//--MIDDLE NODE--
+	//lower spring to avoid stressing the structure
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	
+	["wshld1l", "wshld0"],
+	["wshld1r", "wshld0"],
+	["wshld2l", "wshld0"],
+	["wshld2r", "wshld0"],
+	["wshld3l", "wshld0"],
+	["wshld3r", "wshld0"],
+	["wshld4l", "wshld0"],
+	["wshld4r", "wshld0"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to firewall
+	{"beamSpring":"$=$weight*651000", "beamDamp":"$=$weight*65"},
+	{"breakGroup":"windshield_firewall_break"},
+
+	["fwall1l", "wshld1l"],
+	["fwall1l", "wshld2l"],
+	["fwall1l", "wshld2r"],
+	["fwall1l", "wshld4l"],
+	["fwall1l", "wshld0"],
+
+	["fwall1r", "wshld1r"],
+	["fwall1r", "wshld2l"],
+	["fwall1r", "wshld2r"],
+	["fwall1r", "wshld4r"],
+	["fwall1r", "wshld0"],
+
+	["fwall2l", "wshld1l"],
+	["fwall2l", "wshld2l"],
+	["fwall2l", "wshld2r"],
+	["fwall2l", "wshld4l"],
+	["fwall2l", "wshld0"],
+
+	["fwall2r", "wshld1r"],
+	["fwall2r", "wshld2l"],
+	["fwall2r", "wshld2r"],
+	["fwall2r", "wshld4r"],
+	["fwall2r", "wshld0"],
+
+	["fwallrig", "wshld1l"],
+	["fwallrig", "wshld1r"],
+	["fwallrig", "wshld2l"],
+	["fwallrig", "wshld2r"],
+	["fwallrig", "wshld0"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//firewall
+	{"beamSpring":"$=$weight*651000", "beamDamp":"$=$weight*65"},
+
+	["fwall1l", "wshld1l"],
+	["fwall1l", "wshld2l"],
+	["fwall1l", "wshld2r"],
+	["fwall1l", "wshld4l"],
+	["fwall1l", "wshld0"],
+
+	["fwall1r", "wshld1r"],
+	["fwall1r", "wshld2l"],
+	["fwall1r", "wshld2r"],
+	["fwall1r", "wshld4r"],
+	["fwall1r", "wshld0"],
+
+	["fwall2l", "wshld1l"],
+	["fwall2l", "wshld2l"],
+	["fwall2l", "wshld2r"],
+	["fwall2l", "wshld4l"],
+	["fwall2l", "wshld0"],
+
+	["fwall2r", "wshld1r"],
+	["fwall2r", "wshld2l"],
+	["fwall2r", "wshld2r"],
+	["fwall2r", "wshld4r"],
+	["fwall2r", "wshld0"],
+	
+	{"optional":true},
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+
+	//left mirror mount
+
+	["mirrormt1l", "wshld1l"],
+	["mirrormt1l", "wshld1r"],
+	["mirrormt1l", "wshld2l"],
+	["mirrormt1l", "wshld3l"],
+
+	["mirrormt1ll", "wshld1l"],
+	["mirrormt1ll", "wshld1r"],
+	["mirrormt1ll", "wshld2l"],
+	["mirrormt1ll", "wshld3l"],
+
+	["mirrormt2l", "wshld2l"],
+	["mirrormt2l", "wshld2r"],
+	["mirrormt2l", "wshld1l"],
+	["mirrormt2l", "wshld4l"],
+
+	["mirrormt3ll", "wshld1l"],
+	["mirrormt3ll", "wshld1r"],
+	["mirrormt3ll", "wshld2l"],
+	["mirrormt3ll", "wshld3l"],
+
+
+	//right mirror mount
+
+	["mirrormt1r", "wshld1r"],
+	["mirrormt1r", "wshld1l"],
+	["mirrormt1r", "wshld2r"],
+	["mirrormt1r", "wshld3r"],
+
+	["mirrormt1rr", "wshld1r"],
+	["mirrormt1rr", "wshld1l"],
+	["mirrormt1rr", "wshld2r"],
+	["mirrormt1rr", "wshld3r"],
+
+	["mirrormt2r", "wshld2r"],
+	["mirrormt2r", "wshld2l"],
+	["mirrormt2r", "wshld1r"],
+	["mirrormt2r", "wshld4r"],
+
+	["mirrormt3rr", "wshld1r"],
+	["mirrormt3rr", "wshld1l"],
+	["mirrormt3rr", "wshld2r"],
+	["mirrormt3rr", "wshld3r"],
+
+	{"optional":false},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_windshield"},
+	["wshld0","wshld2r","wshld2l"],
+	["wshld0","wshld2l","wshld4l"],
+	["wshld0","wshld4l","wshld4r"],
+	["wshld0","wshld4r","wshld2r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_windshield"},
+	["wshld1r","wshld2r","wshld4r","wshld3r"],
+	["wshld1l","wshld3l","wshld4l","wshld2l"],	
+        {"group":""},
+    ],
+},
+
+}

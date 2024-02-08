@@ -1,0 +1,6 @@
+{
+  "format":2,
+  "mainPartName":"legotrailer",
+  "model":"agenty_legotrailer",
+  "parts":{}
+}

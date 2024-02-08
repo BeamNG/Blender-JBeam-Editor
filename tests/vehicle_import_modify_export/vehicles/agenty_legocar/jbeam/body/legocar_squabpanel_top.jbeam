@@ -1,0 +1,329 @@
+{
+"legocar_squabpanel_top_col1": {
+    "information":{
+        "name":"Backlight Support (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_squabpanel_top",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_col1", ["legocar_squabpanel_top"],  [], {"pos":{"x":0, "y":1.125, "z":0.7},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//squab panel top
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+	{"group":"legocar_squabpanel_top"},
+
+	["sqpantop1l", 0.22, 1.03, 0.75],
+	["sqpantop1r",-0.22, 1.03, 0.75],
+	["sqpantop2l", 0.22, 1.25, 0.75],
+	["sqpantop2r",-0.22, 1.25, 0.75],
+	//rigidifier
+	["sqpantoprig", 0, 1.125, 0.5, {"collision":false, "selfCollision":false, "group":""}],
+
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--SQUAB PANEL TOP--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["sqpantop1l", "sqpantop1r"],
+	["sqpantop2l", "sqpantop2r"],
+	["sqpantop1l", "sqpantop2l"],
+	["sqpantop1r", "sqpantop2r"],
+	["sqpantop1l", "sqpantop2r"],
+	["sqpantop2l", "sqpantop1r"],
+
+	//rigidifier
+	["sqpantop1l", "sqpantoprig"],
+	["sqpantop1r", "sqpantoprig"],
+	["sqpantop2l", "sqpantoprig"],
+	["sqpantop2r", "sqpantoprig"],
+
+
+	//--SQUAB PANEL TO TOP--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"squabpanel_break_top"},
+	
+	["sqpan1l", "sqpantop1l"],
+	["sqpan1l", "sqpantop1r"],
+	["sqpan1l", "sqpantop2l"],
+	["sqpan1l", "sqpantoprig"],
+
+	["sqpan1r", "sqpantop1l"],
+	["sqpan1r", "sqpantop1r"],
+	["sqpan1r", "sqpantop2r"],
+	["sqpan1r", "sqpantoprig"],
+
+	["sqpan2l", "sqpantop1l"],
+	["sqpan2l", "sqpantop2r"],
+	["sqpan2l", "sqpantop2l"],
+	["sqpan2l", "sqpantoprig"],
+
+	["sqpan2r", "sqpantop2l"],
+	["sqpan2r", "sqpantop1r"],
+	["sqpan2r", "sqpantop2r"],
+	["sqpan2r", "sqpantoprig"],
+
+	//anti wobble
+	["sqpan3l", "sqpantop1l"],
+	["sqpan3l", "sqpantop1r"],
+	["sqpan3l", "sqpantop2l"],
+	["sqpan3l", "sqpantoprig"],
+
+	["sqpan3r", "sqpantop1l"],
+	["sqpan3r", "sqpantop1r"],
+	["sqpan3r", "sqpantop2r"],
+	["sqpan3r", "sqpantoprig"],
+
+	["sqpan4l", "sqpantop1l"],
+	["sqpan4l", "sqpantop2r"],
+	["sqpan4l", "sqpantop2l"],
+	["sqpan4l", "sqpantoprig"],
+
+	["sqpan4r", "sqpantop2l"],
+	["sqpan4r", "sqpantop1r"],
+	["sqpan4r", "sqpantop2r"],
+	["sqpan4r", "sqpantoprig"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_squabpanel_top"},
+	["sqpantop1r","sqpantop1l","sqpantop2l","sqpantop2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_squabpanel_top_col2": {
+    "information":{
+        "name":"Backlight Support (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_squabpanel_top",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_col2", ["legocar_squabpanel_top"],  [], {"pos":{"x":0, "y":1.125, "z":0.7},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//squab panel top
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+	{"group":"legocar_squabpanel_top"},
+
+	["sqpantop1l", 0.22, 1.03, 0.75],
+	["sqpantop1r",-0.22, 1.03, 0.75],
+	["sqpantop2l", 0.22, 1.25, 0.75],
+	["sqpantop2r",-0.22, 1.25, 0.75],
+	//rigidifier
+	["sqpantoprig", 0, 1.125, 0.5, {"collision":false, "selfCollision":false, "group":""}],
+
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--SQUAB PANEL TOP--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["sqpantop1l", "sqpantop1r"],
+	["sqpantop2l", "sqpantop2r"],
+	["sqpantop1l", "sqpantop2l"],
+	["sqpantop1r", "sqpantop2r"],
+	["sqpantop1l", "sqpantop2r"],
+	["sqpantop2l", "sqpantop1r"],
+
+	//rigidifier
+	["sqpantop1l", "sqpantoprig"],
+	["sqpantop1r", "sqpantoprig"],
+	["sqpantop2l", "sqpantoprig"],
+	["sqpantop2r", "sqpantoprig"],
+
+
+	//--SQUAB PANEL TO TOP--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"squabpanel_break_top"},
+	
+	["sqpan1l", "sqpantop1l"],
+	["sqpan1l", "sqpantop1r"],
+	["sqpan1l", "sqpantop2l"],
+	["sqpan1l", "sqpantoprig"],
+
+	["sqpan1r", "sqpantop1l"],
+	["sqpan1r", "sqpantop1r"],
+	["sqpan1r", "sqpantop2r"],
+	["sqpan1r", "sqpantoprig"],
+
+	["sqpan2l", "sqpantop1l"],
+	["sqpan2l", "sqpantop2r"],
+	["sqpan2l", "sqpantop2l"],
+	["sqpan2l", "sqpantoprig"],
+
+	["sqpan2r", "sqpantop2l"],
+	["sqpan2r", "sqpantop1r"],
+	["sqpan2r", "sqpantop2r"],
+	["sqpan2r", "sqpantoprig"],
+
+	//anti wobble
+	["sqpan3l", "sqpantop1l"],
+	["sqpan3l", "sqpantop1r"],
+	["sqpan3l", "sqpantop2l"],
+	["sqpan3l", "sqpantoprig"],
+
+	["sqpan3r", "sqpantop1l"],
+	["sqpan3r", "sqpantop1r"],
+	["sqpan3r", "sqpantop2r"],
+	["sqpan3r", "sqpantoprig"],
+
+	["sqpan4l", "sqpantop1l"],
+	["sqpan4l", "sqpantop2r"],
+	["sqpan4l", "sqpantop2l"],
+	["sqpan4l", "sqpantoprig"],
+
+	["sqpan4r", "sqpantop2l"],
+	["sqpan4r", "sqpantop1r"],
+	["sqpan4r", "sqpantop2r"],
+	["sqpan4r", "sqpantoprig"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_squabpanel_top"},
+	["sqpantop1r","sqpantop1l","sqpantop2l","sqpantop2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_squabpanel_top_col3": {
+    "information":{
+        "name":"Backlight Support (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_squabpanel_top",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_col3", ["legocar_squabpanel_top"],  [], {"pos":{"x":0, "y":1.125, "z":0.7},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//squab panel top
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+	{"group":"legocar_squabpanel_top"},
+
+	["sqpantop1l", 0.22, 1.03, 0.75],
+	["sqpantop1r",-0.22, 1.03, 0.75],
+	["sqpantop2l", 0.22, 1.25, 0.75],
+	["sqpantop2r",-0.22, 1.25, 0.75],
+	//rigidifier
+	["sqpantoprig", 0, 1.125, 0.5, {"collision":false, "selfCollision":false, "group":""}],
+
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--SQUAB PANEL TOP--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["sqpantop1l", "sqpantop1r"],
+	["sqpantop2l", "sqpantop2r"],
+	["sqpantop1l", "sqpantop2l"],
+	["sqpantop1r", "sqpantop2r"],
+	["sqpantop1l", "sqpantop2r"],
+	["sqpantop2l", "sqpantop1r"],
+
+	//rigidifier
+	["sqpantop1l", "sqpantoprig"],
+	["sqpantop1r", "sqpantoprig"],
+	["sqpantop2l", "sqpantoprig"],
+	["sqpantop2r", "sqpantoprig"],
+
+
+	//--SQUAB PANEL TO TOP--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"squabpanel_break_top"},
+	
+	["sqpan1l", "sqpantop1l"],
+	["sqpan1l", "sqpantop1r"],
+	["sqpan1l", "sqpantop2l"],
+	["sqpan1l", "sqpantoprig"],
+
+	["sqpan1r", "sqpantop1l"],
+	["sqpan1r", "sqpantop1r"],
+	["sqpan1r", "sqpantop2r"],
+	["sqpan1r", "sqpantoprig"],
+
+	["sqpan2l", "sqpantop1l"],
+	["sqpan2l", "sqpantop2r"],
+	["sqpan2l", "sqpantop2l"],
+	["sqpan2l", "sqpantoprig"],
+
+	["sqpan2r", "sqpantop2l"],
+	["sqpan2r", "sqpantop1r"],
+	["sqpan2r", "sqpantop2r"],
+	["sqpan2r", "sqpantoprig"],
+
+	//anti wobble
+	["sqpan3l", "sqpantop1l"],
+	["sqpan3l", "sqpantop1r"],
+	["sqpan3l", "sqpantop2l"],
+	["sqpan3l", "sqpantoprig"],
+
+	["sqpan3r", "sqpantop1l"],
+	["sqpan3r", "sqpantop1r"],
+	["sqpan3r", "sqpantop2r"],
+	["sqpan3r", "sqpantoprig"],
+
+	["sqpan4l", "sqpantop1l"],
+	["sqpan4l", "sqpantop2r"],
+	["sqpan4l", "sqpantop2l"],
+	["sqpan4l", "sqpantoprig"],
+
+	["sqpan4r", "sqpantop2l"],
+	["sqpan4r", "sqpantop1r"],
+	["sqpan4r", "sqpantop2r"],
+	["sqpan4r", "sqpantoprig"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_squabpanel_top"},
+	["sqpantop1r","sqpantop1l","sqpantop2l","sqpantop2r"],
+        {"group":""},
+    ],
+},
+
+}

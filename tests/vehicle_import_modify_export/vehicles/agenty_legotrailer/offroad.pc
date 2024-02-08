@@ -1,0 +1,31 @@
+{
+  "format":2,
+  "mainPartName":"legotrailer",
+  "model":"agenty_legotrailer",
+  "parts":{
+    "legotrailer_axle":"legotrailer_axle_lifted",
+    "legotrailer_drawbar":"legotrailer_drawbar",
+    "legotrailer_floor":"legotrailer_floor",
+    "legotrailer_frame":"legotrailer_frame",
+    "legotrailer_handles":"legotrailer_handles",
+    "legotrailer_hub":"legotrailer_hub",
+    "legotrailer_load":"legotrailer_load_strapped",
+    "legotrailer_mod":"",
+    "legotrailer_platemount":"legotrailer_platemount_filler",
+    "legotrailer_signal_L":"legotrailer_signal_L_filler",
+    "legotrailer_signal_R":"legotrailer_signal_R_filler",
+    "legotrailer_taillight_L":"legotrailer_taillight_L",
+    "legotrailer_taillight_R":"legotrailer_taillight_R",
+    "legotrailer_test1":"",
+    "legotrailer_tires":"legotrailer_tires_big",
+    "legotrailer_wall_B":"legotrailer_wall_B",
+    "legotrailer_wall_F":"legotrailer_wall_F",
+    "legotrailer_wall_I":"legotrailer_wall_I",
+    "legotrailer_wall_L":"legotrailer_wall_L",
+    "legotrailer_wall_R":"legotrailer_wall_R",
+    "legotrailer_wheeldata":"legotrailer_wheeldata",
+    "legotrailer_wheels":"legotrailer_wheels",
+    "licenseplate_design_2_1":"",
+    "skin_legocar_wheel_spare":"legocar_skin_wheel_spare_grey"
+  }
+}

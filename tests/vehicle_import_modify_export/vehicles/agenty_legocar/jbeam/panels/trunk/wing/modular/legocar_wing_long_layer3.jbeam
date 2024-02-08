@@ -1,0 +1,125 @@
+{
+"legocar_wing_long_layer3": {
+    "information":{
+        "name":"Third Wing Layer",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_wing_long_layer3",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x8_flat_notip_carbon", ["legocar_wing_layer3"],[], {"pos":{"x": 0.000, "y":1.500, "z":1.60},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1.00, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--WING--
+	{"group":"legocar_wing_layer3"},
+	//16 pieces, 5 nodes - 3.2 kg/node
+	{"nodeWeight": "$=$weight*3.2"},
+
+	["3wing1l",  1.00, 1.25, 1.65],
+	["3wing1r", -1.00, 1.25, 1.65],
+	["3wing2l",  1.00, 1.75, 1.65],
+	["3wing2r", -1.00, 1.75, 1.65],
+	//rigidifier
+	["3wingrig", 0, 1.50, 1.15, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--WING--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*4001000", "beamDamp":"$=$weight*400"},
+
+	//uniform structure
+	["3wing1l", "3wing1r"],
+	["3wing2l", "3wing2r"],
+	["3wing1l", "3wing2l"],
+	["3wing1r", "3wing2r"],
+	["3wing1l", "3wing2r"],
+	["3wing2l", "3wing1r"],
+
+	//rigidifier
+	["3wing1l", "3wingrig"],
+	["3wing1r", "3wingrig"],
+	["3wing2l", "3wingrig"],
+	["3wing2r", "3wingrig"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//left
+	{"breakGroup":"wing_layer3_L_break"},
+
+	["Lwing1", "3wing1l"],
+	["Lwing1", "3wing1r"],
+	["Lwing1", "3wing2l"],
+	["Lwing1", "3wingrig"],
+
+	["Lwing2", "3wing1l"],
+	["Lwing2", "3wing1r"],
+	["Lwing2", "3wing2l"],
+	["Lwing2", "3wingrig"],
+
+	["Lwing3", "3wing1l"],
+	["Lwing3", "3wing2r"],
+	["Lwing3", "3wing2l"],
+	["Lwing3", "3wingrig"],
+
+	["Lwing4", "3wing1l"],
+	["Lwing4", "3wing2r"],
+	["Lwing4", "3wing2l"],
+	["Lwing4", "3wingrig"],
+
+	["Lwingrig", "3wing1l"],
+	["Lwingrig", "3wing1r"],
+	["Lwingrig", "3wing2l"],
+	["Lwingrig", "3wing2r"],
+
+
+	//right
+	{"breakGroup":"wing_layer3_R_break"},
+
+	["Rwing1", "3wing1l"],
+	["Rwing1", "3wing1r"],
+	["Rwing1", "3wing2r"],
+	["Rwing1", "3wingrig"],
+
+	["Rwing2", "3wing1l"],
+	["Rwing2", "3wing1r"],
+	["Rwing2", "3wing2r"],
+	["Rwing2", "3wingrig"],
+
+	["Rwing3", "3wing1r"],
+	["Rwing3", "3wing2r"],
+	["Rwing3", "3wing2l"],
+	["Rwing3", "3wingrig"],
+
+	["Rwing4", "3wing1r"],
+	["Rwing4", "3wing2r"],
+	["Rwing4", "3wing2l"],
+	["Rwing4", "3wingrig"],
+
+	["Rwingrig", "3wing1l"],
+	["Rwingrig", "3wing1r"],
+	["Rwingrig", "3wing2l"],
+	["Rwingrig", "3wing2r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_wing_layer3"},
+	["3wing2l","3wing2r","3wing1r","3wing1l"],
+        {"group":""},
+    ],
+},
+
+}

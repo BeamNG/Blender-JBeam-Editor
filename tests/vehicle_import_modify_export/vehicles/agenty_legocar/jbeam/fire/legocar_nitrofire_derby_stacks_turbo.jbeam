@@ -1,0 +1,164 @@
+{
+"legocar_nitrofire_derby_stacks_turbo_white": {
+    "information":{
+        "authors":"AgentY",
+        "name":"White Nitrous Flames",
+    },
+    "slotType" : "legocar_nitrofire_derby_stacks_turbo"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_white", ["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_nitrofire_white2",["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"afterfire_R_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_white", ["legocar_exhaust_turbo_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_nitrofire_white2",["legocar_exhaust_turbo_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+},
+
+"legocar_nitrofire_derby_stacks_turbo_red": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Red Nitrous Flames",
+    },
+    "slotType" : "legocar_nitrofire_derby_stacks_turbo"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_red", ["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_nitrofire_red2",["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"afterfire_R_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_red", ["legocar_exhaust_turbo_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_nitrofire_red2",["legocar_exhaust_turbo_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+},
+
+"legocar_nitrofire_derby_stacks_turbo_orange": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Orange Nitrous Flames",
+    },
+    "slotType" : "legocar_nitrofire_derby_stacks_turbo"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_orange", ["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_nitrofire_orange2",["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"afterfire_R_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_orange", ["legocar_exhaust_turbo_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_nitrofire_orange2",["legocar_exhaust_turbo_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+},
+
+"legocar_nitrofire_derby_stacks_turbo_yellow": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Yellow Nitrous Flames",
+    },
+    "slotType" : "legocar_nitrofire_derby_stacks_turbo"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_yellow", ["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_nitrofire_yellow2",["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"afterfire_R_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_yellow", ["legocar_exhaust_turbo_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_nitrofire_yellow2",["legocar_exhaust_turbo_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+},
+
+"legocar_nitrofire_derby_stacks_turbo_bgreen": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Bright Green Nitrous Flames",
+    },
+    "slotType" : "legocar_nitrofire_derby_stacks_turbo"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_bgreen", ["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_nitrofire_bgreen2",["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"afterfire_R_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_bgreen", ["legocar_exhaust_turbo_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_nitrofire_bgreen2",["legocar_exhaust_turbo_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+},
+
+"legocar_nitrofire_derby_stacks_turbo_green": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Dark Green Nitrous Flames",
+    },
+    "slotType" : "legocar_nitrofire_derby_stacks_turbo"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_green", ["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_nitrofire_green2",["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"afterfire_R_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_green", ["legocar_exhaust_turbo_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_nitrofire_green2",["legocar_exhaust_turbo_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+},
+
+"legocar_nitrofire_derby_stacks_turbo_lblue": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Light Blue Nitrous Flames",
+    },
+    "slotType" : "legocar_nitrofire_derby_stacks_turbo"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_lblue", ["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_nitrofire_lblue2",["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"afterfire_R_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_lblue", ["legocar_exhaust_turbo_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_nitrofire_lblue2",["legocar_exhaust_turbo_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+},
+
+"legocar_nitrofire_derby_stacks_turbo_blue": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Dark Blue Nitrous Flames",
+    },
+    "slotType" : "legocar_nitrofire_derby_stacks_turbo"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_blue", ["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_nitrofire_blue2",["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"afterfire_R_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_blue", ["legocar_exhaust_turbo_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_nitrofire_blue2",["legocar_exhaust_turbo_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+},
+
+"legocar_nitrofire_derby_stacks_turbo_pink": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Pink Nitrous Flames",
+    },
+    "slotType" : "legocar_nitrofire_derby_stacks_turbo"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_pink", ["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_nitrofire_pink2",["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"afterfire_R_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_pink", ["legocar_exhaust_turbo_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_nitrofire_pink2",["legocar_exhaust_turbo_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+},
+
+}

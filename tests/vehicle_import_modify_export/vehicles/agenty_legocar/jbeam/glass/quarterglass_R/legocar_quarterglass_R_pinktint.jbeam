@@ -1,0 +1,150 @@
+{
+"legocar_quarterglass_R_pinktint": {
+    "information":{
+        "name":"Pink Tinted Right Quarter Glass",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_quarterglass_R",
+    "sounds": {
+        "$+cabinFilterCoef": 0.03,
+    },
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_sideglass_pink", ["legocar_quarterglass_R"], [], {"pos":{"x":-0.625, "y":0.500, "z":0.8},"rot":{"x":0, "y":0, "z":-90},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_quarterglass_R"},
+
+	//2 pieces, 6 half pieces, 8 nodes --0.625 kg/node
+	{"nodeWeight": "$=$weight*0.625"},
+
+	["Rqglass1l", -0.50, 0.25, 0.80],
+	["Rqglass1r", -0.75, 0.25, 0.80],
+	["Rqglass2l", -0.50, 0.75, 0.80],
+	["Rqglass2r", -0.75, 0.75, 0.80],
+	["Rqglass3l", -0.50, 0.25, 1.40],
+	["Rqglass3r", -0.75, 0.25, 1.40],
+	["Rqglass4l", -0.50, 0.75, 1.40],
+	["Rqglass4r", -0.75, 0.75, 1.40],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT QUARTER GLASS--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*625000", "beamDamp":"$=$weight*62.5"},
+
+	//uniform structure
+	["Rqglass1l", "Rqglass1r"],
+	["Rqglass2l", "Rqglass2r"],
+	["Rqglass3l", "Rqglass3r"],
+	["Rqglass4l", "Rqglass4r"],
+
+	["Rqglass1l", "Rqglass2r"],
+	["Rqglass2l", "Rqglass3r"],
+	["Rqglass3l", "Rqglass4r"],
+	["Rqglass4l", "Rqglass1r"],
+
+	["Rqglass1l", "Rqglass3r"],
+	["Rqglass2l", "Rqglass4r"],
+	["Rqglass3l", "Rqglass1r"],
+	["Rqglass4l", "Rqglass2r"],
+
+	["Rqglass1l", "Rqglass4r"],
+	["Rqglass2l", "Rqglass1r"],
+	["Rqglass3l", "Rqglass2r"],
+	["Rqglass4l", "Rqglass3r"],
+
+	["Rqglass1l", "Rqglass2l"],
+	["Rqglass2l", "Rqglass3l"],
+	["Rqglass3l", "Rqglass4l"],
+	["Rqglass4l", "Rqglass1l"],
+
+	["Rqglass1l", "Rqglass3l"],
+	["Rqglass2l", "Rqglass4l"],
+
+	["Rqglass1r", "Rqglass2r"],
+	["Rqglass2r", "Rqglass3r"],
+	["Rqglass3r", "Rqglass4r"],
+	["Rqglass4r", "Rqglass1r"],
+
+	["Rqglass1r", "Rqglass3r"],
+	["Rqglass2r", "Rqglass4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"quarterglass_R_break"},
+
+	["Rqglassmt1l", "Rqglass1l"],
+	["Rqglassmt1l", "Rqglass1r"],
+	["Rqglassmt1l", "Rqglass2l"],
+	["Rqglassmt1l", "Rqglass3l"],
+
+	["Rqglassmt1r", "Rqglass1r"],
+	["Rqglassmt1r", "Rqglass1l"],
+	["Rqglassmt1r", "Rqglass2r"],
+	["Rqglassmt1r", "Rqglass3r"],
+
+	["Rqglassmt2l", "Rqglass2l"],
+	["Rqglassmt2l", "Rqglass2r"],
+	["Rqglassmt2l", "Rqglass1l"],
+	["Rqglassmt2l", "Rqglass4l"],
+
+	["Rqglassmt2r", "Rqglass2r"],
+	["Rqglassmt2r", "Rqglass2l"],
+	["Rqglassmt2r", "Rqglass1r"],
+	["Rqglassmt2r", "Rqglass4r"],
+
+	["Rqglassmtrig", "Rqglass1l"],
+	["Rqglassmtrig", "Rqglass1r"],
+	["Rqglassmtrig", "Rqglass2l"],
+	["Rqglassmtrig", "Rqglass2r"],
+	
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//to mount
+	["Rqglassmt1l", "Rqglass1l"],
+	["Rqglassmt1l", "Rqglass1r"],
+	["Rqglassmt1l", "Rqglass2l"],
+	["Rqglassmt1l", "Rqglass3l"],
+
+	["Rqglassmt1r", "Rqglass1r"],
+	["Rqglassmt1r", "Rqglass1l"],
+	["Rqglassmt1r", "Rqglass2r"],
+	["Rqglassmt1r", "Rqglass3r"],
+
+	["Rqglassmt2l", "Rqglass2l"],
+	["Rqglassmt2l", "Rqglass2r"],
+	["Rqglassmt2l", "Rqglass1l"],
+	["Rqglassmt2l", "Rqglass4l"],
+
+	["Rqglassmt2r", "Rqglass2r"],
+	["Rqglassmt2r", "Rqglass2l"],
+	["Rqglassmt2r", "Rqglass1r"],
+	["Rqglassmt2r", "Rqglass4r"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_quarterglass_R"},   
+	["Rqglass2r","Rqglass2l","Rqglass1l","Rqglass1r"],
+	["Rqglass4l","Rqglass4r","Rqglass3r","Rqglass3l"],
+	["Rqglass4r","Rqglass2r","Rqglass1r","Rqglass3r"],
+        {"group":""},
+    ],
+},
+
+}

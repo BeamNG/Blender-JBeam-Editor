@@ -1,0 +1,375 @@
+{
+"legocar_wheelaxles_F_stockcar": {
+    "information":{
+        "name":"4b. Low Wide Front Wheel Axles",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_wheelaxles_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_hub_F","legocar_hub_F_centerlug", "Front Wheel Hubs",{"nodeMove":{"x":0,"y":0,"z":0.1}}],
+	["legocar_fender_FL","legocar_fender_FL_col2", "Front Left Fender"],
+	["legocar_fender_FR","legocar_fender_FR_col2", "Front Right Fender"],
+	["legocar_subframe_F","legocar_subframe_F", "Front Subframe"],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$trackoffset_F", "range", "+m", "Wheels", 0.05, 0.03, 0.10, "Wheel Offset", "Spacing of the wheel from the hub", {"minDis":-0.02, "maxDis":0.05, "stepDis":0.001,"subCategory":"Front"}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_wheelaxle_inverted_sport", ["legocar_wheelaxle_FL"], [], {"pos":{"x": 0.250, "y":-1.000, "z":0.1},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_wheelaxle_inverted_sport", ["legocar_wheelaxle_FR"], [], {"pos":{"x":-0.250, "y":-1.000, "z":0.1},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+     ],
+     "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//7 pieces, 7 nodes, 1 kg/node
+	{"nodeWeight": "$weight"},
+
+	//front left wheel axle
+	{"group":"legocar_wheelaxle_FL"},	
+	["wheelaxle1fl",  0.05,-1.22, 0.1],
+	["wheelaxle2fl",  0.05,-0.77, 0.1],
+	["wheelaxle1fll", 0.50,-1.22, 0.1],
+	["wheelaxle2fll", 0.50,-0.77, 0.1],
+	["wheelaxle3fll", 0.50,-1.22, 0.3],
+	["wheelaxle4fll", 0.50,-0.77, 0.3],
+	["wheelaxle5fll", 0.70,-1.00, 0.225, {"selfCollision":false}],
+
+	//front right wheel axle
+	{"group":"legocar_wheelaxle_FR"},	
+	["wheelaxle1fr",  -0.05,-1.22, 0.1],
+	["wheelaxle2fr",  -0.05,-0.77, 0.1],
+	["wheelaxle1frr", -0.50,-1.22, 0.1],
+	["wheelaxle2frr", -0.50,-0.77, 0.1],
+	["wheelaxle3frr", -0.50,-1.22, 0.3],
+	["wheelaxle4frr", -0.50,-0.77, 0.3],
+	["wheelaxle5frr", -0.70,-1.00, 0.225, {"selfCollision":false}],
+	
+	{"group":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+
+	//--MAIN STRUCTURES--
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+	
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//left wheel axle main shape
+	["wheelaxle1fl", "wheelaxle2fl"],
+	["wheelaxle1fl", "wheelaxle1fll"],
+	["wheelaxle1fl", "wheelaxle2fll"],
+	["wheelaxle1fl", "wheelaxle3fll"],
+	["wheelaxle1fl", "wheelaxle4fll"],
+	//["wheelaxle2fl", "wheelaxle1fll"],
+	["wheelaxle2fl", "wheelaxle2fll"],
+	//["wheelaxle2fl", "wheelaxle3fll"],
+	["wheelaxle2fl", "wheelaxle4fll"],
+	["wheelaxle1fll", "wheelaxle2fll"],
+	["wheelaxle1fll", "wheelaxle3fll"],
+	["wheelaxle1fll", "wheelaxle4fll"],
+	["wheelaxle2fll", "wheelaxle3fll"],
+	["wheelaxle2fll", "wheelaxle4fll"],
+	["wheelaxle3fll", "wheelaxle4fll"],
+
+	//left wheel axle tip
+	["wheelaxle5fll", "wheelaxle1fl"],
+	["wheelaxle5fll", "wheelaxle2fl"],
+	["wheelaxle5fll", "wheelaxle1fll"],
+	["wheelaxle5fll", "wheelaxle2fll"],
+	["wheelaxle5fll", "wheelaxle3fll"],
+	["wheelaxle5fll", "wheelaxle4fll"],
+
+	//right wheel axle main shape
+	["wheelaxle1fr", "wheelaxle2fr"],
+	["wheelaxle1fr", "wheelaxle1frr"],
+	["wheelaxle1fr", "wheelaxle2frr"],
+	["wheelaxle1fr", "wheelaxle3frr"],
+	["wheelaxle1fr", "wheelaxle4frr"],
+	//["wheelaxle2fr", "wheelaxle1frr"],
+	["wheelaxle2fr", "wheelaxle2frr"],
+	//["wheelaxle2fr", "wheelaxle3frr"],
+	["wheelaxle2fr", "wheelaxle4frr"],
+	["wheelaxle1frr", "wheelaxle2frr"],
+	["wheelaxle1frr", "wheelaxle3frr"],
+	["wheelaxle1frr", "wheelaxle4frr"],
+	["wheelaxle2frr", "wheelaxle3frr"],
+	["wheelaxle2frr", "wheelaxle4frr"],
+	["wheelaxle3frr", "wheelaxle4frr"],
+
+	//right wheel axle tip
+	["wheelaxle5frr", "wheelaxle1fr"],
+	["wheelaxle5frr", "wheelaxle2fr"],
+	["wheelaxle5frr", "wheelaxle1frr"],
+	["wheelaxle5frr", "wheelaxle2frr"],
+	["wheelaxle5frr", "wheelaxle3frr"],
+	["wheelaxle5frr", "wheelaxle4frr"],
+	
+	
+	//--ATTACH--
+
+	//half the spring and damp because we attach 2 axles
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//left
+	{"breakGroup":"wheelaxleFL_chassis_break"},
+
+	//this triggers halfshaft breaking
+	["wheelaxle1fl", "chassis1l", {"name":"halfshaft_FL"}],
+	["wheelaxle1fl", "chassis1r"],
+	["wheelaxle1fl", "chassis2l"],
+	["wheelaxle1fl", "chassis2r"],
+	["wheelaxle2fl", "chassis1l"],
+	["wheelaxle2fl", "chassis1r"],
+	["wheelaxle2fl", "chassis2l"],
+	["wheelaxle2fl", "chassis2r"],
+	
+	["wheelaxle1fll", "chassis1l"],
+	["wheelaxle1fll", "chassis1r"],
+	["wheelaxle1fll", "chassis2l"],
+	["wheelaxle1fll", "chassis2r"],
+	["wheelaxle2fll", "chassis1l"],
+	["wheelaxle2fll", "chassis1r"],
+	["wheelaxle2fll", "chassis2l"],
+	["wheelaxle2fll", "chassis2r"],
+
+	["wheelaxle3fll", "chassis1l"],
+	["wheelaxle3fll", "chassis1r"],
+	["wheelaxle3fll", "chassis2l"],
+	["wheelaxle3fll", "chassis2r"],
+	["wheelaxle4fll", "chassis1l"],
+	["wheelaxle4fll", "chassis1r"],
+	["wheelaxle4fll", "chassis2l"],
+	["wheelaxle4fll", "chassis2r"],
+
+	["wheelaxle5fll", "chassis1l"],
+	["wheelaxle5fll", "chassis1r"],
+	["wheelaxle5fll", "chassis2l"],
+	["wheelaxle5fll", "chassis2r"],
+
+	//anti-wobble
+	["wheelaxle1fl", "chassis4",{"optional":true}],
+	["wheelaxle2fl", "chassis4",{"optional":true}],
+	["wheelaxle1fll", "chassis4",{"optional":true}],
+	["wheelaxle2fll", "chassis4",{"optional":true}],
+	["wheelaxle3fll", "chassis4",{"optional":true}],
+	["wheelaxle4fll", "chassis4",{"optional":true}],
+	["wheelaxle5fll", "chassis4",{"optional":true}],
+
+	
+	//right
+	{"breakGroup":"wheelaxleFR_chassis_break"},
+
+	//this triggers halfshaft breaking
+	["wheelaxle1fr", "chassis1l", {"name":"halfshaft_FR"}],
+	["wheelaxle1fr", "chassis1r"],
+	["wheelaxle1fr", "chassis2l"],
+	["wheelaxle1fr", "chassis2r"],
+	["wheelaxle2fr", "chassis1l"],
+	["wheelaxle2fr", "chassis1r"],
+	["wheelaxle2fr", "chassis2l"],
+	["wheelaxle2fr", "chassis2r"],
+	
+	["wheelaxle1frr", "chassis1l"],
+	["wheelaxle1frr", "chassis1r"],
+	["wheelaxle1frr", "chassis2l"],
+	["wheelaxle1frr", "chassis2r"],
+	["wheelaxle2frr", "chassis1l"],
+	["wheelaxle2frr", "chassis1r"],
+	["wheelaxle2frr", "chassis2l"],
+	["wheelaxle2frr", "chassis2r"],
+
+	["wheelaxle3frr", "chassis1l"],
+	["wheelaxle3frr", "chassis1r"],
+	["wheelaxle3frr", "chassis2l"],
+	["wheelaxle3frr", "chassis2r"],
+	["wheelaxle4frr", "chassis1l"],
+	["wheelaxle4frr", "chassis1r"],
+	["wheelaxle4frr", "chassis2l"],
+	["wheelaxle4frr", "chassis2r"],
+
+	["wheelaxle5frr", "chassis1l"],
+	["wheelaxle5frr", "chassis1r"],
+	["wheelaxle5frr", "chassis2l"],
+	["wheelaxle5frr", "chassis2r"],
+
+	//anti-wobble
+	["wheelaxle1fr", "chassis4",{"optional":true}],
+	["wheelaxle2fr", "chassis4",{"optional":true}],
+	["wheelaxle1frr", "chassis4",{"optional":true}],
+	["wheelaxle2frr", "chassis4",{"optional":true}],
+	["wheelaxle3frr", "chassis4",{"optional":true}],
+	["wheelaxle4frr", "chassis4",{"optional":true}],
+	["wheelaxle5frr", "chassis4",{"optional":true}],
+
+
+	//--ATTACH FRONT SUBFRAME--
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"optional":true},
+
+	//to left axle
+	{"breakGroup":"Fsubf_wheelaxleFL_break"},
+
+	["Fsubf1l", "wheelaxle4fll"],
+	["Fsubf1l", "wheelaxle3fll"],
+	["Fsubf1l", "wheelaxle2fll"],
+
+	["Fsubf2l", "wheelaxle4fll"],
+	["Fsubf2l", "wheelaxle3fll"],
+	["Fsubf2l", "wheelaxle2fll"],
+	["Fsubf2l", "wheelaxle1fll"],
+
+	["Fsubf1r", "wheelaxle4fll"],
+	["Fsubf1r", "wheelaxle3fll"],
+	["Fsubf1r", "wheelaxle2fll"],
+
+	["Fsubf2r", "wheelaxle4fll"],
+	["Fsubf2r", "wheelaxle3fll"],
+	["Fsubf2r", "wheelaxle2fll"],
+	["Fsubf2r", "wheelaxle1fll"],
+
+	["Fsubfrig", "wheelaxle5fll"],
+	["Fsubfrig", "wheelaxle4fll"],
+	["Fsubfrig", "wheelaxle3fll"],
+	["Fsubfrig", "wheelaxle2fll"],
+	["Fsubfrig", "wheelaxle1fll"],
+
+	//anti wobble
+	["Fsubf2r", "wheelaxle5fll"],
+	["Fsubf2l", "wheelaxle5fll"],
+	["Fsubf2r", "wheelaxle1fl"],
+	["Fsubf2l", "wheelaxle1fl"],
+	["Fsubf2r", "wheelaxle2fl"],
+	["Fsubf2l", "wheelaxle2fl"],
+
+
+	//to right axle
+	{"breakGroup":"Fsubf_wheelaxleFR_break"},
+
+	["Fsubf1l", "wheelaxle4frr"],
+	["Fsubf1l", "wheelaxle3frr"],
+	["Fsubf1l", "wheelaxle2frr"],
+
+	["Fsubf2l", "wheelaxle4frr"],
+	["Fsubf2l", "wheelaxle3frr"],
+	["Fsubf2l", "wheelaxle2frr"],
+	["Fsubf2l", "wheelaxle1frr"],
+
+	["Fsubf1r", "wheelaxle4frr"],
+	["Fsubf1r", "wheelaxle3frr"],
+	["Fsubf1r", "wheelaxle2frr"],
+
+	["Fsubf2r", "wheelaxle4frr"],
+	["Fsubf2r", "wheelaxle3frr"],
+	["Fsubf2r", "wheelaxle2frr"],
+	["Fsubf2r", "wheelaxle1frr"],
+
+	["Fsubfrig", "wheelaxle5frr"],
+	["Fsubfrig", "wheelaxle4frr"],
+	["Fsubfrig", "wheelaxle3frr"],
+	["Fsubfrig", "wheelaxle2frr"],
+	["Fsubfrig", "wheelaxle1frr"],
+
+	//anti wobble
+	["Fsubf2r", "wheelaxle5frr"],
+	["Fsubf2l", "wheelaxle5frr"],
+	["Fsubf2r", "wheelaxle1fr"],
+	["Fsubf2l", "wheelaxle1fr"],
+	["Fsubf2r", "wheelaxle2fr"],
+	["Fsubf2l", "wheelaxle2fr"],
+	
+
+	//--ATTACH TO FENDERS--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+
+	{"breakGroup":"fender_FL_break"},
+
+	["fendFL3l", "wheelaxle1fll"],
+	["fendFL3l", "wheelaxle1fl"],
+	["fendFL3l", "wheelaxle2fll"],
+
+	["fendFL3r", "wheelaxle1fl"],
+	["fendFL3r", "wheelaxle1fll"],
+	["fendFL3r", "wheelaxle2fl"],
+
+	["fendFL4l", "wheelaxle2fll"],
+	["fendFL4l", "wheelaxle2fl"],
+	["fendFL4l", "wheelaxle1fll"],
+
+	["fendFL4r", "wheelaxle2fl"],
+	["fendFL4r", "wheelaxle2fll"],
+	["fendFL4r", "wheelaxle1fl"],
+
+
+	{"breakGroup":"fender_FR_break"},
+
+	["fendFR3r", "wheelaxle1frr"],
+	["fendFR3r", "wheelaxle1fr"],
+	["fendFR3r", "wheelaxle2frr"],
+
+	["fendFR3l", "wheelaxle1fr"],
+	["fendFR3l", "wheelaxle1frr"],
+	["fendFR3l", "wheelaxle2fr"],
+
+	["fendFR4r", "wheelaxle2frr"],
+	["fendFR4r", "wheelaxle2fr"],
+	["fendFR4r", "wheelaxle1frr"],
+
+	["fendFR4l", "wheelaxle2fr"],
+	["fendFR4l", "wheelaxle2frr"],
+	["fendFR4l", "wheelaxle1fr"],
+
+
+	{"optional":false},
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-WOBBLE--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+
+	["fw1rr", "fendFR3r",{"optional":true}],
+	["fw1rr", "fendFR4r",{"optional":true}],
+	["fw1ll", "fendFL3l",{"optional":true}],
+	["fw1ll", "fendFL4l",{"optional":true}],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+        {"group":"legocar_wheelaxle_FL"},
+	["wheelaxle1fl","wheelaxle1fll","wheelaxle3fll"],
+	["wheelaxle2fll","wheelaxle2fl","wheelaxle4fll"],
+
+	{"group":"legocar_wheelaxle_FR"},
+	["wheelaxle1frr","wheelaxle1fr","wheelaxle3frr"],
+	["wheelaxle2fr","wheelaxle2frr","wheelaxle4frr"],
+        
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_wheelaxle_FL"},
+	["wheelaxle1fl","wheelaxle2fl","wheelaxle2fll","wheelaxle1fll"],
+	["wheelaxle1fll","wheelaxle2fll","wheelaxle4fll","wheelaxle3fll"],
+
+	{"group":"legocar_wheelaxle_FR"},
+	["wheelaxle1frr","wheelaxle2frr","wheelaxle2fr","wheelaxle1fr"],
+	["wheelaxle3frr","wheelaxle4frr","wheelaxle2frr","wheelaxle1frr"],
+
+        {"group":""},
+    ],
+},
+
+}

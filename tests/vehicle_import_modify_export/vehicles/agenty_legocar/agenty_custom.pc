@@ -1,0 +1,44 @@
+{
+  "format":2,
+  "licenseName":"JM 3179",
+  "model":"agenty_legocar",
+  "paints":[
+    {
+      "baseColor":[
+        0.99,
+        0.8,
+        0.01,
+        2
+      ],
+      "clearcoat":0,
+      "clearcoatRoughness":0,
+      "metallic":0,
+      "roughness":0.4
+    },
+    {
+      "baseColor":[
+        0.95,
+        0.95,
+        0.95,
+        2
+      ],
+      "clearcoat":0,
+      "clearcoatRoughness":0,
+      "metallic":0,
+      "roughness":0.4
+    },
+    {
+      "baseColor":[
+        0.11,
+        0.16,
+        0.2,
+        2
+      ],
+      "clearcoat":0,
+      "clearcoatRoughness":0,
+      "metallic":0,
+      "roughness":0.4
+    }
+  ],
+  "parts":{}
+}

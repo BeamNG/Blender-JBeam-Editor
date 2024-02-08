@@ -1,0 +1,244 @@
+{
+"legocar_cowlpanel_col1": {
+    "information":{
+        "name":"Cowl Panel (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_cowlpanel",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_firewall", "legocar_firewall_col1", "Firewall"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_tall_col1", ["legocar_cowlpanel"], [], {"pos":{"x": 0.000, "y":-0.875, "z":0.4},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_cowlpanel"},
+
+	//6 pieces, 8 nodes - 0.75 kg/node
+	{"nodeWeight": "$=$weight*0.75"},
+
+	["cowl1l",  0.22, -0.75, 0.4],
+	["cowl1r", -0.22, -0.75, 0.4],
+	["cowl2l",  0.22, -0.97, 0.4],
+	["cowl2r", -0.22, -0.97, 0.4],
+	["cowl3l",  0.22, -0.75, 0.7],
+	["cowl3r", -0.22, -0.75, 0.7],
+	["cowl4l",  0.22, -0.97, 0.7],
+	["cowl4r", -0.22, -0.97, 0.7],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--COWL PANEL--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//uniform structure
+	["cowl1l", "cowl1r"],
+	["cowl2l", "cowl2r"],
+	["cowl3l", "cowl3r"],
+	["cowl4l", "cowl4r"],
+
+	["cowl1l", "cowl2r"],
+	["cowl2l", "cowl3r"],
+	["cowl3l", "cowl4r"],
+	["cowl4l", "cowl1r"],
+
+	["cowl1l", "cowl3r"],
+	["cowl2l", "cowl4r"],
+	["cowl3l", "cowl1r"],
+	["cowl4l", "cowl2r"],
+
+	["cowl1l", "cowl4r"],
+	["cowl2l", "cowl1r"],
+	["cowl3l", "cowl2r"],
+	["cowl4l", "cowl3r"],
+
+	["cowl1l", "cowl2l"],
+	["cowl2l", "cowl3l"],
+	["cowl3l", "cowl4l"],
+	["cowl4l", "cowl1l"],
+
+	["cowl1l", "cowl3l"],
+	["cowl2l", "cowl4l"],
+
+	["cowl1r", "cowl2r"],
+	["cowl2r", "cowl3r"],
+	["cowl3r", "cowl4r"],
+	["cowl4r", "cowl1r"],
+
+	["cowl1r", "cowl3r"],
+	["cowl2r", "cowl4r"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"cowlpanel_break"},
+	
+	["cowl3r", "engmount1r"],
+	["cowl3r", "engmount1l"],
+	["cowl3r", "engmount2r"],
+	["cowl3r", "engmountrig"],
+
+	["cowl3l", "engmount1r"],
+	["cowl3l", "engmount1l"],
+	["cowl3l", "engmount2l"],
+	["cowl3l", "engmountrig"],
+
+	["cowl4r", "engmount1r"],
+	["cowl4r", "engmount1l"],
+	["cowl4r", "engmount2r"],
+	["cowl4r", "engmountrig"],
+
+	["cowl4l", "engmount1r"],
+	["cowl4l", "engmount1l"],
+	["cowl4l", "engmount2l"],
+	["cowl4l", "engmountrig"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_cowlpanel"},   
+	["cowl1r","cowl1l","cowl2l","cowl2r"],
+	["cowl3l","cowl3r","cowl4r","cowl4l"],
+	["cowl1r","cowl2r","cowl4r","cowl3r"],
+	["cowl2l","cowl1l","cowl3l","cowl4l"],
+	["cowl2r","cowl2l","cowl4l","cowl4r"],
+	["cowl1l","cowl1r","cowl3r","cowl3l"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_cowlpanel_col2": {
+    "information":{
+        "name":"Cowl Panel (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_cowlpanel",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_firewall", "legocar_firewall_col2", "Firewall"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_tall_col2", ["legocar_cowlpanel"], [], {"pos":{"x": 0.000, "y":-0.875, "z":0.4},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_cowlpanel"},
+
+	//6 pieces, 8 nodes - 0.75 kg/node
+	{"nodeWeight": "$=$weight*0.75"},
+
+	["cowl1l",  0.22, -0.75, 0.4],
+	["cowl1r", -0.22, -0.75, 0.4],
+	["cowl2l",  0.22, -0.97, 0.4],
+	["cowl2r", -0.22, -0.97, 0.4],
+	["cowl3l",  0.22, -0.75, 0.7],
+	["cowl3r", -0.22, -0.75, 0.7],
+	["cowl4l",  0.22, -0.97, 0.7],
+	["cowl4r", -0.22, -0.97, 0.7],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--COWL PANEL--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//uniform structure
+	["cowl1l", "cowl1r"],
+	["cowl2l", "cowl2r"],
+	["cowl3l", "cowl3r"],
+	["cowl4l", "cowl4r"],
+
+	["cowl1l", "cowl2r"],
+	["cowl2l", "cowl3r"],
+	["cowl3l", "cowl4r"],
+	["cowl4l", "cowl1r"],
+
+	["cowl1l", "cowl3r"],
+	["cowl2l", "cowl4r"],
+	["cowl3l", "cowl1r"],
+	["cowl4l", "cowl2r"],
+
+	["cowl1l", "cowl4r"],
+	["cowl2l", "cowl1r"],
+	["cowl3l", "cowl2r"],
+	["cowl4l", "cowl3r"],
+
+	["cowl1l", "cowl2l"],
+	["cowl2l", "cowl3l"],
+	["cowl3l", "cowl4l"],
+	["cowl4l", "cowl1l"],
+
+	["cowl1l", "cowl3l"],
+	["cowl2l", "cowl4l"],
+
+	["cowl1r", "cowl2r"],
+	["cowl2r", "cowl3r"],
+	["cowl3r", "cowl4r"],
+	["cowl4r", "cowl1r"],
+
+	["cowl1r", "cowl3r"],
+	["cowl2r", "cowl4r"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"cowlpanel_break"},
+	
+	["cowl3r", "engmount1r"],
+	["cowl3r", "engmount1l"],
+	["cowl3r", "engmount2r"],
+	["cowl3r", "engmountrig"],
+
+	["cowl3l", "engmount1r"],
+	["cowl3l", "engmount1l"],
+	["cowl3l", "engmount2l"],
+	["cowl3l", "engmountrig"],
+
+	["cowl4r", "engmount1r"],
+	["cowl4r", "engmount1l"],
+	["cowl4r", "engmount2r"],
+	["cowl4r", "engmountrig"],
+
+	["cowl4l", "engmount1r"],
+	["cowl4l", "engmount1l"],
+	["cowl4l", "engmount2l"],
+	["cowl4l", "engmountrig"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_cowlpanel"},   
+	["cowl1r","cowl1l","cowl2l","cowl2r"],
+	["cowl3l","cowl3r","cowl4r","cowl4l"],
+	["cowl1r","cowl2r","cowl4r","cowl3r"],
+	["cowl2l","cowl1l","cowl3l","cowl4l"],
+	["cowl2r","cowl2l","cowl4l","cowl4r"],
+	["cowl1l","cowl1r","cowl3r","cowl3l"],
+
+        {"group":""},
+    ],
+},
+
+}

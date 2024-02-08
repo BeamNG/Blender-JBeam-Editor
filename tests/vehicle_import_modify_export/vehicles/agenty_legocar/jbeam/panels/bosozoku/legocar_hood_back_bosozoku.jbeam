@@ -1,0 +1,306 @@
+{
+"legocar_hood_back_bosozoku": {
+    "information":{
+        "name":"Hood Back",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hood_back_bosozoku",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_hood_fins","legocar_hood_fins_col1", "Hood Fins"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_hood",["legocar_hoodback_R"],[], {"pos":{"x":-0.625, "y":-1.125, "z":0.6},"rot":{"x": 0 , "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_hood",["legocar_hoodback_L"],[], {"pos":{"x": 0.625, "y":-1.125, "z":0.6},"rot":{"x": 0 , "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x6_flat_hood",["legocar_hoodback_T"],[], {"pos":{"x": 0.000, "y":-1.125, "z":0.7},"rot":{"x": 0 , "y":0, "z":0},"scale":{"x":1.00, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//side pieces
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_hoodback_L"},
+	["Lhoodback1l", 0.75, -1.03, 0.65],
+	["Lhoodback1r", 0.53, -1.03, 0.65],
+	["Lhoodback2l", 0.75, -1.25, 0.65],
+	["Lhoodback2r", 0.53, -1.25, 0.65],
+	//rigidifier
+	["Lhoodbackrig", 0.625, -1.125, 0.5, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":"legocar_hoodback_R"},
+	["Rhoodback1r", -0.75, -1.03, 0.65],
+	["Rhoodback1l", -0.53, -1.03, 0.65],
+	["Rhoodback2r", -0.75, -1.25, 0.65],
+	["Rhoodback2l", -0.53, -1.25, 0.65],
+	//rigidifier
+	["Rhoodbackrig", -0.625, -1.125, 0.5, {"collision":false, "selfCollision":false, "group":""}],
+
+	//main piece
+	{"group":"legocar_hoodback_T"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Thoodback1l",  0.75,-1.03, 0.75],
+	["Thoodback1r", -0.75,-1.03, 0.75],
+	["Thoodback2l",  0.75,-1.25, 0.75],
+	["Thoodback2r", -0.75,-1.25, 0.75],
+	//rigidifier
+	["Thoodbackrig", 0,-1.125, 0.3, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--HOOD BACK SIDES--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//left uniform structure
+	["Lhoodback1l", "Lhoodback1r"],
+	["Lhoodback2l", "Lhoodback2r"],
+	["Lhoodback1l", "Lhoodback2l"],
+	["Lhoodback1r", "Lhoodback2r"],
+	["Lhoodback1l", "Lhoodback2r"],
+	["Lhoodback2l", "Lhoodback1r"],
+
+	//left rigidifier
+	["Lhoodback1l", "Lhoodbackrig"],
+	["Lhoodback1r", "Lhoodbackrig"],
+	["Lhoodback2l", "Lhoodbackrig"],
+	["Lhoodback2r", "Lhoodbackrig"],
+
+	//right uniform structure
+	["Rhoodback1l", "Rhoodback1r"],
+	["Rhoodback2l", "Rhoodback2r"],
+	["Rhoodback1l", "Rhoodback2l"],
+	["Rhoodback1r", "Rhoodback2r"],
+	["Rhoodback1l", "Rhoodback2r"],
+	["Rhoodback2l", "Rhoodback1r"],
+
+	//right rigidifier
+	["Rhoodback1l", "Rhoodbackrig"],
+	["Rhoodback1r", "Rhoodbackrig"],
+	["Rhoodback2l", "Rhoodbackrig"],
+	["Rhoodback2r", "Rhoodbackrig"],
+
+
+	//--HOOD BACK TOP--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Thoodback1l", "Thoodback1r"],
+	["Thoodback2l", "Thoodback2r"],
+	["Thoodback1l", "Thoodback2l"],
+	["Thoodback1r", "Thoodback2r"],
+	["Thoodback1l", "Thoodback2r"],
+	["Thoodback2l", "Thoodback1r"],
+
+	//rigidifier
+	["Thoodback1l", "Thoodbackrig"],
+	["Thoodback1r", "Thoodbackrig"],
+	["Thoodback2l", "Thoodbackrig"],
+	["Thoodback2r", "Thoodbackrig"],
+
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left
+	{"breakGroup":"hood_back_L_break"},
+	
+	["Lhoodback1l", "Thoodback1l"],
+	["Lhoodback1l", "Thoodback1r"],
+	["Lhoodback1l", "Thoodback2l"],
+	["Lhoodback1l", "Thoodbackrig"],
+
+	["Lhoodback1r", "Thoodback1l"],
+	["Lhoodback1r", "Thoodback1r"],
+	["Lhoodback1r", "Thoodback2l"],
+	["Lhoodback1r", "Thoodbackrig"],
+
+	["Lhoodback2l", "Thoodback2l"],
+	["Lhoodback2l", "Thoodback2r"],
+	["Lhoodback2l", "Thoodback1l"],
+	["Lhoodback2l", "Thoodbackrig"],
+
+	["Lhoodback2r", "Thoodback2l"],
+	["Lhoodback2r", "Thoodback2r"],
+	["Lhoodback2r", "Thoodback1l"],
+	["Lhoodback2r", "Thoodbackrig"],
+
+	["Lhoodbackrig", "Thoodback1l"],
+	["Lhoodbackrig", "Thoodback2l"],
+	["Lhoodbackrig", "Thoodbackrig"],
+
+
+	//right
+	{"breakGroup":"hood_back_R_break"},
+	
+	["Rhoodback1l", "Thoodback1l"],
+	["Rhoodback1l", "Thoodback1r"],
+	["Rhoodback1l", "Thoodback2r"],
+	["Rhoodback1l", "Thoodbackrig"],
+
+	["Rhoodback1r", "Thoodback1l"],
+	["Rhoodback1r", "Thoodback1r"],
+	["Rhoodback1r", "Thoodback2r"],
+	["Rhoodback1r", "Thoodbackrig"],
+
+	["Rhoodback2l", "Thoodback2l"],
+	["Rhoodback2l", "Thoodback2r"],
+	["Rhoodback2l", "Thoodback1r"],
+	["Rhoodback2l", "Thoodbackrig"],
+
+	["Rhoodback2r", "Thoodback2l"],
+	["Rhoodback2r", "Thoodback2r"],
+	["Rhoodback2r", "Thoodback1r"],
+	["Rhoodback2r", "Thoodbackrig"],
+
+	["Rhoodbackrig", "Thoodback1r"],
+	["Rhoodbackrig", "Thoodback2r"],
+	["Rhoodbackrig", "Thoodbackrig"],
+
+
+	{"optional":true},
+
+
+	//to left engine bay stuff
+	{"breakGroup":"hood_back_engbaystuff_L_break"},
+	
+	["Lstuff1l", "Thoodback1l"],
+	["Lstuff1l", "Thoodback1r"],
+	["Lstuff1l", "Thoodback2l"],
+	["Lstuff1l", "Thoodbackrig"],
+
+	["Lstuff1r", "Thoodback1l"],
+	["Lstuff1r", "Thoodback1r"],
+	["Lstuff1r", "Thoodback2l"],
+	["Lstuff1r", "Thoodbackrig"],
+
+	["Lstuff2l", "Thoodback2l"],
+	["Lstuff2l", "Thoodback2r"],
+	["Lstuff2l", "Thoodback1l"],
+	["Lstuff2l", "Thoodbackrig"],
+
+	["Lstuff2r", "Thoodback2l"],
+	["Lstuff2r", "Thoodback2r"],
+	["Lstuff2r", "Thoodback1l"],
+	["Lstuff2r", "Thoodbackrig"],
+
+	["Lstuffrig", "Thoodback1l"],
+	["Lstuffrig", "Thoodback2l"],
+	["Lstuffrig", "Thoodbackrig"],
+
+
+	//to right engine bay stuff
+	{"breakGroup":"hood_back_engbaystuff_R_break"},
+	
+	["Rstuff1l", "Thoodback1l"],
+	["Rstuff1l", "Thoodback1r"],
+	["Rstuff1l", "Thoodback2r"],
+	["Rstuff1l", "Thoodbackrig"],
+
+	["Rstuff1r", "Thoodback1l"],
+	["Rstuff1r", "Thoodback1r"],
+	["Rstuff1r", "Thoodback2r"],
+	["Rstuff1r", "Thoodbackrig"],
+
+	["Rstuff2l", "Thoodback2l"],
+	["Rstuff2l", "Thoodback2r"],
+	["Rstuff2l", "Thoodback1r"],
+	["Rstuff2l", "Thoodbackrig"],
+
+	["Rstuff2r", "Thoodback2l"],
+	["Rstuff2r", "Thoodback2r"],
+	["Rstuff2r", "Thoodback1r"],
+	["Rstuff2r", "Thoodbackrig"],
+
+	["Rstuffrig", "Thoodback1r"],
+	["Rstuffrig", "Thoodback2r"],
+	["Rstuffrig", "Thoodbackrig"],
+
+
+	//to left fender
+	{"breakGroup":"hood_back_fender_L_break"},
+
+	["Lhoodback1l", "fendFL4l"],
+	["Lhoodback1l", "fendFL4r"],
+	["Lhoodback1l", "fendFL3l"],
+	["Lhoodback1l", "fendFL2l"],
+
+	["Lhoodback1r", "fendFL4l"],
+	["Lhoodback1r", "fendFL4r"],
+	["Lhoodback1r", "fendFL3r"],
+	["Lhoodback1r", "fendFL2r"],
+
+	["Lhoodback2l", "fendFL3l"],
+	["Lhoodback2l", "fendFL3r"],
+	["Lhoodback2l", "fendFL4l"],
+	["Lhoodback2l", "fendFL1l"],
+
+	["Lhoodback2r", "fendFL3l"],
+	["Lhoodback2r", "fendFL3r"],
+	["Lhoodback2r", "fendFL4r"],
+	["Lhoodback2r", "fendFL1r"],
+
+	["Lhoodbackrig", "fendFL4l"],
+	["Lhoodbackrig", "fendFL4r"],
+	["Lhoodbackrig", "fendFL3l"],
+	["Lhoodbackrig", "fendFL3r"],
+	
+
+	//to right fender
+	{"breakGroup":"hood_back_fender_R_break"},
+
+	["Rhoodback1l", "fendFR4l"],
+	["Rhoodback1l", "fendFR4r"],
+	["Rhoodback1l", "fendFR3l"],
+	["Rhoodback1l", "fendFR2l"],
+
+	["Rhoodback1r", "fendFR4l"],
+	["Rhoodback1r", "fendFR4r"],
+	["Rhoodback1r", "fendFR3r"],
+	["Rhoodback1r", "fendFR2r"],
+
+	["Rhoodback2l", "fendFR3l"],
+	["Rhoodback2l", "fendFR3r"],
+	["Rhoodback2l", "fendFR4l"],
+	["Rhoodback2l", "fendFR1l"],
+
+	["Rhoodback2r", "fendFR3l"],
+	["Rhoodback2r", "fendFR3r"],
+	["Rhoodback2r", "fendFR4r"],
+	["Rhoodback2r", "fendFR1r"],
+
+	["Rhoodbackrig", "fendFR4l"],
+	["Rhoodbackrig", "fendFR4r"],
+	["Rhoodbackrig", "fendFR3l"],
+	["Rhoodbackrig", "fendFR3r"],
+
+
+	{"breakGroup":""},
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_hoodback_L"},
+	["Lhoodback1l","Lhoodback1r","Lhoodback2r","Lhoodback2l"],
+	{"group":"legocar_hoodback_R"},
+	["Rhoodback1l","Rhoodback1r","Rhoodback2r","Rhoodback2l"],
+	{"group":"legocar_hoodback_T"},
+	["Thoodback1l","Thoodback1r","Thoodback2r","Thoodback2l"],
+        {"group":""},
+    ],
+},
+
+}

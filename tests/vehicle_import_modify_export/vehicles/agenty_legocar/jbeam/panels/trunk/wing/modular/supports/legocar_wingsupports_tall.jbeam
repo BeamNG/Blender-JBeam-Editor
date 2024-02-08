@@ -1,0 +1,424 @@
+{
+"legocar_wingsupports_tall_narrow": {
+    "information":{
+        "name":"Tall Narrow Wing Supports",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_wingsupports",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_wing","legocar_wing_standard", "Wing", {"nodeOffset":{"x":0,"y":0,"z":0.6}}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_transparentpanel_tall",   ["legocar_wingsupport_L"],[], {"pos":{"x": 0.375, "y":1.500, "z":0.8},"rot":{"x":0, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_transparentpanel_tall",   ["legocar_wingsupport_R"],[], {"pos":{"x":-0.375, "y":1.500, "z":0.8},"rot":{"x":0, "y":0, "z": 90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_sticker_wingmount_tall_L",["legocar_wingsupport_R"],[], {"pos":{"x":-0.375, "y":1.500, "z":0.8},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_sticker_wingmount_tall_R",["legocar_wingsupport_L"],[], {"pos":{"x": 0.375, "y":1.500, "z":0.8},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//2 pieces, 8 half pieces, 8 nodes - 0.75 kg/node
+	{"nodeWeight": "$=$weight*0.75"},
+
+	{"group":"legocar_wingsupport_L"},
+	["Lwingsupp1l",  0.50, 1.28, 0.80],
+	["Lwingsupp1r",  0.25, 1.28, 0.80],
+	["Lwingsupp2l",  0.50, 1.72, 0.80],
+	["Lwingsupp2r",  0.25, 1.72, 0.80],
+	["Lwingsupp3l",  0.50, 1.28, 1.70],
+	["Lwingsupp3r",  0.25, 1.28, 1.70],
+	["Lwingsupp4l",  0.50, 1.72, 1.70],
+	["Lwingsupp4r",  0.25, 1.72, 1.70],
+
+	{"group":"legocar_wingsupport_R"},
+	["Rwingsupp1r", -0.50, 1.28, 0.80],
+	["Rwingsupp1l", -0.25, 1.28, 0.80],
+	["Rwingsupp2r", -0.50, 1.72, 0.80],
+	["Rwingsupp2l", -0.25, 1.72, 0.80],
+	["Rwingsupp3r", -0.50, 1.28, 1.70],
+	["Rwingsupp3l", -0.25, 1.28, 1.70],
+	["Rwingsupp4r", -0.50, 1.72, 1.70],
+	["Rwingsupp4l", -0.25, 1.72, 1.70],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamTallBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--WING SUPPORTS--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//left uniform structure
+	["Lwingsupp1l", "Lwingsupp1r"],
+	["Lwingsupp2l", "Lwingsupp2r"],
+	["Lwingsupp3l", "Lwingsupp3r"],
+	["Lwingsupp4l", "Lwingsupp4r"],
+
+	["Lwingsupp1l", "Lwingsupp2r"],
+	["Lwingsupp2l", "Lwingsupp3r"],
+	["Lwingsupp3l", "Lwingsupp4r"],
+	["Lwingsupp4l", "Lwingsupp1r"],
+
+	["Lwingsupp1l", "Lwingsupp3r"],
+	["Lwingsupp2l", "Lwingsupp4r"],
+	["Lwingsupp3l", "Lwingsupp1r"],
+	["Lwingsupp4l", "Lwingsupp2r"],
+
+	["Lwingsupp1l", "Lwingsupp4r"],
+	["Lwingsupp2l", "Lwingsupp1r"],
+	["Lwingsupp3l", "Lwingsupp2r"],
+	["Lwingsupp4l", "Lwingsupp3r"],
+
+	["Lwingsupp1l", "Lwingsupp2l"],
+	["Lwingsupp2l", "Lwingsupp3l"],
+	["Lwingsupp3l", "Lwingsupp4l"],
+	["Lwingsupp4l", "Lwingsupp1l"],
+
+	["Lwingsupp1l", "Lwingsupp3l"],
+	["Lwingsupp2l", "Lwingsupp4l"],
+
+	["Lwingsupp1r", "Lwingsupp2r"],
+	["Lwingsupp2r", "Lwingsupp3r"],
+	["Lwingsupp3r", "Lwingsupp4r"],
+	["Lwingsupp4r", "Lwingsupp1r"],
+
+	["Lwingsupp1r", "Lwingsupp3r"],
+	["Lwingsupp2r", "Lwingsupp4r"],
+
+
+	//right uniform structure
+	["Rwingsupp1l", "Rwingsupp1r"],
+	["Rwingsupp2l", "Rwingsupp2r"],
+	["Rwingsupp3l", "Rwingsupp3r"],
+	["Rwingsupp4l", "Rwingsupp4r"],
+
+	["Rwingsupp1l", "Rwingsupp2r"],
+	["Rwingsupp2l", "Rwingsupp3r"],
+	["Rwingsupp3l", "Rwingsupp4r"],
+	["Rwingsupp4l", "Rwingsupp1r"],
+
+	["Rwingsupp1l", "Rwingsupp3r"],
+	["Rwingsupp2l", "Rwingsupp4r"],
+	["Rwingsupp3l", "Rwingsupp1r"],
+	["Rwingsupp4l", "Rwingsupp2r"],
+
+	["Rwingsupp1l", "Rwingsupp4r"],
+	["Rwingsupp2l", "Rwingsupp1r"],
+	["Rwingsupp3l", "Rwingsupp2r"],
+	["Rwingsupp4l", "Rwingsupp3r"],
+
+	["Rwingsupp1l", "Rwingsupp2l"],
+	["Rwingsupp2l", "Rwingsupp3l"],
+	["Rwingsupp3l", "Rwingsupp4l"],
+	["Rwingsupp4l", "Rwingsupp1l"],
+
+	["Rwingsupp1l", "Rwingsupp3l"],
+	["Rwingsupp2l", "Rwingsupp4l"],
+
+	["Rwingsupp1r", "Rwingsupp2r"],
+	["Rwingsupp2r", "Rwingsupp3r"],
+	["Rwingsupp3r", "Rwingsupp4r"],
+	["Rwingsupp4r", "Rwingsupp1r"],
+
+	["Rwingsupp1r", "Rwingsupp3r"],
+	["Rwingsupp2r", "Rwingsupp4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//left
+	{"breakGroup":"wingsupport_L_break"},
+
+	["trunkL1l", "Lwingsupp1l"],
+	["trunkL1l", "Lwingsupp1r"],
+	["trunkL1l", "Lwingsupp2l"],
+	["trunkL1l", "Lwingsupp3l"],
+
+	["trunkL1r", "Lwingsupp1l"],
+	["trunkL1r", "Lwingsupp1r"],
+	["trunkL1r", "Lwingsupp2r"],
+	["trunkL1r", "Lwingsupp3r"],
+
+	["trunkL2l", "Lwingsupp2l"],
+	["trunkL2l", "Lwingsupp2r"],
+	["trunkL2l", "Lwingsupp1l"],
+	["trunkL2l", "Lwingsupp4l"],
+
+	["trunkL2r", "Lwingsupp2l"],
+	["trunkL2r", "Lwingsupp2r"],
+	["trunkL2r", "Lwingsupp1r"],
+	["trunkL2r", "Lwingsupp4r"],
+
+	["trunkLrig", "Lwingsupp1l"],
+	["trunkLrig", "Lwingsupp1r"],
+	["trunkLrig", "Lwingsupp2l"],
+	["trunkLrig", "Lwingsupp2r"],
+
+
+	//right
+	{"breakGroup":"wingsupport_R_break"},
+	
+	["trunkR1l", "Rwingsupp1l"],
+	["trunkR1l", "Rwingsupp1r"],
+	["trunkR1l", "Rwingsupp2l"],
+	["trunkR1l", "Rwingsupp3l"],
+
+	["trunkR1r", "Rwingsupp1l"],
+	["trunkR1r", "Rwingsupp1r"],
+	["trunkR1r", "Rwingsupp2r"],
+	["trunkR1r", "Rwingsupp3r"],
+
+	["trunkR2l", "Rwingsupp2l"],
+	["trunkR2l", "Rwingsupp2r"],
+	["trunkR2l", "Rwingsupp1l"],
+	["trunkR2l", "Rwingsupp4l"],
+
+	["trunkR2r", "Rwingsupp2l"],
+	["trunkR2r", "Rwingsupp2r"],
+	["trunkR2r", "Rwingsupp1r"],
+	["trunkR2r", "Rwingsupp4r"],
+
+	["trunkRrig", "Rwingsupp1l"],
+	["trunkRrig", "Rwingsupp1r"],
+	["trunkRrig", "Rwingsupp2l"],
+	["trunkRrig", "Rwingsupp2r"],
+
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamTallBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_wingsupport_L"},   
+	["Lwingsupp2r","Lwingsupp2l","Lwingsupp1l","Lwingsupp1r"],
+	["Lwingsupp4l","Lwingsupp4r","Lwingsupp3r","Lwingsupp3l"],
+	["Lwingsupp3r","Lwingsupp4r","Lwingsupp2r","Lwingsupp1r"],
+
+	{"group":"legocar_wingsupport_R"},   
+	["Rwingsupp2r","Rwingsupp2l","Rwingsupp1l","Rwingsupp1r"],
+	["Rwingsupp4l","Rwingsupp4r","Rwingsupp3r","Rwingsupp3l"],
+	["Rwingsupp2l","Rwingsupp4l","Rwingsupp3l","Rwingsupp1l"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_wingsupports_tall_wide": {
+    "information":{
+        "name":"Tall Wide Wing Supports",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_wingsupports",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_wing","legocar_wing_standard", "Wing", {"nodeOffset":{"x":0,"y":0,"z":0.6}}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_transparentpanel_tall",   ["legocar_wingsupport_L"],[], {"pos":{"x": 0.375, "y":1.500, "z":0.8},"rot":{"x":0, "y":0, "z": 90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_transparentpanel_tall",   ["legocar_wingsupport_R"],[], {"pos":{"x":-0.375, "y":1.500, "z":0.8},"rot":{"x":0, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_sticker_wingmount_tall_L",["legocar_wingsupport_L"],[], {"pos":{"x": 0.375, "y":1.500, "z":0.8},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_sticker_wingmount_tall_R",["legocar_wingsupport_R"],[], {"pos":{"x":-0.375, "y":1.500, "z":0.8},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//2 pieces, 8 half pieces, 8 nodes - 0.75 kg/node
+	{"nodeWeight": "$=$weight*0.75"},
+
+	{"group":"legocar_wingsupport_L"},
+	["Lwingsupp1l",  0.50, 1.28, 0.80],
+	["Lwingsupp1r",  0.25, 1.28, 0.80],
+	["Lwingsupp2l",  0.50, 1.72, 0.80],
+	["Lwingsupp2r",  0.25, 1.72, 0.80],
+	["Lwingsupp3l",  0.50, 1.28, 1.70],
+	["Lwingsupp3r",  0.25, 1.28, 1.70],
+	["Lwingsupp4l",  0.50, 1.72, 1.70],
+	["Lwingsupp4r",  0.25, 1.72, 1.70],
+
+	{"group":"legocar_wingsupport_R"},
+	["Rwingsupp1r", -0.50, 1.28, 0.80],
+	["Rwingsupp1l", -0.25, 1.28, 0.80],
+	["Rwingsupp2r", -0.50, 1.72, 0.80],
+	["Rwingsupp2l", -0.25, 1.72, 0.80],
+	["Rwingsupp3r", -0.50, 1.28, 1.70],
+	["Rwingsupp3l", -0.25, 1.28, 1.70],
+	["Rwingsupp4r", -0.50, 1.72, 1.70],
+	["Rwingsupp4l", -0.25, 1.72, 1.70],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamTallBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--WING SUPPORTS--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//left uniform structure
+	["Lwingsupp1l", "Lwingsupp1r"],
+	["Lwingsupp2l", "Lwingsupp2r"],
+	["Lwingsupp3l", "Lwingsupp3r"],
+	["Lwingsupp4l", "Lwingsupp4r"],
+
+	["Lwingsupp1l", "Lwingsupp2r"],
+	["Lwingsupp2l", "Lwingsupp3r"],
+	["Lwingsupp3l", "Lwingsupp4r"],
+	["Lwingsupp4l", "Lwingsupp1r"],
+
+	["Lwingsupp1l", "Lwingsupp3r"],
+	["Lwingsupp2l", "Lwingsupp4r"],
+	["Lwingsupp3l", "Lwingsupp1r"],
+	["Lwingsupp4l", "Lwingsupp2r"],
+
+	["Lwingsupp1l", "Lwingsupp4r"],
+	["Lwingsupp2l", "Lwingsupp1r"],
+	["Lwingsupp3l", "Lwingsupp2r"],
+	["Lwingsupp4l", "Lwingsupp3r"],
+
+	["Lwingsupp1l", "Lwingsupp2l"],
+	["Lwingsupp2l", "Lwingsupp3l"],
+	["Lwingsupp3l", "Lwingsupp4l"],
+	["Lwingsupp4l", "Lwingsupp1l"],
+
+	["Lwingsupp1l", "Lwingsupp3l"],
+	["Lwingsupp2l", "Lwingsupp4l"],
+
+	["Lwingsupp1r", "Lwingsupp2r"],
+	["Lwingsupp2r", "Lwingsupp3r"],
+	["Lwingsupp3r", "Lwingsupp4r"],
+	["Lwingsupp4r", "Lwingsupp1r"],
+
+	["Lwingsupp1r", "Lwingsupp3r"],
+	["Lwingsupp2r", "Lwingsupp4r"],
+
+
+	//right uniform structure
+	["Rwingsupp1l", "Rwingsupp1r"],
+	["Rwingsupp2l", "Rwingsupp2r"],
+	["Rwingsupp3l", "Rwingsupp3r"],
+	["Rwingsupp4l", "Rwingsupp4r"],
+
+	["Rwingsupp1l", "Rwingsupp2r"],
+	["Rwingsupp2l", "Rwingsupp3r"],
+	["Rwingsupp3l", "Rwingsupp4r"],
+	["Rwingsupp4l", "Rwingsupp1r"],
+
+	["Rwingsupp1l", "Rwingsupp3r"],
+	["Rwingsupp2l", "Rwingsupp4r"],
+	["Rwingsupp3l", "Rwingsupp1r"],
+	["Rwingsupp4l", "Rwingsupp2r"],
+
+	["Rwingsupp1l", "Rwingsupp4r"],
+	["Rwingsupp2l", "Rwingsupp1r"],
+	["Rwingsupp3l", "Rwingsupp2r"],
+	["Rwingsupp4l", "Rwingsupp3r"],
+
+	["Rwingsupp1l", "Rwingsupp2l"],
+	["Rwingsupp2l", "Rwingsupp3l"],
+	["Rwingsupp3l", "Rwingsupp4l"],
+	["Rwingsupp4l", "Rwingsupp1l"],
+
+	["Rwingsupp1l", "Rwingsupp3l"],
+	["Rwingsupp2l", "Rwingsupp4l"],
+
+	["Rwingsupp1r", "Rwingsupp2r"],
+	["Rwingsupp2r", "Rwingsupp3r"],
+	["Rwingsupp3r", "Rwingsupp4r"],
+	["Rwingsupp4r", "Rwingsupp1r"],
+
+	["Rwingsupp1r", "Rwingsupp3r"],
+	["Rwingsupp2r", "Rwingsupp4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//left
+	{"breakGroup":"wingsupport_L_break"},
+
+	["trunkL1l", "Lwingsupp1l"],
+	["trunkL1l", "Lwingsupp1r"],
+	["trunkL1l", "Lwingsupp2l"],
+	["trunkL1l", "Lwingsupp3l"],
+
+	["trunkL1r", "Lwingsupp1l"],
+	["trunkL1r", "Lwingsupp1r"],
+	["trunkL1r", "Lwingsupp2r"],
+	["trunkL1r", "Lwingsupp3r"],
+
+	["trunkL2l", "Lwingsupp2l"],
+	["trunkL2l", "Lwingsupp2r"],
+	["trunkL2l", "Lwingsupp1l"],
+	["trunkL2l", "Lwingsupp4l"],
+
+	["trunkL2r", "Lwingsupp2l"],
+	["trunkL2r", "Lwingsupp2r"],
+	["trunkL2r", "Lwingsupp1r"],
+	["trunkL2r", "Lwingsupp4r"],
+
+	["trunkLrig", "Lwingsupp1l"],
+	["trunkLrig", "Lwingsupp1r"],
+	["trunkLrig", "Lwingsupp2l"],
+	["trunkLrig", "Lwingsupp2r"],
+
+
+	//right
+	{"breakGroup":"wingsupport_R_break"},
+	
+	["trunkR1l", "Rwingsupp1l"],
+	["trunkR1l", "Rwingsupp1r"],
+	["trunkR1l", "Rwingsupp2l"],
+	["trunkR1l", "Rwingsupp3l"],
+
+	["trunkR1r", "Rwingsupp1l"],
+	["trunkR1r", "Rwingsupp1r"],
+	["trunkR1r", "Rwingsupp2r"],
+	["trunkR1r", "Rwingsupp3r"],
+
+	["trunkR2l", "Rwingsupp2l"],
+	["trunkR2l", "Rwingsupp2r"],
+	["trunkR2l", "Rwingsupp1l"],
+	["trunkR2l", "Rwingsupp4l"],
+
+	["trunkR2r", "Rwingsupp2l"],
+	["trunkR2r", "Rwingsupp2r"],
+	["trunkR2r", "Rwingsupp1r"],
+	["trunkR2r", "Rwingsupp4r"],
+
+	["trunkRrig", "Rwingsupp1l"],
+	["trunkRrig", "Rwingsupp1r"],
+	["trunkRrig", "Rwingsupp2l"],
+	["trunkRrig", "Rwingsupp2r"],
+
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamTallBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_wingsupport_L"},   
+	["Lwingsupp2r","Lwingsupp2l","Lwingsupp1l","Lwingsupp1r"],
+	["Lwingsupp4l","Lwingsupp4r","Lwingsupp3r","Lwingsupp3l"],
+	["Lwingsupp4l","Lwingsupp3l","Lwingsupp1l","Lwingsupp2l"],
+
+	{"group":"legocar_wingsupport_R"},   
+	["Rwingsupp2r","Rwingsupp2l","Rwingsupp1l","Rwingsupp1r"],
+	["Rwingsupp4l","Rwingsupp4r","Rwingsupp3r","Rwingsupp3l"],
+	["Rwingsupp4r","Rwingsupp2r","Rwingsupp1r","Rwingsupp3r"],
+
+        {"group":""},
+    ],
+},
+
+}

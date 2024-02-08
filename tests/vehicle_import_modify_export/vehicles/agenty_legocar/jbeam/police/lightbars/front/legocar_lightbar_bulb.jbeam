@@ -1,0 +1,175 @@
+{
+"legocar_lightbar_bulb": {
+    "information":{
+        "name":"Halogen Bulb Light Bar",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_roof_accessory",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_lightbar_bulb_L","legocar_lightbar_bulb_L_red", "Left Light"],
+	["legocar_lightbar_bulb_R","legocar_lightbar_bulb_R_blue", "Right Light"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x1_flat_grey",       ["legocar_lightbar_bulb_B"],[], {"pos":{"x": 0.000, "y":0.375, "z":1.6},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_flat_grille_grey",["legocar_lightbar_bulb_M"],[], {"pos":{"x": 0.000, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//lightbar base
+	{"group":"legocar_lightbar_bulb_B"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["lbarbulbB1l",  0.50, 0.250, 1.65],
+	["lbarbulbB1r", -0.50, 0.250, 1.65],
+	["lbarbulbB2l",  0.50, 0.500, 1.65],
+	["lbarbulbB2r", -0.50, 0.500, 1.65],
+	//rigidifier
+	["lbarbulbBrig", 0, 0.375, 1.30, {"collision":false, "selfCollision":false, "group":""}],
+
+	//lightbar middle
+	{"group":"legocar_lightbar_bulb_M"},
+	//2 half-pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+	["lbarbulbM1l",  0.22, 0.250, 1.75],
+	["lbarbulbM1r", -0.22, 0.250, 1.75],
+	["lbarbulbM2l",  0.22, 0.500, 1.75],
+	["lbarbulbM2r", -0.22, 0.500, 1.75],
+	//rigidifier
+	["lbarbulbMrig", 0, 0.375, 1.60, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--LIGHTBAR BASE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["lbarbulbB1l", "lbarbulbB1r"],
+	["lbarbulbB2l", "lbarbulbB2r"],
+	["lbarbulbB1l", "lbarbulbB2l"],
+	["lbarbulbB1r", "lbarbulbB2r"],
+	["lbarbulbB1l", "lbarbulbB2r"],
+	["lbarbulbB2l", "lbarbulbB1r"],
+
+	//rigidifier
+	["lbarbulbB1l", "lbarbulbBrig"],
+	["lbarbulbB1r", "lbarbulbBrig"],
+	["lbarbulbB2l", "lbarbulbBrig"],
+	["lbarbulbB2r", "lbarbulbBrig"],
+
+
+	//--LIGHTBAR MIDDLE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//uniform structure
+	["lbarbulbM1l", "lbarbulbM1r"],
+	["lbarbulbM2l", "lbarbulbM2r"],
+	["lbarbulbM1l", "lbarbulbM2l"],
+	["lbarbulbM1r", "lbarbulbM2r"],
+	["lbarbulbM1l", "lbarbulbM2r"],
+	["lbarbulbM2l", "lbarbulbM1r"],
+
+	//rigidifier
+	["lbarbulbM1l", "lbarbulbMrig"],
+	["lbarbulbM1r", "lbarbulbMrig"],
+	["lbarbulbM2l", "lbarbulbMrig"],
+	["lbarbulbM2r", "lbarbulbMrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//middle to base
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"lightbar_bulb_M_break"},
+
+	["lbarbulbM1l", "lbarbulbB1l"],
+	["lbarbulbM1l", "lbarbulbB1r"],
+	["lbarbulbM1l", "lbarbulbB2l"],
+	["lbarbulbM1l", "lbarbulbBrig"],
+
+	["lbarbulbM1r", "lbarbulbB1l"],
+	["lbarbulbM1r", "lbarbulbB1r"],
+	["lbarbulbM1r", "lbarbulbB2r"],
+	["lbarbulbM1r", "lbarbulbBrig"],
+
+	["lbarbulbM2l", "lbarbulbB1l"],
+	["lbarbulbM2l", "lbarbulbB2r"],
+	["lbarbulbM2l", "lbarbulbB2l"],
+	["lbarbulbM2l", "lbarbulbBrig"],
+
+	["lbarbulbM2r", "lbarbulbB2l"],
+	["lbarbulbM2r", "lbarbulbB1r"],
+	["lbarbulbM2r", "lbarbulbB2r"],
+	["lbarbulbM2r", "lbarbulbBrig"],
+
+	["lbarbulbMrig", "lbarbulbB1l"],
+	["lbarbulbMrig", "lbarbulbB1r"],
+	["lbarbulbMrig", "lbarbulbB2l"],
+	["lbarbulbMrig", "lbarbulbB2r"],
+
+
+	//base to roof
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"lightbar_bulb_B_break"},
+	
+	["lbarbulbB1l", "roof2l"],
+	["lbarbulbB1l", "roof2ll"],
+	["lbarbulbB1l", "roof2lll"],
+	["lbarbulbB1l", "roof1l"],
+	["lbarbulbB1l", "roof1ll"],
+	["lbarbulbB1l", "roofrig"],
+
+	["lbarbulbB1r", "roof2r"],
+	["lbarbulbB1r", "roof2rr"],
+	["lbarbulbB1r", "roof2rrr"],
+	["lbarbulbB1r", "roof1r"],
+	["lbarbulbB1r", "roof1rr"],
+	["lbarbulbB1r", "roofrig"],
+
+	["lbarbulbB2l", "roof2l"],
+	["lbarbulbB2l", "roof2ll"],
+	["lbarbulbB2l", "roof1lll"],
+	["lbarbulbB2l", "roof1l"],
+	["lbarbulbB2l", "roof1ll"],
+	["lbarbulbB2l", "roofrig"],
+
+	["lbarbulbB2r", "roof2r"],
+	["lbarbulbB2r", "roof2rr"],
+	["lbarbulbB2r", "roof1rrr"],
+	["lbarbulbB2r", "roof1r"],
+	["lbarbulbB2r", "roof1rr"],
+	["lbarbulbB2r", "roofrig"],
+
+	["lbarbulbBrig", "roof1l"],
+	["lbarbulbBrig", "roof1r"],
+	["lbarbulbBrig", "roof2l"],
+	["lbarbulbBrig", "roof2r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_lightbar_bulb_B"},
+	["lbarbulbB2l","lbarbulbB2r","lbarbulbB1r","lbarbulbB1l"],
+	{"group":"legocar_lightbar_bulb_M"},
+	["lbarbulbM2l","lbarbulbM2r","lbarbulbM1r","lbarbulbM1l"],
+        {"group":""},
+    ],
+},
+
+}

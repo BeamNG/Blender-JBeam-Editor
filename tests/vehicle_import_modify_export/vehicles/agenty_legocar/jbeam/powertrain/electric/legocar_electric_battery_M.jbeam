@@ -1,0 +1,198 @@
+{
+"legocar_electric_battery_75": {
+    "information":{
+        "name":"75kWh Battery Pack",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_intfloor",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_seat_cushion_F", "legocar_seat_cushion_F", "Driver Seat Cushion"],
+	//["legocar_interior_load", "", "Rear Load"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x2_flat_grey",["legocar_chassis"], [], {"pos":{"x": 0, "y":0.000, "z":0.1},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_flat_grey",["legocar_chassis"], [], {"pos":{"x": 0, "y":0.375, "z":0.2},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$fuel_M", "range", "kWh", "Chassis", 75, 0, 75, "Battery Level", "Initial battery charge", {"stepDis":0.5}],
+    ],
+    "energyStorage": [
+        ["type", "name"],
+        ["electricBattery", "mainBattery"],
+    ],
+    "mainBattery": {
+        "energyType":"electricEnergy",
+        "batteryCapacity": 75,
+        "startingCapacity": "$fuel_M",
+    },
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":""},
+	{"engineGroup":["battery"]},
+
+	//add weight to chassis
+
+	//4 pieces, 1 node - 4 kg/node
+	{"nodeWeight": "$=$weight*4"},
+	["chassis4", 0,-0.25, 0.75, {"collision":false, "selfCollision":false}],
+
+	//6 pieces, 1 nodes - 6 kg/node
+	{"nodeWeight": "$=$weight*6"},
+	["chassis5", 0, 0.25, 0.75, {"collision":false, "selfCollision":false}],
+
+	{"engineGroup":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--RIGIDIFY MIDDLE CHASSIS--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	["chassis4", "chassis1l"],
+	["chassis4", "chassis1r"],
+	["chassis4", "chassis2l"],
+	["chassis4", "chassis2r"],
+	["chassis4", "chassis2ll"],
+	["chassis4", "chassis2rr"],
+	["chassis4", "chassis3l"],
+	["chassis4", "chassis3r"],
+	["chassis4", "chassis6l"],
+	["chassis4", "chassis6r"],
+	["chassis4", "chassis7l"],
+	["chassis4", "chassis7r"],
+	["chassis4", "chassis7ll"],
+	["chassis4", "chassis7rr"],
+
+	["chassis5", "chassis2l"],
+	["chassis5", "chassis2r"],
+	["chassis5", "chassis2ll"],
+	["chassis5", "chassis2rr"],
+	["chassis5", "chassis3l"],
+	["chassis5", "chassis3r"],
+	["chassis5", "chassis6l"],
+	["chassis5", "chassis6r"],
+	["chassis5", "chassis7l"],
+	["chassis5", "chassis7r"],
+	["chassis5", "chassis7ll"],
+	["chassis5", "chassis7rr"],
+	["chassis5", "chassis8l"],
+	["chassis5", "chassis8r"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_chassis"},     
+	//add collision to chassis sides
+	["chassis2r","chassis7r","chassis6r","chassis3r"],
+	["chassis3l","chassis6l","chassis7l","chassis2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_electric_battery_100": {
+    "information":{
+        "name":"100kWh Solid State Battery Pack",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_intfloor",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_seat_cushion_F", "legocar_seat_cushion_F", "Driver Seat Cushion"],
+	//["legocar_interior_load", "", "Rear Load"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x2_flat_grey",["legocar_chassis"], [], {"pos":{"x": 0, "y":0.000, "z":0.1},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_flat_grey",["legocar_chassis"], [], {"pos":{"x": 0, "y":0.375, "z":0.2},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$fuel_M", "range", "kWh", "Chassis", 100, 0, 100, "Battery Level", "Initial battery charge", {"stepDis":0.5}],
+    ],
+    "energyStorage": [
+        ["type", "name"],
+        ["electricBattery", "mainBattery"],
+    ],
+    "mainBattery": {
+        "energyType":"electricEnergy",
+        "batteryCapacity": 100,
+        "startingCapacity": "$fuel_M",
+    },
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":""},
+	{"engineGroup":["battery"]},
+
+	//add weight to chassis
+
+	//4 pieces, 1 node - 4 kg/node
+	{"nodeWeight": "$=$weight*4"},
+	["chassis4", 0,-0.25, 0.75, {"collision":false, "selfCollision":false}],
+
+	//6 pieces, 1 nodes - 6 kg/node
+	{"nodeWeight": "$=$weight*6"},
+	["chassis5", 0, 0.25, 0.75, {"collision":false, "selfCollision":false}],
+
+	{"engineGroup":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--RIGIDIFY MIDDLE CHASSIS--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	["chassis4", "chassis1l"],
+	["chassis4", "chassis1r"],
+	["chassis4", "chassis2l"],
+	["chassis4", "chassis2r"],
+	["chassis4", "chassis2ll"],
+	["chassis4", "chassis2rr"],
+	["chassis4", "chassis3l"],
+	["chassis4", "chassis3r"],
+	["chassis4", "chassis6l"],
+	["chassis4", "chassis6r"],
+	["chassis4", "chassis7l"],
+	["chassis4", "chassis7r"],
+	["chassis4", "chassis7ll"],
+	["chassis4", "chassis7rr"],
+
+	["chassis5", "chassis2l"],
+	["chassis5", "chassis2r"],
+	["chassis5", "chassis2ll"],
+	["chassis5", "chassis2rr"],
+	["chassis5", "chassis3l"],
+	["chassis5", "chassis3r"],
+	["chassis5", "chassis6l"],
+	["chassis5", "chassis6r"],
+	["chassis5", "chassis7l"],
+	["chassis5", "chassis7r"],
+	["chassis5", "chassis7ll"],
+	["chassis5", "chassis7rr"],
+	["chassis5", "chassis8l"],
+	["chassis5", "chassis8r"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_chassis"},     
+	//add collision to chassis sides
+	["chassis2r","chassis7r","chassis6r","chassis3r"],
+	["chassis3l","chassis6l","chassis7l","chassis2l"],
+        {"group":""},
+    ],
+},
+
+}

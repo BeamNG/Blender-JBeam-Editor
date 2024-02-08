@@ -1,0 +1,682 @@
+{
+"legocar_bumper_F_groupb_col1": {
+    "information":{
+        "name":"Group B Rally Front Bumper (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_bumper_F_side_L", "legocar_bumper_F_side_L_rally_col1", "Left Front Bumper Side"],
+	["legocar_bumper_F_side_R", "legocar_bumper_F_side_R_rally_col1", "Right Front Bumper Side"],
+	["legocar_bumperlights_rally", "legocar_bumperlights_rally", "Rally Lights"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_1tip_col1", ["legocar_bumper_F_ML"], [], {"pos":{"x": 0.250, "y":-1.850, "z":0.225},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_flat_1tip_col1", ["legocar_bumper_F_MR"], [], {"pos":{"x":-0.250, "y":-1.850, "z":0.225},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	{"group":"legocar_bumper_F_ML"},
+	["FLbump1l", 0.47, -1.90, 0.10],
+	["FLbump1r", 0.02, -1.90, 0.10],
+	["FLbump2l", 0.47, -1.90, 0.35],
+	["FLbump2r", 0.02, -1.90, 0.35],
+	//rigidifier
+	["FLbumprig", 0.250, -1.75, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":"legocar_bumper_F_MR"},
+	["FRbump1r", -0.47, -1.90, 0.10],
+	["FRbump1l", -0.02, -1.90, 0.10],
+	["FRbump2r", -0.47, -1.90, 0.35],
+	["FRbump2l", -0.02, -1.90, 0.35],
+	//rigidifier
+	["FRbumprig", -0.250, -1.75, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT BUMPER--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//left uniform structure
+	["FLbump1l", "FLbump1r"],
+	["FLbump2l", "FLbump2r"],
+	["FLbump1l", "FLbump2l"],
+	["FLbump1r", "FLbump2r"],
+	["FLbump1l", "FLbump2r"],
+	["FLbump2l", "FLbump1r"],
+
+	//left rigidifier
+	["FLbump1l", "FLbumprig"],
+	["FLbump1r", "FLbumprig"],
+	["FLbump2l", "FLbumprig"],
+	["FLbump2r", "FLbumprig"],
+	
+	//right uniform structure
+	["FRbump1l", "FRbump1r"],
+	["FRbump2l", "FRbump2r"],
+	["FRbump1l", "FRbump2l"],
+	["FRbump1r", "FRbump2r"],
+	["FRbump1l", "FRbump2r"],
+	["FRbump2l", "FRbump1r"],
+
+	//right rigidifier
+	["FRbump1l", "FRbumprig"],
+	["FRbump1r", "FRbumprig"],
+	["FRbump2l", "FRbumprig"],
+	["FRbump2r", "FRbumprig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//left
+	{"breakGroup":"bumper_F_ML_break"},
+	
+	["FLbump1l", "Ffascrig"],
+	["FLbump1l", "Ffasc1r"],
+	["FLbump1l", "Ffasc2l"],
+
+	["FLbump1r", "Ffascrig"],
+	["FLbump1r", "Ffasc1l"],
+	["FLbump1r", "Ffasc2r"],
+
+	["FLbump2l", "Ffascrig"],
+	["FLbump2l", "Ffasc2r"],
+	["FLbump2l", "Ffasc1l"],
+
+	["FLbump2r", "Ffascrig"],
+	["FLbump2r", "Ffasc2l"],
+	["FLbump2r", "Ffasc1r"],
+	
+	//right
+	{"breakGroup":"bumper_F_MR_break"},
+	
+	["FRbump1l", "Ffascrig"],
+	["FRbump1l", "Ffasc1r"],
+	["FRbump1l", "Ffasc2l"],
+
+	["FRbump1r", "Ffascrig"],
+	["FRbump1r", "Ffasc1l"],
+	["FRbump1r", "Ffasc2r"],
+
+	["FRbump2l", "Ffascrig"],
+	["FRbump2l", "Ffasc2r"],
+	["FRbump2l", "Ffasc1l"],
+
+	["FRbump2r", "Ffascrig"],
+	["FRbump2r", "Ffasc2l"],
+	["FRbump2r", "Ffasc1r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumper_F_ML"},
+	["FLbump2l","FLbump2r","FLbump1r","FLbump1l"],
+	{"group":"legocar_bumper_F_MR"},
+	["FRbump2l","FRbump2r","FRbump1r","FRbump1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_bumper_F_groupb_col2": {
+    "information":{
+        "name":"Group B Rally Front Bumper (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_bumper_F_side_L", "legocar_bumper_F_side_L_rally_col2", "Left Front Bumper Side"],
+	["legocar_bumper_F_side_R", "legocar_bumper_F_side_R_rally_col2", "Right Front Bumper Side"],
+	["legocar_bumperlights_rally", "legocar_bumperlights_rally", "Rally Lights"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_1tip_col2", ["legocar_bumper_F_ML"], [], {"pos":{"x": 0.250, "y":-1.850, "z":0.225},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_flat_1tip_col2", ["legocar_bumper_F_MR"], [], {"pos":{"x":-0.250, "y":-1.850, "z":0.225},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	{"group":"legocar_bumper_F_ML"},
+	["FLbump1l", 0.47, -1.90, 0.10],
+	["FLbump1r", 0.02, -1.90, 0.10],
+	["FLbump2l", 0.47, -1.90, 0.35],
+	["FLbump2r", 0.02, -1.90, 0.35],
+	//rigidifier
+	["FLbumprig", 0.250, -1.75, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":"legocar_bumper_F_MR"},
+	["FRbump1r", -0.47, -1.90, 0.10],
+	["FRbump1l", -0.02, -1.90, 0.10],
+	["FRbump2r", -0.47, -1.90, 0.35],
+	["FRbump2l", -0.02, -1.90, 0.35],
+	//rigidifier
+	["FRbumprig", -0.250, -1.75, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT BUMPER--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//left uniform structure
+	["FLbump1l", "FLbump1r"],
+	["FLbump2l", "FLbump2r"],
+	["FLbump1l", "FLbump2l"],
+	["FLbump1r", "FLbump2r"],
+	["FLbump1l", "FLbump2r"],
+	["FLbump2l", "FLbump1r"],
+
+	//left rigidifier
+	["FLbump1l", "FLbumprig"],
+	["FLbump1r", "FLbumprig"],
+	["FLbump2l", "FLbumprig"],
+	["FLbump2r", "FLbumprig"],
+	
+	//right uniform structure
+	["FRbump1l", "FRbump1r"],
+	["FRbump2l", "FRbump2r"],
+	["FRbump1l", "FRbump2l"],
+	["FRbump1r", "FRbump2r"],
+	["FRbump1l", "FRbump2r"],
+	["FRbump2l", "FRbump1r"],
+
+	//right rigidifier
+	["FRbump1l", "FRbumprig"],
+	["FRbump1r", "FRbumprig"],
+	["FRbump2l", "FRbumprig"],
+	["FRbump2r", "FRbumprig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//left
+	{"breakGroup":"bumper_F_ML_break"},
+	
+	["FLbump1l", "Ffascrig"],
+	["FLbump1l", "Ffasc1r"],
+	["FLbump1l", "Ffasc2l"],
+
+	["FLbump1r", "Ffascrig"],
+	["FLbump1r", "Ffasc1l"],
+	["FLbump1r", "Ffasc2r"],
+
+	["FLbump2l", "Ffascrig"],
+	["FLbump2l", "Ffasc2r"],
+	["FLbump2l", "Ffasc1l"],
+
+	["FLbump2r", "Ffascrig"],
+	["FLbump2r", "Ffasc2l"],
+	["FLbump2r", "Ffasc1r"],
+	
+	//right
+	{"breakGroup":"bumper_F_MR_break"},
+	
+	["FRbump1l", "Ffascrig"],
+	["FRbump1l", "Ffasc1r"],
+	["FRbump1l", "Ffasc2l"],
+
+	["FRbump1r", "Ffascrig"],
+	["FRbump1r", "Ffasc1l"],
+	["FRbump1r", "Ffasc2r"],
+
+	["FRbump2l", "Ffascrig"],
+	["FRbump2l", "Ffasc2r"],
+	["FRbump2l", "Ffasc1l"],
+
+	["FRbump2r", "Ffascrig"],
+	["FRbump2r", "Ffasc2l"],
+	["FRbump2r", "Ffasc1r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumper_F_ML"},
+	["FLbump2l","FLbump2r","FLbump1r","FLbump1l"],
+	{"group":"legocar_bumper_F_MR"},
+	["FRbump2l","FRbump2r","FRbump1r","FRbump1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_bumper_F_groupb_col3": {
+    "information":{
+        "name":"Group B Rally Front Bumper (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_bumper_F_side_L", "legocar_bumper_F_side_L_rally_col3", "Left Front Bumper Side"],
+	["legocar_bumper_F_side_R", "legocar_bumper_F_side_R_rally_col3", "Right Front Bumper Side"],
+	["legocar_bumperlights_rally", "legocar_bumperlights_rally", "Rally Lights"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_1tip_col3", ["legocar_bumper_F_ML"], [], {"pos":{"x": 0.250, "y":-1.850, "z":0.225},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_flat_1tip_col3", ["legocar_bumper_F_MR"], [], {"pos":{"x":-0.250, "y":-1.850, "z":0.225},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	{"group":"legocar_bumper_F_ML"},
+	["FLbump1l", 0.47, -1.90, 0.10],
+	["FLbump1r", 0.02, -1.90, 0.10],
+	["FLbump2l", 0.47, -1.90, 0.35],
+	["FLbump2r", 0.02, -1.90, 0.35],
+	//rigidifier
+	["FLbumprig", 0.250, -1.75, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":"legocar_bumper_F_MR"},
+	["FRbump1r", -0.47, -1.90, 0.10],
+	["FRbump1l", -0.02, -1.90, 0.10],
+	["FRbump2r", -0.47, -1.90, 0.35],
+	["FRbump2l", -0.02, -1.90, 0.35],
+	//rigidifier
+	["FRbumprig", -0.250, -1.75, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT BUMPER--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//left uniform structure
+	["FLbump1l", "FLbump1r"],
+	["FLbump2l", "FLbump2r"],
+	["FLbump1l", "FLbump2l"],
+	["FLbump1r", "FLbump2r"],
+	["FLbump1l", "FLbump2r"],
+	["FLbump2l", "FLbump1r"],
+
+	//left rigidifier
+	["FLbump1l", "FLbumprig"],
+	["FLbump1r", "FLbumprig"],
+	["FLbump2l", "FLbumprig"],
+	["FLbump2r", "FLbumprig"],
+	
+	//right uniform structure
+	["FRbump1l", "FRbump1r"],
+	["FRbump2l", "FRbump2r"],
+	["FRbump1l", "FRbump2l"],
+	["FRbump1r", "FRbump2r"],
+	["FRbump1l", "FRbump2r"],
+	["FRbump2l", "FRbump1r"],
+
+	//right rigidifier
+	["FRbump1l", "FRbumprig"],
+	["FRbump1r", "FRbumprig"],
+	["FRbump2l", "FRbumprig"],
+	["FRbump2r", "FRbumprig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//left
+	{"breakGroup":"bumper_F_ML_break"},
+	
+	["FLbump1l", "Ffascrig"],
+	["FLbump1l", "Ffasc1r"],
+	["FLbump1l", "Ffasc2l"],
+
+	["FLbump1r", "Ffascrig"],
+	["FLbump1r", "Ffasc1l"],
+	["FLbump1r", "Ffasc2r"],
+
+	["FLbump2l", "Ffascrig"],
+	["FLbump2l", "Ffasc2r"],
+	["FLbump2l", "Ffasc1l"],
+
+	["FLbump2r", "Ffascrig"],
+	["FLbump2r", "Ffasc2l"],
+	["FLbump2r", "Ffasc1r"],
+	
+	//right
+	{"breakGroup":"bumper_F_MR_break"},
+	
+	["FRbump1l", "Ffascrig"],
+	["FRbump1l", "Ffasc1r"],
+	["FRbump1l", "Ffasc2l"],
+
+	["FRbump1r", "Ffascrig"],
+	["FRbump1r", "Ffasc1l"],
+	["FRbump1r", "Ffasc2r"],
+
+	["FRbump2l", "Ffascrig"],
+	["FRbump2l", "Ffasc2r"],
+	["FRbump2l", "Ffasc1l"],
+
+	["FRbump2r", "Ffascrig"],
+	["FRbump2r", "Ffasc2l"],
+	["FRbump2r", "Ffasc1r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumper_F_ML"},
+	["FLbump2l","FLbump2r","FLbump1r","FLbump1l"],
+	{"group":"legocar_bumper_F_MR"},
+	["FRbump2l","FRbump2r","FRbump1r","FRbump1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_bumper_F_groupb_grey": {
+    "information":{
+        "name":"Group B Rally Front Bumper (Light Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_bumper_F_side_L", "legocar_bumper_F_side_L_rally_grey", "Left Front Bumper Side"],
+	["legocar_bumper_F_side_R", "legocar_bumper_F_side_R_rally_grey", "Right Front Bumper Side"],
+	["legocar_bumperlights_rally", "legocar_bumperlights_rally", "Rally Lights"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_1tip_grey", ["legocar_bumper_F_ML"], [], {"pos":{"x": 0.250, "y":-1.850, "z":0.225},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_flat_1tip_grey", ["legocar_bumper_F_MR"], [], {"pos":{"x":-0.250, "y":-1.850, "z":0.225},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	{"group":"legocar_bumper_F_ML"},
+	["FLbump1l", 0.47, -1.90, 0.10],
+	["FLbump1r", 0.02, -1.90, 0.10],
+	["FLbump2l", 0.47, -1.90, 0.35],
+	["FLbump2r", 0.02, -1.90, 0.35],
+	//rigidifier
+	["FLbumprig", 0.250, -1.75, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":"legocar_bumper_F_MR"},
+	["FRbump1r", -0.47, -1.90, 0.10],
+	["FRbump1l", -0.02, -1.90, 0.10],
+	["FRbump2r", -0.47, -1.90, 0.35],
+	["FRbump2l", -0.02, -1.90, 0.35],
+	//rigidifier
+	["FRbumprig", -0.250, -1.75, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT BUMPER--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//left uniform structure
+	["FLbump1l", "FLbump1r"],
+	["FLbump2l", "FLbump2r"],
+	["FLbump1l", "FLbump2l"],
+	["FLbump1r", "FLbump2r"],
+	["FLbump1l", "FLbump2r"],
+	["FLbump2l", "FLbump1r"],
+
+	//left rigidifier
+	["FLbump1l", "FLbumprig"],
+	["FLbump1r", "FLbumprig"],
+	["FLbump2l", "FLbumprig"],
+	["FLbump2r", "FLbumprig"],
+	
+	//right uniform structure
+	["FRbump1l", "FRbump1r"],
+	["FRbump2l", "FRbump2r"],
+	["FRbump1l", "FRbump2l"],
+	["FRbump1r", "FRbump2r"],
+	["FRbump1l", "FRbump2r"],
+	["FRbump2l", "FRbump1r"],
+
+	//right rigidifier
+	["FRbump1l", "FRbumprig"],
+	["FRbump1r", "FRbumprig"],
+	["FRbump2l", "FRbumprig"],
+	["FRbump2r", "FRbumprig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//left
+	{"breakGroup":"bumper_F_ML_break"},
+	
+	["FLbump1l", "Ffascrig"],
+	["FLbump1l", "Ffasc1r"],
+	["FLbump1l", "Ffasc2l"],
+
+	["FLbump1r", "Ffascrig"],
+	["FLbump1r", "Ffasc1l"],
+	["FLbump1r", "Ffasc2r"],
+
+	["FLbump2l", "Ffascrig"],
+	["FLbump2l", "Ffasc2r"],
+	["FLbump2l", "Ffasc1l"],
+
+	["FLbump2r", "Ffascrig"],
+	["FLbump2r", "Ffasc2l"],
+	["FLbump2r", "Ffasc1r"],
+	
+	//right
+	{"breakGroup":"bumper_F_MR_break"},
+	
+	["FRbump1l", "Ffascrig"],
+	["FRbump1l", "Ffasc1r"],
+	["FRbump1l", "Ffasc2l"],
+
+	["FRbump1r", "Ffascrig"],
+	["FRbump1r", "Ffasc1l"],
+	["FRbump1r", "Ffasc2r"],
+
+	["FRbump2l", "Ffascrig"],
+	["FRbump2l", "Ffasc2r"],
+	["FRbump2l", "Ffasc1l"],
+
+	["FRbump2r", "Ffascrig"],
+	["FRbump2r", "Ffasc2l"],
+	["FRbump2r", "Ffasc1r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumper_F_ML"},
+	["FLbump2l","FLbump2r","FLbump1r","FLbump1l"],
+	{"group":"legocar_bumper_F_MR"},
+	["FRbump2l","FRbump2r","FRbump1r","FRbump1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_bumper_F_groupb_dgrey": {
+    "information":{
+        "name":"Group B Rally Front Bumper (Dark Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_bumper_F_side_L", "legocar_bumper_F_side_L_rally_dgrey", "Left Front Bumper Side"],
+	["legocar_bumper_F_side_R", "legocar_bumper_F_side_R_rally_dgrey", "Right Front Bumper Side"],
+	["legocar_bumperlights_rally", "legocar_bumperlights_rally", "Rally Lights"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_1tip_dgrey", ["legocar_bumper_F_ML"], [], {"pos":{"x": 0.250, "y":-1.850, "z":0.225},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_flat_1tip_dgrey", ["legocar_bumper_F_MR"], [], {"pos":{"x":-0.250, "y":-1.850, "z":0.225},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	{"group":"legocar_bumper_F_ML"},
+	["FLbump1l", 0.47, -1.90, 0.10],
+	["FLbump1r", 0.02, -1.90, 0.10],
+	["FLbump2l", 0.47, -1.90, 0.35],
+	["FLbump2r", 0.02, -1.90, 0.35],
+	//rigidifier
+	["FLbumprig", 0.250, -1.75, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":"legocar_bumper_F_MR"},
+	["FRbump1r", -0.47, -1.90, 0.10],
+	["FRbump1l", -0.02, -1.90, 0.10],
+	["FRbump2r", -0.47, -1.90, 0.35],
+	["FRbump2l", -0.02, -1.90, 0.35],
+	//rigidifier
+	["FRbumprig", -0.250, -1.75, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT BUMPER--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//left uniform structure
+	["FLbump1l", "FLbump1r"],
+	["FLbump2l", "FLbump2r"],
+	["FLbump1l", "FLbump2l"],
+	["FLbump1r", "FLbump2r"],
+	["FLbump1l", "FLbump2r"],
+	["FLbump2l", "FLbump1r"],
+
+	//left rigidifier
+	["FLbump1l", "FLbumprig"],
+	["FLbump1r", "FLbumprig"],
+	["FLbump2l", "FLbumprig"],
+	["FLbump2r", "FLbumprig"],
+	
+	//right uniform structure
+	["FRbump1l", "FRbump1r"],
+	["FRbump2l", "FRbump2r"],
+	["FRbump1l", "FRbump2l"],
+	["FRbump1r", "FRbump2r"],
+	["FRbump1l", "FRbump2r"],
+	["FRbump2l", "FRbump1r"],
+
+	//right rigidifier
+	["FRbump1l", "FRbumprig"],
+	["FRbump1r", "FRbumprig"],
+	["FRbump2l", "FRbumprig"],
+	["FRbump2r", "FRbumprig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//left
+	{"breakGroup":"bumper_F_ML_break"},
+	
+	["FLbump1l", "Ffascrig"],
+	["FLbump1l", "Ffasc1r"],
+	["FLbump1l", "Ffasc2l"],
+
+	["FLbump1r", "Ffascrig"],
+	["FLbump1r", "Ffasc1l"],
+	["FLbump1r", "Ffasc2r"],
+
+	["FLbump2l", "Ffascrig"],
+	["FLbump2l", "Ffasc2r"],
+	["FLbump2l", "Ffasc1l"],
+
+	["FLbump2r", "Ffascrig"],
+	["FLbump2r", "Ffasc2l"],
+	["FLbump2r", "Ffasc1r"],
+	
+	//right
+	{"breakGroup":"bumper_F_MR_break"},
+	
+	["FRbump1l", "Ffascrig"],
+	["FRbump1l", "Ffasc1r"],
+	["FRbump1l", "Ffasc2l"],
+
+	["FRbump1r", "Ffascrig"],
+	["FRbump1r", "Ffasc1l"],
+	["FRbump1r", "Ffasc2r"],
+
+	["FRbump2l", "Ffascrig"],
+	["FRbump2l", "Ffasc2r"],
+	["FRbump2l", "Ffasc1l"],
+
+	["FRbump2r", "Ffascrig"],
+	["FRbump2r", "Ffasc2l"],
+	["FRbump2r", "Ffasc1r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumper_F_ML"},
+	["FLbump2l","FLbump2r","FLbump1r","FLbump1l"],
+	{"group":"legocar_bumper_F_MR"},
+	["FRbump2l","FRbump2r","FRbump1r","FRbump1l"],
+        {"group":""},
+    ],
+},
+
+}

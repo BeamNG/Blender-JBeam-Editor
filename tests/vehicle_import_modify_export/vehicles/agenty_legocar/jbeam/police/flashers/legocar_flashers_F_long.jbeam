@@ -1,0 +1,448 @@
+{
+"legocar_flashers_F_long": {
+    "information":{
+        "name":" Long Undercover Flashers",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_headlight_housing",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_headlight_L", "legocar_headlight_L_facelift", "Left Headlight"],
+	["legocar_headlight_R", "legocar_headlight_R_facelift", "Right Headlight"],
+	["legocar_grille_police", "legocar_grille_police_dgrey", "Grille"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"grillelight_L_break", "deformMaterialBase":"legocar_flasher_FL_red_undercover", "deformMaterialDamaged":"lego_transcol_black"},
+	["legocar_flasher_FL_red_undercover", ["legocar_grillelight_L"],[], {"pos":{"x": 0.375, "y":-1.850, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"grillelight_R_break", "deformMaterialBase":"legocar_flasher_FR_blue_undercover","deformMaterialDamaged":"lego_transcol_black"},
+	["legocar_flasher_FR_blue_undercover",["legocar_grillelight_R"],[], {"pos":{"x":-0.375, "y":-1.850, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"grillelight_L2_break","deformMaterialBase":"legocar_flasher_FR_blue_undercover","deformMaterialDamaged":"lego_transcol_black"},
+	["legocar_flasher_FR_blue_undercover",["legocar_grillelight_L2"],[],{"pos":{"x": 0.125, "y":-1.850, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"grillelight_R2_break","deformMaterialBase":"legocar_flasher_FL_red_undercover", "deformMaterialDamaged":"lego_transcol_black"},
+	["legocar_flasher_FL_red_undercover", ["legocar_grillelight_R2"],[],{"pos":{"x":-0.125, "y":-1.850, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":90,
+	    "lightRange":10,
+            "lightColor":{"r":201, "g":26, "b":9, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.04,
+	    "lightBrightness":0.8,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_flasher_FL","SPOTLIGHT", "Lgrlight2r", "Lgrlight1r", "Lgrlight2l",{"x":180, "y":90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.25, "y":0.5, "z":-0.1},"deformGroup":"grillelight_L_break"}],
+	["cop_flasher_FL","SPOTLIGHT", "Lgrlight2r", "Lgrlight1r", "Lgrlight2l",{"x":180, "y":90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.5, "z":-0.1},"deformGroup":"grillelight_L_break"}],
+	["cop_flasher_FL","SPOTLIGHT", "R2grlight2r", "R2grlight1r", "R2grlight2l",{"x":180, "y":90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.25, "y":0.5, "z":-0.1},"deformGroup":"grillelight_R2_break"}],
+	["cop_flasher_FL","SPOTLIGHT", "R2grlight2r", "R2grlight1r", "R2grlight2l",{"x":180, "y":90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.5, "z":-0.1},"deformGroup":"grillelight_R2_break"}],
+	{"lightBrightness":0.4},
+	["cop_flasher_FL_dim","SPOTLIGHT", "Lgrlight2r", "Lgrlight1r", "Lgrlight2l",{"x":180, "y":90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.25, "y":0.5, "z":-0.1},"deformGroup":"grillelight_L_break"}],
+	["cop_flasher_FL_dim","SPOTLIGHT", "Lgrlight2r", "Lgrlight1r", "Lgrlight2l",{"x":180, "y":90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.5, "z":-0.1},"deformGroup":"grillelight_L_break"}],
+	["cop_flasher_FL_dim","SPOTLIGHT", "R2grlight2r", "R2grlight1r", "R2grlight2l",{"x":180, "y":90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.25, "y":0.5, "z":-0.1},"deformGroup":"grillelight_R2_break"}],
+	["cop_flasher_FL_dim","SPOTLIGHT", "R2grlight2r", "R2grlight1r", "R2grlight2l",{"x":180, "y":90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.5, "z":-0.1},"deformGroup":"grillelight_R2_break"}],
+	{
+	    "lightColor":{"r":0, "g":32, "b":160, "a":255},
+	    "lightBrightness":0.8
+	},
+	["cop_flasher_FR","SPOTLIGHT", "Rgrlight2r", "Rgrlight1r", "Rgrlight2l",{"x":180, "y":90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.25, "y":0.5, "z":-0.1},"deformGroup":"grillelight_R_break"}],
+	["cop_flasher_FR","SPOTLIGHT", "Rgrlight2r", "Rgrlight1r", "Rgrlight2l",{"x":180, "y":90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.5, "z":-0.1},"deformGroup":"grillelight_R_break"}],
+	["cop_flasher_FR","SPOTLIGHT", "L2grlight2r", "L2grlight1r", "L2grlight2l",{"x":180, "y":90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.25, "y":0.5, "z":-0.1},"deformGroup":"grillelight_L2_break"}],
+	["cop_flasher_FR","SPOTLIGHT", "L2grlight2r", "L2grlight1r", "L2grlight2l",{"x":180, "y":90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.5, "z":-0.1},"deformGroup":"grillelight_L2_break"}],
+	{"lightBrightness":0.4},
+	["cop_flasher_FR_dim","SPOTLIGHT", "Rgrlight2r", "Rgrlight1r", "Rgrlight2l",{"x":180, "y":90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.25, "y":0.5, "z":-0.1},"deformGroup":"grillelight_R_break"}],
+	["cop_flasher_FR_dim","SPOTLIGHT", "Rgrlight2r", "Rgrlight1r", "Rgrlight2l",{"x":180, "y":90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.5, "z":-0.1},"deformGroup":"grillelight_R_break"}],
+	["cop_flasher_FR_dim","SPOTLIGHT", "L2grlight2r", "L2grlight1r", "L2grlight2l",{"x":180, "y":90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.25, "y":0.5, "z":-0.1},"deformGroup":"grillelight_L2_break"}],
+	["cop_flasher_FR_dim","SPOTLIGHT", "L2grlight2r", "L2grlight1r", "L2grlight2l",{"x":180, "y":90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.5, "z":-0.1},"deformGroup":"grillelight_L2_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_grillelight_L"},
+	["Lgrlight1r", 0.280, -1.90, 0.380],
+	["Lgrlight2r", 0.280, -1.90, 0.570],
+	["Lgrlight1l", 0.470, -1.90, 0.380],
+	["Lgrlight2l", 0.470, -1.90, 0.570],
+	//rigidifier
+	["Lgrlight0",  0.375, -1.75, 0.475, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":"legocar_grillelight_R"},
+	["Rgrlight1l", -0.280, -1.90, 0.380],
+	["Rgrlight2l", -0.280, -1.90, 0.570],
+	["Rgrlight1r", -0.470, -1.90, 0.380],
+	["Rgrlight2r", -0.470, -1.90, 0.570],
+	//rigidifier
+	["Rgrlight0",  -0.375, -1.75, 0.475, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":"legocar_grillelight_L2"},
+	["L2grlight1r", 0.020, -1.90, 0.380],
+	["L2grlight2r", 0.020, -1.90, 0.570],
+	["L2grlight1l", 0.220, -1.90, 0.380],
+	["L2grlight2l", 0.220, -1.90, 0.570],
+	//rigidifier
+	["L2grlight0",  0.125, -1.75, 0.475, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":"legocar_grillelight_R2"},
+	["R2grlight1l", -0.020, -1.90, 0.380],
+	["R2grlight2l", -0.020, -1.90, 0.570],
+	["R2grlight1r", -0.220, -1.90, 0.380],
+	["R2grlight2r", -0.220, -1.90, 0.570],
+	//rigidifier
+	["R2grlight0",  -0.125, -1.75, 0.475, {"collision":false, "selfCollision":false, "group":""}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//L1 uniform structure
+	["Lgrlight1l", "Lgrlight1r"],
+	["Lgrlight2l", "Lgrlight2r"],
+	["Lgrlight1l", "Lgrlight2r"],
+	["Lgrlight2l", "Lgrlight1r"],
+	["Lgrlight1l", "Lgrlight2l"],
+	["Lgrlight1r", "Lgrlight2r"],
+
+	//L1 rigidifier
+	["Lgrlight1l", "Lgrlight0"],
+	["Lgrlight1r", "Lgrlight0"],
+	["Lgrlight2l", "Lgrlight0"],
+	["Lgrlight2r", "Lgrlight0"],
+
+	//R1 uniform structure
+	["Rgrlight1l", "Rgrlight1r"],
+	["Rgrlight2l", "Rgrlight2r"],
+	["Rgrlight1l", "Rgrlight2r"],
+	["Rgrlight2l", "Rgrlight1r"],
+	["Rgrlight1l", "Rgrlight2l"],
+	["Rgrlight1r", "Rgrlight2r"],
+
+	//R1 rigidifier
+	["Rgrlight1l", "Rgrlight0"],
+	["Rgrlight1r", "Rgrlight0"],
+	["Rgrlight2l", "Rgrlight0"],
+	["Rgrlight2r", "Rgrlight0"],
+
+	//L2 uniform structure
+	["L2grlight1l", "L2grlight1r"],
+	["L2grlight2l", "L2grlight2r"],
+	["L2grlight1l", "L2grlight2r"],
+	["L2grlight2l", "L2grlight1r"],
+	["L2grlight1l", "L2grlight2l"],
+	["L2grlight1r", "L2grlight2r"],
+
+	//L2 rigidifier
+	["L2grlight1l", "L2grlight0"],
+	["L2grlight1r", "L2grlight0"],
+	["L2grlight2l", "L2grlight0"],
+	["L2grlight2r", "L2grlight0"],
+
+	//R2 uniform structure
+	["R2grlight1l", "R2grlight1r"],
+	["R2grlight2l", "R2grlight2r"],
+	["R2grlight1l", "R2grlight2r"],
+	["R2grlight2l", "R2grlight1r"],
+	["R2grlight1l", "R2grlight2l"],
+	["R2grlight1r", "R2grlight2r"],
+
+	//R2 rigidifier
+	["R2grlight1l", "R2grlight0"],
+	["R2grlight1r", "R2grlight0"],
+	["R2grlight2l", "R2grlight0"],
+	["R2grlight2r", "R2grlight0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*101000", "beamDamp":"$=$weight*10"},
+
+
+	//L1
+	{"deformGroup":"grillelight_L_break"},
+
+	//to fascia
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"grillelight_L_fascia_break"},
+	
+	["Lgrlight1l", "Ffasc1l"],
+	["Lgrlight1l", "Ffasc1r"],
+	["Lgrlight1l", "Ffasc2l"],
+	["Lgrlight1l", "Ffascrig"],
+
+	["Lgrlight1r", "Ffasc1l"],
+	["Lgrlight1r", "Ffasc1r"],
+	["Lgrlight1r", "Ffasc2l"],
+	["Lgrlight1r", "Ffascrig"],
+
+	["Lgrlight2l", "Ffasc1l"],
+	["Lgrlight2l", "Ffasc1r"],
+	["Lgrlight2l", "Ffasc2l"],
+	["Lgrlight2l", "Ffascrig"],
+
+	["Lgrlight2r", "Ffasc1l"],
+	["Lgrlight2r", "Ffasc1r"],
+	["Lgrlight2r", "Ffasc2l"],
+	["Lgrlight2r", "Ffascrig"],
+
+	["Lgrlight0", "Ffasc1l"],
+	["Lgrlight0", "Ffasc1r"],
+	["Lgrlight0", "Ffasc2l"],
+	["Lgrlight0", "Ffascrig"],
+
+
+	//to grille
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"grillelight_L_grille_break"},
+	{"optional":true},
+	
+	["Lgrlight1l", "FLgrille1l"],
+	["Lgrlight1l", "FLgrille1r"],
+	["Lgrlight1l", "FLgrille2l"],
+	["Lgrlight1l", "FLgrillerig"],
+
+	["Lgrlight1r", "FLgrille1l"],
+	["Lgrlight1r", "FLgrille1r"],
+	["Lgrlight1r", "FLgrille2r"],
+	["Lgrlight1r", "FLgrillerig"],
+
+	["Lgrlight2l", "FLgrille1l"],
+	["Lgrlight2l", "FLgrille2r"],
+	["Lgrlight2l", "FLgrille2l"],
+	["Lgrlight2l", "FLgrillerig"],
+
+	["Lgrlight2r", "FLgrille2l"],
+	["Lgrlight2r", "FLgrille1r"],
+	["Lgrlight2r", "FLgrille2r"],
+	["Lgrlight2r", "FLgrillerig"],
+
+	["Lgrlight0", "FLgrille1l"],
+	["Lgrlight0", "FLgrille1r"],
+	["Lgrlight0", "FLgrille2l"],
+	["Lgrlight0", "FLgrille2r"],
+
+
+	//R1
+	{"deformGroup":"grillelight_R_break"},
+
+	//to fascia
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"grillelight_R_fascia_break"},
+	
+	["Rgrlight1l", "Ffasc1l"],
+	["Rgrlight1l", "Ffasc1r"],
+	["Rgrlight1l", "Ffasc2r"],
+	["Rgrlight1l", "Ffascrig"],
+
+	["Rgrlight1r", "Ffasc1l"],
+	["Rgrlight1r", "Ffasc1r"],
+	["Rgrlight1r", "Ffasc2r"],
+	["Rgrlight1r", "Ffascrig"],
+
+	["Rgrlight2l", "Ffasc1l"],
+	["Rgrlight2l", "Ffasc1r"],
+	["Rgrlight2l", "Ffasc2r"],
+	["Rgrlight2l", "Ffascrig"],
+
+	["Rgrlight2r", "Ffasc1l"],
+	["Rgrlight2r", "Ffasc1r"],
+	["Rgrlight2r", "Ffasc2r"],
+	["Rgrlight2r", "Ffascrig"],
+
+	["Rgrlight0", "Ffasc1l"],
+	["Rgrlight0", "Ffasc1r"],
+	["Rgrlight0", "Ffasc2r"],
+	["Rgrlight0", "Ffascrig"],
+
+
+	//to grille
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"grillelight_R_grille_break"},
+	{"optional":true},
+	
+	["Rgrlight1l", "FRgrille1l"],
+	["Rgrlight1l", "FRgrille1r"],
+	["Rgrlight1l", "FRgrille2l"],
+	["Rgrlight1l", "FRgrillerig"],
+
+	["Rgrlight1r", "FRgrille1l"],
+	["Rgrlight1r", "FRgrille1r"],
+	["Rgrlight1r", "FRgrille2r"],
+	["Rgrlight1r", "FRgrillerig"],
+
+	["Rgrlight2l", "FRgrille1l"],
+	["Rgrlight2l", "FRgrille2r"],
+	["Rgrlight2l", "FRgrille2l"],
+	["Rgrlight2l", "FRgrillerig"],
+
+	["Rgrlight2r", "FRgrille2l"],
+	["Rgrlight2r", "FRgrille1r"],
+	["Rgrlight2r", "FRgrille2r"],
+	["Rgrlight2r", "FRgrillerig"],
+
+	["Rgrlight0", "FRgrille1l"],
+	["Rgrlight0", "FRgrille1r"],
+	["Rgrlight0", "FRgrille2l"],
+	["Rgrlight0", "FRgrille2r"],
+
+
+	//L2
+	{"deformGroup":"grillelight_L2_break"},
+
+	//to fascia
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"grillelight_L2_fascia_break"},
+	
+	["L2grlight1l", "Ffasc1l"],
+	["L2grlight1l", "Ffasc1r"],
+	["L2grlight1l", "Ffasc2l"],
+	["L2grlight1l", "Ffascrig"],
+
+	["L2grlight1r", "Ffasc1l"],
+	["L2grlight1r", "Ffasc1r"],
+	["L2grlight1r", "Ffasc2l"],
+	["L2grlight1r", "Ffascrig"],
+
+	["L2grlight2l", "Ffasc1l"],
+	["L2grlight2l", "Ffasc1r"],
+	["L2grlight2l", "Ffasc2l"],
+	["L2grlight2l", "Ffascrig"],
+
+	["L2grlight2r", "Ffasc1l"],
+	["L2grlight2r", "Ffasc1r"],
+	["L2grlight2r", "Ffasc2l"],
+	["L2grlight2r", "Ffascrig"],
+
+	["L2grlight0", "Ffasc1l"],
+	["L2grlight0", "Ffasc1r"],
+	["L2grlight0", "Ffasc2l"],
+	["L2grlight0", "Ffascrig"],
+
+
+	//to grille
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"grillelight_L2_grille_break"},
+	{"optional":true},
+	
+	["L2grlight1l", "FLgrille1l"],
+	["L2grlight1l", "FLgrille1r"],
+	["L2grlight1l", "FLgrille2l"],
+	["L2grlight1l", "FLgrillerig"],
+
+	["L2grlight1r", "FLgrille1l"],
+	["L2grlight1r", "FLgrille1r"],
+	["L2grlight1r", "FLgrille2r"],
+	["L2grlight1r", "FLgrillerig"],
+
+	["L2grlight2l", "FLgrille1l"],
+	["L2grlight2l", "FLgrille2r"],
+	["L2grlight2l", "FLgrille2l"],
+	["L2grlight2l", "FLgrillerig"],
+
+	["L2grlight2r", "FLgrille2l"],
+	["L2grlight2r", "FLgrille1r"],
+	["L2grlight2r", "FLgrille2r"],
+	["L2grlight2r", "FLgrillerig"],
+
+	["L2grlight0", "FLgrille1l"],
+	["L2grlight0", "FLgrille1r"],
+	["L2grlight0", "FLgrille2l"],
+	["L2grlight0", "FLgrille2r"],
+
+
+	//R2
+	{"deformGroup":"grillelight_R2_break"},
+
+	//to fascia
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"grillelight_R2_fascia_break"},
+	
+	["R2grlight1l", "Ffasc1l"],
+	["R2grlight1l", "Ffasc1r"],
+	["R2grlight1l", "Ffasc2r"],
+	["R2grlight1l", "Ffascrig"],
+
+	["R2grlight1r", "Ffasc1l"],
+	["R2grlight1r", "Ffasc1r"],
+	["R2grlight1r", "Ffasc2r"],
+	["R2grlight1r", "Ffascrig"],
+
+	["R2grlight2l", "Ffasc1l"],
+	["R2grlight2l", "Ffasc1r"],
+	["R2grlight2l", "Ffasc2r"],
+	["R2grlight2l", "Ffascrig"],
+
+	["R2grlight2r", "Ffasc1l"],
+	["R2grlight2r", "Ffasc1r"],
+	["R2grlight2r", "Ffasc2r"],
+	["R2grlight2r", "Ffascrig"],
+
+	["R2grlight0", "Ffasc1l"],
+	["R2grlight0", "Ffasc1r"],
+	["R2grlight0", "Ffasc2r"],
+	["R2grlight0", "Ffascrig"],
+
+
+	//to grille
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"grillelight_R2_grille_break"},
+	{"optional":true},
+	
+	["R2grlight1l", "FRgrille1l"],
+	["R2grlight1l", "FRgrille1r"],
+	["R2grlight1l", "FRgrille2l"],
+	["R2grlight1l", "FRgrillerig"],
+
+	["R2grlight1r", "FRgrille1l"],
+	["R2grlight1r", "FRgrille1r"],
+	["R2grlight1r", "FRgrille2r"],
+	["R2grlight1r", "FRgrillerig"],
+
+	["R2grlight2l", "FRgrille1l"],
+	["R2grlight2l", "FRgrille2r"],
+	["R2grlight2l", "FRgrille2l"],
+	["R2grlight2l", "FRgrillerig"],
+
+	["R2grlight2r", "FRgrille2l"],
+	["R2grlight2r", "FRgrille1r"],
+	["R2grlight2r", "FRgrille2r"],
+	["R2grlight2r", "FRgrillerig"],
+
+	["R2grlight0", "FRgrille1l"],
+	["R2grlight0", "FRgrille1r"],
+	["R2grlight0", "FRgrille2l"],
+	["R2grlight0", "FRgrille2r"],
+
+	{"optional":false},
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_grillelight_L"},   
+	["Lgrlight1r","Lgrlight1l","Lgrlight2l","Lgrlight2r"],
+	{"group":"legocar_grillelight_R"},   
+	["Rgrlight1r","Rgrlight1l","Rgrlight2l","Rgrlight2r"],
+	{"group":"legocar_grillelight_L2"},   
+	["L2grlight1r","L2grlight1l","L2grlight2l","L2grlight2r"],
+	{"group":"legocar_grillelight_R2"},   
+	["R2grlight1r","R2grlight1l","R2grlight2l","R2grlight2r"],
+
+        {"group":""},
+    ],
+},
+
+}

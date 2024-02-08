@@ -1,0 +1,168 @@
+{ 
+"legodummy_arm_L": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Left Arm"
+    },
+    "slotType" : "legodummy_arm_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legodummy_arm_L",["legodummy_arm_L"], [], {"pos":{"x": 0, "y":0, "z":0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--LEFT ARM--
+	{"group":"legodummy_arm_L"},
+	//3kg / 3 nodes = 1 kg/node
+	{"nodeWeight": "$=$fig_weight*1"},
+
+	["arm1l", 0.300, 0.125, 0.325],
+	["arm2l", 0.300, 0.125, 0.575],
+	["arm3l", 0.300,-0.437, 0.450, {"selfCollision":false}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT ARM--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$fig_weight*1001000", "beamDamp":"$=$fig_weight*100"},
+
+	//uniform structure
+	["arm1l", "arm2l"],
+	["arm2l", "arm3l"],
+	["arm3l", "arm1l"],
+	
+	//--ATTACH--
+	{"beamSpring":"$=$fig_weight*501000", "beamDamp":"$=$fig_weight*50"},
+	{"beamDeform":"$=$fig_strength*0.5", "beamStrength":"$=$fig_strength*0.5"},
+	{"breakGroup":"arm_L_break"},
+
+	["arm1l", "armj1l"],
+	["arm1l", "armj2l"],
+	["arm1l", "armj3l"],
+	["arm1l", "armj4l"],
+	["arm1l", "armj0l"],
+
+	["arm2l", "armj1l"],
+	["arm2l", "armj2l"],
+	["arm2l", "armj3l"],
+	["arm2l", "armj4l"],
+	["arm2l", "armj0l"],
+
+	["arm3l", "armj1l"],
+	["arm3l", "armj2l"],
+	["arm3l", "armj3l"],
+	["arm3l", "armj4l"],
+	["arm3l", "armj0l"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT DAMPERS--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//to hips
+	{"beamSpring":0, "beamDamp":"$=$fig_weight*100"},
+	["arm3l", "hips1l"],
+	["arm3l", "hips2l"],
+	["arm3l", "hips4l"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legodummy_arm_L"},
+	["arm1l","arm2l","arm3l"],
+        {"group":""},
+    ],
+},
+
+"legodummy_arm_R": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Right Arm"
+    },
+    "slotType" : "legodummy_arm_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legodummy_arm_R",["legodummy_arm_R"], [], {"pos":{"x": 0, "y":0, "z":0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],	
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--RIGHT ARM--
+	{"group":"legodummy_arm_R"},
+	//3kg / 3 nodes = 1 kg/node
+	{"nodeWeight": "$=$fig_weight*1"},
+
+	["arm1r",-0.300, 0.125, 0.325],
+	["arm2r",-0.300, 0.125, 0.575],
+	["arm3r",-0.300,-0.437, 0.450, {"selfCollision":false}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--RIGHT ARM--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$fig_weight*1001000", "beamDamp":"$=$fig_weight*100"},
+
+	//uniform structure
+	["arm1r", "arm2r"],
+	["arm2r", "arm3r"],
+	["arm3r", "arm1r"],
+	
+	//--ATTACH--
+	{"beamSpring":"$=$fig_weight*501000", "beamDamp":"$=$fig_weight*50"},
+	{"beamDeform":"$=$fig_strength*0.5", "beamStrength":"$=$fig_strength*0.5"},
+	{"breakGroup":"arm_R_break"},
+
+	["arm1r", "armj1r"],
+	["arm1r", "armj2r"],
+	["arm1r", "armj3r"],
+	["arm1r", "armj4r"],
+	["arm1r", "armj0r"],
+
+	["arm2r", "armj1r"],
+	["arm2r", "armj2r"],
+	["arm2r", "armj3r"],
+	["arm2r", "armj4r"],
+	["arm2r", "armj0r"],
+
+	["arm3r", "armj1r"],
+	["arm3r", "armj2r"],
+	["arm3r", "armj3r"],
+	["arm3r", "armj4r"],
+	["arm3r", "armj0r"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT DAMPERS--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//to hips
+	{"beamSpring":0, "beamDamp":"$=$fig_weight*100"},
+	["arm3r", "hips1r"],
+	["arm3r", "hips2r"],
+	["arm3r", "hips4r"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legodummy_arm_R"},
+	["arm1r","arm3r","arm2r"],
+        {"group":""},
+    ],
+},
+
+}

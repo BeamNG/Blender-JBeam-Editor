@@ -1,0 +1,298 @@
+{
+"legocar_shifter": {
+    "information":{
+        "name":"Manual Shifter",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_shifter",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_shifterbase",["legocar_shifterbase"],[], {"pos":{"x":-0.375, "y":-0.625, "z":0.4},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_shifter_M",  ["legocar_shifter"],    [], {"pos":{"x":-0.375, "y":-0.625, "z":0.4},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--SHIFTER--
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	//collision and attachment nodes
+	{"group":"legocar_shifterbase"},
+	["shiftb0", -0.375, -0.625, 0.370],
+	["shiftb1", -0.375, -0.500, 0.525],
+
+	//rotation arm
+	{"group":""},
+	["shiftb3", -0.250, -0.750, 0.525, {"collision":false, "selfCollision":false}],
+
+	//rotation axis
+	{"group":["legocar_shifterbase", "legocar_shifter"]},
+	["shiftb2r",-0.500, -0.625, 0.525],
+	["shiftb2l",-0.250, -0.625, 0.525],
+
+	//shifter animated part
+	{"group":"legocar_shifter"},
+	//heavier for stability reasons
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["shift2", -0.375, -0.625, 0.945, {"selfCollision":false}],	
+	{"group":""},
+	["shift1", -0.375, -0.625, 0.525, {"selfCollision":false}],	
+    ],
+    "torsionHydros": [
+        ["id1:","id2:","id3:","id4:"],
+	//spring = weight * 100000, a tiny bit of damping due to length
+        {"spring":"$=$weight*2000", "damp":"$=$weight*2", "deform":"FLT_MAX", "strength":"FLT_MAX"},
+	//shifter animation
+	//factor = pi/2
+        ["shift2","shift1","shiftb2l","shiftb3", {"factor":1.5707963267948966192313216916398,"inRate":5,"outRate":5,"inputSource":"shifterX"}],
+	["shiftb1","shift1","shiftb0", "dash1r", {"factor":1.5707963267948966192313216916398,"inRate":5,"outRate":5,"inputSource":"shifterZ"}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//uniform structure
+	["shiftb1", "shiftb2l"],
+	["shiftb1", "shiftb2r"],
+	["shiftb1", "shiftb3"],
+	["shiftb2l", "shiftb2r"],
+	["shiftb2l", "shiftb3"],
+	["shiftb2r", "shiftb3"],
+	
+	//attachment point
+	["shiftb1", "shiftb0"],
+	["shiftb2l", "shiftb0"],
+	["shiftb2r", "shiftb0"],
+	["shiftb3", "shiftb0"],
+
+	//shifter stick
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	["shift1", "shift2"],
+
+	//shift rotation axis
+	["shift1", "shiftb2r"],
+
+	//shifter animation disable trigger
+	["shift1", "shiftb2l", {"breakGroup":"shifter_break", "disableMeshBreaking":true}],
+
+	//shift rotation angle reinforcers
+	["shift2", "shiftb2l"],
+	["shift2", "shiftb2r"],
+
+	//stick attachment
+	["shift1", "shiftb1"],
+	["shift1", "shiftb3"],
+
+	//horizontal rotation limiter break trigger
+	["shift1", "shiftb0", {"breakGroup":"shifter_break", "disableMeshBreaking":true}],
+
+	//shifter stick dampers
+	{"beamSpring":0, "beamDamp":"$=$weight*200"},
+	["shift2", "shiftb1"],
+
+
+	//--ATTACH--
+	//due to the nature of this piece it is easier to break off
+	{"beamDeform":"$=$strength*0.75", "beamStrength":"$=$strength*0.75"},
+	{"breakGroup":"shifter_break"},
+
+	//attach as axis to allow horizontal rotation
+	{"beamSpring":"$=$weight*191000", "beamDamp":"$=$weight*19"},
+	["shift1", "dash1l"],
+	["shift1", "dash1r"],
+	["shift1", "dash2l"],
+	["shift1", "dash2r"],
+	["shift1", "dashrig"],
+
+	{"beamSpring":"$=$weight*391000", "beamDamp":"$=$weight*39"},
+	["shiftb0", "dash1l"],
+	["shiftb0", "dash1r"],
+	["shiftb0", "dash2l"],
+	["shiftb0", "dash2r"],
+	["shiftb0", "dashrig"],
+
+	{"breakGroup":""},
+
+
+	//--LIMITERS--
+	{"beamPrecompression":1,"beamType":"|SUPPORT", "beamLongBound":100},
+	{"beamSpring":"$=$weight*21000", "beamDamp":"$=$weight*200"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//shifter movement limiter
+	["shift2", "shiftb0", {"beamPrecompression":0.8}],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_shifter"},
+
+	["shift2","shiftb2l","shiftb1"],
+	["shift2","shiftb1","shiftb2r"],
+	["shift2","shiftb2r","shiftb2l"],	
+
+	["shiftb1","shiftb2l","shiftb0"],
+	["shiftb1","shiftb0","shiftb2r"],
+	["shiftb0","shiftb2l","shiftb2r"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_shifter_A": {
+    "information":{
+        "name":"Automatic Shifter",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_shifter",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_shifterbase",["legocar_shifterbase"],[], {"pos":{"x":-0.375, "y":-0.625, "z":0.4},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_shifter_A",  ["legocar_shifter"],    [], {"pos":{"x":-0.375, "y":-0.625, "z":0.4},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--SHIFTER--
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	//collision and attachment nodes
+	{"group":"legocar_shifterbase"},
+	["shiftb0", -0.375, -0.625, 0.370],
+	["shiftb1", -0.375, -0.500, 0.525],
+
+	//rotation arm
+	{"group":""},
+	["shiftb3", -0.250, -0.750, 0.525, {"collision":false, "selfCollision":false}],
+
+	//rotation axis
+	{"group":["legocar_shifterbase", "legocar_shifter"]},
+	["shiftb2r",-0.500, -0.625, 0.525],
+	["shiftb2l",-0.250, -0.625, 0.525],
+
+	//shifter animated part
+	{"group":"legocar_shifter"},
+	//heavier for stability reasons
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["shift2", -0.375, -0.625, 0.725, {"selfCollision":false}],	
+	{"group":""},
+	["shift1", -0.375, -0.625, 0.525, {"selfCollision":false}],	
+    ],
+    "torsionHydros": [
+        ["id1:","id2:","id3:","id4:"],
+	//spring = weight * 100000, a tiny bit of damping due to length
+        {"spring":"$=$weight*2000", "damp":"$=$weight*2", "deform":"FLT_MAX", "strength":"FLT_MAX"},
+	//shifter animation
+	//factor = pi/2
+        ["shift2","shift1","shiftb2l","shiftb3", {"factor":1.5707963267948966192313216916398,"inRate":5,"outRate":5,"inputSource":"shifterX"}],
+	["shiftb1","shift1","shiftb0", "dash1r", {"factor":1.5707963267948966192313216916398,"inRate":5,"outRate":5,"inputSource":"shifterZ"}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//uniform structure
+	["shiftb1", "shiftb2l"],
+	["shiftb1", "shiftb2r"],
+	["shiftb1", "shiftb3"],
+	["shiftb2l", "shiftb2r"],
+	["shiftb2l", "shiftb3"],
+	["shiftb2r", "shiftb3"],
+	
+	//attachment point
+	["shiftb1", "shiftb0"],
+	["shiftb2l", "shiftb0"],
+	["shiftb2r", "shiftb0"],
+	["shiftb3", "shiftb0"],
+
+	//shifter stick
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	["shift1", "shift2"],
+
+	//shift rotation axis
+	["shift1", "shiftb2r"],
+
+	//shifter animation disable trigger
+	["shift1", "shiftb2l", {"breakGroup":"shifter_break", "disableMeshBreaking":true}],
+
+	//shift rotation angle reinforcers
+	["shift2", "shiftb2l"],
+	["shift2", "shiftb2r"],
+
+	//stick attachment
+	["shift1", "shiftb1"],
+	["shift1", "shiftb3"],
+
+	//horizontal rotation limiter break trigger
+	["shift1", "shiftb0", {"breakGroup":"shifter_break", "disableMeshBreaking":true}],
+
+	//shifter stick dampers
+	{"beamSpring":0, "beamDamp":"$=$weight*200"},
+	["shift2", "shiftb1"],
+
+
+	//--ATTACH--
+	//due to the nature of this piece it is easier to break off
+	{"beamDeform":"$=$strength*0.75", "beamStrength":"$=$strength*0.75"},
+	{"breakGroup":"shifter_break"},
+
+	//attach as axis to allow horizontal rotation
+	{"beamSpring":"$=$weight*191000", "beamDamp":"$=$weight*19"},
+	["shift1", "dash1l"],
+	["shift1", "dash1r"],
+	["shift1", "dash2l"],
+	["shift1", "dash2r"],
+	["shift1", "dashrig"],
+
+	{"beamSpring":"$=$weight*391000", "beamDamp":"$=$weight*39"},
+	["shiftb0", "dash1l"],
+	["shiftb0", "dash1r"],
+	["shiftb0", "dash2l"],
+	["shiftb0", "dash2r"],
+	["shiftb0", "dashrig"],
+
+	{"breakGroup":""},
+
+
+	//--LIMITERS--
+	{"beamPrecompression":1,"beamType":"|SUPPORT", "beamLongBound":100},
+	{"beamSpring":"$=$weight*21000", "beamDamp":"$=$weight*200"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//shifter movement limiter
+	["shift2", "shiftb0", {"beamPrecompression":0.8}],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_shifter"},
+
+	["shift2","shiftb2l","shiftb1"],
+	["shift2","shiftb1","shiftb2r"],
+	["shift2","shiftb2r","shiftb2l"],	
+
+	["shiftb1","shiftb2l","shiftb0"],
+	["shiftb1","shiftb0","shiftb2r"],
+	["shiftb0","shiftb2l","shiftb2r"],
+
+        {"group":""},
+    ],
+},
+
+}

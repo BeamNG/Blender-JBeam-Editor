@@ -1,0 +1,367 @@
+{
+"legocar_wing_groupb_side_L": {
+    "information":{
+        "name":"Left Group B Wing Support",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_trunk_accessory_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_verytall_slope_spoiler",["legocar_trunk_vent_L"],[], {"pos":{"x": 0.625, "y":1.500, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_trunk_vent_L"},
+	//8 pieces, 4 half-pieces, 8 nodes - 1.5 kg/node
+	{"nodeWeight": "$=$weight*1.5"},
+
+	["Ltrunkvent1l",  0.75, 1.28, 0.8],
+	["Ltrunkvent1r",  0.50, 1.28, 0.8],
+	["Ltrunkvent2l",  0.75, 1.72, 0.8],
+	["Ltrunkvent2r",  0.50, 1.72, 0.8],
+	["Ltrunkvent3l",  0.75, 1.50, 1.6],
+	["Ltrunkvent3r",  0.50, 1.50, 1.6],
+	["Ltrunkvent4l",  0.75, 1.72, 1.6],
+	["Ltrunkvent4r",  0.50, 1.72, 1.6],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"}
+
+	//uniform structure
+	["Ltrunkvent1l", "Ltrunkvent1r"],
+	["Ltrunkvent2l", "Ltrunkvent2r"],
+	["Ltrunkvent3l", "Ltrunkvent3r"],
+	["Ltrunkvent4l", "Ltrunkvent4r"],
+
+	["Ltrunkvent1l", "Ltrunkvent2r"],
+	["Ltrunkvent2l", "Ltrunkvent3r"],
+	["Ltrunkvent3l", "Ltrunkvent4r"],
+	["Ltrunkvent4l", "Ltrunkvent1r"],
+
+	["Ltrunkvent1l", "Ltrunkvent3r"],
+	["Ltrunkvent2l", "Ltrunkvent4r"],
+	["Ltrunkvent3l", "Ltrunkvent1r"],
+	["Ltrunkvent4l", "Ltrunkvent2r"],
+
+	["Ltrunkvent1l", "Ltrunkvent4r"],
+	["Ltrunkvent2l", "Ltrunkvent1r"],
+	["Ltrunkvent3l", "Ltrunkvent2r"],
+	["Ltrunkvent4l", "Ltrunkvent3r"],
+
+	["Ltrunkvent1l", "Ltrunkvent2l"],
+	["Ltrunkvent2l", "Ltrunkvent3l"],
+	["Ltrunkvent3l", "Ltrunkvent4l"],
+	["Ltrunkvent4l", "Ltrunkvent1l"],
+
+	["Ltrunkvent1l", "Ltrunkvent3l"],
+	["Ltrunkvent2l", "Ltrunkvent4l"],
+
+	["Ltrunkvent1r", "Ltrunkvent2r"],
+	["Ltrunkvent2r", "Ltrunkvent3r"],
+	["Ltrunkvent3r", "Ltrunkvent4r"],
+	["Ltrunkvent4r", "Ltrunkvent1r"],
+
+	["Ltrunkvent1r", "Ltrunkvent3r"],
+	["Ltrunkvent2r", "Ltrunkvent4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to trunk
+	{"beamSpring":"$=$weight*301000", "beamDamp":"$=$weight*30"},
+	{"breakGroup":"trunkvent_L_break"},
+	
+	["Ltrunkvent1l", "trunkL1l"],
+	["Ltrunkvent1l", "trunkL1r"],
+	["Ltrunkvent1l", "trunkL2l"],
+	["Ltrunkvent1l", "trunkLrig"],
+
+	["Ltrunkvent1r", "trunkL1l"],
+	["Ltrunkvent1r", "trunkL1r"],
+	["Ltrunkvent1r", "trunkL2r"],
+	["Ltrunkvent1r", "trunkLrig"],
+
+	["Ltrunkvent2l", "trunkL2l"],
+	["Ltrunkvent2l", "trunkL2r"],
+	["Ltrunkvent2l", "trunkL1l"],
+	["Ltrunkvent2l", "trunkLrig"],
+
+	["Ltrunkvent2r", "trunkL2l"],
+	["Ltrunkvent2r", "trunkL2r"],
+	["Ltrunkvent2r", "trunkL1r"],
+	["Ltrunkvent2r", "trunkLrig"],
+
+	["Ltrunkvent3l", "trunkL1l"],
+	["Ltrunkvent3l", "trunkL1r"],
+	["Ltrunkvent3l", "trunkL2l"],
+	["Ltrunkvent3l", "trunkL2r"],
+
+	["Ltrunkvent3r", "trunkL1l"],
+	["Ltrunkvent3r", "trunkL1r"],
+	["Ltrunkvent3r", "trunkL2l"],
+	["Ltrunkvent3r", "trunkL2r"],
+	
+	
+	//to wing
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	{"breakGroup":"wingsupport_L_break"},
+	{"optional":true},
+	
+	["Ltrunkvent1l", "spoilF1l"],
+	["Ltrunkvent1l", "spoilF1r"],
+	["Ltrunkvent1l", "spoilF2l"],
+	["Ltrunkvent1l", "spoilF2r"],
+	["Ltrunkvent1l", "spoilFrig"],
+
+	["Ltrunkvent1r", "spoilF1l"],
+	["Ltrunkvent1r", "spoilF1r"],
+	["Ltrunkvent1r", "spoilF2l"],
+	["Ltrunkvent1r", "spoilF2r"],
+	["Ltrunkvent1r", "spoilFrig"],
+
+	["Ltrunkvent2l", "spoilF1l"],
+	["Ltrunkvent2l", "spoilF1r"],
+	["Ltrunkvent2l", "spoilF2l"],
+	["Ltrunkvent2l", "spoilF2r"],
+	["Ltrunkvent2l", "spoilFrig"],
+
+	["Ltrunkvent2r", "spoilF1l"],
+	["Ltrunkvent2r", "spoilF1r"],
+	["Ltrunkvent2r", "spoilF2l"],
+	["Ltrunkvent2r", "spoilF2r"],
+	["Ltrunkvent2r", "spoilFrig"],
+
+	["Ltrunkvent3l", "spoilF1l"],
+	["Ltrunkvent3l", "spoilF1r"],
+	["Ltrunkvent3l", "spoilF2l"],
+	["Ltrunkvent3l", "spoilF2r"],
+	["Ltrunkvent3l", "spoilFrig"],
+
+	["Ltrunkvent3r", "spoilF1l"],
+	["Ltrunkvent3r", "spoilF1r"],
+	["Ltrunkvent3r", "spoilF2l"],
+	["Ltrunkvent3r", "spoilF2r"],
+	["Ltrunkvent3r", "spoilFrig"],
+
+	["Ltrunkvent4l", "spoilF1l"],
+	["Ltrunkvent4l", "spoilF1r"],
+	["Ltrunkvent4l", "spoilF2l"],
+	["Ltrunkvent4l", "spoilF2r"],
+	["Ltrunkvent4l", "spoilFrig"],
+
+	["Ltrunkvent4r", "spoilF1l"],
+	["Ltrunkvent4r", "spoilF1r"],
+	["Ltrunkvent4r", "spoilF2l"],
+	["Ltrunkvent4r", "spoilF2r"],
+	["Ltrunkvent4r", "spoilFrig"],
+	
+	{"optional":false},
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_trunkvent_L"},
+	["Ltrunkvent1l","Ltrunkvent1r","Ltrunkvent2r","Ltrunkvent2l"],
+	["Ltrunkvent3r","Ltrunkvent3l","Ltrunkvent4l","Ltrunkvent4r"],
+	["Ltrunkvent1l","Ltrunkvent2l","Ltrunkvent4l","Ltrunkvent3l"],
+	["Ltrunkvent2r","Ltrunkvent1r","Ltrunkvent3r","Ltrunkvent4r"],
+	["Ltrunkvent2l","Ltrunkvent2r","Ltrunkvent4r","Ltrunkvent4l"],
+	["Ltrunkvent1r","Ltrunkvent1l","Ltrunkvent3l","Ltrunkvent3r"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_wing_groupb_side_R": {
+    "information":{
+        "name":"Right Group B Wing Support",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_trunk_accessory_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_verytall_slope_spoiler",["legocar_trunk_vent_R"],[], {"pos":{"x":-0.625, "y":1.500, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_trunk_vent_R"},
+	//8 pieces, 4 half-pieces, 8 nodes - 1.5 kg/node
+	{"nodeWeight": "$=$weight*1.5"},
+
+	["Rtrunkvent1r", -0.75, 1.28, 0.8],
+	["Rtrunkvent1l", -0.50, 1.28, 0.8],
+	["Rtrunkvent2r", -0.75, 1.72, 0.8],
+	["Rtrunkvent2l", -0.50, 1.72, 0.8],
+	["Rtrunkvent3r", -0.75, 1.50, 1.6],
+	["Rtrunkvent3l", -0.50, 1.50, 1.6],
+	["Rtrunkvent4r", -0.75, 1.72, 1.6],
+	["Rtrunkvent4l", -0.50, 1.72, 1.6],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"}
+
+	//uniform structure
+	["Rtrunkvent1l", "Rtrunkvent1r"],
+	["Rtrunkvent2l", "Rtrunkvent2r"],
+	["Rtrunkvent3l", "Rtrunkvent3r"],
+	["Rtrunkvent4l", "Rtrunkvent4r"],
+
+	["Rtrunkvent1l", "Rtrunkvent2r"],
+	["Rtrunkvent2l", "Rtrunkvent3r"],
+	["Rtrunkvent3l", "Rtrunkvent4r"],
+	["Rtrunkvent4l", "Rtrunkvent1r"],
+
+	["Rtrunkvent1l", "Rtrunkvent3r"],
+	["Rtrunkvent2l", "Rtrunkvent4r"],
+	["Rtrunkvent3l", "Rtrunkvent1r"],
+	["Rtrunkvent4l", "Rtrunkvent2r"],
+
+	["Rtrunkvent1l", "Rtrunkvent4r"],
+	["Rtrunkvent2l", "Rtrunkvent1r"],
+	["Rtrunkvent3l", "Rtrunkvent2r"],
+	["Rtrunkvent4l", "Rtrunkvent3r"],
+
+	["Rtrunkvent1l", "Rtrunkvent2l"],
+	["Rtrunkvent2l", "Rtrunkvent3l"],
+	["Rtrunkvent3l", "Rtrunkvent4l"],
+	["Rtrunkvent4l", "Rtrunkvent1l"],
+
+	["Rtrunkvent1l", "Rtrunkvent3l"],
+	["Rtrunkvent2l", "Rtrunkvent4l"],
+
+	["Rtrunkvent1r", "Rtrunkvent2r"],
+	["Rtrunkvent2r", "Rtrunkvent3r"],
+	["Rtrunkvent3r", "Rtrunkvent4r"],
+	["Rtrunkvent4r", "Rtrunkvent1r"],
+
+	["Rtrunkvent1r", "Rtrunkvent3r"],
+	["Rtrunkvent2r", "Rtrunkvent4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to trunk
+	{"beamSpring":"$=$weight*301000", "beamDamp":"$=$weight*30"},
+	{"breakGroup":"trunkvent_R_break"},
+	
+	["Rtrunkvent1l", "trunkR1l"],
+	["Rtrunkvent1l", "trunkR1r"],
+	["Rtrunkvent1l", "trunkR2l"],
+	["Rtrunkvent1l", "trunkRrig"],
+
+	["Rtrunkvent1r", "trunkR1l"],
+	["Rtrunkvent1r", "trunkR1r"],
+	["Rtrunkvent1r", "trunkR2r"],
+	["Rtrunkvent1r", "trunkRrig"],
+
+	["Rtrunkvent2l", "trunkR2l"],
+	["Rtrunkvent2l", "trunkR2r"],
+	["Rtrunkvent2l", "trunkR1l"],
+	["Rtrunkvent2l", "trunkRrig"],
+
+	["Rtrunkvent2r", "trunkR2l"],
+	["Rtrunkvent2r", "trunkR2r"],
+	["Rtrunkvent2r", "trunkR1r"],
+	["Rtrunkvent2r", "trunkRrig"],
+
+	["Rtrunkvent3l", "trunkR1l"],
+	["Rtrunkvent3l", "trunkR1r"],
+	["Rtrunkvent3l", "trunkR2l"],
+	["Rtrunkvent3l", "trunkR2r"],
+
+	["Rtrunkvent3r", "trunkR1l"],
+	["Rtrunkvent3r", "trunkR1r"],
+	["Rtrunkvent3r", "trunkR2l"],
+	["Rtrunkvent3r", "trunkR2r"],
+	
+	//to wing
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	{"breakGroup":"wingsupport_R_break"},
+	{"optional":true},
+	
+	["Rtrunkvent1l", "spoilF1l"],
+	["Rtrunkvent1l", "spoilF1r"],
+	["Rtrunkvent1l", "spoilF2l"],
+	["Rtrunkvent1l", "spoilF2r"],
+	["Rtrunkvent1l", "spoilFrig"],
+
+	["Rtrunkvent1r", "spoilF1l"],
+	["Rtrunkvent1r", "spoilF1r"],
+	["Rtrunkvent1r", "spoilF2l"],
+	["Rtrunkvent1r", "spoilF2r"],
+	["Rtrunkvent1r", "spoilFrig"],
+
+	["Rtrunkvent2l", "spoilF1l"],
+	["Rtrunkvent2l", "spoilF1r"],
+	["Rtrunkvent2l", "spoilF2l"],
+	["Rtrunkvent2l", "spoilF2r"],
+	["Rtrunkvent2l", "spoilFrig"],
+
+	["Rtrunkvent2r", "spoilF1l"],
+	["Rtrunkvent2r", "spoilF1r"],
+	["Rtrunkvent2r", "spoilF2l"],
+	["Rtrunkvent2r", "spoilF2r"],
+	["Rtrunkvent2r", "spoilFrig"],
+
+	["Rtrunkvent3l", "spoilF1l"],
+	["Rtrunkvent3l", "spoilF1r"],
+	["Rtrunkvent3l", "spoilF2l"],
+	["Rtrunkvent3l", "spoilF2r"],
+	["Rtrunkvent3l", "spoilFrig"],
+
+	["Rtrunkvent3r", "spoilF1l"],
+	["Rtrunkvent3r", "spoilF1r"],
+	["Rtrunkvent3r", "spoilF2l"],
+	["Rtrunkvent3r", "spoilF2r"],
+	["Rtrunkvent3r", "spoilFrig"],
+
+	["Rtrunkvent4l", "spoilF1l"],
+	["Rtrunkvent4l", "spoilF1r"],
+	["Rtrunkvent4l", "spoilF2l"],
+	["Rtrunkvent4l", "spoilF2r"],
+	["Rtrunkvent4l", "spoilFrig"],
+
+	["Rtrunkvent4r", "spoilF1l"],
+	["Rtrunkvent4r", "spoilF1r"],
+	["Rtrunkvent4r", "spoilF2l"],
+	["Rtrunkvent4r", "spoilF2r"],
+	["Rtrunkvent4r", "spoilFrig"],
+	
+	{"optional":false},
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_trunkvent_R"},
+	["Rtrunkvent1l","Rtrunkvent1r","Rtrunkvent2r","Rtrunkvent2l"],
+	["Rtrunkvent3r","Rtrunkvent3l","Rtrunkvent4l","Rtrunkvent4r"],
+	["Rtrunkvent1l","Rtrunkvent2l","Rtrunkvent4l","Rtrunkvent3l"],
+	["Rtrunkvent2r","Rtrunkvent1r","Rtrunkvent3r","Rtrunkvent4r"],
+	["Rtrunkvent2l","Rtrunkvent2r","Rtrunkvent4r","Rtrunkvent4l"],
+	["Rtrunkvent1r","Rtrunkvent1l","Rtrunkvent3l","Rtrunkvent3r"],
+
+        {"group":""},
+    ],
+},
+
+}

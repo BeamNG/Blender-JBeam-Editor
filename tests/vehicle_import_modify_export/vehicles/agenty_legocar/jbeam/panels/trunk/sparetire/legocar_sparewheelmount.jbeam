@@ -1,0 +1,186 @@
+{
+"legocar_sparetire_mount": {
+    "information":{
+        "name":"Spare Wheel Mount",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_trunk_accessory_M",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_sparewheel","legocar_sparewheel_wide", "Spare Wheel"],
+	["legocar_sparewheel_brake","", "Spare Wheel Brake"],
+	["legocar_sparewheeldata","legocar_sparewheeldata", "Spare Spindles", {"coreSlot":true}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x2_sparemount_black",["legocar_sparemount"],[], {"pos":{"x": 0.000, "y":1.625, "z":0.8},"rot":{"x":0, "y":0, "z":45},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_sparemount"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["sparemt1l",  0.375, 1.625, 0.85],
+	["sparemt1r",  0.000, 1.250, 0.85],
+	["sparemt2l",  0.000, 2.000, 0.85],
+	["sparemt2r", -0.375, 1.625, 0.85],
+	["sparemtrig", 0, 1.625, 1.10, {"selfCollision":false}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*801000", "beamDamp":"$=$weight*80"},
+
+	//uniform structure
+	["sparemt1l", "sparemt1r"],
+	["sparemt2l", "sparemt2r"],
+	["sparemt1l", "sparemt2l"],
+	["sparemt1r", "sparemt2r"],
+	["sparemt1l", "sparemt2r"],
+	["sparemt2l", "sparemt1r"],
+
+	//rigidifier
+	["sparemt1l", "sparemtrig"],
+	["sparemt1r", "sparemtrig"],
+	["sparemt2l", "sparemtrig"],
+	["sparemt2r", "sparemtrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*301000", "beamDamp":"$=$weight*30"},
+	{"breakGroup":"sparemount_break"},
+
+	["sparemt1l", "trunkM1l"],
+	["sparemt1l", "trunkM2l"],
+	["sparemt1l", "trunkM1r"],
+	["sparemt1l", "trunkMrig"],
+
+	["sparemt1r", "trunkM1r"],
+	["sparemt1r", "trunkM2r"],
+	["sparemt1r", "trunkM1l"],
+	["sparemt1r", "trunkMrig"],
+
+	["sparemt2l", "trunkM2l"],
+	["sparemt2l", "trunkM1l"],
+	["sparemt2l", "trunkM2r"],
+	["sparemt2l", "trunkMrig"],
+
+	["sparemt2r", "trunkM2r"],
+	["sparemt2r", "trunkM1r"],
+	["sparemt2r", "trunkM2l"],
+	["sparemt2r", "trunkMrig"],
+
+	["sparemtrig", "trunkM1l"],
+	["sparemtrig", "trunkM2l"],
+	["sparemtrig", "trunkM1r"],
+	["sparemtrig", "trunkM2r"],
+
+	
+	//attach spare wheel
+	{"beamSpring":5001000,"beamDamp":75},
+        {"beamDeform":"$=$strength*5", "beamStrength":"$=$strength*5"},
+	{"breakGroup":"sparewheel_break"},
+	
+	["sparemt1l", "spw1", {"name":"axle_spare"}],
+	["sparemt1r", "spw1"],
+	["sparemt2l", "spw1"],
+	["sparemt2r", "spw1"],
+
+	["sparemt1l", "spw2"],
+	["sparemt1r", "spw2"],
+	["sparemt2l", "spw2"],
+	["sparemt2r", "spw2"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_sparemount"},   
+	["sparemt1r","sparemt1l","sparemt2l","sparemt2r"],
+        {"group":""},
+    ],
+    "powertrain" : [
+        ["type", "name", "inputName", "inputIndex"],
+        ["shaft", "spindle_spare", "wheelaxle_spare", 1, {"connectedWheel":"spare", "breakTriggerBeam":"axle_spare", "uiName":"Spare Wheel Mount", "friction":1, "dynamicFriction":1, "torqueLossCoef": 0}],
+    ],
+    "pressureWheels": [
+            ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+            //cancel out brake properties
+            {"brakeTorque":100},
+            {"parkingTorque":0},
+	    {"brakeSpring":500},
+            {"enableBrakeThermals":false},
+            {"brakeDiameter":false},
+            {"brakeMass":false},
+            {"brakeType":false},
+            {"rotorMaterial":false},
+            {"brakeVentingCoef":false},
+    ],
+},
+
+"legocar_sparewheel_brake": {
+    "information":{
+        "name":"Spare Wheel Brake",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_sparewheel_brake",
+    "controller": [
+        ["fileName"],
+        ["spare_wheel_brake", {}]
+    ],
+},
+
+"legocar_sparewheeldata": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Spare Spindles",
+    },
+    "slotType" : "legocar_sparewheeldata",
+    "pressureWheels": [
+        ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+        //wheel data
+	{"breakGroup":""},
+        {"deformGroup":""},
+        {"selfCollision":true},
+        {"collision":true},
+	{"hubSide1TriangleCollision":true},
+	{"hubSide2TriangleCollision":true},
+	{"speedo":false},
+	{"useDefaultBrakeInput":false},
+        {"hubcapBreakGroup":"hubcap_spare"},
+        {"hubcapGroup":"hubcap_spare"},
+        {"axleBeams":["axle_spare"]},
+        ["spare", "legocar_sparewheel", "legocar_sparetire", "spw1", "spw2", 9999, "sparemt1l", 1],
+        {"selfCollision":true},
+        {"axleBeams":[]},{"disableMeshBreaking":false,"disableTriangleBreaking":false},
+        {"hubcapBreakGroup":""},
+        {"hubcapGroup":""},
+        {"enableHubcaps":false},
+        {"enableTireLbeams":false},
+        {"enableTreadReinfBeams":false},
+        {"enableTireReinfBeams":false},
+        {"enableTreadReinfBeams":false},
+        {"enableTirePeripheryReinfBeams":false},
+        {"loadSensitivitySlope":""},
+        {"noLoadCoef":""},
+        {"fullLoadCoef":""},
+        {"frictionCoef":""},
+        {"slidingFrictionCoef":""},
+        {"softnessCoef":0.5},
+        {"treadCoef":1.0},
+	{"hubSide1TriangleCollision":false},
+	{"hubSide2TriangleCollision":false},
+	{"speedo":true},
+	{"useDefaultBrakeInput":true},
+    ],
+},
+
+}

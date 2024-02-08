@@ -1,0 +1,198 @@
+{
+"legocar_exhausttip_M_black": {
+    "information":{
+        "name":"Middle Exhaust Tip (Black)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhausttip_M",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_BM","legocar_afterfire_BM", "Afterfire Effect"],
+	["legocar_nitrofire_BM","", "Nitrous Flames"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_cyllinder_connector_talltoflat_black", ["legocar_exhaust_M"], [], {"pos":{"x": 0.000, "y":1.850, "z":0.000},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//add weight and change exhaust properties
+	{"group":"legocar_exhaust_M"},
+	//original 0.0 kg/node, + 1kg -> 1.5kg 
+	{"nodeWeight": "$=$weight*1.5"},
+	["Mexh3",  0.00, 1.80, 0.00],
+	//original 0.0 kg/node, + 0.0kg -> 1kg 
+	{"nodeWeight": "$=$weight*1"},
+	["Mexh4",  0.00, 2.10, 0.00, {"afterFireAudioCoef":0.3,"afterFireVisualCoef":0.35, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-2}],
+    ],
+},
+
+"legocar_exhausttip_M_chrome": {
+    "information":{
+        "name":"Middle Exhaust Tip (Chrome)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhausttip_M",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_BM","legocar_afterfire_BM", "Afterfire Effect"],
+	["legocar_nitrofire_BM","", "Nitrous Flames"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_cyllinder_connector_talltoflat_chrome", ["legocar_exhaust_M"], [], {"pos":{"x": 0.000, "y":1.850, "z":0.000},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//add weight and change exhaust properties
+	{"group":"legocar_exhaust_M"},
+	//original 0.0 kg/node, + 1kg -> 1.5kg 
+	{"nodeWeight": "$=$weight*1.5"},
+	["Mexh3",  0.00, 1.80, 0.00],
+	//original 0.0 kg/node, + 0.0kg -> 1kg 
+	{"nodeWeight": "$=$weight*1"},
+	["Mexh4",  0.00, 2.10, 0.00, {"afterFireAudioCoef":0.3,"afterFireVisualCoef":0.35, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-2}],
+    ],
+},
+
+"legocar_exhausttip_M_yellow": {
+    "information":{
+        "name":"Middle Exhaust Tip (Yellow)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhausttip_M",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_BM","legocar_afterfire_BM", "Afterfire Effect"],
+	["legocar_nitrofire_BM","", "Nitrous Flames"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_cyllinder_connector_talltoflat_byellow_metallic", ["legocar_exhaust_M"], [], {"pos":{"x": 0.000, "y":1.850, "z":0.000},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//add weight and change exhaust properties
+	{"group":"legocar_exhaust_M"},
+	//original 0.0 kg/node, + 1kg -> 1.5kg 
+	{"nodeWeight": "$=$weight*1.5"},
+	["Mexh3",  0.00, 1.80, 0.00],
+	//original 0.0 kg/node, + 0.0kg -> 1kg 
+	{"nodeWeight": "$=$weight*1"},
+	["Mexh4",  0.00, 2.10, 0.00, {"afterFireAudioCoef":0.3,"afterFireVisualCoef":0.35, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-2}],
+    ],
+},
+
+"legocar_exhausttip_M_blue": {
+    "information":{
+        "name":"Middle Exhaust Tip (Blue)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhausttip_M",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_BM","legocar_afterfire_BM", "Afterfire Effect"],
+	["legocar_nitrofire_BM","", "Nitrous Flames"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_cyllinder_connector_talltoflat_drblue_metallic", ["legocar_exhaust_M"], [], {"pos":{"x": 0.000, "y":1.850, "z":0.000},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//add weight and change exhaust properties
+	{"group":"legocar_exhaust_M"},
+	//original 0.0 kg/node, + 1kg -> 1.5kg 
+	{"nodeWeight": "$=$weight*1.5"},
+	["Mexh3",  0.00, 1.80, 0.00],
+	//original 0.0 kg/node, + 0.0kg -> 1kg 
+	{"nodeWeight": "$=$weight*1"},
+	["Mexh4",  0.00, 2.10, 0.00, {"afterFireAudioCoef":0.3,"afterFireVisualCoef":0.35, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-2}],
+    ],
+},
+
+"legocar_exhausttip_M_red": {
+    "information":{
+        "name":"Middle Exhaust Tip (Red)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhausttip_M",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_BM","legocar_afterfire_BM", "Afterfire Effect"],
+	["legocar_nitrofire_BM","", "Nitrous Flames"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_cyllinder_connector_talltoflat_dred_metallic", ["legocar_exhaust_M"], [], {"pos":{"x": 0.000, "y":1.850, "z":0.000},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//add weight and change exhaust properties
+	{"group":"legocar_exhaust_M"},
+	//original 0.0 kg/node, + 1kg -> 1.5kg 
+	{"nodeWeight": "$=$weight*1.5"},
+	["Mexh3",  0.00, 1.80, 0.00],
+	//original 0.0 kg/node, + 0.0kg -> 1kg 
+	{"nodeWeight": "$=$weight*1"},
+	["Mexh4",  0.00, 2.10, 0.00, {"afterFireAudioCoef":0.3,"afterFireVisualCoef":0.35, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-2}],
+    ],
+},
+
+"legocar_exhausttip_M_purple": {
+    "information":{
+        "name":"Middle Exhaust Tip (Purple)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhausttip_M",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_BM","legocar_afterfire_BM", "Afterfire Effect"],
+	["legocar_nitrofire_BM","", "Nitrous Flames"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_cyllinder_connector_talltoflat_lpurple_metallic", ["legocar_exhaust_M"], [], {"pos":{"x": 0.000, "y":1.850, "z":0.000},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//add weight and change exhaust properties
+	{"group":"legocar_exhaust_M"},
+	//original 0.0 kg/node, + 1kg -> 1.5kg 
+	{"nodeWeight": "$=$weight*1.5"},
+	["Mexh3",  0.00, 1.80, 0.00],
+	//original 0.0 kg/node, + 0.0kg -> 1kg 
+	{"nodeWeight": "$=$weight*1"},
+	["Mexh4",  0.00, 2.10, 0.00, {"afterFireAudioCoef":0.3,"afterFireVisualCoef":0.35, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-2}],
+    ],
+},
+
+"legocar_exhausttip_M_titanium": {
+    "information":{
+        "name":"Middle Exhaust Tip (Titanium)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhausttip_M",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_BM","legocar_afterfire_BM", "Afterfire Effect"],
+	["legocar_nitrofire_BM","", "Nitrous Flames"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_cyllinder_connector_talltoflat_titanium", ["legocar_exhaust_M"], [], {"pos":{"x": 0.000, "y":1.850, "z":0.000},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//add weight and change exhaust properties
+	{"group":"legocar_exhaust_M"},
+	//original 0.0 kg/node, + 1kg -> 1.5kg 
+	{"nodeWeight": "$=$weight*1.5"},
+	["Mexh3",  0.00, 1.80, 0.00],
+	//original 0.0 kg/node, + 0.0kg -> 1kg 
+	{"nodeWeight": "$=$weight*1"},
+	["Mexh4",  0.00, 2.10, 0.00, {"afterFireAudioCoef":0.3,"afterFireVisualCoef":0.35, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-2}],
+    ],
+},
+
+}

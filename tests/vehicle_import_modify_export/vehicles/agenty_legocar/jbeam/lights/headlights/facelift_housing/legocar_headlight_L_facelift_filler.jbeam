@@ -1,0 +1,566 @@
+{
+"legocar_headlight_L_facelift_filler_col1": {
+    "information":{
+        "name":"Left Facelift Headlight Filler (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_headlight_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_slope_col1", ["legocar_headlight_L"],[], {"pos":{"x": 0.625, "y":-1.850, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_headlight_L"},
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["hdlight1ll",  0.50, -1.85, 0.38],
+	["hdlight2ll",  0.50, -1.85, 0.60],
+	["hdlight3ll",  0.50, -2.05, 0.38],
+	["hdlight4ll",  0.50, -2.05, 0.60],
+	["hdlight1lll", 0.75, -1.85, 0.38],
+	["hdlight2lll", 0.75, -1.85, 0.60],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform horizontal
+	["hdlight1ll", "hdlight1lll"],
+	["hdlight2ll", "hdlight2lll"],
+	["hdlight1ll", "hdlight2lll"],
+	["hdlight2ll", "hdlight1lll"],
+	["hdlight3ll", "hdlight1lll"],
+	["hdlight4ll", "hdlight2lll"],
+	["hdlight3ll", "hdlight2lll"],
+	["hdlight4ll", "hdlight1lll"],
+
+	//uniform vertical
+	["hdlight1ll", "hdlight2ll"],
+	["hdlight3ll", "hdlight4ll"],
+	["hdlight1ll", "hdlight3ll"],
+	["hdlight2ll", "hdlight4ll"],
+	["hdlight1ll", "hdlight4ll"],
+	["hdlight2ll", "hdlight3ll"],
+	["hdlight1lll", "hdlight2lll"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"headlight_L_break"},
+	
+	["hdlight1lll", "Ffasc1l"],
+	["hdlight1lll", "Ffasc1r"],
+	["hdlight1lll", "Ffasc2l"],
+
+	["hdlight2lll", "Ffasc1l"],
+	["hdlight2lll", "Ffasc2r"],
+	["hdlight2lll", "Ffasc2l"],
+
+	["hdlight3ll", "Ffasc1l"],
+	["hdlight3ll", "Ffasc1r"],
+	["hdlight3ll", "Ffasc2l"],
+
+	["hdlight4ll", "Ffasc1l"],
+	["hdlight4ll", "Ffasc2r"],
+	["hdlight4ll", "Ffasc2l"],
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_headlight_L"},
+	["hdlight1ll","hdlight1lll","hdlight3ll"],
+  	["hdlight2ll","hdlight4ll","hdlight2lll"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_headlight_L"},   
+	["hdlight1ll","hdlight2ll","hdlight2lll","hdlight1lll"],
+	["hdlight1ll","hdlight3ll","hdlight4ll","hdlight2ll"],
+	["hdlight1lll","hdlight2lll","hdlight4ll","hdlight3ll"],
+        {"group":""},
+    ],
+},
+
+"legocar_headlight_L_facelift_filler_col2": {
+    "information":{
+        "name":"Left Facelift Headlight Filler (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_headlight_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_slope_col2", ["legocar_headlight_L"],[], {"pos":{"x": 0.625, "y":-1.850, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_headlight_L"},
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["hdlight1ll",  0.50, -1.85, 0.38],
+	["hdlight2ll",  0.50, -1.85, 0.60],
+	["hdlight3ll",  0.50, -2.05, 0.38],
+	["hdlight4ll",  0.50, -2.05, 0.60],
+	["hdlight1lll", 0.75, -1.85, 0.38],
+	["hdlight2lll", 0.75, -1.85, 0.60],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform horizontal
+	["hdlight1ll", "hdlight1lll"],
+	["hdlight2ll", "hdlight2lll"],
+	["hdlight1ll", "hdlight2lll"],
+	["hdlight2ll", "hdlight1lll"],
+	["hdlight3ll", "hdlight1lll"],
+	["hdlight4ll", "hdlight2lll"],
+	["hdlight3ll", "hdlight2lll"],
+	["hdlight4ll", "hdlight1lll"],
+
+	//uniform vertical
+	["hdlight1ll", "hdlight2ll"],
+	["hdlight3ll", "hdlight4ll"],
+	["hdlight1ll", "hdlight3ll"],
+	["hdlight2ll", "hdlight4ll"],
+	["hdlight1ll", "hdlight4ll"],
+	["hdlight2ll", "hdlight3ll"],
+	["hdlight1lll", "hdlight2lll"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"headlight_L_break"},
+	
+	["hdlight1lll", "Ffasc1l"],
+	["hdlight1lll", "Ffasc1r"],
+	["hdlight1lll", "Ffasc2l"],
+
+	["hdlight2lll", "Ffasc1l"],
+	["hdlight2lll", "Ffasc2r"],
+	["hdlight2lll", "Ffasc2l"],
+
+	["hdlight3ll", "Ffasc1l"],
+	["hdlight3ll", "Ffasc1r"],
+	["hdlight3ll", "Ffasc2l"],
+
+	["hdlight4ll", "Ffasc1l"],
+	["hdlight4ll", "Ffasc2r"],
+	["hdlight4ll", "Ffasc2l"],
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_headlight_L"},
+	["hdlight1ll","hdlight1lll","hdlight3ll"],
+  	["hdlight2ll","hdlight4ll","hdlight2lll"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_headlight_L"},   
+	["hdlight1ll","hdlight2ll","hdlight2lll","hdlight1lll"],
+	["hdlight1ll","hdlight3ll","hdlight4ll","hdlight2ll"],
+	["hdlight1lll","hdlight2lll","hdlight4ll","hdlight3ll"],
+        {"group":""},
+    ],
+},
+
+"legocar_headlight_L_facelift_filler_col3": {
+    "information":{
+        "name":"Left Facelift Headlight Filler (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_headlight_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_slope_col3", ["legocar_headlight_L"],[], {"pos":{"x": 0.625, "y":-1.850, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_headlight_L"},
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["hdlight1ll",  0.50, -1.85, 0.38],
+	["hdlight2ll",  0.50, -1.85, 0.60],
+	["hdlight3ll",  0.50, -2.05, 0.38],
+	["hdlight4ll",  0.50, -2.05, 0.60],
+	["hdlight1lll", 0.75, -1.85, 0.38],
+	["hdlight2lll", 0.75, -1.85, 0.60],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform horizontal
+	["hdlight1ll", "hdlight1lll"],
+	["hdlight2ll", "hdlight2lll"],
+	["hdlight1ll", "hdlight2lll"],
+	["hdlight2ll", "hdlight1lll"],
+	["hdlight3ll", "hdlight1lll"],
+	["hdlight4ll", "hdlight2lll"],
+	["hdlight3ll", "hdlight2lll"],
+	["hdlight4ll", "hdlight1lll"],
+
+	//uniform vertical
+	["hdlight1ll", "hdlight2ll"],
+	["hdlight3ll", "hdlight4ll"],
+	["hdlight1ll", "hdlight3ll"],
+	["hdlight2ll", "hdlight4ll"],
+	["hdlight1ll", "hdlight4ll"],
+	["hdlight2ll", "hdlight3ll"],
+	["hdlight1lll", "hdlight2lll"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"headlight_L_break"},
+	
+	["hdlight1lll", "Ffasc1l"],
+	["hdlight1lll", "Ffasc1r"],
+	["hdlight1lll", "Ffasc2l"],
+
+	["hdlight2lll", "Ffasc1l"],
+	["hdlight2lll", "Ffasc2r"],
+	["hdlight2lll", "Ffasc2l"],
+
+	["hdlight3ll", "Ffasc1l"],
+	["hdlight3ll", "Ffasc1r"],
+	["hdlight3ll", "Ffasc2l"],
+
+	["hdlight4ll", "Ffasc1l"],
+	["hdlight4ll", "Ffasc2r"],
+	["hdlight4ll", "Ffasc2l"],
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_headlight_L"},
+	["hdlight1ll","hdlight1lll","hdlight3ll"],
+  	["hdlight2ll","hdlight4ll","hdlight2lll"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_headlight_L"},   
+	["hdlight1ll","hdlight2ll","hdlight2lll","hdlight1lll"],
+	["hdlight1ll","hdlight3ll","hdlight4ll","hdlight2ll"],
+	["hdlight1lll","hdlight2lll","hdlight4ll","hdlight3ll"],
+        {"group":""},
+    ],
+},
+
+"legocar_headlight_L_facelift_filler_grey": {
+    "information":{
+        "name":"Left Facelift Headlight Filler (Light Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_headlight_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_slope_grey", ["legocar_headlight_L"],[], {"pos":{"x": 0.625, "y":-1.850, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_headlight_L"},
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["hdlight1ll",  0.50, -1.85, 0.38],
+	["hdlight2ll",  0.50, -1.85, 0.60],
+	["hdlight3ll",  0.50, -2.05, 0.38],
+	["hdlight4ll",  0.50, -2.05, 0.60],
+	["hdlight1lll", 0.75, -1.85, 0.38],
+	["hdlight2lll", 0.75, -1.85, 0.60],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform horizontal
+	["hdlight1ll", "hdlight1lll"],
+	["hdlight2ll", "hdlight2lll"],
+	["hdlight1ll", "hdlight2lll"],
+	["hdlight2ll", "hdlight1lll"],
+	["hdlight3ll", "hdlight1lll"],
+	["hdlight4ll", "hdlight2lll"],
+	["hdlight3ll", "hdlight2lll"],
+	["hdlight4ll", "hdlight1lll"],
+
+	//uniform vertical
+	["hdlight1ll", "hdlight2ll"],
+	["hdlight3ll", "hdlight4ll"],
+	["hdlight1ll", "hdlight3ll"],
+	["hdlight2ll", "hdlight4ll"],
+	["hdlight1ll", "hdlight4ll"],
+	["hdlight2ll", "hdlight3ll"],
+	["hdlight1lll", "hdlight2lll"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"headlight_L_break"},
+	
+	["hdlight1lll", "Ffasc1l"],
+	["hdlight1lll", "Ffasc1r"],
+	["hdlight1lll", "Ffasc2l"],
+
+	["hdlight2lll", "Ffasc1l"],
+	["hdlight2lll", "Ffasc2r"],
+	["hdlight2lll", "Ffasc2l"],
+
+	["hdlight3ll", "Ffasc1l"],
+	["hdlight3ll", "Ffasc1r"],
+	["hdlight3ll", "Ffasc2l"],
+
+	["hdlight4ll", "Ffasc1l"],
+	["hdlight4ll", "Ffasc2r"],
+	["hdlight4ll", "Ffasc2l"],
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_headlight_L"},
+	["hdlight1ll","hdlight1lll","hdlight3ll"],
+  	["hdlight2ll","hdlight4ll","hdlight2lll"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_headlight_L"},   
+	["hdlight1ll","hdlight2ll","hdlight2lll","hdlight1lll"],
+	["hdlight1ll","hdlight3ll","hdlight4ll","hdlight2ll"],
+	["hdlight1lll","hdlight2lll","hdlight4ll","hdlight3ll"],
+        {"group":""},
+    ],
+},
+
+"legocar_headlight_L_facelift_filler_dgrey": {
+    "information":{
+        "name":"Left Facelift Headlight Filler (Dark Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_headlight_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_slope_dgrey", ["legocar_headlight_L"],[], {"pos":{"x": 0.625, "y":-1.850, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_headlight_L"},
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["hdlight1ll",  0.50, -1.85, 0.38],
+	["hdlight2ll",  0.50, -1.85, 0.60],
+	["hdlight3ll",  0.50, -2.05, 0.38],
+	["hdlight4ll",  0.50, -2.05, 0.60],
+	["hdlight1lll", 0.75, -1.85, 0.38],
+	["hdlight2lll", 0.75, -1.85, 0.60],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform horizontal
+	["hdlight1ll", "hdlight1lll"],
+	["hdlight2ll", "hdlight2lll"],
+	["hdlight1ll", "hdlight2lll"],
+	["hdlight2ll", "hdlight1lll"],
+	["hdlight3ll", "hdlight1lll"],
+	["hdlight4ll", "hdlight2lll"],
+	["hdlight3ll", "hdlight2lll"],
+	["hdlight4ll", "hdlight1lll"],
+
+	//uniform vertical
+	["hdlight1ll", "hdlight2ll"],
+	["hdlight3ll", "hdlight4ll"],
+	["hdlight1ll", "hdlight3ll"],
+	["hdlight2ll", "hdlight4ll"],
+	["hdlight1ll", "hdlight4ll"],
+	["hdlight2ll", "hdlight3ll"],
+	["hdlight1lll", "hdlight2lll"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"headlight_L_break"},
+	
+	["hdlight1lll", "Ffasc1l"],
+	["hdlight1lll", "Ffasc1r"],
+	["hdlight1lll", "Ffasc2l"],
+
+	["hdlight2lll", "Ffasc1l"],
+	["hdlight2lll", "Ffasc2r"],
+	["hdlight2lll", "Ffasc2l"],
+
+	["hdlight3ll", "Ffasc1l"],
+	["hdlight3ll", "Ffasc1r"],
+	["hdlight3ll", "Ffasc2l"],
+
+	["hdlight4ll", "Ffasc1l"],
+	["hdlight4ll", "Ffasc2r"],
+	["hdlight4ll", "Ffasc2l"],
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_headlight_L"},
+	["hdlight1ll","hdlight1lll","hdlight3ll"],
+  	["hdlight2ll","hdlight4ll","hdlight2lll"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_headlight_L"},   
+	["hdlight1ll","hdlight2ll","hdlight2lll","hdlight1lll"],
+	["hdlight1ll","hdlight3ll","hdlight4ll","hdlight2ll"],
+	["hdlight1lll","hdlight2lll","hdlight4ll","hdlight3ll"],
+        {"group":""},
+    ],
+},
+
+"legocar_headlight_L_facelift_filler_fakelight": {
+    "information":{
+        "name":"Left Facelift Headlight Filler (Fake Light)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_headlight_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_slope_fakelight", ["legocar_headlight_L"],[], {"pos":{"x": 0.625, "y":-1.850, "z":0.475},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_headlight_L"},
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["hdlight1ll",  0.50, -1.85, 0.38],
+	["hdlight2ll",  0.50, -1.85, 0.60],
+	["hdlight3ll",  0.50, -2.05, 0.38],
+	["hdlight4ll",  0.50, -2.05, 0.60],
+	["hdlight1lll", 0.75, -1.85, 0.38],
+	["hdlight2lll", 0.75, -1.85, 0.60],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform horizontal
+	["hdlight1ll", "hdlight1lll"],
+	["hdlight2ll", "hdlight2lll"],
+	["hdlight1ll", "hdlight2lll"],
+	["hdlight2ll", "hdlight1lll"],
+	["hdlight3ll", "hdlight1lll"],
+	["hdlight4ll", "hdlight2lll"],
+	["hdlight3ll", "hdlight2lll"],
+	["hdlight4ll", "hdlight1lll"],
+
+	//uniform vertical
+	["hdlight1ll", "hdlight2ll"],
+	["hdlight3ll", "hdlight4ll"],
+	["hdlight1ll", "hdlight3ll"],
+	["hdlight2ll", "hdlight4ll"],
+	["hdlight1ll", "hdlight4ll"],
+	["hdlight2ll", "hdlight3ll"],
+	["hdlight1lll", "hdlight2lll"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"headlight_L_break"},
+	
+	["hdlight1lll", "Ffasc1l"],
+	["hdlight1lll", "Ffasc1r"],
+	["hdlight1lll", "Ffasc2l"],
+
+	["hdlight2lll", "Ffasc1l"],
+	["hdlight2lll", "Ffasc2r"],
+	["hdlight2lll", "Ffasc2l"],
+
+	["hdlight3ll", "Ffasc1l"],
+	["hdlight3ll", "Ffasc1r"],
+	["hdlight3ll", "Ffasc2l"],
+
+	["hdlight4ll", "Ffasc1l"],
+	["hdlight4ll", "Ffasc2r"],
+	["hdlight4ll", "Ffasc2l"],
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_headlight_L"},
+	["hdlight1ll","hdlight1lll","hdlight3ll"],
+  	["hdlight2ll","hdlight4ll","hdlight2lll"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_headlight_L"},   
+	["hdlight1ll","hdlight2ll","hdlight2lll","hdlight1lll"],
+	["hdlight1ll","hdlight3ll","hdlight4ll","hdlight2ll"],
+	["hdlight1lll","hdlight2lll","hdlight4ll","hdlight3ll"],
+        {"group":""},
+    ],
+},
+
+}

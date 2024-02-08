@@ -1,0 +1,186 @@
+{
+"legocar_skidplate_F": {
+    "information":{
+        "name":"Short Front Skidplate",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lip_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_3x2_flat_notip_grey", ["legocar_lip_F"], [], {"pos":{"x": 0.000, "y":-1.725, "z":0.050},"rot":{"x":0, "y":180, "z":0},"scale":{"x":1.00, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_lip_F"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Flip1l",  0.25, -1.35, 0.00],
+	["Flip1r", -0.25, -1.35, 0.00],
+	["Flip2l",  0.25, -2.10, 0.00],
+	["Flip2r", -0.25, -2.10, 0.00],
+	//rigidifier
+	["Fliprig", 0, -1.725, 0.4, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT LIP--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Flip1l", "Flip1r"],
+	["Flip2l", "Flip2r"],
+	["Flip1l", "Flip2l"],
+	["Flip1r", "Flip2r"],
+	["Flip1l", "Flip2r"],
+	["Flip2l", "Flip1r"],
+
+	//rigidifier
+	["Flip1l", "Fliprig"],
+	["Flip1r", "Fliprig"],
+	["Flip2l", "Fliprig"],
+	["Flip2r", "Fliprig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	{"breakGroup":"lip_F_break"},
+	
+	["Flip1l", "Fbump1l"],
+	["Flip1l", "Fbump1r"],
+	["Flip1l", "Fbump2l"],
+	["Flip1l", "Fbump3l"],
+
+	["Flip1r", "Fbump1l"],
+	["Flip1r", "Fbump1r"],
+	["Flip1r", "Fbump2r"],
+	["Flip1r", "Fbump3r"],
+
+	["Flip2l", "Fbump1l"],
+	["Flip2l", "Fbump2r"],
+	["Flip2l", "Fbump2l"],
+	["Flip2l", "Fbump3l"],
+
+	["Flip2r", "Fbump2l"],
+	["Flip2r", "Fbump1r"],
+	["Flip2r", "Fbump2r"],
+	["Flip2r", "Fbump3r"],
+
+	["Fliprig", "Fbump1l"],
+	["Fliprig", "Fbump1r"],
+	["Fliprig", "Fbump2l"],
+	["Fliprig", "Fbump2r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_lip_F"},
+	["Flip2l","Flip2r","Flip1r","Flip1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_skidplate_F_long": {
+    "information":{
+        "name":"Long Front Skidplate",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lip_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x2_flat_notip_grey", ["legocar_lip_F"], [], {"pos":{"x": 0.000, "y":-1.600, "z":0.050},"rot":{"x":0, "y":180, "z":0},"scale":{"x":1.00, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_lip_F"},
+	//8 pieces, 5 nodes - 1.6 kg/node
+	{"nodeWeight": "$=$weight*1.6"},
+
+	["Flip1l",  0.25, -1.10, 0.00],
+	["Flip1r", -0.25, -1.10, 0.00],
+	["Flip2l",  0.25, -2.10, 0.00],
+	["Flip2r", -0.25, -2.10, 0.00],
+	//rigidifier
+	["Fliprig", 0, -1.6, 0.4, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT LIP--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//uniform structure
+	["Flip1l", "Flip1r"],
+	["Flip2l", "Flip2r"],
+	["Flip1l", "Flip2l"],
+	["Flip1r", "Flip2r"],
+	["Flip1l", "Flip2r"],
+	["Flip2l", "Flip1r"],
+
+	//rigidifier
+	["Flip1l", "Fliprig"],
+	["Flip1r", "Fliprig"],
+	["Flip2l", "Fliprig"],
+	["Flip2r", "Fliprig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"breakGroup":"lip_F_break"},
+	
+	["Flip1l", "Fbump1l"],
+	["Flip1l", "Fbump1r"],
+	["Flip1l", "Fbump2l"],
+	["Flip1l", "Fbump3l"],
+
+	["Flip1r", "Fbump1l"],
+	["Flip1r", "Fbump1r"],
+	["Flip1r", "Fbump2r"],
+	["Flip1r", "Fbump3r"],
+
+	["Flip2l", "Fbump1l"],
+	["Flip2l", "Fbump2r"],
+	["Flip2l", "Fbump2l"],
+	["Flip2l", "Fbump3l"],
+
+	["Flip2r", "Fbump2l"],
+	["Flip2r", "Fbump1r"],
+	["Flip2r", "Fbump2r"],
+	["Flip2r", "Fbump3r"],
+
+	["Fliprig", "Fbump1l"],
+	["Fliprig", "Fbump1r"],
+	["Fliprig", "Fbump2l"],
+	["Fliprig", "Fbump2r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_lip_F"},
+	["Flip2l","Flip2r","Flip1r","Flip1l"],
+        {"group":""},
+    ],
+},
+
+}

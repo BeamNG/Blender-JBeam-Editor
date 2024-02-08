@@ -1,0 +1,947 @@
+{
+"legocar_licenseplate_F_prefacelift_derby_col1": {
+    "information":{
+        "name":"Derby Scoop (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_licenseplate_F_prefacelift",   
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_slope_col1", ["legocar_plate_FL"],[], {"pos":{"x": 0.125, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_slope_col1", ["legocar_plate_FR"],[], {"pos":{"x":-0.125, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z": 90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	{"group":"legocar_plate_FL"},
+	["Fplate1ll",  0.02, -1.95, 0.10],
+	["Fplate2ll",  0.02, -1.95, 0.35],
+	["Fplate3ll",  0.02, -2.15, 0.10],
+	["Fplate4ll",  0.02, -2.15, 0.35],
+	["Fplate1lll", 0.22, -1.95, 0.10],
+	["Fplate2lll", 0.22, -1.95, 0.35],
+
+	{"group":"legocar_plate_FR"},
+	["Fplate1rr",  -0.02, -1.95, 0.10],
+	["Fplate2rr",  -0.02, -1.95, 0.35],
+	["Fplate3rr",  -0.02, -2.15, 0.10],
+	["Fplate4rr",  -0.02, -2.15, 0.35],
+	["Fplate1rrr", -0.22, -1.95, 0.10],
+	["Fplate2rrr", -0.22, -1.95, 0.35],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT LICENSE PLATE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//left uniform horizontal
+	["Fplate1ll", "Fplate1lll"],
+	["Fplate2ll", "Fplate2lll"],
+	["Fplate1ll", "Fplate2lll"],
+	["Fplate2ll", "Fplate1lll"],
+	["Fplate3ll", "Fplate1lll"],
+	["Fplate4ll", "Fplate2lll"],
+	["Fplate3ll", "Fplate2lll"],
+	["Fplate4ll", "Fplate1lll"],
+
+	//left uniform vertical
+	["Fplate1ll", "Fplate2ll"],
+	["Fplate3ll", "Fplate4ll"],
+	["Fplate1ll", "Fplate3ll"],
+	["Fplate2ll", "Fplate4ll"],
+	["Fplate1ll", "Fplate4ll"],
+	["Fplate2ll", "Fplate3ll"],
+	["Fplate1lll", "Fplate2lll"],
+
+	//right uniform horizontal
+	["Fplate1rr", "Fplate1rrr"],
+	["Fplate2rr", "Fplate2rrr"],
+	["Fplate1rr", "Fplate2rrr"],
+	["Fplate2rr", "Fplate1rrr"],
+	["Fplate3rr", "Fplate1rrr"],
+	["Fplate4rr", "Fplate2rrr"],
+	["Fplate3rr", "Fplate2rrr"],
+	["Fplate4rr", "Fplate1rrr"],
+
+	//right uniform vertical
+	["Fplate1rr", "Fplate2rr"],
+	["Fplate3rr", "Fplate4rr"],
+	["Fplate1rr", "Fplate3rr"],
+	["Fplate2rr", "Fplate4rr"],
+	["Fplate1rr", "Fplate4rr"],
+	["Fplate2rr", "Fplate3rr"],
+	["Fplate1rrr", "Fplate2rrr"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//left
+	{"breakGroup":"licenseplate_FL_break"},
+	
+	["Fplate1ll", "Fbump1l"],
+	["Fplate1ll", "Fbump1r"],
+	["Fplate1ll", "Fbump2l"],
+	["Fplate1ll", "Fbumprig", {"optional":true}],
+
+	["Fplate2ll", "Fbump2l"],
+	["Fplate2ll", "Fbump2r"],
+	["Fplate2ll", "Fbump1l"],
+	["Fplate2ll", "Fbumprig", {"optional":true}],
+
+	["Fplate1lll", "Fbump1l"],
+	["Fplate1lll", "Fbump1r"],
+	["Fplate1lll", "Fbump2l"],
+	["Fplate1lll", "Fbumprig", {"optional":true}],
+
+	["Fplate2lll", "Fbump2l"],
+	["Fplate2lll", "Fbump2r"],
+	["Fplate2lll", "Fbump1l"],
+	["Fplate2lll", "Fbumprig", {"optional":true}],
+
+	["Fplate3ll", "Fbump1l"],
+	["Fplate3ll", "Fbump1r"],
+	["Fplate3ll", "Fbump2l"],
+	["Fplate3ll", "Fbumprig", {"optional":true}],
+
+	["Fplate4ll", "Fbump2l"],
+	["Fplate4ll", "Fbump2r"],
+	["Fplate4ll", "Fbump1l"],
+	["Fplate4ll", "Fbumprig", {"optional":true}],
+
+
+	//right
+	{"breakGroup":"licenseplate_FR_break"},
+
+	["Fplate1rr", "Fbump1r"],
+	["Fplate1rr", "Fbump1l"],
+	["Fplate1rr", "Fbump2r"],
+	["Fplate1rr", "Fbumprig", {"optional":true}],
+
+	["Fplate2rr", "Fbump2r"],
+	["Fplate2rr", "Fbump2l"],
+	["Fplate2rr", "Fbump1r"],
+	["Fplate2rr", "Fbumprig", {"optional":true}],
+
+	["Fplate1rrr", "Fbump1r"],
+	["Fplate1rrr", "Fbump1l"],
+	["Fplate1rrr", "Fbump2r"],
+	["Fplate1rrr", "Fbumprig", {"optional":true}],
+
+	["Fplate2rrr", "Fbump2r"],
+	["Fplate2rrr", "Fbump2l"],
+	["Fplate2rrr", "Fbump1r"],
+	["Fplate2rrr", "Fbumprig", {"optional":true}],
+
+	["Fplate3rr", "Fbump1r"],
+	["Fplate3rr", "Fbump1l"],
+	["Fplate3rr", "Fbump2r"],
+	["Fplate3rr", "Fbumprig", {"optional":true}],
+
+	["Fplate4rr", "Fbump2r"],
+	["Fplate4rr", "Fbump2l"],
+	["Fplate4rr", "Fbump1r"],
+	["Fplate4rr", "Fbumprig", {"optional":true}],
+
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_plate_FL"},
+	["Fplate1ll","Fplate1lll","Fplate3ll"],
+  	["Fplate2ll","Fplate4ll","Fplate2lll"],
+
+	{"group":"legocar_plate_FR"},
+	["Fplate1rrr","Fplate1rr","Fplate3rr"],
+  	["Fplate2rrr","Fplate4rr","Fplate2rr"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_plate_FL"},   
+	["Fplate1ll","Fplate2ll","Fplate2lll","Fplate1lll"],
+	["Fplate1ll","Fplate3ll","Fplate4ll","Fplate2ll"],
+	["Fplate1lll","Fplate2lll","Fplate4ll","Fplate3ll"],
+
+	{"group":"legocar_plate_FR"},   
+	["Fplate2rr","Fplate1rr","Fplate1rrr","Fplate2rrr"],
+	["Fplate2rr","Fplate4rr","Fplate3rr","Fplate1rr"],
+	["Fplate3rr","Fplate4rr","Fplate2rrr","Fplate1rrr"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_licenseplate_F_prefacelift_derby_col2": {
+    "information":{
+        "name":"Derby Scoop (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_licenseplate_F_prefacelift",   
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_slope_col2", ["legocar_plate_FL"],[], {"pos":{"x": 0.125, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_slope_col2", ["legocar_plate_FR"],[], {"pos":{"x":-0.125, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z": 90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	{"group":"legocar_plate_FL"},
+	["Fplate1ll",  0.02, -1.95, 0.10],
+	["Fplate2ll",  0.02, -1.95, 0.35],
+	["Fplate3ll",  0.02, -2.15, 0.10],
+	["Fplate4ll",  0.02, -2.15, 0.35],
+	["Fplate1lll", 0.22, -1.95, 0.10],
+	["Fplate2lll", 0.22, -1.95, 0.35],
+
+	{"group":"legocar_plate_FR"},
+	["Fplate1rr",  -0.02, -1.95, 0.10],
+	["Fplate2rr",  -0.02, -1.95, 0.35],
+	["Fplate3rr",  -0.02, -2.15, 0.10],
+	["Fplate4rr",  -0.02, -2.15, 0.35],
+	["Fplate1rrr", -0.22, -1.95, 0.10],
+	["Fplate2rrr", -0.22, -1.95, 0.35],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT LICENSE PLATE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//left uniform horizontal
+	["Fplate1ll", "Fplate1lll"],
+	["Fplate2ll", "Fplate2lll"],
+	["Fplate1ll", "Fplate2lll"],
+	["Fplate2ll", "Fplate1lll"],
+	["Fplate3ll", "Fplate1lll"],
+	["Fplate4ll", "Fplate2lll"],
+	["Fplate3ll", "Fplate2lll"],
+	["Fplate4ll", "Fplate1lll"],
+
+	//left uniform vertical
+	["Fplate1ll", "Fplate2ll"],
+	["Fplate3ll", "Fplate4ll"],
+	["Fplate1ll", "Fplate3ll"],
+	["Fplate2ll", "Fplate4ll"],
+	["Fplate1ll", "Fplate4ll"],
+	["Fplate2ll", "Fplate3ll"],
+	["Fplate1lll", "Fplate2lll"],
+
+	//right uniform horizontal
+	["Fplate1rr", "Fplate1rrr"],
+	["Fplate2rr", "Fplate2rrr"],
+	["Fplate1rr", "Fplate2rrr"],
+	["Fplate2rr", "Fplate1rrr"],
+	["Fplate3rr", "Fplate1rrr"],
+	["Fplate4rr", "Fplate2rrr"],
+	["Fplate3rr", "Fplate2rrr"],
+	["Fplate4rr", "Fplate1rrr"],
+
+	//right uniform vertical
+	["Fplate1rr", "Fplate2rr"],
+	["Fplate3rr", "Fplate4rr"],
+	["Fplate1rr", "Fplate3rr"],
+	["Fplate2rr", "Fplate4rr"],
+	["Fplate1rr", "Fplate4rr"],
+	["Fplate2rr", "Fplate3rr"],
+	["Fplate1rrr", "Fplate2rrr"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//left
+	{"breakGroup":"licenseplate_FL_break"},
+	
+	["Fplate1ll", "Fbump1l"],
+	["Fplate1ll", "Fbump1r"],
+	["Fplate1ll", "Fbump2l"],
+	["Fplate1ll", "Fbumprig", {"optional":true}],
+
+	["Fplate2ll", "Fbump2l"],
+	["Fplate2ll", "Fbump2r"],
+	["Fplate2ll", "Fbump1l"],
+	["Fplate2ll", "Fbumprig", {"optional":true}],
+
+	["Fplate1lll", "Fbump1l"],
+	["Fplate1lll", "Fbump1r"],
+	["Fplate1lll", "Fbump2l"],
+	["Fplate1lll", "Fbumprig", {"optional":true}],
+
+	["Fplate2lll", "Fbump2l"],
+	["Fplate2lll", "Fbump2r"],
+	["Fplate2lll", "Fbump1l"],
+	["Fplate2lll", "Fbumprig", {"optional":true}],
+
+	["Fplate3ll", "Fbump1l"],
+	["Fplate3ll", "Fbump1r"],
+	["Fplate3ll", "Fbump2l"],
+	["Fplate3ll", "Fbumprig", {"optional":true}],
+
+	["Fplate4ll", "Fbump2l"],
+	["Fplate4ll", "Fbump2r"],
+	["Fplate4ll", "Fbump1l"],
+	["Fplate4ll", "Fbumprig", {"optional":true}],
+
+
+	//right
+	{"breakGroup":"licenseplate_FR_break"},
+
+	["Fplate1rr", "Fbump1r"],
+	["Fplate1rr", "Fbump1l"],
+	["Fplate1rr", "Fbump2r"],
+	["Fplate1rr", "Fbumprig", {"optional":true}],
+
+	["Fplate2rr", "Fbump2r"],
+	["Fplate2rr", "Fbump2l"],
+	["Fplate2rr", "Fbump1r"],
+	["Fplate2rr", "Fbumprig", {"optional":true}],
+
+	["Fplate1rrr", "Fbump1r"],
+	["Fplate1rrr", "Fbump1l"],
+	["Fplate1rrr", "Fbump2r"],
+	["Fplate1rrr", "Fbumprig", {"optional":true}],
+
+	["Fplate2rrr", "Fbump2r"],
+	["Fplate2rrr", "Fbump2l"],
+	["Fplate2rrr", "Fbump1r"],
+	["Fplate2rrr", "Fbumprig", {"optional":true}],
+
+	["Fplate3rr", "Fbump1r"],
+	["Fplate3rr", "Fbump1l"],
+	["Fplate3rr", "Fbump2r"],
+	["Fplate3rr", "Fbumprig", {"optional":true}],
+
+	["Fplate4rr", "Fbump2r"],
+	["Fplate4rr", "Fbump2l"],
+	["Fplate4rr", "Fbump1r"],
+	["Fplate4rr", "Fbumprig", {"optional":true}],
+
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_plate_FL"},
+	["Fplate1ll","Fplate1lll","Fplate3ll"],
+  	["Fplate2ll","Fplate4ll","Fplate2lll"],
+
+	{"group":"legocar_plate_FR"},
+	["Fplate1rrr","Fplate1rr","Fplate3rr"],
+  	["Fplate2rrr","Fplate4rr","Fplate2rr"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_plate_FL"},   
+	["Fplate1ll","Fplate2ll","Fplate2lll","Fplate1lll"],
+	["Fplate1ll","Fplate3ll","Fplate4ll","Fplate2ll"],
+	["Fplate1lll","Fplate2lll","Fplate4ll","Fplate3ll"],
+
+	{"group":"legocar_plate_FR"},   
+	["Fplate2rr","Fplate1rr","Fplate1rrr","Fplate2rrr"],
+	["Fplate2rr","Fplate4rr","Fplate3rr","Fplate1rr"],
+	["Fplate3rr","Fplate4rr","Fplate2rrr","Fplate1rrr"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_licenseplate_F_prefacelift_derby_col3": {
+    "information":{
+        "name":"Derby Scoop (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_licenseplate_F_prefacelift",   
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_slope_col3", ["legocar_plate_FL"],[], {"pos":{"x": 0.125, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_slope_col3", ["legocar_plate_FR"],[], {"pos":{"x":-0.125, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z": 90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	{"group":"legocar_plate_FL"},
+	["Fplate1ll",  0.02, -1.95, 0.10],
+	["Fplate2ll",  0.02, -1.95, 0.35],
+	["Fplate3ll",  0.02, -2.15, 0.10],
+	["Fplate4ll",  0.02, -2.15, 0.35],
+	["Fplate1lll", 0.22, -1.95, 0.10],
+	["Fplate2lll", 0.22, -1.95, 0.35],
+
+	{"group":"legocar_plate_FR"},
+	["Fplate1rr",  -0.02, -1.95, 0.10],
+	["Fplate2rr",  -0.02, -1.95, 0.35],
+	["Fplate3rr",  -0.02, -2.15, 0.10],
+	["Fplate4rr",  -0.02, -2.15, 0.35],
+	["Fplate1rrr", -0.22, -1.95, 0.10],
+	["Fplate2rrr", -0.22, -1.95, 0.35],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT LICENSE PLATE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//left uniform horizontal
+	["Fplate1ll", "Fplate1lll"],
+	["Fplate2ll", "Fplate2lll"],
+	["Fplate1ll", "Fplate2lll"],
+	["Fplate2ll", "Fplate1lll"],
+	["Fplate3ll", "Fplate1lll"],
+	["Fplate4ll", "Fplate2lll"],
+	["Fplate3ll", "Fplate2lll"],
+	["Fplate4ll", "Fplate1lll"],
+
+	//left uniform vertical
+	["Fplate1ll", "Fplate2ll"],
+	["Fplate3ll", "Fplate4ll"],
+	["Fplate1ll", "Fplate3ll"],
+	["Fplate2ll", "Fplate4ll"],
+	["Fplate1ll", "Fplate4ll"],
+	["Fplate2ll", "Fplate3ll"],
+	["Fplate1lll", "Fplate2lll"],
+
+	//right uniform horizontal
+	["Fplate1rr", "Fplate1rrr"],
+	["Fplate2rr", "Fplate2rrr"],
+	["Fplate1rr", "Fplate2rrr"],
+	["Fplate2rr", "Fplate1rrr"],
+	["Fplate3rr", "Fplate1rrr"],
+	["Fplate4rr", "Fplate2rrr"],
+	["Fplate3rr", "Fplate2rrr"],
+	["Fplate4rr", "Fplate1rrr"],
+
+	//right uniform vertical
+	["Fplate1rr", "Fplate2rr"],
+	["Fplate3rr", "Fplate4rr"],
+	["Fplate1rr", "Fplate3rr"],
+	["Fplate2rr", "Fplate4rr"],
+	["Fplate1rr", "Fplate4rr"],
+	["Fplate2rr", "Fplate3rr"],
+	["Fplate1rrr", "Fplate2rrr"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//left
+	{"breakGroup":"licenseplate_FL_break"},
+	
+	["Fplate1ll", "Fbump1l"],
+	["Fplate1ll", "Fbump1r"],
+	["Fplate1ll", "Fbump2l"],
+	["Fplate1ll", "Fbumprig", {"optional":true}],
+
+	["Fplate2ll", "Fbump2l"],
+	["Fplate2ll", "Fbump2r"],
+	["Fplate2ll", "Fbump1l"],
+	["Fplate2ll", "Fbumprig", {"optional":true}],
+
+	["Fplate1lll", "Fbump1l"],
+	["Fplate1lll", "Fbump1r"],
+	["Fplate1lll", "Fbump2l"],
+	["Fplate1lll", "Fbumprig", {"optional":true}],
+
+	["Fplate2lll", "Fbump2l"],
+	["Fplate2lll", "Fbump2r"],
+	["Fplate2lll", "Fbump1l"],
+	["Fplate2lll", "Fbumprig", {"optional":true}],
+
+	["Fplate3ll", "Fbump1l"],
+	["Fplate3ll", "Fbump1r"],
+	["Fplate3ll", "Fbump2l"],
+	["Fplate3ll", "Fbumprig", {"optional":true}],
+
+	["Fplate4ll", "Fbump2l"],
+	["Fplate4ll", "Fbump2r"],
+	["Fplate4ll", "Fbump1l"],
+	["Fplate4ll", "Fbumprig", {"optional":true}],
+
+
+	//right
+	{"breakGroup":"licenseplate_FR_break"},
+
+	["Fplate1rr", "Fbump1r"],
+	["Fplate1rr", "Fbump1l"],
+	["Fplate1rr", "Fbump2r"],
+	["Fplate1rr", "Fbumprig", {"optional":true}],
+
+	["Fplate2rr", "Fbump2r"],
+	["Fplate2rr", "Fbump2l"],
+	["Fplate2rr", "Fbump1r"],
+	["Fplate2rr", "Fbumprig", {"optional":true}],
+
+	["Fplate1rrr", "Fbump1r"],
+	["Fplate1rrr", "Fbump1l"],
+	["Fplate1rrr", "Fbump2r"],
+	["Fplate1rrr", "Fbumprig", {"optional":true}],
+
+	["Fplate2rrr", "Fbump2r"],
+	["Fplate2rrr", "Fbump2l"],
+	["Fplate2rrr", "Fbump1r"],
+	["Fplate2rrr", "Fbumprig", {"optional":true}],
+
+	["Fplate3rr", "Fbump1r"],
+	["Fplate3rr", "Fbump1l"],
+	["Fplate3rr", "Fbump2r"],
+	["Fplate3rr", "Fbumprig", {"optional":true}],
+
+	["Fplate4rr", "Fbump2r"],
+	["Fplate4rr", "Fbump2l"],
+	["Fplate4rr", "Fbump1r"],
+	["Fplate4rr", "Fbumprig", {"optional":true}],
+
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_plate_FL"},
+	["Fplate1ll","Fplate1lll","Fplate3ll"],
+  	["Fplate2ll","Fplate4ll","Fplate2lll"],
+
+	{"group":"legocar_plate_FR"},
+	["Fplate1rrr","Fplate1rr","Fplate3rr"],
+  	["Fplate2rrr","Fplate4rr","Fplate2rr"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_plate_FL"},   
+	["Fplate1ll","Fplate2ll","Fplate2lll","Fplate1lll"],
+	["Fplate1ll","Fplate3ll","Fplate4ll","Fplate2ll"],
+	["Fplate1lll","Fplate2lll","Fplate4ll","Fplate3ll"],
+
+	{"group":"legocar_plate_FR"},   
+	["Fplate2rr","Fplate1rr","Fplate1rrr","Fplate2rrr"],
+	["Fplate2rr","Fplate4rr","Fplate3rr","Fplate1rr"],
+	["Fplate3rr","Fplate4rr","Fplate2rrr","Fplate1rrr"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_licenseplate_F_prefacelift_derby_grey": {
+    "information":{
+        "name":"Derby Scoop (Light Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_licenseplate_F_prefacelift",   
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_slope_grey", ["legocar_plate_FL"],[], {"pos":{"x": 0.125, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_slope_grey", ["legocar_plate_FR"],[], {"pos":{"x":-0.125, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z": 90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	{"group":"legocar_plate_FL"},
+	["Fplate1ll",  0.02, -1.95, 0.10],
+	["Fplate2ll",  0.02, -1.95, 0.35],
+	["Fplate3ll",  0.02, -2.15, 0.10],
+	["Fplate4ll",  0.02, -2.15, 0.35],
+	["Fplate1lll", 0.22, -1.95, 0.10],
+	["Fplate2lll", 0.22, -1.95, 0.35],
+
+	{"group":"legocar_plate_FR"},
+	["Fplate1rr",  -0.02, -1.95, 0.10],
+	["Fplate2rr",  -0.02, -1.95, 0.35],
+	["Fplate3rr",  -0.02, -2.15, 0.10],
+	["Fplate4rr",  -0.02, -2.15, 0.35],
+	["Fplate1rrr", -0.22, -1.95, 0.10],
+	["Fplate2rrr", -0.22, -1.95, 0.35],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT LICENSE PLATE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//left uniform horizontal
+	["Fplate1ll", "Fplate1lll"],
+	["Fplate2ll", "Fplate2lll"],
+	["Fplate1ll", "Fplate2lll"],
+	["Fplate2ll", "Fplate1lll"],
+	["Fplate3ll", "Fplate1lll"],
+	["Fplate4ll", "Fplate2lll"],
+	["Fplate3ll", "Fplate2lll"],
+	["Fplate4ll", "Fplate1lll"],
+
+	//left uniform vertical
+	["Fplate1ll", "Fplate2ll"],
+	["Fplate3ll", "Fplate4ll"],
+	["Fplate1ll", "Fplate3ll"],
+	["Fplate2ll", "Fplate4ll"],
+	["Fplate1ll", "Fplate4ll"],
+	["Fplate2ll", "Fplate3ll"],
+	["Fplate1lll", "Fplate2lll"],
+
+	//right uniform horizontal
+	["Fplate1rr", "Fplate1rrr"],
+	["Fplate2rr", "Fplate2rrr"],
+	["Fplate1rr", "Fplate2rrr"],
+	["Fplate2rr", "Fplate1rrr"],
+	["Fplate3rr", "Fplate1rrr"],
+	["Fplate4rr", "Fplate2rrr"],
+	["Fplate3rr", "Fplate2rrr"],
+	["Fplate4rr", "Fplate1rrr"],
+
+	//right uniform vertical
+	["Fplate1rr", "Fplate2rr"],
+	["Fplate3rr", "Fplate4rr"],
+	["Fplate1rr", "Fplate3rr"],
+	["Fplate2rr", "Fplate4rr"],
+	["Fplate1rr", "Fplate4rr"],
+	["Fplate2rr", "Fplate3rr"],
+	["Fplate1rrr", "Fplate2rrr"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//left
+	{"breakGroup":"licenseplate_FL_break"},
+	
+	["Fplate1ll", "Fbump1l"],
+	["Fplate1ll", "Fbump1r"],
+	["Fplate1ll", "Fbump2l"],
+	["Fplate1ll", "Fbumprig", {"optional":true}],
+
+	["Fplate2ll", "Fbump2l"],
+	["Fplate2ll", "Fbump2r"],
+	["Fplate2ll", "Fbump1l"],
+	["Fplate2ll", "Fbumprig", {"optional":true}],
+
+	["Fplate1lll", "Fbump1l"],
+	["Fplate1lll", "Fbump1r"],
+	["Fplate1lll", "Fbump2l"],
+	["Fplate1lll", "Fbumprig", {"optional":true}],
+
+	["Fplate2lll", "Fbump2l"],
+	["Fplate2lll", "Fbump2r"],
+	["Fplate2lll", "Fbump1l"],
+	["Fplate2lll", "Fbumprig", {"optional":true}],
+
+	["Fplate3ll", "Fbump1l"],
+	["Fplate3ll", "Fbump1r"],
+	["Fplate3ll", "Fbump2l"],
+	["Fplate3ll", "Fbumprig", {"optional":true}],
+
+	["Fplate4ll", "Fbump2l"],
+	["Fplate4ll", "Fbump2r"],
+	["Fplate4ll", "Fbump1l"],
+	["Fplate4ll", "Fbumprig", {"optional":true}],
+
+
+	//right
+	{"breakGroup":"licenseplate_FR_break"},
+
+	["Fplate1rr", "Fbump1r"],
+	["Fplate1rr", "Fbump1l"],
+	["Fplate1rr", "Fbump2r"],
+	["Fplate1rr", "Fbumprig", {"optional":true}],
+
+	["Fplate2rr", "Fbump2r"],
+	["Fplate2rr", "Fbump2l"],
+	["Fplate2rr", "Fbump1r"],
+	["Fplate2rr", "Fbumprig", {"optional":true}],
+
+	["Fplate1rrr", "Fbump1r"],
+	["Fplate1rrr", "Fbump1l"],
+	["Fplate1rrr", "Fbump2r"],
+	["Fplate1rrr", "Fbumprig", {"optional":true}],
+
+	["Fplate2rrr", "Fbump2r"],
+	["Fplate2rrr", "Fbump2l"],
+	["Fplate2rrr", "Fbump1r"],
+	["Fplate2rrr", "Fbumprig", {"optional":true}],
+
+	["Fplate3rr", "Fbump1r"],
+	["Fplate3rr", "Fbump1l"],
+	["Fplate3rr", "Fbump2r"],
+	["Fplate3rr", "Fbumprig", {"optional":true}],
+
+	["Fplate4rr", "Fbump2r"],
+	["Fplate4rr", "Fbump2l"],
+	["Fplate4rr", "Fbump1r"],
+	["Fplate4rr", "Fbumprig", {"optional":true}],
+
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_plate_FL"},
+	["Fplate1ll","Fplate1lll","Fplate3ll"],
+  	["Fplate2ll","Fplate4ll","Fplate2lll"],
+
+	{"group":"legocar_plate_FR"},
+	["Fplate1rrr","Fplate1rr","Fplate3rr"],
+  	["Fplate2rrr","Fplate4rr","Fplate2rr"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_plate_FL"},   
+	["Fplate1ll","Fplate2ll","Fplate2lll","Fplate1lll"],
+	["Fplate1ll","Fplate3ll","Fplate4ll","Fplate2ll"],
+	["Fplate1lll","Fplate2lll","Fplate4ll","Fplate3ll"],
+
+	{"group":"legocar_plate_FR"},   
+	["Fplate2rr","Fplate1rr","Fplate1rrr","Fplate2rrr"],
+	["Fplate2rr","Fplate4rr","Fplate3rr","Fplate1rr"],
+	["Fplate3rr","Fplate4rr","Fplate2rrr","Fplate1rrr"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_licenseplate_F_prefacelift_derby_dgrey": {
+    "information":{
+        "name":"Derby Scoop (Dark Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_licenseplate_F_prefacelift",   
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_slope_dgrey", ["legocar_plate_FL"],[], {"pos":{"x": 0.125, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_slope_dgrey", ["legocar_plate_FR"],[], {"pos":{"x":-0.125, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z": 90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	{"group":"legocar_plate_FL"},
+	["Fplate1ll",  0.02, -1.95, 0.10],
+	["Fplate2ll",  0.02, -1.95, 0.35],
+	["Fplate3ll",  0.02, -2.15, 0.10],
+	["Fplate4ll",  0.02, -2.15, 0.35],
+	["Fplate1lll", 0.22, -1.95, 0.10],
+	["Fplate2lll", 0.22, -1.95, 0.35],
+
+	{"group":"legocar_plate_FR"},
+	["Fplate1rr",  -0.02, -1.95, 0.10],
+	["Fplate2rr",  -0.02, -1.95, 0.35],
+	["Fplate3rr",  -0.02, -2.15, 0.10],
+	["Fplate4rr",  -0.02, -2.15, 0.35],
+	["Fplate1rrr", -0.22, -1.95, 0.10],
+	["Fplate2rrr", -0.22, -1.95, 0.35],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT LICENSE PLATE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//left uniform horizontal
+	["Fplate1ll", "Fplate1lll"],
+	["Fplate2ll", "Fplate2lll"],
+	["Fplate1ll", "Fplate2lll"],
+	["Fplate2ll", "Fplate1lll"],
+	["Fplate3ll", "Fplate1lll"],
+	["Fplate4ll", "Fplate2lll"],
+	["Fplate3ll", "Fplate2lll"],
+	["Fplate4ll", "Fplate1lll"],
+
+	//left uniform vertical
+	["Fplate1ll", "Fplate2ll"],
+	["Fplate3ll", "Fplate4ll"],
+	["Fplate1ll", "Fplate3ll"],
+	["Fplate2ll", "Fplate4ll"],
+	["Fplate1ll", "Fplate4ll"],
+	["Fplate2ll", "Fplate3ll"],
+	["Fplate1lll", "Fplate2lll"],
+
+	//right uniform horizontal
+	["Fplate1rr", "Fplate1rrr"],
+	["Fplate2rr", "Fplate2rrr"],
+	["Fplate1rr", "Fplate2rrr"],
+	["Fplate2rr", "Fplate1rrr"],
+	["Fplate3rr", "Fplate1rrr"],
+	["Fplate4rr", "Fplate2rrr"],
+	["Fplate3rr", "Fplate2rrr"],
+	["Fplate4rr", "Fplate1rrr"],
+
+	//right uniform vertical
+	["Fplate1rr", "Fplate2rr"],
+	["Fplate3rr", "Fplate4rr"],
+	["Fplate1rr", "Fplate3rr"],
+	["Fplate2rr", "Fplate4rr"],
+	["Fplate1rr", "Fplate4rr"],
+	["Fplate2rr", "Fplate3rr"],
+	["Fplate1rrr", "Fplate2rrr"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//left
+	{"breakGroup":"licenseplate_FL_break"},
+	
+	["Fplate1ll", "Fbump1l"],
+	["Fplate1ll", "Fbump1r"],
+	["Fplate1ll", "Fbump2l"],
+	["Fplate1ll", "Fbumprig", {"optional":true}],
+
+	["Fplate2ll", "Fbump2l"],
+	["Fplate2ll", "Fbump2r"],
+	["Fplate2ll", "Fbump1l"],
+	["Fplate2ll", "Fbumprig", {"optional":true}],
+
+	["Fplate1lll", "Fbump1l"],
+	["Fplate1lll", "Fbump1r"],
+	["Fplate1lll", "Fbump2l"],
+	["Fplate1lll", "Fbumprig", {"optional":true}],
+
+	["Fplate2lll", "Fbump2l"],
+	["Fplate2lll", "Fbump2r"],
+	["Fplate2lll", "Fbump1l"],
+	["Fplate2lll", "Fbumprig", {"optional":true}],
+
+	["Fplate3ll", "Fbump1l"],
+	["Fplate3ll", "Fbump1r"],
+	["Fplate3ll", "Fbump2l"],
+	["Fplate3ll", "Fbumprig", {"optional":true}],
+
+	["Fplate4ll", "Fbump2l"],
+	["Fplate4ll", "Fbump2r"],
+	["Fplate4ll", "Fbump1l"],
+	["Fplate4ll", "Fbumprig", {"optional":true}],
+
+
+	//right
+	{"breakGroup":"licenseplate_FR_break"},
+
+	["Fplate1rr", "Fbump1r"],
+	["Fplate1rr", "Fbump1l"],
+	["Fplate1rr", "Fbump2r"],
+	["Fplate1rr", "Fbumprig", {"optional":true}],
+
+	["Fplate2rr", "Fbump2r"],
+	["Fplate2rr", "Fbump2l"],
+	["Fplate2rr", "Fbump1r"],
+	["Fplate2rr", "Fbumprig", {"optional":true}],
+
+	["Fplate1rrr", "Fbump1r"],
+	["Fplate1rrr", "Fbump1l"],
+	["Fplate1rrr", "Fbump2r"],
+	["Fplate1rrr", "Fbumprig", {"optional":true}],
+
+	["Fplate2rrr", "Fbump2r"],
+	["Fplate2rrr", "Fbump2l"],
+	["Fplate2rrr", "Fbump1r"],
+	["Fplate2rrr", "Fbumprig", {"optional":true}],
+
+	["Fplate3rr", "Fbump1r"],
+	["Fplate3rr", "Fbump1l"],
+	["Fplate3rr", "Fbump2r"],
+	["Fplate3rr", "Fbumprig", {"optional":true}],
+
+	["Fplate4rr", "Fbump2r"],
+	["Fplate4rr", "Fbump2l"],
+	["Fplate4rr", "Fbump1r"],
+	["Fplate4rr", "Fbumprig", {"optional":true}],
+
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_plate_FL"},
+	["Fplate1ll","Fplate1lll","Fplate3ll"],
+  	["Fplate2ll","Fplate4ll","Fplate2lll"],
+
+	{"group":"legocar_plate_FR"},
+	["Fplate1rrr","Fplate1rr","Fplate3rr"],
+  	["Fplate2rrr","Fplate4rr","Fplate2rr"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_plate_FL"},   
+	["Fplate1ll","Fplate2ll","Fplate2lll","Fplate1lll"],
+	["Fplate1ll","Fplate3ll","Fplate4ll","Fplate2ll"],
+	["Fplate1lll","Fplate2lll","Fplate4ll","Fplate3ll"],
+
+	{"group":"legocar_plate_FR"},   
+	["Fplate2rr","Fplate1rr","Fplate1rrr","Fplate2rrr"],
+	["Fplate2rr","Fplate4rr","Fplate3rr","Fplate1rr"],
+	["Fplate3rr","Fplate4rr","Fplate2rrr","Fplate1rrr"],
+
+        {"group":""},
+    ],
+},
+
+}

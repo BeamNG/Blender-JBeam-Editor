@@ -1,0 +1,287 @@
+{
+"legocar_rooflights": {
+    "information":{
+        "name":"Roof Lights",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_rooflights",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"rooflight_L_break", "deformMaterialBase":"legocar_highbeam_generic", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_highbeam_generic", ["legocar_rooflight_L"],[], {"pos":{"x": 0.125, "y": 0.200, "z":1.725},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"rooflight_R_break", "deformMaterialBase":"legocar_highbeam_generic", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_highbeam_generic", ["legocar_rooflight_R"],[], {"pos":{"x":-0.125, "y": 0.200, "z":1.725},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"rooflight_LL_break", "deformMaterialBase":"legocar_highbeam_generic", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_highbeam_generic", ["legocar_rooflight_LL"],[], {"pos":{"x": 0.375, "y": 0.200, "z":1.725},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"rooflight_RR_break", "deformMaterialBase":"legocar_highbeam_generic", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_highbeam_generic", ["legocar_rooflight_RR"],[], {"pos":{"x":-0.375, "y": 0.200, "z":1.725},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightColor":{"r":252, "g":252, "b":252, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":true,
+            "flareName":"vehicleHeadLightFlare",
+	    "flareScale":0.09,
+            "cookieName":"art/special/BNG_light_cookie_headlight.dds",
+            "texSize":512,
+            "shadowSoftness":0.4
+        },
+        ["highbeam","SPOTLIGHT", "Lrflight2r", "Lrflight1r", "Lrflight2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"deformGroup":"rooflight_L_break"}],
+	["highbeam","SPOTLIGHT", "Rrflight2r", "Rrflight1r", "Rrflight2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"deformGroup":"rooflight_R_break"}],
+	["highbeam","SPOTLIGHT","LLrflight2r","LLrflight1r","LLrflight2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"deformGroup":"rooflight_LL_break"}],
+	["highbeam","SPOTLIGHT","RRrflight2r","RRrflight1r","RRrflight2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"deformGroup":"rooflight_RR_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	//l
+	{"group":"legocar_rooflight_L"},
+	["Lrflight1r", 0.030, 0.15, 1.630],
+	["Lrflight2r", 0.030, 0.15, 1.820],
+	["Lrflight1l", 0.220, 0.15, 1.630],
+	["Lrflight2l", 0.220, 0.15, 1.820],
+	["Lrflight0",  0.125, 0.30, 1.725, {"collision":false,"selfCollision":false,"group":""}],
+
+	//r
+	{"group":"legocar_rooflight_R"},
+	["Rrflight1l",-0.030, 0.15, 1.630],
+	["Rrflight2l",-0.030, 0.15, 1.820],
+	["Rrflight1r",-0.220, 0.15, 1.630],
+	["Rrflight2r",-0.220, 0.15, 1.820],
+	["Rrflight0", -0.125, 0.30, 1.725, {"collision":false,"selfCollision":false,"group":""}],
+
+	//ll
+	{"group":"legocar_rooflight_LL"},
+	["LLrflight1r", 0.280, 0.15, 1.630],
+	["LLrflight2r", 0.280, 0.15, 1.820],
+	["LLrflight1l", 0.470, 0.15, 1.630],
+	["LLrflight2l", 0.470, 0.15, 1.820],
+	["LLrflight0",  0.375, 0.30, 1.725, {"collision":false,"selfCollision":false,"group":""}],
+
+	//rr
+	{"group":"legocar_rooflight_RR"},
+	["RRrflight1l",-0.280, 0.15, 1.630],
+	["RRrflight2l",-0.280, 0.15, 1.820],
+	["RRrflight1r",-0.470, 0.15, 1.630],
+	["RRrflight2r",-0.470, 0.15, 1.820],
+	["RRrflight0", -0.375, 0.30, 1.725, {"collision":false,"selfCollision":false,"group":""}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//l square
+	["Lrflight1l", "Lrflight1r"],
+	["Lrflight2l", "Lrflight2r"],
+	["Lrflight1l", "Lrflight2r"],
+	["Lrflight2l", "Lrflight1r"],
+	["Lrflight1l", "Lrflight2l"],
+	["Lrflight1r", "Lrflight2r"],
+
+	//l tip
+	["Lrflight1l", "Lrflight0"],
+	["Lrflight1r", "Lrflight0"],
+	["Lrflight2l", "Lrflight0"],
+	["Lrflight2r", "Lrflight0"],
+
+	//r square
+	["Rrflight1l", "Rrflight1r"],
+	["Rrflight2l", "Rrflight2r"],
+	["Rrflight1l", "Rrflight2r"],
+	["Rrflight2l", "Rrflight1r"],
+	["Rrflight1l", "Rrflight2l"],
+	["Rrflight1r", "Rrflight2r"],
+
+	//r tip
+	["Rrflight1l", "Rrflight0"],
+	["Rrflight1r", "Rrflight0"],
+	["Rrflight2l", "Rrflight0"],
+	["Rrflight2r", "Rrflight0"],
+	
+	//ll square
+	["LLrflight1l", "LLrflight1r"],
+	["LLrflight2l", "LLrflight2r"],
+	["LLrflight1l", "LLrflight2r"],
+	["LLrflight2l", "LLrflight1r"],
+	["LLrflight1l", "LLrflight2l"],
+	["LLrflight1r", "LLrflight2r"],
+
+	//ll tip
+	["LLrflight1l", "LLrflight0"],
+	["LLrflight1r", "LLrflight0"],
+	["LLrflight2l", "LLrflight0"],
+	["LLrflight2r", "LLrflight0"],
+
+	//rr square
+	["RRrflight1l", "RRrflight1r"],
+	["RRrflight2l", "RRrflight2r"],
+	["RRrflight1l", "RRrflight2r"],
+	["RRrflight2l", "RRrflight1r"],
+	["RRrflight1l", "RRrflight2l"],
+	["RRrflight1r", "RRrflight2r"],
+
+	//rr tip
+	["RRrflight1l", "RRrflight0"],
+	["RRrflight1r", "RRrflight0"],
+	["RRrflight2l", "RRrflight0"],
+	["RRrflight2r", "RRrflight0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+
+	//l
+	{"breakGroup":"rooflight_L_break"},
+	{"deformGroup":"rooflight_L_break"},
+
+	["Lrflight1l", "FLrooflfr1l"],
+	["Lrflight1l", "FLrooflfr1r"],
+	["Lrflight1l", "FLrooflfr3l"],
+	["Lrflight1l", "FLrooflfr2l"],
+
+	["Lrflight1r", "FLrooflfr1l"],
+	["Lrflight1r", "FLrooflfr1r"],
+	["Lrflight1r", "FLrooflfr3r"],
+	["Lrflight1r", "FLrooflfr2r"],
+
+	["Lrflight2l", "FLrooflfr1l"],
+	["Lrflight2l", "FLrooflfr3r"],
+	["Lrflight2l", "FLrooflfr3l"],
+	["Lrflight2l", "FLrooflfr2l"],
+
+	["Lrflight2r", "FLrooflfr3l"],
+	["Lrflight2r", "FLrooflfr1r"],
+	["Lrflight2r", "FLrooflfr3r"],
+	["Lrflight2r", "FLrooflfr2r"],
+
+	["Lrflight0", "FLrooflfr1l"],
+	["Lrflight0", "FLrooflfr1r"],
+	["Lrflight0", "FLrooflfr2l"],
+	["Lrflight0", "FLrooflfr2r"],
+
+	
+	//r
+	{"breakGroup":"rooflight_R_break"},
+	{"deformGroup":"rooflight_R_break"},
+	
+	["Rrflight1l", "FRrooflfr1l"],
+	["Rrflight1l", "FRrooflfr1r"],
+	["Rrflight1l", "FRrooflfr3l"],
+	["Rrflight1l", "FRrooflfr2l"],
+
+	["Rrflight1r", "FRrooflfr1l"],
+	["Rrflight1r", "FRrooflfr1r"],
+	["Rrflight1r", "FRrooflfr3r"],
+	["Rrflight1r", "FRrooflfr2r"],
+
+	["Rrflight2l", "FRrooflfr1l"],
+	["Rrflight2l", "FRrooflfr3r"],
+	["Rrflight2l", "FRrooflfr3l"],
+	["Rrflight2l", "FRrooflfr2l"],
+
+	["Rrflight2r", "FRrooflfr3l"],
+	["Rrflight2r", "FRrooflfr1r"],
+	["Rrflight2r", "FRrooflfr3r"],
+	["Rrflight2r", "FRrooflfr2r"],
+
+	["Rrflight0", "FRrooflfr1l"],
+	["Rrflight0", "FRrooflfr1r"],
+	["Rrflight0", "FRrooflfr2l"],
+	["Rrflight0", "FRrooflfr2r"],
+	
+	
+	//ll
+	{"breakGroup":"rooflight_LL_break"},
+	{"deformGroup":"rooflight_LL_break"},
+
+	["LLrflight1l", "FLrooflfr1l"],
+	["LLrflight1l", "FLrooflfr1r"],
+	["LLrflight1l", "FLrooflfr3l"],
+	["LLrflight1l", "FLrooflfr2l"],
+
+	["LLrflight1r", "FLrooflfr1l"],
+	["LLrflight1r", "FLrooflfr1r"],
+	["LLrflight1r", "FLrooflfr3r"],
+	["LLrflight1r", "FLrooflfr2r"],
+
+	["LLrflight2l", "FLrooflfr1l"],
+	["LLrflight2l", "FLrooflfr3r"],
+	["LLrflight2l", "FLrooflfr3l"],
+	["LLrflight2l", "FLrooflfr2l"],
+
+	["LLrflight2r", "FLrooflfr3l"],
+	["LLrflight2r", "FLrooflfr1r"],
+	["LLrflight2r", "FLrooflfr3r"],
+	["LLrflight2r", "FLrooflfr2r"],
+
+	["LLrflight0", "FLrooflfr1l"],
+	["LLrflight0", "FLrooflfr1r"],
+	["LLrflight0", "FLrooflfr2l"],
+	["LLrflight0", "FLrooflfr2r"],
+
+	
+	//rr
+	{"breakGroup":"rooflight_RR_break"},
+	{"deformGroup":"rooflight_RR_break"},
+	
+	["RRrflight1l", "FRrooflfr1l"],
+	["RRrflight1l", "FRrooflfr1r"],
+	["RRrflight1l", "FRrooflfr3l"],
+	["RRrflight1l", "FRrooflfr2l"],
+
+	["RRrflight1r", "FRrooflfr1l"],
+	["RRrflight1r", "FRrooflfr1r"],
+	["RRrflight1r", "FRrooflfr3r"],
+	["RRrflight1r", "FRrooflfr2r"],
+
+	["RRrflight2l", "FRrooflfr1l"],
+	["RRrflight2l", "FRrooflfr3r"],
+	["RRrflight2l", "FRrooflfr3l"],
+	["RRrflight2l", "FRrooflfr2l"],
+
+	["RRrflight2r", "FRrooflfr3l"],
+	["RRrflight2r", "FRrooflfr1r"],
+	["RRrflight2r", "FRrooflfr3r"],
+	["RRrflight2r", "FRrooflfr2r"],
+
+	["RRrflight0", "FRrooflfr1l"],
+	["RRrflight0", "FRrooflfr1r"],
+	["RRrflight0", "FRrooflfr2l"],
+	["RRrflight0", "FRrooflfr2r"],
+	
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_rooflight_L"},   
+	["Lrflight1r","Lrflight1l","Lrflight2l","Lrflight2r"],
+	{"group":"legocar_rooflight_R"},   
+	["Rrflight1r","Rrflight1l","Rrflight2l","Rrflight2r"],	
+	{"group":"legocar_rooflight_LL"},   
+	["LLrflight1r","LLrflight1l","LLrflight2l","LLrflight2r"],
+	{"group":"legocar_rooflight_RR"},   
+	["RRrflight1r","RRrflight1l","RRrflight2l","RRrflight2r"],	
+
+        {"group":""},
+    ],
+},
+
+}

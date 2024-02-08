@@ -1,0 +1,590 @@
+{
+"legocar_hood_vents_dual_col1": {
+    "information":{
+        "name":"Dual Hood Vents (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hood_accessory",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_slope_vent_col1",["legocar_hood_scoop_L"],[], {"pos":{"x": 0.375, "y":-1.250, "z":0.795},"rot":{"x":2, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_slope_vent_col1",["legocar_hood_scoop_R"],[], {"pos":{"x":-0.375, "y":-1.250, "z":0.795},"rot":{"x":2, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//3 half pieces, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	//left
+	{"group":"legocar_hood_scoop_L"},
+	["Lscoop1l", 0.50,-1.00, 0.83],
+	["Lscoop1r", 0.25,-1.00, 0.83],
+	["Lscoop2l", 0.50,-1.50, 0.80],
+	["Lscoop2r", 0.25,-1.50, 0.80],
+	["Lscoop3l", 0.50,-1.00, 1.00],
+	["Lscoop3r", 0.25,-1.00, 1.00],
+
+	//right
+	{"group":"legocar_hood_scoop_R"},
+	["Rscoop1r", -0.50,-1.00, 0.83],
+	["Rscoop1l", -0.25,-1.00, 0.83],
+	["Rscoop2r", -0.50,-1.50, 0.80],
+	["Rscoop2l", -0.25,-1.50, 0.80],
+	["Rscoop3r", -0.50,-1.00, 1.00],
+	["Rscoop3l", -0.25,-1.00, 1.00],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//L uniform horizontal
+	["Lscoop1l", "Lscoop1r"],
+	["Lscoop2l", "Lscoop2r"],
+	["Lscoop1l", "Lscoop2r"],
+	["Lscoop2l", "Lscoop1r"],
+	["Lscoop1l", "Lscoop2l"],
+	["Lscoop1r", "Lscoop2r"],
+
+	//L uniform vertical
+	["Lscoop1l", "Lscoop3l"],
+	["Lscoop2l", "Lscoop3l"],
+	["Lscoop1r", "Lscoop3r"],
+	["Lscoop2r", "Lscoop3r"],
+	["Lscoop1l", "Lscoop3r"],
+	["Lscoop2l", "Lscoop3r"],
+	["Lscoop1r", "Lscoop3l"],
+	["Lscoop2r", "Lscoop3l"],
+	
+	//R uniform horizontal
+	["Rscoop1l", "Rscoop1r"],
+	["Rscoop2l", "Rscoop2r"],
+	["Rscoop1l", "Rscoop2r"],
+	["Rscoop2l", "Rscoop1r"],
+	["Rscoop1l", "Rscoop2l"],
+	["Rscoop1r", "Rscoop2r"],
+
+	//R uniform vertical
+	["Rscoop1l", "Rscoop3l"],
+	["Rscoop2l", "Rscoop3l"],
+	["Rscoop1r", "Rscoop3r"],
+	["Rscoop2r", "Rscoop3r"],
+	["Rscoop1l", "Rscoop3r"],
+	["Rscoop2l", "Rscoop3r"],
+	["Rscoop1r", "Rscoop3l"],
+	["Rscoop2r", "Rscoop3l"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	
+	//l
+	{"breakGroup":"hood_scoop_L_break"},
+	
+	["Lscoop1l", "hood1l"],
+	["Lscoop1l", "hood1ll"],
+	["Lscoop1l", "hood1lll"],
+	["Lscoop1l", "hood2l"],
+	["Lscoop1l", "hoodrig"],
+
+	["Lscoop1r", "hood1l"],
+	["Lscoop1r", "hood1ll"],
+	["Lscoop1r", "hood1lll"],
+	["Lscoop1r", "hood2l"],
+	["Lscoop1r", "hoodrig"],
+
+	["Lscoop2l", "hood3l"],
+	["Lscoop2l", "hood3ll"],
+	["Lscoop2l", "hood3lll"],
+	["Lscoop2l", "hood2l"],
+	["Lscoop2l", "hoodrig"],
+
+	["Lscoop2r", "hood3l"],
+	["Lscoop2r", "hood3ll"],
+	["Lscoop2r", "hood3lll"],
+	["Lscoop2r", "hood2l"],
+	["Lscoop2r", "hoodrig"],
+
+	["Lscoop3l", "hood3l"],
+	["Lscoop3l", "hood3ll"],
+	["Lscoop3l", "hood3lll"],
+	["Lscoop3l", "hood2l"],
+	["Lscoop3l", "hoodrig"],
+
+	["Lscoop3r", "hood3l"],
+	["Lscoop3r", "hood3ll"],
+	["Lscoop3r", "hood3lll"],
+	["Lscoop3r", "hood2l"],
+	["Lscoop3r", "hoodrig"],
+	
+	//r
+	{"breakGroup":"hood_scoop_R_break"},
+	
+	["Rscoop1l", "hood1r"],
+	["Rscoop1l", "hood1rr"],
+	["Rscoop1l", "hood1rrr"],
+	["Rscoop1l", "hood2r"],
+	["Rscoop1l", "hoodrig"],
+
+	["Rscoop1r", "hood1r"],
+	["Rscoop1r", "hood1rr"],
+	["Rscoop1r", "hood1rrr"],
+	["Rscoop1r", "hood2r"],
+	["Rscoop1r", "hoodrig"],
+
+	["Rscoop2l", "hood3r"],
+	["Rscoop2l", "hood3rr"],
+	["Rscoop2l", "hood3rrr"],
+	["Rscoop2l", "hood2r"],
+	["Rscoop2l", "hoodrig"],
+
+	["Rscoop2r", "hood3r"],
+	["Rscoop2r", "hood3rr"],
+	["Rscoop2r", "hood3rrr"],
+	["Rscoop2r", "hood2r"],
+	["Rscoop2r", "hoodrig"],
+
+	["Rscoop3l", "hood3r"],
+	["Rscoop3l", "hood3rr"],
+	["Rscoop3l", "hood3rrr"],
+	["Rscoop3l", "hood2r"],
+	["Rscoop3l", "hoodrig"],
+
+	["Rscoop3r", "hood3r"],
+	["Rscoop3r", "hood3rr"],
+	["Rscoop3r", "hood3rrr"],
+	["Rscoop3r", "hood2r"],
+	["Rscoop3r", "hoodrig"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+		
+	{"group":"legocar_hood_scoop_L"},
+	["Lscoop1r","Lscoop2r","Lscoop3r"],
+  	["Lscoop1l","Lscoop3l","Lscoop2l"],
+	
+	{"group":"legocar_hood_scoop_R"},
+	["Rscoop1r","Rscoop2r","Rscoop3r"],
+  	["Rscoop1l","Rscoop3l","Rscoop2l"],
+	
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+		
+        {"group":"legocar_hood_scoop_L"},   
+	["Lscoop1r","Lscoop1l","Lscoop2l","Lscoop2r", {"dragCoef":"$=$drag*0.1"}],
+	["Lscoop1l","Lscoop1r","Lscoop3r","Lscoop3l", {"dragCoef":"$=$drag*0.1"}],
+	["Lscoop2r","Lscoop2l","Lscoop3l","Lscoop3r", {"dragCoef":"$=$drag*0.1"}],
+	
+	{"group":"legocar_hood_scoop_R"},   
+	["Rscoop1r","Rscoop1l","Rscoop2l","Rscoop2r", {"dragCoef":"$=$drag*0.1"}],
+	["Rscoop1l","Rscoop1r","Rscoop3r","Rscoop3l", {"dragCoef":"$=$drag*0.1"}],
+	["Rscoop2r","Rscoop2l","Rscoop3l","Rscoop3r", {"dragCoef":"$=$drag*0.1"}],
+	
+        {"group":""},
+    ],
+},
+
+"legocar_hood_vents_dual_col2": {
+    "information":{
+        "name":"Dual Hood Vents (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hood_accessory",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_slope_vent_col2",["legocar_hood_scoop_L"],[], {"pos":{"x": 0.375, "y":-1.250, "z":0.795},"rot":{"x":2, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_slope_vent_col2",["legocar_hood_scoop_R"],[], {"pos":{"x":-0.375, "y":-1.250, "z":0.795},"rot":{"x":2, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//3 half pieces, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	//left
+	{"group":"legocar_hood_scoop_L"},
+	["Lscoop1l", 0.50,-1.00, 0.83],
+	["Lscoop1r", 0.25,-1.00, 0.83],
+	["Lscoop2l", 0.50,-1.50, 0.80],
+	["Lscoop2r", 0.25,-1.50, 0.80],
+	["Lscoop3l", 0.50,-1.00, 1.00],
+	["Lscoop3r", 0.25,-1.00, 1.00],
+
+	//right
+	{"group":"legocar_hood_scoop_R"},
+	["Rscoop1r", -0.50,-1.00, 0.83],
+	["Rscoop1l", -0.25,-1.00, 0.83],
+	["Rscoop2r", -0.50,-1.50, 0.80],
+	["Rscoop2l", -0.25,-1.50, 0.80],
+	["Rscoop3r", -0.50,-1.00, 1.00],
+	["Rscoop3l", -0.25,-1.00, 1.00],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//L uniform horizontal
+	["Lscoop1l", "Lscoop1r"],
+	["Lscoop2l", "Lscoop2r"],
+	["Lscoop1l", "Lscoop2r"],
+	["Lscoop2l", "Lscoop1r"],
+	["Lscoop1l", "Lscoop2l"],
+	["Lscoop1r", "Lscoop2r"],
+
+	//L uniform vertical
+	["Lscoop1l", "Lscoop3l"],
+	["Lscoop2l", "Lscoop3l"],
+	["Lscoop1r", "Lscoop3r"],
+	["Lscoop2r", "Lscoop3r"],
+	["Lscoop1l", "Lscoop3r"],
+	["Lscoop2l", "Lscoop3r"],
+	["Lscoop1r", "Lscoop3l"],
+	["Lscoop2r", "Lscoop3l"],
+	
+	//R uniform horizontal
+	["Rscoop1l", "Rscoop1r"],
+	["Rscoop2l", "Rscoop2r"],
+	["Rscoop1l", "Rscoop2r"],
+	["Rscoop2l", "Rscoop1r"],
+	["Rscoop1l", "Rscoop2l"],
+	["Rscoop1r", "Rscoop2r"],
+
+	//R uniform vertical
+	["Rscoop1l", "Rscoop3l"],
+	["Rscoop2l", "Rscoop3l"],
+	["Rscoop1r", "Rscoop3r"],
+	["Rscoop2r", "Rscoop3r"],
+	["Rscoop1l", "Rscoop3r"],
+	["Rscoop2l", "Rscoop3r"],
+	["Rscoop1r", "Rscoop3l"],
+	["Rscoop2r", "Rscoop3l"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	
+	//l
+	{"breakGroup":"hood_scoop_L_break"},
+	
+	["Lscoop1l", "hood1l"],
+	["Lscoop1l", "hood1ll"],
+	["Lscoop1l", "hood1lll"],
+	["Lscoop1l", "hood2l"],
+	["Lscoop1l", "hoodrig"],
+
+	["Lscoop1r", "hood1l"],
+	["Lscoop1r", "hood1ll"],
+	["Lscoop1r", "hood1lll"],
+	["Lscoop1r", "hood2l"],
+	["Lscoop1r", "hoodrig"],
+
+	["Lscoop2l", "hood3l"],
+	["Lscoop2l", "hood3ll"],
+	["Lscoop2l", "hood3lll"],
+	["Lscoop2l", "hood2l"],
+	["Lscoop2l", "hoodrig"],
+
+	["Lscoop2r", "hood3l"],
+	["Lscoop2r", "hood3ll"],
+	["Lscoop2r", "hood3lll"],
+	["Lscoop2r", "hood2l"],
+	["Lscoop2r", "hoodrig"],
+
+	["Lscoop3l", "hood3l"],
+	["Lscoop3l", "hood3ll"],
+	["Lscoop3l", "hood3lll"],
+	["Lscoop3l", "hood2l"],
+	["Lscoop3l", "hoodrig"],
+
+	["Lscoop3r", "hood3l"],
+	["Lscoop3r", "hood3ll"],
+	["Lscoop3r", "hood3lll"],
+	["Lscoop3r", "hood2l"],
+	["Lscoop3r", "hoodrig"],
+	
+	//r
+	{"breakGroup":"hood_scoop_R_break"},
+	
+	["Rscoop1l", "hood1r"],
+	["Rscoop1l", "hood1rr"],
+	["Rscoop1l", "hood1rrr"],
+	["Rscoop1l", "hood2r"],
+	["Rscoop1l", "hoodrig"],
+
+	["Rscoop1r", "hood1r"],
+	["Rscoop1r", "hood1rr"],
+	["Rscoop1r", "hood1rrr"],
+	["Rscoop1r", "hood2r"],
+	["Rscoop1r", "hoodrig"],
+
+	["Rscoop2l", "hood3r"],
+	["Rscoop2l", "hood3rr"],
+	["Rscoop2l", "hood3rrr"],
+	["Rscoop2l", "hood2r"],
+	["Rscoop2l", "hoodrig"],
+
+	["Rscoop2r", "hood3r"],
+	["Rscoop2r", "hood3rr"],
+	["Rscoop2r", "hood3rrr"],
+	["Rscoop2r", "hood2r"],
+	["Rscoop2r", "hoodrig"],
+
+	["Rscoop3l", "hood3r"],
+	["Rscoop3l", "hood3rr"],
+	["Rscoop3l", "hood3rrr"],
+	["Rscoop3l", "hood2r"],
+	["Rscoop3l", "hoodrig"],
+
+	["Rscoop3r", "hood3r"],
+	["Rscoop3r", "hood3rr"],
+	["Rscoop3r", "hood3rrr"],
+	["Rscoop3r", "hood2r"],
+	["Rscoop3r", "hoodrig"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+		
+	{"group":"legocar_hood_scoop_L"},
+	["Lscoop1r","Lscoop2r","Lscoop3r"],
+  	["Lscoop1l","Lscoop3l","Lscoop2l"],
+	
+	{"group":"legocar_hood_scoop_R"},
+	["Rscoop1r","Rscoop2r","Rscoop3r"],
+  	["Rscoop1l","Rscoop3l","Rscoop2l"],
+	
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+		
+        {"group":"legocar_hood_scoop_L"},   
+	["Lscoop1r","Lscoop1l","Lscoop2l","Lscoop2r", {"dragCoef":"$=$drag*0.1"}],
+	["Lscoop1l","Lscoop1r","Lscoop3r","Lscoop3l", {"dragCoef":"$=$drag*0.1"}],
+	["Lscoop2r","Lscoop2l","Lscoop3l","Lscoop3r", {"dragCoef":"$=$drag*0.1"}],
+	
+	{"group":"legocar_hood_scoop_R"},   
+	["Rscoop1r","Rscoop1l","Rscoop2l","Rscoop2r", {"dragCoef":"$=$drag*0.1"}],
+	["Rscoop1l","Rscoop1r","Rscoop3r","Rscoop3l", {"dragCoef":"$=$drag*0.1"}],
+	["Rscoop2r","Rscoop2l","Rscoop3l","Rscoop3r", {"dragCoef":"$=$drag*0.1"}],
+	
+        {"group":""},
+    ],
+},
+
+"legocar_hood_vents_dual_col3": {
+    "information":{
+        "name":"Dual Hood Vents (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hood_accessory",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_slope_vent_col3",["legocar_hood_scoop_L"],[], {"pos":{"x": 0.375, "y":-1.250, "z":0.795},"rot":{"x":2, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_slope_vent_col3",["legocar_hood_scoop_R"],[], {"pos":{"x":-0.375, "y":-1.250, "z":0.795},"rot":{"x":2, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//3 half pieces, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	//left
+	{"group":"legocar_hood_scoop_L"},
+	["Lscoop1l", 0.50,-1.00, 0.83],
+	["Lscoop1r", 0.25,-1.00, 0.83],
+	["Lscoop2l", 0.50,-1.50, 0.80],
+	["Lscoop2r", 0.25,-1.50, 0.80],
+	["Lscoop3l", 0.50,-1.00, 1.00],
+	["Lscoop3r", 0.25,-1.00, 1.00],
+
+	//right
+	{"group":"legocar_hood_scoop_R"},
+	["Rscoop1r", -0.50,-1.00, 0.83],
+	["Rscoop1l", -0.25,-1.00, 0.83],
+	["Rscoop2r", -0.50,-1.50, 0.80],
+	["Rscoop2l", -0.25,-1.50, 0.80],
+	["Rscoop3r", -0.50,-1.00, 1.00],
+	["Rscoop3l", -0.25,-1.00, 1.00],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//L uniform horizontal
+	["Lscoop1l", "Lscoop1r"],
+	["Lscoop2l", "Lscoop2r"],
+	["Lscoop1l", "Lscoop2r"],
+	["Lscoop2l", "Lscoop1r"],
+	["Lscoop1l", "Lscoop2l"],
+	["Lscoop1r", "Lscoop2r"],
+
+	//L uniform vertical
+	["Lscoop1l", "Lscoop3l"],
+	["Lscoop2l", "Lscoop3l"],
+	["Lscoop1r", "Lscoop3r"],
+	["Lscoop2r", "Lscoop3r"],
+	["Lscoop1l", "Lscoop3r"],
+	["Lscoop2l", "Lscoop3r"],
+	["Lscoop1r", "Lscoop3l"],
+	["Lscoop2r", "Lscoop3l"],
+	
+	//R uniform horizontal
+	["Rscoop1l", "Rscoop1r"],
+	["Rscoop2l", "Rscoop2r"],
+	["Rscoop1l", "Rscoop2r"],
+	["Rscoop2l", "Rscoop1r"],
+	["Rscoop1l", "Rscoop2l"],
+	["Rscoop1r", "Rscoop2r"],
+
+	//R uniform vertical
+	["Rscoop1l", "Rscoop3l"],
+	["Rscoop2l", "Rscoop3l"],
+	["Rscoop1r", "Rscoop3r"],
+	["Rscoop2r", "Rscoop3r"],
+	["Rscoop1l", "Rscoop3r"],
+	["Rscoop2l", "Rscoop3r"],
+	["Rscoop1r", "Rscoop3l"],
+	["Rscoop2r", "Rscoop3l"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	
+	//l
+	{"breakGroup":"hood_scoop_L_break"},
+	
+	["Lscoop1l", "hood1l"],
+	["Lscoop1l", "hood1ll"],
+	["Lscoop1l", "hood1lll"],
+	["Lscoop1l", "hood2l"],
+	["Lscoop1l", "hoodrig"],
+
+	["Lscoop1r", "hood1l"],
+	["Lscoop1r", "hood1ll"],
+	["Lscoop1r", "hood1lll"],
+	["Lscoop1r", "hood2l"],
+	["Lscoop1r", "hoodrig"],
+
+	["Lscoop2l", "hood3l"],
+	["Lscoop2l", "hood3ll"],
+	["Lscoop2l", "hood3lll"],
+	["Lscoop2l", "hood2l"],
+	["Lscoop2l", "hoodrig"],
+
+	["Lscoop2r", "hood3l"],
+	["Lscoop2r", "hood3ll"],
+	["Lscoop2r", "hood3lll"],
+	["Lscoop2r", "hood2l"],
+	["Lscoop2r", "hoodrig"],
+
+	["Lscoop3l", "hood3l"],
+	["Lscoop3l", "hood3ll"],
+	["Lscoop3l", "hood3lll"],
+	["Lscoop3l", "hood2l"],
+	["Lscoop3l", "hoodrig"],
+
+	["Lscoop3r", "hood3l"],
+	["Lscoop3r", "hood3ll"],
+	["Lscoop3r", "hood3lll"],
+	["Lscoop3r", "hood2l"],
+	["Lscoop3r", "hoodrig"],
+	
+	//r
+	{"breakGroup":"hood_scoop_R_break"},
+	
+	["Rscoop1l", "hood1r"],
+	["Rscoop1l", "hood1rr"],
+	["Rscoop1l", "hood1rrr"],
+	["Rscoop1l", "hood2r"],
+	["Rscoop1l", "hoodrig"],
+
+	["Rscoop1r", "hood1r"],
+	["Rscoop1r", "hood1rr"],
+	["Rscoop1r", "hood1rrr"],
+	["Rscoop1r", "hood2r"],
+	["Rscoop1r", "hoodrig"],
+
+	["Rscoop2l", "hood3r"],
+	["Rscoop2l", "hood3rr"],
+	["Rscoop2l", "hood3rrr"],
+	["Rscoop2l", "hood2r"],
+	["Rscoop2l", "hoodrig"],
+
+	["Rscoop2r", "hood3r"],
+	["Rscoop2r", "hood3rr"],
+	["Rscoop2r", "hood3rrr"],
+	["Rscoop2r", "hood2r"],
+	["Rscoop2r", "hoodrig"],
+
+	["Rscoop3l", "hood3r"],
+	["Rscoop3l", "hood3rr"],
+	["Rscoop3l", "hood3rrr"],
+	["Rscoop3l", "hood2r"],
+	["Rscoop3l", "hoodrig"],
+
+	["Rscoop3r", "hood3r"],
+	["Rscoop3r", "hood3rr"],
+	["Rscoop3r", "hood3rrr"],
+	["Rscoop3r", "hood2r"],
+	["Rscoop3r", "hoodrig"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+		
+	{"group":"legocar_hood_scoop_L"},
+	["Lscoop1r","Lscoop2r","Lscoop3r"],
+  	["Lscoop1l","Lscoop3l","Lscoop2l"],
+	
+	{"group":"legocar_hood_scoop_R"},
+	["Rscoop1r","Rscoop2r","Rscoop3r"],
+  	["Rscoop1l","Rscoop3l","Rscoop2l"],
+	
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+		
+        {"group":"legocar_hood_scoop_L"},   
+	["Lscoop1r","Lscoop1l","Lscoop2l","Lscoop2r", {"dragCoef":"$=$drag*0.1"}],
+	["Lscoop1l","Lscoop1r","Lscoop3r","Lscoop3l", {"dragCoef":"$=$drag*0.1"}],
+	["Lscoop2r","Lscoop2l","Lscoop3l","Lscoop3r", {"dragCoef":"$=$drag*0.1"}],
+	
+	{"group":"legocar_hood_scoop_R"},   
+	["Rscoop1r","Rscoop1l","Rscoop2l","Rscoop2r", {"dragCoef":"$=$drag*0.1"}],
+	["Rscoop1l","Rscoop1r","Rscoop3r","Rscoop3l", {"dragCoef":"$=$drag*0.1"}],
+	["Rscoop2r","Rscoop2l","Rscoop3l","Rscoop3r", {"dragCoef":"$=$drag*0.1"}],
+	
+        {"group":""},
+    ],
+},
+
+}

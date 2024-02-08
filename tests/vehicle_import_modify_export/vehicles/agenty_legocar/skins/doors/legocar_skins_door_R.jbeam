@@ -1,0 +1,286 @@
+{
+"legocar_door_R_skin_col2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Color Palette 2",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_col2",
+},
+"legocar_door_R_skin_col3": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Color Palette 3",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_col3",
+},
+
+"legocar_door_R_skin_v8sport": {
+    "information":{
+        "authors":"AgentY",
+        "name":"V8 Sport Sticker",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_v8sport",
+},
+"legocar_door_R_skin_v8luxe": {
+    "information":{
+        "authors":"AgentY",
+        "name":"V8 Luxe Sticker",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_v8luxe",
+},
+
+"legocar_door_R_skin_fpd": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Firwood Police Department Stickers",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_fpd",
+},
+"legocar_door_R_skin_fpd2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Firwood Police Department Modernized Stickers",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_fpd2",
+},
+"legocar_door_R_skin_bcpd": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Belasco City Police Department Stickers",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_bcpd",
+},
+"legocar_door_R_skin_polizei": {
+    "information":{
+        "authors":"AgentY",
+        "name":"German Police Stickers",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_polizei",
+},
+"legocar_door_R_skin_police": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Generic Police Stickers",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_police",
+},
+"legocar_door_R_skin_polizia": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Italian Police Stickers",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_polizia",
+},
+"legocar_door_R_skin_carabinieri": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Italian Interceptor Stickers",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_carabinieri",
+},
+"legocar_door_R_skin_gendarmerie": {
+    "information":{
+        "authors":"AgentY",
+        "name":"French Police Stickers",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_gendarmerie",
+},
+"legocar_door_R_skin_highwaypatrol": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Highway Patrol Stickers",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_highwaypatrol",
+},
+"legocar_door_R_skin_sheriff": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Sheriff Stickers",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_sheriff",
+},
+"legocar_door_R_skin_retiredcop": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Retired Police Stickers",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_retiredcop",
+},
+
+"legocar_door_R_skin_firechief": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Fire Chief Stickers",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_firechief",
+},
+
+"legocar_door_R_skin_crashtest": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Crash Test Stickers",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_crashtest",
+},
+
+"legocar_door_R_skin_flames": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Flames Stickers",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_flames",
+},
+"legocar_door_R_skin_jdm": {
+    "information":{
+        "authors":"AgentY",
+        "name":"JDM Tuner Stickers",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_jdm",
+},
+"legocar_door_R_skin_racenumber": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Racing Number Sticker",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_racenumber",
+},
+
+"legocar_door_R_skin_rusty": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty Old Paint (Color 1)",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_rusty",
+},
+"legocar_door_R_skin_rusty2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty Old Paint (Color 2)",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_rusty2",
+},
+"legocar_door_R_skin_rusty3": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty Old Paint (Color 3)",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_rusty3",
+},
+"legocar_door_R_skin_rusty_alt": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty (Color 1)",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_rusty_alt",
+},
+"legocar_door_R_skin_rusty2_alt": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty (Color 2)",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_rusty2_alt",
+},
+"legocar_door_R_skin_rusty3_alt": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty (Color 3)",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_rusty3_alt",
+},
+
+"legocar_door_R_skin_triplestripe": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Stripes",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_triplestripe",
+},
+
+"legocar_door_R_skin_derby": {
+    "information":{
+        "authors":"AgentY",
+        "name":"The Brick Wall Stickers",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_derby",
+},
+
+"legocar_door_R_skin_baja": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Baja Stickers",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_baja",
+},
+"legocar_door_R_skin_rally": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rally Stickers",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_rally",
+},
+
+"legocar_door_R_skin_japanese": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Cool Japanese Text",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_japanese",
+},
+
+"legocar_door_R_skin_pacecar": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Pace Car Sticker",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_pacecar",
+},
+"legocar_door_R_skin_stockcar2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Modern Stock Car Stickers",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_stockcar2",
+},
+"legocar_door_R_skin_sus": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Amon Gas Sticker",
+    },
+    "slotType" : "skin_door_R",
+    "skinName" : "door_R_sus",
+},
+
+}

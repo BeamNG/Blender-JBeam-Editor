@@ -1,0 +1,300 @@
+{
+"legocar_bosozoku_lip": {
+    "information":{
+        "name":"Bosozoku Lip",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bosozoku_lip",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_roof_F_prefacelift",["legocar_lip_bosozoku"],[], {"pos":{"x": 0.000, "y":-2.500, "z":-0.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_lip_bosozoku"},
+	//30 pieces, 25 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["bosolip1lll", 0.75, -2.03, -0.10],
+	["bosolip1ll",  0.75, -2.03, 0.07],
+	["bosolip1l",   0.25, -2.03, 0.07],
+	["bosolip1r",  -0.25, -2.03, 0.07],
+	["bosolip1rr", -0.75, -2.03, 0.07],
+	["bosolip1rrr",-0.75, -2.03, -0.10],
+
+	["bosolip2lll", 0.75, -2.25, -0.10],
+	["bosolip2ll",  0.75, -2.25, 0.07],
+	["bosolip2l",   0.25, -2.25, 0.07],
+	["bosolip2r",  -0.25, -2.25, 0.07],
+	["bosolip2rr", -0.75, -2.25, 0.07],
+	["bosolip2rrr",-0.75, -2.25, -0.10],
+
+	["bosolip3lll", 0.75, -2.50, -0.10],
+	["bosolip3ll",  0.75, -2.50, 0.07],
+	["bosolip3l",   0.25, -2.50, 0.07],
+	["bosolip3r",  -0.25, -2.50, 0.07],
+	["bosolip3rr", -0.75, -2.50, 0.07],
+	["bosolip3rrr",-0.75, -2.50, -0.10],
+
+	["bosolip4lll", 0.75, -2.75, -0.10],
+	["bosolip4ll",  0.75, -3.00, -0.10],
+	["bosolip4l",   0.20, -3.00, -0.10],
+	["bosolip4r",  -0.20, -3.00, -0.10],
+	["bosolip4rr", -0.75, -3.00, -0.10],
+	["bosolip4rrr",-0.75, -2.75, -0.10],
+
+	//rigidifier
+	["bosoliprig", 0, -2.50, 0.35, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--MAIN SHAPE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1201000", "beamDamp":"$=$weight*120"},
+
+	//widthwise
+	["bosolip1lll", "bosolip1ll"],
+	["bosolip1ll", "bosolip1l"],
+	["bosolip1l", "bosolip1r"],
+	["bosolip1r", "bosolip1rr"],
+	["bosolip1rr", "bosolip1rrr"],
+
+	["bosolip2lll", "bosolip2ll"],
+	["bosolip2ll", "bosolip2l"],
+	["bosolip2l", "bosolip2r"],
+	["bosolip2r", "bosolip2rr"],
+	["bosolip2rr", "bosolip2rrr"],
+	
+	["bosolip3lll", "bosolip3ll"],
+	["bosolip3ll", "bosolip3l"],
+	["bosolip3l", "bosolip3r"],
+	["bosolip3r", "bosolip3rr"],
+	["bosolip3rr", "bosolip3rrr"],
+
+	["bosolip4lll", "bosolip4ll"],
+	["bosolip4ll", "bosolip4l"],
+	["bosolip4l", "bosolip4r"],
+	["bosolip4r", "bosolip4rr"],
+	["bosolip4rr", "bosolip4rrr"],
+
+
+	//lengthwise
+	["bosolip1lll", "bosolip2lll"],
+	["bosolip1ll", "bosolip2ll"],
+	["bosolip1l", "bosolip2l"],
+	["bosolip1r", "bosolip2r"],
+	["bosolip1rr", "bosolip2rr"],
+	["bosolip1rrr", "bosolip2rrr"],
+
+	["bosolip2lll", "bosolip3lll"],
+	["bosolip2ll", "bosolip3ll"],
+	["bosolip2l", "bosolip3l"],
+	["bosolip2r", "bosolip3r"],
+	["bosolip2rr", "bosolip3rr"],
+	["bosolip2rrr", "bosolip3rrr"],
+
+	["bosolip3lll", "bosolip4lll"],
+	["bosolip3ll", "bosolip4ll"],
+	["bosolip3l", "bosolip4l"],
+	["bosolip3r", "bosolip4r"],
+	["bosolip3rr", "bosolip4rr"],
+	["bosolip3rrr", "bosolip4rrr"],
+	
+	
+	//surficial crossing
+	["bosolip1lll", "bosolip2ll"],
+	["bosolip1ll", "bosolip2lll"],
+	["bosolip1ll", "bosolip2l"],
+	["bosolip1l", "bosolip2ll"],
+	["bosolip1l", "bosolip2r"],
+	["bosolip1r", "bosolip2l"],
+	["bosolip1r", "bosolip2rr"],
+	["bosolip1rr", "bosolip2r"],
+	["bosolip1rr", "bosolip2rrr"],
+	["bosolip1rrr", "bosolip2rr"],
+
+	["bosolip2lll", "bosolip3ll"],
+	["bosolip2ll", "bosolip3lll"],
+	["bosolip2ll", "bosolip3l"],
+	["bosolip2l", "bosolip3ll"],
+	["bosolip2l", "bosolip3r"],
+	["bosolip2r", "bosolip3l"],
+	["bosolip2r", "bosolip3rr"],
+	["bosolip2rr", "bosolip3r"],
+	["bosolip2rr", "bosolip3rrr"],
+	["bosolip2rrr", "bosolip3rr"],
+	
+	["bosolip3lll", "bosolip4ll"],
+	["bosolip3ll", "bosolip4lll"],
+	["bosolip3ll", "bosolip4l"],
+	["bosolip3l", "bosolip4ll"],
+	["bosolip3l", "bosolip4r"],
+	["bosolip3r", "bosolip4l"],
+	["bosolip3r", "bosolip4rr"],
+	["bosolip3rr", "bosolip4r"],
+	["bosolip3rr", "bosolip4rrr"],
+	["bosolip3rrr", "bosolip4rr"],
+	
+
+	//--RIGIDS--
+	//IMPORTANT!! Need lower spring and damp to prevent node shake
+	{"beamSpring":"$=$weight*601000", "beamDamp":"$=$weight*60"},
+
+	//widthwise
+	["bosolip1lll", "bosolip1l"],
+	["bosolip1ll", "bosolip1rr"],
+	["bosolip1r", "bosolip1rrr"],
+
+	["bosolip2lll", "bosolip2l"],
+	["bosolip2ll", "bosolip2rr"],
+	["bosolip2r", "bosolip2rrr"],
+
+	["bosolip3lll", "bosolip3l"],
+	["bosolip3ll", "bosolip3rr"],
+	["bosolip3r", "bosolip3rrr"],
+
+	["bosolip4lll", "bosolip4l"],
+	["bosolip4ll", "bosolip4rr"],
+	["bosolip4r", "bosolip4rrr"],
+
+	//lengthwise
+	["bosolip1lll", "bosolip3lll"],
+	["bosolip1ll", "bosolip3ll"],
+	["bosolip1l", "bosolip3l"],
+	["bosolip1r", "bosolip3r"],
+	["bosolip1rr", "bosolip3rr"],
+	["bosolip1rrr", "bosolip3rrr"],
+
+	["bosolip2lll", "bosolip4lll"],
+	["bosolip2ll", "bosolip4ll"],
+	["bosolip2l", "bosolip4l"],
+	["bosolip2r", "bosolip4r"],
+	["bosolip2rr", "bosolip4rr"],
+	["bosolip2rrr", "bosolip4rrr"],
+
+	//perimeter rigids (extra)
+	{"beamSpring":"$=$weight*301000", "beamDamp":"$=$weight*30"},
+	["bosolip1lll", "bosolip1r"],
+	["bosolip1rrr", "bosolip1l"],
+	["bosolip2lll", "bosolip2r"],
+	["bosolip2rrr", "bosolip2l"],
+	["bosolip3lll", "bosolip3r"],
+	["bosolip3rrr", "bosolip3l"],
+	
+
+	//--RIGIDIFIER--
+	//lower spring to avoid stressing the structure
+	{"beamSpring":"$=$weight*301000", "beamDamp":"$=$weight*30"},
+
+	["bosoliprig", "bosolip1lll"],
+	["bosoliprig", "bosolip1ll"],
+	["bosoliprig", "bosolip1l"],
+	["bosoliprig", "bosolip1r"],
+	["bosoliprig", "bosolip1rr"],
+	["bosoliprig", "bosolip1rrr"],
+
+	["bosoliprig", "bosolip2lll"],
+	["bosoliprig", "bosolip2ll"],
+	["bosoliprig", "bosolip2l"],
+	["bosoliprig", "bosolip2r"],
+	["bosoliprig", "bosolip2rr"],
+	["bosoliprig", "bosolip2rrr"],
+
+	["bosoliprig", "bosolip3lll"],
+	["bosoliprig", "bosolip3ll"],
+	["bosoliprig", "bosolip3l"],
+	["bosoliprig", "bosolip3r"],
+	["bosoliprig", "bosolip3rr"],
+	["bosoliprig", "bosolip3rrr"],
+
+	["bosoliprig", "bosolip4lll"],
+	["bosoliprig", "bosolip4ll"],
+	["bosoliprig", "bosolip4l"],
+	["bosoliprig", "bosolip4r"],
+	["bosoliprig", "bosolip4rr"],
+	["bosoliprig", "bosolip4rrr"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+	{"breakGroup":"bosozoku_lip_break"},
+	
+	["Fneon1l", "bosolip2l"],
+	["Fneon1l", "bosolip2ll"],
+	["Fneon1l", "bosolip2lll"],
+	["Fneon1l", "bosolip3l"],
+	["Fneon1l", "bosoliprig"],
+
+	["Fneon1r", "bosolip2r"],
+	["Fneon1r", "bosolip2rr"],
+	["Fneon1r", "bosolip2rrr"],
+	["Fneon1r", "bosolip3r"],
+	["Fneon1r", "bosoliprig"],
+
+	["Fneon2l", "bosolip1l"],
+	["Fneon2l", "bosolip1ll"],
+	["Fneon2l", "bosolip1lll"],
+	["Fneon2l", "bosolip2l"],
+	["Fneon2l", "bosoliprig"],
+
+	["Fneon2r", "bosolip1r"],
+	["Fneon2r", "bosolip1rr"],
+	["Fneon2r", "bosolip1rrr"],
+	["Fneon2r", "bosolip2r"],
+	["Fneon2r", "bosoliprig"],
+
+	["Fneonrig", "bosolip1lll"],
+	["Fneonrig", "bosolip1rrr"],
+	["Fneonrig", "bosolip1l"],
+	["Fneonrig", "bosolip1r"],
+	["Fneonrig", "bosolip4lll"],
+	["Fneonrig", "bosolip4rrr"],
+	["Fneonrig", "bosoliprig"],
+
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_bosozoku_lip"},
+	["bosolip4rrr","bosolip4r","bosolip4rr"],
+	["bosolip4rrr","bosolip4l","bosolip4r"],
+	["bosolip4rrr","bosolip4ll","bosolip4l"],
+	["bosolip4rrr","bosolip4lll","bosolip4ll"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bosozoku_lip"},
+
+	["bosolip1rrr","bosolip2rrr","bosolip2rr","bosolip1rr"],
+	["bosolip1rr","bosolip2rr","bosolip2r","bosolip1r"],
+	["bosolip1r","bosolip2r","bosolip2l","bosolip1l"],
+	["bosolip1l","bosolip2l","bosolip2ll","bosolip1ll"],
+	["bosolip1ll","bosolip2ll","bosolip2lll","bosolip1lll"],
+
+	["bosolip2rrr","bosolip3rrr","bosolip3rr","bosolip2rr"],
+	["bosolip2rr","bosolip3rr","bosolip3r","bosolip2r"],
+	["bosolip2r","bosolip3r","bosolip3l","bosolip2l"],
+	["bosolip2l","bosolip3l","bosolip3ll","bosolip2ll"],
+	["bosolip2ll","bosolip3ll","bosolip3lll","bosolip2lll"],
+
+	["bosolip3rrr","bosolip4rrr","bosolip4rr","bosolip3rr"],
+	["bosolip3rr","bosolip4rr","bosolip4r","bosolip3r"],
+	["bosolip3r","bosolip4r","bosolip4l","bosolip3l"],
+	["bosolip3l","bosolip4l","bosolip4ll","bosolip3ll"],
+	["bosolip3ll","bosolip4ll","bosolip4lll","bosolip3lll"],
+
+        {"group":""},
+    ],
+},
+
+}

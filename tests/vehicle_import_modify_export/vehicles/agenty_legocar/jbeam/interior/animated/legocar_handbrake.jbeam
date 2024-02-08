@@ -1,0 +1,161 @@
+{
+"legocar_handbrake": {
+    "information":{
+        "name":"Handbrake",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_handbrake",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_handbrakebase",["legocar_handbrakebase"],[], {"pos":{"x":-0.375, "y":-0.375, "z":0.3},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_handbrake",    ["legocar_handbrake"],    [], {"pos":{"x":-0.375, "y":-0.375, "z":0.3},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--HANDBRAKE--
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	//collision and limiter
+	{"group":"legocar_handbrakebase"},
+	["handb0", -0.375, -0.375, 0.270, {"selfCollision":false}],
+	["handb1", -0.375, -0.250, 0.425],
+
+	//rotation arm
+	{"group":""},
+	["handb3", -0.250, -0.500, 0.425, {"collision":false, "selfCollision":false}],
+
+	//rotation axis
+	{"group":["legocar_handbrakebase", "legocar_handbrake"]},
+	["handb2r",-0.500, -0.375, 0.425],
+	["handb2l",-0.250, -0.375, 0.425],
+
+	//handbrake animated part
+	{"group":"legocar_handbrake"},
+	//heavier for stability reasons
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["hand2", -0.375, -0.375, 0.825],	
+	{"group":""},
+	["hand1", -0.375, -0.375, 0.425, {"selfCollision":false}],	
+    ],
+    "torsionHydros": [
+        ["id1:","id2:","id3:","id4:"],
+	//spring = weight * 100000, a tiny bit of damping due to length
+        {"spring":"$=$weight*2000", "damp":"$=$weight*2", "deform":"FLT_MAX", "strength":"FLT_MAX"},
+	//handbrake animation
+	//factor = pi/2, input source = simple custom LUA script
+        ["hand2","hand1","handb2l","handb3", {"factor":1.5707963267948966192313216916398,"inRate":5,"outRate":5,"inputSource":"handbrakeStick"}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//uniform structure
+	["handb1", "handb2l"],
+	["handb1", "handb2r"],
+	["handb1", "handb3"],
+	["handb2l", "handb2r"],
+	["handb2l", "handb3"],
+	["handb2r", "handb3"],
+
+	//limiter
+	["handb1", "handb0"],
+	["handb2l", "handb0"],
+	["handb2r", "handb0"],
+	["handb3", "handb0"],
+
+	//handbrake stick
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	["hand1", "hand2"],
+
+	//hand rotation axis
+	["hand1", "handb2r"],
+
+	//handbrake animation disable trigger
+	["hand1", "handb2l", {"breakGroup":"handbrake_break", "disableMeshBreaking":true}],
+
+	//hand rotation angle reinforcers
+	["hand2", "handb2l"],
+	["hand2", "handb2r"],
+
+	//stick attachment
+	["hand1", "handb1"],
+	["hand1", "handb3"],
+	["hand1", "handb0"],
+
+	//handbrake stick dampers
+	{"beamSpring":0, "beamDamp":"$=$weight*200"},
+	["hand2", "handb1"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	//needs lower strength, normal is too high
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"handbrake_break"},
+
+	["handb1", "chassis3r"],
+	["handb1", "chassis2ll"],
+	["handb1", "chassis7rr"],
+	["handb1", "chassis7ll"],
+	["handb1", "chassis0"],
+
+	["handb0", "chassis3r"],
+	["handb0", "chassis2ll"],
+	["handb0", "chassis7rr"],
+	["handb0", "chassis7ll"],
+	["handb0", "chassis0"],
+
+	["handb2l", "chassis3r"],
+	["handb2l", "chassis2ll"],
+	["handb2l", "chassis7rr"],
+	["handb2l", "chassis7ll"],
+	["handb2l", "chassis0"],
+
+	["handb2r", "chassis3r"],
+	["handb2r", "chassis2ll"],
+	["handb2r", "chassis7rr"],
+	["handb2r", "chassis7ll"],
+	["handb2r", "chassis0"],
+
+	//stiffeners
+	{"optional":true},
+	["handb1", "chassis4"],
+	["handb0", "chassis4"],
+	["handb2l", "chassis4"],
+	["handb2r", "chassis4"],
+	{"optional":false},
+
+	{"breakGroup":""},
+
+
+	//--LIMITERS--
+	{"beamPrecompression":1,"beamType":"|SUPPORT", "beamLongBound":100},
+	{"beamSpring":"$=$weight*21000", "beamDamp":"$=$weight*200"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//handbrake movement limiter
+	["hand2", "handb0", {"beamPrecompression":0.8}],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_handbrake"},
+
+	["hand2","handb2l","handb1"],
+	["hand2","handb1","handb2r"],
+	["hand2","handb2r","handb2l"],	
+
+        {"group":""},
+    ],
+},
+
+}

@@ -1,0 +1,135 @@
+{
+"legocar_brake_F": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible Customizable Brakes",
+    },
+    "slotType" : "legocar_brake_F",
+    "slots": [
+        ["type", "default", "description"],
+        ["brakepad_F","brakepad_F_sport", "Front Brake Pads", {"coreSlot":true}],
+	["legocar_diff_steering_F","", "Differential Braking System"],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$braketorqueF", "range", "Nm", "Brakes",  2000, 100, 10000, "Front Brake Torque", "Torque of the front brakes", {"stepDis":10}],
+	["$parktorqueF", "range", "Nm", "Brakes",  0, 0, 10000, "Front Parking Brake Torque", "Torque of the front parking brake", {"stepDis":10}],
+    ],
+    "pressureWheels": [
+        ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+        //brakes
+        {"brakeTorque":"$=$brakestrength*$braketorqueF"},
+        {"brakeInputSplit":1},
+        {"brakeSplitCoef":1},
+        {"parkingTorque":"$parktorqueF"},
+        {"brakeSpring":100},
+
+        //brake thermals
+        {"enableBrakeThermals":true},
+        {"brakeDiameter":0.25},
+        {"brakeMass":5},
+        {"brakeType":"vented-disc"},
+        {"rotorMaterial":"steel"},
+        {"brakeVentingCoef":1.0},
+        //abs
+        {"absSlipRatioTarget":0.2},
+        //brake sounds
+        {"squealCoefNatural": 0.0, "squealCoefLowSpeed": 0.0}
+    ],
+},
+"legocar_brake_R": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible Customizable Brakes",
+    },
+    "slotType" : "legocar_brake_R",
+    "slots": [
+        ["type", "default", "description"],
+        ["brakepad_R","brakepad_R_sport", "Rear Brake Pads", {"coreSlot":true}],
+	["legocar_diff_steering_R","", "Differential Braking System"],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$braketorqueR", "range", "Nm", "Brakes",  1000, 100, 10000, "Rear Brake Torque", "Torque of the rear brakes", {"stepDis":10}],
+	["$parktorqueR", "range", "Nm", "Brakes",  1500, 0, 10000, "Rear Parking Brake Torque", "Torque of the rear parking brake", {"stepDis":10}],
+    ],
+    "pressureWheels": [
+        ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+        //brakes
+        {"brakeTorque":"$=$brakestrength*$braketorqueR"},
+        {"brakeInputSplit":1},
+        {"brakeSplitCoef":1},
+        {"parkingTorque":"$parktorqueR"},
+        {"brakeSpring":100},
+
+        //brake thermals
+        {"enableBrakeThermals":true},
+        {"brakeDiameter":0.25},
+        {"brakeMass":5},
+        {"brakeType":"vented-disc"},
+        {"rotorMaterial":"steel"},
+        {"brakeVentingCoef":1.0},
+        //abs
+        {"absSlipRatioTarget":0.2},
+        //brake sounds
+        {"squealCoefNatural": 0.0, "squealCoefLowSpeed": 0.0}
+    ],
+},
+
+"legocar_diff_steering_F":{
+    "information":{
+        "authors":"AgentY",
+        "name":"Differential Steering",
+    },
+    "slotType":"legocar_diff_steering_F",
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+	["$diffbrakeplayF", "range", "%", "Brakes",  10, 0, 100, "Front Brake Steering Play", "Steering play of front differential brakes", {"stepDis":1, "subCategory":"Differential Steering"}],
+        ["$diffbraketorqueF", "range", "Nm", "Brakes",  1000, 100, 10000, "Front Max Steering Brake Torque", "Max torque of the front brakes on skid steering", {"stepDis":10, "subCategory":"Differential Steering"}],
+    ],
+    "controller": [
+        ["fileName"],
+        ["brakedDifferentialSteering", {"name":"brakeSteeringF","steeringPlay":"$=$diffbrakeplayF/100", "maxSteeringBrakeTorque":"$diffbraketorqueF"}],
+    ],
+    "brakeSteeringF":{
+	"rightBrakeName":"FR",
+	"leftBrakeName":"FL",
+    },
+},
+"legocar_diff_steering_R":{
+    "information":{
+        "authors":"AgentY",
+        "name":"Differential Steering",
+    },
+    "slotType":"legocar_diff_steering_R",
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+	["$diffbrakeplayR", "range", "%", "Brakes",  10, 0, 100, "Rear Brake Steering Play", "Steering play of rear differential brakes", {"stepDis":1, "subCategory":"Differential Steering"}],
+        ["$diffbraketorqueR", "range", "Nm", "Brakes",  2000, 100, 10000, "Rear Max Steering Brake Torque", "Max torque of the rear brakes on skid steering", {"stepDis":10, "subCategory":"Differential Steering"}],
+    ],
+    "controller": [
+        ["fileName"],
+        ["brakedDifferentialSteering", {"name":"brakeSteeringR","steeringPlay":"$=$diffbrakeplayR/100", "maxSteeringBrakeTorque":"$diffbraketorqueR"}],
+    ],
+    "brakeSteeringR":{
+	"rightBrakeName":"RR",
+	"leftBrakeName":"RL",
+    },
+},
+
+"legocar_ABS": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Anti-Lock Braking System",
+    },
+    "slotType":"legocar_ABS",
+    "pressureWheels": [
+        ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+        //brakes
+        {"enableABS":true},
+        //brake sounds
+        {"squealCoefNatural": 0.0, "squealCoefLowSpeed": 0.0}
+    ],
+},
+
+}

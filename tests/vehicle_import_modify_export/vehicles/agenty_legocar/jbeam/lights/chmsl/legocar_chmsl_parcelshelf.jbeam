@@ -1,0 +1,326 @@
+{
+"legocar_parcelshelf_chmsl": {
+    "information":{
+        "name":"Stock CHMSL",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_parcelshelf_chmsl",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"chmsl_shelf_break", "deformMaterialBase":"legocar_chmsl_stock", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_chmsl_stock",["legocar_chmsl_shelf"],[], {"pos":{"x": 0.000, "y":0.875, "z":0.9},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightRange":8,
+            "lightColor":{"r":201, "g":26, "b":9, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleBrakeLightFlare",
+        },
+        ["brake",      "SPOTLIGHT", "shelfCHMSL1r", "shelfCHMSL2r", "shelfCHMSL1l",{"x":90, "y":-90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":1.0, "y":0.5, "z":0}, "flareScale":0.012,"lightBrightness":0.08, "deformGroup":"chmsl_shelf_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_chmsl_shelf"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["shelfCHMSL1l",  0.22, 0.78, 0.95],
+	["shelfCHMSL1r", -0.22, 0.78, 0.95],
+	["shelfCHMSL2l",  0.22, 1.00, 0.95],
+	["shelfCHMSL2r", -0.22, 1.00, 0.95],
+
+	//rigidifier
+	["shelfCHMSLrig", 0, 0.875, 0.7, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["shelfCHMSL1l", "shelfCHMSL1r"],
+	["shelfCHMSL2l", "shelfCHMSL2r"],
+	["shelfCHMSL1l", "shelfCHMSL2l"],
+	["shelfCHMSL1r", "shelfCHMSL2r"],
+	["shelfCHMSL1l", "shelfCHMSL2r"],
+	["shelfCHMSL2l", "shelfCHMSL1r"],
+
+	//rigidifier
+	["shelfCHMSL1l", "shelfCHMSLrig"],
+	["shelfCHMSL1r", "shelfCHMSLrig"],
+	["shelfCHMSL2l", "shelfCHMSLrig"],
+	["shelfCHMSL2r", "shelfCHMSLrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"chmsl_shelf_break"},
+	{"deformGroup":"chmsl_shelf_break"},
+
+	["shelfCHMSL1l", "shelfR1l"],
+	["shelfCHMSL1l", "shelfR2l"],
+	["shelfCHMSL1l", "shelfR1r"],
+	["shelfCHMSL1l", "shelfRrig"],
+
+	["shelfCHMSL1r", "shelfR1r"],
+	["shelfCHMSL1r", "shelfR2r"],
+	["shelfCHMSL1r", "shelfR1l"],
+	["shelfCHMSL1r", "shelfRrig"],
+
+	["shelfCHMSL2l", "shelfR2l"],
+	["shelfCHMSL2l", "shelfR1l"],
+	["shelfCHMSL2l", "shelfR2r"],
+	["shelfCHMSL2l", "shelfRrig"],
+
+	["shelfCHMSL2r", "shelfR2r"],
+	["shelfCHMSL2r", "shelfR1r"],
+	["shelfCHMSL2r", "shelfR2l"],
+	["shelfCHMSL2r", "shelfRrig"],
+
+	["shelfCHMSLrig", "shelfR1l"],
+	["shelfCHMSLrig", "shelfR2l"],
+	["shelfCHMSLrig", "shelfR1r"],
+	["shelfCHMSLrig", "shelfR2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_chmsl_shelf"},   
+	["shelfCHMSL1r","shelfCHMSL1l","shelfCHMSL2l","shelfCHMSL2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_parcelshelf_chmsl_smoked": {
+    "information":{
+        "name":"Smoked CHMSL",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_parcelshelf_chmsl",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"chmsl_shelf_break", "deformMaterialBase":"legocar_chmsl_smoked", "deformMaterialDamaged":"lego_transcol_dred"},
+	["legocar_chmsl_smoked",["legocar_chmsl_shelf"],[], {"pos":{"x": 0.000, "y":0.875, "z":0.9},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightRange":8,
+            "lightColor":{"r":100, "g":13, "b":5, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleBrakeLightFlare",
+        },
+        ["brake",      "SPOTLIGHT", "shelfCHMSL1r", "shelfCHMSL2r", "shelfCHMSL1l",{"x":90, "y":-90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":1.0, "y":0.5, "z":0}, "flareScale":0.012,"lightBrightness":0.04, "deformGroup":"chmsl_shelf_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_chmsl_shelf"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["shelfCHMSL1l",  0.22, 0.78, 0.95],
+	["shelfCHMSL1r", -0.22, 0.78, 0.95],
+	["shelfCHMSL2l",  0.22, 1.00, 0.95],
+	["shelfCHMSL2r", -0.22, 1.00, 0.95],
+
+	//rigidifier
+	["shelfCHMSLrig", 0, 0.875, 0.7, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["shelfCHMSL1l", "shelfCHMSL1r"],
+	["shelfCHMSL2l", "shelfCHMSL2r"],
+	["shelfCHMSL1l", "shelfCHMSL2l"],
+	["shelfCHMSL1r", "shelfCHMSL2r"],
+	["shelfCHMSL1l", "shelfCHMSL2r"],
+	["shelfCHMSL2l", "shelfCHMSL1r"],
+
+	//rigidifier
+	["shelfCHMSL1l", "shelfCHMSLrig"],
+	["shelfCHMSL1r", "shelfCHMSLrig"],
+	["shelfCHMSL2l", "shelfCHMSLrig"],
+	["shelfCHMSL2r", "shelfCHMSLrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"chmsl_shelf_break"},
+	{"deformGroup":"chmsl_shelf_break"},
+
+	["shelfCHMSL1l", "shelfR1l"],
+	["shelfCHMSL1l", "shelfR2l"],
+	["shelfCHMSL1l", "shelfR1r"],
+	["shelfCHMSL1l", "shelfRrig"],
+
+	["shelfCHMSL1r", "shelfR1r"],
+	["shelfCHMSL1r", "shelfR2r"],
+	["shelfCHMSL1r", "shelfR1l"],
+	["shelfCHMSL1r", "shelfRrig"],
+
+	["shelfCHMSL2l", "shelfR2l"],
+	["shelfCHMSL2l", "shelfR1l"],
+	["shelfCHMSL2l", "shelfR2r"],
+	["shelfCHMSL2l", "shelfRrig"],
+
+	["shelfCHMSL2r", "shelfR2r"],
+	["shelfCHMSL2r", "shelfR1r"],
+	["shelfCHMSL2r", "shelfR2l"],
+	["shelfCHMSL2r", "shelfRrig"],
+
+	["shelfCHMSLrig", "shelfR1l"],
+	["shelfCHMSLrig", "shelfR2l"],
+	["shelfCHMSLrig", "shelfR1r"],
+	["shelfCHMSLrig", "shelfR2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_chmsl_shelf"},   
+	["shelfCHMSL1r","shelfCHMSL1l","shelfCHMSL2l","shelfCHMSL2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_parcelshelf_chmsl_clear": {
+    "information":{
+        "name":"Clear CHMSL",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_parcelshelf_chmsl",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"chmsl_shelf_break", "deformMaterialBase":"legocar_chmsl_clear", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_chmsl_clear",["legocar_chmsl_shelf"],[], {"pos":{"x": 0.000, "y":0.875, "z":0.9},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightRange":8,
+            "lightColor":{"r":201, "g":26, "b":9, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleBrakeLightFlare",
+        },
+        ["brake",      "SPOTLIGHT", "shelfCHMSL1r", "shelfCHMSL2r", "shelfCHMSL1l",{"x":90, "y":-90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":1.0, "y":0.5, "z":0}, "flareScale":0.012,"lightBrightness":0.08, "deformGroup":"chmsl_shelf_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_chmsl_shelf"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["shelfCHMSL1l",  0.22, 0.78, 0.95],
+	["shelfCHMSL1r", -0.22, 0.78, 0.95],
+	["shelfCHMSL2l",  0.22, 1.00, 0.95],
+	["shelfCHMSL2r", -0.22, 1.00, 0.95],
+
+	//rigidifier
+	["shelfCHMSLrig", 0, 0.875, 0.7, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["shelfCHMSL1l", "shelfCHMSL1r"],
+	["shelfCHMSL2l", "shelfCHMSL2r"],
+	["shelfCHMSL1l", "shelfCHMSL2l"],
+	["shelfCHMSL1r", "shelfCHMSL2r"],
+	["shelfCHMSL1l", "shelfCHMSL2r"],
+	["shelfCHMSL2l", "shelfCHMSL1r"],
+
+	//rigidifier
+	["shelfCHMSL1l", "shelfCHMSLrig"],
+	["shelfCHMSL1r", "shelfCHMSLrig"],
+	["shelfCHMSL2l", "shelfCHMSLrig"],
+	["shelfCHMSL2r", "shelfCHMSLrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"chmsl_shelf_break"},
+	{"deformGroup":"chmsl_shelf_break"},
+
+	["shelfCHMSL1l", "shelfR1l"],
+	["shelfCHMSL1l", "shelfR2l"],
+	["shelfCHMSL1l", "shelfR1r"],
+	["shelfCHMSL1l", "shelfRrig"],
+
+	["shelfCHMSL1r", "shelfR1r"],
+	["shelfCHMSL1r", "shelfR2r"],
+	["shelfCHMSL1r", "shelfR1l"],
+	["shelfCHMSL1r", "shelfRrig"],
+
+	["shelfCHMSL2l", "shelfR2l"],
+	["shelfCHMSL2l", "shelfR1l"],
+	["shelfCHMSL2l", "shelfR2r"],
+	["shelfCHMSL2l", "shelfRrig"],
+
+	["shelfCHMSL2r", "shelfR2r"],
+	["shelfCHMSL2r", "shelfR1r"],
+	["shelfCHMSL2r", "shelfR2l"],
+	["shelfCHMSL2r", "shelfRrig"],
+
+	["shelfCHMSLrig", "shelfR1l"],
+	["shelfCHMSLrig", "shelfR2l"],
+	["shelfCHMSLrig", "shelfR1r"],
+	["shelfCHMSLrig", "shelfR2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_chmsl_shelf"},   
+	["shelfCHMSL1r","shelfCHMSL1l","shelfCHMSL2l","shelfCHMSL2r"],
+        {"group":""},
+    ],
+},
+
+}

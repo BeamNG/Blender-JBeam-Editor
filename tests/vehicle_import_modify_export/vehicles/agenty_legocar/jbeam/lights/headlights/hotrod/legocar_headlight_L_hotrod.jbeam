@@ -1,0 +1,674 @@
+{
+"legocar_headlight_L_hotrod": {
+    "information":{
+        "name":"Left Pre-Facelift Headlight",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_headlight_L_hotrod",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"headlight_L_break", "deformMaterialBase":"legocar_headlight_stock", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_headlight_L_circle_stock", ["legocar_headlight_L"],[], {"pos":{"x": 0.375, "y":-1.850, "z":0.600},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightColor":{"r":252, "g":252, "b":252, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":true,
+            "flareName":"vehicleHeadLightFlare",
+            "cookieName":"art/special/BNG_light_cookie_headlight.dds",
+            "texSize":512,
+            "shadowSoftness":0.5
+        },
+        ["lowbeam", "SPOTLIGHT", "LFfasc2r", "LFfasc1r", "LFfasc2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":50,"lightBrightness":0.4,"lightOuterAngle":75,"flareScale":0.07,"deformGroup":"headlight_L_break"}],
+        ["highbeam_wigwag_L","SPOTLIGHT", "LFfasc2r", "LFfasc1r", "LFfasc2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":80,"lightBrightness":0.7,"lightOuterAngle":90,"flareScale":0.08,"deformGroup":"headlight_L_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_headlight_L"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["LFfasc1r", 0.280, -1.85, 0.505],
+	["LFfasc2r", 0.280, -1.85, 0.695],
+	["LFfasc1l", 0.470, -1.85, 0.505],
+	["LFfasc2l", 0.470, -1.85, 0.695],
+	["LFfasc0",  0.375, -2.00, 0.600],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["LFfasc1l", "LFfasc1r"],
+	["LFfasc2l", "LFfasc2r"],
+	["LFfasc1l", "LFfasc2r"],
+	["LFfasc2l", "LFfasc1r"],
+	["LFfasc1l", "LFfasc2l"],
+	["LFfasc1r", "LFfasc2r"],
+
+	//tip
+	["LFfasc1l", "LFfasc0"],
+	["LFfasc1r", "LFfasc0"],
+	["LFfasc2l", "LFfasc0"],
+	["LFfasc2r", "LFfasc0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"headlight_L_break"},
+	{"deformGroup":"headlight_L_break"},
+	
+	["LFfasc1l", "Ffasc1l"],
+	["LFfasc1l", "Ffasc1r"],
+	["LFfasc1l", "Ffasc2l"],
+
+	["LFfasc2l", "Ffasc1l"],
+	["LFfasc2l", "Ffasc2r"],
+	["LFfasc2l", "Ffasc2l"],
+
+	["LFfasc1r", "Ffasc1l"],
+	["LFfasc1r", "Ffasc1r"],
+	["LFfasc1r", "Ffasc2l"],
+
+	["LFfasc2r", "Ffasc1l"],
+	["LFfasc2r", "Ffasc2r"],
+	["LFfasc2r", "Ffasc2l"],
+
+	["LFfasc0", "Ffasc1l"],
+	["LFfasc0", "Ffasc1r"],
+	["LFfasc0", "Ffasc2l"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_headlight_L"},
+	["LFfasc0","LFfasc1l","LFfasc2l"],
+	["LFfasc0","LFfasc2l","LFfasc2r"],
+	["LFfasc0","LFfasc2r","LFfasc1r"],
+	["LFfasc0","LFfasc1r","LFfasc1l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_headlight_L"},   
+	["LFfasc1l","LFfasc1r","LFfasc2r","LFfasc2l"],	
+        {"group":""},
+    ],
+},
+
+"legocar_headlight_L_hotrod_smoked": {
+    "information":{
+        "name":"Left Smoked Pre-Facelift Headlight",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_headlight_L_hotrod",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"headlight_L_break", "deformMaterialBase":"legocar_headlight_smoked", "deformMaterialDamaged":"lego_transcol_black"},
+	["legocar_headlight_L_circle_smoked", ["legocar_headlight_L"],[], {"pos":{"x": 0.375, "y":-1.850, "z":0.600},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightColor":{"r":100, "g":94, "b":81, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":true,
+            "flareName":"vehicleHeadLightFlare",
+            "cookieName":"art/special/BNG_light_cookie_headlight.dds",
+            "texSize":512,
+            "shadowSoftness":0.5
+        },
+        ["lowbeam", "SPOTLIGHT", "LFfasc2r", "LFfasc1r", "LFfasc2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":50,"lightBrightness":0.4,"lightOuterAngle":75,"flareScale":0.07,"deformGroup":"headlight_L_break"}],
+        ["highbeam_wigwag_L","SPOTLIGHT", "LFfasc2r", "LFfasc1r", "LFfasc2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":80,"lightBrightness":0.7,"lightOuterAngle":90,"flareScale":0.08,"deformGroup":"headlight_L_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_headlight_L"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["LFfasc1r", 0.280, -1.85, 0.505],
+	["LFfasc2r", 0.280, -1.85, 0.695],
+	["LFfasc1l", 0.470, -1.85, 0.505],
+	["LFfasc2l", 0.470, -1.85, 0.695],
+	["LFfasc0",  0.375, -2.00, 0.600],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["LFfasc1l", "LFfasc1r"],
+	["LFfasc2l", "LFfasc2r"],
+	["LFfasc1l", "LFfasc2r"],
+	["LFfasc2l", "LFfasc1r"],
+	["LFfasc1l", "LFfasc2l"],
+	["LFfasc1r", "LFfasc2r"],
+
+	//tip
+	["LFfasc1l", "LFfasc0"],
+	["LFfasc1r", "LFfasc0"],
+	["LFfasc2l", "LFfasc0"],
+	["LFfasc2r", "LFfasc0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"headlight_L_break"},
+	{"deformGroup":"headlight_L_break"},
+	
+	["LFfasc1l", "Ffasc1l"],
+	["LFfasc1l", "Ffasc1r"],
+	["LFfasc1l", "Ffasc2l"],
+
+	["LFfasc2l", "Ffasc1l"],
+	["LFfasc2l", "Ffasc2r"],
+	["LFfasc2l", "Ffasc2l"],
+
+	["LFfasc1r", "Ffasc1l"],
+	["LFfasc1r", "Ffasc1r"],
+	["LFfasc1r", "Ffasc2l"],
+
+	["LFfasc2r", "Ffasc1l"],
+	["LFfasc2r", "Ffasc2r"],
+	["LFfasc2r", "Ffasc2l"],
+
+	["LFfasc0", "Ffasc1l"],
+	["LFfasc0", "Ffasc1r"],
+	["LFfasc0", "Ffasc2l"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_headlight_L"},
+	["LFfasc0","LFfasc1l","LFfasc2l"],
+	["LFfasc0","LFfasc2l","LFfasc2r"],
+	["LFfasc0","LFfasc2r","LFfasc1r"],
+	["LFfasc0","LFfasc1r","LFfasc1l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_headlight_L"},   
+	["LFfasc1l","LFfasc1r","LFfasc2r","LFfasc2l"],	
+        {"group":""},
+    ],
+},
+
+"legocar_headlight_L_hotrod_red": {
+    "information":{
+        "name":"Left Red Pre-Facelift Headlight",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_headlight_L_hotrod",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"headlight_L_break", "deformMaterialBase":"legocar_headlight_red", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_headlight_L_circle_red", ["legocar_headlight_L"],[], {"pos":{"x": 0.375, "y":-1.850, "z":0.600},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightColor":{"r":201, "g":26, "b":9, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":true,
+            "flareName":"vehicleHeadLightFlare",
+            "cookieName":"art/special/BNG_light_cookie_headlight.dds",
+            "texSize":512,
+            "shadowSoftness":0.5
+        },
+        ["lowbeam", "SPOTLIGHT", "LFfasc2r", "LFfasc1r", "LFfasc2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":50,"lightBrightness":0.4,"lightOuterAngle":75,"flareScale":0.07,"deformGroup":"headlight_L_break"}],
+        ["highbeam_wigwag_L","SPOTLIGHT", "LFfasc2r", "LFfasc1r", "LFfasc2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":80,"lightBrightness":0.7,"lightOuterAngle":90,"flareScale":0.08,"deformGroup":"headlight_L_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_headlight_L"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["LFfasc1r", 0.280, -1.85, 0.505],
+	["LFfasc2r", 0.280, -1.85, 0.695],
+	["LFfasc1l", 0.470, -1.85, 0.505],
+	["LFfasc2l", 0.470, -1.85, 0.695],
+	["LFfasc0",  0.375, -2.00, 0.600],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["LFfasc1l", "LFfasc1r"],
+	["LFfasc2l", "LFfasc2r"],
+	["LFfasc1l", "LFfasc2r"],
+	["LFfasc2l", "LFfasc1r"],
+	["LFfasc1l", "LFfasc2l"],
+	["LFfasc1r", "LFfasc2r"],
+
+	//tip
+	["LFfasc1l", "LFfasc0"],
+	["LFfasc1r", "LFfasc0"],
+	["LFfasc2l", "LFfasc0"],
+	["LFfasc2r", "LFfasc0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"headlight_L_break"},
+	{"deformGroup":"headlight_L_break"},
+	
+	["LFfasc1l", "Ffasc1l"],
+	["LFfasc1l", "Ffasc1r"],
+	["LFfasc1l", "Ffasc2l"],
+
+	["LFfasc2l", "Ffasc1l"],
+	["LFfasc2l", "Ffasc2r"],
+	["LFfasc2l", "Ffasc2l"],
+
+	["LFfasc1r", "Ffasc1l"],
+	["LFfasc1r", "Ffasc1r"],
+	["LFfasc1r", "Ffasc2l"],
+
+	["LFfasc2r", "Ffasc1l"],
+	["LFfasc2r", "Ffasc2r"],
+	["LFfasc2r", "Ffasc2l"],
+
+	["LFfasc0", "Ffasc1l"],
+	["LFfasc0", "Ffasc1r"],
+	["LFfasc0", "Ffasc2l"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_headlight_L"},
+	["LFfasc0","LFfasc1l","LFfasc2l"],
+	["LFfasc0","LFfasc2l","LFfasc2r"],
+	["LFfasc0","LFfasc2r","LFfasc1r"],
+	["LFfasc0","LFfasc1r","LFfasc1l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_headlight_L"},   
+	["LFfasc1l","LFfasc1r","LFfasc2r","LFfasc2l"],	
+        {"group":""},
+    ],
+},
+
+"legocar_headlight_L_hotrod_yellow": {
+    "information":{
+        "name":"Left Yellow Pre-Facelift Headlight",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_headlight_L_hotrod",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"headlight_L_break", "deformMaterialBase":"legocar_headlight_yellow", "deformMaterialDamaged":"lego_transcol_yellow"},
+	["legocar_headlight_L_circle_yellow", ["legocar_headlight_L"],[], {"pos":{"x": 0.375, "y":-1.850, "z":0.600},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightColor":{"r":245, "g":205, "b":47, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":true,
+            "flareName":"vehicleHeadLightFlare",
+            "cookieName":"art/special/BNG_light_cookie_headlight.dds",
+            "texSize":512,
+            "shadowSoftness":0.5
+        },
+        ["lowbeam", "SPOTLIGHT", "LFfasc2r", "LFfasc1r", "LFfasc2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":50,"lightBrightness":0.4,"lightOuterAngle":75,"flareScale":0.07,"deformGroup":"headlight_L_break"}],
+        ["highbeam_wigwag_L","SPOTLIGHT", "LFfasc2r", "LFfasc1r", "LFfasc2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":80,"lightBrightness":0.7,"lightOuterAngle":90,"flareScale":0.08,"deformGroup":"headlight_L_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_headlight_L"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["LFfasc1r", 0.280, -1.85, 0.505],
+	["LFfasc2r", 0.280, -1.85, 0.695],
+	["LFfasc1l", 0.470, -1.85, 0.505],
+	["LFfasc2l", 0.470, -1.85, 0.695],
+	["LFfasc0",  0.375, -2.00, 0.600],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["LFfasc1l", "LFfasc1r"],
+	["LFfasc2l", "LFfasc2r"],
+	["LFfasc1l", "LFfasc2r"],
+	["LFfasc2l", "LFfasc1r"],
+	["LFfasc1l", "LFfasc2l"],
+	["LFfasc1r", "LFfasc2r"],
+
+	//tip
+	["LFfasc1l", "LFfasc0"],
+	["LFfasc1r", "LFfasc0"],
+	["LFfasc2l", "LFfasc0"],
+	["LFfasc2r", "LFfasc0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"headlight_L_break"},
+	{"deformGroup":"headlight_L_break"},
+	
+	["LFfasc1l", "Ffasc1l"],
+	["LFfasc1l", "Ffasc1r"],
+	["LFfasc1l", "Ffasc2l"],
+
+	["LFfasc2l", "Ffasc1l"],
+	["LFfasc2l", "Ffasc2r"],
+	["LFfasc2l", "Ffasc2l"],
+
+	["LFfasc1r", "Ffasc1l"],
+	["LFfasc1r", "Ffasc1r"],
+	["LFfasc1r", "Ffasc2l"],
+
+	["LFfasc2r", "Ffasc1l"],
+	["LFfasc2r", "Ffasc2r"],
+	["LFfasc2r", "Ffasc2l"],
+
+	["LFfasc0", "Ffasc1l"],
+	["LFfasc0", "Ffasc1r"],
+	["LFfasc0", "Ffasc2l"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_headlight_L"},
+	["LFfasc0","LFfasc1l","LFfasc2l"],
+	["LFfasc0","LFfasc2l","LFfasc2r"],
+	["LFfasc0","LFfasc2r","LFfasc1r"],
+	["LFfasc0","LFfasc1r","LFfasc1l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_headlight_L"},   
+	["LFfasc1l","LFfasc1r","LFfasc2r","LFfasc2l"],	
+        {"group":""},
+    ],
+},
+
+"legocar_headlight_L_hotrod_green": {
+    "information":{
+        "name":"Left Green Pre-Facelift Headlight",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_headlight_L_hotrod",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"headlight_L_break", "deformMaterialBase":"legocar_headlight_green", "deformMaterialDamaged":"lego_transcol_bgreen"},
+	["legocar_headlight_L_circle_green", ["legocar_headlight_L"],[], {"pos":{"x": 0.375, "y":-1.850, "z":0.600},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightColor":{"r":217, "g":228, "b":167, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":true,
+            "flareName":"vehicleHeadLightFlare",
+            "cookieName":"art/special/BNG_light_cookie_headlight.dds",
+            "texSize":512,
+            "shadowSoftness":0.5
+        },
+        ["lowbeam", "SPOTLIGHT", "LFfasc2r", "LFfasc1r", "LFfasc2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":50,"lightBrightness":0.4,"lightOuterAngle":75,"flareScale":0.07,"deformGroup":"headlight_L_break"}],
+        ["highbeam_wigwag_L","SPOTLIGHT", "LFfasc2r", "LFfasc1r", "LFfasc2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":80,"lightBrightness":0.7,"lightOuterAngle":90,"flareScale":0.08,"deformGroup":"headlight_L_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_headlight_L"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["LFfasc1r", 0.280, -1.85, 0.505],
+	["LFfasc2r", 0.280, -1.85, 0.695],
+	["LFfasc1l", 0.470, -1.85, 0.505],
+	["LFfasc2l", 0.470, -1.85, 0.695],
+	["LFfasc0",  0.375, -2.00, 0.600],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["LFfasc1l", "LFfasc1r"],
+	["LFfasc2l", "LFfasc2r"],
+	["LFfasc1l", "LFfasc2r"],
+	["LFfasc2l", "LFfasc1r"],
+	["LFfasc1l", "LFfasc2l"],
+	["LFfasc1r", "LFfasc2r"],
+
+	//tip
+	["LFfasc1l", "LFfasc0"],
+	["LFfasc1r", "LFfasc0"],
+	["LFfasc2l", "LFfasc0"],
+	["LFfasc2r", "LFfasc0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"headlight_L_break"},
+	{"deformGroup":"headlight_L_break"},
+	
+	["LFfasc1l", "Ffasc1l"],
+	["LFfasc1l", "Ffasc1r"],
+	["LFfasc1l", "Ffasc2l"],
+
+	["LFfasc2l", "Ffasc1l"],
+	["LFfasc2l", "Ffasc2r"],
+	["LFfasc2l", "Ffasc2l"],
+
+	["LFfasc1r", "Ffasc1l"],
+	["LFfasc1r", "Ffasc1r"],
+	["LFfasc1r", "Ffasc2l"],
+
+	["LFfasc2r", "Ffasc1l"],
+	["LFfasc2r", "Ffasc2r"],
+	["LFfasc2r", "Ffasc2l"],
+
+	["LFfasc0", "Ffasc1l"],
+	["LFfasc0", "Ffasc1r"],
+	["LFfasc0", "Ffasc2l"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_headlight_L"},
+	["LFfasc0","LFfasc1l","LFfasc2l"],
+	["LFfasc0","LFfasc2l","LFfasc2r"],
+	["LFfasc0","LFfasc2r","LFfasc1r"],
+	["LFfasc0","LFfasc1r","LFfasc1l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_headlight_L"},   
+	["LFfasc1l","LFfasc1r","LFfasc2r","LFfasc2l"],	
+        {"group":""},
+    ],
+},
+
+"legocar_headlight_L_hotrod_blue": {
+    "information":{
+        "name":"Left Blue Pre-Facelift Headlight",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_headlight_L_hotrod",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"headlight_L_break", "deformMaterialBase":"legocar_headlight_blue", "deformMaterialDamaged":"lego_transcol_lblue"},
+	["legocar_headlight_L_circle_blue", ["legocar_headlight_L"],[], {"pos":{"x": 0.375, "y":-1.850, "z":0.600},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightColor":{"r":174, "g":239, "b":236, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":true,
+            "flareName":"vehicleHeadLightFlare",
+            "cookieName":"art/special/BNG_light_cookie_headlight.dds",
+            "texSize":512,
+            "shadowSoftness":0.5
+        },
+        ["lowbeam", "SPOTLIGHT", "LFfasc2r", "LFfasc1r", "LFfasc2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":50,"lightBrightness":0.4,"lightOuterAngle":75,"flareScale":0.07,"deformGroup":"headlight_L_break"}],
+        ["highbeam_wigwag_L","SPOTLIGHT", "LFfasc2r", "LFfasc1r", "LFfasc2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1},"lightRange":80,"lightBrightness":0.7,"lightOuterAngle":90,"flareScale":0.08,"deformGroup":"headlight_L_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_headlight_L"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["LFfasc1r", 0.280, -1.85, 0.505],
+	["LFfasc2r", 0.280, -1.85, 0.695],
+	["LFfasc1l", 0.470, -1.85, 0.505],
+	["LFfasc2l", 0.470, -1.85, 0.695],
+	["LFfasc0",  0.375, -2.00, 0.600],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["LFfasc1l", "LFfasc1r"],
+	["LFfasc2l", "LFfasc2r"],
+	["LFfasc1l", "LFfasc2r"],
+	["LFfasc2l", "LFfasc1r"],
+	["LFfasc1l", "LFfasc2l"],
+	["LFfasc1r", "LFfasc2r"],
+
+	//tip
+	["LFfasc1l", "LFfasc0"],
+	["LFfasc1r", "LFfasc0"],
+	["LFfasc2l", "LFfasc0"],
+	["LFfasc2r", "LFfasc0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"headlight_L_break"},
+	{"deformGroup":"headlight_L_break"},
+	
+	["LFfasc1l", "Ffasc1l"],
+	["LFfasc1l", "Ffasc1r"],
+	["LFfasc1l", "Ffasc2l"],
+
+	["LFfasc2l", "Ffasc1l"],
+	["LFfasc2l", "Ffasc2r"],
+	["LFfasc2l", "Ffasc2l"],
+
+	["LFfasc1r", "Ffasc1l"],
+	["LFfasc1r", "Ffasc1r"],
+	["LFfasc1r", "Ffasc2l"],
+
+	["LFfasc2r", "Ffasc1l"],
+	["LFfasc2r", "Ffasc2r"],
+	["LFfasc2r", "Ffasc2l"],
+
+	["LFfasc0", "Ffasc1l"],
+	["LFfasc0", "Ffasc1r"],
+	["LFfasc0", "Ffasc2l"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_headlight_L"},
+	["LFfasc0","LFfasc1l","LFfasc2l"],
+	["LFfasc0","LFfasc2l","LFfasc2r"],
+	["LFfasc0","LFfasc2r","LFfasc1r"],
+	["LFfasc0","LFfasc1r","LFfasc1l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_headlight_L"},   
+	["LFfasc1l","LFfasc1r","LFfasc2r","LFfasc2l"],	
+        {"group":""},
+    ],
+},
+
+}

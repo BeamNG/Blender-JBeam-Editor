@@ -1,0 +1,123 @@
+{
+"legocar_electric_battery_50": {
+    "information":{
+        "name":"50kWh Battery Pack",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fueltank",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	//mounted at an angle
+	["lego_3x2_flat_grey",["legocar_fueltank"], [], {"pos":{"x": 0.000, "y":0.875, "z":-0.01},"rot":{"x":2, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+     ],
+     "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$fuel_R", "range", "kWh", "Chassis", 50, 0, 50, "Battery Level", "Initial battery charge", {"stepDis":0.5, "subCategory":"Rear"}],
+    ],
+    "energyStorage": [
+        ["type", "name"],
+        ["electricBattery", "rearBattery"],
+    ],
+    "rearBattery": {
+        "energyType":"electricEnergy",
+        "batteryCapacity": 50,
+        "startingCapacity": "$fuel_R",
+    },
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//bleed generic values again in case they got overwriten by wheels
+	{"nodeMaterial":"|NM_PLASTIC"},
+        {"frictionCoef":0.75},
+	{"collision":true},
+        {"selfCollision":true},
+
+	{"group":"legocar_fueltank"},
+	{"engineGroup":["battery"]},
+
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["fueltank1l",  0.25, 0.50, 0.03],
+	["fueltank1r", -0.25, 0.50, 0.03],
+	["fueltank2l",  0.25, 1.25, 0.05],
+	["fueltank2r", -0.25, 1.25, 0.05],
+
+	//rigidifier
+	["fueltankrig", 0, 0.875, 0.115, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"engineGroup":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["fueltank1l", "fueltank1r"],
+	["fueltank2l", "fueltank2r"],
+	["fueltank1l", "fueltank2l"],
+	["fueltank1r", "fueltank2r"],
+	["fueltank1l", "fueltank2r"],
+	["fueltank2l", "fueltank1r"],
+
+	//rigidifier
+	["fueltank1l", "fueltankrig"],
+	["fueltank1r", "fueltankrig"],
+	["fueltank2l", "fueltankrig"],
+	["fueltank2r", "fueltankrig"],
+
+
+	//--ATTACH--
+	//to chassis
+	{"breakGroup":"fueltank_chassis_break"},
+	//not fully attached, less strength
+	{"beamDeform":"$=$strength*0.25", "beamStrength":"$=$strength*0.25"},
+	
+	["fueltank1r", "chassis7r"],
+	["fueltank1r", "chassis7rr"],
+	["fueltank1r", "chassis8r"],
+
+	["fueltank1l", "chassis7l"],
+	["fueltank1l", "chassis7ll"],
+	["fueltank1l", "chassis8l"],
+
+	["fueltank2r", "chassis7r"],
+	["fueltank2r", "chassis7rr"],
+	["fueltank2r", "chassis8r"],
+
+	["fueltank2l", "chassis7l"],
+	["fueltank2l", "chassis7ll"],
+	["fueltank2l", "chassis8l"],
+
+
+	{"breakGroup":""},
+
+	//battery break trigger beam
+	//deactivates motor when battery gets too far away from the chassis, doesn't affect physics
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	["fueltankrig","chassis0", {"name":"engine"}],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        //bleed generic values again in case they got overwriten by wheels
+	{"groundModel":"plastic"},
+        {"dragCoef":"$drag"},
+
+        {"group":"legocar_fueltank"},   
+	["fueltank1l","fueltank1r","fueltank2r","fueltank2l"],
+        {"group":""},
+    ],
+},
+
+}

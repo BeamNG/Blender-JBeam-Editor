@@ -1,0 +1,370 @@
+{
+"legotrailer_hub": {
+    "information":{
+        "name":"Center Lug Wheel Hubs",
+        "authors":"AgentY",
+    },
+    "slotType":"legotrailer_hub",
+    "slots": [
+        ["type", "default", "description"],
+	["legotrailer_wheels","legotrailer_wheels","Wheels", {"nodeOffset":{"x":-0.1, "y":3.175, "z":-0.125}}],
+	["legotrailer_wheeldata","legotrailer_wheeldata", "Spindles", {"coreSlot":true}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//these are for wheel attachment only, weight is not scaled, no flexbodies
+	{"nodeWeight": 3.5},
+	{"group":""},
+
+	["thub2r",-0.375, 3.025,-0.125, {"collision":false, "selfCollision":false}],
+        ["thub2l", 0.375, 3.025,-0.125, {"collision":false, "selfCollision":false}],
+        ["thub3r",-0.375, 3.165, 0.025, {"collision":false, "selfCollision":false}],
+        ["thub3l", 0.375, 3.165, 0.025, {"collision":false, "selfCollision":false}],
+	["thub4r",-0.375, 3.325,-0.135, {"collision":false, "selfCollision":false}],
+        ["thub4l", 0.375, 3.325,-0.135, {"collision":false, "selfCollision":false}],
+        ["thub5r",-0.375, 3.185,-0.270, {"collision":false, "selfCollision":false}],
+        ["thub5l", 0.375, 3.185,-0.270, {"collision":false, "selfCollision":false}],
+	
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+
+	//These beam values don't get scaled, they are only to attach wheels
+	{"beamSpring":5001000,"beamDamp":75},
+	//all get broken with wheels to remove excess mass, so here we can put infinite strength like the rest of the car
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	{"breakGroup":"wheelhub_trailer_L"},
+	["thub2l","thub3l"],
+	["thub2l","thub4l"],
+	["thub2l","thub5l"],
+	["thub3l","thub4l"],
+	["thub3l","thub5l"],
+	["thub4l","thub5l"],
+
+	{"breakGroup":"wheelhub_trailer_R"},
+	["thub2r","thub3r"],
+	["thub2r","thub4r"],
+	["thub2r","thub5r"],
+	["thub3r","thub4r"],
+	["thub3r","thub5r"],
+	["thub4r","thub5r"],
+
+	//attach to axle
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//left hub
+	{"breakGroup":"wheelhub_trailer_L"},
+
+	["thub2l","trailer_a1l"],
+	["thub2l","trailer_a2l"],
+	["thub2l","trailer_a3l"],
+	["thub2l","trailer_a3r"],
+	["thub2l","trailer_a0"],
+
+	["thub3l","trailer_a1l"],
+	["thub3l","trailer_a2l"],
+	["thub3l","trailer_a3l"],
+	["thub3l","trailer_a3r"],
+	["thub3l","trailer_a0"],
+
+	["thub4l","trailer_a1l"],
+	["thub4l","trailer_a2l"],
+	["thub4l","trailer_a3l"],
+	["thub4l","trailer_a3r"],
+	["thub4l","trailer_a0"],
+
+	["thub5l","trailer_a1l"],
+	["thub5l","trailer_a2l"],
+	["thub5l","trailer_a3l"],
+	["thub5l","trailer_a3r"],
+	["thub5l","trailer_a0"],
+
+	
+	//right hub
+	{"breakGroup":"wheelhub_trailer_R"},
+
+	["thub2r","trailer_a1r"],
+	["thub2r","trailer_a2r"],
+	["thub2r","trailer_a3r"],
+	["thub2r","trailer_a3l"],
+	["thub2r","trailer_a0"],
+
+	["thub3r","trailer_a1r"],
+	["thub3r","trailer_a2r"],
+	["thub3r","trailer_a3r"],
+	["thub3r","trailer_a3l"],
+	["thub3r","trailer_a0"],
+
+	["thub4r","trailer_a1r"],
+	["thub4r","trailer_a2r"],
+	["thub4r","trailer_a3r"],
+	["thub4r","trailer_a3l"],
+	["thub4r","trailer_a0"],
+
+	["thub5r","trailer_a1r"],
+	["thub5r","trailer_a2r"],
+	["thub5r","trailer_a3r"],
+	["thub5r","trailer_a3l"],
+	["thub5r","trailer_a0"],
+
+
+	//--ATTACH TO WHEELS--
+	{"optional":true},
+
+	//these values can't be scaled, they have to fit wheels universally
+	{"beamSpring":4001000,"beamDamp":75},
+
+	//breaking these beams triggers hub breakage and spindle breaking
+        {"beamDeform":"$=$strength*5", "beamStrength":"$=$strength*5"},
+
+	{"breakGroup":"wheelhub_trailer_L"},
+	["tw1l","thub2l", {"name":"axle_TL"}],
+	["tw1l","thub3l"],
+	["tw1l","thub4l"],
+	["tw1l","thub5l"],
+	["tw1ll","thub2l"],
+	["tw1ll","thub3l"],
+	["tw1ll","thub4l"],
+	["tw1ll","thub5l"],
+
+	{"breakGroup":"wheelhub_trailer_R"},
+	["tw1r","thub2r", {"name":"axle_TR"}],
+	["tw1r","thub3r"],
+	["tw1r","thub4r"],
+	["tw1r","thub5r"],
+	["tw1rr","thub2r"],
+	["tw1rr","thub3r"],
+	["tw1rr","thub4r"],
+	["tw1rr","thub5r"],
+	
+	{"optional":false},
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "powertrain" : [
+        ["type", "name", "inputName", "inputIndex"],
+        ["shaft", "spindleTL", "wheelaxleTL", 1, {"connectedWheel":"FL", "breakTriggerBeam":"axle_TL", "uiName":"Front Left Axle", "friction":0, "dynamicFriction":0, "torqueLossCoef": 0}],
+        ["shaft", "spindleTR", "wheelaxleTR", 1, {"connectedWheel":"FR", "breakTriggerBeam":"axle_TR", "uiName":"Front Right Axle", "friction":0, "dynamicFriction":0, "torqueLossCoef": 0}],
+    ],
+    "pressureWheels": [
+            ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+            //cancel out brake properties
+            {"brakeTorque":0},
+            {"parkingTorque":0},
+            {"enableBrakeThermals":false},
+            {"brakeDiameter":false},
+            {"brakeMass":false},
+            {"brakeType":false},
+            {"rotorMaterial":false},
+            {"brakeVentingCoef":false},
+    ],
+},
+"legotrailer_hub_lifted": {
+    "information":{
+        "name":"Center Lug Wheel Hubs",
+        "authors":"AgentY",
+    },
+    "slotType":"legotrailer_hub_lifted",
+    "slots": [
+        ["type", "default", "description"],
+	["legotrailer_wheels","legotrailer_wheels","Wheels", {"nodeOffset":{"x":-0.1, "y":3.175, "z":-0.225}}],
+	["legotrailer_wheeldata","legotrailer_wheeldata", "Spindles", {"coreSlot":true}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//these are for wheel attachment only, weight is not scaled, no flexbodies
+	{"nodeWeight": 3.5},
+	{"group":""},
+
+	["thub2r",-0.375, 3.025,-0.225, {"collision":false, "selfCollision":false}],
+        ["thub2l", 0.375, 3.025,-0.225, {"collision":false, "selfCollision":false}],
+        ["thub3r",-0.375, 3.165,-0.075, {"collision":false, "selfCollision":false}],
+        ["thub3l", 0.375, 3.165,-0.075, {"collision":false, "selfCollision":false}],
+	["thub4r",-0.375, 3.325,-0.235, {"collision":false, "selfCollision":false}],
+        ["thub4l", 0.375, 3.325,-0.235, {"collision":false, "selfCollision":false}],
+        ["thub5r",-0.375, 3.185,-0.370, {"collision":false, "selfCollision":false}],
+        ["thub5l", 0.375, 3.185,-0.370, {"collision":false, "selfCollision":false}],
+	
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+
+	//These beam values don't get scaled, they are only to attach wheels
+	{"beamSpring":5001000,"beamDamp":75},
+	//all get broken with wheels to remove excess mass, so here we can put infinite strength like the rest of the car
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	{"breakGroup":"wheelhub_trailer_L"},
+	["thub2l","thub3l"],
+	["thub2l","thub4l"],
+	["thub2l","thub5l"],
+	["thub3l","thub4l"],
+	["thub3l","thub5l"],
+	["thub4l","thub5l"],
+
+	{"breakGroup":"wheelhub_trailer_R"},
+	["thub2r","thub3r"],
+	["thub2r","thub4r"],
+	["thub2r","thub5r"],
+	["thub3r","thub4r"],
+	["thub3r","thub5r"],
+	["thub4r","thub5r"],
+
+	//attach to axle
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//left hub
+	{"breakGroup":"wheelhub_trailer_L"},
+
+	["thub2l","trailer_a1l"],
+	["thub2l","trailer_a2l"],
+	["thub2l","trailer_a3l"],
+	["thub2l","trailer_a3r"],
+	["thub2l","trailer_a0"],
+
+	["thub3l","trailer_a1l"],
+	["thub3l","trailer_a2l"],
+	["thub3l","trailer_a3l"],
+	["thub3l","trailer_a3r"],
+	["thub3l","trailer_a0"],
+
+	["thub4l","trailer_a1l"],
+	["thub4l","trailer_a2l"],
+	["thub4l","trailer_a3l"],
+	["thub4l","trailer_a3r"],
+	["thub4l","trailer_a0"],
+
+	["thub5l","trailer_a1l"],
+	["thub5l","trailer_a2l"],
+	["thub5l","trailer_a3l"],
+	["thub5l","trailer_a3r"],
+	["thub5l","trailer_a0"],
+
+	
+	//right hub
+	{"breakGroup":"wheelhub_trailer_R"},
+
+	["thub2r","trailer_a1r"],
+	["thub2r","trailer_a2r"],
+	["thub2r","trailer_a3r"],
+	["thub2r","trailer_a3l"],
+	["thub2r","trailer_a0"],
+
+	["thub3r","trailer_a1r"],
+	["thub3r","trailer_a2r"],
+	["thub3r","trailer_a3r"],
+	["thub3r","trailer_a3l"],
+	["thub3r","trailer_a0"],
+
+	["thub4r","trailer_a1r"],
+	["thub4r","trailer_a2r"],
+	["thub4r","trailer_a3r"],
+	["thub4r","trailer_a3l"],
+	["thub4r","trailer_a0"],
+
+	["thub5r","trailer_a1r"],
+	["thub5r","trailer_a2r"],
+	["thub5r","trailer_a3r"],
+	["thub5r","trailer_a3l"],
+	["thub5r","trailer_a0"],
+
+
+	//--ATTACH TO WHEELS--
+	{"optional":true},
+
+	//these values can't be scaled, they have to fit wheels universally
+	{"beamSpring":4001000,"beamDamp":75},
+
+	//breaking these beams triggers hub breakage and spindle breaking
+        {"beamDeform":"$=$strength*5", "beamStrength":"$=$strength*5"},
+
+	{"breakGroup":"wheelhub_trailer_L"},
+	["tw1l","thub2l", {"name":"axle_TL"}],
+	["tw1l","thub3l"],
+	["tw1l","thub4l"],
+	["tw1l","thub5l"],
+	["tw1ll","thub2l"],
+	["tw1ll","thub3l"],
+	["tw1ll","thub4l"],
+	["tw1ll","thub5l"],
+
+	{"breakGroup":"wheelhub_trailer_R"},
+	["tw1r","thub2r", {"name":"axle_TR"}],
+	["tw1r","thub3r"],
+	["tw1r","thub4r"],
+	["tw1r","thub5r"],
+	["tw1rr","thub2r"],
+	["tw1rr","thub3r"],
+	["tw1rr","thub4r"],
+	["tw1rr","thub5r"],
+	
+	{"optional":false},
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "powertrain" : [
+        ["type", "name", "inputName", "inputIndex"],
+        ["shaft", "spindleTL", "wheelaxleTL", 1, {"connectedWheel":"FL", "breakTriggerBeam":"axle_TL", "uiName":"Front Left Axle", "friction":0, "dynamicFriction":0, "torqueLossCoef": 0}],
+        ["shaft", "spindleTR", "wheelaxleTR", 1, {"connectedWheel":"FR", "breakTriggerBeam":"axle_TR", "uiName":"Front Right Axle", "friction":0, "dynamicFriction":0, "torqueLossCoef": 0}],
+    ],
+    "pressureWheels": [
+            ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+            //cancel out brake properties
+            {"brakeTorque":0},
+            {"parkingTorque":0},
+            {"enableBrakeThermals":false},
+            {"brakeDiameter":false},
+            {"brakeMass":false},
+            {"brakeType":false},
+            {"rotorMaterial":false},
+            {"brakeVentingCoef":false},
+    ],
+},
+
+"legotrailer_wheeldata": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Spindles",
+    },
+    "slotType" : "legotrailer_wheeldata",
+    "pressureWheels": [
+        ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+        //front wheel data
+	{"breakGroup":""},
+        {"deformGroup":""},
+        {"selfCollision":false},
+        {"collision":true},
+        {"hubcapBreakGroup":"hubcap_trailer_R"},
+        {"hubcapGroup":"hubcap_trailer_R"},
+        {"axleBeams":["axle_TR"]},
+        ["trailer_R", "wheel_trailer_R", "tire_trailer_R", "tw1rr", "tw1r", 9999, "thub4r", 1, {}], //disabled torque coupling, causes issues with AI
+        {"hubcapBreakGroup":"hubcap_trailer_L"},
+        {"hubcapGroup":"hubcap_trailer_L"},
+        {"axleBeams":["axle_TL"]},
+        ["trailer_L", "wheel_trailer_L", "tire_trailer_L", "tw1ll", "tw1l", 9999, "thub4l",  -1, {}], //disabled torque coupling, causes issues with AI
+        {"selfCollision":true},
+        {"axleBeams":[]},{"disableMeshBreaking":false,"disableTriangleBreaking":false},
+        {"hubcapBreakGroup":""},
+        {"hubcapGroup":""},
+        {"enableHubcaps":false},
+        {"enableTireLbeams":false},
+        {"enableTreadReinfBeams":false},
+        {"enableTireReinfBeams":false},
+        {"enableTreadReinfBeams":false},
+        {"enableTirePeripheryReinfBeams":false},
+        {"loadSensitivitySlope":""},
+        {"noLoadCoef":""},
+        {"fullLoadCoef":""},
+        {"frictionCoef":""},
+        {"slidingFrictionCoef":""},
+        {"softnessCoef":0.5},
+        {"treadCoef":1.0},
+    ],
+},
+
+}

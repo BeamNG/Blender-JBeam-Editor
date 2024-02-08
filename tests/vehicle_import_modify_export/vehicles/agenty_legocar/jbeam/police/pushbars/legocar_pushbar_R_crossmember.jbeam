@@ -1,0 +1,182 @@
+{
+"legocar_pushbar_R_crossmember": {
+    "information":{
+        "name":"Standard Rear Push Bar Crossmember",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_pushbar_R_crossmember",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_pushbar_crossmember",  ["legocar_pushbar_crossmember_R"],[], {"pos":{"x": 0.000, "y":2.270, "z":0.600},"rot":{"x": 0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//mount
+	{"group":"legocar_pushbar_crossmember_R"},
+	//3 half pieces, 3 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+
+	["RpushbarcrL", 0.47, 2.27, 0.600, {"selfCollision":false}],
+	["RpushbarcrR",-0.47, 2.27, 0.600, {"selfCollision":false}],
+	//rigidifier
+	["RpushbarcrM", 0.0, 2.00, 0.600, {"collision":false, "selfCollision":false}],
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$weight*21000", "damp":"$=$weight*2", "deform":"$=$strength*0.05", "strength":"FLT_MAX"},
+	//torsion friction
+        ["RLpushbar1l","RLpushbar3l","RpushbarcrR","RpushbarcrM"],
+	["RRpushbar1r","RRpushbar3r","RpushbarcrL","RpushbarcrM"],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--CROSSMEMBER--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	
+	//uniform structure
+	["RpushbarcrL", "RpushbarcrR"],
+	["RpushbarcrR", "RpushbarcrM"],
+	["RpushbarcrM", "RpushbarcrL"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$=$strength*0.1", "beamStrength":"$strength"},
+
+	["RLpushbar3l", "RpushbarcrR", {"breakGroup":"pushbar_R_crossmember_L_break"}],
+	["RRpushbar3r", "RpushbarcrL", {"breakGroup":"pushbar_R_crossmember_R_break"}],
+
+
+	//--COLLISION BREAK TRIGGER BEAMS--
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.75, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":"pushbar_R_collision_break"},
+
+	["RpushbarcrL", "RpushbarmtL"],
+	["RpushbarcrR", "RpushbarmtR"],
+	["RpushbarcrL", "RpushbarmtR"],
+	["RpushbarcrR", "RpushbarmtL"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "rails": {
+        "pushbar_R_crossmember":{"links:":["RpushbarcrL","RpushbarcrR"],"broken:":[], "looped":false, "capped":false},
+    },
+    "slidenodes": [
+        ["id:", "railName", "attached", "fixToRail", "tolerance", "spring", "strength", "capStrength"],
+        ["RLpushbar3l", "pushbar_R_crossmember", true, true, 0.00, "$=$weight*501000", "FLT_MAX", "FLT_MAX"],
+	["RLpushbar3r", "pushbar_R_crossmember", true, true, 0.00, "$=$weight*501000", "FLT_MAX", "FLT_MAX"],
+	["RRpushbar3l", "pushbar_R_crossmember", true, true, 0.00, "$=$weight*501000", "FLT_MAX", "FLT_MAX"],
+	["RRpushbar3r", "pushbar_R_crossmember", true, true, 0.00, "$=$weight*501000", "FLT_MAX", "FLT_MAX"],
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	//prevents getting stuck in other cars
+	{"group":"legocar_pushbar_crossmember"},   
+	["RpushbarcrR","RpushbarcrL","RpushbarmtL","RpushbarmtR", {"breakGroup":"pushbar_R_collision_break"}],
+	
+        {"group":""},
+    ],
+},
+
+"legocar_pushbar_R_crossmember_long": {
+    "information":{
+        "name":"Extended Rear Push Bar Crossmember",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_pushbar_R_crossmember",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_pushbar_crossmember_long",  ["legocar_pushbar_crossmember_R"],[], {"pos":{"x": 0.000, "y":2.270, "z":0.600},"rot":{"x": 0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//mount
+	{"group":"legocar_pushbar_crossmember_R"},
+	//5 half pieces, 3 nodes - 0.83 kg/node
+	{"nodeWeight": "$=$weight*0.83"},
+
+	["RpushbarcrL", 0.60, 2.27, 0.600, {"selfCollision":false}],
+	["RpushbarcrR",-0.60, 2.27, 0.600, {"selfCollision":false}],
+	//rigidifier
+	["RpushbarcrM", 0.0, -1.92, 0.600, {"collision":false, "selfCollision":false}],
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$weight*21000", "damp":"$=$weight*2", "deform":"$=$strength*0.05", "strength":"FLT_MAX"},
+	//torsion friction
+        ["RLpushbar1l","RLpushbar3l","RpushbarcrR","RpushbarcrM"],
+	["RRpushbar1r","RRpushbar3r","RpushbarcrL","RpushbarcrM"],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--CROSSMEMBER--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*831000", "beamDamp":"$=$weight*83"},
+	
+	//uniform structure
+	["RpushbarcrL", "RpushbarcrR"],
+	["RpushbarcrR", "RpushbarcrM"],
+	["RpushbarcrM", "RpushbarcrL"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*831000", "beamDamp":"$=$weight*83"},
+	{"beamDeform":"$=$strength*0.1", "beamStrength":"$strength"},
+
+	["RLpushbar3l", "RpushbarcrR", {"breakGroup":"pushbar_R_crossmember_L_break"}],
+	["RRpushbar3r", "RpushbarcrL", {"breakGroup":"pushbar_R_crossmember_R_break"}],
+
+
+	//--COLLISION BREAK TRIGGER BEAMS--
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.75, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":"pushbar_R_collision_break"},
+
+	["RpushbarcrL", "RpushbarmtL"],
+	["RpushbarcrR", "RpushbarmtR"],
+	["RpushbarcrL", "RpushbarmtR"],
+	["RpushbarcrR", "RpushbarmtL"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "rails": {
+        "pushbar_R_crossmember":{"links:":["RpushbarcrL","RpushbarcrR"],"broken:":[], "looped":false, "capped":false},
+    },
+    "slidenodes": [
+        ["id:", "railName", "attached", "fixToRail", "tolerance", "spring", "strength", "capStrength"],
+        ["RLpushbar3l", "pushbar_R_crossmember", true, true, 0.00, "$=$weight*831000", "FLT_MAX", "FLT_MAX"],
+	["RLpushbar3r", "pushbar_R_crossmember", true, true, 0.00, "$=$weight*831000", "FLT_MAX", "FLT_MAX"],
+	["RRpushbar3l", "pushbar_R_crossmember", true, true, 0.00, "$=$weight*831000", "FLT_MAX", "FLT_MAX"],
+	["RRpushbar3r", "pushbar_R_crossmember", true, true, 0.00, "$=$weight*831000", "FLT_MAX", "FLT_MAX"],
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	//prevents getting stuck in other cars
+	{"group":"legocar_pushbar_crossmember"},   
+	["RpushbarcrR","RpushbarcrL","RpushbarmtL","RpushbarmtR", {"breakGroup":"pushbar_R_collision_break"}],
+	
+        {"group":""},
+    ],
+},
+
+}

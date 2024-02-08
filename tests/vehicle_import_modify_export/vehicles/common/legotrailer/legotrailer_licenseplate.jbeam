@@ -1,0 +1,196 @@
+{
+"legotrailer_licenseplate_US": {
+    "information":{
+        "name":"US License Plate",
+        "authors":"AgentY",
+    },
+    "slotType":"legotrailer_licenseplate",
+    "licenseplateFormat": "30-15",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legotrailer_licenseplate", ["legotrailer_licenseplate"]],
+	["licenseplate",             ["legotrailer_licenseplate"], [], {"pos":{"x": 0.000, "y":3.826, "z":0.1},"rot":{"x": 0 , "y":0, "z":180},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legotrailer_licenseplate"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["trailer_p1l",  0.25, 3.775,-0.025],
+	["trailer_p1r", -0.25, 3.775,-0.025],
+	["trailer_p2l",  0.25, 3.775, 0.225],
+	["trailer_p2r", -0.25, 3.775, 0.225],
+	//rigidifier
+	["trailer_prig", 0, 3.325, 0.1, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["trailer_p1l", "trailer_p1r"],
+	["trailer_p2l", "trailer_p2r"],
+	["trailer_p1l", "trailer_p2l"],
+	["trailer_p1r", "trailer_p2r"],
+	["trailer_p1l", "trailer_p2r"],
+	["trailer_p2l", "trailer_p1r"],
+
+	//rigidifier
+	["trailer_p1l", "trailer_prig"],
+	["trailer_p1r", "trailer_prig"],
+	["trailer_p2l", "trailer_prig"],
+	["trailer_p2r", "trailer_prig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"trailer_licenseplate_break"},
+
+	["trailer_pm3l", "trailer_p1l"],
+	["trailer_pm3l", "trailer_p2l"],
+	["trailer_pm3l", "trailer_p1r"],
+	["trailer_pm3l", "trailer_prig"],
+
+	["trailer_pm3r", "trailer_p1r"],
+	["trailer_pm3r", "trailer_p2r"],
+	["trailer_pm3r", "trailer_p1l"],
+	["trailer_pm3r", "trailer_prig"],
+
+	["trailer_pm1l", "trailer_p2l"],
+	["trailer_pm1l", "trailer_p1l"],
+	["trailer_pm1l", "trailer_p2r"],
+	["trailer_pm1l", "trailer_prig"],
+
+	["trailer_pm1r", "trailer_p2r"],
+	["trailer_pm1r", "trailer_p1r"],
+	["trailer_pm1r", "trailer_p2l"],
+	["trailer_pm1r", "trailer_prig"],
+
+	["trailer_pm2l", "trailer_p2l"],
+	["trailer_pm2l", "trailer_p1l"],
+	["trailer_pm2l", "trailer_p2r"],
+	["trailer_pm2l", "trailer_prig"],
+
+	["trailer_pm2r", "trailer_p2r"],
+	["trailer_pm2r", "trailer_p1r"],
+	["trailer_pm2r", "trailer_p2l"],
+	["trailer_pm2r", "trailer_prig"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legotrailer_licenseplate"},
+	["trailer_p2r","trailer_p2l","trailer_p1l","trailer_p1r"],
+        {"group":""},
+    ],
+},
+
+"legotrailer_licenseplate_EU": {
+    "information":{
+        "name":"EU License Plate",
+        "authors":"AgentY",
+    },
+    "slotType":"legotrailer_licenseplate",
+    "licenseplateFormat": "52-11",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legotrailer_licenseplate", ["legotrailer_licenseplate"]],
+	["licenseplate-52-11",       ["legotrailer_licenseplate"], [], {"pos":{"x": 0.000, "y":3.826, "z":0.1},"rot":{"x": 0 , "y":0, "z":180},"scale":{"x":0.97, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legotrailer_licenseplate"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["trailer_p1l",  0.25, 3.775,-0.025],
+	["trailer_p1r", -0.25, 3.775,-0.025],
+	["trailer_p2l",  0.25, 3.775, 0.225],
+	["trailer_p2r", -0.25, 3.775, 0.225],
+	//rigidifier
+	["trailer_prig", 0, 3.325, 0.1, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["trailer_p1l", "trailer_p1r"],
+	["trailer_p2l", "trailer_p2r"],
+	["trailer_p1l", "trailer_p2l"],
+	["trailer_p1r", "trailer_p2r"],
+	["trailer_p1l", "trailer_p2r"],
+	["trailer_p2l", "trailer_p1r"],
+
+	//rigidifier
+	["trailer_p1l", "trailer_prig"],
+	["trailer_p1r", "trailer_prig"],
+	["trailer_p2l", "trailer_prig"],
+	["trailer_p2r", "trailer_prig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"trailer_licenseplate_break"},
+
+	["trailer_pm3l", "trailer_p1l"],
+	["trailer_pm3l", "trailer_p2l"],
+	["trailer_pm3l", "trailer_p1r"],
+	["trailer_pm3l", "trailer_prig"],
+
+	["trailer_pm3r", "trailer_p1r"],
+	["trailer_pm3r", "trailer_p2r"],
+	["trailer_pm3r", "trailer_p1l"],
+	["trailer_pm3r", "trailer_prig"],
+
+	["trailer_pm1l", "trailer_p2l"],
+	["trailer_pm1l", "trailer_p1l"],
+	["trailer_pm1l", "trailer_p2r"],
+	["trailer_pm1l", "trailer_prig"],
+
+	["trailer_pm1r", "trailer_p2r"],
+	["trailer_pm1r", "trailer_p1r"],
+	["trailer_pm1r", "trailer_p2l"],
+	["trailer_pm1r", "trailer_prig"],
+
+	["trailer_pm2l", "trailer_p2l"],
+	["trailer_pm2l", "trailer_p1l"],
+	["trailer_pm2l", "trailer_p2r"],
+	["trailer_pm2l", "trailer_prig"],
+
+	["trailer_pm2r", "trailer_p2r"],
+	["trailer_pm2r", "trailer_p1r"],
+	["trailer_pm2r", "trailer_p2l"],
+	["trailer_pm2r", "trailer_prig"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legotrailer_licenseplate"},
+	["trailer_p2r","trailer_p2l","trailer_p1l","trailer_p1r"],
+        {"group":""},
+    ],
+},
+
+}

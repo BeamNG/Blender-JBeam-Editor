@@ -1,0 +1,208 @@
+{
+"legocar_lightbar_EU_I_blue": {
+    "information":{
+        "name":"Blue Inner Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_EU_I",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],	
+	{"deformGroup":"lightbar_EU_break", "deformMaterialBase":"legocar_lightbar_EU_L2_blue", "deformMaterialDamaged":"lego_transcol_black"},
+	["legocar_lightbar_EU_L2_blue",["legocar_lightbar_EU"],[], {"pos":{"x": 0.125, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z":0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":110,
+            "lightBrightness":1.0,
+            "lightRange":60,
+            "flareName":"vehicleBrakeLightFlare",
+            "lightColor":{"r":0, "g":32, "b":160, "a":255},
+            "lightCastShadows":true,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.05,
+            "cookieName":"/art/special/BNG_light_cookie_headlight.dds"
+        },
+        ["cop_EU_L2", "SPOTLIGHT", "lbarEU1r","lbarEU1l", "lbarEU2r", {"x":70, "y":180, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.02, "z":-0.125},"deformGroup":"lightbar_EU_break"}],
+    ],
+},
+"legocar_lightbar_EU_I_red": {
+    "information":{
+        "name":"Red Inner Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_EU_I",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],	
+	{"deformGroup":"lightbar_EU_break", "deformMaterialBase":"legocar_lightbar_EU_L2_red", "deformMaterialDamaged":"lego_transcol_black"},
+	["legocar_lightbar_EU_L2_red",["legocar_lightbar_EU"],[], {"pos":{"x": 0.125, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z":0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":110,
+            "lightBrightness":1.0,
+            "lightRange":60,
+            "flareName":"vehicleBrakeLightFlare",
+            "lightColor":{"r":240, "g":143, "b":28, "a":255},
+            "lightCastShadows":true,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.05,
+            "cookieName":"/art/special/BNG_light_cookie_headlight.dds"
+        },
+        ["cop_EU_L2", "SPOTLIGHT", "lbarEU1r","lbarEU1l", "lbarEU2r", {"x":70, "y":180, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.02, "z":-0.125},"deformGroup":"lightbar_EU_break"}],
+    ],
+},
+"legocar_lightbar_EU_I_orange": {
+    "information":{
+        "name":"Orange Inner Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_EU_I",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],	
+	{"deformGroup":"lightbar_EU_break", "deformMaterialBase":"legocar_lightbar_EU_L2_orange", "deformMaterialDamaged":"lego_transcol_black"},
+	["legocar_lightbar_EU_L2_orange",["legocar_lightbar_EU"],[], {"pos":{"x": 0.125, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z":0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":110,
+            "lightBrightness":1.0,
+            "lightRange":60,
+            "flareName":"vehicleBrakeLightFlare",
+            "lightColor":{"r":0, "g":32, "b":160, "a":255},
+            "lightCastShadows":true,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.05,
+            "cookieName":"/art/special/BNG_light_cookie_headlight.dds"
+        },
+        ["cop_EU_L2", "SPOTLIGHT", "lbarEU1r","lbarEU1l", "lbarEU2r", {"x":70, "y":180, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.02, "z":-0.125},"deformGroup":"lightbar_EU_break"}],
+    ],
+},
+
+"legocar_lightbar_EU_T": {
+    "information":{
+        "name":"Top Emergency Flashers",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_EU_T",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"lightbar_EU_T_break", "deformMaterialBase":"legocar_lightbar_EU_T", "deformMaterialDamaged":"lego_transcol_black"},
+	["legocar_lightbar_EU_T",["legocar_lightbar_EU_T"],[], {"pos":{"x": 0.000, "y":0.375, "z":1.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":100,
+            "lightBrightness":0.6,
+            "lightRange":15,
+            "lightColor":{"r":240, "g":143, "b":28, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.2,
+            "cookieName":"art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_EU_T", "SPOTLIGHT", "lbarEUT2l", "lbarEUT2r", "lbarEUT1l", {"x":-90, "y":0, "z": 0 }, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.25, "y":0, "z":0},"deformGroup":"lightbar_EU_T_break"}],
+	["cop_EU_T", "SPOTLIGHT", "lbarEUT2l", "lbarEUT2r", "lbarEUT1l", {"x":-90, "y":0, "z": 0 }, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0, "z":0},"deformGroup":"lightbar_EU_T_break"}],
+	["cop_EU_T", "SPOTLIGHT", "lbarEUT2l", "lbarEUT2r", "lbarEUT1l", {"x": 90, "y":0, "z":180}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.25, "y":1, "z":0},"deformGroup":"lightbar_EU_T_break"}],
+	["cop_EU_T", "SPOTLIGHT", "lbarEUT2l", "lbarEUT2r", "lbarEUT1l", {"x": 90, "y":0, "z":180}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":1, "z":0},"deformGroup":"lightbar_EU_T_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//lightbar top
+	{"group":"legocar_lightbar_EU_T"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+	["lbarEUT1l",  0.22, 0.250, 1.85],
+	["lbarEUT1r", -0.22, 0.250, 1.85],
+	["lbarEUT2l",  0.22, 0.500, 1.85],
+	["lbarEUT2r", -0.22, 0.500, 1.85],
+	//rigidifier
+	["lbarEUTrig", 0, 0.375, 1.70, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LIGHTBAR TOP--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+
+	//uniform structure
+	["lbarEUT1l", "lbarEUT1r"],
+	["lbarEUT2l", "lbarEUT2r"],
+	["lbarEUT1l", "lbarEUT2l"],
+	["lbarEUT1r", "lbarEUT2r"],
+	["lbarEUT1l", "lbarEUT2r"],
+	["lbarEUT2l", "lbarEUT1r"],
+
+	//rigidifier
+	["lbarEUT1l", "lbarEUTrig"],
+	["lbarEUT1r", "lbarEUTrig"],
+	["lbarEUT2l", "lbarEUTrig"],
+	["lbarEUT2r", "lbarEUTrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"lightbar_EU_T_break"},
+	{"deformGroup":"lightbar_EU_T_break"},
+	
+	["lbarEUT1l", "lbarEU3l"],
+	["lbarEUT1l", "lbarEU3r"],
+	["lbarEUT1l", "lbarEU4l"],
+	["lbarEUT1l", "lbarEU1l"],
+
+	["lbarEUT1r", "lbarEU3l"],
+	["lbarEUT1r", "lbarEU3r"],
+	["lbarEUT1r", "lbarEU4r"],
+	["lbarEUT1r", "lbarEU1r"],
+
+	["lbarEUT2l", "lbarEU3l"],
+	["lbarEUT2l", "lbarEU4r"],
+	["lbarEUT2l", "lbarEU4l"],
+	["lbarEUT2l", "lbarEU2l"],
+
+	["lbarEUT2r", "lbarEU4l"],
+	["lbarEUT2r", "lbarEU3r"],
+	["lbarEUT2r", "lbarEU4r"],
+	["lbarEUT2r", "lbarEU2r"],
+
+	["lbarEUTrig", "lbarEU1l"],
+	["lbarEUTrig", "lbarEU2l"],
+	["lbarEUTrig", "lbarEU1r"],
+	["lbarEUTrig", "lbarEU2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_lightbar_EU_T"},
+	["lbarEUT2l","lbarEUT2r","lbarEUT1r","lbarEUT1l"],
+        {"group":""},
+    ],
+},
+
+}

@@ -1,0 +1,68 @@
+{
+"legocar_wheel_small_R": {
+    "information":{
+        "authors":"AgentY",
+        "name":" 7x5 Toy Car 4624 Trailer Rear Wheels",
+    },
+    "slotType" : "wheel_R_centerlug",
+    "slots": [
+        ["type", "default", "description"],
+	["skin_legocar_wheel_R","legocar_skin_wheel_R_grey", "Wheels Color",{"coreSlot":true}],
+        ["tire_R_7x5","tire_R_173_90_7_treaded", "Rear Tires"],
+    ],
+    "flexbodies": [
+         ["mesh", "[group]:", "nonFlexMaterials"],
+         ["legocar_wheel_R_small", ["wheel_RR","wheelhub_RR"], [], {"pos":{"x":-0.4, "y":-0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+         ["legocar_wheel_R_small", ["wheel_RL","wheelhub_RL"], [], {"pos":{"x": 0.4, "y":-0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0},   "scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+        {"collision":true},
+        {"selfCollision":true},
+        //rear wheels
+        {"nodeWeight":6.0},
+        {"nodeMaterial":"|NM_PLASTIC"},
+        {"frictionCoef":0.5},
+        {"group":"wheelhub_RR"},
+        ["rw1r", -0.375, 0.0, 0.0, {"staticCollision":false}],
+        {"group":"wheelhub_RR"},
+        ["rw1rr", -0.575, 0.0, 0.0, {"staticCollision":false}],
+        {"group":"wheelhub_RL"},
+        ["rw1l", 0.375, 0.0, 0.0, {"staticCollision":false}],
+        {"group":"wheelhub_RL"},
+        ["rw1ll", 0.575, 0.0, 0.0, {"staticCollision":false}],
+        {"group":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+        {"breakGroup":""},
+        {"beamDeform":"FLT_MAX","beamStrength":"FLT_MAX"},
+        {"beamSpring":1501000,"beamDamp":25},
+        //rear wheel
+        ["rw1r","rw1rr"],
+        ["rw1l","rw1ll"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+    ],
+    "pressureWheels": [
+        ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+        {"disableMeshBreaking":false,"disableHubMeshBreaking":false,"enableHubcaps":false,"hasTire":false},
+
+        //general settings
+        {"hubRadius":0.1275},
+        {"wheelOffset":-0.0125},
+        {"hubWidth":0.175},
+        {"numRays":16},
+
+        //hub options
+        {"hubTreadBeamSpring":101000, "hubTreadBeamDamp":10},
+        {"hubPeripheryBeamSpring":101000, "hubPeripheryBeamDamp":10},
+        {"hubSideBeamSpring":101000, "hubSideBeamDamp":10},
+        {"hubNodeWeight":0.2},
+        {"hubNodeMaterial":"|NM_PLASTIC"},
+        {"hubFrictionCoef":0.5},
+        {"hubBeamDeform":"FLT_MAX", "hubBeamStrength":"FLT_MAX"},
+    ],
+},
+
+}

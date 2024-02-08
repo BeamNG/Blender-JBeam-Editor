@@ -1,0 +1,716 @@
+{
+"legocar_sideskirts_exhaust_L_col1": {
+    "information":{
+        "name":"Left Side Exhaust Outlet (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_sideskirts_L",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_rockertrim_L", "legocar_rockertrim_L", "Left Rocker Trim"],
+	["legocar_sidepipe_L", "legocar_sidepipe_L", "Side Exhaust Pipe"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_clip_altc_grey",["legocar_sideskirt_FL"], [], {"pos":{"x":0.625, "y":-0.375, "z":0.1},"rot":{"x":0, "y":0, "z": 90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_3x1_flat_col1",          ["legocar_sideskirt_RL"], [], {"pos":{"x":0.625, "y": 0.125, "z":0.1},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//front half
+	{"group":"legocar_sideskirt_FL"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["FLsideskirt1r", 0.53, -0.50, 0.185],
+	["FLsideskirt1l", 0.90, -0.50, 0.185],
+	["FLsideskirt2r", 0.53, -0.25, 0.185],
+	["FLsideskirt2l", 0.90, -0.25, 0.185, {"selfCollision":false}],
+	//rigidifier
+	["FLsideskirtrig", 0.675, -0.25, 0.285, {"collision":false, "selfCollision":false, "group":""}],
+
+	//rear half
+	{"group":"legocar_sideskirt_RL"},
+	//3 pieces, 5 nodes - 0.6 kg/node
+	{"nodeWeight": "$=$weight*0.6"},
+
+	["RLsideskirt1r", 0.53, 0.50, 0.15],
+	["RLsideskirt1l", 0.75, 0.50, 0.15],
+	["RLsideskirt2r", 0.53,-0.22, 0.15],
+	["RLsideskirt2l", 0.75,-0.22, 0.15],
+	//rigidifier
+	["RLsideskirtrig", 0.625, 0.25, 0.35, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FRONT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+
+	//uniform structure
+	["FLsideskirt1l", "FLsideskirt1r"],
+	["FLsideskirt2l", "FLsideskirt2r"],
+	["FLsideskirt1l", "FLsideskirt2l", {"isExhaust":"mainEngine"}],
+	["FLsideskirt1r", "FLsideskirt2r"],
+	["FLsideskirt1l", "FLsideskirt2r"],
+	["FLsideskirt2l", "FLsideskirt1r"],
+
+	//rigidifier
+	["FLsideskirt1l", "FLsideskirtrig"],
+	["FLsideskirt1r", "FLsideskirtrig"],
+	["FLsideskirt2l", "FLsideskirtrig"],
+	["FLsideskirt2r", "FLsideskirtrig"],
+
+	
+	//--REAR--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//uniform structure
+	["RLsideskirt1l", "RLsideskirt1r"],
+	["RLsideskirt2l", "RLsideskirt2r"],
+	["RLsideskirt1l", "RLsideskirt2l"],
+	["RLsideskirt1r", "RLsideskirt2r"],
+	["RLsideskirt1l", "RLsideskirt2r"],
+	["RLsideskirt2l", "RLsideskirt1r"],
+
+	//rigidifier
+	["RLsideskirt1l", "RLsideskirtrig"],
+	["RLsideskirt1r", "RLsideskirtrig"],
+	["RLsideskirt2l", "RLsideskirtrig"],
+	["RLsideskirt2r", "RLsideskirtrig"],
+
+	
+	//--ATTACH TO SUBFRAME--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	
+	//front
+	{"breakGroup":"sideskirt_subframe_FL_break"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	["FLsideskirt1l", "Lsubf1l"],
+	["FLsideskirt1l", "Lsubf1r"],
+	["FLsideskirt1l", "Lsubf2l"],
+	["FLsideskirt1l", "Lsubf2r"],
+
+	["FLsideskirt1r", "Lsubf1l"],
+	["FLsideskirt1r", "Lsubf1r"],
+	["FLsideskirt1r", "Lsubf2l"],
+	["FLsideskirt1r", "Lsubf2r"],
+	
+	["FLsideskirt2l", "Lsubf1l"],
+	["FLsideskirt2l", "Lsubf1r"],
+	["FLsideskirt2l", "Lsubf2l"],
+	["FLsideskirt2l", "Lsubf2r"],
+
+	["FLsideskirt2r", "Lsubf1l"],
+	["FLsideskirt2r", "Lsubf1r"],
+	["FLsideskirt2r", "Lsubf2l"],
+	["FLsideskirt2r", "Lsubf2r"],
+
+
+	//rear
+	{"breakGroup":"sideskirt_subframe_RL_break"},
+	{"beamSpring":"$=$weight*371000", "beamDamp":"$=$weight*37"},
+
+	["RLsideskirt1l", "Lsubf1l"],
+	["RLsideskirt1l", "Lsubf1r"],
+	["RLsideskirt1l", "Lsubf2l"],
+	["RLsideskirt1l", "Lsubf2r"],
+
+	["RLsideskirt1r", "Lsubf1l"],
+	["RLsideskirt1r", "Lsubf1r"],
+	["RLsideskirt1r", "Lsubf2l"],
+	["RLsideskirt1r", "Lsubf2r"],
+	
+	["RLsideskirt2l", "Lsubf1l"],
+	["RLsideskirt2l", "Lsubf1r"],
+	["RLsideskirt2l", "Lsubf2l"],
+	["RLsideskirt2l", "Lsubf2r"],
+
+	["RLsideskirt2r", "Lsubf1l"],
+	["RLsideskirt2r", "Lsubf1r"],
+	["RLsideskirt2r", "Lsubf2l"],
+	["RLsideskirt2r", "Lsubf2r"],
+
+
+
+	//--ATTACH TO ROCKER--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"optional":true},
+
+	
+	//front
+	{"breakGroup":"sideskirt_rocker_FL_break"},
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+
+	["FLsideskirt1l", "LrockB1l"],
+	["FLsideskirt1l", "LrockB1r"],
+	["FLsideskirt1l", "LrockB2l"],
+	["FLsideskirt1l", "LrockB2r"],
+
+	["FLsideskirt1r", "LrockB1l"],
+	["FLsideskirt1r", "LrockB1r"],
+	["FLsideskirt1r", "LrockB2l"],
+	["FLsideskirt1r", "LrockB2r"],
+	
+	["FLsideskirt2l", "LrockB1l"],
+	["FLsideskirt2l", "LrockB1r"],
+	["FLsideskirt2l", "LrockB2l"],
+	["FLsideskirt2l", "LrockB2r"],
+
+	["FLsideskirt2r", "LrockB1l"],
+	["FLsideskirt2r", "LrockB1r"],
+	["FLsideskirt2r", "LrockB2l"],
+	["FLsideskirt2r", "LrockB2r"],
+
+
+	//rear
+	{"breakGroup":"sideskirt_rocker_RL_break"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	["RLsideskirt1l", "LrockB1l"],
+	["RLsideskirt1l", "LrockB1r"],
+	["RLsideskirt1l", "LrockB2l"],
+	["RLsideskirt1l", "LrockB2r"],
+
+	["RLsideskirt1r", "LrockB1l"],
+	["RLsideskirt1r", "LrockB1r"],
+	["RLsideskirt1r", "LrockB2l"],
+	["RLsideskirt1r", "LrockB2r"],
+	
+	["RLsideskirt2l", "LrockB1l"],
+	["RLsideskirt2l", "LrockB1r"],
+	["RLsideskirt2l", "LrockB2l"],
+	["RLsideskirt2l", "LrockB2r"],
+
+	["RLsideskirt2r", "LrockB1l"],
+	["RLsideskirt2r", "LrockB1r"],
+	["RLsideskirt2r", "LrockB2l"],
+	["RLsideskirt2r", "LrockB2r"],
+
+	{"optional":false},
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	["FLsideskirtrig", "Lsubf1l"],
+	["FLsideskirtrig", "Lsubf1r"],
+	["FLsideskirtrig", "Lsubf2l"],
+	["FLsideskirtrig", "Lsubf2r"],
+
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	["RLsideskirtrig", "Lsubf1l"],
+	["RLsideskirtrig", "Lsubf1r"],
+	["RLsideskirtrig", "Lsubf2l"],
+	["RLsideskirtrig", "Lsubf2r"],
+
+
+	//--EXHAUST CONNECTORS--
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	["eng1l","FLsideskirt1l", {"isExhaust":"mainEngine", "optional":true}],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_sideskirt_FL"}, 
+  	["FLsideskirt2l","FLsideskirt2r","FLsideskirt1r","FLsideskirt1l"],
+	{"group":"legocar_sideskirt_RL"}, 
+  	["RLsideskirt1l","RLsideskirt1r","RLsideskirt2r","RLsideskirt2l"],
+
+        {"group":""},
+    ], 
+},
+
+"legocar_sideskirts_exhaust_L_col2": {
+    "information":{
+        "name":"Left Side Exhaust Outlet (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_sideskirts_L",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_rockertrim_L", "legocar_rockertrim_L", "Left Rocker Trim"],
+	["legocar_sidepipe_L", "legocar_sidepipe_L", "Side Exhaust Pipe"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_clip_altc_grey",["legocar_sideskirt_FL"], [], {"pos":{"x":0.625, "y":-0.375, "z":0.1},"rot":{"x":0, "y":0, "z": 90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_3x1_flat_col2",          ["legocar_sideskirt_RL"], [], {"pos":{"x":0.625, "y": 0.125, "z":0.1},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//front half
+	{"group":"legocar_sideskirt_FL"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["FLsideskirt1r", 0.53, -0.50, 0.185],
+	["FLsideskirt1l", 0.90, -0.50, 0.185],
+	["FLsideskirt2r", 0.53, -0.25, 0.185],
+	["FLsideskirt2l", 0.90, -0.25, 0.185, {"selfCollision":false}],
+	//rigidifier
+	["FLsideskirtrig", 0.675, -0.25, 0.285, {"collision":false, "selfCollision":false, "group":""}],
+
+	//rear half
+	{"group":"legocar_sideskirt_RL"},
+	//3 pieces, 5 nodes - 0.6 kg/node
+	{"nodeWeight": "$=$weight*0.6"},
+
+	["RLsideskirt1r", 0.53, 0.50, 0.15],
+	["RLsideskirt1l", 0.75, 0.50, 0.15],
+	["RLsideskirt2r", 0.53,-0.22, 0.15],
+	["RLsideskirt2l", 0.75,-0.22, 0.15],
+	//rigidifier
+	["RLsideskirtrig", 0.625, 0.25, 0.35, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FRONT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+
+	//uniform structure
+	["FLsideskirt1l", "FLsideskirt1r"],
+	["FLsideskirt2l", "FLsideskirt2r"],
+	["FLsideskirt1l", "FLsideskirt2l", {"isExhaust":"mainEngine"}],
+	["FLsideskirt1r", "FLsideskirt2r"],
+	["FLsideskirt1l", "FLsideskirt2r"],
+	["FLsideskirt2l", "FLsideskirt1r"],
+
+	//rigidifier
+	["FLsideskirt1l", "FLsideskirtrig"],
+	["FLsideskirt1r", "FLsideskirtrig"],
+	["FLsideskirt2l", "FLsideskirtrig"],
+	["FLsideskirt2r", "FLsideskirtrig"],
+
+	
+	//--REAR--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//uniform structure
+	["RLsideskirt1l", "RLsideskirt1r"],
+	["RLsideskirt2l", "RLsideskirt2r"],
+	["RLsideskirt1l", "RLsideskirt2l"],
+	["RLsideskirt1r", "RLsideskirt2r"],
+	["RLsideskirt1l", "RLsideskirt2r"],
+	["RLsideskirt2l", "RLsideskirt1r"],
+
+	//rigidifier
+	["RLsideskirt1l", "RLsideskirtrig"],
+	["RLsideskirt1r", "RLsideskirtrig"],
+	["RLsideskirt2l", "RLsideskirtrig"],
+	["RLsideskirt2r", "RLsideskirtrig"],
+
+	
+	//--ATTACH TO SUBFRAME--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	
+	//front
+	{"breakGroup":"sideskirt_subframe_FL_break"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	["FLsideskirt1l", "Lsubf1l"],
+	["FLsideskirt1l", "Lsubf1r"],
+	["FLsideskirt1l", "Lsubf2l"],
+	["FLsideskirt1l", "Lsubf2r"],
+
+	["FLsideskirt1r", "Lsubf1l"],
+	["FLsideskirt1r", "Lsubf1r"],
+	["FLsideskirt1r", "Lsubf2l"],
+	["FLsideskirt1r", "Lsubf2r"],
+	
+	["FLsideskirt2l", "Lsubf1l"],
+	["FLsideskirt2l", "Lsubf1r"],
+	["FLsideskirt2l", "Lsubf2l"],
+	["FLsideskirt2l", "Lsubf2r"],
+
+	["FLsideskirt2r", "Lsubf1l"],
+	["FLsideskirt2r", "Lsubf1r"],
+	["FLsideskirt2r", "Lsubf2l"],
+	["FLsideskirt2r", "Lsubf2r"],
+
+
+	//rear
+	{"breakGroup":"sideskirt_subframe_RL_break"},
+	{"beamSpring":"$=$weight*371000", "beamDamp":"$=$weight*37"},
+
+	["RLsideskirt1l", "Lsubf1l"],
+	["RLsideskirt1l", "Lsubf1r"],
+	["RLsideskirt1l", "Lsubf2l"],
+	["RLsideskirt1l", "Lsubf2r"],
+
+	["RLsideskirt1r", "Lsubf1l"],
+	["RLsideskirt1r", "Lsubf1r"],
+	["RLsideskirt1r", "Lsubf2l"],
+	["RLsideskirt1r", "Lsubf2r"],
+	
+	["RLsideskirt2l", "Lsubf1l"],
+	["RLsideskirt2l", "Lsubf1r"],
+	["RLsideskirt2l", "Lsubf2l"],
+	["RLsideskirt2l", "Lsubf2r"],
+
+	["RLsideskirt2r", "Lsubf1l"],
+	["RLsideskirt2r", "Lsubf1r"],
+	["RLsideskirt2r", "Lsubf2l"],
+	["RLsideskirt2r", "Lsubf2r"],
+
+
+
+	//--ATTACH TO ROCKER--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"optional":true},
+
+	
+	//front
+	{"breakGroup":"sideskirt_rocker_FL_break"},
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+
+	["FLsideskirt1l", "LrockB1l"],
+	["FLsideskirt1l", "LrockB1r"],
+	["FLsideskirt1l", "LrockB2l"],
+	["FLsideskirt1l", "LrockB2r"],
+
+	["FLsideskirt1r", "LrockB1l"],
+	["FLsideskirt1r", "LrockB1r"],
+	["FLsideskirt1r", "LrockB2l"],
+	["FLsideskirt1r", "LrockB2r"],
+	
+	["FLsideskirt2l", "LrockB1l"],
+	["FLsideskirt2l", "LrockB1r"],
+	["FLsideskirt2l", "LrockB2l"],
+	["FLsideskirt2l", "LrockB2r"],
+
+	["FLsideskirt2r", "LrockB1l"],
+	["FLsideskirt2r", "LrockB1r"],
+	["FLsideskirt2r", "LrockB2l"],
+	["FLsideskirt2r", "LrockB2r"],
+
+
+	//rear
+	{"breakGroup":"sideskirt_rocker_RL_break"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	["RLsideskirt1l", "LrockB1l"],
+	["RLsideskirt1l", "LrockB1r"],
+	["RLsideskirt1l", "LrockB2l"],
+	["RLsideskirt1l", "LrockB2r"],
+
+	["RLsideskirt1r", "LrockB1l"],
+	["RLsideskirt1r", "LrockB1r"],
+	["RLsideskirt1r", "LrockB2l"],
+	["RLsideskirt1r", "LrockB2r"],
+	
+	["RLsideskirt2l", "LrockB1l"],
+	["RLsideskirt2l", "LrockB1r"],
+	["RLsideskirt2l", "LrockB2l"],
+	["RLsideskirt2l", "LrockB2r"],
+
+	["RLsideskirt2r", "LrockB1l"],
+	["RLsideskirt2r", "LrockB1r"],
+	["RLsideskirt2r", "LrockB2l"],
+	["RLsideskirt2r", "LrockB2r"],
+
+	{"optional":false},
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	["FLsideskirtrig", "Lsubf1l"],
+	["FLsideskirtrig", "Lsubf1r"],
+	["FLsideskirtrig", "Lsubf2l"],
+	["FLsideskirtrig", "Lsubf2r"],
+
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	["RLsideskirtrig", "Lsubf1l"],
+	["RLsideskirtrig", "Lsubf1r"],
+	["RLsideskirtrig", "Lsubf2l"],
+	["RLsideskirtrig", "Lsubf2r"],
+
+
+	//--EXHAUST CONNECTORS--
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	["eng1l","FLsideskirt1l", {"isExhaust":"mainEngine", "optional":true}],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_sideskirt_FL"}, 
+  	["FLsideskirt2l","FLsideskirt2r","FLsideskirt1r","FLsideskirt1l"],
+	{"group":"legocar_sideskirt_RL"}, 
+  	["RLsideskirt1l","RLsideskirt1r","RLsideskirt2r","RLsideskirt2l"],
+
+        {"group":""},
+    ], 
+},
+
+"legocar_sideskirts_exhaust_L_col3": {
+    "information":{
+        "name":"Left Side Exhaust Outlet (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_sideskirts_L",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_rockertrim_L", "legocar_rockertrim_L", "Left Rocker Trim"],
+	["legocar_sidepipe_L", "legocar_sidepipe_L", "Side Exhaust Pipe"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_clip_altc_grey",["legocar_sideskirt_FL"], [], {"pos":{"x":0.625, "y":-0.375, "z":0.1},"rot":{"x":0, "y":0, "z": 90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_3x1_flat_col3",          ["legocar_sideskirt_RL"], [], {"pos":{"x":0.625, "y": 0.125, "z":0.1},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//front half
+	{"group":"legocar_sideskirt_FL"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["FLsideskirt1r", 0.53, -0.50, 0.185],
+	["FLsideskirt1l", 0.90, -0.50, 0.185],
+	["FLsideskirt2r", 0.53, -0.25, 0.185],
+	["FLsideskirt2l", 0.90, -0.25, 0.185, {"selfCollision":false}],
+	//rigidifier
+	["FLsideskirtrig", 0.675, -0.25, 0.285, {"collision":false, "selfCollision":false, "group":""}],
+
+	//rear half
+	{"group":"legocar_sideskirt_RL"},
+	//3 pieces, 5 nodes - 0.6 kg/node
+	{"nodeWeight": "$=$weight*0.6"},
+
+	["RLsideskirt1r", 0.53, 0.50, 0.15],
+	["RLsideskirt1l", 0.75, 0.50, 0.15],
+	["RLsideskirt2r", 0.53,-0.22, 0.15],
+	["RLsideskirt2l", 0.75,-0.22, 0.15],
+	//rigidifier
+	["RLsideskirtrig", 0.625, 0.25, 0.35, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FRONT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+
+	//uniform structure
+	["FLsideskirt1l", "FLsideskirt1r"],
+	["FLsideskirt2l", "FLsideskirt2r"],
+	["FLsideskirt1l", "FLsideskirt2l", {"isExhaust":"mainEngine"}],
+	["FLsideskirt1r", "FLsideskirt2r"],
+	["FLsideskirt1l", "FLsideskirt2r"],
+	["FLsideskirt2l", "FLsideskirt1r"],
+
+	//rigidifier
+	["FLsideskirt1l", "FLsideskirtrig"],
+	["FLsideskirt1r", "FLsideskirtrig"],
+	["FLsideskirt2l", "FLsideskirtrig"],
+	["FLsideskirt2r", "FLsideskirtrig"],
+
+	
+	//--REAR--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//uniform structure
+	["RLsideskirt1l", "RLsideskirt1r"],
+	["RLsideskirt2l", "RLsideskirt2r"],
+	["RLsideskirt1l", "RLsideskirt2l"],
+	["RLsideskirt1r", "RLsideskirt2r"],
+	["RLsideskirt1l", "RLsideskirt2r"],
+	["RLsideskirt2l", "RLsideskirt1r"],
+
+	//rigidifier
+	["RLsideskirt1l", "RLsideskirtrig"],
+	["RLsideskirt1r", "RLsideskirtrig"],
+	["RLsideskirt2l", "RLsideskirtrig"],
+	["RLsideskirt2r", "RLsideskirtrig"],
+
+	
+	//--ATTACH TO SUBFRAME--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	
+	//front
+	{"breakGroup":"sideskirt_subframe_FL_break"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	["FLsideskirt1l", "Lsubf1l"],
+	["FLsideskirt1l", "Lsubf1r"],
+	["FLsideskirt1l", "Lsubf2l"],
+	["FLsideskirt1l", "Lsubf2r"],
+
+	["FLsideskirt1r", "Lsubf1l"],
+	["FLsideskirt1r", "Lsubf1r"],
+	["FLsideskirt1r", "Lsubf2l"],
+	["FLsideskirt1r", "Lsubf2r"],
+	
+	["FLsideskirt2l", "Lsubf1l"],
+	["FLsideskirt2l", "Lsubf1r"],
+	["FLsideskirt2l", "Lsubf2l"],
+	["FLsideskirt2l", "Lsubf2r"],
+
+	["FLsideskirt2r", "Lsubf1l"],
+	["FLsideskirt2r", "Lsubf1r"],
+	["FLsideskirt2r", "Lsubf2l"],
+	["FLsideskirt2r", "Lsubf2r"],
+
+
+	//rear
+	{"breakGroup":"sideskirt_subframe_RL_break"},
+	{"beamSpring":"$=$weight*371000", "beamDamp":"$=$weight*37"},
+
+	["RLsideskirt1l", "Lsubf1l"],
+	["RLsideskirt1l", "Lsubf1r"],
+	["RLsideskirt1l", "Lsubf2l"],
+	["RLsideskirt1l", "Lsubf2r"],
+
+	["RLsideskirt1r", "Lsubf1l"],
+	["RLsideskirt1r", "Lsubf1r"],
+	["RLsideskirt1r", "Lsubf2l"],
+	["RLsideskirt1r", "Lsubf2r"],
+	
+	["RLsideskirt2l", "Lsubf1l"],
+	["RLsideskirt2l", "Lsubf1r"],
+	["RLsideskirt2l", "Lsubf2l"],
+	["RLsideskirt2l", "Lsubf2r"],
+
+	["RLsideskirt2r", "Lsubf1l"],
+	["RLsideskirt2r", "Lsubf1r"],
+	["RLsideskirt2r", "Lsubf2l"],
+	["RLsideskirt2r", "Lsubf2r"],
+
+
+
+	//--ATTACH TO ROCKER--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"optional":true},
+
+	
+	//front
+	{"breakGroup":"sideskirt_rocker_FL_break"},
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+
+	["FLsideskirt1l", "LrockB1l"],
+	["FLsideskirt1l", "LrockB1r"],
+	["FLsideskirt1l", "LrockB2l"],
+	["FLsideskirt1l", "LrockB2r"],
+
+	["FLsideskirt1r", "LrockB1l"],
+	["FLsideskirt1r", "LrockB1r"],
+	["FLsideskirt1r", "LrockB2l"],
+	["FLsideskirt1r", "LrockB2r"],
+	
+	["FLsideskirt2l", "LrockB1l"],
+	["FLsideskirt2l", "LrockB1r"],
+	["FLsideskirt2l", "LrockB2l"],
+	["FLsideskirt2l", "LrockB2r"],
+
+	["FLsideskirt2r", "LrockB1l"],
+	["FLsideskirt2r", "LrockB1r"],
+	["FLsideskirt2r", "LrockB2l"],
+	["FLsideskirt2r", "LrockB2r"],
+
+
+	//rear
+	{"breakGroup":"sideskirt_rocker_RL_break"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	["RLsideskirt1l", "LrockB1l"],
+	["RLsideskirt1l", "LrockB1r"],
+	["RLsideskirt1l", "LrockB2l"],
+	["RLsideskirt1l", "LrockB2r"],
+
+	["RLsideskirt1r", "LrockB1l"],
+	["RLsideskirt1r", "LrockB1r"],
+	["RLsideskirt1r", "LrockB2l"],
+	["RLsideskirt1r", "LrockB2r"],
+	
+	["RLsideskirt2l", "LrockB1l"],
+	["RLsideskirt2l", "LrockB1r"],
+	["RLsideskirt2l", "LrockB2l"],
+	["RLsideskirt2l", "LrockB2r"],
+
+	["RLsideskirt2r", "LrockB1l"],
+	["RLsideskirt2r", "LrockB1r"],
+	["RLsideskirt2r", "LrockB2l"],
+	["RLsideskirt2r", "LrockB2r"],
+
+	{"optional":false},
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	["FLsideskirtrig", "Lsubf1l"],
+	["FLsideskirtrig", "Lsubf1r"],
+	["FLsideskirtrig", "Lsubf2l"],
+	["FLsideskirtrig", "Lsubf2r"],
+
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	["RLsideskirtrig", "Lsubf1l"],
+	["RLsideskirtrig", "Lsubf1r"],
+	["RLsideskirtrig", "Lsubf2l"],
+	["RLsideskirtrig", "Lsubf2r"],
+
+
+	//--EXHAUST CONNECTORS--
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	["eng1l","FLsideskirt1l", {"isExhaust":"mainEngine", "optional":true}],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_sideskirt_FL"}, 
+  	["FLsideskirt2l","FLsideskirt2r","FLsideskirt1r","FLsideskirt1l"],
+	{"group":"legocar_sideskirt_RL"}, 
+  	["RLsideskirt1l","RLsideskirt1r","RLsideskirt2r","RLsideskirt2l"],
+
+        {"group":""},
+    ], 
+},
+
+}

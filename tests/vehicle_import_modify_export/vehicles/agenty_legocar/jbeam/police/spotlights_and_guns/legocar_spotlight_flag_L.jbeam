@@ -1,0 +1,203 @@
+{
+"legocar_spotlight_flag_L": {
+    "information":{
+        "name":"Left USA Flag",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_spotlight_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_antenna_4H_grey",["legocar_flagpole_L"],[], {"pos":{"x": 1.000, "y":-0.625, "z":0.600},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":1.00}}],
+	["legocar_flag",        ["legocar_flag_L"],    [], {"pos":{"x": 1.000, "y":-0.625, "z":0.600},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//flag pole
+	{"group":"legocar_flagpole_L"},
+	//6 pieces, 6 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+
+	["Lflagpole2l", 1.10, -0.525, 0.600],
+	["Lflagpole2r", 0.90, -0.525, 0.600],
+	["Lflagpole1l", 1.10, -0.725, 0.600],
+	["Lflagpole1r", 0.90, -0.725, 0.600],
+	["Lflagpole3",  1.00, -0.625, 0.950, {"collision":false, "selfCollision":false, "group":""}],
+	["Lflagpole4",  1.00, -0.625, 1.800],
+
+	//flag
+	{"group":"legocar_flag_L"},
+	//2 pieces, 4 half pieces, 6 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+
+	["Lflag1",  1.00, -0.625, 1.35, {"selfCollision":false}],
+	["Lflag2",  1.00, -0.625, 1.65, {"selfCollision":false}],
+	["Lflag3",  1.00,  0.075, 1.25],
+	["Lflag4",  1.00,  0.075, 1.75],
+	["Lflag5",  1.00, -0.625, 1.50, {"selfCollision":false}],
+	//rigidifier
+	["Lflagrig",  0.75, -0.350, 1.5, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$weight*51000", "damp":"$=$weight*5", "deform":5, "strength":"FLT_MAX"},
+	//flag flop friction
+        ["Lflag4","Lflag2","Lflagpole3","signal2l"],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FLAG POLE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//square
+	["Lflagpole1l", "Lflagpole1r"],
+	["Lflagpole2l", "Lflagpole2r"],
+	["Lflagpole1l", "Lflagpole2r"],
+	["Lflagpole2l", "Lflagpole1r"],
+	["Lflagpole1l", "Lflagpole2l"],
+	["Lflagpole1r", "Lflagpole2r"],
+
+	//middle
+	["Lflagpole1l", "Lflagpole3"],
+	["Lflagpole1r", "Lflagpole3"],
+	["Lflagpole2l", "Lflagpole3"],
+	["Lflagpole2r", "Lflagpole3"],
+
+	//tip
+	["Lflagpole1l", "Lflagpole4"],
+	["Lflagpole1r", "Lflagpole4"],
+	["Lflagpole2l", "Lflagpole4"],
+	["Lflagpole2r", "Lflagpole4"],
+	["Lflagpole3", "Lflagpole4", {"breakGroup":"flag_L_break", "disableMeshBreaking":true, "disableTriangleBreaking":true}],
+
+	
+	//--FLAG--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1251000", "beamDamp":"$=$weight*125"},
+
+	//uniform structure
+	["Lflag1", "Lflag2"],
+	["Lflag1", "Lflag3"],
+	["Lflag1", "Lflag4"],
+	["Lflag2", "Lflag3"],
+	["Lflag2", "Lflag4"],
+	["Lflag3", "Lflag4"],
+
+	//middle
+	["Lflag5", "Lflag1"],
+	["Lflag5", "Lflag2"],
+	["Lflag5", "Lflag3"],
+	["Lflag5", "Lflag4"],
+
+	//rigidifier
+	["Lflagrig", "Lflag1"],
+	["Lflagrig", "Lflag2"],
+	["Lflagrig", "Lflag3"],
+	["Lflagrig", "Lflag4"],
+	["Lflagrig", "Lflag5"],
+
+	
+	//--FLAG FRICTION--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$=$strength*0.1", "beamStrength":"$strength"},
+	{"breakGroup":"flag_L_break"},
+
+	["Lflag1", "Lflagpole3"],
+
+
+	//--ATTACH POLE--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"flagpole_L_break"},
+	
+	["Lflagpole1l", "signal0l"],
+	["Lflagpole1l", "signal1l"],
+	["Lflagpole1l", "signal2l"],
+	["Lflagpole1l", "signal3l"],
+	["Lflagpole1l", "signal4l"],
+
+	["Lflagpole1r", "signal0l"],
+	["Lflagpole1r", "signal1l"],
+	["Lflagpole1r", "signal2l"],
+	["Lflagpole1r", "signal3l"],
+	["Lflagpole1r", "signal4l"],
+
+	["Lflagpole2l", "signal0l"],
+	["Lflagpole2l", "signal1l"],
+	["Lflagpole2l", "signal2l"],
+	["Lflagpole2l", "signal3l"],
+	["Lflagpole2l", "signal4l"],
+
+	["Lflagpole2r", "signal0l"],
+	["Lflagpole2r", "signal1l"],
+	["Lflagpole2r", "signal2l"],
+	["Lflagpole2r", "signal3l"],
+	["Lflagpole2r", "signal4l"],
+	
+	["Lflagpole3", "signal0l"],
+	["Lflagpole3", "signal1l"],
+	["Lflagpole3", "signal2l"],
+	["Lflagpole3", "signal3l"],
+	["Lflagpole3", "signal4l"],
+
+	["Lflagpole4", "signal0l"],
+	["Lflagpole4", "signal1l"],
+	["Lflagpole4", "signal2l"],
+	["Lflagpole4", "signal3l"],
+	["Lflagpole4", "signal4l"],
+
+
+	//--FLAG BREAK TRIGGER BEAM--
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.4, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":"flag_L_break"},
+	["Lflag2", "Lflagpole3"],
+
+
+	//--SUPPORT DAMPERS--
+	{"beamPrecompression":1,"beamType":"|SUPPORT", "beamLongBound":0.5},
+	{"beamSpring":0, "beamDamp":"$=$weight*500"},
+	{"breakGroup":"flagpole_L_break"},
+	["chassis0", "Lflagpole4", {"breakGroupType":1}],
+	["chassis4", "Lflagpole4", {"breakGroupType":1}],
+
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "rails": {
+        "flagpole_L":{"links:":["Lflagpole3","Lflagpole4"],"broken:":[], "looped":false, "capped":false},
+    },
+    "slidenodes": [
+        ["id:", "railName", "attached", "fixToRail", "tolerance", "spring", "strength", "capStrength"],
+        ["Lflag1", "flagpole_L", true, true, 0.00, "$=$weight*1001000", "FLT_MAX", "FLT_MAX"],
+        ["Lflag2", "flagpole_L", true, true, 0.00, "$=$weight*1001000", "FLT_MAX", "FLT_MAX"],
+	["Lflag5", "flagpole_L", true, true, 0.00, "$=$weight*1001000", "FLT_MAX", "FLT_MAX"],
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_flagpole_L"},
+	["Lflagpole4","Lflagpole1l","Lflagpole2l"],
+	["Lflagpole4","Lflagpole2l","Lflagpole2r"],
+	["Lflagpole4","Lflagpole2r","Lflagpole1r"],
+	["Lflagpole4","Lflagpole1r","Lflagpole1l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_flagpole_L"},   
+	["Lflagpole1l","Lflagpole1r","Lflagpole2r","Lflagpole2l"],	
+	{"group":"legocar_flag_L"},   
+	["Lflag1","Lflag3","Lflag4","Lflag2", {"dragCoef":100, "liftCoef":50, "stallAngle":0.5}],	
+        {"group":""},
+    ],
+},
+
+}

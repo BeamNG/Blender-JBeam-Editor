@@ -1,0 +1,716 @@
+{
+"legocar_subframe_B": {
+    "information":{
+        "name":"Back Subframe (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_subframe_B",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_sparetirepan", "legocar_sparetirepan_lightweight", "Spare Tire Pan"],
+	["legocar_subframe_B_extra", "", "Unused Slot"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_upextender_col1",["legocar_subframe_B"], [], {"pos":{"x":0, "y":1.375, "z":0.3},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":1.00, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--BACK SUBFRAME--
+	{"group":"legocar_subframe_B"},
+	//8 pieces, 12 nodes - 0.67 kg/node
+	{"nodeWeight": "$=$weight*0.67"},
+
+	["Bsubf1l",  0.50,  1.28, 0.35],
+	["Bsubf1r", -0.50,  1.28, 0.35],
+	["Bsubf2l",  0.50,  1.50, 0.35],
+	["Bsubf2r", -0.50,  1.50, 0.35],
+	
+	["Bsubf3l",  0.50,  1.28, 0.6],
+	["Bsubf3r", -0.50,  1.28, 0.6],
+	["Bsubf4l",  0.50,  1.50, 0.6],
+	["Bsubf4r", -0.50,  1.50, 0.6],
+
+	["Bsubf3ll",  0.75,  1.28, 0.6],
+	["Bsubf3rr", -0.75,  1.28, 0.6],
+	["Bsubf4ll",  0.75,  1.50, 0.6],
+	["Bsubf4rr", -0.75,  1.50, 0.6],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--REAR SUBFRAME--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*671000", "beamDamp":"$=$weight*67"},
+
+	//lower part
+	["Bsubf1l", "Bsubf1r"],
+	["Bsubf2l", "Bsubf2r"],
+	["Bsubf1l", "Bsubf2l"],
+	["Bsubf1r", "Bsubf2r"],
+	["Bsubf1l", "Bsubf2r"],
+	["Bsubf2l", "Bsubf1r"],
+
+	//upper part inside structure stiffening
+	["Bsubf3l", "Bsubf3r"],
+	["Bsubf4l", "Bsubf4r"],
+	["Bsubf3l", "Bsubf4l"],
+	["Bsubf3r", "Bsubf4r"],
+	["Bsubf3l", "Bsubf4r"],
+	["Bsubf4l", "Bsubf3r"],
+
+	//upper part inside to lower part
+	["Bsubf3l", "Bsubf1l"],
+	["Bsubf3l", "Bsubf1r"],
+	["Bsubf3l", "Bsubf2l"],
+	["Bsubf3l", "Bsubf2r"],
+
+	["Bsubf3r", "Bsubf1l"],
+	["Bsubf3r", "Bsubf1r"],
+	["Bsubf3r", "Bsubf2l"],
+	["Bsubf3r", "Bsubf2r"],
+
+	["Bsubf4l", "Bsubf1l"],
+	["Bsubf4l", "Bsubf1r"],
+	["Bsubf4l", "Bsubf2l"],
+	["Bsubf4l", "Bsubf2r"],
+
+	["Bsubf4r", "Bsubf1l"],
+	["Bsubf4r", "Bsubf1r"],
+	["Bsubf4r", "Bsubf2l"],
+	["Bsubf4r", "Bsubf2r"],
+
+	//upper part outside to inside
+	["Bsubf3ll", "Bsubf4ll"],
+	["Bsubf3rr", "Bsubf4rr"],
+	
+	["Bsubf3ll", "Bsubf3l"],
+	["Bsubf3rr", "Bsubf3r"],
+	["Bsubf3ll", "Bsubf4l"],
+	["Bsubf3rr", "Bsubf4r"],
+
+	["Bsubf4ll", "Bsubf4l"],
+	["Bsubf4rr", "Bsubf4r"],
+	["Bsubf4ll", "Bsubf3l"],
+	["Bsubf4rr", "Bsubf3r"],
+
+	//upper part outside to lower part
+	["Bsubf3ll", "Bsubf1l"],
+	["Bsubf3ll", "Bsubf1r"],
+	["Bsubf3ll", "Bsubf2l"],
+	["Bsubf3ll", "Bsubf2r"],
+
+	["Bsubf3rr", "Bsubf1l"],
+	["Bsubf3rr", "Bsubf1r"],
+	["Bsubf3rr", "Bsubf2l"],
+	["Bsubf3rr", "Bsubf2r"],
+
+	["Bsubf4ll", "Bsubf1l"],
+	["Bsubf4ll", "Bsubf1r"],
+	["Bsubf4ll", "Bsubf2l"],
+	["Bsubf4ll", "Bsubf2r"],
+
+	["Bsubf4rr", "Bsubf1l"],
+	["Bsubf4rr", "Bsubf1r"],
+	["Bsubf4rr", "Bsubf2l"],
+	["Bsubf4rr", "Bsubf2r"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to squab panel
+	{"breakGroup":"subframe_B_squabpanel_break"},
+
+	["Bsubf1l", "sqpan3l"],
+	["Bsubf1l", "sqpan3r"],
+	["Bsubf1l", "sqpan4l"],
+
+	["Bsubf1r", "sqpan3l"],
+	["Bsubf1r", "sqpan3r"],
+	["Bsubf1r", "sqpan4r"],
+
+	["Bsubf2l", "sqpan3l"],
+	["Bsubf2l", "sqpan4r"],
+	["Bsubf2l", "sqpan4l"],
+
+	["Bsubf2r", "sqpan4l"],
+	["Bsubf2r", "sqpan3r"],
+	["Bsubf2r", "sqpan4r"],
+
+
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+
+
+	//to left quarter panel
+	{"breakGroup":"subframe_B_quarterpanel_L_break"},
+
+	["Bsubf1l", "Lqpan2r"],
+	["Bsubf1l", "Lqpan2l"],
+	["Bsubf1l", "Lqpan1r"],
+
+	["Bsubf2l", "Lqpan2r"],
+	["Bsubf2l", "Lqpan2l"],
+	["Bsubf2l", "Lqpan1r"],
+
+	["Bsubf3l", "Lqpan2l"],
+	["Bsubf3l", "Lqpan2r"],
+	["Bsubf3l", "Lqpan1l"],
+
+	["Bsubf4l", "Lqpan2l"],
+	["Bsubf4l", "Lqpan2r"],
+	["Bsubf4l", "Lqpan1l"],
+
+	["Bsubf3ll", "Lqpan2l"],
+	["Bsubf3ll", "Lqpan2r"],
+	["Bsubf3ll", "Lqpan1l"],
+	["Bsubf3ll", "Lqpanrig"],
+
+	["Bsubf4ll", "Lqpan2l"],
+	["Bsubf4ll", "Lqpan2r"],
+	["Bsubf4ll", "Lqpan1l"],
+	["Bsubf4ll", "Lqpanrig"],
+
+
+	//to right quarter panel
+	{"breakGroup":"subframe_B_quarterpanel_R_break"},
+
+	["Bsubf1r", "Rqpan2r"],
+	["Bsubf1r", "Rqpan2l"],
+	["Bsubf1r", "Rqpan1l"],
+
+	["Bsubf2r", "Rqpan2r"],
+	["Bsubf2r", "Rqpan2l"],
+	["Bsubf2r", "Rqpan1l"],
+
+	["Bsubf3r", "Rqpan2l"],
+	["Bsubf3r", "Rqpan2r"],
+	["Bsubf3r", "Rqpan1r"],
+
+	["Bsubf4r", "Rqpan2l"],
+	["Bsubf4r", "Rqpan2r"],
+	["Bsubf4r", "Rqpan1r"],
+
+	["Bsubf3rr", "Rqpan2l"],
+	["Bsubf3rr", "Rqpan2r"],
+	["Bsubf3rr", "Rqpan1r"],
+	["Bsubf3rr", "Rqpanrig"],
+
+	["Bsubf4rr", "Rqpan2l"],
+	["Bsubf4rr", "Rqpan2r"],
+	["Bsubf4rr", "Rqpan1r"],
+	["Bsubf4rr", "Rqpanrig"],
+
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+        {"group":"legocar_subframe_R"},
+	["Bsubf1l","Bsubf3ll","Bsubf3l"],
+	["Bsubf1r","Bsubf3r","Bsubf3rr"],
+	["Bsubf2l","Bsubf4l","Bsubf4ll"],
+	["Bsubf2r","Bsubf4rr","Bsubf4r"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_subframe_R"},
+	["Bsubf2l","Bsubf2r","Bsubf1r","Bsubf1l"],
+	["Bsubf2l","Bsubf1l","Bsubf3l","Bsubf4l"],
+	["Bsubf4r","Bsubf3r","Bsubf1r","Bsubf2r"],
+	["Bsubf3l","Bsubf3ll","Bsubf4ll","Bsubf4l"],
+	["Bsubf3rr","Bsubf3r","Bsubf4r","Bsubf4rr"],
+	["Bsubf1l","Bsubf2l","Bsubf4ll","Bsubf3ll"],
+	["Bsubf3rr","Bsubf4rr","Bsubf2r","Bsubf1r"],
+        {"group":""},
+    ],
+},
+
+"legocar_subframe_B_col2": {
+    "information":{
+        "name":"Back Subframe (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_subframe_B",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_sparetirepan", "legocar_sparetirepan_lightweight", "Spare Tire Pan"],
+	["legocar_subframe_B_extra", "", "Unused Slot"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_upextender_col2",["legocar_subframe_B"], [], {"pos":{"x":0, "y":1.375, "z":0.3},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":1.00, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--BACK SUBFRAME--
+	{"group":"legocar_subframe_B"},
+	//8 pieces, 12 nodes - 0.67 kg/node
+	{"nodeWeight": "$=$weight*0.67"},
+
+	["Bsubf1l",  0.50,  1.28, 0.35],
+	["Bsubf1r", -0.50,  1.28, 0.35],
+	["Bsubf2l",  0.50,  1.50, 0.35],
+	["Bsubf2r", -0.50,  1.50, 0.35],
+	
+	["Bsubf3l",  0.50,  1.28, 0.6],
+	["Bsubf3r", -0.50,  1.28, 0.6],
+	["Bsubf4l",  0.50,  1.50, 0.6],
+	["Bsubf4r", -0.50,  1.50, 0.6],
+
+	["Bsubf3ll",  0.75,  1.28, 0.6],
+	["Bsubf3rr", -0.75,  1.28, 0.6],
+	["Bsubf4ll",  0.75,  1.50, 0.6],
+	["Bsubf4rr", -0.75,  1.50, 0.6],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--REAR SUBFRAME--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*671000", "beamDamp":"$=$weight*67"},
+
+	//lower part
+	["Bsubf1l", "Bsubf1r"],
+	["Bsubf2l", "Bsubf2r"],
+	["Bsubf1l", "Bsubf2l"],
+	["Bsubf1r", "Bsubf2r"],
+	["Bsubf1l", "Bsubf2r"],
+	["Bsubf2l", "Bsubf1r"],
+
+	//upper part inside structure stiffening
+	["Bsubf3l", "Bsubf3r"],
+	["Bsubf4l", "Bsubf4r"],
+	["Bsubf3l", "Bsubf4l"],
+	["Bsubf3r", "Bsubf4r"],
+	["Bsubf3l", "Bsubf4r"],
+	["Bsubf4l", "Bsubf3r"],
+
+	//upper part inside to lower part
+	["Bsubf3l", "Bsubf1l"],
+	["Bsubf3l", "Bsubf1r"],
+	["Bsubf3l", "Bsubf2l"],
+	["Bsubf3l", "Bsubf2r"],
+
+	["Bsubf3r", "Bsubf1l"],
+	["Bsubf3r", "Bsubf1r"],
+	["Bsubf3r", "Bsubf2l"],
+	["Bsubf3r", "Bsubf2r"],
+
+	["Bsubf4l", "Bsubf1l"],
+	["Bsubf4l", "Bsubf1r"],
+	["Bsubf4l", "Bsubf2l"],
+	["Bsubf4l", "Bsubf2r"],
+
+	["Bsubf4r", "Bsubf1l"],
+	["Bsubf4r", "Bsubf1r"],
+	["Bsubf4r", "Bsubf2l"],
+	["Bsubf4r", "Bsubf2r"],
+
+	//upper part outside to inside
+	["Bsubf3ll", "Bsubf4ll"],
+	["Bsubf3rr", "Bsubf4rr"],
+	
+	["Bsubf3ll", "Bsubf3l"],
+	["Bsubf3rr", "Bsubf3r"],
+	["Bsubf3ll", "Bsubf4l"],
+	["Bsubf3rr", "Bsubf4r"],
+
+	["Bsubf4ll", "Bsubf4l"],
+	["Bsubf4rr", "Bsubf4r"],
+	["Bsubf4ll", "Bsubf3l"],
+	["Bsubf4rr", "Bsubf3r"],
+
+	//upper part outside to lower part
+	["Bsubf3ll", "Bsubf1l"],
+	["Bsubf3ll", "Bsubf1r"],
+	["Bsubf3ll", "Bsubf2l"],
+	["Bsubf3ll", "Bsubf2r"],
+
+	["Bsubf3rr", "Bsubf1l"],
+	["Bsubf3rr", "Bsubf1r"],
+	["Bsubf3rr", "Bsubf2l"],
+	["Bsubf3rr", "Bsubf2r"],
+
+	["Bsubf4ll", "Bsubf1l"],
+	["Bsubf4ll", "Bsubf1r"],
+	["Bsubf4ll", "Bsubf2l"],
+	["Bsubf4ll", "Bsubf2r"],
+
+	["Bsubf4rr", "Bsubf1l"],
+	["Bsubf4rr", "Bsubf1r"],
+	["Bsubf4rr", "Bsubf2l"],
+	["Bsubf4rr", "Bsubf2r"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to squab panel
+	{"breakGroup":"subframe_B_squabpanel_break"},
+
+	["Bsubf1l", "sqpan3l"],
+	["Bsubf1l", "sqpan3r"],
+	["Bsubf1l", "sqpan4l"],
+
+	["Bsubf1r", "sqpan3l"],
+	["Bsubf1r", "sqpan3r"],
+	["Bsubf1r", "sqpan4r"],
+
+	["Bsubf2l", "sqpan3l"],
+	["Bsubf2l", "sqpan4r"],
+	["Bsubf2l", "sqpan4l"],
+
+	["Bsubf2r", "sqpan4l"],
+	["Bsubf2r", "sqpan3r"],
+	["Bsubf2r", "sqpan4r"],
+
+
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+
+
+	//to left quarter panel
+	{"breakGroup":"subframe_B_quarterpanel_L_break"},
+
+	["Bsubf1l", "Lqpan2r"],
+	["Bsubf1l", "Lqpan2l"],
+	["Bsubf1l", "Lqpan1r"],
+
+	["Bsubf2l", "Lqpan2r"],
+	["Bsubf2l", "Lqpan2l"],
+	["Bsubf2l", "Lqpan1r"],
+
+	["Bsubf3l", "Lqpan2l"],
+	["Bsubf3l", "Lqpan2r"],
+	["Bsubf3l", "Lqpan1l"],
+
+	["Bsubf4l", "Lqpan2l"],
+	["Bsubf4l", "Lqpan2r"],
+	["Bsubf4l", "Lqpan1l"],
+
+	["Bsubf3ll", "Lqpan2l"],
+	["Bsubf3ll", "Lqpan2r"],
+	["Bsubf3ll", "Lqpan1l"],
+	["Bsubf3ll", "Lqpanrig"],
+
+	["Bsubf4ll", "Lqpan2l"],
+	["Bsubf4ll", "Lqpan2r"],
+	["Bsubf4ll", "Lqpan1l"],
+	["Bsubf4ll", "Lqpanrig"],
+
+
+	//to right quarter panel
+	{"breakGroup":"subframe_B_quarterpanel_R_break"},
+
+	["Bsubf1r", "Rqpan2r"],
+	["Bsubf1r", "Rqpan2l"],
+	["Bsubf1r", "Rqpan1l"],
+
+	["Bsubf2r", "Rqpan2r"],
+	["Bsubf2r", "Rqpan2l"],
+	["Bsubf2r", "Rqpan1l"],
+
+	["Bsubf3r", "Rqpan2l"],
+	["Bsubf3r", "Rqpan2r"],
+	["Bsubf3r", "Rqpan1r"],
+
+	["Bsubf4r", "Rqpan2l"],
+	["Bsubf4r", "Rqpan2r"],
+	["Bsubf4r", "Rqpan1r"],
+
+	["Bsubf3rr", "Rqpan2l"],
+	["Bsubf3rr", "Rqpan2r"],
+	["Bsubf3rr", "Rqpan1r"],
+	["Bsubf3rr", "Rqpanrig"],
+
+	["Bsubf4rr", "Rqpan2l"],
+	["Bsubf4rr", "Rqpan2r"],
+	["Bsubf4rr", "Rqpan1r"],
+	["Bsubf4rr", "Rqpanrig"],
+
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+        {"group":"legocar_subframe_R"},
+	["Bsubf1l","Bsubf3ll","Bsubf3l"],
+	["Bsubf1r","Bsubf3r","Bsubf3rr"],
+	["Bsubf2l","Bsubf4l","Bsubf4ll"],
+	["Bsubf2r","Bsubf4rr","Bsubf4r"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_subframe_R"},
+	["Bsubf2l","Bsubf2r","Bsubf1r","Bsubf1l"],
+	["Bsubf2l","Bsubf1l","Bsubf3l","Bsubf4l"],
+	["Bsubf4r","Bsubf3r","Bsubf1r","Bsubf2r"],
+	["Bsubf3l","Bsubf3ll","Bsubf4ll","Bsubf4l"],
+	["Bsubf3rr","Bsubf3r","Bsubf4r","Bsubf4rr"],
+	["Bsubf1l","Bsubf2l","Bsubf4ll","Bsubf3ll"],
+	["Bsubf3rr","Bsubf4rr","Bsubf2r","Bsubf1r"],
+        {"group":""},
+    ],
+},
+
+"legocar_subframe_B_col3": {
+    "information":{
+        "name":"Back Subframe (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_subframe_B",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_sparetirepan", "legocar_sparetirepan_lightweight", "Spare Tire Pan"],
+	["legocar_subframe_B_extra", "", "Unused Slot"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_upextender_col3",["legocar_subframe_B"], [], {"pos":{"x":0, "y":1.375, "z":0.3},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":1.00, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--BACK SUBFRAME--
+	{"group":"legocar_subframe_B"},
+	//8 pieces, 12 nodes - 0.67 kg/node
+	{"nodeWeight": "$=$weight*0.67"},
+
+	["Bsubf1l",  0.50,  1.28, 0.35],
+	["Bsubf1r", -0.50,  1.28, 0.35],
+	["Bsubf2l",  0.50,  1.50, 0.35],
+	["Bsubf2r", -0.50,  1.50, 0.35],
+	
+	["Bsubf3l",  0.50,  1.28, 0.6],
+	["Bsubf3r", -0.50,  1.28, 0.6],
+	["Bsubf4l",  0.50,  1.50, 0.6],
+	["Bsubf4r", -0.50,  1.50, 0.6],
+
+	["Bsubf3ll",  0.75,  1.28, 0.6],
+	["Bsubf3rr", -0.75,  1.28, 0.6],
+	["Bsubf4ll",  0.75,  1.50, 0.6],
+	["Bsubf4rr", -0.75,  1.50, 0.6],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--REAR SUBFRAME--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*671000", "beamDamp":"$=$weight*67"},
+
+	//lower part
+	["Bsubf1l", "Bsubf1r"],
+	["Bsubf2l", "Bsubf2r"],
+	["Bsubf1l", "Bsubf2l"],
+	["Bsubf1r", "Bsubf2r"],
+	["Bsubf1l", "Bsubf2r"],
+	["Bsubf2l", "Bsubf1r"],
+
+	//upper part inside structure stiffening
+	["Bsubf3l", "Bsubf3r"],
+	["Bsubf4l", "Bsubf4r"],
+	["Bsubf3l", "Bsubf4l"],
+	["Bsubf3r", "Bsubf4r"],
+	["Bsubf3l", "Bsubf4r"],
+	["Bsubf4l", "Bsubf3r"],
+
+	//upper part inside to lower part
+	["Bsubf3l", "Bsubf1l"],
+	["Bsubf3l", "Bsubf1r"],
+	["Bsubf3l", "Bsubf2l"],
+	["Bsubf3l", "Bsubf2r"],
+
+	["Bsubf3r", "Bsubf1l"],
+	["Bsubf3r", "Bsubf1r"],
+	["Bsubf3r", "Bsubf2l"],
+	["Bsubf3r", "Bsubf2r"],
+
+	["Bsubf4l", "Bsubf1l"],
+	["Bsubf4l", "Bsubf1r"],
+	["Bsubf4l", "Bsubf2l"],
+	["Bsubf4l", "Bsubf2r"],
+
+	["Bsubf4r", "Bsubf1l"],
+	["Bsubf4r", "Bsubf1r"],
+	["Bsubf4r", "Bsubf2l"],
+	["Bsubf4r", "Bsubf2r"],
+
+	//upper part outside to inside
+	["Bsubf3ll", "Bsubf4ll"],
+	["Bsubf3rr", "Bsubf4rr"],
+	
+	["Bsubf3ll", "Bsubf3l"],
+	["Bsubf3rr", "Bsubf3r"],
+	["Bsubf3ll", "Bsubf4l"],
+	["Bsubf3rr", "Bsubf4r"],
+
+	["Bsubf4ll", "Bsubf4l"],
+	["Bsubf4rr", "Bsubf4r"],
+	["Bsubf4ll", "Bsubf3l"],
+	["Bsubf4rr", "Bsubf3r"],
+
+	//upper part outside to lower part
+	["Bsubf3ll", "Bsubf1l"],
+	["Bsubf3ll", "Bsubf1r"],
+	["Bsubf3ll", "Bsubf2l"],
+	["Bsubf3ll", "Bsubf2r"],
+
+	["Bsubf3rr", "Bsubf1l"],
+	["Bsubf3rr", "Bsubf1r"],
+	["Bsubf3rr", "Bsubf2l"],
+	["Bsubf3rr", "Bsubf2r"],
+
+	["Bsubf4ll", "Bsubf1l"],
+	["Bsubf4ll", "Bsubf1r"],
+	["Bsubf4ll", "Bsubf2l"],
+	["Bsubf4ll", "Bsubf2r"],
+
+	["Bsubf4rr", "Bsubf1l"],
+	["Bsubf4rr", "Bsubf1r"],
+	["Bsubf4rr", "Bsubf2l"],
+	["Bsubf4rr", "Bsubf2r"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to squab panel
+	{"breakGroup":"subframe_B_squabpanel_break"},
+
+	["Bsubf1l", "sqpan3l"],
+	["Bsubf1l", "sqpan3r"],
+	["Bsubf1l", "sqpan4l"],
+
+	["Bsubf1r", "sqpan3l"],
+	["Bsubf1r", "sqpan3r"],
+	["Bsubf1r", "sqpan4r"],
+
+	["Bsubf2l", "sqpan3l"],
+	["Bsubf2l", "sqpan4r"],
+	["Bsubf2l", "sqpan4l"],
+
+	["Bsubf2r", "sqpan4l"],
+	["Bsubf2r", "sqpan3r"],
+	["Bsubf2r", "sqpan4r"],
+
+
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+
+
+	//to left quarter panel
+	{"breakGroup":"subframe_B_quarterpanel_L_break"},
+
+	["Bsubf1l", "Lqpan2r"],
+	["Bsubf1l", "Lqpan2l"],
+	["Bsubf1l", "Lqpan1r"],
+
+	["Bsubf2l", "Lqpan2r"],
+	["Bsubf2l", "Lqpan2l"],
+	["Bsubf2l", "Lqpan1r"],
+
+	["Bsubf3l", "Lqpan2l"],
+	["Bsubf3l", "Lqpan2r"],
+	["Bsubf3l", "Lqpan1l"],
+
+	["Bsubf4l", "Lqpan2l"],
+	["Bsubf4l", "Lqpan2r"],
+	["Bsubf4l", "Lqpan1l"],
+
+	["Bsubf3ll", "Lqpan2l"],
+	["Bsubf3ll", "Lqpan2r"],
+	["Bsubf3ll", "Lqpan1l"],
+	["Bsubf3ll", "Lqpanrig"],
+
+	["Bsubf4ll", "Lqpan2l"],
+	["Bsubf4ll", "Lqpan2r"],
+	["Bsubf4ll", "Lqpan1l"],
+	["Bsubf4ll", "Lqpanrig"],
+
+
+	//to right quarter panel
+	{"breakGroup":"subframe_B_quarterpanel_R_break"},
+
+	["Bsubf1r", "Rqpan2r"],
+	["Bsubf1r", "Rqpan2l"],
+	["Bsubf1r", "Rqpan1l"],
+
+	["Bsubf2r", "Rqpan2r"],
+	["Bsubf2r", "Rqpan2l"],
+	["Bsubf2r", "Rqpan1l"],
+
+	["Bsubf3r", "Rqpan2l"],
+	["Bsubf3r", "Rqpan2r"],
+	["Bsubf3r", "Rqpan1r"],
+
+	["Bsubf4r", "Rqpan2l"],
+	["Bsubf4r", "Rqpan2r"],
+	["Bsubf4r", "Rqpan1r"],
+
+	["Bsubf3rr", "Rqpan2l"],
+	["Bsubf3rr", "Rqpan2r"],
+	["Bsubf3rr", "Rqpan1r"],
+	["Bsubf3rr", "Rqpanrig"],
+
+	["Bsubf4rr", "Rqpan2l"],
+	["Bsubf4rr", "Rqpan2r"],
+	["Bsubf4rr", "Rqpan1r"],
+	["Bsubf4rr", "Rqpanrig"],
+
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+        {"group":"legocar_subframe_R"},
+	["Bsubf1l","Bsubf3ll","Bsubf3l"],
+	["Bsubf1r","Bsubf3r","Bsubf3rr"],
+	["Bsubf2l","Bsubf4l","Bsubf4ll"],
+	["Bsubf2r","Bsubf4rr","Bsubf4r"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_subframe_R"},
+	["Bsubf2l","Bsubf2r","Bsubf1r","Bsubf1l"],
+	["Bsubf2l","Bsubf1l","Bsubf3l","Bsubf4l"],
+	["Bsubf4r","Bsubf3r","Bsubf1r","Bsubf2r"],
+	["Bsubf3l","Bsubf3ll","Bsubf4ll","Bsubf4l"],
+	["Bsubf3rr","Bsubf3r","Bsubf4r","Bsubf4rr"],
+	["Bsubf1l","Bsubf2l","Bsubf4ll","Bsubf3ll"],
+	["Bsubf3rr","Bsubf4rr","Bsubf2r","Bsubf1r"],
+        {"group":""},
+    ],
+},
+
+}

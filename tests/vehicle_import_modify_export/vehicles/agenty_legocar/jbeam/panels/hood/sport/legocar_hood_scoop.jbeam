@@ -1,0 +1,458 @@
+{
+"legocar_hood_scoop_col1": {
+    "information":{
+        "name":"Hood Scoop (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hood_accessory",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x2_curvedstep_col1",["legocar_hood_scoop"],[], {"pos":{"x":0, "y":-1.250, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_flat_black",     ["legocar_hood_scoop"],[], {"pos":{"x":0, "y":-1.375, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_hood_scoop"},
+	//6 pieces, 6 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+
+	["scoop1l", 0.25,-1.00, 0.83],
+	["scoop1r",-0.25,-1.00, 0.83],
+	["scoop2l", 0.25,-1.50, 0.83],
+	["scoop2r",-0.25,-1.50, 0.83],
+	["scoop3l", 0.25,-1.50, 1.00],
+	["scoop3r",-0.25,-1.50, 1.00],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform horizontal
+	["scoop1l", "scoop1r"],
+	["scoop2l", "scoop2r"],
+	["scoop1l", "scoop2r"],
+	["scoop2l", "scoop1r"],
+	["scoop1l", "scoop2l"],
+	["scoop1r", "scoop2r"],
+
+	//uniform vertical
+	["scoop1l", "scoop3l"],
+	["scoop2l", "scoop3l"],
+	["scoop1r", "scoop3r"],
+	["scoop2r", "scoop3r"],
+	["scoop1l", "scoop3r"],
+	["scoop2l", "scoop3r"],
+	["scoop1r", "scoop3l"],
+	["scoop2r", "scoop3l"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"hood_scoop_break"},
+	
+	["scoop1l", "hood1l"],
+	["scoop1l", "hood1ll"],
+	["scoop1l", "hood1lll"],
+	["scoop1l", "hood2l"],
+	["scoop1l", "hoodrig"],
+
+	["scoop1r", "hood1r"],
+	["scoop1r", "hood1rr"],
+	["scoop1r", "hood1rrr"],
+	["scoop1r", "hood2r"],
+	["scoop1r", "hoodrig"],
+
+	["scoop2l", "hood3l"],
+	["scoop2l", "hood3ll"],
+	["scoop2l", "hood3lll"],
+	["scoop2l", "hood2l"],
+	["scoop2l", "hoodrig"],
+
+	["scoop2r", "hood3r"],
+	["scoop2r", "hood3rr"],
+	["scoop2r", "hood3rrr"],
+	["scoop2r", "hood2r"],
+	["scoop2r", "hoodrig"],
+
+	["scoop3l", "hood3l"],
+	["scoop3l", "hood3ll"],
+	["scoop3l", "hood3lll"],
+	["scoop3l", "hood2l"],
+	["scoop3l", "hoodrig"],
+
+	["scoop3r", "hood3r"],
+	["scoop3r", "hood3rr"],
+	["scoop3r", "hood3rrr"],
+	["scoop3r", "hood2r"],
+	["scoop3r", "hoodrig"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_hood_scoop"},
+	["scoop1r","scoop2r","scoop3r"],
+  	["scoop1l","scoop3l","scoop2l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_hood_scoop"},   
+	["scoop1r","scoop1l","scoop2l","scoop2r"],
+	["scoop1l","scoop1r","scoop3r","scoop3l"],
+	["scoop2r","scoop2l","scoop3l","scoop3r"],
+        {"group":""},
+    ],
+},
+
+"legocar_hood_scoop_col2": {
+    "information":{
+        "name":"Hood Scoop (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hood_accessory",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x2_curvedstep_col2",["legocar_hood_scoop"],[], {"pos":{"x":0, "y":-1.250, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_flat_black",     ["legocar_hood_scoop"],[], {"pos":{"x":0, "y":-1.375, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_hood_scoop"},
+	//6 pieces, 6 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+
+	["scoop1l", 0.25,-1.00, 0.83],
+	["scoop1r",-0.25,-1.00, 0.83],
+	["scoop2l", 0.25,-1.50, 0.83],
+	["scoop2r",-0.25,-1.50, 0.83],
+	["scoop3l", 0.25,-1.50, 1.00],
+	["scoop3r",-0.25,-1.50, 1.00],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform horizontal
+	["scoop1l", "scoop1r"],
+	["scoop2l", "scoop2r"],
+	["scoop1l", "scoop2r"],
+	["scoop2l", "scoop1r"],
+	["scoop1l", "scoop2l"],
+	["scoop1r", "scoop2r"],
+
+	//uniform vertical
+	["scoop1l", "scoop3l"],
+	["scoop2l", "scoop3l"],
+	["scoop1r", "scoop3r"],
+	["scoop2r", "scoop3r"],
+	["scoop1l", "scoop3r"],
+	["scoop2l", "scoop3r"],
+	["scoop1r", "scoop3l"],
+	["scoop2r", "scoop3l"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"hood_scoop_break"},
+	
+	["scoop1l", "hood1l"],
+	["scoop1l", "hood1ll"],
+	["scoop1l", "hood1lll"],
+	["scoop1l", "hood2l"],
+	["scoop1l", "hoodrig"],
+
+	["scoop1r", "hood1r"],
+	["scoop1r", "hood1rr"],
+	["scoop1r", "hood1rrr"],
+	["scoop1r", "hood2r"],
+	["scoop1r", "hoodrig"],
+
+	["scoop2l", "hood3l"],
+	["scoop2l", "hood3ll"],
+	["scoop2l", "hood3lll"],
+	["scoop2l", "hood2l"],
+	["scoop2l", "hoodrig"],
+
+	["scoop2r", "hood3r"],
+	["scoop2r", "hood3rr"],
+	["scoop2r", "hood3rrr"],
+	["scoop2r", "hood2r"],
+	["scoop2r", "hoodrig"],
+
+	["scoop3l", "hood3l"],
+	["scoop3l", "hood3ll"],
+	["scoop3l", "hood3lll"],
+	["scoop3l", "hood2l"],
+	["scoop3l", "hoodrig"],
+
+	["scoop3r", "hood3r"],
+	["scoop3r", "hood3rr"],
+	["scoop3r", "hood3rrr"],
+	["scoop3r", "hood2r"],
+	["scoop3r", "hoodrig"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_hood_scoop"},
+	["scoop1r","scoop2r","scoop3r"],
+  	["scoop1l","scoop3l","scoop2l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_hood_scoop"},   
+	["scoop1r","scoop1l","scoop2l","scoop2r"],
+	["scoop1l","scoop1r","scoop3r","scoop3l"],
+	["scoop2r","scoop2l","scoop3l","scoop3r"],
+        {"group":""},
+    ],
+},
+
+"legocar_hood_scoop_col3": {
+    "information":{
+        "name":"Hood Scoop (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hood_accessory",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x2_curvedstep_col3",["legocar_hood_scoop"],[], {"pos":{"x":0, "y":-1.250, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_flat_black",     ["legocar_hood_scoop"],[], {"pos":{"x":0, "y":-1.375, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_hood_scoop"},
+	//6 pieces, 6 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+
+	["scoop1l", 0.25,-1.00, 0.83],
+	["scoop1r",-0.25,-1.00, 0.83],
+	["scoop2l", 0.25,-1.50, 0.83],
+	["scoop2r",-0.25,-1.50, 0.83],
+	["scoop3l", 0.25,-1.50, 1.00],
+	["scoop3r",-0.25,-1.50, 1.00],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform horizontal
+	["scoop1l", "scoop1r"],
+	["scoop2l", "scoop2r"],
+	["scoop1l", "scoop2r"],
+	["scoop2l", "scoop1r"],
+	["scoop1l", "scoop2l"],
+	["scoop1r", "scoop2r"],
+
+	//uniform vertical
+	["scoop1l", "scoop3l"],
+	["scoop2l", "scoop3l"],
+	["scoop1r", "scoop3r"],
+	["scoop2r", "scoop3r"],
+	["scoop1l", "scoop3r"],
+	["scoop2l", "scoop3r"],
+	["scoop1r", "scoop3l"],
+	["scoop2r", "scoop3l"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"hood_scoop_break"},
+	
+	["scoop1l", "hood1l"],
+	["scoop1l", "hood1ll"],
+	["scoop1l", "hood1lll"],
+	["scoop1l", "hood2l"],
+	["scoop1l", "hoodrig"],
+
+	["scoop1r", "hood1r"],
+	["scoop1r", "hood1rr"],
+	["scoop1r", "hood1rrr"],
+	["scoop1r", "hood2r"],
+	["scoop1r", "hoodrig"],
+
+	["scoop2l", "hood3l"],
+	["scoop2l", "hood3ll"],
+	["scoop2l", "hood3lll"],
+	["scoop2l", "hood2l"],
+	["scoop2l", "hoodrig"],
+
+	["scoop2r", "hood3r"],
+	["scoop2r", "hood3rr"],
+	["scoop2r", "hood3rrr"],
+	["scoop2r", "hood2r"],
+	["scoop2r", "hoodrig"],
+
+	["scoop3l", "hood3l"],
+	["scoop3l", "hood3ll"],
+	["scoop3l", "hood3lll"],
+	["scoop3l", "hood2l"],
+	["scoop3l", "hoodrig"],
+
+	["scoop3r", "hood3r"],
+	["scoop3r", "hood3rr"],
+	["scoop3r", "hood3rrr"],
+	["scoop3r", "hood2r"],
+	["scoop3r", "hoodrig"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_hood_scoop"},
+	["scoop1r","scoop2r","scoop3r"],
+  	["scoop1l","scoop3l","scoop2l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_hood_scoop"},   
+	["scoop1r","scoop1l","scoop2l","scoop2r"],
+	["scoop1l","scoop1r","scoop3r","scoop3l"],
+	["scoop2r","scoop2l","scoop3l","scoop3r"],
+        {"group":""},
+    ],
+},
+
+"legocar_hood_scoop_stripes": {
+    "information":{
+        "name":"Hood Scoop (Stripes)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hood_accessory",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x2_curvedstep_stripes",["legocar_hood_scoop"],[], {"pos":{"x":0, "y":-1.250, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_flat_black",        ["legocar_hood_scoop"],[], {"pos":{"x":0, "y":-1.375, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_hood_scoop"},
+	//6 pieces, 6 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+
+	["scoop1l", 0.25,-1.00, 0.83],
+	["scoop1r",-0.25,-1.00, 0.83],
+	["scoop2l", 0.25,-1.50, 0.83],
+	["scoop2r",-0.25,-1.50, 0.83],
+	["scoop3l", 0.25,-1.50, 1.00],
+	["scoop3r",-0.25,-1.50, 1.00],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform horizontal
+	["scoop1l", "scoop1r"],
+	["scoop2l", "scoop2r"],
+	["scoop1l", "scoop2r"],
+	["scoop2l", "scoop1r"],
+	["scoop1l", "scoop2l"],
+	["scoop1r", "scoop2r"],
+
+	//uniform vertical
+	["scoop1l", "scoop3l"],
+	["scoop2l", "scoop3l"],
+	["scoop1r", "scoop3r"],
+	["scoop2r", "scoop3r"],
+	["scoop1l", "scoop3r"],
+	["scoop2l", "scoop3r"],
+	["scoop1r", "scoop3l"],
+	["scoop2r", "scoop3l"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"hood_scoop_break"},
+	
+	["scoop1l", "hood1l"],
+	["scoop1l", "hood1ll"],
+	["scoop1l", "hood1lll"],
+	["scoop1l", "hood2l"],
+	["scoop1l", "hoodrig"],
+
+	["scoop1r", "hood1r"],
+	["scoop1r", "hood1rr"],
+	["scoop1r", "hood1rrr"],
+	["scoop1r", "hood2r"],
+	["scoop1r", "hoodrig"],
+
+	["scoop2l", "hood3l"],
+	["scoop2l", "hood3ll"],
+	["scoop2l", "hood3lll"],
+	["scoop2l", "hood2l"],
+	["scoop2l", "hoodrig"],
+
+	["scoop2r", "hood3r"],
+	["scoop2r", "hood3rr"],
+	["scoop2r", "hood3rrr"],
+	["scoop2r", "hood2r"],
+	["scoop2r", "hoodrig"],
+
+	["scoop3l", "hood3l"],
+	["scoop3l", "hood3ll"],
+	["scoop3l", "hood3lll"],
+	["scoop3l", "hood2l"],
+	["scoop3l", "hoodrig"],
+
+	["scoop3r", "hood3r"],
+	["scoop3r", "hood3rr"],
+	["scoop3r", "hood3rrr"],
+	["scoop3r", "hood2r"],
+	["scoop3r", "hoodrig"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_hood_scoop"},
+	["scoop1r","scoop2r","scoop3r"],
+  	["scoop1l","scoop3l","scoop2l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_hood_scoop"},   
+	["scoop1r","scoop1l","scoop2l","scoop2r"],
+	["scoop1l","scoop1r","scoop3r","scoop3l"],
+	["scoop2r","scoop2l","scoop3l","scoop3r"],
+        {"group":""},
+    ],
+},
+
+}

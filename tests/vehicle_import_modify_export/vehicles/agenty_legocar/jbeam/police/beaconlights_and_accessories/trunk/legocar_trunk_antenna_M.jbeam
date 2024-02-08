@@ -1,0 +1,423 @@
+{
+"legocar_trunk_antenna_M": {
+    "information":{
+        "name":"Middle HF Antenna",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_trunk_accessory_M",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_antenna_5H_black",["legocar_antenna_trunk_M"],[], {"pos":{"x":0.000, "y":1.500, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ANTENNA--
+	{"group":"legocar_antenna_trunk_M"},
+	//1 piece, 4 half pieces, 8 quarter pieces, 9 nodes - 0.55 kg/node
+	{"nodeWeight": "$=$weight*0.55"},
+
+	["trunkMant1l",-0.095, 1.595, 0.83],
+	["trunkMant1r", 0.095, 1.595, 0.83],
+	["trunkMant2l",-0.095, 1.405, 0.83],
+	["trunkMant2r", 0.095, 1.405, 0.83],
+	["trunkMant3l",-0.075, 1.575, 1.40],
+	["trunkMant3r", 0.075, 1.575, 1.40],
+	["trunkMant4l",-0.075, 1.425, 1.40],
+	["trunkMant4r", 0.075, 1.425, 1.40],
+	["trunkMant5",  0.000, 1.500, 2.30],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--ANTENNA BASE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*551000", "beamDamp":"$=$weight*55"},
+
+	//uniform structure
+	["trunkMant1l", "trunkMant1r"],
+	["trunkMant2l", "trunkMant2r"],
+	["trunkMant3l", "trunkMant3r"],
+	["trunkMant4l", "trunkMant4r"],
+
+	["trunkMant1l", "trunkMant2r"],
+	["trunkMant2l", "trunkMant3r"],
+	["trunkMant3l", "trunkMant4r"],
+	["trunkMant4l", "trunkMant1r"],
+
+	["trunkMant1l", "trunkMant3r"],
+	["trunkMant2l", "trunkMant4r"],
+	["trunkMant3l", "trunkMant1r"],
+	["trunkMant4l", "trunkMant2r"],
+
+	["trunkMant1l", "trunkMant4r"],
+	["trunkMant2l", "trunkMant1r"],
+	["trunkMant3l", "trunkMant2r"],
+	["trunkMant4l", "trunkMant3r"],
+
+	["trunkMant1l", "trunkMant2l"],
+	["trunkMant2l", "trunkMant3l"],
+	["trunkMant3l", "trunkMant4l"],
+	["trunkMant4l", "trunkMant1l"],
+
+	["trunkMant1l", "trunkMant3l"],
+	["trunkMant2l", "trunkMant4l"],
+
+	["trunkMant1r", "trunkMant2r"],
+	["trunkMant2r", "trunkMant3r"],
+	["trunkMant3r", "trunkMant4r"],
+	["trunkMant4r", "trunkMant1r"],
+
+	["trunkMant1r", "trunkMant3r"],
+	["trunkMant2r", "trunkMant4r"],
+
+		
+	//--ANTENNA UPPER PART--
+	//lower spring to be flexible
+	{"beamSpring":"$=$weight*55100", "beamDamp":"$=$weight*55"},
+	//allow deformation
+	{"beamDeform":"$strength", "beamStrength":"FLT_MAX"},
+
+	//to top and bottom
+	["trunkMant1l", "trunkMant5"],
+	["trunkMant1r", "trunkMant5"],
+	["trunkMant2l", "trunkMant5"],
+	["trunkMant2r", "trunkMant5"],
+	["trunkMant3l", "trunkMant5"],
+	["trunkMant3r", "trunkMant5"],
+	["trunkMant4l", "trunkMant5"],
+	["trunkMant4r", "trunkMant5"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*225000", "beamDamp":"$=$weight*22.5"},
+	{"beamDeform":"$=$strength*0.75", "beamStrength":"$=$strength*0.75"},
+	{"breakGroup":"antenna_trunk_M_break"},
+
+	["trunkMant1l", "trunkM1l"],
+	["trunkMant1l", "trunkM1r"],
+	["trunkMant1l", "trunkM2l"],
+	["trunkMant1l", "trunkM2r"],
+	["trunkMant1l", "trunkMrig"],
+
+	["trunkMant2l", "trunkM1l"],
+	["trunkMant2l", "trunkM1r"],
+	["trunkMant2l", "trunkM2l"],
+	["trunkMant2l", "trunkM2r"],
+	["trunkMant2l", "trunkMrig"],
+
+	["trunkMant1r", "trunkM1l"],
+	["trunkMant1r", "trunkM1r"],
+	["trunkMant1r", "trunkM2l"],
+	["trunkMant1r", "trunkM2r"],
+	["trunkMant1r", "trunkMrig"],
+
+	["trunkMant2r", "trunkM1l"],
+	["trunkMant2r", "trunkM1r"],
+	["trunkMant2r", "trunkM2l"],
+	["trunkMant2r", "trunkM2r"],
+	["trunkMant2r", "trunkMrig"],
+
+	["trunkMant3l", "trunkM1l"],
+	["trunkMant3l", "trunkM1r"],
+	["trunkMant3l", "trunkM2l"],
+	["trunkMant3l", "trunkM2r"],
+	["trunkMant3l", "trunkMrig"],
+
+	["trunkMant4l", "trunkM1l"],
+	["trunkMant4l", "trunkM1r"],
+	["trunkMant4l", "trunkM2l"],
+	["trunkMant4l", "trunkM2r"],
+	["trunkMant4l", "trunkMrig"],
+
+	["trunkMant3r", "trunkM1l"],
+	["trunkMant3r", "trunkM1r"],
+	["trunkMant3r", "trunkM2l"],
+	["trunkMant3r", "trunkM2r"],
+	["trunkMant3r", "trunkMrig"],
+
+	["trunkMant4r", "trunkM1l"],
+	["trunkMant4r", "trunkM1r"],
+	["trunkMant4r", "trunkM2l"],
+	["trunkMant4r", "trunkM2r"],
+	["trunkMant4r", "trunkMrig"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_antenna_trunk_M"},
+	["trunkMant5","trunkMant3r","trunkMant3l"],
+	["trunkMant5","trunkMant3l","trunkMant4l"],
+	["trunkMant5","trunkMant4l","trunkMant4r"],
+	["trunkMant5","trunkMant4r","trunkMant3r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_antenna_trunk_M"},   
+	["trunkMant2r","trunkMant2l","trunkMant1l","trunkMant1r"],
+	["trunkMant3r","trunkMant4r","trunkMant2r","trunkMant1r"],
+	["trunkMant4l","trunkMant3l","trunkMant1l","trunkMant2l"],
+	["trunkMant4r","trunkMant4l","trunkMant2l","trunkMant2r"],
+	["trunkMant3l","trunkMant3r","trunkMant1r","trunkMant1l"],
+	{"group":""},
+    ],    
+},
+
+"legocar_trunk_antenna_M_long": {
+    "information":{
+        "name":"Middle Comically Long HF Antenna",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_trunk_accessory_M",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_antenna_8H_black",["legocar_antenna_trunk_M"],[], {"pos":{"x":0.000, "y":1.500, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ANTENNA--
+	{"group":"legocar_antenna_trunk_M"},
+	//1 pieces, 8 half pieces, 16 quarter pieces, 13 nodes - 0.7 kg/node
+	{"nodeWeight": "$=$weight*0.7"},
+
+	["trunkMant1l",-0.095, 1.595, 0.83],
+	["trunkMant1r", 0.095, 1.595, 0.83],
+	["trunkMant2l",-0.095, 1.405, 0.83],
+	["trunkMant2r", 0.095, 1.405, 0.83],
+	["trunkMant3l",-0.075, 1.575, 1.30],
+	["trunkMant3r", 0.075, 1.575, 1.30],
+	["trunkMant4l",-0.075, 1.425, 1.30],
+	["trunkMant4r", 0.075, 1.425, 1.30],
+	["trunkMant5l",-0.050, 1.550, 2.15],
+	["trunkMant5r", 0.050, 1.550, 2.15],
+	["trunkMant6l",-0.050, 1.450, 2.15],
+	["trunkMant6r", 0.050, 1.450, 2.15],
+	["trunkMant7",  0.000, 1.500, 3.15],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--ANTENNA BASE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*701000", "beamDamp":"$=$weight*70"},
+
+	//uniform structure
+	["trunkMant1l", "trunkMant1r"],
+	["trunkMant2l", "trunkMant2r"],
+	["trunkMant3l", "trunkMant3r"],
+	["trunkMant4l", "trunkMant4r"],
+
+	["trunkMant1l", "trunkMant2r"],
+	["trunkMant2l", "trunkMant3r"],
+	["trunkMant3l", "trunkMant4r"],
+	["trunkMant4l", "trunkMant1r"],
+
+	["trunkMant1l", "trunkMant3r"],
+	["trunkMant2l", "trunkMant4r"],
+	["trunkMant3l", "trunkMant1r"],
+	["trunkMant4l", "trunkMant2r"],
+
+	["trunkMant1l", "trunkMant4r"],
+	["trunkMant2l", "trunkMant1r"],
+	["trunkMant3l", "trunkMant2r"],
+	["trunkMant4l", "trunkMant3r"],
+
+	["trunkMant1l", "trunkMant2l"],
+	["trunkMant2l", "trunkMant3l"],
+	["trunkMant3l", "trunkMant4l"],
+	["trunkMant4l", "trunkMant1l"],
+
+	["trunkMant1l", "trunkMant3l"],
+	["trunkMant2l", "trunkMant4l"],
+
+	["trunkMant1r", "trunkMant2r"],
+	["trunkMant2r", "trunkMant3r"],
+	["trunkMant3r", "trunkMant4r"],
+	["trunkMant4r", "trunkMant1r"],
+
+	["trunkMant1r", "trunkMant3r"],
+	["trunkMant2r", "trunkMant4r"],
+
+	//top
+	["trunkMant5l", "trunkMant5r"],
+	["trunkMant6l", "trunkMant6r"],
+	["trunkMant5l", "trunkMant6l"],
+	["trunkMant5r", "trunkMant6r"],
+	["trunkMant5l", "trunkMant6r"],
+	["trunkMant6l", "trunkMant5r"],
+
+	
+	//--ANTENNA MIDDLE--
+	//a bit lower spring to be flexible
+	{"beamSpring":"$=$weight*141000", "beamDamp":"$=$weight*70"},
+	//allow deformation
+	{"beamDeform":"$=$strength*2", "beamStrength":"FLT_MAX"},
+
+	//to bottom
+	["trunkMant5l", "trunkMant3l"],
+	["trunkMant5l", "trunkMant3r"],
+	["trunkMant5l", "trunkMant4l"],
+	["trunkMant5l", "trunkMant4r"],
+
+	["trunkMant5r", "trunkMant3l"],
+	["trunkMant5r", "trunkMant3r"],
+	["trunkMant5r", "trunkMant4l"],
+	["trunkMant5r", "trunkMant4r"],
+
+	["trunkMant6l", "trunkMant3l"],
+	["trunkMant6l", "trunkMant3r"],
+	["trunkMant6l", "trunkMant4l"],
+	["trunkMant6l", "trunkMant4r"],
+
+	["trunkMant6r", "trunkMant3l"],
+	["trunkMant6r", "trunkMant3r"],
+	["trunkMant6r", "trunkMant4l"],
+	["trunkMant6r", "trunkMant4r"],
+
+		
+	//--ANTENNA UPPER PART--
+	//lower spring to be flexible
+	{"beamSpring":"$=$weight*71000", "beamDamp":"$=$weight*70"},
+	//allow deformation
+	{"beamDeform":"$strength", "beamStrength":"FLT_MAX"},
+
+	//to top and middle
+	["trunkMant5l", "trunkMant7"],
+	["trunkMant5r", "trunkMant7"],
+	["trunkMant6l", "trunkMant7"],
+	["trunkMant6r", "trunkMant7"],
+	["trunkMant3l", "trunkMant7"],
+	["trunkMant3r", "trunkMant7"],
+	["trunkMant4l", "trunkMant7"],
+	["trunkMant4r", "trunkMant7"],
+
+
+	//--ANTENNA RIGIDS--
+	{"beamDeform":"$strength", "beamStrength":"FLT_MAX"},
+
+	//middle to base
+	{"beamSpring":"$=$weight*141000", "beamDamp":"$=$weight*14"},
+
+	["trunkMant5l", "trunkMant1l"],
+	["trunkMant5l", "trunkMant1r"],
+	["trunkMant5l", "trunkMant2l"],
+	["trunkMant5l", "trunkMant2r"],
+
+	["trunkMant5r", "trunkMant1l"],
+	["trunkMant5r", "trunkMant1r"],
+	["trunkMant5r", "trunkMant2l"],
+	["trunkMant5r", "trunkMant2r"],
+
+	["trunkMant6l", "trunkMant1l"],
+	["trunkMant6l", "trunkMant1r"],
+	["trunkMant6l", "trunkMant2l"],
+	["trunkMant6l", "trunkMant2r"],
+
+	["trunkMant6r", "trunkMant1l"],
+	["trunkMant6r", "trunkMant1r"],
+	["trunkMant6r", "trunkMant2l"],
+	["trunkMant6r", "trunkMant2r"],
+
+	//top to bottom
+	{"beamSpring":"$=$weight*14000", "beamDamp":"$=$weight*14"},
+	["trunkMant1l", "trunkMant7"],
+	["trunkMant1r", "trunkMant7"],
+	["trunkMant2l", "trunkMant7"],
+	["trunkMant2r", "trunkMant7"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.75", "beamStrength":"$=$strength*0.75"},
+	{"breakGroup":"antenna_trunk_M_break"},
+
+	["trunkMant1l", "trunkM1l"],
+	["trunkMant1l", "trunkM1r"],
+	["trunkMant1l", "trunkM2l"],
+	["trunkMant1l", "trunkM2r"],
+	["trunkMant1l", "trunkMrig"],
+
+	["trunkMant2l", "trunkM1l"],
+	["trunkMant2l", "trunkM1r"],
+	["trunkMant2l", "trunkM2l"],
+	["trunkMant2l", "trunkM2r"],
+	["trunkMant2l", "trunkMrig"],
+
+	["trunkMant1r", "trunkM1l"],
+	["trunkMant1r", "trunkM1r"],
+	["trunkMant1r", "trunkM2l"],
+	["trunkMant1r", "trunkM2r"],
+	["trunkMant1r", "trunkMrig"],
+
+	["trunkMant2r", "trunkM1l"],
+	["trunkMant2r", "trunkM1r"],
+	["trunkMant2r", "trunkM2l"],
+	["trunkMant2r", "trunkM2r"],
+	["trunkMant2r", "trunkMrig"],
+
+	["trunkMant3l", "trunkM1l"],
+	["trunkMant3l", "trunkM1r"],
+	["trunkMant3l", "trunkM2l"],
+	["trunkMant3l", "trunkM2r"],
+	["trunkMant3l", "trunkMrig"],
+
+	["trunkMant4l", "trunkM1l"],
+	["trunkMant4l", "trunkM1r"],
+	["trunkMant4l", "trunkM2l"],
+	["trunkMant4l", "trunkM2r"],
+	["trunkMant4l", "trunkMrig"],
+
+	["trunkMant3r", "trunkM1l"],
+	["trunkMant3r", "trunkM1r"],
+	["trunkMant3r", "trunkM2l"],
+	["trunkMant3r", "trunkM2r"],
+	["trunkMant3r", "trunkMrig"],
+
+	["trunkMant4r", "trunkM1l"],
+	["trunkMant4r", "trunkM1r"],
+	["trunkMant4r", "trunkM2l"],
+	["trunkMant4r", "trunkM2r"],
+	["trunkMant4r", "trunkMrig"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_antenna_trunk_M"},
+	["trunkMant7","trunkMant5r","trunkMant5l"],
+	["trunkMant7","trunkMant5l","trunkMant6l"],
+	["trunkMant7","trunkMant6l","trunkMant6r"],
+	["trunkMant7","trunkMant6r","trunkMant5r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_antenna_trunk_M"},  
+ 
+	["trunkMant2r","trunkMant2l","trunkMant1l","trunkMant1r"],
+	["trunkMant3r","trunkMant4r","trunkMant2r","trunkMant1r"],
+	["trunkMant4l","trunkMant3l","trunkMant1l","trunkMant2l"],
+	["trunkMant4r","trunkMant4l","trunkMant2l","trunkMant2r"],
+	["trunkMant3l","trunkMant3r","trunkMant1r","trunkMant1l"],
+
+	["trunkMant5r","trunkMant6r","trunkMant4r","trunkMant3r"],
+	["trunkMant6l","trunkMant5l","trunkMant3l","trunkMant4l"],
+	["trunkMant6r","trunkMant6l","trunkMant4l","trunkMant4r"],
+	["trunkMant5l","trunkMant5r","trunkMant3r","trunkMant3l"],
+	
+	{"group":""},
+    ],    
+},
+
+}

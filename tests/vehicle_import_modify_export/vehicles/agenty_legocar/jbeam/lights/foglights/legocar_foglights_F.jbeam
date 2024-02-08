@@ -1,0 +1,569 @@
+{
+"legocar_foglights_F_facelift_stock": {
+    "information":{
+        "name":" Stock Fog Lights",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_licenseplate_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_licenseplate_F_prefacelift","legocar_licenseplate_F_prefacelift_col1_EU", "Front License Plate"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"foglight_FL_break", "deformMaterialBase":"legocar_foglight_stock", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_foglight_stock",["legocar_foglight_FL"], [], {"pos":{"x": 0.375, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"foglight_FR_break", "deformMaterialBase":"legocar_foglight_stock", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_foglight_stock",["legocar_foglight_FR"], [], {"pos":{"x":-0.375, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightBrightness":0.55,
+            "lightRange":100,
+            "lightColor":{"r":252, "g":252, "b":252, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleHeadLightFlare",
+            "flareScale":0.09,
+            "cookieName":"art/special/BNG_light_cookie_headlight.dds"
+            "texSize":512,
+            "shadowSoftness":0.4,
+        },
+        ["fog", "SPOTLIGHT", "FLbguard2r", "FLbguard1r", "FLbguard2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0},"deformGroup":"foglight_FL_break"}],
+	["fog", "SPOTLIGHT", "FRbguard2r", "FRbguard1r", "FRbguard2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0},"deformGroup":"foglight_FR_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//left
+	{"group":"legocar_foglight_FL"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["FLbguard1l",  0.47, -2.00, 0.10],
+	["FLbguard1r",  0.25, -2.00, 0.10],
+	["FLbguard2l",  0.47, -2.00, 0.35],
+	["FLbguard2r",  0.25, -2.00, 0.35],
+	//rigidifier
+	["FLbguardrig", 0.375, -1.80, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+	//right
+	{"group":"legocar_foglight_FR"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["FRbguard1r", -0.47, -2.00, 0.10],
+	["FRbguard1l", -0.25, -2.00, 0.10],
+	["FRbguard2r", -0.47, -2.00, 0.35],
+	["FRbguard2l", -0.25, -2.00, 0.35],
+	//rigidifier
+	["FRbguardrig",-0.375, -1.80, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT LEFT FOGLIGHT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//uniform structure
+	["FLbguard1l", "FLbguard1r"],
+	["FLbguard2l", "FLbguard2r"],
+	["FLbguard1l", "FLbguard2l"],
+	["FLbguard1r", "FLbguard2r"],
+	["FLbguard1l", "FLbguard2r"],
+	["FLbguard2l", "FLbguard1r"],
+
+	//rigidifier
+	["FLbguard1l", "FLbguardrig"],
+	["FLbguard1r", "FLbguardrig"],
+	["FLbguard2l", "FLbguardrig"],
+	["FLbguard2r", "FLbguardrig"],
+
+
+	//--FRONT RIGHT FOGLIGHT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//uniform structure
+	["FRbguard1l", "FRbguard1r"],
+	["FRbguard2l", "FRbguard2r"],
+	["FRbguard1l", "FRbguard2l"],
+	["FRbguard1r", "FRbguard2r"],
+	["FRbguard1l", "FRbguard2r"],
+	["FRbguard2l", "FRbguard1r"],
+
+	//rigidifier
+	["FRbguard1l", "FRbguardrig"],
+	["FRbguard1r", "FRbguardrig"],
+	["FRbguard2l", "FRbguardrig"],
+	["FRbguard2r", "FRbguardrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	
+
+	//left to bumper
+	{"beamSpring":"$=$weight*125000", "beamDamp":"$=$weight*12.5"},
+	{"breakGroup":"foglight_FL_break"},
+	{"deformGroup":"foglight_FL_break"},
+
+	["FLbguard1l", "Fbump1l"],
+	["FLbguard1l", "Fbump1r"],
+	["FLbguard1l", "Fbump2l"],
+	["FLbguard1l", "Fbumprig"],
+	
+	["FLbguard1r", "Fbump1l"],
+	["FLbguard1r", "Fbump1r"],
+	["FLbguard1r", "Fbump2l"],
+	["FLbguard1r", "Fbumprig"],
+
+	["FLbguard2l", "Fbump1l"],
+	["FLbguard2l", "Fbump2r"],
+	["FLbguard2l", "Fbump2l"],
+	["FLbguard2l", "Fbumprig"],
+	
+	["FLbguard2r", "Fbump1l"],
+	["FLbguard2r", "Fbump2r"],
+	["FLbguard2r", "Fbump2l"],
+	["FLbguard2r", "Fbumprig"],
+
+	["FLbguardrig", "Fbump1l"],
+	["FLbguardrig", "Fbump1r"],
+	["FLbguardrig", "Fbump2l"],
+	["FLbguardrig", "Fbump2r"],
+
+
+	//right to bumper
+	{"beamSpring":"$=$weight*125000", "beamDamp":"$=$weight*12.5"},
+	{"breakGroup":"foglight_FR_break"},
+	{"deformGroup":"foglight_FR_break"},
+	
+	["FRbguard1l", "Fbump1l"],
+	["FRbguard1l", "Fbump1r"],
+	["FRbguard1l", "Fbump2r"],
+	["FRbguard1l", "Fbumprig"],
+	
+	["FRbguard1r", "Fbump1l"],
+	["FRbguard1r", "Fbump1r"],
+	["FRbguard1r", "Fbump2r"],
+	["FRbguard1r", "Fbumprig"],
+
+	["FRbguard2l", "Fbump1r"],
+	["FRbguard2l", "Fbump2r"],
+	["FRbguard2l", "Fbump2l"],
+	["FRbguard2l", "Fbumprig"],
+	
+	["FRbguard2r", "Fbump1r"],
+	["FRbguard2r", "Fbump2r"],
+	["FRbguard2r", "Fbump2l"],
+	["FRbguard2r", "Fbumprig"],
+
+	["FRbguardrig", "Fbump1l"],
+	["FRbguardrig", "Fbump1r"],
+	["FRbguardrig", "Fbump2l"],
+	["FRbguardrig", "Fbump2r"],
+
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_foglight_FL"},
+	["FLbguard2l","FLbguard2r","FLbguard1r","FLbguard1l"],
+	{"group":"legocar_foglight_FR"},
+	["FRbguard2l","FRbguard2r","FRbguard1r","FRbguard1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_foglights_F_facelift_smoked": {
+    "information":{
+        "name":" Smoked Fog Lights",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_licenseplate_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_licenseplate_F_prefacelift","legocar_licenseplate_F_prefacelift_col1_EU", "Front License Plate"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"foglight_FL_break", "deformMaterialBase":"legocar_foglight_smoked", "deformMaterialDamaged":"lego_transcol_black"},
+	["legocar_foglight_smoked",["legocar_foglight_FL"], [], {"pos":{"x": 0.375, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"foglight_FR_break", "deformMaterialBase":"legocar_foglight_smoked", "deformMaterialDamaged":"lego_transcol_black"},
+	["legocar_foglight_smoked",["legocar_foglight_FR"], [], {"pos":{"x":-0.375, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightBrightness":0.23,
+            "lightRange":100,
+            "lightColor":{"r":100, "g":94, "b":81, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleHeadLightFlare",
+            "flareScale":0.09,
+            "cookieName":"art/special/BNG_light_cookie_headlight.dds"
+            "texSize":512,
+            "shadowSoftness":0.4,
+        },
+        ["fog", "SPOTLIGHT", "FLbguard2r", "FLbguard1r", "FLbguard2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0},"deformGroup":"foglight_FL_break"}],
+	["fog", "SPOTLIGHT", "FRbguard2r", "FRbguard1r", "FRbguard2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0},"deformGroup":"foglight_FR_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//left
+	{"group":"legocar_foglight_FL"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["FLbguard1l",  0.47, -2.00, 0.10],
+	["FLbguard1r",  0.25, -2.00, 0.10],
+	["FLbguard2l",  0.47, -2.00, 0.35],
+	["FLbguard2r",  0.25, -2.00, 0.35],
+	//rigidifier
+	["FLbguardrig", 0.375, -1.80, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+	//right
+	{"group":"legocar_foglight_FR"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["FRbguard1r", -0.47, -2.00, 0.10],
+	["FRbguard1l", -0.25, -2.00, 0.10],
+	["FRbguard2r", -0.47, -2.00, 0.35],
+	["FRbguard2l", -0.25, -2.00, 0.35],
+	//rigidifier
+	["FRbguardrig",-0.375, -1.80, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT LEFT FOGLIGHT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//uniform structure
+	["FLbguard1l", "FLbguard1r"],
+	["FLbguard2l", "FLbguard2r"],
+	["FLbguard1l", "FLbguard2l"],
+	["FLbguard1r", "FLbguard2r"],
+	["FLbguard1l", "FLbguard2r"],
+	["FLbguard2l", "FLbguard1r"],
+
+	//rigidifier
+	["FLbguard1l", "FLbguardrig"],
+	["FLbguard1r", "FLbguardrig"],
+	["FLbguard2l", "FLbguardrig"],
+	["FLbguard2r", "FLbguardrig"],
+
+
+	//--FRONT RIGHT FOGLIGHT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//uniform structure
+	["FRbguard1l", "FRbguard1r"],
+	["FRbguard2l", "FRbguard2r"],
+	["FRbguard1l", "FRbguard2l"],
+	["FRbguard1r", "FRbguard2r"],
+	["FRbguard1l", "FRbguard2r"],
+	["FRbguard2l", "FRbguard1r"],
+
+	//rigidifier
+	["FRbguard1l", "FRbguardrig"],
+	["FRbguard1r", "FRbguardrig"],
+	["FRbguard2l", "FRbguardrig"],
+	["FRbguard2r", "FRbguardrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	
+
+	//left to bumper
+	{"beamSpring":"$=$weight*125000", "beamDamp":"$=$weight*12.5"},
+	{"breakGroup":"foglight_FL_break"},
+	{"deformGroup":"foglight_FL_break"},
+
+	["FLbguard1l", "Fbump1l"],
+	["FLbguard1l", "Fbump1r"],
+	["FLbguard1l", "Fbump2l"],
+	["FLbguard1l", "Fbumprig"],
+	
+	["FLbguard1r", "Fbump1l"],
+	["FLbguard1r", "Fbump1r"],
+	["FLbguard1r", "Fbump2l"],
+	["FLbguard1r", "Fbumprig"],
+
+	["FLbguard2l", "Fbump1l"],
+	["FLbguard2l", "Fbump2r"],
+	["FLbguard2l", "Fbump2l"],
+	["FLbguard2l", "Fbumprig"],
+	
+	["FLbguard2r", "Fbump1l"],
+	["FLbguard2r", "Fbump2r"],
+	["FLbguard2r", "Fbump2l"],
+	["FLbguard2r", "Fbumprig"],
+
+	["FLbguardrig", "Fbump1l"],
+	["FLbguardrig", "Fbump1r"],
+	["FLbguardrig", "Fbump2l"],
+	["FLbguardrig", "Fbump2r"],
+
+
+	//right to bumper
+	{"beamSpring":"$=$weight*125000", "beamDamp":"$=$weight*12.5"},
+	{"breakGroup":"foglight_FR_break"},
+	{"deformGroup":"foglight_FR_break"},
+	
+	["FRbguard1l", "Fbump1l"],
+	["FRbguard1l", "Fbump1r"],
+	["FRbguard1l", "Fbump2r"],
+	["FRbguard1l", "Fbumprig"],
+	
+	["FRbguard1r", "Fbump1l"],
+	["FRbguard1r", "Fbump1r"],
+	["FRbguard1r", "Fbump2r"],
+	["FRbguard1r", "Fbumprig"],
+
+	["FRbguard2l", "Fbump1r"],
+	["FRbguard2l", "Fbump2r"],
+	["FRbguard2l", "Fbump2l"],
+	["FRbguard2l", "Fbumprig"],
+	
+	["FRbguard2r", "Fbump1r"],
+	["FRbguard2r", "Fbump2r"],
+	["FRbguard2r", "Fbump2l"],
+	["FRbguard2r", "Fbumprig"],
+
+	["FRbguardrig", "Fbump1l"],
+	["FRbguardrig", "Fbump1r"],
+	["FRbguardrig", "Fbump2l"],
+	["FRbguardrig", "Fbump2r"],
+
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_foglight_FL"},
+	["FLbguard2l","FLbguard2r","FLbguard1r","FLbguard1l"],
+	{"group":"legocar_foglight_FR"},
+	["FRbguard2l","FRbguard2r","FRbguard1r","FRbguard1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_foglights_F_facelift_yellow": {
+    "information":{
+        "name":" Yellow Fog Lights",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_licenseplate_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_licenseplate_F_prefacelift","legocar_licenseplate_F_prefacelift_col1_EU", "Front License Plate"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"foglight_FL_break", "deformMaterialBase":"legocar_foglight_yellow", "deformMaterialDamaged":"lego_transcol_yellow"},
+	["legocar_foglight_yellow",["legocar_foglight_FL"], [], {"pos":{"x": 0.375, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"foglight_FR_break", "deformMaterialBase":"legocar_foglight_yellow", "deformMaterialDamaged":"lego_transcol_yellow"},
+	["legocar_foglight_yellow",["legocar_foglight_FR"], [], {"pos":{"x":-0.375, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightBrightness":0.55,
+            "lightRange":100,
+            "lightColor":{"r":245, "g":205, "b":47, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleHeadLightFlare",
+            "flareScale":0.09,
+            "cookieName":"art/special/BNG_light_cookie_headlight.dds"
+            "texSize":512,
+            "shadowSoftness":0.4,
+        },
+        ["fog", "SPOTLIGHT", "FLbguard2r", "FLbguard1r", "FLbguard2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0},"deformGroup":"foglight_FL_break"}],
+	["fog", "SPOTLIGHT", "FRbguard2r", "FRbguard1r", "FRbguard2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0},"deformGroup":"foglight_FR_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//left
+	{"group":"legocar_foglight_FL"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["FLbguard1l",  0.47, -2.00, 0.10],
+	["FLbguard1r",  0.25, -2.00, 0.10],
+	["FLbguard2l",  0.47, -2.00, 0.35],
+	["FLbguard2r",  0.25, -2.00, 0.35],
+	//rigidifier
+	["FLbguardrig", 0.375, -1.80, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+	//right
+	{"group":"legocar_foglight_FR"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["FRbguard1r", -0.47, -2.00, 0.10],
+	["FRbguard1l", -0.25, -2.00, 0.10],
+	["FRbguard2r", -0.47, -2.00, 0.35],
+	["FRbguard2l", -0.25, -2.00, 0.35],
+	//rigidifier
+	["FRbguardrig",-0.375, -1.80, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT LEFT FOGLIGHT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//uniform structure
+	["FLbguard1l", "FLbguard1r"],
+	["FLbguard2l", "FLbguard2r"],
+	["FLbguard1l", "FLbguard2l"],
+	["FLbguard1r", "FLbguard2r"],
+	["FLbguard1l", "FLbguard2r"],
+	["FLbguard2l", "FLbguard1r"],
+
+	//rigidifier
+	["FLbguard1l", "FLbguardrig"],
+	["FLbguard1r", "FLbguardrig"],
+	["FLbguard2l", "FLbguardrig"],
+	["FLbguard2r", "FLbguardrig"],
+
+
+	//--FRONT RIGHT FOGLIGHT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//uniform structure
+	["FRbguard1l", "FRbguard1r"],
+	["FRbguard2l", "FRbguard2r"],
+	["FRbguard1l", "FRbguard2l"],
+	["FRbguard1r", "FRbguard2r"],
+	["FRbguard1l", "FRbguard2r"],
+	["FRbguard2l", "FRbguard1r"],
+
+	//rigidifier
+	["FRbguard1l", "FRbguardrig"],
+	["FRbguard1r", "FRbguardrig"],
+	["FRbguard2l", "FRbguardrig"],
+	["FRbguard2r", "FRbguardrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	
+
+	//left to bumper
+	{"beamSpring":"$=$weight*125000", "beamDamp":"$=$weight*12.5"},
+	{"breakGroup":"foglight_FL_break"},
+	{"deformGroup":"foglight_FL_break"},
+
+	["FLbguard1l", "Fbump1l"],
+	["FLbguard1l", "Fbump1r"],
+	["FLbguard1l", "Fbump2l"],
+	["FLbguard1l", "Fbumprig"],
+	
+	["FLbguard1r", "Fbump1l"],
+	["FLbguard1r", "Fbump1r"],
+	["FLbguard1r", "Fbump2l"],
+	["FLbguard1r", "Fbumprig"],
+
+	["FLbguard2l", "Fbump1l"],
+	["FLbguard2l", "Fbump2r"],
+	["FLbguard2l", "Fbump2l"],
+	["FLbguard2l", "Fbumprig"],
+	
+	["FLbguard2r", "Fbump1l"],
+	["FLbguard2r", "Fbump2r"],
+	["FLbguard2r", "Fbump2l"],
+	["FLbguard2r", "Fbumprig"],
+
+	["FLbguardrig", "Fbump1l"],
+	["FLbguardrig", "Fbump1r"],
+	["FLbguardrig", "Fbump2l"],
+	["FLbguardrig", "Fbump2r"],
+
+
+	//right to bumper
+	{"beamSpring":"$=$weight*125000", "beamDamp":"$=$weight*12.5"},
+	{"breakGroup":"foglight_FR_break"},
+	{"deformGroup":"foglight_FR_break"},
+	
+	["FRbguard1l", "Fbump1l"],
+	["FRbguard1l", "Fbump1r"],
+	["FRbguard1l", "Fbump2r"],
+	["FRbguard1l", "Fbumprig"],
+	
+	["FRbguard1r", "Fbump1l"],
+	["FRbguard1r", "Fbump1r"],
+	["FRbguard1r", "Fbump2r"],
+	["FRbguard1r", "Fbumprig"],
+
+	["FRbguard2l", "Fbump1r"],
+	["FRbguard2l", "Fbump2r"],
+	["FRbguard2l", "Fbump2l"],
+	["FRbguard2l", "Fbumprig"],
+	
+	["FRbguard2r", "Fbump1r"],
+	["FRbguard2r", "Fbump2r"],
+	["FRbguard2r", "Fbump2l"],
+	["FRbguard2r", "Fbumprig"],
+
+	["FRbguardrig", "Fbump1l"],
+	["FRbguardrig", "Fbump1r"],
+	["FRbguardrig", "Fbump2l"],
+	["FRbguardrig", "Fbump2r"],
+
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_foglight_FL"},
+	["FLbguard2l","FLbguard2r","FLbguard1r","FLbguard1l"],
+	{"group":"legocar_foglight_FR"},
+	["FRbguard2l","FRbguard2r","FRbguard1r","FRbguard1l"],
+        {"group":""},
+    ],
+},
+
+}

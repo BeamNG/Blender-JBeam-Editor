@@ -1,0 +1,938 @@
+{
+"legocar_exhaust_R_col1": {
+    "information":{
+        "name":"Right Exhaust (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhaust",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_exhausttip_R", "", "Right Exhaust Tip"],
+	["legocar_bumpermount_RL", "legocar_bumpermount_RL_col1", "Rear Bumper Mount"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_hitch_col1", ["legocar_exhaust_R"], [], {"pos":{"x":-0.500, "y":1.750, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//3 pieces, 6 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+
+	{"group":"legocar_exhaust_R"},
+	["Rexh1r",-0.75, 1.80, 0.10],
+	["Rexh1l",-0.25, 1.80, 0.10],
+	["Rexh2r",-0.75, 1.80, 0.35],
+	["Rexh2l",-0.25, 1.80, 0.35],
+	["Rexh3", -0.50, 1.80, 0.00],
+	["Rexh4", -0.50, 2.00, 0.00, {"afterFireAudioCoef":0.0,"afterFireVisualCoef":0, "exhaustAudioMufflingCoef": 0.15, "exhaustAudioGainChange":-4}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--RIGHT EXHAUST--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//main square
+	["Rexh1l", "Rexh1r"],
+	["Rexh2l", "Rexh2r"],
+	["Rexh1l", "Rexh2l"],
+	["Rexh1r", "Rexh2r"],
+	["Rexh1l", "Rexh2r"],
+	["Rexh2l", "Rexh1r"],
+
+	//pipe
+	["Rexh1l", "Rexh3"],
+	["Rexh2l", "Rexh3"],
+	["Rexh1r", "Rexh3"],
+	["Rexh2r", "Rexh3"],
+	["Rexh1l", "Rexh4"],
+	["Rexh2l", "Rexh4"],
+	["Rexh1r", "Rexh4"],
+	["Rexh2r", "Rexh4"],
+	["Rexh3", "Rexh4", {"isExhaust":"mainEngine"}],
+	
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to rear right fascia side
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"exhaust_R_RRfascia_break"},
+	
+	["Rexh1l", "RRfasc1l"],
+	["Rexh1l", "RRfasc2r"],
+	["Rexh1l", "RRfasc4l"],
+
+	["Rexh1r", "RRfasc1r"],
+	["Rexh1r", "RRfasc2l"],
+	["Rexh1r", "RRfasc4r"],
+
+	["Rexh2l", "RRfasc3l"],
+	["Rexh2l", "RRfasc4r"],
+	["Rexh2l", "RRfasc2l"],
+
+	["Rexh2r", "RRfasc3r"],
+	["Rexh2r", "RRfasc4l"],
+	["Rexh2r", "RRfasc2r"],
+
+	["Rexh4", "RRfasc1l"],
+	["Rexh4", "RRfasc1r"],
+	["Rexh4", "RRfasc4l"],
+	["Rexh4", "RRfasc4r"],
+
+	//to rear bumper
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"exhaust_R_Rbumper_break"},
+	{"optional":true},
+
+	["Rbump1l", "Rexh1l"],
+	["Rbump1l", "Rexh2l"],
+	["Rbump1l", "Rexh1r"],
+	["Rbump1l", "Rexh4"],
+
+	["Rbump1r", "Rexh1r"],
+	["Rbump1r", "Rexh2r"],
+	["Rbump1r", "Rexh1l"],
+	["Rbump1r", "Rexh4"],
+
+	["Rbump2l", "Rexh2l"],
+	["Rbump2l", "Rexh1l"],
+	["Rbump2l", "Rexh2r"],
+	["Rbump2l", "Rexh4"],
+
+	["Rbump2r", "Rexh2r"],
+	["Rbump2r", "Rexh1r"],
+	["Rbump2r", "Rexh2l"],
+	["Rbump2r", "Rexh4"],
+
+	["Rbumprig", "Rexh1l"],
+	["Rbumprig", "Rexh2l"],
+	["Rbumprig", "Rexh1r"],
+	["Rbumprig", "Rexh2r"],
+	["Rbumprig", "Rexh4"],
+
+	{"breakGroup":""},
+	{"optional":false},
+
+
+	//--EXHAUST CONNECTORS--
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	["eng1l","Rexh3", {"isExhaust":"mainEngine", "optional":true}],
+	["eng1r","Rexh3", {"isExhaust":"mainEngine", "optional":true}],
+
+	//--AFTERFIRE DISABLE TRIGGER--
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+
+	{"deformGroup":"afterfire_BR_disable","deformationTriggerRatio":0.25},
+	["eng3r", "Rexh4", {"deformLimit":"","deformLimitExpansion":"", "optional":true}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_exhaust_R"},
+	["Rexh3","Rexh1l","Rexh1r"],
+	["Rexh4","Rexh1r","Rexh1l"],
+	["Rexh1l","Rexh3","Rexh4"],
+	["Rexh1r","Rexh4","Rexh3"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_exhaust_R"},
+	["Rexh1l","Rexh1r","Rexh2r","Rexh2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_exhaust_R_col2": {
+    "information":{
+        "name":"Right Exhaust (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhaust",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_exhausttip_R", "", "Right Exhaust Tip"],
+	["legocar_bumpermount_RL", "legocar_bumpermount_RL_col2", "Rear Bumper Mount"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_hitch_col2", ["legocar_exhaust_R"], [], {"pos":{"x":-0.500, "y":1.750, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//3 pieces, 6 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+
+	{"group":"legocar_exhaust_R"},
+	["Rexh1r",-0.75, 1.80, 0.10],
+	["Rexh1l",-0.25, 1.80, 0.10],
+	["Rexh2r",-0.75, 1.80, 0.35],
+	["Rexh2l",-0.25, 1.80, 0.35],
+	["Rexh3", -0.50, 1.80, 0.00],
+	["Rexh4", -0.50, 2.00, 0.00, {"afterFireAudioCoef":0.0,"afterFireVisualCoef":0, "exhaustAudioMufflingCoef": 0.15, "exhaustAudioGainChange":-4}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--RIGHT EXHAUST--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//main square
+	["Rexh1l", "Rexh1r"],
+	["Rexh2l", "Rexh2r"],
+	["Rexh1l", "Rexh2l"],
+	["Rexh1r", "Rexh2r"],
+	["Rexh1l", "Rexh2r"],
+	["Rexh2l", "Rexh1r"],
+
+	//pipe
+	["Rexh1l", "Rexh3"],
+	["Rexh2l", "Rexh3"],
+	["Rexh1r", "Rexh3"],
+	["Rexh2r", "Rexh3"],
+	["Rexh1l", "Rexh4"],
+	["Rexh2l", "Rexh4"],
+	["Rexh1r", "Rexh4"],
+	["Rexh2r", "Rexh4"],
+	["Rexh3", "Rexh4", {"isExhaust":"mainEngine"}],
+	
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to rear right fascia side
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"exhaust_R_RRfascia_break"},
+	
+	["Rexh1l", "RRfasc1l"],
+	["Rexh1l", "RRfasc2r"],
+	["Rexh1l", "RRfasc4l"],
+
+	["Rexh1r", "RRfasc1r"],
+	["Rexh1r", "RRfasc2l"],
+	["Rexh1r", "RRfasc4r"],
+
+	["Rexh2l", "RRfasc3l"],
+	["Rexh2l", "RRfasc4r"],
+	["Rexh2l", "RRfasc2l"],
+
+	["Rexh2r", "RRfasc3r"],
+	["Rexh2r", "RRfasc4l"],
+	["Rexh2r", "RRfasc2r"],
+
+	["Rexh4", "RRfasc1l"],
+	["Rexh4", "RRfasc1r"],
+	["Rexh4", "RRfasc4l"],
+	["Rexh4", "RRfasc4r"],
+
+	//to rear bumper
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"exhaust_R_Rbumper_break"},
+	{"optional":true},
+
+	["Rbump1l", "Rexh1l"],
+	["Rbump1l", "Rexh2l"],
+	["Rbump1l", "Rexh1r"],
+	["Rbump1l", "Rexh4"],
+
+	["Rbump1r", "Rexh1r"],
+	["Rbump1r", "Rexh2r"],
+	["Rbump1r", "Rexh1l"],
+	["Rbump1r", "Rexh4"],
+
+	["Rbump2l", "Rexh2l"],
+	["Rbump2l", "Rexh1l"],
+	["Rbump2l", "Rexh2r"],
+	["Rbump2l", "Rexh4"],
+
+	["Rbump2r", "Rexh2r"],
+	["Rbump2r", "Rexh1r"],
+	["Rbump2r", "Rexh2l"],
+	["Rbump2r", "Rexh4"],
+
+	["Rbumprig", "Rexh1l"],
+	["Rbumprig", "Rexh2l"],
+	["Rbumprig", "Rexh1r"],
+	["Rbumprig", "Rexh2r"],
+	["Rbumprig", "Rexh4"],
+
+	{"breakGroup":""},
+	{"optional":false},
+
+
+	//--EXHAUST CONNECTORS--
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	["eng1l","Rexh3", {"isExhaust":"mainEngine", "optional":true}],
+	["eng1r","Rexh3", {"isExhaust":"mainEngine", "optional":true}],
+
+	//--AFTERFIRE DISABLE TRIGGER--
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+
+	{"deformGroup":"afterfire_BR_disable","deformationTriggerRatio":0.25},
+	["eng3r", "Rexh4", {"deformLimit":"","deformLimitExpansion":"", "optional":true}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_exhaust_R"},
+	["Rexh3","Rexh1l","Rexh1r"],
+	["Rexh4","Rexh1r","Rexh1l"],
+	["Rexh1l","Rexh3","Rexh4"],
+	["Rexh1r","Rexh4","Rexh3"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_exhaust_R"},
+	["Rexh1l","Rexh1r","Rexh2r","Rexh2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_exhaust_R_col3": {
+    "information":{
+        "name":"Right Exhaust (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhaust",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_exhausttip_R", "", "Right Exhaust Tip"],
+	["legocar_bumpermount_RL", "legocar_bumpermount_RL_col3", "Rear Bumper Mount"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_hitch_col3", ["legocar_exhaust_R"], [], {"pos":{"x":-0.500, "y":1.750, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//3 pieces, 6 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+
+	{"group":"legocar_exhaust_R"},
+	["Rexh1r",-0.75, 1.80, 0.10],
+	["Rexh1l",-0.25, 1.80, 0.10],
+	["Rexh2r",-0.75, 1.80, 0.35],
+	["Rexh2l",-0.25, 1.80, 0.35],
+	["Rexh3", -0.50, 1.80, 0.00],
+	["Rexh4", -0.50, 2.00, 0.00, {"afterFireAudioCoef":0.0,"afterFireVisualCoef":0, "exhaustAudioMufflingCoef": 0.15, "exhaustAudioGainChange":-4}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--RIGHT EXHAUST--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//main square
+	["Rexh1l", "Rexh1r"],
+	["Rexh2l", "Rexh2r"],
+	["Rexh1l", "Rexh2l"],
+	["Rexh1r", "Rexh2r"],
+	["Rexh1l", "Rexh2r"],
+	["Rexh2l", "Rexh1r"],
+
+	//pipe
+	["Rexh1l", "Rexh3"],
+	["Rexh2l", "Rexh3"],
+	["Rexh1r", "Rexh3"],
+	["Rexh2r", "Rexh3"],
+	["Rexh1l", "Rexh4"],
+	["Rexh2l", "Rexh4"],
+	["Rexh1r", "Rexh4"],
+	["Rexh2r", "Rexh4"],
+	["Rexh3", "Rexh4", {"isExhaust":"mainEngine"}],
+	
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to rear right fascia side
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"exhaust_R_RRfascia_break"},
+	
+	["Rexh1l", "RRfasc1l"],
+	["Rexh1l", "RRfasc2r"],
+	["Rexh1l", "RRfasc4l"],
+
+	["Rexh1r", "RRfasc1r"],
+	["Rexh1r", "RRfasc2l"],
+	["Rexh1r", "RRfasc4r"],
+
+	["Rexh2l", "RRfasc3l"],
+	["Rexh2l", "RRfasc4r"],
+	["Rexh2l", "RRfasc2l"],
+
+	["Rexh2r", "RRfasc3r"],
+	["Rexh2r", "RRfasc4l"],
+	["Rexh2r", "RRfasc2r"],
+
+	["Rexh4", "RRfasc1l"],
+	["Rexh4", "RRfasc1r"],
+	["Rexh4", "RRfasc4l"],
+	["Rexh4", "RRfasc4r"],
+
+	//to rear bumper
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"exhaust_R_Rbumper_break"},
+	{"optional":true},
+
+	["Rbump1l", "Rexh1l"],
+	["Rbump1l", "Rexh2l"],
+	["Rbump1l", "Rexh1r"],
+	["Rbump1l", "Rexh4"],
+
+	["Rbump1r", "Rexh1r"],
+	["Rbump1r", "Rexh2r"],
+	["Rbump1r", "Rexh1l"],
+	["Rbump1r", "Rexh4"],
+
+	["Rbump2l", "Rexh2l"],
+	["Rbump2l", "Rexh1l"],
+	["Rbump2l", "Rexh2r"],
+	["Rbump2l", "Rexh4"],
+
+	["Rbump2r", "Rexh2r"],
+	["Rbump2r", "Rexh1r"],
+	["Rbump2r", "Rexh2l"],
+	["Rbump2r", "Rexh4"],
+
+	["Rbumprig", "Rexh1l"],
+	["Rbumprig", "Rexh2l"],
+	["Rbumprig", "Rexh1r"],
+	["Rbumprig", "Rexh2r"],
+	["Rbumprig", "Rexh4"],
+
+	{"breakGroup":""},
+	{"optional":false},
+
+
+	//--EXHAUST CONNECTORS--
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	["eng1l","Rexh3", {"isExhaust":"mainEngine", "optional":true}],
+	["eng1r","Rexh3", {"isExhaust":"mainEngine", "optional":true}],
+
+	//--AFTERFIRE DISABLE TRIGGER--
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+
+	{"deformGroup":"afterfire_BR_disable","deformationTriggerRatio":0.25},
+	["eng3r", "Rexh4", {"deformLimit":"","deformLimitExpansion":"", "optional":true}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_exhaust_R"},
+	["Rexh3","Rexh1l","Rexh1r"],
+	["Rexh4","Rexh1r","Rexh1l"],
+	["Rexh1l","Rexh3","Rexh4"],
+	["Rexh1r","Rexh4","Rexh3"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_exhaust_R"},
+	["Rexh1l","Rexh1r","Rexh2r","Rexh2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_exhaust_R_grey": {
+    "information":{
+        "name":"Right Exhaust (Light Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhaust",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_exhausttip_R", "", "Right Exhaust Tip"],
+	["legocar_bumpermount_RL", "legocar_bumpermount_RL_grey", "Rear Bumper Mount"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_hitch_grey", ["legocar_exhaust_R"], [], {"pos":{"x":-0.500, "y":1.750, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//3 pieces, 6 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+
+	{"group":"legocar_exhaust_R"},
+	["Rexh1r",-0.75, 1.80, 0.10],
+	["Rexh1l",-0.25, 1.80, 0.10],
+	["Rexh2r",-0.75, 1.80, 0.35],
+	["Rexh2l",-0.25, 1.80, 0.35],
+	["Rexh3", -0.50, 1.80, 0.00],
+	["Rexh4", -0.50, 2.00, 0.00, {"afterFireAudioCoef":0.0,"afterFireVisualCoef":0, "exhaustAudioMufflingCoef": 0.15, "exhaustAudioGainChange":-4}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--RIGHT EXHAUST--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//main square
+	["Rexh1l", "Rexh1r"],
+	["Rexh2l", "Rexh2r"],
+	["Rexh1l", "Rexh2l"],
+	["Rexh1r", "Rexh2r"],
+	["Rexh1l", "Rexh2r"],
+	["Rexh2l", "Rexh1r"],
+
+	//pipe
+	["Rexh1l", "Rexh3"],
+	["Rexh2l", "Rexh3"],
+	["Rexh1r", "Rexh3"],
+	["Rexh2r", "Rexh3"],
+	["Rexh1l", "Rexh4"],
+	["Rexh2l", "Rexh4"],
+	["Rexh1r", "Rexh4"],
+	["Rexh2r", "Rexh4"],
+	["Rexh3", "Rexh4", {"isExhaust":"mainEngine"}],
+	
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to rear right fascia side
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"exhaust_R_RRfascia_break"},
+	
+	["Rexh1l", "RRfasc1l"],
+	["Rexh1l", "RRfasc2r"],
+	["Rexh1l", "RRfasc4l"],
+
+	["Rexh1r", "RRfasc1r"],
+	["Rexh1r", "RRfasc2l"],
+	["Rexh1r", "RRfasc4r"],
+
+	["Rexh2l", "RRfasc3l"],
+	["Rexh2l", "RRfasc4r"],
+	["Rexh2l", "RRfasc2l"],
+
+	["Rexh2r", "RRfasc3r"],
+	["Rexh2r", "RRfasc4l"],
+	["Rexh2r", "RRfasc2r"],
+
+	["Rexh4", "RRfasc1l"],
+	["Rexh4", "RRfasc1r"],
+	["Rexh4", "RRfasc4l"],
+	["Rexh4", "RRfasc4r"],
+
+	//to rear bumper
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"exhaust_R_Rbumper_break"},
+	{"optional":true},
+
+	["Rbump1l", "Rexh1l"],
+	["Rbump1l", "Rexh2l"],
+	["Rbump1l", "Rexh1r"],
+	["Rbump1l", "Rexh4"],
+
+	["Rbump1r", "Rexh1r"],
+	["Rbump1r", "Rexh2r"],
+	["Rbump1r", "Rexh1l"],
+	["Rbump1r", "Rexh4"],
+
+	["Rbump2l", "Rexh2l"],
+	["Rbump2l", "Rexh1l"],
+	["Rbump2l", "Rexh2r"],
+	["Rbump2l", "Rexh4"],
+
+	["Rbump2r", "Rexh2r"],
+	["Rbump2r", "Rexh1r"],
+	["Rbump2r", "Rexh2l"],
+	["Rbump2r", "Rexh4"],
+
+	["Rbumprig", "Rexh1l"],
+	["Rbumprig", "Rexh2l"],
+	["Rbumprig", "Rexh1r"],
+	["Rbumprig", "Rexh2r"],
+	["Rbumprig", "Rexh4"],
+
+	{"breakGroup":""},
+	{"optional":false},
+
+
+	//--EXHAUST CONNECTORS--
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	["eng1l","Rexh3", {"isExhaust":"mainEngine", "optional":true}],
+	["eng1r","Rexh3", {"isExhaust":"mainEngine", "optional":true}],
+
+	//--AFTERFIRE DISABLE TRIGGER--
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+
+	{"deformGroup":"afterfire_BR_disable","deformationTriggerRatio":0.25},
+	["eng3r", "Rexh4", {"deformLimit":"","deformLimitExpansion":"", "optional":true}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_exhaust_R"},
+	["Rexh3","Rexh1l","Rexh1r"],
+	["Rexh4","Rexh1r","Rexh1l"],
+	["Rexh1l","Rexh3","Rexh4"],
+	["Rexh1r","Rexh4","Rexh3"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_exhaust_R"},
+	["Rexh1l","Rexh1r","Rexh2r","Rexh2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_exhaust_R_dgrey": {
+    "information":{
+        "name":"Right Exhaust (Dark Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhaust",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_exhausttip_R", "", "Right Exhaust Tip"],
+	["legocar_bumpermount_RL", "legocar_bumpermount_RL_dgrey", "Rear Bumper Mount"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_hitch_dgrey", ["legocar_exhaust_R"], [], {"pos":{"x":-0.500, "y":1.750, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//3 pieces, 6 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+
+	{"group":"legocar_exhaust_R"},
+	["Rexh1r",-0.75, 1.80, 0.10],
+	["Rexh1l",-0.25, 1.80, 0.10],
+	["Rexh2r",-0.75, 1.80, 0.35],
+	["Rexh2l",-0.25, 1.80, 0.35],
+	["Rexh3", -0.50, 1.80, 0.00],
+	["Rexh4", -0.50, 2.00, 0.00, {"afterFireAudioCoef":0.0,"afterFireVisualCoef":0, "exhaustAudioMufflingCoef": 0.15, "exhaustAudioGainChange":-4}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--RIGHT EXHAUST--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//main square
+	["Rexh1l", "Rexh1r"],
+	["Rexh2l", "Rexh2r"],
+	["Rexh1l", "Rexh2l"],
+	["Rexh1r", "Rexh2r"],
+	["Rexh1l", "Rexh2r"],
+	["Rexh2l", "Rexh1r"],
+
+	//pipe
+	["Rexh1l", "Rexh3"],
+	["Rexh2l", "Rexh3"],
+	["Rexh1r", "Rexh3"],
+	["Rexh2r", "Rexh3"],
+	["Rexh1l", "Rexh4"],
+	["Rexh2l", "Rexh4"],
+	["Rexh1r", "Rexh4"],
+	["Rexh2r", "Rexh4"],
+	["Rexh3", "Rexh4", {"isExhaust":"mainEngine"}],
+	
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to rear right fascia side
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"exhaust_R_RRfascia_break"},
+	
+	["Rexh1l", "RRfasc1l"],
+	["Rexh1l", "RRfasc2r"],
+	["Rexh1l", "RRfasc4l"],
+
+	["Rexh1r", "RRfasc1r"],
+	["Rexh1r", "RRfasc2l"],
+	["Rexh1r", "RRfasc4r"],
+
+	["Rexh2l", "RRfasc3l"],
+	["Rexh2l", "RRfasc4r"],
+	["Rexh2l", "RRfasc2l"],
+
+	["Rexh2r", "RRfasc3r"],
+	["Rexh2r", "RRfasc4l"],
+	["Rexh2r", "RRfasc2r"],
+
+	["Rexh4", "RRfasc1l"],
+	["Rexh4", "RRfasc1r"],
+	["Rexh4", "RRfasc4l"],
+	["Rexh4", "RRfasc4r"],
+
+	//to rear bumper
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"exhaust_R_Rbumper_break"},
+	{"optional":true},
+
+	["Rbump1l", "Rexh1l"],
+	["Rbump1l", "Rexh2l"],
+	["Rbump1l", "Rexh1r"],
+	["Rbump1l", "Rexh4"],
+
+	["Rbump1r", "Rexh1r"],
+	["Rbump1r", "Rexh2r"],
+	["Rbump1r", "Rexh1l"],
+	["Rbump1r", "Rexh4"],
+
+	["Rbump2l", "Rexh2l"],
+	["Rbump2l", "Rexh1l"],
+	["Rbump2l", "Rexh2r"],
+	["Rbump2l", "Rexh4"],
+
+	["Rbump2r", "Rexh2r"],
+	["Rbump2r", "Rexh1r"],
+	["Rbump2r", "Rexh2l"],
+	["Rbump2r", "Rexh4"],
+
+	["Rbumprig", "Rexh1l"],
+	["Rbumprig", "Rexh2l"],
+	["Rbumprig", "Rexh1r"],
+	["Rbumprig", "Rexh2r"],
+	["Rbumprig", "Rexh4"],
+
+	{"breakGroup":""},
+	{"optional":false},
+
+
+	//--EXHAUST CONNECTORS--
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	["eng1l","Rexh3", {"isExhaust":"mainEngine", "optional":true}],
+	["eng1r","Rexh3", {"isExhaust":"mainEngine", "optional":true}],
+
+	//--AFTERFIRE DISABLE TRIGGER--
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+
+	{"deformGroup":"afterfire_BR_disable","deformationTriggerRatio":0.25},
+	["eng3r", "Rexh4", {"deformLimit":"","deformLimitExpansion":"", "optional":true}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_exhaust_R"},
+	["Rexh3","Rexh1l","Rexh1r"],
+	["Rexh4","Rexh1r","Rexh1l"],
+	["Rexh1l","Rexh3","Rexh4"],
+	["Rexh1r","Rexh4","Rexh3"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_exhaust_R"},
+	["Rexh1l","Rexh1r","Rexh2r","Rexh2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_exhaust_R_black": {
+    "information":{
+        "name":"Right Exhaust (Black)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhaust",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_exhausttip_R", "", "Right Exhaust Tip"],
+	["legocar_bumpermount_RL", "legocar_bumpermount_RL_black", "Rear Bumper Mount"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_hitch_black", ["legocar_exhaust_R"], [], {"pos":{"x":-0.500, "y":1.750, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//3 pieces, 6 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+
+	{"group":"legocar_exhaust_R"},
+	["Rexh1r",-0.75, 1.80, 0.10],
+	["Rexh1l",-0.25, 1.80, 0.10],
+	["Rexh2r",-0.75, 1.80, 0.35],
+	["Rexh2l",-0.25, 1.80, 0.35],
+	["Rexh3", -0.50, 1.80, 0.00],
+	["Rexh4", -0.50, 2.00, 0.00, {"afterFireAudioCoef":0.0,"afterFireVisualCoef":0, "exhaustAudioMufflingCoef": 0.15, "exhaustAudioGainChange":-4}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--RIGHT EXHAUST--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//main square
+	["Rexh1l", "Rexh1r"],
+	["Rexh2l", "Rexh2r"],
+	["Rexh1l", "Rexh2l"],
+	["Rexh1r", "Rexh2r"],
+	["Rexh1l", "Rexh2r"],
+	["Rexh2l", "Rexh1r"],
+
+	//pipe
+	["Rexh1l", "Rexh3"],
+	["Rexh2l", "Rexh3"],
+	["Rexh1r", "Rexh3"],
+	["Rexh2r", "Rexh3"],
+	["Rexh1l", "Rexh4"],
+	["Rexh2l", "Rexh4"],
+	["Rexh1r", "Rexh4"],
+	["Rexh2r", "Rexh4"],
+	["Rexh3", "Rexh4", {"isExhaust":"mainEngine"}],
+	
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to rear right fascia side
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"exhaust_R_RRfascia_break"},
+	
+	["Rexh1l", "RRfasc1l"],
+	["Rexh1l", "RRfasc2r"],
+	["Rexh1l", "RRfasc4l"],
+
+	["Rexh1r", "RRfasc1r"],
+	["Rexh1r", "RRfasc2l"],
+	["Rexh1r", "RRfasc4r"],
+
+	["Rexh2l", "RRfasc3l"],
+	["Rexh2l", "RRfasc4r"],
+	["Rexh2l", "RRfasc2l"],
+
+	["Rexh2r", "RRfasc3r"],
+	["Rexh2r", "RRfasc4l"],
+	["Rexh2r", "RRfasc2r"],
+
+	["Rexh4", "RRfasc1l"],
+	["Rexh4", "RRfasc1r"],
+	["Rexh4", "RRfasc4l"],
+	["Rexh4", "RRfasc4r"],
+
+	//to rear bumper
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"exhaust_R_Rbumper_break"},
+	{"optional":true},
+
+	["Rbump1l", "Rexh1l"],
+	["Rbump1l", "Rexh2l"],
+	["Rbump1l", "Rexh1r"],
+	["Rbump1l", "Rexh4"],
+
+	["Rbump1r", "Rexh1r"],
+	["Rbump1r", "Rexh2r"],
+	["Rbump1r", "Rexh1l"],
+	["Rbump1r", "Rexh4"],
+
+	["Rbump2l", "Rexh2l"],
+	["Rbump2l", "Rexh1l"],
+	["Rbump2l", "Rexh2r"],
+	["Rbump2l", "Rexh4"],
+
+	["Rbump2r", "Rexh2r"],
+	["Rbump2r", "Rexh1r"],
+	["Rbump2r", "Rexh2l"],
+	["Rbump2r", "Rexh4"],
+
+	["Rbumprig", "Rexh1l"],
+	["Rbumprig", "Rexh2l"],
+	["Rbumprig", "Rexh1r"],
+	["Rbumprig", "Rexh2r"],
+	["Rbumprig", "Rexh4"],
+
+	{"breakGroup":""},
+	{"optional":false},
+
+
+	//--EXHAUST CONNECTORS--
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	["eng1l","Rexh3", {"isExhaust":"mainEngine", "optional":true}],
+	["eng1r","Rexh3", {"isExhaust":"mainEngine", "optional":true}],
+
+	//--AFTERFIRE DISABLE TRIGGER--
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+
+	{"deformGroup":"afterfire_BR_disable","deformationTriggerRatio":0.25},
+	["eng3r", "Rexh4", {"deformLimit":"","deformLimitExpansion":"", "optional":true}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_exhaust_R"},
+	["Rexh3","Rexh1l","Rexh1r"],
+	["Rexh4","Rexh1r","Rexh1l"],
+	["Rexh1l","Rexh3","Rexh4"],
+	["Rexh1r","Rexh4","Rexh3"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_exhaust_R"},
+	["Rexh1l","Rexh1r","Rexh2r","Rexh2l"],
+        {"group":""},
+    ],
+},
+
+}

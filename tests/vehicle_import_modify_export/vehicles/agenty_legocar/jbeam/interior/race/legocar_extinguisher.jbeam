@@ -1,0 +1,207 @@
+{
+"legocar_extinguisher": {
+    "information":{
+        "name":"Fire Extinguisher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_extinguisher",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+
+	["lego_1x1_tall_circle_bred",["legocar_extinguisher_bot"], [], {"pos":{"x": 0.375, "y":-0.400, "z":0.50},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_tap_hole_bred",   ["legocar_extinguisher_top"], [], {"pos":{"x": 0.375, "y":-0.100, "z":0.50},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+
+	//water effects
+	["lego_fire_effect_water_2a",["legocar_extinguisher_bot"], [], {"pos":{"x": 0.375, "y":-0.100, "z":0.50},"rot":{"x":-90, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_fire_effect_water_2b",["legocar_extinguisher_bot"], [], {"pos":{"x": 0.375, "y":-0.100, "z":0.50},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"extinguisher_break", "deformMaterialBase":"lego_transcol_lblue", "deformMaterialDamaged":"invis"},
+	["lego_fire_effect_water_1a",["legocar_extinguisher_top"], [], {"pos":{"x": 0.375, "y": 0.147, "z":0.70},"rot":{"x":  0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_fire_effect_water_1b",["legocar_extinguisher_top"], [], {"pos":{"x": 0.375, "y": 0.147, "z":0.70},"rot":{"x":  0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "thrusters": [
+        ["id1:", "id2:", "factor", "thrustLimit", "control"],
+        ["fireextT2", "fireextT1", 5000, 5000, "extinguisherDetached"],
+	["fireextB1l","fireextB2l",1250, 1250, "extinguisherBroken"],
+	["fireextB1r","fireextB2r",1250, 1250, "extinguisherBroken"],
+	["fireextB3l","fireextB4l",1250, 1250, "extinguisherBroken"],
+	["fireextB3r","fireextB4r",1250, 1250, "extinguisherBroken"],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//extinguisher top
+	{"group":"legocar_extinguisher_top"},
+	//4 pieces, 4 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+
+	["fireextT1", 0.375, 0.147, 0.7],
+	["fireextT2", 0.375, 0.147, 0.5],
+	["fireextT3", 0.275,-0.085, 0.5],
+	["fireextT4", 0.475,-0.085, 0.5],
+
+	//extinguisher bottom
+	{"group":"legocar_extinguisher_bot"},
+	//3 pieces, 8 nodes - 0.375 kg/node
+	{"nodeWeight": "$=$weight*0.375"},
+
+	["fireextB1l", 0.475,-0.4, 0.40],
+	["fireextB1r", 0.275,-0.4, 0.40],
+	["fireextB2l", 0.475,-0.1, 0.40],
+	["fireextB2r", 0.275,-0.1, 0.40],
+	["fireextB3l", 0.475,-0.4, 0.60],
+	["fireextB3r", 0.275,-0.4, 0.60],
+	["fireextB4l", 0.475,-0.1, 0.60],
+	["fireextB4r", 0.275,-0.1, 0.60],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--EXTINGUISHER--
+
+	//top uniform structure
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	["fireextT1", "fireextT2"],
+	["fireextT1", "fireextT3"],
+	["fireextT1", "fireextT4"],
+	["fireextT2", "fireextT3"],
+	["fireextT2", "fireextT4"],
+	["fireextT3", "fireextT4"],
+	
+	//bottom uniform structure
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+	["fireextB1l", "fireextB1r"],
+	["fireextB2l", "fireextB2r"],
+	["fireextB3l", "fireextB3r"],
+	["fireextB4l", "fireextB4r"],
+
+	["fireextB1l", "fireextB2r"],
+	["fireextB2l", "fireextB3r"],
+	["fireextB3l", "fireextB4r"],
+	["fireextB4l", "fireextB1r"],
+
+	["fireextB1l", "fireextB3r"],
+	["fireextB2l", "fireextB4r"],
+	["fireextB3l", "fireextB1r"],
+	["fireextB4l", "fireextB2r"],
+
+	["fireextB1l", "fireextB4r"],
+	["fireextB2l", "fireextB1r"],
+	["fireextB3l", "fireextB2r"],
+	["fireextB4l", "fireextB3r"],
+
+	["fireextB1l", "fireextB2l"],
+	["fireextB2l", "fireextB3l"],
+	["fireextB3l", "fireextB4l"],
+	["fireextB4l", "fireextB1l"],
+
+	["fireextB1l", "fireextB3l"],
+	["fireextB2l", "fireextB4l"],
+
+	["fireextB1r", "fireextB2r"],
+	["fireextB2r", "fireextB3r"],
+	["fireextB3r", "fireextB4r"],
+	["fireextB4r", "fireextB1r"],
+
+	["fireextB1r", "fireextB3r"],
+	["fireextB2r", "fireextB4r"],
+	
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//top to bottom
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+	{"breakGroup":"extinguisher_break"},
+	{"deformGroup":"extinguisher_break"},
+
+	["fireextT1", "fireextB4l"],
+	["fireextT1", "fireextB4r"],
+	["fireextT1", "fireextB2l"],
+	["fireextT1", "fireextB2r"],
+	["fireextT1", "fireextB3l"],
+	["fireextT1", "fireextB3r"],
+
+	["fireextT2", "fireextB4l"],
+	["fireextT2", "fireextB4r"],
+	["fireextT2", "fireextB3l"],
+	["fireextT2", "fireextB3r"],
+	["fireextT2", "fireextB2l"],
+	["fireextT2", "fireextB2r"],
+	["fireextT2", "fireextB1l"],
+	["fireextT2", "fireextB1r"],
+
+	["fireextT3", "fireextB2r"],
+	["fireextT3", "fireextB4r"],
+	["fireextT3", "fireextB2l"],
+	["fireextT3", "fireextB4l"],
+	["fireextT3", "fireextB1r"],
+	["fireextT3", "fireextB3r"],
+
+	["fireextT4", "fireextB2r"],
+	["fireextT4", "fireextB4r"],
+	["fireextT4", "fireextB2l"],
+	["fireextT4", "fireextB4l"],
+	["fireextT4", "fireextB1l"],
+	["fireextT4", "fireextB3l"],
+
+
+	//top to holder
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"extinguisher_hinge_break"},
+	{"deformGroup":""},
+
+	["fireextT1", "Lcarpet1l"],
+	["fireextT1", "Lcarpet1r"],
+	["fireextT1", "Lcarpet2l"],
+	["fireextT1", "Lcarpet2r"],
+
+	["fireextT2", "Lcarpet1l"],
+	["fireextT2", "Lcarpet1r"],
+	["fireextT2", "Lcarpet2l"],
+	["fireextT2", "Lcarpet2r"],
+
+	["fireextT3", "Lcarpet1l"],
+	["fireextT3", "Lcarpet1r"],
+	["fireextT3", "Lcarpet2l"],
+	["fireextT3", "Lcarpet2r"],
+	["fireextT3", "Lcarpetrig"],
+
+	["fireextT4", "Lcarpet1l"],
+	["fireextT4", "Lcarpet1r"],
+	["fireextT4", "Lcarpet2l"],
+	["fireextT4", "Lcarpet2r"],
+	["fireextT4", "Lcarpetrig"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_extinguisher_top"},
+	["fireextT2","fireextT4","fireextT3"],
+	["fireextT1","fireextT3","fireextT4"],
+	["fireextT1","fireextT4","fireextT2"],
+	["fireextT1","fireextT2","fireextT3"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_extinguisher_bot"},   
+	["fireextB2r","fireextB2l","fireextB1l","fireextB1r"],
+	["fireextB4l","fireextB4r","fireextB3r","fireextB3l"],
+	["fireextB3r","fireextB4r","fireextB2r","fireextB1r"],
+	["fireextB4l","fireextB3l","fireextB1l","fireextB2l"],
+	["fireextB4r","fireextB4l","fireextB2l","fireextB2r"],
+	["fireextB3l","fireextB3r","fireextB1r","fireextB1l"],
+
+        {"group":""},
+    ],
+},
+
+}

@@ -1,0 +1,928 @@
+{
+"legocar_trunk_spoiler_ricer_extension": {
+    "information":{
+        "name":"Spoiler Extension",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_trunk_spoiler_ricer_extension",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+
+	["lego_1x1_flat_spoiler", ["legocar_spoiler_L1"],[], {"pos":{"x": 0.625, "y":1.875, "z":1.200},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["lego_1x1_flat_spoiler", ["legocar_spoiler_R1"],[], {"pos":{"x":-0.625, "y":1.875, "z":1.200},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["lego_6x1_flat_spoiler", ["legocar_spoiler_T1"],[], {"pos":{"x": 0.000, "y":1.875, "z":1.300},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["lego_1x1_flat_spoiler", ["legocar_spoiler_L2"],[], {"pos":{"x": 0.625, "y":1.875, "z":1.400},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["lego_1x1_flat_spoiler", ["legocar_spoiler_R2"],[], {"pos":{"x":-0.625, "y":1.875, "z":1.400},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["lego_6x1_flat_spoiler", ["legocar_spoiler_T2"],[], {"pos":{"x": 0.000, "y":1.875, "z":1.500},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["lego_1x1_flat_spoiler", ["legocar_spoiler_L3"],[], {"pos":{"x": 0.625, "y":1.875, "z":1.600},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["lego_1x1_flat_spoiler", ["legocar_spoiler_R3"],[], {"pos":{"x":-0.625, "y":1.875, "z":1.600},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["lego_6x1_flat_spoiler", ["legocar_spoiler_T3"],[], {"pos":{"x": 0.000, "y":1.875, "z":1.700},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["lego_1x1_flat_spoiler", ["legocar_spoiler_L4"],[], {"pos":{"x": 0.625, "y":1.875, "z":1.800},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["lego_1x1_flat_spoiler", ["legocar_spoiler_R4"],[], {"pos":{"x":-0.625, "y":1.875, "z":1.800},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["lego_6x1_flat_notip_spoiler", ["legocar_spoiler_T4"],[], {"pos":{"x": 0.000, "y":1.875, "z":1.900},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//l1 left
+	{"group":"legocar_spoiler_L1"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["1spoilL1l",  0.75, 1.75, 1.25],
+	["1spoilL1r",  0.50, 1.75, 1.25],
+	["1spoilL2l",  0.75, 2.00, 1.25],
+	["1spoilL2r",  0.50, 2.00, 1.25],
+	//rigidifier
+	["1spoilLrig", 0.625, 1.875, 1.0, {"collision":false, "selfCollision":false, "group":""}],
+
+	//l1 right
+	{"group":"legocar_spoiler_R1"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["1spoilR1r", -0.75, 1.75, 1.25],
+	["1spoilR1l", -0.50, 1.75, 1.25],
+	["1spoilR2r", -0.75, 2.00, 1.25],
+	["1spoilR2l", -0.50, 2.00, 1.25],
+	//rigidifier
+	["1spoilRrig",-0.625, 1.875, 1.0, {"collision":false, "selfCollision":false, "group":""}],
+
+	//l1 top
+	{"group":"legocar_spoiler_T1"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["1spoilT1l",  0.75, 1.75, 1.35],
+	["1spoilT1r", -0.75, 1.75, 1.35],
+	["1spoilT2l",  0.75, 2.00, 1.35],
+	["1spoilT2r", -0.75, 2.00, 1.35],
+	//rigidifier
+	["1spoilTrig", 0, 1.875, 0.9, {"collision":false, "selfCollision":false, "group":""}],
+	
+	
+	//l2 left
+	{"group":"legocar_spoiler_L2"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["2spoilL1l",  0.75, 1.75, 1.45],
+	["2spoilL1r",  0.50, 1.75, 1.45],
+	["2spoilL2l",  0.75, 2.00, 1.45],
+	["2spoilL2r",  0.50, 2.00, 1.45],
+	//rigidifier
+	["2spoilLrig", 0.625, 1.875, 1.2, {"collision":false, "selfCollision":false, "group":""}],
+
+	//l2 right
+	{"group":"legocar_spoiler_R2"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["2spoilR1r", -0.75, 1.75, 1.45],
+	["2spoilR1l", -0.50, 1.75, 1.45],
+	["2spoilR2r", -0.75, 2.00, 1.45],
+	["2spoilR2l", -0.50, 2.00, 1.45],
+	//rigidifier
+	["2spoilRrig",-0.625, 1.875, 1.2, {"collision":false, "selfCollision":false, "group":""}],
+
+	//l2 top
+	{"group":"legocar_spoiler_T2"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["2spoilT1l",  0.75, 1.75, 1.55],
+	["2spoilT1r", -0.75, 1.75, 1.55],
+	["2spoilT2l",  0.75, 2.00, 1.55],
+	["2spoilT2r", -0.75, 2.00, 1.55],
+	//rigidifier
+	["2spoilTrig", 0, 1.875, 1.1, {"collision":false, "selfCollision":false, "group":""}],
+	
+	
+	//l3 left
+	{"group":"legocar_spoiler_L3"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["3spoilL1l",  0.75, 1.75, 1.65],
+	["3spoilL1r",  0.50, 1.75, 1.65],
+	["3spoilL2l",  0.75, 2.00, 1.65],
+	["3spoilL2r",  0.50, 2.00, 1.65],
+	//rigidifier
+	["3spoilLrig", 0.625, 1.875, 1.4, {"collision":false, "selfCollision":false, "group":""}],
+
+	//l3 right
+	{"group":"legocar_spoiler_R3"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["3spoilR1r", -0.75, 1.75, 1.65],
+	["3spoilR1l", -0.50, 1.75, 1.65],
+	["3spoilR2r", -0.75, 2.00, 1.65],
+	["3spoilR2l", -0.50, 2.00, 1.65],
+	//rigidifier
+	["3spoilRrig",-0.625, 1.875, 1.4, {"collision":false, "selfCollision":false, "group":""}],
+
+	//l3 top
+	{"group":"legocar_spoiler_T3"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["3spoilT1l",  0.75, 1.75, 1.75],
+	["3spoilT1r", -0.75, 1.75, 1.75],
+	["3spoilT2l",  0.75, 2.00, 1.75],
+	["3spoilT2r", -0.75, 2.00, 1.75],
+	//rigidifier
+	["3spoilTrig", 0, 1.875, 1.3, {"collision":false, "selfCollision":false, "group":""}],
+	
+	
+	//l4 left
+	{"group":"legocar_spoiler_L4"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["4spoilL1l",  0.75, 1.75, 1.85],
+	["4spoilL1r",  0.50, 1.75, 1.85],
+	["4spoilL2l",  0.75, 2.00, 1.85],
+	["4spoilL2r",  0.50, 2.00, 1.85],
+	//rigidifier
+	["4spoilLrig", 0.625, 1.875, 1.6, {"collision":false, "selfCollision":false, "group":""}],
+
+	//l4 right
+	{"group":"legocar_spoiler_R4"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["4spoilR1r", -0.75, 1.75, 1.85],
+	["4spoilR1l", -0.50, 1.75, 1.85],
+	["4spoilR2r", -0.75, 2.00, 1.85],
+	["4spoilR2l", -0.50, 2.00, 1.85],
+	//rigidifier
+	["4spoilRrig",-0.625, 1.875, 1.6, {"collision":false, "selfCollision":false, "group":""}],
+
+	//l4 top
+	{"group":"legocar_spoiler_T4"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["4spoilT1l",  0.75, 1.75, 1.95],
+	["4spoilT1r", -0.75, 1.75, 1.95],
+	["4spoilT2l",  0.75, 2.00, 1.95],
+	["4spoilT2r", -0.75, 2.00, 1.95],
+	//rigidifier
+	["4spoilTrig", 0, 1.875, 1.5, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLonground":1, "beamShortround":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--SMALL PIECES--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//l1 left uniform structure
+	["1spoilL1l", "1spoilL1r"],
+	["1spoilL2l", "1spoilL2r"],
+	["1spoilL1l", "1spoilL2l"],
+	["1spoilL1r", "1spoilL2r"],
+	["1spoilL1l", "1spoilL2r"],
+	["1spoilL2l", "1spoilL1r"],
+
+	//l1 left rigidifier
+	["1spoilL1l", "1spoilLrig"],
+	["1spoilL1r", "1spoilLrig"],
+	["1spoilL2l", "1spoilLrig"],
+	["1spoilL2r", "1spoilLrig"],
+	
+	//l1 right uniform structure
+	["1spoilR1l", "1spoilR1r"],
+	["1spoilR2l", "1spoilR2r"],
+	["1spoilR1l", "1spoilR2l"],
+	["1spoilR1r", "1spoilR2r"],
+	["1spoilR1l", "1spoilR2r"],
+	["1spoilR2l", "1spoilR1r"],
+
+	//l1 right rigidifier
+	["1spoilR1l", "1spoilRrig"],
+	["1spoilR1r", "1spoilRrig"],
+	["1spoilR2l", "1spoilRrig"],
+	["1spoilR2r", "1spoilRrig"],
+	
+	//l2 left uniform structure
+	["2spoilL1l", "2spoilL1r"],
+	["2spoilL2l", "2spoilL2r"],
+	["2spoilL1l", "2spoilL2l"],
+	["2spoilL1r", "2spoilL2r"],
+	["2spoilL1l", "2spoilL2r"],
+	["2spoilL2l", "2spoilL1r"],
+
+	//l2 left rigidifier
+	["2spoilL1l", "2spoilLrig"],
+	["2spoilL1r", "2spoilLrig"],
+	["2spoilL2l", "2spoilLrig"],
+	["2spoilL2r", "2spoilLrig"],
+	
+	//l2 right uniform structure
+	["2spoilR1l", "2spoilR1r"],
+	["2spoilR2l", "2spoilR2r"],
+	["2spoilR1l", "2spoilR2l"],
+	["2spoilR1r", "2spoilR2r"],
+	["2spoilR1l", "2spoilR2r"],
+	["2spoilR2l", "2spoilR1r"],
+
+	//l2 right rigidifier
+	["2spoilR1l", "2spoilRrig"],
+	["2spoilR1r", "2spoilRrig"],
+	["2spoilR2l", "2spoilRrig"],
+	["2spoilR2r", "2spoilRrig"],
+	
+	//l3 left uniform structure
+	["3spoilL1l", "3spoilL1r"],
+	["3spoilL2l", "3spoilL2r"],
+	["3spoilL1l", "3spoilL2l"],
+	["3spoilL1r", "3spoilL2r"],
+	["3spoilL1l", "3spoilL2r"],
+	["3spoilL2l", "3spoilL1r"],
+
+	//l3 left rigidifier
+	["3spoilL1l", "3spoilLrig"],
+	["3spoilL1r", "3spoilLrig"],
+	["3spoilL2l", "3spoilLrig"],
+	["3spoilL2r", "3spoilLrig"],
+	
+	//l3 right uniform structure
+	["3spoilR1l", "3spoilR1r"],
+	["3spoilR2l", "3spoilR2r"],
+	["3spoilR1l", "3spoilR2l"],
+	["3spoilR1r", "3spoilR2r"],
+	["3spoilR1l", "3spoilR2r"],
+	["3spoilR2l", "3spoilR1r"],
+
+	//l3 right rigidifier
+	["3spoilR1l", "3spoilRrig"],
+	["3spoilR1r", "3spoilRrig"],
+	["3spoilR2l", "3spoilRrig"],
+	["3spoilR2r", "3spoilRrig"],
+	
+	//l4 left uniform structure
+	["4spoilL1l", "4spoilL1r"],
+	["4spoilL2l", "4spoilL2r"],
+	["4spoilL1l", "4spoilL2l"],
+	["4spoilL1r", "4spoilL2r"],
+	["4spoilL1l", "4spoilL2r"],
+	["4spoilL2l", "4spoilL1r"],
+
+	//l4 left rigidifier
+	["4spoilL1l", "4spoilLrig"],
+	["4spoilL1r", "4spoilLrig"],
+	["4spoilL2l", "4spoilLrig"],
+	["4spoilL2r", "4spoilLrig"],
+	
+	//l4 right uniform structure
+	["4spoilR1l", "4spoilR1r"],
+	["4spoilR2l", "4spoilR2r"],
+	["4spoilR1l", "4spoilR2l"],
+	["4spoilR1r", "4spoilR2r"],
+	["4spoilR1l", "4spoilR2r"],
+	["4spoilR2l", "4spoilR1r"],
+
+	//l4 right rigidifier
+	["4spoilR1l", "4spoilRrig"],
+	["4spoilR1r", "4spoilRrig"],
+	["4spoilR2l", "4spoilRrig"],
+	["4spoilR2r", "4spoilRrig"],
+	
+	
+	//--VERTICAL PIECES--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1201000", "beamDamp":"$=$weight*120"},
+
+	//l1 uniform structure
+	["1spoilT1l", "1spoilT1r"],
+	["1spoilT2l", "1spoilT2r"],
+	["1spoilT1l", "1spoilT2l"],
+	["1spoilT1r", "1spoilT2r"],
+	["1spoilT1l", "1spoilT2r"],
+	["1spoilT2l", "1spoilT1r"],
+
+	//l1 rigidifier
+	["1spoilT1l", "1spoilTrig"],
+	["1spoilT1r", "1spoilTrig"],
+	["1spoilT2l", "1spoilTrig"],
+	["1spoilT2r", "1spoilTrig"],
+	
+	//l2 uniform structure
+	["2spoilT1l", "2spoilT1r"],
+	["2spoilT2l", "2spoilT2r"],
+	["2spoilT1l", "2spoilT2l"],
+	["2spoilT1r", "2spoilT2r"],
+	["2spoilT1l", "2spoilT2r"],
+	["2spoilT2l", "2spoilT1r"],
+
+	//l2 rigidifier
+	["2spoilT1l", "2spoilTrig"],
+	["2spoilT1r", "2spoilTrig"],
+	["2spoilT2l", "2spoilTrig"],
+	["2spoilT2r", "2spoilTrig"],
+	
+	//l3 uniform structure
+	["3spoilT1l", "3spoilT1r"],
+	["3spoilT2l", "3spoilT2r"],
+	["3spoilT1l", "3spoilT2l"],
+	["3spoilT1r", "3spoilT2r"],
+	["3spoilT1l", "3spoilT2r"],
+	["3spoilT2l", "3spoilT1r"],
+
+	//l3 rigidifier
+	["3spoilT1l", "3spoilTrig"],
+	["3spoilT1r", "3spoilTrig"],
+	["3spoilT2l", "3spoilTrig"],
+	["3spoilT2r", "3spoilTrig"],
+	
+	//l4 uniform structure
+	["4spoilT1l", "4spoilT1r"],
+	["4spoilT2l", "4spoilT2r"],
+	["4spoilT1l", "4spoilT2l"],
+	["4spoilT1r", "4spoilT2r"],
+	["4spoilT1l", "4spoilT2r"],
+	["4spoilT2l", "4spoilT1r"],
+
+	//l4 rigidifier
+	["4spoilT1l", "4spoilTrig"],
+	["4spoilT1r", "4spoilTrig"],
+	["4spoilT2l", "4spoilTrig"],
+	["4spoilT2r", "4spoilTrig"],
+
+	
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//l1 left to base
+	{"breakGroup":"spoiler_L1_break"},
+	
+	["1spoilL1l", "spoilT1l"],
+	["1spoilL1l", "spoilT1r"],
+	["1spoilL1l", "spoilT2l"],
+	["1spoilL1l", "spoilT2r"],
+	["1spoilL1l", "spoilTrig"],
+
+	["1spoilL1r", "spoilT1l"],
+	["1spoilL1r", "spoilT1r"],
+	["1spoilL1r", "spoilT2l"],
+	["1spoilL1r", "spoilT2r"],
+	["1spoilL1r", "spoilTrig"],
+
+	["1spoilL2l", "spoilT1l"],
+	["1spoilL2l", "spoilT1r"],
+	["1spoilL2l", "spoilT2l"],
+	["1spoilL2l", "spoilT2r"],
+	["1spoilL2l", "spoilTrig"],
+
+	["1spoilL2r", "spoilT1l"],
+	["1spoilL2r", "spoilT1r"],
+	["1spoilL2r", "spoilT2l"],
+	["1spoilL2r", "spoilT2r"],
+	["1spoilL2r", "spoilTrig"],
+
+	["1spoilLrig", "spoilT1l"],
+	["1spoilLrig", "spoilT1r"],
+	["1spoilLrig", "spoilT2l"],
+	["1spoilLrig", "spoilT2r"],
+	
+	
+	//l1 right to base
+	{"breakGroup":"spoiler_R1_break"},
+	
+	["1spoilR1l", "spoilT1l"],
+	["1spoilR1l", "spoilT1r"],
+	["1spoilR1l", "spoilT2l"],
+	["1spoilR1l", "spoilT2r"],
+	["1spoilR1l", "spoilTrig"],
+
+	["1spoilR1r", "spoilT1l"],
+	["1spoilR1r", "spoilT1r"],
+	["1spoilR1r", "spoilT2l"],
+	["1spoilR1r", "spoilT2r"],
+	["1spoilR1r", "spoilTrig"],
+
+	["1spoilR2l", "spoilT1l"],
+	["1spoilR2l", "spoilT1r"],
+	["1spoilR2l", "spoilT2l"],
+	["1spoilR2l", "spoilT2r"],
+	["1spoilR2l", "spoilTrig"],
+
+	["1spoilR2r", "spoilT1l"],
+	["1spoilR2r", "spoilT1r"],
+	["1spoilR2r", "spoilT2l"],
+	["1spoilR2r", "spoilT2r"],
+	["1spoilR2r", "spoilTrig"],
+
+	["1spoilRrig", "spoilT1l"],
+	["1spoilRrig", "spoilT1r"],
+	["1spoilRrig", "spoilT2l"],
+	["1spoilRrig", "spoilT2r"],
+
+
+	//l1 left to top
+	{"breakGroup":"spoiler_L1t_break"},
+	
+	["1spoilL1l", "1spoilT1l"],
+	["1spoilL1l", "1spoilT1r"],
+	["1spoilL1l", "1spoilT2l"],
+	["1spoilL1l", "1spoilT2r"],
+	["1spoilL1l", "1spoilTrig"],
+
+	["1spoilL1r", "1spoilT1l"],
+	["1spoilL1r", "1spoilT1r"],
+	["1spoilL1r", "1spoilT2l"],
+	["1spoilL1r", "1spoilT2r"],
+	["1spoilL1r", "1spoilTrig"],
+
+	["1spoilL2l", "1spoilT1l"],
+	["1spoilL2l", "1spoilT1r"],
+	["1spoilL2l", "1spoilT2l"],
+	["1spoilL2l", "1spoilT2r"],
+	["1spoilL2l", "1spoilTrig"],
+
+	["1spoilL2r", "1spoilT1l"],
+	["1spoilL2r", "1spoilT1r"],
+	["1spoilL2r", "1spoilT2l"],
+	["1spoilL2r", "1spoilT2r"],
+	["1spoilL2r", "1spoilTrig"],
+
+	["1spoilLrig", "1spoilT1l"],
+	["1spoilLrig", "1spoilT1r"],
+	["1spoilLrig", "1spoilT2l"],
+	["1spoilLrig", "1spoilT2r"],
+	
+	
+	//l1 right to top
+	{"breakGroup":"spoiler_R1t_break"},
+	
+	["1spoilR1l", "1spoilT1l"],
+	["1spoilR1l", "1spoilT1r"],
+	["1spoilR1l", "1spoilT2l"],
+	["1spoilR1l", "1spoilT2r"],
+	["1spoilR1l", "1spoilTrig"],
+
+	["1spoilR1r", "1spoilT1l"],
+	["1spoilR1r", "1spoilT1r"],
+	["1spoilR1r", "1spoilT2l"],
+	["1spoilR1r", "1spoilT2r"],
+	["1spoilR1r", "1spoilTrig"],
+
+	["1spoilR2l", "1spoilT1l"],
+	["1spoilR2l", "1spoilT1r"],
+	["1spoilR2l", "1spoilT2l"],
+	["1spoilR2l", "1spoilT2r"],
+	["1spoilR2l", "1spoilTrig"],
+
+	["1spoilR2r", "1spoilT1l"],
+	["1spoilR2r", "1spoilT1r"],
+	["1spoilR2r", "1spoilT2l"],
+	["1spoilR2r", "1spoilT2r"],
+	["1spoilR2r", "1spoilTrig"],
+
+	["1spoilRrig", "1spoilT1l"],
+	["1spoilRrig", "1spoilT1r"],
+	["1spoilRrig", "1spoilT2l"],
+	["1spoilRrig", "1spoilT2r"],
+	
+	
+	//l2 left to base
+	{"breakGroup":"spoiler_L2_break"},
+	
+	["2spoilL1l", "1spoilT1l"],
+	["2spoilL1l", "1spoilT1r"],
+	["2spoilL1l", "1spoilT2l"],
+	["2spoilL1l", "1spoilT2r"],
+	["2spoilL1l", "1spoilTrig"],
+
+	["2spoilL1r", "1spoilT1l"],
+	["2spoilL1r", "1spoilT1r"],
+	["2spoilL1r", "1spoilT2l"],
+	["2spoilL1r", "1spoilT2r"],
+	["2spoilL1r", "1spoilTrig"],
+
+	["2spoilL2l", "1spoilT1l"],
+	["2spoilL2l", "1spoilT1r"],
+	["2spoilL2l", "1spoilT2l"],
+	["2spoilL2l", "1spoilT2r"],
+	["2spoilL2l", "1spoilTrig"],
+
+	["2spoilL2r", "1spoilT1l"],
+	["2spoilL2r", "1spoilT1r"],
+	["2spoilL2r", "1spoilT2l"],
+	["2spoilL2r", "1spoilT2r"],
+	["2spoilL2r", "1spoilTrig"],
+
+	["2spoilLrig", "1spoilT1l"],
+	["2spoilLrig", "1spoilT1r"],
+	["2spoilLrig", "1spoilT2l"],
+	["2spoilLrig", "1spoilT2r"],
+	
+	
+	//l2 right to base
+	{"breakGroup":"spoiler_R2_break"},
+	
+	["2spoilR1l", "1spoilT1l"],
+	["2spoilR1l", "1spoilT1r"],
+	["2spoilR1l", "1spoilT2l"],
+	["2spoilR1l", "1spoilT2r"],
+	["2spoilR1l", "1spoilTrig"],
+
+	["2spoilR1r", "1spoilT1l"],
+	["2spoilR1r", "1spoilT1r"],
+	["2spoilR1r", "1spoilT2l"],
+	["2spoilR1r", "1spoilT2r"],
+	["2spoilR1r", "1spoilTrig"],
+
+	["2spoilR2l", "1spoilT1l"],
+	["2spoilR2l", "1spoilT1r"],
+	["2spoilR2l", "1spoilT2l"],
+	["2spoilR2l", "1spoilT2r"],
+	["2spoilR2l", "1spoilTrig"],
+
+	["2spoilR2r", "1spoilT1l"],
+	["2spoilR2r", "1spoilT1r"],
+	["2spoilR2r", "1spoilT2l"],
+	["2spoilR2r", "1spoilT2r"],
+	["2spoilR2r", "1spoilTrig"],
+
+	["2spoilRrig", "1spoilT1l"],
+	["2spoilRrig", "1spoilT1r"],
+	["2spoilRrig", "1spoilT2l"],
+	["2spoilRrig", "1spoilT2r"],
+
+
+	//l2 left to top
+	{"breakGroup":"spoiler_L2t_break"},
+	
+	["2spoilL1l", "2spoilT1l"],
+	["2spoilL1l", "2spoilT1r"],
+	["2spoilL1l", "2spoilT2l"],
+	["2spoilL1l", "2spoilT2r"],
+	["2spoilL1l", "2spoilTrig"],
+
+	["2spoilL1r", "2spoilT1l"],
+	["2spoilL1r", "2spoilT1r"],
+	["2spoilL1r", "2spoilT2l"],
+	["2spoilL1r", "2spoilT2r"],
+	["2spoilL1r", "2spoilTrig"],
+
+	["2spoilL2l", "2spoilT1l"],
+	["2spoilL2l", "2spoilT1r"],
+	["2spoilL2l", "2spoilT2l"],
+	["2spoilL2l", "2spoilT2r"],
+	["2spoilL2l", "2spoilTrig"],
+
+	["2spoilL2r", "2spoilT1l"],
+	["2spoilL2r", "2spoilT1r"],
+	["2spoilL2r", "2spoilT2l"],
+	["2spoilL2r", "2spoilT2r"],
+	["2spoilL2r", "2spoilTrig"],
+
+	["2spoilLrig", "2spoilT1l"],
+	["2spoilLrig", "2spoilT1r"],
+	["2spoilLrig", "2spoilT2l"],
+	["2spoilLrig", "2spoilT2r"],
+	
+	
+	//l2 right to top
+	{"breakGroup":"spoiler_R2t_break"},
+	
+	["2spoilR1l", "2spoilT1l"],
+	["2spoilR1l", "2spoilT1r"],
+	["2spoilR1l", "2spoilT2l"],
+	["2spoilR1l", "2spoilT2r"],
+	["2spoilR1l", "2spoilTrig"],
+
+	["2spoilR1r", "2spoilT1l"],
+	["2spoilR1r", "2spoilT1r"],
+	["2spoilR1r", "2spoilT2l"],
+	["2spoilR1r", "2spoilT2r"],
+	["2spoilR1r", "2spoilTrig"],
+
+	["2spoilR2l", "2spoilT1l"],
+	["2spoilR2l", "2spoilT1r"],
+	["2spoilR2l", "2spoilT2l"],
+	["2spoilR2l", "2spoilT2r"],
+	["2spoilR2l", "2spoilTrig"],
+
+	["2spoilR2r", "2spoilT1l"],
+	["2spoilR2r", "2spoilT1r"],
+	["2spoilR2r", "2spoilT2l"],
+	["2spoilR2r", "2spoilT2r"],
+	["2spoilR2r", "2spoilTrig"],
+
+	["2spoilRrig", "2spoilT1l"],
+	["2spoilRrig", "2spoilT1r"],
+	["2spoilRrig", "2spoilT2l"],
+	["2spoilRrig", "2spoilT2r"],
+	
+	
+	//l3 left to base
+	{"breakGroup":"spoiler_L3_break"},
+	
+	["3spoilL1l", "2spoilT1l"],
+	["3spoilL1l", "2spoilT1r"],
+	["3spoilL1l", "2spoilT2l"],
+	["3spoilL1l", "2spoilT2r"],
+	["3spoilL1l", "2spoilTrig"],
+
+	["3spoilL1r", "2spoilT1l"],
+	["3spoilL1r", "2spoilT1r"],
+	["3spoilL1r", "2spoilT2l"],
+	["3spoilL1r", "2spoilT2r"],
+	["3spoilL1r", "2spoilTrig"],
+
+	["3spoilL2l", "2spoilT1l"],
+	["3spoilL2l", "2spoilT1r"],
+	["3spoilL2l", "2spoilT2l"],
+	["3spoilL2l", "2spoilT2r"],
+	["3spoilL2l", "2spoilTrig"],
+
+	["3spoilL2r", "2spoilT1l"],
+	["3spoilL2r", "2spoilT1r"],
+	["3spoilL2r", "2spoilT2l"],
+	["3spoilL2r", "2spoilT2r"],
+	["3spoilL2r", "2spoilTrig"],
+
+	["3spoilLrig", "2spoilT1l"],
+	["3spoilLrig", "2spoilT1r"],
+	["3spoilLrig", "2spoilT2l"],
+	["3spoilLrig", "2spoilT2r"],
+	
+	
+	//l3 right to base
+	{"breakGroup":"spoiler_R3_break"},
+	
+	["3spoilR1l", "2spoilT1l"],
+	["3spoilR1l", "2spoilT1r"],
+	["3spoilR1l", "2spoilT2l"],
+	["3spoilR1l", "2spoilT2r"],
+	["3spoilR1l", "2spoilTrig"],
+
+	["3spoilR1r", "2spoilT1l"],
+	["3spoilR1r", "2spoilT1r"],
+	["3spoilR1r", "2spoilT2l"],
+	["3spoilR1r", "2spoilT2r"],
+	["3spoilR1r", "2spoilTrig"],
+
+	["3spoilR2l", "2spoilT1l"],
+	["3spoilR2l", "2spoilT1r"],
+	["3spoilR2l", "2spoilT2l"],
+	["3spoilR2l", "2spoilT2r"],
+	["3spoilR2l", "2spoilTrig"],
+
+	["3spoilR2r", "2spoilT1l"],
+	["3spoilR2r", "2spoilT1r"],
+	["3spoilR2r", "2spoilT2l"],
+	["3spoilR2r", "2spoilT2r"],
+	["3spoilR2r", "2spoilTrig"],
+
+	["3spoilRrig", "2spoilT1l"],
+	["3spoilRrig", "2spoilT1r"],
+	["3spoilRrig", "2spoilT2l"],
+	["3spoilRrig", "2spoilT2r"],
+
+
+	//l3 left to top
+	{"breakGroup":"spoiler_L3t_break"},
+	
+	["3spoilL1l", "3spoilT1l"],
+	["3spoilL1l", "3spoilT1r"],
+	["3spoilL1l", "3spoilT2l"],
+	["3spoilL1l", "3spoilT2r"],
+	["3spoilL1l", "3spoilTrig"],
+
+	["3spoilL1r", "3spoilT1l"],
+	["3spoilL1r", "3spoilT1r"],
+	["3spoilL1r", "3spoilT2l"],
+	["3spoilL1r", "3spoilT2r"],
+	["3spoilL1r", "3spoilTrig"],
+
+	["3spoilL2l", "3spoilT1l"],
+	["3spoilL2l", "3spoilT1r"],
+	["3spoilL2l", "3spoilT2l"],
+	["3spoilL2l", "3spoilT2r"],
+	["3spoilL2l", "3spoilTrig"],
+
+	["3spoilL2r", "3spoilT1l"],
+	["3spoilL2r", "3spoilT1r"],
+	["3spoilL2r", "3spoilT2l"],
+	["3spoilL2r", "3spoilT2r"],
+	["3spoilL2r", "3spoilTrig"],
+
+	["3spoilLrig", "3spoilT1l"],
+	["3spoilLrig", "3spoilT1r"],
+	["3spoilLrig", "3spoilT2l"],
+	["3spoilLrig", "3spoilT2r"],
+	
+	
+	//l3 right to top
+	{"breakGroup":"spoiler_R3t_break"},
+	
+	["3spoilR1l", "3spoilT1l"],
+	["3spoilR1l", "3spoilT1r"],
+	["3spoilR1l", "3spoilT2l"],
+	["3spoilR1l", "3spoilT2r"],
+	["3spoilR1l", "3spoilTrig"],
+
+	["3spoilR1r", "3spoilT1l"],
+	["3spoilR1r", "3spoilT1r"],
+	["3spoilR1r", "3spoilT2l"],
+	["3spoilR1r", "3spoilT2r"],
+	["3spoilR1r", "3spoilTrig"],
+
+	["3spoilR2l", "3spoilT1l"],
+	["3spoilR2l", "3spoilT1r"],
+	["3spoilR2l", "3spoilT2l"],
+	["3spoilR2l", "3spoilT2r"],
+	["3spoilR2l", "3spoilTrig"],
+
+	["3spoilR2r", "3spoilT1l"],
+	["3spoilR2r", "3spoilT1r"],
+	["3spoilR2r", "3spoilT2l"],
+	["3spoilR2r", "3spoilT2r"],
+	["3spoilR2r", "3spoilTrig"],
+
+	["3spoilRrig", "3spoilT1l"],
+	["3spoilRrig", "3spoilT1r"],
+	["3spoilRrig", "3spoilT2l"],
+	["3spoilRrig", "3spoilT2r"],
+	
+	
+	//l4 left to base
+	{"breakGroup":"spoiler_L4_break"},
+	
+	["4spoilL1l", "3spoilT1l"],
+	["4spoilL1l", "3spoilT1r"],
+	["4spoilL1l", "3spoilT2l"],
+	["4spoilL1l", "3spoilT2r"],
+	["4spoilL1l", "3spoilTrig"],
+
+	["4spoilL1r", "3spoilT1l"],
+	["4spoilL1r", "3spoilT1r"],
+	["4spoilL1r", "3spoilT2l"],
+	["4spoilL1r", "3spoilT2r"],
+	["4spoilL1r", "3spoilTrig"],
+
+	["4spoilL2l", "3spoilT1l"],
+	["4spoilL2l", "3spoilT1r"],
+	["4spoilL2l", "3spoilT2l"],
+	["4spoilL2l", "3spoilT2r"],
+	["4spoilL2l", "3spoilTrig"],
+
+	["4spoilL2r", "3spoilT1l"],
+	["4spoilL2r", "3spoilT1r"],
+	["4spoilL2r", "3spoilT2l"],
+	["4spoilL2r", "3spoilT2r"],
+	["4spoilL2r", "3spoilTrig"],
+
+	["4spoilLrig", "3spoilT1l"],
+	["4spoilLrig", "3spoilT1r"],
+	["4spoilLrig", "3spoilT2l"],
+	["4spoilLrig", "3spoilT2r"],
+	
+	
+	//l4 right to base
+	{"breakGroup":"spoiler_R4_break"},
+	
+	["4spoilR1l", "3spoilT1l"],
+	["4spoilR1l", "3spoilT1r"],
+	["4spoilR1l", "3spoilT2l"],
+	["4spoilR1l", "3spoilT2r"],
+	["4spoilR1l", "3spoilTrig"],
+
+	["4spoilR1r", "3spoilT1l"],
+	["4spoilR1r", "3spoilT1r"],
+	["4spoilR1r", "3spoilT2l"],
+	["4spoilR1r", "3spoilT2r"],
+	["4spoilR1r", "3spoilTrig"],
+
+	["4spoilR2l", "3spoilT1l"],
+	["4spoilR2l", "3spoilT1r"],
+	["4spoilR2l", "3spoilT2l"],
+	["4spoilR2l", "3spoilT2r"],
+	["4spoilR2l", "3spoilTrig"],
+
+	["4spoilR2r", "3spoilT1l"],
+	["4spoilR2r", "3spoilT1r"],
+	["4spoilR2r", "3spoilT2l"],
+	["4spoilR2r", "3spoilT2r"],
+	["4spoilR2r", "3spoilTrig"],
+
+	["4spoilRrig", "3spoilT1l"],
+	["4spoilRrig", "3spoilT1r"],
+	["4spoilRrig", "3spoilT2l"],
+	["4spoilRrig", "3spoilT2r"],
+
+
+	//l4 left to top
+	{"breakGroup":"spoiler_L4t_break"},
+	
+	["4spoilL1l", "4spoilT1l"],
+	["4spoilL1l", "4spoilT1r"],
+	["4spoilL1l", "4spoilT2l"],
+	["4spoilL1l", "4spoilT2r"],
+	["4spoilL1l", "4spoilTrig"],
+
+	["4spoilL1r", "4spoilT1l"],
+	["4spoilL1r", "4spoilT1r"],
+	["4spoilL1r", "4spoilT2l"],
+	["4spoilL1r", "4spoilT2r"],
+	["4spoilL1r", "4spoilTrig"],
+
+	["4spoilL2l", "4spoilT1l"],
+	["4spoilL2l", "4spoilT1r"],
+	["4spoilL2l", "4spoilT2l"],
+	["4spoilL2l", "4spoilT2r"],
+	["4spoilL2l", "4spoilTrig"],
+
+	["4spoilL2r", "4spoilT1l"],
+	["4spoilL2r", "4spoilT1r"],
+	["4spoilL2r", "4spoilT2l"],
+	["4spoilL2r", "4spoilT2r"],
+	["4spoilL2r", "4spoilTrig"],
+
+	["4spoilLrig", "4spoilT1l"],
+	["4spoilLrig", "4spoilT1r"],
+	["4spoilLrig", "4spoilT2l"],
+	["4spoilLrig", "4spoilT2r"],
+	
+	
+	//l4 right to top
+	{"breakGroup":"spoiler_R4t_break"},
+	
+	["4spoilR1l", "4spoilT1l"],
+	["4spoilR1l", "4spoilT1r"],
+	["4spoilR1l", "4spoilT2l"],
+	["4spoilR1l", "4spoilT2r"],
+	["4spoilR1l", "4spoilTrig"],
+
+	["4spoilR1r", "4spoilT1l"],
+	["4spoilR1r", "4spoilT1r"],
+	["4spoilR1r", "4spoilT2l"],
+	["4spoilR1r", "4spoilT2r"],
+	["4spoilR1r", "4spoilTrig"],
+
+	["4spoilR2l", "4spoilT1l"],
+	["4spoilR2l", "4spoilT1r"],
+	["4spoilR2l", "4spoilT2l"],
+	["4spoilR2l", "4spoilT2r"],
+	["4spoilR2l", "4spoilTrig"],
+
+	["4spoilR2r", "4spoilT1l"],
+	["4spoilR2r", "4spoilT1r"],
+	["4spoilR2r", "4spoilT2l"],
+	["4spoilR2r", "4spoilT2r"],
+	["4spoilR2r", "4spoilTrig"],
+
+	["4spoilRrig", "4spoilT1l"],
+	["4spoilRrig", "4spoilT1r"],
+	["4spoilRrig", "4spoilT2l"],
+	["4spoilRrig", "4spoilT2r"],
+
+	{"breakGroup":""},
+	
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLonground":1, "beamShortround":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_spoiler_L1"},
+	["1spoilL2l","1spoilL2r","1spoilL1r","1spoilL1l"],
+	{"group":"legocar_spoiler_R1"},
+	["1spoilR2l","1spoilR2r","1spoilR1r","1spoilR1l"],
+	{"group":"legocar_spoiler_T1"},
+	["1spoilT2l","1spoilT2r","1spoilT1r","1spoilT1l"],
+	
+	{"group":"legocar_spoiler_L2"},
+	["2spoilL2l","2spoilL2r","2spoilL1r","2spoilL1l"],
+	{"group":"legocar_spoiler_R2"},
+	["2spoilR2l","2spoilR2r","2spoilR1r","2spoilR1l"],
+	{"group":"legocar_spoiler_T2"},
+	["2spoilT2l","2spoilT2r","2spoilT1r","2spoilT1l"],
+	
+	{"group":"legocar_spoiler_L3"},
+	["3spoilL2l","3spoilL2r","3spoilL1r","3spoilL1l"],
+	{"group":"legocar_spoiler_R3"},
+	["3spoilR2l","3spoilR2r","3spoilR1r","3spoilR1l"],
+	{"group":"legocar_spoiler_T3"},
+	["3spoilT2l","3spoilT2r","3spoilT1r","3spoilT1l"],
+	
+	{"group":"legocar_spoiler_L4"},
+	["4spoilL2l","4spoilL2r","4spoilL1r","4spoilL1l"],
+	{"group":"legocar_spoiler_R4"},
+	["4spoilR2l","4spoilR2r","4spoilR1r","4spoilR1l"],
+	{"group":"legocar_spoiler_T4"},
+	["4spoilT2l","4spoilT2r","4spoilT1r","4spoilT1l"],
+
+        {"group":""},
+    ],
+},
+
+}

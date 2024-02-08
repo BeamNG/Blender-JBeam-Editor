@@ -1,0 +1,151 @@
+{
+"legocar_taillight_R_spike": {
+    "information":{
+        "name":"Right Spike",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_taillight_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_cone_black", ["legocar_spikemount_R"],[], {"pos":{"x":-0.375, "y":1.850, "z":0.475},"rot":{"x":-90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_spike_grey",          ["legocar_spike_R"],     [], {"pos":{"x":-0.375, "y":1.950, "z":0.475},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//spike mount
+	{"group":"legocar_spikemount_R"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["Rtllight1l",-0.280, 1.85, 0.380],
+	["Rtllight2l",-0.280, 1.85, 0.570],
+	["Rtllight1r",-0.470, 1.85, 0.380],
+	["Rtllight2r",-0.470, 1.85, 0.570],
+	["Rtllight0", -0.375, 2.05, 0.475, {"selfCollision":false}],
+
+	//spike
+	{"group":"legocar_spike_R"},
+	//3 pieces, 3 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+	["Rspike1",-0.375, 2.05, 0.325],
+	["Rspike2",-0.375, 2.05, 0.625],
+	["Rspike3",-0.375, 2.55, 0.475],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--SPIKE MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//square
+	["Rtllight1l", "Rtllight1r"],
+	["Rtllight2l", "Rtllight2r"],
+	["Rtllight1l", "Rtllight2r"],
+	["Rtllight2l", "Rtllight1r"],
+	["Rtllight1l", "Rtllight2l"],
+	["Rtllight1r", "Rtllight2r"],
+
+	//tip
+	["Rtllight1l", "Rtllight0"],
+	["Rtllight1r", "Rtllight0"],
+	["Rtllight2l", "Rtllight0"],
+	["Rtllight2r", "Rtllight0"],
+
+
+	//--SPIKE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	["Rspike1", "Rspike2"],
+	["Rspike2", "Rspike3"],
+	["Rspike3", "Rspike1"],
+
+
+	//--SPIKE TO MOUNT--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"spike_R_break"},
+	
+	["Rspike1", "Rtllight0"],
+	["Rspike2", "Rtllight0"],
+	["Rspike3", "Rtllight0"],
+
+	["Rspike3", "Rtllight1l"],
+	["Rspike3", "Rtllight1r"],
+	["Rspike3", "Rtllight2l"],
+	["Rspike3", "Rtllight2r"],
+
+	["Rspike2", "Rtllight1l"],
+	["Rspike2", "Rtllight1r"],
+	["Rspike2", "Rtllight2l"],
+	["Rspike2", "Rtllight2r"],
+
+	["Rspike1", "Rtllight1l"],
+	["Rspike1", "Rtllight1r"],
+	["Rspike1", "Rtllight2l"],
+	["Rspike1", "Rtllight2r"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*191000", "beamDamp":"$=$weight*19"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"spikemount_R_break"},
+	
+	["Rtllight1l", "Rfasc1l"],
+	["Rtllight1l", "Rfasc1r"],
+	["Rtllight1l", "Rfasc2r"],
+
+	["Rtllight2l", "Rfasc1l"],
+	["Rtllight2l", "Rfasc2l"],
+	["Rtllight2l", "Rfasc2r"],
+
+	["Rtllight1r", "Rfasc1l"],
+	["Rtllight1r", "Rfasc1r"],
+	["Rtllight1r", "Rfasc2r"],
+
+	["Rtllight2r", "Rfasc1l"],
+	["Rtllight2r", "Rfasc2l"],
+	["Rtllight2r", "Rfasc2r"],
+
+	["Rtllight0", "Rfasc1l"],
+	["Rtllight0", "Rfasc1r"],
+	["Rtllight0", "Rfasc2r"],
+
+	//stiffeners
+	["Rtllight1l", "Rfascrig"],
+	["Rtllight1r", "Rfascrig"],
+	["Rtllight2l", "Rfascrig"],
+	["Rtllight2r", "Rfascrig"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_spikemount_R"},
+	["Rtllight0","Rtllight2l","Rtllight1l"],
+	["Rtllight0","Rtllight2r","Rtllight2l"],
+	["Rtllight0","Rtllight1r","Rtllight2r"],
+	["Rtllight0","Rtllight1l","Rtllight1r"],
+
+	{"group":"legocar_spike_R"},
+	["Rspike1","Rspike2","Rspike3"],
+	
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_taillight_R"},   
+	["Rtllight1r","Rtllight1l","Rtllight2l","Rtllight2r"],
+        {"group":""},
+    ],
+},
+
+}

@@ -1,0 +1,214 @@
+{
+"legocar_squabpanel": {
+    "information":{
+        "name":"Squab Panel",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_squabpanel",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_subframe_B", "legocar_subframe_B", "Back Subframe"],
+	["legocar_squabpanel_top", "legocar_squabpanel_top_col1", "Backlight Support"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_col1", ["legocar_squabpanel_mount"],[], {"pos":{"x":0, "y":1.125, "z":0.3},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_2x2_tall_col1", ["legocar_squabpanel"],      [], {"pos":{"x":0, "y":1.250, "z":0.4},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//squab panel mount
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+	{"group":"legocar_squabpanel_mount"},
+
+	["sqpanmount1l", 0.25, 1.00, 0.35],
+	["sqpanmount1r",-0.25, 1.00, 0.35],
+	["sqpanmount2l", 0.25, 1.25, 0.35],
+	["sqpanmount2r",-0.25, 1.25, 0.35],
+	//rigidifier
+	["sqpanmountrig", 0, 1.125, 0.6, {"collision":false, "selfCollision":false, "group":""}],
+
+	//squab panel
+	//12 pieces, 8 nodes - 1.5 kg/node
+	{"nodeWeight": "$=$weight*1.5"},
+	{"group":"legocar_squabpanel"},
+
+	["sqpan1l", 0.22, 1.00, 0.4],
+	["sqpan1r",-0.22, 1.00, 0.4],
+	["sqpan2l", 0.22, 1.47, 0.4],
+	["sqpan2r",-0.22, 1.47, 0.4],
+
+	["sqpan3l", 0.22, 1.00, 0.7],
+	["sqpan3r",-0.22, 1.00, 0.7],
+	["sqpan4l", 0.22, 1.47, 0.7],
+	["sqpan4r",-0.22, 1.47, 0.7],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--SQUAB PANEL MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["sqpanmount1l", "sqpanmount1r"],
+	["sqpanmount2l", "sqpanmount2r"],
+	["sqpanmount1l", "sqpanmount2l"],
+	["sqpanmount1r", "sqpanmount2r"],
+	["sqpanmount1l", "sqpanmount2r"],
+	["sqpanmount2l", "sqpanmount1r"],
+
+	//rigidifier
+	["sqpanmount1l", "sqpanmountrig"],
+	["sqpanmount1r", "sqpanmountrig"],
+	["sqpanmount2l", "sqpanmountrig"],
+	["sqpanmount2r", "sqpanmountrig"],
+
+
+	//--SQUAB PANEL--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["sqpan1l", "sqpan1r"],
+	["sqpan2l", "sqpan2r"],
+	["sqpan3l", "sqpan3r"],
+	["sqpan4l", "sqpan4r"],
+
+	["sqpan1l", "sqpan2r"],
+	["sqpan2l", "sqpan3r"],
+	["sqpan3l", "sqpan4r"],
+	["sqpan4l", "sqpan1r"],
+
+	["sqpan1l", "sqpan3r"],
+	["sqpan2l", "sqpan4r"],
+	["sqpan3l", "sqpan1r"],
+	["sqpan4l", "sqpan2r"],
+
+	["sqpan1l", "sqpan4r"],
+	["sqpan2l", "sqpan1r"],
+	["sqpan3l", "sqpan2r"],
+	["sqpan4l", "sqpan3r"],
+
+	["sqpan1l", "sqpan2l"],
+	["sqpan2l", "sqpan3l"],
+	["sqpan3l", "sqpan4l"],
+	["sqpan4l", "sqpan1l"],
+
+	["sqpan1l", "sqpan3l"],
+	["sqpan2l", "sqpan4l"],
+
+	["sqpan1r", "sqpan2r"],
+	["sqpan2r", "sqpan3r"],
+	["sqpan3r", "sqpan4r"],
+	["sqpan4r", "sqpan1r"],
+
+	["sqpan1r", "sqpan3r"],
+	["sqpan2r", "sqpan4r"],
+	
+
+	//--SQUAB PANEL TO MOUNT--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"squabpanel_break_bot"},
+	
+	["sqpan3l", "sqpanmount1l"],
+	["sqpan3l", "sqpanmount1r"],
+	["sqpan3l", "sqpanmount2l"],
+	["sqpan3l", "sqpanmountrig"],
+
+	["sqpan3r", "sqpanmount1l"],
+	["sqpan3r", "sqpanmount1r"],
+	["sqpan3r", "sqpanmount2r"],
+	["sqpan3r", "sqpanmountrig"],
+
+	["sqpan4l", "sqpanmount1l"],
+	["sqpan4l", "sqpanmount2r"],
+	["sqpan4l", "sqpanmount2l"],
+	["sqpan4l", "sqpanmountrig"],
+
+	["sqpan4r", "sqpanmount2l"],
+	["sqpan4r", "sqpanmount1r"],
+	["sqpan4r", "sqpanmount2r"],
+	["sqpan4r", "sqpanmountrig"],
+
+	//anti wobble
+	["sqpan1l", "sqpanmount1l"],
+	["sqpan1l", "sqpanmount1r"],
+	["sqpan1l", "sqpanmount2l"],
+	["sqpan1l", "sqpanmountrig"],
+
+	["sqpan1r", "sqpanmount1l"],
+	["sqpan1r", "sqpanmount1r"],
+	["sqpan1r", "sqpanmount2r"],
+	["sqpan1r", "sqpanmountrig"],
+
+	["sqpan2l", "sqpanmount1l"],
+	["sqpan2l", "sqpanmount2r"],
+	["sqpan2l", "sqpanmount2l"],
+	["sqpan2l", "sqpanmountrig"],
+
+	["sqpan2r", "sqpanmount2l"],
+	["sqpan2r", "sqpanmount1r"],
+	["sqpan2r", "sqpanmount2r"],
+	["sqpan2r", "sqpanmountrig"],
+	
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"squabpanel_mount_break"},
+
+	["sqpanmount1l", "chassis8l"],
+	["sqpanmount1l", "chassis8r"],
+	["sqpanmount1l", "chassis7l"],
+	["sqpanmount1l", "chassis0"],
+
+	["sqpanmount1r", "chassis8l"],
+	["sqpanmount1r", "chassis8r"],
+	["sqpanmount1r", "chassis7r"],
+	["sqpanmount1r", "chassis0"],
+
+	["sqpanmount2l", "chassis8l"],
+	["sqpanmount2l", "chassis7r"],
+	["sqpanmount2l", "chassis7l"],
+	["sqpanmount2l", "chassis0"],
+
+	["sqpanmount2r", "chassis7l"],
+	["sqpanmount2r", "chassis8r"],
+	["sqpanmount2r", "chassis7r"],
+	["sqpanmount2r", "chassis0"],
+
+	["sqpanmountrig", "chassis8l"],
+	["sqpanmountrig", "chassis8r"],
+	["sqpanmountrig", "chassis7l"],
+	["sqpanmountrig", "chassis7r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_squabpanel_mount"},
+	["sqpanmount1r","sqpanmount1l","sqpanmount2l","sqpanmount2r"],
+
+	{"group":"legocar_squabpanel"},   
+	["sqpan2r","sqpan2l","sqpan1l","sqpan1r"],
+	["sqpan4l","sqpan4r","sqpan3r","sqpan3l"],
+	["sqpan3r","sqpan4r","sqpan2r","sqpan1r"],
+	["sqpan4l","sqpan3l","sqpan1l","sqpan2l"],
+	["sqpan4r","sqpan4l","sqpan2l","sqpan2r"],
+	["sqpan3l","sqpan3r","sqpan1r","sqpan1l"],
+
+        {"group":""},
+    ],
+},
+
+}

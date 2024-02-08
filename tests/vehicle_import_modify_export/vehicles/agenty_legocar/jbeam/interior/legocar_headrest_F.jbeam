@@ -1,0 +1,234 @@
+{
+"legocar_headrest_F": {
+    "information":{
+        "name":"Driver Headrest",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_headrest_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_headrest",        ["legocar_headrest"], [], {"pos":{"x": 0, "y":0.283, "z":1.219},"rot":{"x":90, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_flat_notip_seat",["legocar_headrest"], [], {"pos":{"x": 0, "y":0.183, "z":1.219},"rot":{"x":90, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_headrest"},
+
+	//4 pieces, 2 half pieces, 10 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+
+	["hrest1l",  0.25, 0.083, 1.094],
+	["hrest1r", -0.25, 0.083, 1.094],
+	["hrest2l",  0.25, 0.283, 1.094],
+	["hrest2r", -0.25, 0.283, 1.094],
+	["hrest3l",  0.25, 0.083, 1.344],
+	["hrest3r", -0.25, 0.083, 1.344],
+	["hrest4l",  0.25, 0.283, 1.344],
+	["hrest4r", -0.25, 0.283, 1.344],
+
+	//hinges
+	["hrest0l",  0.125, 0.20, 0.95, {"selfCollision":false}],
+	["hrest0r", -0.125, 0.20, 0.95, {"selfCollision":false}],
+    ],
+    "torsionbars": [
+        ["id1:", "id2:", "id3:", "id4:"],
+        {"spring":"$=$weight*51000", "damp":0, "deform":"$=$strength*0.01", "strength":"FLT_MAX"},
+        //hinge torsion friction
+        ["hrest4r", "hrest0r", "FseatT3l", "FseatT2l"],
+        ["hrest4l", "hrest0l", "FseatT3r", "FseatT2r"],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--HEADREST--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["hrest1l", "hrest1r"],
+	["hrest2l", "hrest2r"],
+	["hrest3l", "hrest3r"],
+	["hrest4l", "hrest4r"],
+
+	["hrest1l", "hrest2r"],
+	["hrest2l", "hrest3r"],
+	["hrest3l", "hrest4r"],
+	["hrest4l", "hrest1r"],
+
+	["hrest1l", "hrest3r"],
+	["hrest2l", "hrest4r"],
+	["hrest3l", "hrest1r"],
+	["hrest4l", "hrest2r"],
+
+	["hrest1l", "hrest4r"],
+	["hrest2l", "hrest1r"],
+	["hrest3l", "hrest2r"],
+	["hrest4l", "hrest3r"],
+
+	["hrest1l", "hrest2l"],
+	["hrest2l", "hrest3l"],
+	["hrest3l", "hrest4l"],
+	["hrest4l", "hrest1l"],
+
+	["hrest1l", "hrest3l"],
+	["hrest2l", "hrest4l"],
+
+	["hrest1r", "hrest2r"],
+	["hrest2r", "hrest3r"],
+	["hrest3r", "hrest4r"],
+	["hrest4r", "hrest1r"],
+
+	["hrest1r", "hrest3r"],
+	["hrest2r", "hrest4r"],
+
+	//hinges
+	["hrest0l", "hrest1l"],
+	["hrest0l", "hrest1r"],
+	["hrest0l", "hrest2l"],
+	["hrest0l", "hrest2r"],
+	["hrest0l", "hrest3l"],
+	["hrest0l", "hrest3r"],
+	["hrest0l", "hrest4l"],
+	["hrest0l", "hrest4r"],
+
+	["hrest0r", "hrest1l"],
+	["hrest0r", "hrest1r"],
+	["hrest0r", "hrest2l"],
+	["hrest0r", "hrest2r"],
+	["hrest0r", "hrest3l"],
+	["hrest0r", "hrest3r"],
+	["hrest0r", "hrest4l"],
+	["hrest0r", "hrest4r"],
+
+	//hinge sliding friction
+	{"beamDeform":"$=$strength*0.01", "beamStrength":"FLT_MAX"},
+	{"breakGroup":"headrest_hinge_break"},
+	["hrest0l", "FseatT3l"],
+	["hrest0r", "FseatT3r"],
+	["hrest0l", "FseatT3r"],
+	["hrest0r", "FseatT3l"],
+
+
+	//--SUPPORT LIMITERS--
+	{"beamPrecompression":0.7, "beamType":"|SUPPORT", "beamLongBound":4, "beamShortBound":1},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//slide limiters
+	{"beamPrecompression":0.7, "beamLongBound":4, "beamShortBound":1},
+	["hrest0l", "FseatT3l"],
+	["hrest0r", "FseatT3r"],
+
+	//break triggers
+	{"beamPrecompression":0.7, "beamLongBound":0.8, "beamShortBound":1},
+	["hrest0l", "FseatT3r"],
+	["hrest0r", "FseatT3l"],
+
+	//angle limiters
+	{"beamPrecompression":0.29, "beamLongBound":7, "beamShortBound":1},
+	{"breakGroup":""},
+	["hrest3l", "FseatT1l"],
+	["hrest3r", "FseatT1r"],
+	["hrest3l", "FseatT1r"],
+	["hrest3r", "FseatT1l"],
+	["hrest4l", "FseatT1l"],
+	["hrest4r", "FseatT1r"],
+	["hrest4l", "FseatT1r"],
+	["hrest4r", "FseatT1l"],
+
+	{"optional":true},
+
+	//shelf colliders
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamPrecompression":0.9, "beamLongBound":4, "beamShortBound":1},
+	["hrest4l", "shelfF2l"],
+	["hrest4l", "shelfF2r"],
+	["hrest4r", "shelfF2l"],
+	["hrest4r", "shelfF2r"],
+
+	//windshield anti-stuck
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamPrecompression":0.6, "beamLongBound":7, "beamShortBound":1},
+
+	["hrest1l", "wshld2l"],
+	["hrest1l", "wshld2r"],
+	["hrest1l", "wshld4l"],
+	["hrest1l", "wshld4r"],
+
+	["hrest1r", "wshld2l"],
+	["hrest1r", "wshld2r"],
+	["hrest1r", "wshld4l"],
+	["hrest1r", "wshld4r"],
+
+	["hrest2l", "wshld2l"],
+	["hrest2l", "wshld2r"],
+	["hrest2l", "wshld4l"],
+	["hrest2l", "wshld4r"],
+
+	["hrest2r", "wshld2l"],
+	["hrest2r", "wshld2r"],
+	["hrest2r", "wshld4l"],
+	["hrest2r", "wshld4r"],
+
+	["hrest3l", "wshld2l"],
+	["hrest3l", "wshld2r"],
+	["hrest3l", "wshld4l"],
+	["hrest3l", "wshld4r"],
+
+	["hrest3r", "wshld2l"],
+	["hrest3r", "wshld2r"],
+	["hrest3r", "wshld4l"],
+	["hrest3r", "wshld4r"],
+
+	["hrest4l", "wshld2l"],
+	["hrest4l", "wshld2r"],
+	["hrest4l", "wshld4l"],
+	["hrest4l", "wshld4r"],
+
+	["hrest4r", "wshld2l"],
+	["hrest4r", "wshld2r"],
+	["hrest4r", "wshld4l"],
+	["hrest4r", "wshld4r"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_headrest"},
+	["hrest1l","hrest0l","hrest2l"],
+	["hrest1r","hrest2r","hrest0r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_headrest"},  
+
+	//main shape 
+	["hrest2r","hrest2l","hrest1l","hrest1r"],
+	["hrest4l","hrest4r","hrest3r","hrest3l"],
+	["hrest3r","hrest4r","hrest2r","hrest1r"],
+	["hrest4l","hrest3l","hrest1l","hrest2l"],
+	["hrest4r","hrest4l","hrest2l","hrest2r"],
+	["hrest3l","hrest3r","hrest1r","hrest1l"],
+
+	//hinges
+	["hrest2r","hrest2l","hrest0l","hrest0r"],
+	["hrest0r","hrest0l","hrest1l","hrest1r"],
+
+        {"group":""},
+    ],
+    "rails": {
+        "headrest_hinge":{"links:":["FseatT3l", "FseatT3r"], "broken:":[], "looped":false, "capped":true},
+    },
+    "slidenodes": [
+        ["id:", "railName", "attached", "fixToRail", "tolerance", "spring", "strength", "capStrength"],
+        ["hrest0l", "headrest_hinge", true, true, 0.0, "$=$weight*501000", "FLT_MAX", "FLT_MAX"],
+        ["hrest0r", "headrest_hinge", true, true, 0.0, "$=$weight*501000", "FLT_MAX", "FLT_MAX"],
+    ],
+},
+
+}

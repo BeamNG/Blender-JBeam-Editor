@@ -1,0 +1,335 @@
+{
+"legocar_mirrormount_R_filler_col1": {
+    "information":{
+        "name":"Right Filler (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_mirrormount_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_col1",["legocar_mirrormount_R"], [], {"pos":{"x": -0.625, "y":-0.500, "z":0.7},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_mirrormount_R"},
+
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["mirrormt1rr", -0.75, -0.25, 0.75],
+	["mirrormt1r",  -0.53, -0.25, 0.75],
+	["mirrormt2rr", -0.75, -0.75, 0.75],
+	["mirrormt2r",  -0.53, -0.75, 0.75],
+	//rigidifier
+	["mirrormt0r", -0.625, -0.50, 0.50, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//bottom square
+	["mirrormt1r", "mirrormt2r"],
+	["mirrormt1r", "mirrormt1rr"],
+	["mirrormt2r", "mirrormt2rr"],
+	["mirrormt1r", "mirrormt2rr"],
+	["mirrormt2r", "mirrormt1rr"],
+	["mirrormt1rr", "mirrormt2rr"],
+
+	//rigidifier
+	["mirrormt1r", "mirrormt0r"],
+	["mirrormt2r", "mirrormt0r"],
+	["mirrormt1rr", "mirrormt0r"],
+	["mirrormt2rr", "mirrormt0r"],
+	
+	//--ATTACH TO FENDER BAR--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"mirrormount_fenderbar_R_break"},
+
+	["mirrormt1r", "fendbarFR1"],
+	["mirrormt1r", "fendbarFR2"],
+	["mirrormt1r", "fendbarFR3"],
+
+	["mirrormt2r", "fendbarFR1"],
+	["mirrormt2r", "fendbarFR2"],
+	["mirrormt2r", "fendbarFR3"],
+
+	["mirrormt1rr", "fendbarFR1"],
+	["mirrormt1rr", "fendbarFR2"],
+	["mirrormt1rr", "fendbarFR3"],
+
+	["mirrormt2rr", "fendbarFR1"],
+	["mirrormt2rr", "fendbarFR2"],
+	["mirrormt2rr", "fendbarFR3"],
+
+	["mirrormt0r", "fendbarFR1"],
+	["mirrormt0r", "fendbarFR2"],
+	["mirrormt0r", "fendbarFR3"],
+
+
+	//--ATTACH TO DOOR--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"mirrormount_door_R_break"},
+	{"optional":true},
+	
+	["mirrormt1r", "door1r"],
+	["mirrormt2r", "door1r"],
+	["mirrormt1rr", "door1r"],
+	["mirrormt2rr", "door1r"],
+
+	["mirrormt1r", "door2r"],
+	["mirrormt2r", "door2r"],
+	["mirrormt1rr", "door2r"],
+	["mirrormt2rr", "door2r"],
+	
+	{"breakGroup":""},
+	{"optional":false},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "torsionHydros": [
+        ["id1:","id2:","id3:","id4:"],
+	//spring = weight * 50000, damp = weight * 5
+        {"spring":"$=$weight*51000", "damp":"$=$weight*5", "deform":1000, "strength":"FLT_MAX"},
+	//door opening
+	//factor: 0.375*pi
+        ["door4r","door2r","door1r","mirrormt1rr", {"factor":1.1780972450961724644234912687298,"inRate":2,"outRate":2,"inputSource":"doorFR", "optional":true}],
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_mirrormount_R"}, 
+  	["mirrormt1r","mirrormt2r","mirrormt2rr","mirrormt1rr"],
+        {"group":""},
+    ],
+},
+
+"legocar_mirrormount_R_filler_col2": {
+    "information":{
+        "name":"Right Filler (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_mirrormount_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_col2",["legocar_mirrormount_R"], [], {"pos":{"x": -0.625, "y":-0.500, "z":0.7},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_mirrormount_R"},
+
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["mirrormt1rr", -0.75, -0.25, 0.75],
+	["mirrormt1r",  -0.53, -0.25, 0.75],
+	["mirrormt2rr", -0.75, -0.75, 0.75],
+	["mirrormt2r",  -0.53, -0.75, 0.75],
+	//rigidifier
+	["mirrormt0r", -0.625, -0.50, 0.50, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//bottom square
+	["mirrormt1r", "mirrormt2r"],
+	["mirrormt1r", "mirrormt1rr"],
+	["mirrormt2r", "mirrormt2rr"],
+	["mirrormt1r", "mirrormt2rr"],
+	["mirrormt2r", "mirrormt1rr"],
+	["mirrormt1rr", "mirrormt2rr"],
+
+	//rigidifier
+	["mirrormt1r", "mirrormt0r"],
+	["mirrormt2r", "mirrormt0r"],
+	["mirrormt1rr", "mirrormt0r"],
+	["mirrormt2rr", "mirrormt0r"],
+	
+	//--ATTACH TO FENDER BAR--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"mirrormount_fenderbar_R_break"},
+
+	["mirrormt1r", "fendbarFR1"],
+	["mirrormt1r", "fendbarFR2"],
+	["mirrormt1r", "fendbarFR3"],
+
+	["mirrormt2r", "fendbarFR1"],
+	["mirrormt2r", "fendbarFR2"],
+	["mirrormt2r", "fendbarFR3"],
+
+	["mirrormt1rr", "fendbarFR1"],
+	["mirrormt1rr", "fendbarFR2"],
+	["mirrormt1rr", "fendbarFR3"],
+
+	["mirrormt2rr", "fendbarFR1"],
+	["mirrormt2rr", "fendbarFR2"],
+	["mirrormt2rr", "fendbarFR3"],
+
+	["mirrormt0r", "fendbarFR1"],
+	["mirrormt0r", "fendbarFR2"],
+	["mirrormt0r", "fendbarFR3"],
+
+
+	//--ATTACH TO DOOR--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"mirrormount_door_R_break"},
+	{"optional":true},
+	
+	["mirrormt1r", "door1r"],
+	["mirrormt2r", "door1r"],
+	["mirrormt1rr", "door1r"],
+	["mirrormt2rr", "door1r"],
+
+	["mirrormt1r", "door2r"],
+	["mirrormt2r", "door2r"],
+	["mirrormt1rr", "door2r"],
+	["mirrormt2rr", "door2r"],
+	
+	{"breakGroup":""},
+	{"optional":false},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "torsionHydros": [
+        ["id1:","id2:","id3:","id4:"],
+	//spring = weight * 50000, damp = weight * 5
+        {"spring":"$=$weight*51000", "damp":"$=$weight*5", "deform":1000, "strength":"FLT_MAX"},
+	//door opening
+	//factor: 0.375*pi
+        ["door4r","door2r","door1r","mirrormt1rr", {"factor":1.1780972450961724644234912687298,"inRate":2,"outRate":2,"inputSource":"doorFR", "optional":true}],
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_mirrormount_R"}, 
+  	["mirrormt1r","mirrormt2r","mirrormt2rr","mirrormt1rr"],
+        {"group":""},
+    ],
+},
+
+"legocar_mirrormount_R_filler_col3": {
+    "information":{
+        "name":"Right Filler (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_mirrormount_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_col3",["legocar_mirrormount_R"], [], {"pos":{"x": -0.625, "y":-0.500, "z":0.7},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_mirrormount_R"},
+
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["mirrormt1rr", -0.75, -0.25, 0.75],
+	["mirrormt1r",  -0.53, -0.25, 0.75],
+	["mirrormt2rr", -0.75, -0.75, 0.75],
+	["mirrormt2r",  -0.53, -0.75, 0.75],
+	//rigidifier
+	["mirrormt0r", -0.625, -0.50, 0.50, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//bottom square
+	["mirrormt1r", "mirrormt2r"],
+	["mirrormt1r", "mirrormt1rr"],
+	["mirrormt2r", "mirrormt2rr"],
+	["mirrormt1r", "mirrormt2rr"],
+	["mirrormt2r", "mirrormt1rr"],
+	["mirrormt1rr", "mirrormt2rr"],
+
+	//rigidifier
+	["mirrormt1r", "mirrormt0r"],
+	["mirrormt2r", "mirrormt0r"],
+	["mirrormt1rr", "mirrormt0r"],
+	["mirrormt2rr", "mirrormt0r"],
+	
+	//--ATTACH TO FENDER BAR--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"mirrormount_fenderbar_R_break"},
+
+	["mirrormt1r", "fendbarFR1"],
+	["mirrormt1r", "fendbarFR2"],
+	["mirrormt1r", "fendbarFR3"],
+
+	["mirrormt2r", "fendbarFR1"],
+	["mirrormt2r", "fendbarFR2"],
+	["mirrormt2r", "fendbarFR3"],
+
+	["mirrormt1rr", "fendbarFR1"],
+	["mirrormt1rr", "fendbarFR2"],
+	["mirrormt1rr", "fendbarFR3"],
+
+	["mirrormt2rr", "fendbarFR1"],
+	["mirrormt2rr", "fendbarFR2"],
+	["mirrormt2rr", "fendbarFR3"],
+
+	["mirrormt0r", "fendbarFR1"],
+	["mirrormt0r", "fendbarFR2"],
+	["mirrormt0r", "fendbarFR3"],
+
+
+	//--ATTACH TO DOOR--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"mirrormount_door_R_break"},
+	{"optional":true},
+	
+	["mirrormt1r", "door1r"],
+	["mirrormt2r", "door1r"],
+	["mirrormt1rr", "door1r"],
+	["mirrormt2rr", "door1r"],
+
+	["mirrormt1r", "door2r"],
+	["mirrormt2r", "door2r"],
+	["mirrormt1rr", "door2r"],
+	["mirrormt2rr", "door2r"],
+	
+	{"breakGroup":""},
+	{"optional":false},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "torsionHydros": [
+        ["id1:","id2:","id3:","id4:"],
+	//spring = weight * 50000, damp = weight * 5
+        {"spring":"$=$weight*51000", "damp":"$=$weight*5", "deform":1000, "strength":"FLT_MAX"},
+	//door opening
+	//factor: 0.375*pi
+        ["door4r","door2r","door1r","mirrormt1rr", {"factor":1.1780972450961724644234912687298,"inRate":2,"outRate":2,"inputSource":"doorFR", "optional":true}],
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_mirrormount_R"}, 
+  	["mirrormt1r","mirrormt2r","mirrormt2rr","mirrormt1rr"],
+        {"group":""},
+    ],
+},
+
+}

@@ -1,0 +1,204 @@
+{
+"legocar_parcelshelf_sign_mount": {
+    "information":{
+        "name":"LED Sign Mount",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_parcelshelf_sign_mount",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_parcelshelf_sign", "legocar_parcelshelf_sign_US", "LED Sign", {"nodeMove": {"x":0, "y":0.25, "z":-0.6}}],
+	["legocar_parcelshelf_sign_flasher_L", "legocar_parcelshelf_sign_flasher_L_red", "Left Flasher"],
+	["legocar_parcelshelf_sign_flasher_R", "legocar_parcelshelf_sign_flasher_R_red", "Right Flasher"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x1_flat_grey",        ["legocar_parcelshelf_signmount_base"],[], {"pos":{"x": 0.000, "y":0.625, "z":0.9},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_2x1_flat_corner_dgrey",["legocar_parcelshelf_signmount"],     [], {"pos":{"x": 0.000, "y":0.625, "z":1.0},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--SIGN MOUNT BASE--
+	{"group":"legocar_parcelshelf_signmount_base"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["shelfsignmtB1l",  0.50, 0.50, 0.95],
+	["shelfsignmtB1r", -0.50, 0.50, 0.95],
+	["shelfsignmtB2l",  0.50, 0.75, 0.95],
+	["shelfsignmtB2r", -0.50, 0.75, 0.95],
+	//rigidifier
+	["shelfsignmtBrig", 0, 0.625, 0.65, {"collision":false, "selfCollision":false, "group":""}],
+
+
+	//--SIGN MOUNT--
+	{"group":"legocar_parcelshelf_signmount"},
+
+	//4 pieces, 6 nodes - 0.67 kg/node
+	{"nodeWeight": "$=$weight*0.67"},
+
+	["shelfsignmt1l", 0.22, 0.50, 1.00],
+	["shelfsignmt1r",-0.22, 0.50, 1.00],
+	["shelfsignmt2l", 0.22, 0.80, 1.00],
+	["shelfsignmt2r",-0.22, 0.80, 1.00],
+	["shelfsignmt3l", 0.22, 0.80, 1.25],
+	["shelfsignmt3r",-0.22, 0.80, 1.25],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--BASE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["shelfsignmtB1l", "shelfsignmtB1r"],
+	["shelfsignmtB2l", "shelfsignmtB2r"],
+	["shelfsignmtB1l", "shelfsignmtB2l"],
+	["shelfsignmtB1r", "shelfsignmtB2r"],
+	["shelfsignmtB1l", "shelfsignmtB2r"],
+	["shelfsignmtB2l", "shelfsignmtB1r"],
+
+	//rigidifier
+	["shelfsignmtB1l", "shelfsignmtBrig"],
+	["shelfsignmtB1r", "shelfsignmtBrig"],
+	["shelfsignmtB2l", "shelfsignmtBrig"],
+	["shelfsignmtB2r", "shelfsignmtBrig"],
+
+
+	//--SIGN MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*671000", "beamDamp":"$=$weight*67"},
+
+	//uniform structure
+	["shelfsignmt1l", "shelfsignmt1r"],
+	["shelfsignmt2l", "shelfsignmt2r"],
+	["shelfsignmt3l", "shelfsignmt3r"],
+
+	["shelfsignmt1l", "shelfsignmt2l"],
+	["shelfsignmt2l", "shelfsignmt3l"],
+	["shelfsignmt3l", "shelfsignmt1l"],
+
+	["shelfsignmt1r", "shelfsignmt2r"],
+	["shelfsignmt2r", "shelfsignmt3r"],
+	["shelfsignmt3r", "shelfsignmt1r"],
+
+	["shelfsignmt1l", "shelfsignmt2r"],
+	["shelfsignmt2l", "shelfsignmt3r"],
+	["shelfsignmt3l", "shelfsignmt1r"],
+
+	["shelfsignmt1r", "shelfsignmt2l"],
+	["shelfsignmt2r", "shelfsignmt3l"],
+	["shelfsignmt3r", "shelfsignmt1l"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to base
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"breakGroup":"shelf_sign_mount_break"},
+
+	["shelfsignmtB1l", "shelfsignmt1l"],
+	["shelfsignmtB1l", "shelfsignmt1r"],
+	["shelfsignmtB1l", "shelfsignmt2l"],
+	["shelfsignmtB1l", "shelfsignmt3l"],
+
+	["shelfsignmtB1r", "shelfsignmt1l"],
+	["shelfsignmtB1r", "shelfsignmt1r"],
+	["shelfsignmtB1r", "shelfsignmt2r"],
+	["shelfsignmtB1r", "shelfsignmt3r"],
+
+	["shelfsignmtB2l", "shelfsignmt1l"],
+	["shelfsignmtB2l", "shelfsignmt2r"],
+	["shelfsignmtB2l", "shelfsignmt2l"],
+	["shelfsignmtB2l", "shelfsignmt3l"],
+
+	["shelfsignmtB2r", "shelfsignmt2l"],
+	["shelfsignmtB2r", "shelfsignmt1r"],
+	["shelfsignmtB2r", "shelfsignmt2r"],
+	["shelfsignmtB2r", "shelfsignmt3r"],
+
+	["shelfsignmtBrig", "shelfsignmt1l"],
+	["shelfsignmtBrig", "shelfsignmt1r"],
+	["shelfsignmtBrig", "shelfsignmt2l"],
+	["shelfsignmtBrig", "shelfsignmt2r"],
+	["shelfsignmtBrig", "shelfsignmt3l"],
+	["shelfsignmtBrig", "shelfsignmt3r"],
+
+
+	//to parcel shelf
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup": "shelf_sign_mount_base_break"},
+
+	["shelfsignmtB1l", "shelfR1l"],
+	["shelfsignmtB1l", "shelfR1r"],
+	["shelfsignmtB1l", "shelfR2l"],
+	["shelfsignmtB1l", "shelfRrig"],
+
+	["shelfsignmtB1r", "shelfR1l"],
+	["shelfsignmtB1r", "shelfR1r"],
+	["shelfsignmtB1r", "shelfR2r"],
+	["shelfsignmtB1r", "shelfRrig"],
+
+	["shelfsignmtB2l", "shelfR1l"],
+	["shelfsignmtB2l", "shelfR2r"],
+	["shelfsignmtB2l", "shelfR2l"],
+	["shelfsignmtB2l", "shelfRrig"],
+
+	["shelfsignmtB2r", "shelfR2l"],
+	["shelfsignmtB2r", "shelfR1r"],
+	["shelfsignmtB2r", "shelfR2r"],
+	["shelfsignmtB2r", "shelfRrig"],
+
+	["shelfsignmtBrig", "shelfR1l"],
+	["shelfsignmtBrig", "shelfR1r"],
+	["shelfsignmtBrig", "shelfR2l"],
+	["shelfsignmtBrig", "shelfR2r"],
+
+	{"breakGroup": ""},
+
+
+	//--SUPPORT ANTI-WOBBLE--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},	
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+
+	//to parcel shelf
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	["shelfsignmt3l", "shelfR1l"],
+	["shelfsignmt3l", "shelfR1r"],
+	["shelfsignmt3l", "shelfR2l"],
+
+	["shelfsignmt3r", "shelfR1l"],
+	["shelfsignmt3r", "shelfR1r"],
+	["shelfsignmt3r", "shelfR2r"],
+
+	["shelfsignmt2l", "shelfR1l"],
+	["shelfsignmt2l", "shelfR2r"],
+	["shelfsignmt2l", "shelfR2l"],
+
+	["shelfsignmt2r", "shelfR2l"],
+	["shelfsignmt2r", "shelfR1r"],
+	["shelfsignmt2r", "shelfR2r"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_parcelshelf_signmount_base"},
+	["shelfsignmtB1r","shelfsignmtB1l","shelfsignmtB2l","shelfsignmtB2r"],
+	{"group":"legocar_parcelshelf_signmount"},
+	["shelfsignmt2r","shelfsignmt2l","shelfsignmt1l","shelfsignmt1r"],
+	["shelfsignmt2l","shelfsignmt2r","shelfsignmt3r","shelfsignmt3l"],
+        {"group":""},
+    ],
+},
+
+}

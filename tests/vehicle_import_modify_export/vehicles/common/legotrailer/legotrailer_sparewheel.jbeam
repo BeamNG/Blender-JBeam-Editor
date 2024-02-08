@@ -1,0 +1,171 @@
+{
+"legotrailer_sparewheel": {
+    "information":{
+        "name":"Spare Wheel",
+        "authors":"AgentY",
+    },
+    "slotType":"legotrailer_sparewheel",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_wheel_trailer_small",["wheel_trailer_spare","wheelhub_trailer_spare"],[], {"pos":{"x":0.4, "y":-0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+	["legocar_tire_small_treaded", ["wheel_trailer_spare","tire_trailer_spare"],    [], {"pos":{"x":0.4, "y":-0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+        {"collision":true},
+        {"selfCollision":false},
+        //front wheels
+        {"nodeWeight":6.0},
+        {"nodeMaterial":"|NM_PLASTIC"},
+        {"frictionCoef":0.5},
+        {"group":"wheelhub_trailer_spare"},
+        ["tspwr", 0.375, 0.0, 0.0, {"staticCollision":false}],
+        ["tspwl", 0.575, 0.0, 0.0, {"staticCollision":false}],
+	{"selfCollision":true},
+        {"group":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+        {"breakGroup":""},
+        {"beamDeform":"FLT_MAX","beamStrength":"FLT_MAX"},
+        {"beamSpring":1501000,"beamDamp":25},
+        //trailer wheel
+        ["tspwr","tspwl"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+    ],
+    "pressureWheels": [
+            ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+
+	    //cancel out brake properties
+            {"brakeTorque":0},
+            {"parkingTorque":0},
+	    {"brakeSpring":0},
+            {"enableBrakeThermals":false},
+            {"brakeDiameter":false},
+            {"brakeMass":false},
+            {"brakeType":false},
+            {"rotorMaterial":false},
+            {"brakeVentingCoef":false},
+	    {"useDefaultBrakeInput":false},
+
+            //general settings
+            {"hubRadius":0.125},
+            {"wheelOffset":0.0125},
+            {"hubWidth":0.175},
+            {"numRays":16},
+
+            //hub options
+            {"hubBeamSpring":"$=$weight*101000", "hubBeamDamp":"$=$weight*10"},
+            {"hubBeamDeform":"FLT_MAX", "hubBeamStrength":"FLT_MAX"},
+            {"hubNodeWeight":"$=$weight*0.1"},
+            {"hubNodeMaterial":"|NM_PLASTIC"},
+            {"hubFrictionCoef":0.5},
+
+	//enable tire
+	{"disableMeshBreaking":false,"disableHubMeshBreaking":true},
+        {"hasTire":true},
+        {"enableTireReinfBeams":false},
+        {"enableTireLbeams":true},
+        {"enableTireSideReinfBeams":false},
+        {"enableTreadReinfBeams":true},
+        {"enableTirePeripheryReinfBeams":true},
+
+        //general settings
+        {"radius":0.240625},
+        {"tireWidth":0.15},
+
+        //tire options
+	//bigger side spring because solid rubber
+	{"wheelSideBeamSpring":75000,"wheelSideBeamDamp":25},
+        {"wheelSideBeamSpringExpansion":251000,"wheelSideBeamDampExpansion":20},
+        {"wheelSideTransitionZone":0.1,"wheelSideBeamPrecompression":0.99},
+
+	//reasonable values, stiff sidewalls
+        {"wheelReinfBeamSpring":12000,"wheelReinfBeamDamp":170},
+        {"wheelReinfBeamDampCutoffHz":500,"wheelReinfBeamPrecompression":0.99},
+
+        {"wheelReinfBeamSpring":12000,"wheelReinfBeamDamp":150},
+        {"wheelReinfBeamDampCutoffHz":500,"wheelReinfBeamPrecompression":0.99},
+
+        {"wheelTreadBeamSpring":71000,"wheelTreadBeamDamp":52},
+        {"wheelTreadBeamDampCutoffHz":500,"wheelTreadBeamPrecompression":0.99},
+
+        {"wheelTreadReinfBeamSpring":71000,"wheelTreadReinfBeamDamp":45},
+        {"wheelTreadReinfBeamDampCutoffHz":500,"wheelTreadReinfBeamPrecompression":0.99},
+
+        {"wheelPeripheryBeamSpring":61000,"wheelPeripheryBeamDamp":22},
+        {"wheelPeripheryBeamDampCutoffHz":500,"wheelPeripheryBeamPrecompression":0.99},
+
+        {"wheelPeripheryReinfBeamSpring":61000,"wheelPeripheryReinfBeamDamp":22},
+        {"wheelPeripheryReinfBeamDampCutoffHz":500,"wheelPeripheryReinfBeamPrecompression":0.99},
+
+	//general tire values
+        {"nodeWeight":0.11},
+        {"nodeMaterial":"|NM_RUBBER"},
+        {"triangleCollision":false},
+        {"pressurePSI":14.7}, //atmospheric pressure
+        {"dragCoef":0.01}, //we need any drag coef bigger than 0 for the tires to load properly
+
+        //groundmodel friction multipliers
+        {"frictionCoef":1.0},
+        {"slidingFrictionCoef":1.0},
+        {"treadCoef":"$treadCoefT"},
+
+        //advanced friction values
+        {"noLoadCoef":"$noLoadCoefT"},
+        {"loadSensitivitySlope":"$=$loadSensitivityT*0.0001"},
+        {"fullLoadCoef":"$fullLoadCoefT"},
+        {"softnessCoef":"$softnessCoefT"},
+
+        //deform values
+        {"wheelSideBeamDeform":"FLT_MAX","wheelSideBeamStrength": "$=$strength == nil and 201000 or $strength"},
+	{"wheelSideReinfBeamDeform":"FLT_MAX","wheelSideReinfBeamStrength":"$=$strength == nil and 201000 or $strength"},
+        {"wheelTreadBeamDeform":"FLT_MAX","wheelTreadBeamStrength":"FLT_MAX"},
+	{"wheelTreadReinfBeamDeform":"FLT_MAX","wheelTreadReinfBeamStrength":"FLT_MAX"},
+        {"wheelPeripheryBeamDeform":"FLT_MAX","wheelPeripheryBeamStrength":"FLT_MAX"},
+	{"wheelPeripheryReinfBeamDeform":"FLT_MAX","wheelPeripheryReinfBeamStrength":"FLT_MAX"},
+
+            //spare wheel
+            {"propulsed":0},
+            {"selfCollision":true},
+            {"collision":true},
+	    {"hubSide1TriangleCollision":true},
+	    {"hubSide2TriangleCollision":true},
+	    {"triangleCollision":true},
+	    {"speedo":false},
+	    {"useDefaultBrakeInput":false},
+
+	    //wheels
+            ["trailer_spare", "wheel_trailer_spare", "wheelhub_trailer_spare", "tspwr", "tspwl", 9999, 9999, 1, {"speedo":false}],
+            
+	{"selfCollision":true},
+        {"axleBeams":[]},{"disableMeshBreaking":false,"disableTriangleBreaking":false},
+        {"hubcapBreakGroup":""},
+        {"hubcapGroup":""},
+        {"enableHubcaps":false},
+        {"enableTireLbeams":false},
+        {"enableTreadReinfBeams":false},
+        {"enableTireReinfBeams":false},
+        {"enableTreadReinfBeams":false},
+        {"enableTirePeripheryReinfBeams":false},
+        {"loadSensitivitySlope":""},
+        {"noLoadCoef":""},
+        {"fullLoadCoef":""},
+        {"frictionCoef":""},
+        {"slidingFrictionCoef":""},
+        {"softnessCoef":0.5},
+        {"treadCoef":1.0},
+	{"speedo":true},
+	{"useDefaultBrakeInput":true},
+
+	{"propulsed":0},
+        {"hasTire":true},
+	{"hubSide1TriangleCollision":false},
+	{"hubSide2TriangleCollision":false},
+	{"triangleCollision":false},
+	{"useDefaultBrakeInput":true},
+    ],
+},
+
+}

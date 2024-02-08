@@ -1,0 +1,722 @@
+{
+"legocar_lightbar_fullsize_L_red": {
+    "information":{
+        "name":"Red Left Bulbs",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_fullsize_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"lightbar_fullsize_L_break", "deformMaterialBase":"legocar_beacon_olds_L1_red", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_beacon_olds_L1_red",["legocar_lightbar_fullsize_L"],[], {"pos":{"x":0.200, "y":0.625, "z":1.775},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_fullsize_L_break", "deformMaterialBase":"legocar_beacon_olds_L2_red", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_beacon_olds_L2_red",["legocar_lightbar_fullsize_L"],[], {"pos":{"x":0.300, "y":0.625, "z":1.775},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_fullsize_L_break", "deformMaterialBase":"legocar_beacon_olds_L3_red", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_beacon_olds_L3_red",["legocar_lightbar_fullsize_L"],[], {"pos":{"x":0.400, "y":0.625, "z":1.775},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_fullsize_L_break", "deformMaterialBase":"legocar_beacon_olds_L4_red", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_beacon_olds_L4_red",["legocar_lightbar_fullsize_L"],[], {"pos":{"x":0.500, "y":0.625, "z":1.775},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_fullsize_L_break", "deformMaterialBase":"legocar_beacon_olds_L5_red", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_beacon_olds_L5_red",["legocar_lightbar_fullsize_L"],[], {"pos":{"x":0.600, "y":0.625, "z":1.775},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":70,
+            "lightBrightness":0.6,
+            "lightRange":15,
+            "lightColor":{"r":201, "g":26, "b":9, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "texSize":512,
+            "shadowSoftness":1,
+            "flareName":"vehicleHeadLightFlare",
+            "flareScale":0.1,
+        },
+        ["cop_olds_L1", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.05},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L1", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.05},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L1", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.05},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L2", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.15},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L2", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.15},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L2", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.15},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L3", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.25},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L3", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.25},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L3", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.25},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L4", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.35},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L4", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.35},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L4", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.35},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L5", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.45},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L5", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.45},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L5", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.45},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L5", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":180, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.50},"deformGroup":"lightbar_fullsize_L_break"}],
+	
+	{"lightBrightness":0.3},
+	["cop_olds_L1_dim", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.05},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L1_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.05},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L1_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.05},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L2_dim", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.15},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L2_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.15},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L2_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.15},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L3_dim", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.25},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L3_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.25},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L3_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.25},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L4_dim", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.35},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L4_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.35},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L4_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.35},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L5_dim", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.45},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L5_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.45},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L5_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.45},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L5_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":180, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.50},"deformGroup":"lightbar_fullsize_L_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//bulb
+	{"group":"legocar_lightbar_fullsize_L"},
+	//5 pieces, 8 nodes - 0.625 kg/node
+	{"nodeWeight": "$=$weight*0.625"},
+
+	["lbaroldsL1l", 0.72, 0.53, 1.66],
+	["lbaroldsL1r", 0.23, 0.53, 1.66],
+	["lbaroldsL2l", 0.72, 0.72, 1.66],
+	["lbaroldsL2r", 0.23, 0.72, 1.66],
+	["lbaroldsL3l", 0.72, 0.53, 1.87],
+	["lbaroldsL3r", 0.23, 0.53, 1.87],
+	["lbaroldsL4l", 0.72, 0.72, 1.87],
+	["lbaroldsL4r", 0.23, 0.72, 1.87],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LIGHT BAR BULB--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*625000", "beamDamp":"$=$weight*62.5"},
+
+	["lbaroldsL1l", "lbaroldsL1r"],
+	["lbaroldsL2l", "lbaroldsL2r"],
+	["lbaroldsL3l", "lbaroldsL3r"],
+	["lbaroldsL4l", "lbaroldsL4r"],
+
+	["lbaroldsL1l", "lbaroldsL2r"],
+	["lbaroldsL2l", "lbaroldsL3r"],
+	["lbaroldsL3l", "lbaroldsL4r"],
+	["lbaroldsL4l", "lbaroldsL1r"],
+
+	["lbaroldsL1l", "lbaroldsL3r"],
+	["lbaroldsL2l", "lbaroldsL4r"],
+	["lbaroldsL3l", "lbaroldsL1r"],
+	["lbaroldsL4l", "lbaroldsL2r"],
+
+	["lbaroldsL1l", "lbaroldsL4r"],
+	["lbaroldsL2l", "lbaroldsL1r"],
+	["lbaroldsL3l", "lbaroldsL2r"],
+	["lbaroldsL4l", "lbaroldsL3r"],
+
+	["lbaroldsL1l", "lbaroldsL2l"],
+	["lbaroldsL2l", "lbaroldsL3l"],
+	["lbaroldsL3l", "lbaroldsL4l"],
+	["lbaroldsL4l", "lbaroldsL1l"],
+
+	["lbaroldsL1l", "lbaroldsL3l"],
+	["lbaroldsL2l", "lbaroldsL4l"],
+
+	["lbaroldsL1r", "lbaroldsL2r"],
+	["lbaroldsL2r", "lbaroldsL3r"],
+	["lbaroldsL3r", "lbaroldsL4r"],
+	["lbaroldsL4r", "lbaroldsL1r"],
+
+	["lbaroldsL1r", "lbaroldsL3r"],
+	["lbaroldsL2r", "lbaroldsL4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"deformGroup":"lightbar_fullsize_L_break"},
+
+
+	//to base
+	{"beamSpring":"$=$weight*325000", "beamDamp":"$=$weight*32.5"},
+	{"breakGroup":"lightbar_fullsize_L_break"},
+	
+	["lbaroldsL1r", "lbaroldsBL1l"],
+	["lbaroldsL1r", "lbaroldsBL1r"],
+	["lbaroldsL1r", "lbaroldsBL2l"],
+	["lbaroldsL1r", "lbaroldsBL3l"],
+
+	["lbaroldsL2r", "lbaroldsBL1l"],
+	["lbaroldsL2r", "lbaroldsBL2r"],
+	["lbaroldsL2r", "lbaroldsBL2l"],
+	["lbaroldsL2r", "lbaroldsBL4l"],
+
+	["lbaroldsL3r", "lbaroldsBL4l"],
+	["lbaroldsL3r", "lbaroldsBL3r"],
+	["lbaroldsL3r", "lbaroldsBL2l"],
+	["lbaroldsL3r", "lbaroldsBL3l"],
+
+	["lbaroldsL4r", "lbaroldsBL4l"],
+	["lbaroldsL4r", "lbaroldsBL4r"],
+	["lbaroldsL4r", "lbaroldsBL2l"],
+	["lbaroldsL4r", "lbaroldsBL3l"],
+
+	["lbaroldsL1l", "lbaroldsBL1l"],
+	["lbaroldsL1l", "lbaroldsBL2l"],
+	["lbaroldsL1l", "lbaroldsBL3l"],
+
+	["lbaroldsL2l", "lbaroldsBL1l"],
+	["lbaroldsL2l", "lbaroldsBL2l"],
+	["lbaroldsL2l", "lbaroldsBL4l"],
+
+	["lbaroldsL3l", "lbaroldsBL4l"],
+	["lbaroldsL3l", "lbaroldsBL2l"],
+	["lbaroldsL3l", "lbaroldsBL3l"],
+
+	["lbaroldsL4l", "lbaroldsBL4l"],
+	["lbaroldsL4l", "lbaroldsBL2l"],
+	["lbaroldsL4l", "lbaroldsBL3l"],
+	
+
+	//to holder
+	{"beamSpring":"$=$weight*185000", "beamDamp":"$=$weight*18.5"},
+	{"breakGroup":"lightbar_fullsize_LL_break"},
+
+	["lbaroldsL1l", "lbaroldsH3l"],
+	["lbaroldsL1l", "lbaroldsH4l"],
+	["lbaroldsL1l", "lbaroldsH1l"],
+	["lbaroldsL1l", "lbaroldsH5l"],
+
+	["lbaroldsL2l", "lbaroldsH3l"],
+	["lbaroldsL2l", "lbaroldsH4l"],
+	["lbaroldsL2l", "lbaroldsH2l"],
+	["lbaroldsL2l", "lbaroldsH6l"],
+
+	["lbaroldsL3l", "lbaroldsH3l"],
+	["lbaroldsL3l", "lbaroldsH4l"],
+	["lbaroldsL3l", "lbaroldsH1l"],
+	["lbaroldsL3l", "lbaroldsH5l"],
+
+	["lbaroldsL4l", "lbaroldsH3l"],
+	["lbaroldsL4l", "lbaroldsH4l"],
+	["lbaroldsL4l", "lbaroldsH2l"],
+	["lbaroldsL4l", "lbaroldsH6l"],
+
+	["lbaroldsL1r", "lbaroldsH3l"],
+	["lbaroldsL1r", "lbaroldsH4l"],
+	["lbaroldsL1r", "lbaroldsH5l"],
+
+	["lbaroldsL2r", "lbaroldsH3l"],
+	["lbaroldsL2r", "lbaroldsH4l"],
+	["lbaroldsL2r", "lbaroldsH6l"],
+
+	["lbaroldsL3r", "lbaroldsH3l"],
+	["lbaroldsL3r", "lbaroldsH4l"],
+	["lbaroldsL3r", "lbaroldsH5l"],
+
+	["lbaroldsL4r", "lbaroldsH3l"],
+	["lbaroldsL4r", "lbaroldsH4l"],
+	["lbaroldsL4r", "lbaroldsH6l"],
+
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_lightbar_fullsize_L"},   
+	["lbaroldsL2r","lbaroldsL2l","lbaroldsL1l","lbaroldsL1r"],
+	["lbaroldsL4l","lbaroldsL4r","lbaroldsL3r","lbaroldsL3l"],
+	["lbaroldsL3r","lbaroldsL4r","lbaroldsL2r","lbaroldsL1r"],
+	["lbaroldsL4l","lbaroldsL3l","lbaroldsL1l","lbaroldsL2l"],
+	["lbaroldsL4r","lbaroldsL4l","lbaroldsL2l","lbaroldsL2r"],
+	["lbaroldsL3l","lbaroldsL3r","lbaroldsL1r","lbaroldsL1l"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_lightbar_fullsize_L_blue": {
+    "information":{
+        "name":"Blue Left Bulbs",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_fullsize_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"lightbar_fullsize_L_break", "deformMaterialBase":"legocar_beacon_olds_L1_blue", "deformMaterialDamaged":"lego_transcol_blue"},
+	["legocar_beacon_olds_L1_blue",["legocar_lightbar_fullsize_L"],[], {"pos":{"x":0.200, "y":0.625, "z":1.775},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_fullsize_L_break", "deformMaterialBase":"legocar_beacon_olds_L2_blue", "deformMaterialDamaged":"lego_transcol_blue"},
+	["legocar_beacon_olds_L2_blue",["legocar_lightbar_fullsize_L"],[], {"pos":{"x":0.300, "y":0.625, "z":1.775},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_fullsize_L_break", "deformMaterialBase":"legocar_beacon_olds_L3_blue", "deformMaterialDamaged":"lego_transcol_blue"},
+	["legocar_beacon_olds_L3_blue",["legocar_lightbar_fullsize_L"],[], {"pos":{"x":0.400, "y":0.625, "z":1.775},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_fullsize_L_break", "deformMaterialBase":"legocar_beacon_olds_L4_blue", "deformMaterialDamaged":"lego_transcol_blue"},
+	["legocar_beacon_olds_L4_blue",["legocar_lightbar_fullsize_L"],[], {"pos":{"x":0.500, "y":0.625, "z":1.775},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_fullsize_L_break", "deformMaterialBase":"legocar_beacon_olds_L5_blue", "deformMaterialDamaged":"lego_transcol_blue"},
+	["legocar_beacon_olds_L5_blue",["legocar_lightbar_fullsize_L"],[], {"pos":{"x":0.600, "y":0.625, "z":1.775},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":70,
+            "lightBrightness":0.6,
+            "lightRange":15,
+            "lightColor":{"r":0, "g":32, "b":160, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "texSize":512,
+            "shadowSoftness":1,
+            "flareName":"vehicleHeadLightFlare",
+            "flareScale":0.1,
+        },
+        ["cop_olds_L1", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.05},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L1", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.05},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L1", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.05},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L2", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.15},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L2", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.15},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L2", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.15},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L3", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.25},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L3", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.25},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L3", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.25},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L4", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.35},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L4", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.35},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L4", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.35},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L5", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.45},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L5", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.45},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L5", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.45},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L5", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":180, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.50},"deformGroup":"lightbar_fullsize_L_break"}],
+	
+	{"lightBrightness":0.3},
+	["cop_olds_L1_dim", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.05},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L1_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.05},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L1_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.05},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L2_dim", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.15},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L2_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.15},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L2_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.15},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L3_dim", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.25},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L3_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.25},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L3_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.25},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L4_dim", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.35},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L4_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.35},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L4_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.35},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L5_dim", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.45},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L5_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.45},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L5_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.45},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L5_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":180, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.50},"deformGroup":"lightbar_fullsize_L_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//bulb
+	{"group":"legocar_lightbar_fullsize_L"},
+	//5 pieces, 8 nodes - 0.625 kg/node
+	{"nodeWeight": "$=$weight*0.625"},
+
+	["lbaroldsL1l", 0.72, 0.53, 1.66],
+	["lbaroldsL1r", 0.23, 0.53, 1.66],
+	["lbaroldsL2l", 0.72, 0.72, 1.66],
+	["lbaroldsL2r", 0.23, 0.72, 1.66],
+	["lbaroldsL3l", 0.72, 0.53, 1.87],
+	["lbaroldsL3r", 0.23, 0.53, 1.87],
+	["lbaroldsL4l", 0.72, 0.72, 1.87],
+	["lbaroldsL4r", 0.23, 0.72, 1.87],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LIGHT BAR BULB--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*625000", "beamDamp":"$=$weight*62.5"},
+
+	["lbaroldsL1l", "lbaroldsL1r"],
+	["lbaroldsL2l", "lbaroldsL2r"],
+	["lbaroldsL3l", "lbaroldsL3r"],
+	["lbaroldsL4l", "lbaroldsL4r"],
+
+	["lbaroldsL1l", "lbaroldsL2r"],
+	["lbaroldsL2l", "lbaroldsL3r"],
+	["lbaroldsL3l", "lbaroldsL4r"],
+	["lbaroldsL4l", "lbaroldsL1r"],
+
+	["lbaroldsL1l", "lbaroldsL3r"],
+	["lbaroldsL2l", "lbaroldsL4r"],
+	["lbaroldsL3l", "lbaroldsL1r"],
+	["lbaroldsL4l", "lbaroldsL2r"],
+
+	["lbaroldsL1l", "lbaroldsL4r"],
+	["lbaroldsL2l", "lbaroldsL1r"],
+	["lbaroldsL3l", "lbaroldsL2r"],
+	["lbaroldsL4l", "lbaroldsL3r"],
+
+	["lbaroldsL1l", "lbaroldsL2l"],
+	["lbaroldsL2l", "lbaroldsL3l"],
+	["lbaroldsL3l", "lbaroldsL4l"],
+	["lbaroldsL4l", "lbaroldsL1l"],
+
+	["lbaroldsL1l", "lbaroldsL3l"],
+	["lbaroldsL2l", "lbaroldsL4l"],
+
+	["lbaroldsL1r", "lbaroldsL2r"],
+	["lbaroldsL2r", "lbaroldsL3r"],
+	["lbaroldsL3r", "lbaroldsL4r"],
+	["lbaroldsL4r", "lbaroldsL1r"],
+
+	["lbaroldsL1r", "lbaroldsL3r"],
+	["lbaroldsL2r", "lbaroldsL4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"deformGroup":"lightbar_fullsize_L_break"},
+
+
+	//to base
+	{"beamSpring":"$=$weight*325000", "beamDamp":"$=$weight*32.5"},
+	{"breakGroup":"lightbar_fullsize_L_break"},
+	
+	["lbaroldsL1r", "lbaroldsBL1l"],
+	["lbaroldsL1r", "lbaroldsBL1r"],
+	["lbaroldsL1r", "lbaroldsBL2l"],
+	["lbaroldsL1r", "lbaroldsBL3l"],
+
+	["lbaroldsL2r", "lbaroldsBL1l"],
+	["lbaroldsL2r", "lbaroldsBL2r"],
+	["lbaroldsL2r", "lbaroldsBL2l"],
+	["lbaroldsL2r", "lbaroldsBL4l"],
+
+	["lbaroldsL3r", "lbaroldsBL4l"],
+	["lbaroldsL3r", "lbaroldsBL3r"],
+	["lbaroldsL3r", "lbaroldsBL2l"],
+	["lbaroldsL3r", "lbaroldsBL3l"],
+
+	["lbaroldsL4r", "lbaroldsBL4l"],
+	["lbaroldsL4r", "lbaroldsBL4r"],
+	["lbaroldsL4r", "lbaroldsBL2l"],
+	["lbaroldsL4r", "lbaroldsBL3l"],
+
+	["lbaroldsL1l", "lbaroldsBL1l"],
+	["lbaroldsL1l", "lbaroldsBL2l"],
+	["lbaroldsL1l", "lbaroldsBL3l"],
+
+	["lbaroldsL2l", "lbaroldsBL1l"],
+	["lbaroldsL2l", "lbaroldsBL2l"],
+	["lbaroldsL2l", "lbaroldsBL4l"],
+
+	["lbaroldsL3l", "lbaroldsBL4l"],
+	["lbaroldsL3l", "lbaroldsBL2l"],
+	["lbaroldsL3l", "lbaroldsBL3l"],
+
+	["lbaroldsL4l", "lbaroldsBL4l"],
+	["lbaroldsL4l", "lbaroldsBL2l"],
+	["lbaroldsL4l", "lbaroldsBL3l"],
+	
+
+	//to holder
+	{"beamSpring":"$=$weight*185000", "beamDamp":"$=$weight*18.5"},
+	{"breakGroup":"lightbar_fullsize_LL_break"},
+
+	["lbaroldsL1l", "lbaroldsH3l"],
+	["lbaroldsL1l", "lbaroldsH4l"],
+	["lbaroldsL1l", "lbaroldsH1l"],
+	["lbaroldsL1l", "lbaroldsH5l"],
+
+	["lbaroldsL2l", "lbaroldsH3l"],
+	["lbaroldsL2l", "lbaroldsH4l"],
+	["lbaroldsL2l", "lbaroldsH2l"],
+	["lbaroldsL2l", "lbaroldsH6l"],
+
+	["lbaroldsL3l", "lbaroldsH3l"],
+	["lbaroldsL3l", "lbaroldsH4l"],
+	["lbaroldsL3l", "lbaroldsH1l"],
+	["lbaroldsL3l", "lbaroldsH5l"],
+
+	["lbaroldsL4l", "lbaroldsH3l"],
+	["lbaroldsL4l", "lbaroldsH4l"],
+	["lbaroldsL4l", "lbaroldsH2l"],
+	["lbaroldsL4l", "lbaroldsH6l"],
+
+	["lbaroldsL1r", "lbaroldsH3l"],
+	["lbaroldsL1r", "lbaroldsH4l"],
+	["lbaroldsL1r", "lbaroldsH5l"],
+
+	["lbaroldsL2r", "lbaroldsH3l"],
+	["lbaroldsL2r", "lbaroldsH4l"],
+	["lbaroldsL2r", "lbaroldsH6l"],
+
+	["lbaroldsL3r", "lbaroldsH3l"],
+	["lbaroldsL3r", "lbaroldsH4l"],
+	["lbaroldsL3r", "lbaroldsH5l"],
+
+	["lbaroldsL4r", "lbaroldsH3l"],
+	["lbaroldsL4r", "lbaroldsH4l"],
+	["lbaroldsL4r", "lbaroldsH6l"],
+
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_lightbar_fullsize_L"},   
+	["lbaroldsL2r","lbaroldsL2l","lbaroldsL1l","lbaroldsL1r"],
+	["lbaroldsL4l","lbaroldsL4r","lbaroldsL3r","lbaroldsL3l"],
+	["lbaroldsL3r","lbaroldsL4r","lbaroldsL2r","lbaroldsL1r"],
+	["lbaroldsL4l","lbaroldsL3l","lbaroldsL1l","lbaroldsL2l"],
+	["lbaroldsL4r","lbaroldsL4l","lbaroldsL2l","lbaroldsL2r"],
+	["lbaroldsL3l","lbaroldsL3r","lbaroldsL1r","lbaroldsL1l"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_lightbar_fullsize_L_orange": {
+    "information":{
+        "name":"Orange Left Bulbs",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_fullsize_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"lightbar_fullsize_L_break", "deformMaterialBase":"legocar_beacon_olds_L1_orange", "deformMaterialDamaged":"lego_transcol_orange"},
+	["legocar_beacon_olds_L1_orange",["legocar_lightbar_fullsize_L"],[], {"pos":{"x":0.200, "y":0.625, "z":1.775},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_fullsize_L_break", "deformMaterialBase":"legocar_beacon_olds_L2_orange", "deformMaterialDamaged":"lego_transcol_orange"},
+	["legocar_beacon_olds_L2_orange",["legocar_lightbar_fullsize_L"],[], {"pos":{"x":0.300, "y":0.625, "z":1.775},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_fullsize_L_break", "deformMaterialBase":"legocar_beacon_olds_L3_orange", "deformMaterialDamaged":"lego_transcol_orange"},
+	["legocar_beacon_olds_L3_orange",["legocar_lightbar_fullsize_L"],[], {"pos":{"x":0.400, "y":0.625, "z":1.775},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_fullsize_L_break", "deformMaterialBase":"legocar_beacon_olds_L4_orange", "deformMaterialDamaged":"lego_transcol_orange"},
+	["legocar_beacon_olds_L4_orange",["legocar_lightbar_fullsize_L"],[], {"pos":{"x":0.500, "y":0.625, "z":1.775},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_fullsize_L_break", "deformMaterialBase":"legocar_beacon_olds_L5_orange", "deformMaterialDamaged":"lego_transcol_orange"},
+	["legocar_beacon_olds_L5_orange",["legocar_lightbar_fullsize_L"],[], {"pos":{"x":0.600, "y":0.625, "z":1.775},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":70,
+            "lightBrightness":0.6,
+            "lightRange":15,
+            "lightColor":{"r":240, "g":143, "b":28, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "texSize":512,
+            "shadowSoftness":1,
+            "flareName":"vehicleHeadLightFlare",
+            "flareScale":0.1,
+        },
+        ["cop_olds_L1", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.05},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L1", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.05},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L1", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.05},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L2", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.15},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L2", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.15},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L2", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.15},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L3", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.25},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L3", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.25},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L3", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.25},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L4", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.35},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L4", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.35},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L4", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.35},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L5", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.45},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L5", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.45},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L5", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.45},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L5", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":180, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.50},"deformGroup":"lightbar_fullsize_L_break"}],
+	
+	{"lightBrightness":0.3},
+	["cop_olds_L1_dim", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.05},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L1_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.05},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L1_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.05},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L2_dim", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.15},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L2_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.15},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L2_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.15},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L3_dim", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.25},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L3_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.25},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L3_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.25},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L4_dim", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.35},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L4_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.35},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L4_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.35},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L5_dim", "POINTLIGHT", "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x": 90, "y": 0 , "z":0}, {"x":0, "y":0, "z": 1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.45},"lightRange":0, "flareScale":0.05,"deformGroup":"lightbar_fullsize_L_break"}],
+        ["cop_olds_L5_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y": 90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.45},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L5_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":270, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.45},"deformGroup":"lightbar_fullsize_L_break"}],
+	["cop_olds_L5_dim", "SPOTLIGHT",  "lbaroldsL1r","lbaroldsL2r","lbaroldsL3r", {"x":180, "y":-90, "z":0}, {"x":0, "y":0, "z":-1}, {"x":0, "y":0, "z":0}, -360, 360, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.50},"deformGroup":"lightbar_fullsize_L_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//bulb
+	{"group":"legocar_lightbar_fullsize_L"},
+	//5 pieces, 8 nodes - 0.625 kg/node
+	{"nodeWeight": "$=$weight*0.625"},
+
+	["lbaroldsL1l", 0.72, 0.53, 1.66],
+	["lbaroldsL1r", 0.23, 0.53, 1.66],
+	["lbaroldsL2l", 0.72, 0.72, 1.66],
+	["lbaroldsL2r", 0.23, 0.72, 1.66],
+	["lbaroldsL3l", 0.72, 0.53, 1.87],
+	["lbaroldsL3r", 0.23, 0.53, 1.87],
+	["lbaroldsL4l", 0.72, 0.72, 1.87],
+	["lbaroldsL4r", 0.23, 0.72, 1.87],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LIGHT BAR BULB--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*625000", "beamDamp":"$=$weight*62.5"},
+
+	["lbaroldsL1l", "lbaroldsL1r"],
+	["lbaroldsL2l", "lbaroldsL2r"],
+	["lbaroldsL3l", "lbaroldsL3r"],
+	["lbaroldsL4l", "lbaroldsL4r"],
+
+	["lbaroldsL1l", "lbaroldsL2r"],
+	["lbaroldsL2l", "lbaroldsL3r"],
+	["lbaroldsL3l", "lbaroldsL4r"],
+	["lbaroldsL4l", "lbaroldsL1r"],
+
+	["lbaroldsL1l", "lbaroldsL3r"],
+	["lbaroldsL2l", "lbaroldsL4r"],
+	["lbaroldsL3l", "lbaroldsL1r"],
+	["lbaroldsL4l", "lbaroldsL2r"],
+
+	["lbaroldsL1l", "lbaroldsL4r"],
+	["lbaroldsL2l", "lbaroldsL1r"],
+	["lbaroldsL3l", "lbaroldsL2r"],
+	["lbaroldsL4l", "lbaroldsL3r"],
+
+	["lbaroldsL1l", "lbaroldsL2l"],
+	["lbaroldsL2l", "lbaroldsL3l"],
+	["lbaroldsL3l", "lbaroldsL4l"],
+	["lbaroldsL4l", "lbaroldsL1l"],
+
+	["lbaroldsL1l", "lbaroldsL3l"],
+	["lbaroldsL2l", "lbaroldsL4l"],
+
+	["lbaroldsL1r", "lbaroldsL2r"],
+	["lbaroldsL2r", "lbaroldsL3r"],
+	["lbaroldsL3r", "lbaroldsL4r"],
+	["lbaroldsL4r", "lbaroldsL1r"],
+
+	["lbaroldsL1r", "lbaroldsL3r"],
+	["lbaroldsL2r", "lbaroldsL4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"deformGroup":"lightbar_fullsize_L_break"},
+
+
+	//to base
+	{"beamSpring":"$=$weight*325000", "beamDamp":"$=$weight*32.5"},
+	{"breakGroup":"lightbar_fullsize_L_break"},
+	
+	["lbaroldsL1r", "lbaroldsBL1l"],
+	["lbaroldsL1r", "lbaroldsBL1r"],
+	["lbaroldsL1r", "lbaroldsBL2l"],
+	["lbaroldsL1r", "lbaroldsBL3l"],
+
+	["lbaroldsL2r", "lbaroldsBL1l"],
+	["lbaroldsL2r", "lbaroldsBL2r"],
+	["lbaroldsL2r", "lbaroldsBL2l"],
+	["lbaroldsL2r", "lbaroldsBL4l"],
+
+	["lbaroldsL3r", "lbaroldsBL4l"],
+	["lbaroldsL3r", "lbaroldsBL3r"],
+	["lbaroldsL3r", "lbaroldsBL2l"],
+	["lbaroldsL3r", "lbaroldsBL3l"],
+
+	["lbaroldsL4r", "lbaroldsBL4l"],
+	["lbaroldsL4r", "lbaroldsBL4r"],
+	["lbaroldsL4r", "lbaroldsBL2l"],
+	["lbaroldsL4r", "lbaroldsBL3l"],
+
+	["lbaroldsL1l", "lbaroldsBL1l"],
+	["lbaroldsL1l", "lbaroldsBL2l"],
+	["lbaroldsL1l", "lbaroldsBL3l"],
+
+	["lbaroldsL2l", "lbaroldsBL1l"],
+	["lbaroldsL2l", "lbaroldsBL2l"],
+	["lbaroldsL2l", "lbaroldsBL4l"],
+
+	["lbaroldsL3l", "lbaroldsBL4l"],
+	["lbaroldsL3l", "lbaroldsBL2l"],
+	["lbaroldsL3l", "lbaroldsBL3l"],
+
+	["lbaroldsL4l", "lbaroldsBL4l"],
+	["lbaroldsL4l", "lbaroldsBL2l"],
+	["lbaroldsL4l", "lbaroldsBL3l"],
+	
+
+	//to holder
+	{"beamSpring":"$=$weight*185000", "beamDamp":"$=$weight*18.5"},
+	{"breakGroup":"lightbar_fullsize_LL_break"},
+
+	["lbaroldsL1l", "lbaroldsH3l"],
+	["lbaroldsL1l", "lbaroldsH4l"],
+	["lbaroldsL1l", "lbaroldsH1l"],
+	["lbaroldsL1l", "lbaroldsH5l"],
+
+	["lbaroldsL2l", "lbaroldsH3l"],
+	["lbaroldsL2l", "lbaroldsH4l"],
+	["lbaroldsL2l", "lbaroldsH2l"],
+	["lbaroldsL2l", "lbaroldsH6l"],
+
+	["lbaroldsL3l", "lbaroldsH3l"],
+	["lbaroldsL3l", "lbaroldsH4l"],
+	["lbaroldsL3l", "lbaroldsH1l"],
+	["lbaroldsL3l", "lbaroldsH5l"],
+
+	["lbaroldsL4l", "lbaroldsH3l"],
+	["lbaroldsL4l", "lbaroldsH4l"],
+	["lbaroldsL4l", "lbaroldsH2l"],
+	["lbaroldsL4l", "lbaroldsH6l"],
+
+	["lbaroldsL1r", "lbaroldsH3l"],
+	["lbaroldsL1r", "lbaroldsH4l"],
+	["lbaroldsL1r", "lbaroldsH5l"],
+
+	["lbaroldsL2r", "lbaroldsH3l"],
+	["lbaroldsL2r", "lbaroldsH4l"],
+	["lbaroldsL2r", "lbaroldsH6l"],
+
+	["lbaroldsL3r", "lbaroldsH3l"],
+	["lbaroldsL3r", "lbaroldsH4l"],
+	["lbaroldsL3r", "lbaroldsH5l"],
+
+	["lbaroldsL4r", "lbaroldsH3l"],
+	["lbaroldsL4r", "lbaroldsH4l"],
+	["lbaroldsL4r", "lbaroldsH6l"],
+
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_lightbar_fullsize_L"},   
+	["lbaroldsL2r","lbaroldsL2l","lbaroldsL1l","lbaroldsL1r"],
+	["lbaroldsL4l","lbaroldsL4r","lbaroldsL3r","lbaroldsL3l"],
+	["lbaroldsL3r","lbaroldsL4r","lbaroldsL2r","lbaroldsL1r"],
+	["lbaroldsL4l","lbaroldsL3l","lbaroldsL1l","lbaroldsL2l"],
+	["lbaroldsL4r","lbaroldsL4l","lbaroldsL2l","lbaroldsL2r"],
+	["lbaroldsL3l","lbaroldsL3r","lbaroldsL1r","lbaroldsL1l"],
+
+        {"group":""},
+    ],
+},
+
+}

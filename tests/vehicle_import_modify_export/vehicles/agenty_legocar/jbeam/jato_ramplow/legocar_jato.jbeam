@@ -1,0 +1,424 @@
+{
+"legocar_jato": {
+    "information":{
+        "name":"JATO Liquid Fuel Rocket",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_jato",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_jato_fin","", "Stabilization Fin"],
+    ],
+    "cameraExternal":{
+        "distance":6.25,
+        "distanceMin":3,
+        "offset":{"x":0.25, "y":0.80, "z":0.5},
+        "fov":65,
+    },
+    "cameraChase":{
+        "distance":6.25,
+        "distanceMin":3,
+	"defaultRotation":{"x":0, "y":-10.2, "z":0},
+        "offset":{"x":0.25, "y":0.80, "z":0.5},
+        "fov":62.5,
+    },
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_jato",		["legocar_jato"],[], {"pos":{"x": 0.000, "y":1.625, "z":1.0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["legocar_jato_shockdiamonds",	["legocar_jato"],[], {"pos":{"x": 0.000, "y":1.625, "z":1.0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$jato","range", "N", "JATO Rocket", 50000, 10000, 100000, "Thrust Force", "Force of the rocket", {"stepDis":1000}],
+    ],
+    "controller": [
+        ["fileName"],
+        ["jato",{}],
+    ],
+    "jato":{
+        "thrusterNodes:":["jato13", "jato12"],
+        "fuel": 0,
+    },
+    "thrusters": [
+        ["id1:", "id2:", "factor", "thrustLimit", "control"],
+        ["jato13", "jato12", "$jato", "$jato", "jato"],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_jato"},
+	//28 pieces, 100 half-pieces, 24 nodes - 3.25 kg/node
+	{"nodeWeight": "$=$weight*3.25"},
+
+	["jato1l",  0.200, 3.260, 1.700],
+	["jato1r", -0.200, 3.260, 1.700],
+	["jato2l",  0.200, 1.250, 1.700],
+	["jato2r", -0.200, 1.250, 1.700],
+	["jato3l",  0.375, 3.260, 1.375],
+	["jato3r", -0.375, 3.260, 1.375],
+	["jato4l",  0.375, 1.250, 1.375],
+	["jato4r", -0.375, 1.250, 1.375],
+	["jato5l",  0.200, 3.260, 1.050],
+	["jato5r", -0.200, 3.260, 1.050],
+	["jato6l",  0.200, 1.250, 1.050],
+	["jato6r", -0.200, 1.250, 1.050],
+
+	["jato7l",  0.25, 2.00, 1.20, {"selfCollision":false}],
+	["jato7r", -0.25, 2.00, 1.20, {"selfCollision":false}],
+	["jato8l",  0.25, 2.00, 1.03],
+	["jato8r", -0.25, 2.00, 1.03],
+	["jato9l",  0.25, 1.50, 1.03],
+	["jato9r", -0.25, 1.50, 1.03],
+	["jato10l", 0.25, 1.50, 0.80],
+	["jato10r",-0.25, 1.50, 0.80],
+	["jato11l", 0.25, 1.27, 0.80],
+	["jato11r",-0.25, 1.27, 0.80],
+
+	["jato12",  0, 3.00, 1.375],
+	["jato13",  0, 1.25, 1.175],
+
+	{"group":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--JATO ROCKET--
+	
+	//cylinder circumference
+	{"beamSpring":"$=$weight*3251000", "beamDamp":"$=$weight*325"},
+	
+	["jato1l", "jato1r"],
+	["jato1r", "jato3r"],
+	["jato3r", "jato5r"],
+	["jato5r", "jato5l"],
+	["jato5l", "jato3l"],
+	["jato3l", "jato1l"],
+
+	["jato2l", "jato2r"],
+	["jato2r", "jato4r"],
+	["jato4r", "jato6r"],
+	["jato6r", "jato6l"],
+	["jato6l", "jato4l"],
+	["jato4l", "jato2l"],
+
+
+	//cylinder length
+	{"beamSpring":"$=$weight*3251000", "beamDamp":"$=$weight*325"},	
+	["jato1l", "jato2l"],
+	["jato1r", "jato2r"],
+	["jato3l", "jato4l"],
+	["jato3r", "jato4r"],
+	["jato5l", "jato6l"],
+	["jato5r", "jato6r"],
+
+
+	//cylinder centers
+	{"beamSpring":"$=$weight*3251000", "beamDamp":"$=$weight*325"},
+
+	["jato1l", "jato12"],
+	["jato1r", "jato12"],
+	["jato3l", "jato12"],
+	["jato3r", "jato12"],
+	["jato5l", "jato12"],
+	["jato5r", "jato12"],
+
+	["jato2l", "jato13"],
+	["jato2r", "jato13"],
+	["jato4l", "jato13"],
+	["jato4r", "jato13"],
+	["jato6l", "jato13"],
+	["jato6r", "jato13"],
+
+
+	//cylinder cross
+	{"beamSpring":"$=$weight*3001000", "beamDamp":"$=$weight*300"},
+	["jato1r", "jato2l"],
+	["jato1r", "jato4r"],
+	["jato3r", "jato2r"],
+	["jato3r", "jato6r"],
+	["jato7r", "jato4r"],
+	["jato7r", "jato6l"],
+	["jato7l", "jato6r"],
+	["jato7l", "jato4l"],
+	["jato3l", "jato6l"],
+	["jato3l", "jato2l"],
+	["jato1l", "jato4l"],
+	["jato1l", "jato2r"],
+
+	
+	//cylinder corner rigids
+	{"beamSpring":"$=$weight*3001000", "beamDamp":"$=$weight*300"},
+
+	["jato1l", "jato3r"],
+	["jato1r", "jato3l"],
+	["jato5l", "jato3r"],
+	["jato5r", "jato3l"],
+
+	["jato2l", "jato4r"],
+	["jato2r", "jato4l"],
+	["jato6l", "jato4r"],
+	["jato6r", "jato4l"],
+
+
+	//cylinder center rigids
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	["jato1l", "jato13"],
+	["jato1r", "jato13"],
+	["jato3l", "jato13"],
+	["jato3r", "jato13"],
+	["jato5l", "jato13"],
+	["jato5r", "jato13"],
+
+	["jato2l", "jato12"],
+	["jato2r", "jato12"],
+	["jato4l", "jato12"],
+	["jato4r", "jato12"],
+	["jato6l", "jato12"],
+	["jato6r", "jato12"],
+
+	
+	//base sides
+	{"beamSpring":"$=$weight*3251000", "beamDamp":"$=$weight*325"},
+
+	["jato6l", "jato7l"],
+	["jato7l", "jato8l"],
+	["jato8l", "jato9l"],
+	["jato9l", "jato10l"],
+	["jato10l", "jato11l"],
+	["jato11l", "jato6l"],
+
+	["jato6r", "jato7r"],
+	["jato7r", "jato8r"],
+	["jato8r", "jato9r"],
+	["jato9r", "jato10r"],
+	["jato10r", "jato11r"],
+	["jato11r", "jato6r"],
+
+	["jato6l", "jato9l"],
+	["jato6r", "jato9r"],
+
+
+	//base horizontal
+	{"beamSpring":"$=$weight*3251000", "beamDamp":"$=$weight*325"},
+	["jato7l", "jato7r"],
+	["jato8l", "jato8r"],
+	["jato9l", "jato9r"],
+	["jato10l", "jato10r"],
+	["jato11l", "jato11r"],
+
+	
+	//base main crossing
+	{"beamSpring":"$=$weight*3001000", "beamDamp":"$=$weight*300"},
+	
+	["jato7l", "jato8r"],
+	["jato8l", "jato9r"],
+	["jato9l", "jato10r"],
+	["jato10l", "jato11r"],
+	["jato11l", "jato6r"],
+
+	["jato7r", "jato8l"],
+	["jato8r", "jato9l"],
+	["jato9r", "jato10l"],
+	["jato10r", "jato11l"],
+	["jato11r", "jato6l"],
+
+	["jato6l", "jato9r"],
+	["jato6r", "jato9l"],
+
+
+	//base sides crossing
+	{"beamSpring":"$=$weight*3001000", "beamDamp":"$=$weight*300"},
+	["jato7l", "jato9l"],
+	["jato7r", "jato9r"],
+	["jato8l", "jato6l"],
+	["jato8r", "jato6r"],
+	["jato11l", "jato9l"],
+	["jato11r", "jato9r"],
+	["jato10l", "jato6l"],
+	["jato10r", "jato6r"],
+
+
+	//cylinder to base
+	{"beamSpring":"$=$weight*3001000", "beamDamp":"$=$weight*300"},
+
+	["jato7l", "jato4r"],
+	["jato7r", "jato4l"],
+	["jato7l", "jato13"],
+	["jato7r", "jato13"],
+
+	["jato7l", "jato5l"],
+	["jato7r", "jato5r"],
+	["jato7l", "jato5r"],
+	["jato7r", "jato5l"],
+
+	["jato9l", "jato4l"],
+	["jato9r", "jato4r"],
+	["jato9l", "jato4r"],
+	["jato9r", "jato4l"],
+	["jato9l", "jato13"],
+	["jato9r", "jato13"],
+
+
+	//cylinder to base rigids
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	["jato7l", "jato2l"],
+	["jato7r", "jato2r"],
+	["jato7l", "jato2r"],
+	["jato7r", "jato2l"],
+
+	["jato9l", "jato2l"],
+	["jato9r", "jato2r"],
+	["jato9l", "jato2r"],
+	["jato9r", "jato2l"],
+
+	["jato7l", "jato3l"],
+	["jato7r", "jato3r"],
+	["jato7l", "jato3r"],
+	["jato7r", "jato3l"],
+	["jato7l", "jato12"],
+	["jato7r", "jato12"],
+
+	["jato8l", "jato4l"],
+	["jato8r", "jato4r"],
+	["jato8l", "jato4r"],
+	["jato8r", "jato4l"],
+	["jato8l", "jato13"],
+	["jato8r", "jato13"],
+
+	["jato11l", "jato4l"],
+	["jato11r", "jato4r"],
+	["jato11l", "jato4r"],
+	["jato11r", "jato4l"],
+	["jato11l", "jato13"],
+	["jato11r", "jato13"],
+
+	["jato10l", "jato4l"],
+	["jato10r", "jato4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to mount
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"breakGroup":"jato_mount_break"},
+
+	["trunkM1l", "jato11l"],
+	["trunkM1l", "jato11r"],
+	["trunkM1l", "jato10l"],
+	["trunkM1l", "jato6l"],
+
+	["trunkM1r", "jato11l"],
+	["trunkM1r", "jato11r"],
+	["trunkM1r", "jato10r"],
+	["trunkM1r", "jato6r"],
+
+	["trunkM2l", "jato10l"],
+	["trunkM2l", "jato10r"],
+	["trunkM2l", "jato11l"],
+	["trunkM2l", "jato9l"],
+
+	["trunkM2r", "jato10l"],
+	["trunkM2r", "jato10r"],
+	["trunkM2r", "jato11r"],
+	["trunkM2r", "jato9r"],
+
+	["trunkMrig", "jato11l"],
+	["trunkMrig", "jato11r"],
+	["trunkMrig", "jato10l"],
+	["trunkMrig", "jato10r"],
+
+
+	//to support
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"jato_supp_break"},
+	{"optional":true},
+
+	["spoilB1l", "jato10l"],
+	["spoilB1l", "jato10r"],
+	["spoilB1l", "jato11l"],
+	["spoilB1l", "jato9l"],
+
+	["spoilB1r", "jato10l"],
+	["spoilB1r", "jato10r"],
+	["spoilB1r", "jato11r"],
+	["spoilB1r", "jato9r"],
+
+	["spoilB3l", "jato9l"],
+	["spoilB3l", "jato9r"],
+	["spoilB3l", "jato6l"],
+	["spoilB3l", "jato10l"],
+
+	["spoilB3r", "jato9l"],
+	["spoilB3r", "jato9r"],
+	["spoilB3r", "jato6r"],
+	["spoilB3r", "jato10r"],
+
+	["spoilB4l", "jato8l"],
+	["spoilB4l", "jato8r"],
+	["spoilB4l", "jato7l"],
+	["spoilB4l", "jato9l"],
+
+	["spoilB4r", "jato8l"],
+	["spoilB4r", "jato8r"],
+	["spoilB4r", "jato7r"],
+	["spoilB4r", "jato9r"],
+
+
+	{"optional":false},
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_jato"},
+
+	["jato12","jato1l","jato3l"],
+	["jato12","jato3l","jato5l"],
+	["jato12","jato5l","jato5r"],
+	["jato12","jato5r","jato3r"],
+	["jato12","jato3r","jato1r"],
+	["jato12","jato1r","jato1l"],
+
+	["jato13","jato2l","jato2r"],
+	["jato13","jato2r","jato4r"],
+	["jato13","jato4r","jato6r"],
+	["jato13","jato6r","jato6l"],
+	["jato13","jato6l","jato4l"],
+	["jato13","jato4l","jato2l"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_jato"}, 
+  
+	["jato1l","jato1r","jato2r","jato2l"],
+	["jato1r","jato3r","jato4r","jato2r"],
+	["jato3r","jato5r","jato6r","jato4r"],
+	["jato5r","jato5l","jato6l","jato6r"],
+	["jato5l","jato3l","jato4l","jato6l"],
+	["jato3l","jato1l","jato2l","jato4l"],
+
+	["jato6l","jato7l","jato7r","jato6r"],
+	["jato7l","jato8l","jato8r","jato7r"],
+	["jato8l","jato9l","jato9r","jato8r"],
+	["jato9l","jato10l","jato10r","jato9r"],
+	["jato10l","jato11l","jato11r","jato10r"],
+	["jato11l","jato6l","jato6r","jato11r"],
+
+	["jato6l","jato11l","jato10l","jato9l"],
+	["jato6r","jato9r","jato10r","jato11r"],
+	["jato6l","jato9l","jato8l","jato7l"],
+	["jato6r","jato7r","jato8r","jato9r"],
+	
+        {"group":""},
+    ],
+},
+
+}

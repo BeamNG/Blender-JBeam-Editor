@@ -1,0 +1,158 @@
+{
+"legocar_door_R_welded": {
+    "information":{
+        "name":"Welded Right Door",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_door_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_door_R_welded_extension", "", "Door Extension"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_door_R_welded",["legocar_door_R"], [], {"pos":{"x":-0.625, "y":-0.375, "z":0.4},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_door_R"},
+	//8 pieces, 8 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+
+	["Rdoor1r", -0.75, -0.47, 0.4],
+	["Rdoor1l", -0.53, -0.47, 0.4],
+	["Rdoor2r", -0.75,  0.25, 0.4],
+	["Rdoor2l", -0.53,  0.25, 0.4],
+	["Rdoor3r", -0.75, -0.47, 0.7],
+	["Rdoor3l", -0.53, -0.47, 0.7],
+	["Rdoor4r", -0.75,  0.25, 0.7],
+	["Rdoor4l", -0.53,  0.25, 0.7],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--RIGHT DOOR--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["Rdoor1l", "Rdoor1r"],
+	["Rdoor2l", "Rdoor2r"],
+	["Rdoor3l", "Rdoor3r"],
+	["Rdoor4l", "Rdoor4r"],
+
+	["Rdoor1l", "Rdoor2r"],
+	["Rdoor2l", "Rdoor3r"],
+	["Rdoor3l", "Rdoor4r"],
+	["Rdoor4l", "Rdoor1r"],
+
+	["Rdoor1l", "Rdoor3r"],
+	["Rdoor2l", "Rdoor4r"],
+	["Rdoor3l", "Rdoor1r"],
+	["Rdoor4l", "Rdoor2r"],
+
+	["Rdoor1l", "Rdoor4r"],
+	["Rdoor2l", "Rdoor1r"],
+	["Rdoor3l", "Rdoor2r"],
+	["Rdoor4l", "Rdoor3r"],
+
+	["Rdoor1l", "Rdoor2l"],
+	["Rdoor2l", "Rdoor3l"],
+	["Rdoor3l", "Rdoor4l"],
+	["Rdoor4l", "Rdoor1l"],
+
+	["Rdoor1l", "Rdoor3l"],
+	["Rdoor2l", "Rdoor4l"],
+
+	["Rdoor1r", "Rdoor2r"],
+	["Rdoor2r", "Rdoor3r"],
+	["Rdoor3r", "Rdoor4r"],
+	["Rdoor4r", "Rdoor1r"],
+
+	["Rdoor1r", "Rdoor3r"],
+	["Rdoor2r", "Rdoor4r"],
+
+	
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to rocker
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"Rdoor_break"},
+
+	["RrockT1l", "Rdoor1l"],
+	["RrockT1l", "Rdoor1r"],
+	["RrockT1l", "Rdoor2l"],
+	["RrockT1l", "Rdoor3l"],
+
+	["RrockT1r", "Rdoor1l"],
+	["RrockT1r", "Rdoor1r"],
+	["RrockT1r", "Rdoor2r"],
+	["RrockT1r", "Rdoor3r"],
+
+	["RrockT2l", "Rdoor2l"],
+	["RrockT2l", "Rdoor2r"],
+	["RrockT2l", "Rdoor1l"],
+	["RrockT2l", "Rdoor4l"],
+
+	["RrockT2r", "Rdoor2l"],
+	["RrockT2r", "Rdoor2r"],
+	["RrockT2r", "Rdoor1r"],
+	["RrockT2r", "Rdoor4r"],
+
+	
+	//to fender bar
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"mirrormount_door_R_break"},
+	{"optional":true},
+
+	["mirrormt1r", "Rdoor4r"],
+	["mirrormt1r", "Rdoor4l"],
+	["mirrormt1r", "Rdoor2r"],
+	["mirrormt1r", "Rdoor3r"],
+	
+	["mirrormt1rr", "Rdoor4r"],
+	["mirrormt1rr", "Rdoor4l"],
+	["mirrormt1rr", "Rdoor2l"],
+	["mirrormt1rr", "Rdoor3l"],
+
+	["mirrormt2r", "Rdoor3r"],
+	["mirrormt2r", "Rdoor3l"],
+	["mirrormt2r", "Rdoor1r"],
+	["mirrormt2r", "Rdoor4r"],
+	
+	["mirrormt2rr", "Rdoor3r"],
+	["mirrormt2rr", "Rdoor3l"],
+	["mirrormt2rr", "Rdoor1l"],
+	["mirrormt2rr", "Rdoor4l"],
+
+	["mirrormt3rr", "Rdoor3r"],
+	["mirrormt3rr", "Rdoor3l"],
+	["mirrormt3rr", "Rdoor1l"],
+	["mirrormt3rr", "Rdoor4l"],
+	
+	{"breakGroup":""},
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_door_R"},   
+	["Rdoor2r","Rdoor2l","Rdoor1l","Rdoor1r"],
+	["Rdoor4l","Rdoor4r","Rdoor3r","Rdoor3l"],
+	["Rdoor3r","Rdoor4r","Rdoor2r","Rdoor1r"],
+	["Rdoor4l","Rdoor3l","Rdoor1l","Rdoor2l"],
+	["Rdoor4r","Rdoor4l","Rdoor2l","Rdoor2r"],
+	["Rdoor3l","Rdoor3r","Rdoor1r","Rdoor1l"],
+
+        {"group":""},
+    ],
+},
+
+}

@@ -1,0 +1,325 @@
+{
+"legocar_transfercase_FWD": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible FWD Transfer Case",
+    },
+    "slotType" : "legocar_transfercase",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_differential_F","legocar_differential_F_open","Front Differential"],
+	["legocar_driveshaft_F","legocar_driveshaft_F","Front Driveshaft"],
+   ],
+   "powertrain": [
+        ["type", "name", "inputName", "inputIndex"],
+        ["shaft", "transfercase", "gearbox", 1, {"friction":0, "dynamicFriction":0, "torqueLossCoef":0, "uiName":"Front Output Shaft"}],
+    ],
+},
+"legocar_transfercase_RWD": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible RWD Transfer Case",
+    },
+    "slotType" : "legocar_transfercase",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_differential_R","legocar_differential_R_open","Rear Differential"],
+	["legocar_driveshaft_R","legocar_driveshaft_R","Rear Driveshaft"],
+   ],
+   "powertrain": [
+        ["type", "name", "inputName", "inputIndex"],
+        ["shaft", "transfercase", "gearbox", 1, {"outputPortOverride":[2], "friction":0, "dynamicFriction":0, "torqueLossCoef":0, "uiName":"Front Output Shaft"}],
+    ],
+},
+
+"legocar_transfercase_AWD": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible AWD Transfer Case",
+    },
+    "slotType" : "legocar_transfercase",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_differential_F","legocar_differential_F_lsd","Front Differential"],
+	["legocar_differential_R","legocar_differential_R_lsd","Rear Differential"],
+	["legocar_driveshaft_F","legocar_driveshaft_F","Front Driveshaft"],
+	["legocar_driveshaft_R","legocar_driveshaft_R","Rear Driveshaft"],
+   ],
+   "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$difftorquesplit_C", "range", "", "Differentials", 0.5, 0.25, 0.75, "Base Torque Split", "Percent torque to rear wheels", {"minDis":25, "maxDis":75, "stepDis":1, "subCategory":"Center"}],
+        ["$lsdpreload_C", "range", "N/m", "Differentials", 25, 0, 200, "Pre-load Torque", "Initial cross torque between front and rear wheels", {"subCategory":"Center"}],
+        ["$lsdlockcoef_C", "range", "", "Differentials", 0.125, 0, 0.5, "Power Lock Rate", "Additional locking torque proportional to engine torque", {"minDis":0, "maxDis":100, "subCategory":"Center"}],
+        ["$lsdlockcoefrev_C", "range", "", "Differentials", 0.025, 0, 0.5, "Coast Lock Rate", "Additional locking torque proportional to engine braking", {"minDis":0, "maxDis":100, "subCategory":"Center"}],
+    ],
+   "powertrain": [
+        ["type", "name", "inputName", "inputIndex"],
+        ["differential", "transfercase", "gearbox", 1, {"diffType":"lsd", "lsdPreload":"$lsdpreload_C", "lsdLockCoef":"$lsdlockcoef_C", "lsdRevLockCoef":"$lsdlockcoefrev_C", "diffTorqueSplit":"$difftorquesplit_C", "friction":0, "dynamicFriction":0, "torqueLossCoef":0, "uiName":"Center Differential", "defaultVirtualInertia":0.1, "speedLimitCoef":0.1}],
+    ],
+},
+"legocar_transfercase_AWD_locked": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible AWD Locked Transfer Case",
+    },
+    "slotType" : "legocar_transfercase",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_differential_F","legocar_differential_F_welded","Front Differential"],
+	["legocar_differential_R","legocar_differential_R_welded","Rear Differential"],
+	["legocar_driveshaft_F","legocar_driveshaft_F","Front Driveshaft"],
+	["legocar_driveshaft_R","legocar_driveshaft_R","Rear Driveshaft"],
+   ],
+   "powertrain": [
+        ["type", "name", "inputName", "inputIndex"],
+        ["differential", "transfercase", "gearbox", 1, {"diffType":"locked", "lockTorque":10000, "friction":0, "dynamicFriction":0, "torqueLossCoef":0, "uiName":"Center Differential", "defaultVirtualInertia":0.1, "speedLimitCoef":0.1}],
+    ],
+},
+"legocar_transfercase_AWD_viscous": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible AWD Viscous Transfer Case",
+    },
+    "slotType" : "legocar_transfercase",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_differential_F","legocar_differential_F_viscous","Front Differential"],
+	["legocar_differential_R","legocar_differential_R_viscous","Rear Differential"],
+	["legocar_driveshaft_F","legocar_driveshaft_F","Front Driveshaft"],
+	["legocar_driveshaft_R","legocar_driveshaft_R","Rear Driveshaft"],
+   ],
+   "powertrain": [
+        ["type", "name", "inputName", "inputIndex"],
+        ["differential", "transfercase", "gearbox", 1, {"diffType":"viscous", "viscousCoef":100, "viscousTorque":1000, "friction":0, "dynamicFriction":0, "torqueLossCoef":0, "uiName":"Center Differential", "defaultVirtualInertia":0.1, "speedLimitCoef":0.1}],
+    ],
+},
+"legocar_transfercase_AWD_locking": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible AWD Locking Transfer Case",
+    },
+    "slotType" : "legocar_transfercase",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_differential_F","legocar_differential_F_locking","Front Differential"],
+	["legocar_differential_R","legocar_differential_R_locking","Rear Differential"],
+	["legocar_driveshaft_F","legocar_driveshaft_F","Front Driveshaft"],
+	["legocar_driveshaft_R","legocar_driveshaft_R","Rear Driveshaft"],
+   ],
+   "powertrain": [
+        ["type", "name", "inputName", "inputIndex"],
+	["rangeBox", "rangebox", "gearbox", 1, {"uiSimpleModeControl":false, "gearRatios":[1,4], "uiName":"Rangebox"}],
+        ["differential", "transfercase", "rangebox", 1, {"diffType":["lsd","locked"], "lsdPreload":50, "lsdLockCoef":0.05, "lsdRevLockCoef":0.05, "diffTorqueSplit":0.3, "friction":0, "dynamicFriction":0, "torqueLossCoef":0, "uiName":"Center Differential", "defaultVirtualInertia":0.1, "speedLimitCoef":0.1}],
+    ],
+},
+
+"legocar_transfercase_4WD": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible 4WD Transfer Case",
+    },
+    "slotType" : "legocar_transfercase",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_differential_F","legocar_differential_F_locking","Front Differential"],
+	["legocar_differential_R","legocar_differential_R_locking","Rear Differential"],
+	["legocar_driveshaft_F","legocar_driveshaft_F_offroad","Front Driveshaft"],
+	["legocar_driveshaft_R","legocar_driveshaft_R","Rear Driveshaft"],
+   ],
+   "controller": [
+        ["fileName"],
+        ["driveModes", {"name":"transfercaseControl"}]
+        ["4wd", {"driveModesTransfercaseNames":["transfercaseControl"]}]
+    ],
+    "transfercaseControl":{
+        "uiName": "Transfercase"
+        "quickAccessTitle":"Transfercase"
+        "quickAccessIcon":"radial_highrangebox"
+        "quickAccessLevel":"/powertrain/"
+        "enabledModes":["2hi", "4hi", "4lo"]
+        "defaultMode": "2hi"
+        "modes": {
+            "2hi": {
+                "name": "2WD High Gear",
+                "order": 10,
+                "settings": [
+                    ["type"]
+                    ["powertrainDeviceMode", {"deviceName":"rangebox", "mode":"high"}]
+                    ["powertrainDeviceMode", {"deviceName":"driveshaft_F", "mode":"disconnected"}]
+                    ["powertrainDeviceMode", {"deviceName":"wheelaxleFR", "mode":"disconnected"}]
+                    ["powertrainDeviceMode", {"deviceName":"wheelaxleFL", "mode":"disconnected"}]
+                    ["electricsValue", {"electricsName":"transfercase_state", "value":1}]
+                    ["simpleControlButton", {"buttonId":"transfercase", "icon":"powertrain_transfercase_high-2", "uiName":"Transfercase"}]
+                    ["quickAccess", {"icon":"powertrain_transfercase_high-2"}]
+                ],
+            },
+            "4hi": {
+                "name": "4WD High Gear",
+                "order": 20,
+                "settings": [
+                    ["type"]
+                    ["powertrainDeviceMode", {"deviceName":"rangebox", "mode":"high"}]
+                    ["powertrainDeviceMode", {"deviceName":"driveshaft_F", "mode":"connected"}]
+                    ["powertrainDeviceMode", {"deviceName":"wheelaxleFR", "mode":"connected"}]
+                    ["powertrainDeviceMode", {"deviceName":"wheelaxleFL", "mode":"connected"}]
+                    ["electricsValue", {"electricsName":"transfercase_state", "value":0.33}]
+                    ["simpleControlButton", {"buttonId":"transfercase", "icon":"powertrain_transfercase_high-4", "uiName":"Transfercase"}]
+                    ["quickAccess", {"icon":"powertrain_transfercase_high-4"}]
+                ],
+            },
+            "4lo": {
+                "name": "4WD Low Gear",
+                "order": 30,
+                "settings": [
+                    ["type"]
+                    ["powertrainDeviceMode", {"deviceName":"rangebox", "mode":"low"}]
+                    ["powertrainDeviceMode", {"deviceName":"transfercase_F", "mode":"connected"}]
+                    ["powertrainDeviceMode", {"deviceName":"wheelaxleFR", "mode":"connected"}]
+                    ["powertrainDeviceMode", {"deviceName":"wheelaxleFL", "mode":"connected"}]
+                    ["electricsValue", {"electricsName":"transfercase_state", "value":-1}]
+                    ["simpleControlButton", {"buttonId":"transfercase", "icon":"powertrain_transfercase_low-4", "uiName":"Transfercase"}]
+                    ["quickAccess", {"icon":"powertrain_transfercase_low-4"}]
+                ],
+            },
+        },
+    },
+    "powertrain": [
+        ["type", "name", "inputName", "inputIndex"],
+	["rangeBox", "rangebox", "gearbox", 1, {"uiSimpleModeControl":false, "gearRatios":[1,2], "uiName":"Rangebox"}],
+        ["differential", "transfercase", "rangebox", 1, {"diffType":"locked", "lockTorque":10000, "friction":0, "dynamicFriction":0, "torqueLossCoef":0, "uiName":"Center Differential", "defaultVirtualInertia":0.1, "speedLimitCoef":0.1}],
+    ],
+},
+"legocar_transfercase_4WD_offroad": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible 4WD Crawler Transfer Case",
+    },
+    "slotType" : "legocar_transfercase",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_differential_F","legocar_differential_F_locking","Front Differential"],
+	["legocar_differential_R","legocar_differential_R_locking","Rear Differential"],
+	["legocar_driveshaft_F","legocar_driveshaft_F_offroad","Front Driveshaft"],
+	["legocar_driveshaft_R","legocar_driveshaft_R_offroad","Rear Driveshaft"],
+   ],
+   "controller": [
+        ["fileName"],
+        ["driveModes", {"name":"transfercaseControl"}]
+        ["4wd", {"driveModesTransfercaseNames":["transfercaseControl"]}]
+    ],
+    "transfercaseControl":{
+        "uiName": "Transfercase"
+        "quickAccessTitle":"Transfercase"
+        "quickAccessIcon":"radial_highrangebox"
+        "quickAccessLevel":"/powertrain/"
+        "enabledModes":["2hi", "4hi", "4lo"]
+        "defaultMode": "4hi"
+        "modes": {
+            "2hi": {
+                "name": "2WD High Gear",
+                "order": 10,
+                "settings": [
+                    ["type"]
+                    ["powertrainDeviceMode", {"deviceName":"rangebox", "mode":"high"}]
+                    ["powertrainDeviceMode", {"deviceName":"transfercase_F", "mode":"disconnected"}]
+                    ["powertrainDeviceMode", {"deviceName":"wheelaxleFR", "mode":"disconnected"}]
+                    ["powertrainDeviceMode", {"deviceName":"wheelaxleFL", "mode":"disconnected"}]
+                    ["electricsValue", {"electricsName":"transfercase_state", "value":1}]
+                    ["simpleControlButton", {"buttonId":"transfercase", "icon":"powertrain_transfercase_high-2", "uiName":"Transfercase"}]
+                    ["quickAccess", {"icon":"powertrain_transfercase_high-2"}]
+                ],
+            },
+            "4hi": {
+                "name": "4WD High Gear",
+                "order": 20,
+                "settings": [
+                    ["type"]
+                    ["powertrainDeviceMode", {"deviceName":"rangebox", "mode":"high"}]
+                    ["powertrainDeviceMode", {"deviceName":"transfercase_F", "mode":"connected"}]
+                    ["powertrainDeviceMode", {"deviceName":"wheelaxleFR", "mode":"connected"}]
+                    ["powertrainDeviceMode", {"deviceName":"wheelaxleFL", "mode":"connected"}]
+                    ["electricsValue", {"electricsName":"transfercase_state", "value":0.33}]
+                    ["simpleControlButton", {"buttonId":"transfercase", "icon":"powertrain_transfercase_high-4", "uiName":"Transfercase"}]
+                    ["quickAccess", {"icon":"powertrain_transfercase_high-4"}]
+                ],
+            },
+            "4lo": {
+                "name": "4WD Low Gear",
+                "order": 30,
+                "settings": [
+                    ["type"]
+                    ["powertrainDeviceMode", {"deviceName":"rangebox", "mode":"low"}]
+                    ["powertrainDeviceMode", {"deviceName":"transfercase_F", "mode":"connected"}]
+                    ["powertrainDeviceMode", {"deviceName":"wheelaxleFR", "mode":"connected"}]
+                    ["powertrainDeviceMode", {"deviceName":"wheelaxleFL", "mode":"connected"}]
+                    ["electricsValue", {"electricsName":"transfercase_state", "value":-1}]
+                    ["simpleControlButton", {"buttonId":"transfercase", "icon":"powertrain_transfercase_low-4", "uiName":"Transfercase"}]
+                    ["quickAccess", {"icon":"powertrain_transfercase_low-4"}]
+                ],
+            },
+        },
+   },
+   "powertrain": [
+        ["type", "name", "inputName", "inputIndex"],
+	["rangeBox", "rangebox", "gearbox", 1, {"uiSimpleModeControl":false, "gearRatios":[1,4], "uiName":"Rangebox"}],
+        ["differential", "transfercase", "rangebox", 1, {"diffType":"locked", "lockTorque":10000, "friction":0, "dynamicFriction":0, "torqueLossCoef":0, "uiName":"Center Differential", "defaultVirtualInertia":0.1, "speedLimitCoef":0.1}],
+    ],
+    "gearbox": {
+        "uiName":"Gearbox",
+        //added stabilization for one way clutch with ultra low range
+        "oneWayViscousCoef":20,
+        "oneWayViscousSmoothing":100,
+    },
+    "torqueConverter": {
+        "uiName":"Torque Converter",
+        //added stabilization for torque converter with ultra low range
+        "kFactorSmoothing":250,
+    },
+},
+
+"legocar_driveshaft_F": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible Front Driveshaft",
+    },
+    "slotType" : "legocar_driveshaft_F",
+    "powertrain" : [
+        ["type", "name", "inputName", "inputIndex"],
+        ["shaft", "driveshaft_F", "transfercase", 1, {"breakTriggerBeam":"driveshaft_F", "uiName":"Front Driveshaft", "electricsName":"driveshaft_F", "friction":0, "dynamicFriction": 0, "torqueLossCoef":0}],
+    ],
+},
+"legocar_driveshaft_F_offroad": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible Disconnectable Front Driveshaft",
+    },
+    "slotType" : "legocar_driveshaft_F",
+    "powertrain" : [
+        ["type", "name", "inputName", "inputIndex"],
+        ["shaft", "driveshaft_F", "transfercase", 1, {"canDisconnect":true, "breakTriggerBeam":"driveshaft_F", "uiName":"Front Driveshaft", "electricsName":"driveshaft_F", "friction":0, "dynamicFriction": 0, "torqueLossCoef":0}],
+    ],
+},
+"legocar_driveshaft_R": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible Rear Driveshaft",
+    },
+    "slotType" : "legocar_driveshaft_R",
+    "powertrain" : [
+        ["type", "name", "inputName", "inputIndex"],
+        ["shaft", "driveshaft_R", "transfercase", 2, {"breakTriggerBeam":"driveshaft_R", "uiName":"Rear Driveshaft", "electricsName":"driveshaft_R", "friction":0, "dynamicFriction": 0, "torqueLossCoef":0}],
+    ],
+},
+"legocar_driveshaft_R_offroad": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible Disconnectable Rear Driveshaft",
+    },
+    "slotType" : "legocar_driveshaft_R",
+    "powertrain" : [
+        ["type", "name", "inputName", "inputIndex"],
+        ["shaft", "driveshaft_R", "transfercase", 2, {"canDisconnect":true, "breakTriggerBeam":"driveshaft_R", "uiName":"Rear Driveshaft", "electricsName":"driveshaft_R", "friction":0, "dynamicFriction": 0, "torqueLossCoef":0}],
+    ],
+},
+
+}

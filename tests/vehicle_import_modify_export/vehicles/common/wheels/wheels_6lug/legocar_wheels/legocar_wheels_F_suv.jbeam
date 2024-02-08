@@ -1,0 +1,206 @@
+//piece scale: 0.25m to 7.8mm = 1 to 31.2/1000 = 32.05128205128205:1
+//estimated wheel size: 24x19
+
+{
+"legocar_wheel_suv_24x19_F": {
+    "information":{
+        "authors":"AgentY",
+        "name":"24x19 Toy Car 55981c03 Off-Road Front Wheels",
+    },
+    "slotType" : "wheel_F_6",
+    "slots": [
+        ["type", "default", "description"],
+	["skin_legocar_wheel_F","legocar_skin_wheel_F_grey", "Wheels Color",{"coreSlot":true}],
+        ["tire_F_24x19","tire_F_450_35_24", "Front Tires"],
+	["hubcaps_F_24_legocar","", "Front Hubcaps"],
+    ],
+    "flexbodies": [
+         ["mesh", "[group]:", "nonFlexMaterials"],
+         ["legocar_wheel_F_suv", ["wheel_FR","wheelhub_FR"], [], {"pos":{"x":-0.375, "y":-0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+         ["legocar_wheel_F_suv", ["wheel_FL","wheelhub_FL"], [], {"pos":{"x": 0.375, "y":-0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0},   "scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+        {"collision":true},
+        {"selfCollision":true},
+        //front wheels
+        {"nodeWeight":5.0},
+        {"nodeMaterial":"|NM_PLASTIC"},
+        {"frictionCoef":0.5},
+        {"group":"wheelhub_FR"},
+        ["fw1r", -0.375, 0.0, 0.0, {"staticCollision":false}],
+        {"group":"wheelhub_FR"},
+        ["fw1rr", -0.725, 0.0, 0.0, {"staticCollision":false}],
+        {"group":"wheelhub_FL"},
+        ["fw1l", 0.375, 0.0, 0.0, {"staticCollision":false}],
+        {"group":"wheelhub_FL"},
+        ["fw1ll", 0.725, 0.0, 0.0, {"staticCollision":false}],
+        {"group":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+        {"breakGroup":""},
+        {"beamDeform":"FLT_MAX","beamStrength":"FLT_MAX"},
+        {"beamSpring":1501000,"beamDamp":25},
+        //front wheel
+        ["fw1r","fw1rr"],
+        ["fw1l","fw1ll"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+    ],
+    "pressureWheels": [
+        ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+        {"disableMeshBreaking":false,"disableHubMeshBreaking":false,"enableHubcaps":false,"hasTire":false},
+
+        //general settings
+        {"hubRadius":0.2975},
+        {"wheelOffset":-0.045},
+        {"hubWidth":0.4},
+        {"numRays":16},
+
+        //hub options
+        {"hubTreadBeamSpring":1701000, "hubTreadBeamDamp":10},
+        {"hubPeripheryBeamSpring":1701000, "hubPeripheryBeamDamp":10},
+        {"hubSideBeamSpring":2001000, "hubSideBeamDamp":10},
+        {"hubNodeWeight":0.75},
+        {"hubNodeMaterial":"|NM_PLASTIC"},
+        {"hubFrictionCoef":0.5},
+        {"hubBeamDeform":"FLT_MAX", "hubBeamStrength":"FLT_MAX"},
+    ],
+},
+
+"legocar_wheel_suv_sport_24x19_F": {
+    "information":{
+        "authors":"AgentY",
+        "name":"24x19 Toy Car 20896 Off-Road Front Wheels",
+    },
+    "slotType" : "wheel_F_6",
+    "slots": [
+        ["type", "default", "description"],
+	["skin_legocar_wheel_F","legocar_skin_wheel_F_grey", "Wheels Color",{"coreSlot":true}],
+        ["tire_F_24x19","tire_F_450_35_24", "Front Tires"],
+	["hubcaps_F_24_legocar","", "Front Hubcaps"],
+    ],
+    "flexbodies": [
+         ["mesh", "[group]:", "nonFlexMaterials"],
+	 //same wheels but rotated
+         ["legocar_wheel_F_suv", ["wheel_FR","wheelhub_FR"], [], {"pos":{"x":-0.805, "y":-0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0},   "scale":{"x":1, "y":1, "z":1}}],
+         ["legocar_wheel_F_suv", ["wheel_FL","wheelhub_FL"], [], {"pos":{"x": 0.805, "y":-0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+        {"collision":true},
+        {"selfCollision":true},
+        //front wheels
+        {"nodeWeight":5.0},
+        {"nodeMaterial":"|NM_PLASTIC"},
+        {"frictionCoef":0.5},
+        {"group":"wheelhub_FR"},
+        ["fw1r", -0.375, 0.0, 0.0, {"staticCollision":false}],
+        {"group":"wheelhub_FR"},
+        ["fw1rr", -0.725, 0.0, 0.0, {"staticCollision":false}],
+        {"group":"wheelhub_FL"},
+        ["fw1l", 0.375, 0.0, 0.0, {"staticCollision":false}],
+        {"group":"wheelhub_FL"},
+        ["fw1ll", 0.725, 0.0, 0.0, {"staticCollision":false}],
+        {"group":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+        {"breakGroup":""},
+        {"beamDeform":"FLT_MAX","beamStrength":"FLT_MAX"},
+        {"beamSpring":1501000,"beamDamp":25},
+        //front wheel
+        ["fw1r","fw1rr"],
+        ["fw1l","fw1ll"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+    ],
+    "pressureWheels": [
+        ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+        {"disableMeshBreaking":false,"disableHubMeshBreaking":false,"enableHubcaps":false,"hasTire":false},
+
+        //general settings
+        {"hubRadius":0.2975},
+        {"wheelOffset":-0.045},
+        {"hubWidth":0.4},
+        {"numRays":16},
+
+        //hub options
+        {"hubTreadBeamSpring":1701000, "hubTreadBeamDamp":10},
+        {"hubPeripheryBeamSpring":1701000, "hubPeripheryBeamDamp":10},
+        {"hubSideBeamSpring":2001000, "hubSideBeamDamp":10},
+        {"hubNodeWeight":0.75},
+        {"hubNodeMaterial":"|NM_PLASTIC"},
+        {"hubFrictionCoef":0.5},
+        {"hubBeamDeform":"FLT_MAX", "hubBeamStrength":"FLT_MAX"},
+    ],
+},
+
+"legocar_wheel_suv_custom_24x19_F": {
+    "information":{
+        "authors":"AgentY",
+        "name":"24x19 Toy Car 51377c01 Off-Road Front Wheels",
+    },
+    "slotType" : "wheel_F_6",
+    "slots": [
+        ["type", "default", "description"],
+	["skin_legocar_wheel_F","legocar_skin_wheel_F_grey", "Wheels Color",{"coreSlot":true}],
+        ["tire_F_24x19","tire_F_450_35_24", "Front Tires"],
+    ],
+    "flexbodies": [
+         ["mesh", "[group]:", "nonFlexMaterials"],
+         ["legocar_wheel_F_suv_custom", ["wheel_FR","wheelhub_FR"], [], {"pos":{"x":-0.375, "y":-0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+         ["legocar_wheel_F_suv_custom", ["wheel_FL","wheelhub_FL"], [], {"pos":{"x": 0.375, "y":-0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0},   "scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+        {"collision":true},
+        {"selfCollision":true},
+        //front wheels
+        {"nodeWeight":5.0},
+        {"nodeMaterial":"|NM_PLASTIC"},
+        {"frictionCoef":0.5},
+        {"group":"wheelhub_FR"},
+        ["fw1r", -0.375, 0.0, 0.0, {"staticCollision":false}],
+        {"group":"wheelhub_FR"},
+        ["fw1rr", -0.725, 0.0, 0.0, {"staticCollision":false}],
+        {"group":"wheelhub_FL"},
+        ["fw1l", 0.375, 0.0, 0.0, {"staticCollision":false}],
+        {"group":"wheelhub_FL"},
+        ["fw1ll", 0.725, 0.0, 0.0, {"staticCollision":false}],
+        {"group":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+        {"breakGroup":""},
+        {"beamDeform":"FLT_MAX","beamStrength":"FLT_MAX"},
+        {"beamSpring":1501000,"beamDamp":25},
+        //front wheel
+        ["fw1r","fw1rr"],
+        ["fw1l","fw1ll"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+    ],
+    "pressureWheels": [
+        ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+        {"disableMeshBreaking":false,"disableHubMeshBreaking":false,"enableHubcaps":false,"hasTire":false},
+
+        //general settings
+        {"hubRadius":0.2975},
+        {"wheelOffset":-0.045},
+        {"hubWidth":0.4},
+        {"numRays":16},
+
+        //hub options
+        {"hubTreadBeamSpring":1701000, "hubTreadBeamDamp":10},
+        {"hubPeripheryBeamSpring":1701000, "hubPeripheryBeamDamp":10},
+        {"hubSideBeamSpring":2001000, "hubSideBeamDamp":10},
+        {"hubNodeWeight":0.75},
+        {"hubNodeMaterial":"|NM_PLASTIC"},
+        {"hubFrictionCoef":0.5},
+        {"hubBeamDeform":"FLT_MAX", "hubBeamStrength":"FLT_MAX"},
+    ],
+},
+
+}

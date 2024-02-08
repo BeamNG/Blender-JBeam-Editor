@@ -1,0 +1,507 @@
+{
+"legocar_mirror_L_col1": {
+    "information":{
+        "name":"Left Mirror (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_mirror_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_slope_col1",["legocar_mirror_L"],[], {"pos":{"x": 0.800, "y":-0.375, "z":0.825},"rot":{"x":0, "y":90, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_mirror",     ["legocar_mirror_L"],[], {"pos":{"x": 0.800, "y":-0.375, "z":0.825},"rot":{"x":0, "y":90, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_mirror_L"},
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["mirror1l",  0.83, -0.25, 0.73],
+	["mirror2l",  0.83, -0.25, 0.95],
+	["mirror3l",  0.83, -0.50, 0.73],
+	["mirror4l",  0.83, -0.50, 0.95],
+	["mirror1ll", 1.00, -0.25, 0.73],
+	["mirror2ll", 1.00, -0.25, 0.95],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform horizontal
+	["mirror1l", "mirror1ll"],
+	["mirror2l", "mirror2ll"],
+	["mirror1l", "mirror2ll"],
+	["mirror2l", "mirror1ll"],
+	["mirror3l", "mirror1ll"],
+	["mirror4l", "mirror2ll"],
+	["mirror3l", "mirror2ll"],
+	["mirror4l", "mirror1ll"],
+
+	//uniform vertical
+	["mirror1l", "mirror2l"],
+	["mirror3l", "mirror4l"],
+	["mirror1l", "mirror3l"],
+	["mirror2l", "mirror4l"],
+	["mirror1l", "mirror4l"],
+	["mirror2l", "mirror3l"],
+	["mirror1ll", "mirror2ll"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"mirror_L_break"},
+
+	["mirror1l", "mirrormt1l"],
+	["mirror1l", "mirrormt2ll"],
+	["mirror1l", "mirrormt3ll"],
+
+	["mirror2l", "mirrormt1l"],
+	["mirror2l", "mirrormt1ll"],
+	["mirror2l", "mirrormt4ll"],
+
+	["mirror3l", "mirrormt2l"],
+	["mirror3l", "mirrormt1ll"],
+	["mirror3l", "mirrormt4ll"],
+
+	["mirror4l", "mirrormt1l"],
+	["mirror4l", "mirrormt2ll"],
+	["mirror4l", "mirrormt3ll"],
+
+	["mirror1ll", "mirrormt1ll"],
+	["mirror1ll", "mirrormt2ll"],
+	["mirror2ll", "mirrormt3ll"],
+	["mirror2ll", "mirrormt4ll"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_mirror_L"},
+	["mirror1l","mirror1ll","mirror3l"],
+  	["mirror2l","mirror4l","mirror2ll"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_mirror_L"},   
+	["mirror1l","mirror2l","mirror2ll","mirror1ll"],
+	["mirror1l","mirror3l","mirror4l","mirror2l"],
+	["mirror1ll","mirror2ll","mirror4l","mirror3l"],
+        {"group":""},
+    ],
+},
+
+"legocar_mirror_L_col2": {
+    "information":{
+        "name":"Left Mirror (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_mirror_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_slope_col2",["legocar_mirror_L"],[], {"pos":{"x": 0.800, "y":-0.375, "z":0.825},"rot":{"x":0, "y":90, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_mirror",     ["legocar_mirror_L"],[], {"pos":{"x": 0.800, "y":-0.375, "z":0.825},"rot":{"x":0, "y":90, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_mirror_L"},
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["mirror1l",  0.83, -0.25, 0.73],
+	["mirror2l",  0.83, -0.25, 0.95],
+	["mirror3l",  0.83, -0.50, 0.73],
+	["mirror4l",  0.83, -0.50, 0.95],
+	["mirror1ll", 1.00, -0.25, 0.73],
+	["mirror2ll", 1.00, -0.25, 0.95],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform horizontal
+	["mirror1l", "mirror1ll"],
+	["mirror2l", "mirror2ll"],
+	["mirror1l", "mirror2ll"],
+	["mirror2l", "mirror1ll"],
+	["mirror3l", "mirror1ll"],
+	["mirror4l", "mirror2ll"],
+	["mirror3l", "mirror2ll"],
+	["mirror4l", "mirror1ll"],
+
+	//uniform vertical
+	["mirror1l", "mirror2l"],
+	["mirror3l", "mirror4l"],
+	["mirror1l", "mirror3l"],
+	["mirror2l", "mirror4l"],
+	["mirror1l", "mirror4l"],
+	["mirror2l", "mirror3l"],
+	["mirror1ll", "mirror2ll"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"mirror_L_break"},
+
+	["mirror1l", "mirrormt1l"],
+	["mirror1l", "mirrormt2ll"],
+	["mirror1l", "mirrormt3ll"],
+
+	["mirror2l", "mirrormt1l"],
+	["mirror2l", "mirrormt1ll"],
+	["mirror2l", "mirrormt4ll"],
+
+	["mirror3l", "mirrormt2l"],
+	["mirror3l", "mirrormt1ll"],
+	["mirror3l", "mirrormt4ll"],
+
+	["mirror4l", "mirrormt1l"],
+	["mirror4l", "mirrormt2ll"],
+	["mirror4l", "mirrormt3ll"],
+
+	["mirror1ll", "mirrormt1ll"],
+	["mirror1ll", "mirrormt2ll"],
+	["mirror2ll", "mirrormt3ll"],
+	["mirror2ll", "mirrormt4ll"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_mirror_L"},
+	["mirror1l","mirror1ll","mirror3l"],
+  	["mirror2l","mirror4l","mirror2ll"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_mirror_L"},   
+	["mirror1l","mirror2l","mirror2ll","mirror1ll"],
+	["mirror1l","mirror3l","mirror4l","mirror2l"],
+	["mirror1ll","mirror2ll","mirror4l","mirror3l"],
+        {"group":""},
+    ],
+},
+
+"legocar_mirror_L_col3": {
+    "information":{
+        "name":"Left Mirror (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_mirror_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_slope_col3",["legocar_mirror_L"],[], {"pos":{"x": 0.800, "y":-0.375, "z":0.825},"rot":{"x":0, "y":90, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_mirror",     ["legocar_mirror_L"],[], {"pos":{"x": 0.800, "y":-0.375, "z":0.825},"rot":{"x":0, "y":90, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_mirror_L"},
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["mirror1l",  0.83, -0.25, 0.73],
+	["mirror2l",  0.83, -0.25, 0.95],
+	["mirror3l",  0.83, -0.50, 0.73],
+	["mirror4l",  0.83, -0.50, 0.95],
+	["mirror1ll", 1.00, -0.25, 0.73],
+	["mirror2ll", 1.00, -0.25, 0.95],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform horizontal
+	["mirror1l", "mirror1ll"],
+	["mirror2l", "mirror2ll"],
+	["mirror1l", "mirror2ll"],
+	["mirror2l", "mirror1ll"],
+	["mirror3l", "mirror1ll"],
+	["mirror4l", "mirror2ll"],
+	["mirror3l", "mirror2ll"],
+	["mirror4l", "mirror1ll"],
+
+	//uniform vertical
+	["mirror1l", "mirror2l"],
+	["mirror3l", "mirror4l"],
+	["mirror1l", "mirror3l"],
+	["mirror2l", "mirror4l"],
+	["mirror1l", "mirror4l"],
+	["mirror2l", "mirror3l"],
+	["mirror1ll", "mirror2ll"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"mirror_L_break"},
+
+	["mirror1l", "mirrormt1l"],
+	["mirror1l", "mirrormt2ll"],
+	["mirror1l", "mirrormt3ll"],
+
+	["mirror2l", "mirrormt1l"],
+	["mirror2l", "mirrormt1ll"],
+	["mirror2l", "mirrormt4ll"],
+
+	["mirror3l", "mirrormt2l"],
+	["mirror3l", "mirrormt1ll"],
+	["mirror3l", "mirrormt4ll"],
+
+	["mirror4l", "mirrormt1l"],
+	["mirror4l", "mirrormt2ll"],
+	["mirror4l", "mirrormt3ll"],
+
+	["mirror1ll", "mirrormt1ll"],
+	["mirror1ll", "mirrormt2ll"],
+	["mirror2ll", "mirrormt3ll"],
+	["mirror2ll", "mirrormt4ll"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_mirror_L"},
+	["mirror1l","mirror1ll","mirror3l"],
+  	["mirror2l","mirror4l","mirror2ll"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_mirror_L"},   
+	["mirror1l","mirror2l","mirror2ll","mirror1ll"],
+	["mirror1l","mirror3l","mirror4l","mirror2l"],
+	["mirror1ll","mirror2ll","mirror4l","mirror3l"],
+        {"group":""},
+    ],
+},
+
+"legocar_mirror_L_dgrey": {
+    "information":{
+        "name":"Left Mirror (Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_mirror_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_slope_dgrey",["legocar_mirror_L"],[], {"pos":{"x": 0.800, "y":-0.375, "z":0.825},"rot":{"x":0, "y":90, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_mirror",      ["legocar_mirror_L"],[], {"pos":{"x": 0.800, "y":-0.375, "z":0.825},"rot":{"x":0, "y":90, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_mirror_L"},
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["mirror1l",  0.83, -0.25, 0.73],
+	["mirror2l",  0.83, -0.25, 0.95],
+	["mirror3l",  0.83, -0.50, 0.73],
+	["mirror4l",  0.83, -0.50, 0.95],
+	["mirror1ll", 1.00, -0.25, 0.73],
+	["mirror2ll", 1.00, -0.25, 0.95],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform horizontal
+	["mirror1l", "mirror1ll"],
+	["mirror2l", "mirror2ll"],
+	["mirror1l", "mirror2ll"],
+	["mirror2l", "mirror1ll"],
+	["mirror3l", "mirror1ll"],
+	["mirror4l", "mirror2ll"],
+	["mirror3l", "mirror2ll"],
+	["mirror4l", "mirror1ll"],
+
+	//uniform vertical
+	["mirror1l", "mirror2l"],
+	["mirror3l", "mirror4l"],
+	["mirror1l", "mirror3l"],
+	["mirror2l", "mirror4l"],
+	["mirror1l", "mirror4l"],
+	["mirror2l", "mirror3l"],
+	["mirror1ll", "mirror2ll"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"mirror_L_break"},
+
+	["mirror1l", "mirrormt1l"],
+	["mirror1l", "mirrormt2ll"],
+	["mirror1l", "mirrormt3ll"],
+
+	["mirror2l", "mirrormt1l"],
+	["mirror2l", "mirrormt1ll"],
+	["mirror2l", "mirrormt4ll"],
+
+	["mirror3l", "mirrormt2l"],
+	["mirror3l", "mirrormt1ll"],
+	["mirror3l", "mirrormt4ll"],
+
+	["mirror4l", "mirrormt1l"],
+	["mirror4l", "mirrormt2ll"],
+	["mirror4l", "mirrormt3ll"],
+
+	["mirror1ll", "mirrormt1ll"],
+	["mirror1ll", "mirrormt2ll"],
+	["mirror2ll", "mirrormt3ll"],
+	["mirror2ll", "mirrormt4ll"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_mirror_L"},
+	["mirror1l","mirror1ll","mirror3l"],
+  	["mirror2l","mirror4l","mirror2ll"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_mirror_L"},   
+	["mirror1l","mirror2l","mirror2ll","mirror1ll"],
+	["mirror1l","mirror3l","mirror4l","mirror2l"],
+	["mirror1ll","mirror2ll","mirror4l","mirror3l"],
+        {"group":""},
+    ],
+},
+
+"legocar_mirror_L_black": {
+    "information":{
+        "name":"Left Mirror (Black)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_mirror_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_slope_black",["legocar_mirror_L"],[], {"pos":{"x": 0.800, "y":-0.375, "z":0.825},"rot":{"x":0, "y":90, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_mirror",      ["legocar_mirror_L"],[], {"pos":{"x": 0.800, "y":-0.375, "z":0.825},"rot":{"x":0, "y":90, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_mirror_L"},
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["mirror1l",  0.83, -0.25, 0.73],
+	["mirror2l",  0.83, -0.25, 0.95],
+	["mirror3l",  0.83, -0.50, 0.73],
+	["mirror4l",  0.83, -0.50, 0.95],
+	["mirror1ll", 1.00, -0.25, 0.73],
+	["mirror2ll", 1.00, -0.25, 0.95],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform horizontal
+	["mirror1l", "mirror1ll"],
+	["mirror2l", "mirror2ll"],
+	["mirror1l", "mirror2ll"],
+	["mirror2l", "mirror1ll"],
+	["mirror3l", "mirror1ll"],
+	["mirror4l", "mirror2ll"],
+	["mirror3l", "mirror2ll"],
+	["mirror4l", "mirror1ll"],
+
+	//uniform vertical
+	["mirror1l", "mirror2l"],
+	["mirror3l", "mirror4l"],
+	["mirror1l", "mirror3l"],
+	["mirror2l", "mirror4l"],
+	["mirror1l", "mirror4l"],
+	["mirror2l", "mirror3l"],
+	["mirror1ll", "mirror2ll"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"mirror_L_break"},
+
+	["mirror1l", "mirrormt1l"],
+	["mirror1l", "mirrormt2ll"],
+	["mirror1l", "mirrormt3ll"],
+
+	["mirror2l", "mirrormt1l"],
+	["mirror2l", "mirrormt1ll"],
+	["mirror2l", "mirrormt4ll"],
+
+	["mirror3l", "mirrormt2l"],
+	["mirror3l", "mirrormt1ll"],
+	["mirror3l", "mirrormt4ll"],
+
+	["mirror4l", "mirrormt1l"],
+	["mirror4l", "mirrormt2ll"],
+	["mirror4l", "mirrormt3ll"],
+
+	["mirror1ll", "mirrormt1ll"],
+	["mirror1ll", "mirrormt2ll"],
+	["mirror2ll", "mirrormt3ll"],
+	["mirror2ll", "mirrormt4ll"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_mirror_L"},
+	["mirror1l","mirror1ll","mirror3l"],
+  	["mirror2l","mirror4l","mirror2ll"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_mirror_L"},   
+	["mirror1l","mirror2l","mirror2ll","mirror1ll"],
+	["mirror1l","mirror3l","mirror4l","mirror2l"],
+	["mirror1ll","mirror2ll","mirror4l","mirror3l"],
+        {"group":""},
+    ],
+},
+
+}

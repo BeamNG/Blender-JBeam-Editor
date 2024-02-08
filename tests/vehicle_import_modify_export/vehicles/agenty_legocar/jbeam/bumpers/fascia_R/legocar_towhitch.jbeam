@@ -1,0 +1,268 @@
+{
+"legocar_towhitch": {
+    "information":{
+        "name":"Tow Hitch",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumpermount_RM",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_bumper_R", "legocar_bumper_R_col1", "Rear Bumper"],
+	["legocar_trailer", "legocar_trailer", "Trailer"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_balljoint_a_dgrey", ["legocar_bumpermount_R"], [], {"pos":{"x":0.000, "y":1.800, "z":-0.025},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumpermount_R"},
+	//3 pieces, 6 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+
+	["Rbumpmt1l",  0.22, 1.80, 0.10],
+	["Rbumpmt1r", -0.22, 1.80, 0.10],
+	["Rbumpmt2l",  0.22, 1.80, 0.35],
+	["Rbumpmt2r", -0.22, 1.80, 0.35],
+	//rigidifier
+	["Rbumpmtrig", 0.00, 1.55, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+	//tow ball
+	["tw", 0.0, 1.80, -0.025,{"couplerTag":"tow_hitch","couplerStrength":"$=$strength*10","couplerRadius":1}],
+    ],
+    "ties":[
+        ["id1:", "maxLen", "rate", "short", "long", "group", "maxforce"],
+        ["tw", 0.75, 1, 1, 1, "legocar_towhitch", 8000000],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["Rbumpmt1l", "Rbumpmt1r"],
+	["Rbumpmt2l", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2l"],
+	["Rbumpmt1r", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2r"],
+	["Rbumpmt2l", "Rbumpmt1r"],
+
+	//rigidifier
+	["Rbumpmt1l", "Rbumpmtrig"],
+	["Rbumpmt1r", "Rbumpmtrig"],
+	["Rbumpmt2l", "Rbumpmtrig"],
+	["Rbumpmt2r", "Rbumpmtrig"],
+
+	//tow ball
+	["Rbumpmt1l", "tw"],
+	["Rbumpmt1r", "tw"],
+	["Rbumpmt2l", "tw"],
+	["Rbumpmt2r", "tw"],
+	["Rbumpmtrig", "tw"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"bumpermount_R_Rbumper_break"},
+	{"optional":true},
+
+	["Rbump1l", "Rbumpmt1l"],
+	["Rbump1l", "Rbumpmt2l"],
+	["Rbump1l", "Rbumpmt1r"],
+	["Rbump1l", "Rbumpmtrig"],
+
+	["Rbump1r", "Rbumpmt1r"],
+	["Rbump1r", "Rbumpmt2r"],
+	["Rbump1r", "Rbumpmt1l"],
+	["Rbump1r", "Rbumpmtrig"],
+
+	["Rbump2l", "Rbumpmt2l"],
+	["Rbump2l", "Rbumpmt1l"],
+	["Rbump2l", "Rbumpmt2r"],
+	["Rbump2l", "Rbumpmtrig"],
+
+	["Rbump2r", "Rbumpmt2r"],
+	["Rbump2r", "Rbumpmt1r"],
+	["Rbump2r", "Rbumpmt2l"],
+	["Rbump2r", "Rbumpmtrig"],
+
+	["Rbumprig", "Rbumpmt1l"],
+	["Rbumprig", "Rbumpmt2l"],
+	["Rbumprig", "Rbumpmt1r"],
+	["Rbumprig", "Rbumpmt2r"],
+	["Rbumprig", "Rbumpmtrig"],
+
+	["tw", "Rbump1l"],
+	["tw", "Rbump2l"],
+	["tw", "Rbump1r"],
+	["tw", "Rbump2r"],
+	["tw", "Rbumprig"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-WOBBLE--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["sptpan1l", "Rbumpmt1l"],
+	["sptpan1r", "Rbumpmt1l"],
+	["sptpan3l", "Rbumpmt1l"],
+	["sptpan3r", "Rbumpmt1l"],
+
+	["sptpan1l", "Rbumpmt2l"],
+	["sptpan1r", "Rbumpmt2l"],
+	["sptpan3l", "Rbumpmt2l"],
+	["sptpan3r", "Rbumpmt2l"],
+
+
+	//dampers
+	{"beamSpring":0, "beamDamp":"$=$weight*5000"},
+
+	["tw", "chassis0"],
+	["tw", "wheelaxle1rr"],
+	["tw", "wheelaxle1ll"],
+	["tw", "wheelaxle1rrr"],
+	["tw", "wheelaxle1lll"],
+	["tw", "wheelaxle3rrr"],
+	["tw", "wheelaxle3lll"],
+
+	["sptpan1l", "tw"],
+	["sptpan1r", "tw"],
+	["sptpan3l", "tw"],
+	["sptpan3r", "tw"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"towhitch"},
+        {"triangleType":"NONCOLLIDABLE"},
+        ["Rbumpmt1l", "tw", "Rbumpmt1r"],
+        {"triangleType":"NORMALTYPE"},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumpermount_R"},
+	["Rbumpmt1l","Rbumpmt1r","Rbumpmt2r","Rbumpmt2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_trailer": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Small Trailer"
+    },
+    "slotType" : "legocar_trailer",
+    "slots": [
+        ["type", "default", "description"],
+	["legotrailer_frame","legotrailer_frame", "Trailer Frame"],
+	["legotrailer_mod","", "Additional Modification"],
+    ],
+    "cameraExternal":{
+        "distance":7.5,
+        "distanceMin":3,
+        "offset":{"x":0.25, "y":0.85, "z":0.5},
+        "fov":65,
+    },
+    "cameraChase":{
+        "distance":7.5,
+        "distanceMin":3,
+	"defaultRotation":{"x":0, "y":-9.2, "z":0},
+        "offset":{"x":0.25, "y":0.85, "z":0.5},
+        "fov":60,
+    },
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"nodeWeight": "$=$weight*0.5"},
+	{"group":"legocar_bumpermount_R"},
+	["tw", 0.0, 1.80, -0.025,{"selfCollision":false, "couplerTag":"tow_hitch","couplerStrength":"$=$strength*10","couplerRadius":0.01,"couplerStartRadius":0.01,"couplerWeld":true}],
+	{"group":"legotrailer_drawbar"},
+	["trailer_d3", 0, 1.80, -0.025, {"selfCollision":false, "tag":"tow_hitch","couplerStrength":"$=$strength*10"}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+
+	//--COLLISION BETWEEN CAR AND TRAILER--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"optional":true},
+
+	//bumper
+	{"beamPrecompression":0.25, "beamLongBound":40, "beamShortBound":1},
+
+	["trailer_f1r", "Rbumpend1r"],
+	["trailer_f1r", "Rbumpend2r"],
+	["trailer_f1l", "Rbumpend1l"],
+	["trailer_f1l", "Rbumpend2l"],
+	
+	["trailer_wF1r", "Rbumpend1r"],
+	["trailer_wF1r", "Rbumpend2r"],
+	["trailer_wF1l", "Rbumpend1l"],
+	["trailer_wF1l", "Rbumpend2l"],
+
+	["trailer_wF3r", "Rbumpend1r"],
+	["trailer_wF3r", "Rbumpend2r"],
+	["trailer_wF3l", "Rbumpend1l"],
+	["trailer_wF3l", "Rbumpend2l"],
+
+	//further back
+	{"beamPrecompression":0.15, "beamLongBound":45, "beamShortBound":1},
+
+	["trailer_f1r", "Rbump1r"],
+	["trailer_f1r", "Rbump2r"],
+	["trailer_f1l", "Rbump1l"],
+	["trailer_f1l", "Rbump2l"],
+	
+	["trailer_wF1r", "Rbump1r"],
+	["trailer_wF1r", "Rbump2r"],
+	["trailer_wF1l", "Rbump1l"],
+	["trailer_wF1l", "Rbump2l"],
+
+	["trailer_wF3r", "Rbump1r"],
+	["trailer_wF3r", "Rbump2r"],
+	["trailer_wF3l", "Rbump1l"],
+	["trailer_wF3l", "Rbump2l"],
+
+	//anti jam
+	{"beamPrecompression":0.1, "beamLongBound":50, "beamShortBound":1},
+
+	["trailer_d1r", "Rbump1r"],
+	["trailer_d1r", "Rbump2r"],
+	["trailer_d1l", "Rbump1l"],
+	["trailer_d1l", "Rbump2l"],
+
+	["trailer_d1l", "Rbump1r"],
+	["trailer_d1l", "Rbump2r"],
+	["trailer_d1r", "Rbump1l"],
+	["trailer_d1r", "Rbump2l"],
+
+	["trailer_fl2r", "Rbump1r"],
+	["trailer_fl2r", "Rbump2r"],
+	["trailer_fl2l", "Rbump1l"],
+	["trailer_fl2l", "Rbump2l"],
+
+	["trailer_fl2l", "Rbump1r"],
+	["trailer_fl2l", "Rbump2r"],
+	["trailer_fl2r", "Rbump1l"],
+	["trailer_fl2r", "Rbump2l"],
+
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+},
+
+}

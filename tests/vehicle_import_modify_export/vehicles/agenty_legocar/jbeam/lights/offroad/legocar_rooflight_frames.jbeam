@@ -1,0 +1,185 @@
+{
+"legocar_rooflight_frames": {
+    "information":{
+        "name":"Roof Light Frames",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_roof_accessory",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_rooflights","legocar_rooflights", "Roof Lights"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_corner_dgrey",["legocar_rooflight_frame_L"],[], {"pos":{"x": 0.250, "y":0.375, "z":1.6},"rot":{"x":0, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_2x1_flat_corner_dgrey",["legocar_rooflight_frame_R"],[], {"pos":{"x":-0.250, "y":0.375, "z":1.6},"rot":{"x":0, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//roof light frames
+	//4 pieces, 6 nodes - 0.67 kg/node
+	{"nodeWeight": "$=$weight*0.67"},
+
+	{"group":"legocar_rooflight_frame_L"},
+	["FLrooflfr1l", 0.50, 0.200, 1.63],
+	["FLrooflfr1r", 0.02, 0.200, 1.63],
+	["FLrooflfr2l", 0.50, 0.500, 1.63],
+	["FLrooflfr2r", 0.02, 0.500, 1.63],
+	["FLrooflfr3l", 0.50, 0.200, 1.85],
+	["FLrooflfr3r", 0.02, 0.200, 1.85],
+
+	{"group":"legocar_rooflight_frame_R"},
+	["FRrooflfr1r", -0.50, 0.200, 1.63],
+	["FRrooflfr1l", -0.02, 0.200, 1.63],
+	["FRrooflfr2r", -0.50, 0.500, 1.63],
+	["FRrooflfr2l", -0.02, 0.500, 1.63],
+	["FRrooflfr3r", -0.50, 0.200, 1.85],
+	["FRrooflfr3l", -0.02, 0.200, 1.85],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--ROOF LIGHT FRAMES--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*671000", "beamDamp":"$=$weight*67"},
+
+	//left bottom square
+	["FLrooflfr1l", "FLrooflfr1r"],
+	["FLrooflfr2l", "FLrooflfr2r"],
+	["FLrooflfr1l", "FLrooflfr2l"],
+	["FLrooflfr1r", "FLrooflfr2r"],
+	["FLrooflfr1l", "FLrooflfr2r"],
+	["FLrooflfr2l", "FLrooflfr1r"],
+
+	//left front square
+	["FLrooflfr3l", "FLrooflfr3r"],
+	["FLrooflfr1l", "FLrooflfr3l"],
+	["FLrooflfr1r", "FLrooflfr3r"],
+	["FLrooflfr1l", "FLrooflfr3r"],
+	["FLrooflfr3l", "FLrooflfr1r"],
+
+	//left front to bottom
+	["FLrooflfr2l", "FLrooflfr3l"],
+	["FLrooflfr2r", "FLrooflfr3r"],
+	["FLrooflfr2l", "FLrooflfr3r"],
+	["FLrooflfr3l", "FLrooflfr2r"],
+
+	//right bottom square
+	["FRrooflfr1l", "FRrooflfr1r"],
+	["FRrooflfr2l", "FRrooflfr2r"],
+	["FRrooflfr1l", "FRrooflfr2l"],
+	["FRrooflfr1r", "FRrooflfr2r"],
+	["FRrooflfr1l", "FRrooflfr2r"],
+	["FRrooflfr2l", "FRrooflfr1r"],
+
+	//right front square
+	["FRrooflfr3l", "FRrooflfr3r"],
+	["FRrooflfr1l", "FRrooflfr3l"],
+	["FRrooflfr1r", "FRrooflfr3r"],
+	["FRrooflfr1l", "FRrooflfr3r"],
+	["FRrooflfr3l", "FRrooflfr1r"],
+
+	//right front to bottom
+	["FRrooflfr2l", "FRrooflfr3l"],
+	["FRrooflfr2r", "FRrooflfr3r"],
+	["FRrooflfr2l", "FRrooflfr3r"],
+	["FRrooflfr3l", "FRrooflfr2r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//left
+	{"breakGroup":"rooflightframe_L_break"},
+	
+	["FLrooflfr1l", "roof2l"],
+	["FLrooflfr1l", "roof2r"],
+	["FLrooflfr1l", "roof1l"],
+	["FLrooflfr1l", "roofrig"],
+
+	["FLrooflfr1r", "roof2l"],
+	["FLrooflfr1r", "roof2r"],
+	["FLrooflfr1r", "roof1r"],
+	["FLrooflfr1r", "roofrig"],
+
+	["FLrooflfr2l", "roof2l"],
+	["FLrooflfr2l", "roof1r"],
+	["FLrooflfr2l", "roof1l"],
+	["FLrooflfr2l", "roofrig"],
+
+	["FLrooflfr2r", "roof1l"],
+	["FLrooflfr2r", "roof2r"],
+	["FLrooflfr2r", "roof1r"],
+	["FLrooflfr2r", "roofrig"],
+
+	["FLrooflfr3l", "roof2l"],
+	["FLrooflfr3l", "roof2r"],
+	["FLrooflfr3l", "roof1l"],
+	["FLrooflfr3l", "roofrig"],
+
+	["FLrooflfr3r", "roof2l"],
+	["FLrooflfr3r", "roof2r"],
+	["FLrooflfr3r", "roof1r"],
+	["FLrooflfr3r", "roofrig"],
+
+
+	//right
+	{"breakGroup":"rooflightframe_R_break"},
+	
+	["FRrooflfr1l", "roof2l"],
+	["FRrooflfr1l", "roof2r"],
+	["FRrooflfr1l", "roof1l"],
+	["FRrooflfr1l", "roofrig"],
+
+	["FRrooflfr1r", "roof2l"],
+	["FRrooflfr1r", "roof2r"],
+	["FRrooflfr1r", "roof1r"],
+	["FRrooflfr1r", "roofrig"],
+
+	["FRrooflfr2l", "roof2l"],
+	["FRrooflfr2l", "roof1r"],
+	["FRrooflfr2l", "roof1l"],
+	["FRrooflfr2l", "roofrig"],
+
+	["FRrooflfr2r", "roof1l"],
+	["FRrooflfr2r", "roof2r"],
+	["FRrooflfr2r", "roof1r"],
+	["FRrooflfr2r", "roofrig"],
+
+	["FRrooflfr3l", "roof2l"],
+	["FRrooflfr3l", "roof2r"],
+	["FRrooflfr3l", "roof1l"],
+	["FRrooflfr3l", "roofrig"],
+
+	["FRrooflfr3r", "roof2l"],
+	["FRrooflfr3r", "roof2r"],
+	["FRrooflfr3r", "roof1r"],
+	["FRrooflfr3r", "roofrig"],
+
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_rooflight_frame_L"},
+	["FLrooflfr1l","FLrooflfr1r","FLrooflfr2r","FLrooflfr2l"],
+	["FLrooflfr3l","FLrooflfr3r","FLrooflfr1r","FLrooflfr1l"],
+
+	{"group":"legocar_rooflight_frame_R"},
+	["FRrooflfr1l","FRrooflfr1r","FRrooflfr2r","FRrooflfr2l"],
+	["FRrooflfr3l","FRrooflfr3r","FRrooflfr1r","FRrooflfr1l"],
+
+        {"group":""},
+    ],
+},
+
+}

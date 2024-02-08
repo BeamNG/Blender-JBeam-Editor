@@ -1,0 +1,416 @@
+{
+"legocar_quarterpanels_alt": {
+    "information":{
+        "name":"Rear Quarter Panels Only (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fenders_R",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_shelfpanel", "legocar_shelfpanel", "Shelf Panel"],
+	["legocar_trunk", "legocar_trunk", "Trunk"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x2_flat_col1",["legocar_quarterpanel_L"], [], {"pos":{"x": 0.500, "y":1.000, "z":0.6},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_4x2_flat_col1",["legocar_quarterpanel_R"], [], {"pos":{"x":-0.500, "y":1.000, "z":0.6},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ], 
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//8 pieces, 5 nodes - 1.6 kg/node
+	{"nodeWeight": "$=$weight*1.6"},
+
+	//left quarter panel
+	{"group":"legocar_quarterpanel_L"},
+	["Lqpan1l",  0.75,  0.50, 0.65],
+	["Lqpan1r",  0.25,  0.50, 0.65],
+	["Lqpan2l",  0.75,  1.47, 0.65],
+	["Lqpan2r",  0.25,  1.47, 0.65],
+	//rigidifier
+	["Lqpanrig", 0.5,  1, 0.45, {"collision":false, "selfCollision":false, "group":""}],
+
+	//right quarter panel
+	{"group":"legocar_quarterpanel_R"},
+	["Rqpan1r",  -0.75,  0.50, 0.65],
+	["Rqpan1l",  -0.25,  0.50, 0.65],
+	["Rqpan2r",  -0.75,  1.47, 0.65],
+	["Rqpan2l",  -0.25,  1.47, 0.65],
+	//rigidifier
+	["Rqpanrig", -0.5,  1, 0.45, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//left uniform structure
+	["Lqpan1l", "Lqpan1r"],
+	["Lqpan2l", "Lqpan2r"],
+	["Lqpan1l", "Lqpan2l"],
+	["Lqpan1r", "Lqpan2r"],
+	["Lqpan1l", "Lqpan2r"],
+	["Lqpan2l", "Lqpan1r"],
+
+	//left rigidifier
+	["Lqpan1l", "Lqpanrig"],
+	["Lqpan1r", "Lqpanrig"],
+	["Lqpan2l", "Lqpanrig"],
+	["Lqpan2r", "Lqpanrig"],
+
+	//right uniform structure
+	["Rqpan1l", "Rqpan1r"],
+	["Rqpan2l", "Rqpan2r"],
+	["Rqpan1l", "Rqpan2l"],
+	["Rqpan1r", "Rqpan2r"],
+	["Rqpan1l", "Rqpan2r"],
+	["Rqpan2l", "Rqpan1r"],
+
+	//right rigidifier
+	["Rqpan1l", "Rqpanrig"],
+	["Rqpan1r", "Rqpanrig"],
+	["Rqpan2l", "Rqpanrig"],
+	["Rqpan2r", "Rqpanrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"optional":true},
+
+	//left to rocker
+	{"breakGroup":"quarterpanel_rocker_L_break"},
+	{"beamSpring":"$=$weight*301000", "beamDamp":"$=$weight*30"},
+
+	["Lqpan1l", "LrockT2l"],
+	["Lqpan1l", "LrockT6l"],
+	["Lqpan1l", "LrockT4r"],
+
+	["Lqpan1r", "LrockT2r"],
+	["Lqpan1r", "LrockT6r"],
+	["Lqpan1r", "LrockT4l"],
+
+	["Lqpan2l", "LrockT2l"],
+	["Lqpan2l", "LrockT6l"],
+	["Lqpan2l", "LrockT4r"],
+
+	["Lqpan2r", "LrockT2r"],
+	["Lqpan2r", "LrockT6r"],
+	["Lqpan2r", "LrockT4l"],
+
+	//right to rocker
+	{"breakGroup":"quarterpanel_rocker_R_break"},
+	{"beamSpring":"$=$weight*301000", "beamDamp":"$=$weight*30"},
+
+	["Rqpan1l", "RrockT2l"],
+	["Rqpan1l", "RrockT6l"],
+	["Rqpan1l", "RrockT4r"],
+
+	["Rqpan1r", "RrockT2r"],
+	["Rqpan1r", "RrockT6r"],
+	["Rqpan1r", "RrockT4l"],
+
+	["Rqpan2l", "RrockT2l"],
+	["Rqpan2l", "RrockT6l"],
+	["Rqpan2l", "RrockT4r"],
+
+	["Rqpan2r", "RrockT2r"],
+	["Rqpan2r", "RrockT6r"],
+	["Rqpan2r", "RrockT4l"],
+
+
+	{"breakGroup":""},
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_quarterpanel_L"},   
+	["Lqpan1r","Lqpan1l","Lqpan2l","Lqpan2r"],
+	{"group":"legocar_quarterpanel_R"},   
+	["Rqpan1r","Rqpan1l","Rqpan2l","Rqpan2r"],
+        {"group":""},
+    ],  
+},
+
+"legocar_quarterpanels_col2_alt": {
+    "information":{
+        "name":"Rear Quarter Panels Only (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fenders_R",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_shelfpanel", "legocar_shelfpanel", "Shelf Panel"],
+	["legocar_trunk", "legocar_trunk", "Trunk"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x2_flat_col2",["legocar_quarterpanel_L"], [], {"pos":{"x": 0.500, "y":1.000, "z":0.6},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_4x2_flat_col2",["legocar_quarterpanel_R"], [], {"pos":{"x":-0.500, "y":1.000, "z":0.6},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ], 
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//8 pieces, 5 nodes - 1.6 kg/node
+	{"nodeWeight": "$=$weight*1.6"},
+
+	//left quarter panel
+	{"group":"legocar_quarterpanel_L"},
+	["Lqpan1l",  0.75,  0.50, 0.65],
+	["Lqpan1r",  0.25,  0.50, 0.65],
+	["Lqpan2l",  0.75,  1.47, 0.65],
+	["Lqpan2r",  0.25,  1.47, 0.65],
+	//rigidifier
+	["Lqpanrig", 0.5,  1, 0.45, {"collision":false, "selfCollision":false, "group":""}],
+
+	//right quarter panel
+	{"group":"legocar_quarterpanel_R"},
+	["Rqpan1r",  -0.75,  0.50, 0.65],
+	["Rqpan1l",  -0.25,  0.50, 0.65],
+	["Rqpan2r",  -0.75,  1.47, 0.65],
+	["Rqpan2l",  -0.25,  1.47, 0.65],
+	//rigidifier
+	["Rqpanrig", -0.5,  1, 0.45, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//left uniform structure
+	["Lqpan1l", "Lqpan1r"],
+	["Lqpan2l", "Lqpan2r"],
+	["Lqpan1l", "Lqpan2l"],
+	["Lqpan1r", "Lqpan2r"],
+	["Lqpan1l", "Lqpan2r"],
+	["Lqpan2l", "Lqpan1r"],
+
+	//left rigidifier
+	["Lqpan1l", "Lqpanrig"],
+	["Lqpan1r", "Lqpanrig"],
+	["Lqpan2l", "Lqpanrig"],
+	["Lqpan2r", "Lqpanrig"],
+
+	//right uniform structure
+	["Rqpan1l", "Rqpan1r"],
+	["Rqpan2l", "Rqpan2r"],
+	["Rqpan1l", "Rqpan2l"],
+	["Rqpan1r", "Rqpan2r"],
+	["Rqpan1l", "Rqpan2r"],
+	["Rqpan2l", "Rqpan1r"],
+
+	//right rigidifier
+	["Rqpan1l", "Rqpanrig"],
+	["Rqpan1r", "Rqpanrig"],
+	["Rqpan2l", "Rqpanrig"],
+	["Rqpan2r", "Rqpanrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"optional":true},
+
+	//left to rocker
+	{"breakGroup":"quarterpanel_rocker_L_break"},
+	{"beamSpring":"$=$weight*301000", "beamDamp":"$=$weight*30"},
+
+	["Lqpan1l", "LrockT2l"],
+	["Lqpan1l", "LrockT6l"],
+	["Lqpan1l", "LrockT4r"],
+
+	["Lqpan1r", "LrockT2r"],
+	["Lqpan1r", "LrockT6r"],
+	["Lqpan1r", "LrockT4l"],
+
+	["Lqpan2l", "LrockT2l"],
+	["Lqpan2l", "LrockT6l"],
+	["Lqpan2l", "LrockT4r"],
+
+	["Lqpan2r", "LrockT2r"],
+	["Lqpan2r", "LrockT6r"],
+	["Lqpan2r", "LrockT4l"],
+
+	//right to rocker
+	{"breakGroup":"quarterpanel_rocker_R_break"},
+	{"beamSpring":"$=$weight*301000", "beamDamp":"$=$weight*30"},
+
+	["Rqpan1l", "RrockT2l"],
+	["Rqpan1l", "RrockT6l"],
+	["Rqpan1l", "RrockT4r"],
+
+	["Rqpan1r", "RrockT2r"],
+	["Rqpan1r", "RrockT6r"],
+	["Rqpan1r", "RrockT4l"],
+
+	["Rqpan2l", "RrockT2l"],
+	["Rqpan2l", "RrockT6l"],
+	["Rqpan2l", "RrockT4r"],
+
+	["Rqpan2r", "RrockT2r"],
+	["Rqpan2r", "RrockT6r"],
+	["Rqpan2r", "RrockT4l"],
+
+
+	{"breakGroup":""},
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_quarterpanel_L"},   
+	["Lqpan1r","Lqpan1l","Lqpan2l","Lqpan2r"],
+	{"group":"legocar_quarterpanel_R"},   
+	["Rqpan1r","Rqpan1l","Rqpan2l","Rqpan2r"],
+        {"group":""},
+    ],  
+},
+
+"legocar_quarterpanels_col3_alt": {
+    "information":{
+        "name":"Rear Quarter Panels Only (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fenders_R",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_shelfpanel", "legocar_shelfpanel", "Shelf Panel"],
+	["legocar_trunk", "legocar_trunk", "Trunk"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x2_flat_col3",["legocar_quarterpanel_L"], [], {"pos":{"x": 0.500, "y":1.000, "z":0.6},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_4x2_flat_col3",["legocar_quarterpanel_R"], [], {"pos":{"x":-0.500, "y":1.000, "z":0.6},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ], 
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//8 pieces, 5 nodes - 1.6 kg/node
+	{"nodeWeight": "$=$weight*1.6"},
+
+	//left quarter panel
+	{"group":"legocar_quarterpanel_L"},
+	["Lqpan1l",  0.75,  0.50, 0.65],
+	["Lqpan1r",  0.25,  0.50, 0.65],
+	["Lqpan2l",  0.75,  1.47, 0.65],
+	["Lqpan2r",  0.25,  1.47, 0.65],
+	//rigidifier
+	["Lqpanrig", 0.5,  1, 0.45, {"collision":false, "selfCollision":false, "group":""}],
+
+	//right quarter panel
+	{"group":"legocar_quarterpanel_R"},
+	["Rqpan1r",  -0.75,  0.50, 0.65],
+	["Rqpan1l",  -0.25,  0.50, 0.65],
+	["Rqpan2r",  -0.75,  1.47, 0.65],
+	["Rqpan2l",  -0.25,  1.47, 0.65],
+	//rigidifier
+	["Rqpanrig", -0.5,  1, 0.45, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//left uniform structure
+	["Lqpan1l", "Lqpan1r"],
+	["Lqpan2l", "Lqpan2r"],
+	["Lqpan1l", "Lqpan2l"],
+	["Lqpan1r", "Lqpan2r"],
+	["Lqpan1l", "Lqpan2r"],
+	["Lqpan2l", "Lqpan1r"],
+
+	//left rigidifier
+	["Lqpan1l", "Lqpanrig"],
+	["Lqpan1r", "Lqpanrig"],
+	["Lqpan2l", "Lqpanrig"],
+	["Lqpan2r", "Lqpanrig"],
+
+	//right uniform structure
+	["Rqpan1l", "Rqpan1r"],
+	["Rqpan2l", "Rqpan2r"],
+	["Rqpan1l", "Rqpan2l"],
+	["Rqpan1r", "Rqpan2r"],
+	["Rqpan1l", "Rqpan2r"],
+	["Rqpan2l", "Rqpan1r"],
+
+	//right rigidifier
+	["Rqpan1l", "Rqpanrig"],
+	["Rqpan1r", "Rqpanrig"],
+	["Rqpan2l", "Rqpanrig"],
+	["Rqpan2r", "Rqpanrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"optional":true},
+
+	//left to rocker
+	{"breakGroup":"quarterpanel_rocker_L_break"},
+	{"beamSpring":"$=$weight*301000", "beamDamp":"$=$weight*30"},
+
+	["Lqpan1l", "LrockT2l"],
+	["Lqpan1l", "LrockT6l"],
+	["Lqpan1l", "LrockT4r"],
+
+	["Lqpan1r", "LrockT2r"],
+	["Lqpan1r", "LrockT6r"],
+	["Lqpan1r", "LrockT4l"],
+
+	["Lqpan2l", "LrockT2l"],
+	["Lqpan2l", "LrockT6l"],
+	["Lqpan2l", "LrockT4r"],
+
+	["Lqpan2r", "LrockT2r"],
+	["Lqpan2r", "LrockT6r"],
+	["Lqpan2r", "LrockT4l"],
+
+	//right to rocker
+	{"breakGroup":"quarterpanel_rocker_R_break"},
+	{"beamSpring":"$=$weight*301000", "beamDamp":"$=$weight*30"},
+
+	["Rqpan1l", "RrockT2l"],
+	["Rqpan1l", "RrockT6l"],
+	["Rqpan1l", "RrockT4r"],
+
+	["Rqpan1r", "RrockT2r"],
+	["Rqpan1r", "RrockT6r"],
+	["Rqpan1r", "RrockT4l"],
+
+	["Rqpan2l", "RrockT2l"],
+	["Rqpan2l", "RrockT6l"],
+	["Rqpan2l", "RrockT4r"],
+
+	["Rqpan2r", "RrockT2r"],
+	["Rqpan2r", "RrockT6r"],
+	["Rqpan2r", "RrockT4l"],
+
+
+	{"breakGroup":""},
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_quarterpanel_L"},   
+	["Lqpan1r","Lqpan1l","Lqpan2l","Lqpan2r"],
+	{"group":"legocar_quarterpanel_R"},   
+	["Rqpan1r","Rqpan1l","Rqpan2l","Rqpan2r"],
+        {"group":""},
+    ],  
+},
+
+}

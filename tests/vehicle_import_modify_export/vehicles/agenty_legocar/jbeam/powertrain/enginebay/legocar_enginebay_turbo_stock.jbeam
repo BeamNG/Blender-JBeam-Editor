@@ -1,0 +1,694 @@
+{
+"legocar_enginebay_turbo_stock_grey": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Stock Headers & Engine Bay (Grey)",
+    },
+    "slotType" : "legocar_enginebay_turbo",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_enginebaystuff_turbo","legocar_enginebaystuff_turbo", "Engine Bay Stuff"],
+	["legocar_hood_stock","legocar_hood_stock", "Hood"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_tall_slope_inverted_grey",["legocar_engbay_R"],        [], {"pos":{"x":-0.500, "y":-1.375,"z":0.3},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_circle_bred",        ["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.6},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//4.5 pieces, 6 nodes - 0.75 kg/node
+	{"nodeWeight": "$=$weight*0.75"},
+
+	{"group":"legocar_engbay_R"},
+	["engbay1r", -0.28, -1.25, 0.33],
+	["engbay2r", -0.28, -1.50, 0.33],
+	["engbay3r", -0.28, -1.25, 0.60],
+	["engbay4r", -0.28, -1.50, 0.60],
+	["engbay3rr",-0.75, -1.25, 0.60],
+	["engbay4rr",-0.75, -1.50, 0.60],
+
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_exhaust_turbo_L"},
+	["turbo4l",  0.280, -1.250, 0.65],
+	["turbo5l",  0.280, -1.500, 0.65],
+	["turbo4ll", 0.500, -1.250, 0.65],
+	["turbo5ll", 0.500, -1.500, 0.65],
+	["turbo6l",  0.375, -1.375, 0.75],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--ENGINE BAY--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//right uniform structure
+	["engbay1r", "engbay2r"],
+	["engbay1r", "engbay3r"],
+	["engbay1r", "engbay3rr"],
+	["engbay1r", "engbay4r"],
+	["engbay1r", "engbay4rr"],
+
+	["engbay2r", "engbay3r"],
+	["engbay2r", "engbay3rr"],
+	["engbay2r", "engbay4r"],
+	["engbay2r", "engbay4rr"],
+
+	["engbay3r", "engbay3rr"],
+	["engbay3r", "engbay4r"],
+	["engbay3r", "engbay4rr"],
+
+	["engbay3rr", "engbay4r"],
+	["engbay4rr", "engbay4r"],
+	["engbay3rr", "engbay4rr"],
+
+
+	//--TURBO EXHAUST--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	
+	//bottom
+	["turbo4l", "turbo4ll"],
+	["turbo5l", "turbo5ll"],
+	["turbo4l", "turbo5ll"],
+	["turbo5l", "turbo4ll"],
+	["turbo4l", "turbo5l"],
+	["turbo4ll", "turbo5ll"],
+
+	//tip
+	["turbo4l", "turbo6l"],
+	["turbo4ll", "turbo6l"],
+	["turbo5l", "turbo6l"],
+	["turbo5ll", "turbo6l"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	
+	{"breakGroup":"engbay_R_break"},
+	
+	["engbay3r", "bulk3r"],
+	["engbay3r", "bulk4r"],
+	["engbay3r", "bulk3l"],
+
+	["engbay3rr", "bulk3r"],
+	["engbay3rr", "bulk4r"],
+	["engbay3rr", "bulk3l"],
+
+	["engbay4r", "bulk3l"],
+	["engbay4r", "bulk4l"],
+	["engbay4r", "bulk3r"],
+	["engbay4r", "bulk4r"],
+
+	["engbay4rr", "bulk3l"],
+	["engbay4rr", "bulk4l"],
+	["engbay4rr", "bulk3r"],
+	["engbay4rr", "bulk4r"],
+
+
+	//turbine spinner or something idk
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"turbo_L_break"},
+
+	["turbo1l", "turbo6l"],
+	["turbo1ll", "turbo6l"],
+	["turbo2l", "turbo6l"],
+	["turbo2ll", "turbo6l"],
+
+	["turbo4l", "turbo3l"],
+	["turbo4ll", "turbo3l"],
+	["turbo5l", "turbo3l"],
+	["turbo5ll", "turbo3l"],
+	
+	["turbo3l", "turbo6l"],
+
+	{"breakGroup":""},
+
+
+	//--TURBO DAMAGE TRIGGER--
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+	{"deformGroup":"mainEngine_piping","deformationTriggerRatio":0.25},
+
+	["turbo3l", "turbo6l", {"deformLimit":"","deformLimitExpansion":""}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_engbay_R"},
+	["engbay1r","engbay3rr","engbay3r"],
+	["engbay2r","engbay4r","engbay4rr"],
+   
+	{"group":"legocar_turbo_exhaust_L"},
+	["turbo6l","turbo4l","turbo5l"],
+	["turbo6l","turbo5l","turbo5ll"],
+	["turbo6l","turbo5ll","turbo4ll"],
+	["turbo6l","turbo4ll","turbo4l"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_engbay_R"},   
+	["engbay2r","engbay4rr","engbay3rr","engbay1r"],
+	["engbay3r","engbay4r","engbay2r","engbay1r"],
+	["engbay3rr","engbay4rr","engbay4r","engbay3r"],
+
+	{"group":"legocar_turbo_exhaust_L"}, 
+  	["turbo4l","turbo4ll","turbo5ll","turbo5l"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_enginebay_turbo_stock_col1": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Stock Headers & Engine Bay (Color 1)",
+    },
+    "slotType" : "legocar_enginebay_turbo",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_enginebaystuff_turbo","legocar_enginebaystuff_turbo", "Engine Bay Stuff"],
+	["legocar_hood_stock","legocar_hood_stock", "Hood"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_tall_slope_inverted_col1",["legocar_engbay_R"],        [], {"pos":{"x":-0.500, "y":-1.375,"z":0.3},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_circle_bred",        ["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.6},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//4.5 pieces, 6 nodes - 0.75 kg/node
+	{"nodeWeight": "$=$weight*0.75"},
+
+	{"group":"legocar_engbay_R"},
+	["engbay1r", -0.28, -1.25, 0.33],
+	["engbay2r", -0.28, -1.50, 0.33],
+	["engbay3r", -0.28, -1.25, 0.60],
+	["engbay4r", -0.28, -1.50, 0.60],
+	["engbay3rr",-0.75, -1.25, 0.60],
+	["engbay4rr",-0.75, -1.50, 0.60],
+
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_exhaust_turbo_L"},
+	["turbo4l",  0.280, -1.250, 0.65],
+	["turbo5l",  0.280, -1.500, 0.65],
+	["turbo4ll", 0.500, -1.250, 0.65],
+	["turbo5ll", 0.500, -1.500, 0.65],
+	["turbo6l",  0.375, -1.375, 0.75],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--ENGINE BAY--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//right uniform structure
+	["engbay1r", "engbay2r"],
+	["engbay1r", "engbay3r"],
+	["engbay1r", "engbay3rr"],
+	["engbay1r", "engbay4r"],
+	["engbay1r", "engbay4rr"],
+
+	["engbay2r", "engbay3r"],
+	["engbay2r", "engbay3rr"],
+	["engbay2r", "engbay4r"],
+	["engbay2r", "engbay4rr"],
+
+	["engbay3r", "engbay3rr"],
+	["engbay3r", "engbay4r"],
+	["engbay3r", "engbay4rr"],
+
+	["engbay3rr", "engbay4r"],
+	["engbay4rr", "engbay4r"],
+	["engbay3rr", "engbay4rr"],
+
+
+	//--TURBO EXHAUST--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	
+	//bottom
+	["turbo4l", "turbo4ll"],
+	["turbo5l", "turbo5ll"],
+	["turbo4l", "turbo5ll"],
+	["turbo5l", "turbo4ll"],
+	["turbo4l", "turbo5l"],
+	["turbo4ll", "turbo5ll"],
+
+	//tip
+	["turbo4l", "turbo6l"],
+	["turbo4ll", "turbo6l"],
+	["turbo5l", "turbo6l"],
+	["turbo5ll", "turbo6l"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	
+	{"breakGroup":"engbay_R_break"},
+	
+	["engbay3r", "bulk3r"],
+	["engbay3r", "bulk4r"],
+	["engbay3r", "bulk3l"],
+
+	["engbay3rr", "bulk3r"],
+	["engbay3rr", "bulk4r"],
+	["engbay3rr", "bulk3l"],
+
+	["engbay4r", "bulk3l"],
+	["engbay4r", "bulk4l"],
+	["engbay4r", "bulk3r"],
+	["engbay4r", "bulk4r"],
+
+	["engbay4rr", "bulk3l"],
+	["engbay4rr", "bulk4l"],
+	["engbay4rr", "bulk3r"],
+	["engbay4rr", "bulk4r"],
+
+
+	//turbine spinner or something idk
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"turbo_L_break"},
+
+	["turbo1l", "turbo6l"],
+	["turbo1ll", "turbo6l"],
+	["turbo2l", "turbo6l"],
+	["turbo2ll", "turbo6l"],
+
+	["turbo4l", "turbo3l"],
+	["turbo4ll", "turbo3l"],
+	["turbo5l", "turbo3l"],
+	["turbo5ll", "turbo3l"],
+	
+	["turbo3l", "turbo6l"],
+
+	{"breakGroup":""},
+
+
+	//--TURBO DAMAGE TRIGGER--
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+	{"deformGroup":"mainEngine_piping","deformationTriggerRatio":0.25},
+
+	["turbo3l", "turbo6l", {"deformLimit":"","deformLimitExpansion":""}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_engbay_R"},
+	["engbay1r","engbay3rr","engbay3r"],
+	["engbay2r","engbay4r","engbay4rr"],
+   
+	{"group":"legocar_turbo_exhaust_L"},
+	["turbo6l","turbo4l","turbo5l"],
+	["turbo6l","turbo5l","turbo5ll"],
+	["turbo6l","turbo5ll","turbo4ll"],
+	["turbo6l","turbo4ll","turbo4l"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_engbay_R"},   
+	["engbay2r","engbay4rr","engbay3rr","engbay1r"],
+	["engbay3r","engbay4r","engbay2r","engbay1r"],
+	["engbay3rr","engbay4rr","engbay4r","engbay3r"],
+
+	{"group":"legocar_turbo_exhaust_L"}, 
+  	["turbo4l","turbo4ll","turbo5ll","turbo5l"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_enginebay_turbo_stock_col2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Stock Headers & Engine Bay (Color 2)",
+    },
+    "slotType" : "legocar_enginebay_turbo",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_enginebaystuff_turbo","legocar_enginebaystuff_turbo", "Engine Bay Stuff"],
+	["legocar_hood_stock","legocar_hood_stock", "Hood"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_tall_slope_inverted_col2",["legocar_engbay_R"],        [], {"pos":{"x":-0.500, "y":-1.375,"z":0.3},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_circle_bred",        ["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.6},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//4.5 pieces, 6 nodes - 0.75 kg/node
+	{"nodeWeight": "$=$weight*0.75"},
+
+	{"group":"legocar_engbay_R"},
+	["engbay1r", -0.28, -1.25, 0.33],
+	["engbay2r", -0.28, -1.50, 0.33],
+	["engbay3r", -0.28, -1.25, 0.60],
+	["engbay4r", -0.28, -1.50, 0.60],
+	["engbay3rr",-0.75, -1.25, 0.60],
+	["engbay4rr",-0.75, -1.50, 0.60],
+
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_exhaust_turbo_L"},
+	["turbo4l",  0.280, -1.250, 0.65],
+	["turbo5l",  0.280, -1.500, 0.65],
+	["turbo4ll", 0.500, -1.250, 0.65],
+	["turbo5ll", 0.500, -1.500, 0.65],
+	["turbo6l",  0.375, -1.375, 0.75],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--ENGINE BAY--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//right uniform structure
+	["engbay1r", "engbay2r"],
+	["engbay1r", "engbay3r"],
+	["engbay1r", "engbay3rr"],
+	["engbay1r", "engbay4r"],
+	["engbay1r", "engbay4rr"],
+
+	["engbay2r", "engbay3r"],
+	["engbay2r", "engbay3rr"],
+	["engbay2r", "engbay4r"],
+	["engbay2r", "engbay4rr"],
+
+	["engbay3r", "engbay3rr"],
+	["engbay3r", "engbay4r"],
+	["engbay3r", "engbay4rr"],
+
+	["engbay3rr", "engbay4r"],
+	["engbay4rr", "engbay4r"],
+	["engbay3rr", "engbay4rr"],
+
+
+	//--TURBO EXHAUST--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	
+	//bottom
+	["turbo4l", "turbo4ll"],
+	["turbo5l", "turbo5ll"],
+	["turbo4l", "turbo5ll"],
+	["turbo5l", "turbo4ll"],
+	["turbo4l", "turbo5l"],
+	["turbo4ll", "turbo5ll"],
+
+	//tip
+	["turbo4l", "turbo6l"],
+	["turbo4ll", "turbo6l"],
+	["turbo5l", "turbo6l"],
+	["turbo5ll", "turbo6l"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	
+	{"breakGroup":"engbay_R_break"},
+	
+	["engbay3r", "bulk3r"],
+	["engbay3r", "bulk4r"],
+	["engbay3r", "bulk3l"],
+
+	["engbay3rr", "bulk3r"],
+	["engbay3rr", "bulk4r"],
+	["engbay3rr", "bulk3l"],
+
+	["engbay4r", "bulk3l"],
+	["engbay4r", "bulk4l"],
+	["engbay4r", "bulk3r"],
+	["engbay4r", "bulk4r"],
+
+	["engbay4rr", "bulk3l"],
+	["engbay4rr", "bulk4l"],
+	["engbay4rr", "bulk3r"],
+	["engbay4rr", "bulk4r"],
+
+
+	//turbine spinner or something idk
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"turbo_L_break"},
+
+	["turbo1l", "turbo6l"],
+	["turbo1ll", "turbo6l"],
+	["turbo2l", "turbo6l"],
+	["turbo2ll", "turbo6l"],
+
+	["turbo4l", "turbo3l"],
+	["turbo4ll", "turbo3l"],
+	["turbo5l", "turbo3l"],
+	["turbo5ll", "turbo3l"],
+	
+	["turbo3l", "turbo6l"],
+
+	{"breakGroup":""},
+
+
+	//--TURBO DAMAGE TRIGGER--
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+	{"deformGroup":"mainEngine_piping","deformationTriggerRatio":0.25},
+
+	["turbo3l", "turbo6l", {"deformLimit":"","deformLimitExpansion":""}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_engbay_R"},
+	["engbay1r","engbay3rr","engbay3r"],
+	["engbay2r","engbay4r","engbay4rr"],
+   
+	{"group":"legocar_turbo_exhaust_L"},
+	["turbo6l","turbo4l","turbo5l"],
+	["turbo6l","turbo5l","turbo5ll"],
+	["turbo6l","turbo5ll","turbo4ll"],
+	["turbo6l","turbo4ll","turbo4l"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_engbay_R"},   
+	["engbay2r","engbay4rr","engbay3rr","engbay1r"],
+	["engbay3r","engbay4r","engbay2r","engbay1r"],
+	["engbay3rr","engbay4rr","engbay4r","engbay3r"],
+
+	{"group":"legocar_turbo_exhaust_L"}, 
+  	["turbo4l","turbo4ll","turbo5ll","turbo5l"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_enginebay_turbo_stock_col3": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Stock Headers & Engine Bay (Color 3)",
+    },
+    "slotType" : "legocar_enginebay_turbo",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_enginebaystuff_turbo","legocar_enginebaystuff_turbo", "Engine Bay Stuff"],
+	["legocar_hood_stock","legocar_hood_stock", "Hood"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_tall_slope_inverted_col3",["legocar_engbay_R"],        [], {"pos":{"x":-0.500, "y":-1.375,"z":0.3},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_circle_bred",        ["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.6},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//4.5 pieces, 6 nodes - 0.75 kg/node
+	{"nodeWeight": "$=$weight*0.75"},
+
+	{"group":"legocar_engbay_R"},
+	["engbay1r", -0.28, -1.25, 0.33],
+	["engbay2r", -0.28, -1.50, 0.33],
+	["engbay3r", -0.28, -1.25, 0.60],
+	["engbay4r", -0.28, -1.50, 0.60],
+	["engbay3rr",-0.75, -1.25, 0.60],
+	["engbay4rr",-0.75, -1.50, 0.60],
+
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_exhaust_turbo_L"},
+	["turbo4l",  0.280, -1.250, 0.65],
+	["turbo5l",  0.280, -1.500, 0.65],
+	["turbo4ll", 0.500, -1.250, 0.65],
+	["turbo5ll", 0.500, -1.500, 0.65],
+	["turbo6l",  0.375, -1.375, 0.75],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--ENGINE BAY--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//right uniform structure
+	["engbay1r", "engbay2r"],
+	["engbay1r", "engbay3r"],
+	["engbay1r", "engbay3rr"],
+	["engbay1r", "engbay4r"],
+	["engbay1r", "engbay4rr"],
+
+	["engbay2r", "engbay3r"],
+	["engbay2r", "engbay3rr"],
+	["engbay2r", "engbay4r"],
+	["engbay2r", "engbay4rr"],
+
+	["engbay3r", "engbay3rr"],
+	["engbay3r", "engbay4r"],
+	["engbay3r", "engbay4rr"],
+
+	["engbay3rr", "engbay4r"],
+	["engbay4rr", "engbay4r"],
+	["engbay3rr", "engbay4rr"],
+
+
+	//--TURBO EXHAUST--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	
+	//bottom
+	["turbo4l", "turbo4ll"],
+	["turbo5l", "turbo5ll"],
+	["turbo4l", "turbo5ll"],
+	["turbo5l", "turbo4ll"],
+	["turbo4l", "turbo5l"],
+	["turbo4ll", "turbo5ll"],
+
+	//tip
+	["turbo4l", "turbo6l"],
+	["turbo4ll", "turbo6l"],
+	["turbo5l", "turbo6l"],
+	["turbo5ll", "turbo6l"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	
+	{"breakGroup":"engbay_R_break"},
+	
+	["engbay3r", "bulk3r"],
+	["engbay3r", "bulk4r"],
+	["engbay3r", "bulk3l"],
+
+	["engbay3rr", "bulk3r"],
+	["engbay3rr", "bulk4r"],
+	["engbay3rr", "bulk3l"],
+
+	["engbay4r", "bulk3l"],
+	["engbay4r", "bulk4l"],
+	["engbay4r", "bulk3r"],
+	["engbay4r", "bulk4r"],
+
+	["engbay4rr", "bulk3l"],
+	["engbay4rr", "bulk4l"],
+	["engbay4rr", "bulk3r"],
+	["engbay4rr", "bulk4r"],
+
+
+	//turbine spinner or something idk
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"turbo_L_break"},
+
+	["turbo1l", "turbo6l"],
+	["turbo1ll", "turbo6l"],
+	["turbo2l", "turbo6l"],
+	["turbo2ll", "turbo6l"],
+
+	["turbo4l", "turbo3l"],
+	["turbo4ll", "turbo3l"],
+	["turbo5l", "turbo3l"],
+	["turbo5ll", "turbo3l"],
+	
+	["turbo3l", "turbo6l"],
+
+	{"breakGroup":""},
+
+
+	//--TURBO DAMAGE TRIGGER--
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+	{"deformGroup":"mainEngine_piping","deformationTriggerRatio":0.25},
+
+	["turbo3l", "turbo6l", {"deformLimit":"","deformLimitExpansion":""}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_engbay_R"},
+	["engbay1r","engbay3rr","engbay3r"],
+	["engbay2r","engbay4r","engbay4rr"],
+   
+	{"group":"legocar_turbo_exhaust_L"},
+	["turbo6l","turbo4l","turbo5l"],
+	["turbo6l","turbo5l","turbo5ll"],
+	["turbo6l","turbo5ll","turbo4ll"],
+	["turbo6l","turbo4ll","turbo4l"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_engbay_R"},   
+	["engbay2r","engbay4rr","engbay3rr","engbay1r"],
+	["engbay3r","engbay4r","engbay2r","engbay1r"],
+	["engbay3rr","engbay4rr","engbay4r","engbay3r"],
+
+	{"group":"legocar_turbo_exhaust_L"}, 
+  	["turbo4l","turbo4ll","turbo5ll","turbo5l"],
+
+        {"group":""},
+    ],
+},
+
+}

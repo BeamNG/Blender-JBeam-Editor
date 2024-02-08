@@ -1,0 +1,569 @@
+{
+"legocar_enginebay_NA_derby": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Straight Headers",
+    },
+    "slotType" : "legocar_enginebay_NA",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_enginebaystuff_short","legocar_enginebaystuff_short", "Engine Bay Stuff"],
+	["legocar_stacks","legocar_stacks", "Exhaust Stacks"],
+	["legocar_hood_cut_stacks","legocar_hood_cut_stacks_prefacelift", "Hood"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_tall_circle_grey",["legocar_header_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.3},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_tall_circle_grey",["legocar_header_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.3},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//3 pieces, 5 nodes - 0.6 kg/node
+	{"nodeWeight": "$=$weight*0.6"},
+	
+	{"group":"legocar_header_L"},
+	["turbo1l",  0.280, -1.250, 0.33],
+	["turbo2l",  0.280, -1.500, 0.33],
+	["turbo1ll", 0.500, -1.250, 0.33],
+	["turbo2ll", 0.500, -1.500, 0.33],
+	["turbo3l",  0.375, -1.375, 0.60],
+
+	{"group":"legocar_header_R"},
+	["turbo1r",  -0.280, -1.250, 0.33],
+	["turbo2r",  -0.280, -1.500, 0.33],
+	["turbo1rr", -0.500, -1.250, 0.33],
+	["turbo2rr", -0.500, -1.500, 0.33],
+	["turbo3r",  -0.375, -1.375, 0.60],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*601000", "beamDamp":"$=$weight*60"},
+
+	//--LEFT HEADER--
+
+	//bottom
+	["turbo1l", "turbo1ll"],
+	["turbo2l", "turbo2ll"],
+	["turbo1l", "turbo2ll"],
+	["turbo2l", "turbo1ll"],
+	["turbo1l", "turbo2l"],
+	["turbo1ll", "turbo2ll"],
+
+	//tip
+	["turbo1l", "turbo3l", {"isExhaust":"mainEngine"}],
+	["turbo1ll", "turbo3l"],
+	["turbo2l", "turbo3l"],
+	["turbo2ll", "turbo3l"],
+
+
+	//--RIGHT HEADER--
+
+	//bottom
+	["turbo1r", "turbo1rr"],
+	["turbo2r", "turbo2rr"],
+	["turbo1r", "turbo2rr"],
+	["turbo2r", "turbo1rr"],
+	["turbo1r", "turbo2r"],
+	["turbo1rr", "turbo2rr"],
+
+	//tip
+	["turbo1r", "turbo3r", {"isExhaust":"mainEngine"}],
+	["turbo1rr", "turbo3r"],
+	["turbo2r", "turbo3r"],
+	["turbo2rr", "turbo3r"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*601000", "beamDamp":"$=$weight*60"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	{"breakGroup":"header_L_bulkhead_break"},
+
+	["turbo1l", "bulk1l"],
+	["turbo1l", "bulk2l"],
+	["turbo1l", "bulk1r"],
+
+	["turbo1ll", "bulk1l"],
+	["turbo1ll", "bulk2l"],
+	["turbo1ll", "bulk1r"],
+
+	["turbo2l", "bulk1l"],
+	["turbo2l", "bulk2l"],
+	["turbo2l", "bulk1r"],
+	["turbo2l", "bulk2r"],
+
+	["turbo2ll", "bulk1l"],
+	["turbo2ll", "bulk2l"],
+	["turbo2ll", "bulk1r"],
+	["turbo2ll", "bulk2r"],
+
+
+	{"breakGroup":"header_R_bulkhead_break"},
+
+	["turbo1r", "bulk1r"],
+	["turbo1r", "bulk2r"],
+	["turbo1r", "bulk1l"],
+
+	["turbo1rr", "bulk1r"],
+	["turbo1rr", "bulk2r"],
+	["turbo1rr", "bulk1l"],
+
+	["turbo2r", "bulk1l"],
+	["turbo2r", "bulk2l"],
+	["turbo2r", "bulk1r"],
+	["turbo2r", "bulk2r"],
+
+	["turbo2rr", "bulk1l"],
+	["turbo2rr", "bulk2l"],
+	["turbo2rr", "bulk1r"],
+	["turbo2rr", "bulk2r"],
+	
+	{"breakGroup":""},
+
+
+	//--EXHAUST CONNECTORS--
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["eng1r","turbo1r", {"isExhaust":"mainEngine"}],
+	["eng1l","turbo1l", {"isExhaust":"mainEngine"}],
+
+
+	//--AFTERFIRE DISABLE TRIGGER--
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+
+	{"deformGroup":"afterfire_L_disable","deformationTriggerRatio":0.25},
+	["eng3l", "turbo3l", {"deformLimit":"","deformLimitExpansion":""}],
+	{"deformGroup":"afterfire_R_disable","deformationTriggerRatio":0.25},
+	["eng3r", "turbo3r", {"deformLimit":"","deformLimitExpansion":""}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_header_L"},
+	["turbo3l","turbo1l","turbo2l"],
+	["turbo3l","turbo2l","turbo2ll"],
+	["turbo3l","turbo2ll","turbo1ll"],
+	["turbo3l","turbo1ll","turbo1l"], 
+
+	{"group":"legocar_header_R"},
+	["turbo3r","turbo2r","turbo1r"],
+	["turbo3r","turbo2rr","turbo2r"],
+	["turbo3r","turbo1rr","turbo2rr"],
+	["turbo3r","turbo1r","turbo1rr"], 
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_header_L"}, 
+  	["turbo1l","turbo1ll","turbo2ll","turbo2l"],
+
+	{"group":"legocar_header_R"}, 
+  	["turbo1rr","turbo1r","turbo2rr","turbo2r"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_stacks": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Short Derby Exhaust Stacks",
+    },
+    "slotType" : "legocar_stacks",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_derby_stacks","", "Afterfire Effect"],
+	["legocar_nitrofire_derby_stacks","", "Nitrous Flames"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_tall_circle_grey",["legocar_stack_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.6},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_tall_circle_grey",["legocar_stack_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.6},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//3 pieces, 5 nodes - 0.6 kg/node
+	{"nodeWeight": "$=$weight*0.6"},
+	
+	{"group":"legocar_stack_L"},
+	["turbo4l",  0.280, -1.250, 0.65],
+	["turbo5l",  0.280, -1.500, 0.65],
+	["turbo4ll", 0.500, -1.250, 0.65],
+	["turbo5ll", 0.500, -1.500, 0.65],
+	["turbo6l",  0.375, -1.375, 0.90,{"afterFireAudioCoef":1,"afterFireVisualCoef":1, "afterFireVolumeCoef":0.7, "afterFireMufflingCoef": 0.6, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-1}],
+
+	{"group":"legocar_stack_R"},
+	["turbo4r",  -0.280, -1.250, 0.65],
+	["turbo5r",  -0.280, -1.500, 0.65],
+	["turbo4rr", -0.500, -1.250, 0.65],
+	["turbo5rr", -0.500, -1.500, 0.65],
+	["turbo6r",  -0.375, -1.375, 0.90,{"afterFireAudioCoef":1,"afterFireVisualCoef":1, "afterFireVolumeCoef":0.7, "afterFireMufflingCoef": 0.6, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-1}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*601000", "beamDamp":"$=$weight*60"},
+
+	//bottom
+	["turbo4l", "turbo4ll"],
+	["turbo5l", "turbo5ll"],
+	["turbo4l", "turbo5ll"],
+	["turbo5l", "turbo4ll"],
+	["turbo4l", "turbo5l"],
+	["turbo4ll", "turbo5ll"],
+
+	["turbo4r", "turbo4rr"],
+	["turbo5r", "turbo5rr"],
+	["turbo4r", "turbo5rr"],
+	["turbo5r", "turbo4rr"],
+	["turbo4r", "turbo5r"],
+	["turbo4rr", "turbo5rr"],
+
+	//tip
+	["turbo4l", "turbo6l"],
+	["turbo4ll", "turbo6l"],
+	["turbo5l", "turbo6l"],
+	["turbo5ll", "turbo6l"],
+
+	["turbo4r", "turbo6r"],
+	["turbo4rr", "turbo6r"],
+	["turbo5r", "turbo6r"],
+	["turbo5rr", "turbo6r"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*601000", "beamDamp":"$=$weight*60"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	{"breakGroup":"stack_L_break"},
+
+	["turbo1l", "turbo6l"],
+	["turbo1ll", "turbo6l"],
+	["turbo2l", "turbo6l"],
+	["turbo2ll", "turbo6l"],
+
+	["turbo4l", "turbo3l"],
+	["turbo4ll", "turbo3l"],
+	["turbo5l", "turbo3l"],
+	["turbo5ll", "turbo3l"],
+	
+	["turbo3l", "turbo6l", {"isExhaust":"mainEngine"}],
+
+
+	{"breakGroup":"stack_R_break"},
+
+	["turbo1r", "turbo6r"],
+	["turbo1rr", "turbo6r"],
+	["turbo2r", "turbo6r"],
+	["turbo2rr", "turbo6r"],
+
+	["turbo4r", "turbo3r"],
+	["turbo4rr", "turbo3r"],
+	["turbo5r", "turbo3r"],
+	["turbo5rr", "turbo3r"],
+	
+	["turbo3r", "turbo6r", {"isExhaust":"mainEngine"}],
+	
+	{"breakGroup":""},
+
+
+	//--AFTERFIRE DISABLE TRIGGER--
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+
+	{"deformGroup":"afterfire_L_disable","deformationTriggerRatio":0.25},
+	["eng3l", "turbo6l", {"deformLimit":"","deformLimitExpansion":""}],
+	{"deformGroup":"afterfire_R_disable","deformationTriggerRatio":0.25},
+	["eng3r", "turbo6r", {"deformLimit":"","deformLimitExpansion":""}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_stack_L"},
+	["turbo6l","turbo4l","turbo5l"],
+	["turbo6l","turbo5l","turbo5ll"],
+	["turbo6l","turbo5ll","turbo4ll"],
+	["turbo6l","turbo4ll","turbo4l"],
+
+	{"group":"legocar_stack_R"},
+	["turbo6r","turbo5r","turbo4r"],
+	["turbo6r","turbo5rr","turbo5r"],
+	["turbo6r","turbo4rr","turbo5rr"],
+	["turbo6r","turbo4r","turbo4rr"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_stack_L"}, 
+  	["turbo4l","turbo4ll","turbo5ll","turbo5l"],
+
+	{"group":"legocar_stack_R"}, 
+  	["turbo4rr","turbo4r","turbo5rr","turbo5r"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_stacks_long": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Long Derby Exhaust Stacks",
+    },
+    "slotType" : "legocar_stacks",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_derby_stacks","", "Afterfire Effect", {"nodeMove":{"x":0,"y":0,"z":0.3}}],
+	["legocar_nitrofire_derby_stacks","", "Nitrous Flames", {"nodeMove":{"x":0,"y":0,"z":0.3}}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_tall_circle_grey",["legocar_stack_L_bot"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.6},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_tall_circle_grey",["legocar_stack_R_bot"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.6},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_tall_circle_grey",["legocar_stack_L"],     [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_tall_circle_grey",["legocar_stack_R"],     [], {"pos":{"x":-0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//3 pieces, 5 nodes - 0.6 kg/node
+	{"nodeWeight": "$=$weight*0.6"},
+	
+	{"group":"legocar_stack_L_bot"},
+	["Bturbo4l",  0.280, -1.250, 0.65],
+	["Bturbo5l",  0.280, -1.500, 0.65],
+	["Bturbo4ll", 0.500, -1.250, 0.65],
+	["Bturbo5ll", 0.500, -1.500, 0.65],
+	["Bturbo6l",  0.375, -1.375, 0.90],
+
+	{"group":"legocar_stack_R_bot"},
+	["Bturbo4r",  -0.280, -1.250, 0.65],
+	["Bturbo5r",  -0.280, -1.500, 0.65],
+	["Bturbo4rr", -0.500, -1.250, 0.65],
+	["Bturbo5rr", -0.500, -1.500, 0.65],
+	["Bturbo6r",  -0.375, -1.375, 0.90],
+
+	{"group":"legocar_stack_L"},
+	["turbo4l",  0.250, -1.250, 0.95],
+	["turbo5l",  0.250, -1.500, 0.95],
+	["turbo4ll", 0.500, -1.250, 0.95],
+	["turbo5ll", 0.500, -1.500, 0.95],
+	["turbo6l",  0.375, -1.375, 1.20,{"afterFireAudioCoef":1,"afterFireVisualCoef":1, "afterFireVolumeCoef":0.7, "afterFireMufflingCoef": 0.6, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-1}],
+
+	{"group":"legocar_stack_R"},
+	["turbo4r",  -0.250, -1.250, 0.95],
+	["turbo5r",  -0.250, -1.500, 0.95],
+	["turbo4rr", -0.500, -1.250, 0.95],
+	["turbo5rr", -0.500, -1.500, 0.95],
+	["turbo6r",  -0.375, -1.375, 1.20,{"afterFireAudioCoef":1,"afterFireVisualCoef":1, "afterFireVolumeCoef":0.7, "afterFireMufflingCoef": 0.6, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-1}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*601000", "beamDamp":"$=$weight*60"},
+
+	//bottom
+	["turbo4l", "turbo4ll"],
+	["turbo5l", "turbo5ll"],
+	["turbo4l", "turbo5ll"],
+	["turbo5l", "turbo4ll"],
+	["turbo4l", "turbo5l"],
+	["turbo4ll", "turbo5ll"],
+
+	["turbo4r", "turbo4rr"],
+	["turbo5r", "turbo5rr"],
+	["turbo4r", "turbo5rr"],
+	["turbo5r", "turbo4rr"],
+	["turbo4r", "turbo5r"],
+	["turbo4rr", "turbo5rr"],
+
+	["Bturbo4l", "Bturbo4ll"],
+	["Bturbo5l", "Bturbo5ll"],
+	["Bturbo4l", "Bturbo5ll"],
+	["Bturbo5l", "Bturbo4ll"],
+	["Bturbo4l", "Bturbo5l"],
+	["Bturbo4ll", "Bturbo5ll"],
+
+	["Bturbo4r", "Bturbo4rr"],
+	["Bturbo5r", "Bturbo5rr"],
+	["Bturbo4r", "Bturbo5rr"],
+	["Bturbo5r", "Bturbo4rr"],
+	["Bturbo4r", "Bturbo5r"],
+	["Bturbo4rr", "Bturbo5rr"],
+
+	//tip
+	["turbo4l", "turbo6l"],
+	["turbo4ll", "turbo6l"],
+	["turbo5l", "turbo6l"],
+	["turbo5ll", "turbo6l"],
+
+	["turbo4r", "turbo6r"],
+	["turbo4rr", "turbo6r"],
+	["turbo5r", "turbo6r"],
+	["turbo5rr", "turbo6r"],
+
+	["Bturbo4l", "Bturbo6l"],
+	["Bturbo4ll", "Bturbo6l"],
+	["Bturbo5l", "Bturbo6l"],
+	["Bturbo5ll", "Bturbo6l"],
+
+	["Bturbo4r", "Bturbo6r"],
+	["Bturbo4rr", "Bturbo6r"],
+	["Bturbo5r", "Bturbo6r"],
+	["Bturbo5rr", "Bturbo6r"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*601000", "beamDamp":"$=$weight*60"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	{"breakGroup":"stack_L_break"},
+
+	["turbo1l", "Bturbo6l"],
+	["turbo1ll", "Bturbo6l"],
+	["turbo2l", "Bturbo6l"],
+	["turbo2ll", "Bturbo6l"],
+
+	["Bturbo4l", "turbo3l"],
+	["Bturbo4ll", "turbo3l"],
+	["Bturbo5l", "turbo3l"],
+	["Bturbo5ll", "turbo3l"],
+	
+	["turbo3l", "Bturbo6l", {"isExhaust":"mainEngine"}],
+
+
+	{"breakGroup":"stack_R_break"},
+
+	["turbo1r", "Bturbo6r"],
+	["turbo1rr", "Bturbo6r"],
+	["turbo2r", "Bturbo6r"],
+	["turbo2rr", "Bturbo6r"],
+
+	["Bturbo4r", "turbo3r"],
+	["Bturbo4rr", "turbo3r"],
+	["Bturbo5r", "turbo3r"],
+	["Bturbo5rr", "turbo3r"],
+	
+	["turbo3r", "Bturbo6r", {"isExhaust":"mainEngine"}],
+
+	
+	{"breakGroup":"stack_L_top_break"},
+
+	["turbo4l", "Bturbo6l"],
+	["turbo4ll", "Bturbo6l"],
+	["turbo5l", "Bturbo6l"],
+	["turbo5ll", "Bturbo6l"],
+
+	["Bturbo4l", "turbo6l"],
+	["Bturbo4ll", "turbo6l"],
+	["Bturbo5l", "turbo6l"],
+	["Bturbo5ll", "turbo6l"],
+	
+	["turbo6l", "Bturbo6l", {"isExhaust":"mainEngine"}],
+
+
+	{"breakGroup":"stack_R_top_break"},
+
+	["turbo4r", "Bturbo6r"],
+	["turbo4rr", "Bturbo6r"],
+	["turbo5r", "Bturbo6r"],
+	["turbo5rr", "Bturbo6r"],
+
+	["Bturbo4r", "turbo6r"],
+	["Bturbo4rr", "turbo6r"],
+	["Bturbo5r", "turbo6r"],
+	["Bturbo5rr", "turbo6r"],
+	
+	["turbo6r", "Bturbo6r", {"isExhaust":"mainEngine"}],
+	
+	{"breakGroup":""},
+
+
+	//--AFTERFIRE DISABLE TRIGGER--
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+
+	{"deformGroup":"afterfire_L_disable","deformationTriggerRatio":0.25},
+	["eng3l", "turbo6l", {"deformLimit":"","deformLimitExpansion":""}],
+	{"deformGroup":"afterfire_R_disable","deformationTriggerRatio":0.25},
+	["eng3r", "turbo6r", {"deformLimit":"","deformLimitExpansion":""}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_stack_L"},
+	["turbo6l","turbo4l","turbo5l"],
+	["turbo6l","turbo5l","turbo5ll"],
+	["turbo6l","turbo5ll","turbo4ll"],
+	["turbo6l","turbo4ll","turbo4l"],
+
+	{"group":"legocar_stack_R"},
+	["turbo6r","turbo5r","turbo4r"],
+	["turbo6r","turbo5rr","turbo5r"],
+	["turbo6r","turbo4rr","turbo5rr"],
+	["turbo6r","turbo4r","turbo4rr"],
+
+	{"group":"legocar_stack_L_bot"},
+	["Bturbo6l","Bturbo4l","Bturbo5l"],
+	["Bturbo6l","Bturbo5l","Bturbo5ll"],
+	["Bturbo6l","Bturbo5ll","Bturbo4ll"],
+	["Bturbo6l","Bturbo4ll","Bturbo4l"],
+
+	{"group":"legocar_stack_R_bot"},
+	["Bturbo6r","Bturbo5r","Bturbo4r"],
+	["Bturbo6r","Bturbo5rr","Bturbo5r"],
+	["Bturbo6r","Bturbo4rr","Bturbo5rr"],
+	["Bturbo6r","Bturbo4r","Bturbo4rr"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_stack_L"}, 
+  	["turbo4l","turbo4ll","turbo5ll","turbo5l"],
+
+	{"group":"legocar_stack_R"}, 
+  	["turbo4rr","turbo4r","turbo5rr","turbo5r"],
+
+	{"group":"legocar_stack_L_bot"}, 
+  	["Bturbo4l","Bturbo4ll","Bturbo5ll","Bturbo5l"],
+
+	{"group":"legocar_stack_bot"}, 
+  	["Bturbo4rr","Bturbo4r","Bturbo5rr","Bturbo5r"],
+
+        {"group":""},
+    ],
+},
+
+}

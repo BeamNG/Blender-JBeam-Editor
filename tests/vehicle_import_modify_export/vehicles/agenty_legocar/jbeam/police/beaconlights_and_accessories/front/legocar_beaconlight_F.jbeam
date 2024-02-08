@@ -1,0 +1,114 @@
+{
+"legocar_beaconlights_F": {
+    "information":{
+        "name":"Front Beacon Lights",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_roof_accessory",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_beaconlight_F","legocar_beaconlight_F", "Middle Beacon Light Mount"],
+	["legocar_beaconlight_FL_bulb","", "Left Beacon Light", {"nodeMove": {"x": 0.375, "y":0, "z":-0.1}}],
+	["legocar_beaconlight_FR_bulb","", "Right Beacon Light",{"nodeMove": {"x":-0.375, "y":0, "z":-0.1}}],
+    ],
+},
+
+"legocar_beaconlight_F": {
+    "information":{
+        "name":"Beacon Light Mount",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_beaconlight_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_beaconlight_F_bulb","legocar_beaconlight_F_bulb_red", "Beacon Light"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_1tip_grey",["legocar_beaconlight_F_base"],[], {"pos":{"x": 0.000, "y":0.375, "z":1.6},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//beacon light base
+	{"group":"legocar_beaconlight_F_base"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["FbeaconB1l",  0.25, 0.250, 1.65],
+	["FbeaconB1r", -0.25, 0.250, 1.65],
+	["FbeaconB2l",  0.25, 0.500, 1.65],
+	["FbeaconB2r", -0.25, 0.500, 1.65],
+	//rigidifier
+	["FbeaconBrig", 0, 0.375, 1.50, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--BEACON LIGHT BASE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["FbeaconB1l", "FbeaconB1r"],
+	["FbeaconB2l", "FbeaconB2r"],
+	["FbeaconB1l", "FbeaconB2l"],
+	["FbeaconB1r", "FbeaconB2r"],
+	["FbeaconB1l", "FbeaconB2r"],
+	["FbeaconB2l", "FbeaconB1r"],
+
+	//rigidifier
+	["FbeaconB1l", "FbeaconBrig"],
+	["FbeaconB1r", "FbeaconBrig"],
+	["FbeaconB2l", "FbeaconBrig"],
+	["FbeaconB2r", "FbeaconBrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"beaconlight_F_base_break"},
+	
+	["FbeaconB1l", "roof2l"],
+	["FbeaconB1l", "roof2r"],
+	["FbeaconB1l", "roof1l"],
+	["FbeaconB1l", "roofrig"],
+
+	["FbeaconB1r", "roof2l"],
+	["FbeaconB1r", "roof2r"],
+	["FbeaconB1r", "roof1r"],
+	["FbeaconB1r", "roofrig"],
+
+	["FbeaconB2l", "roof2l"],
+	["FbeaconB2l", "roof1r"],
+	["FbeaconB2l", "roof1l"],
+	["FbeaconB2l", "roofrig"],
+
+	["FbeaconB2r", "roof1l"],
+	["FbeaconB2r", "roof2r"],
+	["FbeaconB2r", "roof1r"],
+	["FbeaconB2r", "roofrig"],
+
+	["FbeaconBrig", "roof1l"],
+	["FbeaconBrig", "roof1r"],
+	["FbeaconBrig", "roof2l"],
+	["FbeaconBrig", "roof2r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_beaconlight_F_base"},
+	["FbeaconB2l","FbeaconB2r","FbeaconB1r","FbeaconB1l"],
+        {"group":""},
+    ],
+},
+
+}

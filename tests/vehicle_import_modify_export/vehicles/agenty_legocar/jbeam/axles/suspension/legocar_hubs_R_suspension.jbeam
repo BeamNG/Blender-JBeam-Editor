@@ -1,0 +1,442 @@
+{
+"legocar_hub_R_suspension_centerlug": {
+    "information":{
+        "name":"Center Lug Rear Wheel Hubs",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hub_R_suspension",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_steering_R_suspension","legocar_steering_R_suspension_nosteering", "Rear Wheels Steering/Stabilisation"],
+	["legocar_brake_R","legocar_brake_R", "Rear Brakes"],
+	["wheel_R_centerlug","legocar_wheel_standard_13.88x11.81_R","Rear Wheels", {"nodeOffset":{"x":"$=$trackoffset_R+0.15", "y":1.00, "z":"$=-$springheight_R"}}],
+	["legocar_wheeldata_R","legocar_wheeldata_R", "Rear Spindles", {"coreSlot":true}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//these are for wheel attachment only, weight is not scaled, no flexbodies
+	{"nodeWeight": 6.5},
+	{"group":""},
+
+	["rhub4r",-0.60, 1.15, 0.000, {"collision":false, "selfCollision":false}],
+        ["rhub4l", 0.60, 1.15, 0.000, {"collision":false, "selfCollision":false}],
+        ["rhub3r",-0.60, 1.01, 0.150, {"collision":false, "selfCollision":false}],
+        ["rhub3l", 0.60, 1.01, 0.150, {"collision":false, "selfCollision":false}],
+	["rhub2r",-0.60, 0.85,-0.010, {"collision":false, "selfCollision":false}],
+        ["rhub2l", 0.60, 0.85,-0.010, {"collision":false, "selfCollision":false}],
+        ["rhub5r",-0.60, 0.99,-0.145, {"collision":false, "selfCollision":false}],
+        ["rhub5l", 0.60, 0.99,-0.145, {"collision":false, "selfCollision":false}],
+	
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+
+	//These beam values don't get scaled, they are only to attach wheels
+	{"beamSpring":4001000,"beamDamp":75},
+	//all get broken with wheels to remove excess mass, so here we can put infinite strength like the rest of the car
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	{"breakGroup":"wheelhubRL"},
+	["rhub2l","rhub3l"],
+	["rhub2l","rhub4l"],
+	["rhub2l","rhub5l"],
+	["rhub3l","rhub4l"],
+	["rhub3l","rhub5l"],
+	["rhub4l","rhub5l"],
+
+	{"breakGroup":"wheelhubRR"},
+	["rhub2r","rhub3r"],
+	["rhub2r","rhub4r"],
+	["rhub2r","rhub5r"],
+	["rhub3r","rhub4r"],
+	["rhub3r","rhub5r"],
+	["rhub4r","rhub5r"],
+
+	//attach to axle in a way that allows rotation
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+
+	//left hub
+	{"breakGroup":"wheelhubRL"},
+
+	["rhub3l","Rsusp3f"],
+	["rhub3l","Rsusp3b"],
+	["rhub3l","Rsusp3l"],
+	["rhub3l","Rsusp3r"],
+	["rhub3l","Rsusp4f"],
+	["rhub3l","Rsusp4b"],
+
+	["rhub5l","Rsusp3f"],
+	["rhub5l","Rsusp3b"],
+	["rhub5l","Rsusp3l"],
+	["rhub5l","Rsusp3r"],
+	["rhub5l","Rsusp4f"],
+	["rhub5l","Rsusp4b"],
+
+	//right hub
+	{"breakGroup":"wheelhubRR"},
+
+	["rhub3r","Rsusp3f"],
+	["rhub3r","Rsusp3b"],
+	["rhub3r","Rsusp3l"],
+	["rhub3r","Rsusp3r"],
+	["rhub3r","Rsusp4f"],
+	["rhub3r","Rsusp4b"],
+
+	["rhub5r","Rsusp3f"],
+	["rhub5r","Rsusp3b"],
+	["rhub5r","Rsusp3l"],
+	["rhub5r","Rsusp3r"],
+	["rhub5r","Rsusp4f"],
+	["rhub5r","Rsusp4b"],
+
+	//--ATTACH TO WHEELS--
+	{"optional":true},
+
+	//these values can't be scaled, they have to fit wheels universally
+	{"beamSpring":5001000,"beamDamp":75},
+
+	//breaking these beams triggers hub breakage and spindle breaking
+        {"beamDeform":"$=$strength*5", "beamStrength":"$=$strength*5"},
+
+	{"breakGroup":"wheelhubRL"},
+	["rw1l","rhub2l", {"name":"axle_RL"}],
+	["rw1l","rhub3l"],
+	["rw1l","rhub4l"],
+	["rw1l","rhub5l"],
+	["rw1ll","rhub2l"],
+	["rw1ll","rhub3l"],
+	["rw1ll","rhub4l"],
+	["rw1ll","rhub5l"],
+
+	{"breakGroup":"wheelhubRR"},
+	["rw1r","rhub2r", {"name":"axle_RR"}],
+	["rw1r","rhub3r"],
+	["rw1r","rhub4r"],
+	["rw1r","rhub5r"],
+	["rw1rr","rhub2r"],
+	["rw1rr","rhub3r"],
+	["rw1rr","rhub4r"],
+	["rw1rr","rhub5r"],
+	
+	{"optional":false},
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "powertrain" : [
+        ["type", "name", "inputName", "inputIndex"],
+        ["shaft", "spindleRL", "wheelaxleRL", 1, {"connectedWheel":"RL", "breakTriggerBeam":"axle_RL", "uiName":"Rear Left Axle", "friction":0, "dynamicFriction":0, "torqueLossCoef": 0}],
+        ["shaft", "spindleRR", "wheelaxleRR", 1, {"connectedWheel":"RR", "breakTriggerBeam":"axle_RR", "uiName":"Rear Right Axle", "friction":0, "dynamicFriction":0, "torqueLossCoef": 0}],
+    ],
+    "pressureWheels": [
+            ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+            //cancel out brake properties
+            {"brakeTorque":0},
+            {"parkingTorque":0},
+            {"enableBrakeThermals":false},
+            {"brakeDiameter":false},
+            {"brakeMass":false},
+            {"brakeType":false},
+            {"rotorMaterial":false},
+            {"brakeVentingCoef":false},
+    ],
+},
+
+"legocar_hub_R_suspension_5lug": {
+    "information":{
+        "name":"5-Lug Rear Wheel Hubs",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hub_R_suspension",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_steering_R_suspension","legocar_steering_R_suspension_nosteering", "Rear Wheels Steering/Stabilisation"],
+	["legocar_brake_R","legocar_brake_R", "Rear Brakes"],
+	["wheel_R_5","steelwheel_01a_15x8_R","Rear Wheels", {"nodeOffset":{"x":"$=$trackoffset_R+0.15", "y":1.00, "z":"$=-$springheight_R"}}],
+	["legocar_wheeldata_R","legocar_wheeldata_R", "Rear Spindles", {"coreSlot":true}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//these are for wheel attachment only, weight is not scaled, no flexbodies
+	{"nodeWeight": 6.5},
+	{"group":""},
+
+	["rhub4r",-0.60, 1.15, 0.000, {"collision":false, "selfCollision":false}],
+        ["rhub4l", 0.60, 1.15, 0.000, {"collision":false, "selfCollision":false}],
+        ["rhub3r",-0.60, 1.01, 0.150, {"collision":false, "selfCollision":false}],
+        ["rhub3l", 0.60, 1.01, 0.150, {"collision":false, "selfCollision":false}],
+	["rhub2r",-0.60, 0.85,-0.010, {"collision":false, "selfCollision":false}],
+        ["rhub2l", 0.60, 0.85,-0.010, {"collision":false, "selfCollision":false}],
+        ["rhub5r",-0.60, 0.99,-0.145, {"collision":false, "selfCollision":false}],
+        ["rhub5l", 0.60, 0.99,-0.145, {"collision":false, "selfCollision":false}],
+	
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+
+	//These beam values don't get scaled, they are only to attach wheels
+	{"beamSpring":4001000,"beamDamp":75},
+	//all get broken with wheels to remove excess mass, so here we can put infinite strength like the rest of the car
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	{"breakGroup":"wheelhubRL"},
+	["rhub2l","rhub3l"],
+	["rhub2l","rhub4l"],
+	["rhub2l","rhub5l"],
+	["rhub3l","rhub4l"],
+	["rhub3l","rhub5l"],
+	["rhub4l","rhub5l"],
+
+	{"breakGroup":"wheelhubRR"},
+	["rhub2r","rhub3r"],
+	["rhub2r","rhub4r"],
+	["rhub2r","rhub5r"],
+	["rhub3r","rhub4r"],
+	["rhub3r","rhub5r"],
+	["rhub4r","rhub5r"],
+
+	//attach to axle in a way that allows rotation
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+
+	//left hub
+	{"breakGroup":"wheelhubRL"},
+
+	["rhub3l","Rsusp3f"],
+	["rhub3l","Rsusp3b"],
+	["rhub3l","Rsusp3l"],
+	["rhub3l","Rsusp3r"],
+	["rhub3l","Rsusp4f"],
+	["rhub3l","Rsusp4b"],
+
+	["rhub5l","Rsusp3f"],
+	["rhub5l","Rsusp3b"],
+	["rhub5l","Rsusp3l"],
+	["rhub5l","Rsusp3r"],
+	["rhub5l","Rsusp4f"],
+	["rhub5l","Rsusp4b"],
+
+	//right hub
+	{"breakGroup":"wheelhubRR"},
+
+	["rhub3r","Rsusp3f"],
+	["rhub3r","Rsusp3b"],
+	["rhub3r","Rsusp3l"],
+	["rhub3r","Rsusp3r"],
+	["rhub3r","Rsusp4f"],
+	["rhub3r","Rsusp4b"],
+
+	["rhub5r","Rsusp3f"],
+	["rhub5r","Rsusp3b"],
+	["rhub5r","Rsusp3l"],
+	["rhub5r","Rsusp3r"],
+	["rhub5r","Rsusp4f"],
+	["rhub5r","Rsusp4b"],
+
+	//--ATTACH TO WHEELS--
+	{"optional":true},
+
+	//these values can't be scaled, they have to fit wheels universally
+	{"beamSpring":5001000,"beamDamp":75},
+
+	//breaking these beams triggers hub breakage and spindle breaking
+        {"beamDeform":"$=$strength*5", "beamStrength":"$=$strength*5"},
+
+	{"breakGroup":"wheelhubRL"},
+	["rw1l","rhub2l", {"name":"axle_RL"}],
+	["rw1l","rhub3l"],
+	["rw1l","rhub4l"],
+	["rw1l","rhub5l"],
+	["rw1ll","rhub2l"],
+	["rw1ll","rhub3l"],
+	["rw1ll","rhub4l"],
+	["rw1ll","rhub5l"],
+
+	{"breakGroup":"wheelhubRR"},
+	["rw1r","rhub2r", {"name":"axle_RR"}],
+	["rw1r","rhub3r"],
+	["rw1r","rhub4r"],
+	["rw1r","rhub5r"],
+	["rw1rr","rhub2r"],
+	["rw1rr","rhub3r"],
+	["rw1rr","rhub4r"],
+	["rw1rr","rhub5r"],
+	
+	{"optional":false},
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "powertrain" : [
+        ["type", "name", "inputName", "inputIndex"],
+        ["shaft", "spindleRL", "wheelaxleRL", 1, {"connectedWheel":"RL", "breakTriggerBeam":"axle_RL", "uiName":"Rear Left Axle", "friction":0, "dynamicFriction":0, "torqueLossCoef": 0}],
+        ["shaft", "spindleRR", "wheelaxleRR", 1, {"connectedWheel":"RR", "breakTriggerBeam":"axle_RR", "uiName":"Rear Right Axle", "friction":0, "dynamicFriction":0, "torqueLossCoef": 0}],
+    ],
+    "pressureWheels": [
+            ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+            //cancel out brake properties
+            {"brakeTorque":0},
+            {"parkingTorque":0},
+            {"enableBrakeThermals":false},
+            {"brakeDiameter":false},
+            {"brakeMass":false},
+            {"brakeType":false},
+            {"rotorMaterial":false},
+            {"brakeVentingCoef":false},
+    ],
+},
+
+"legocar_hub_R_suspension_6lug": {
+    "information":{
+        "name":"6-Lug Rear Wheel Hubs",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hub_R_suspension",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_steering_R_suspension","legocar_steering_R_suspension_nosteering", "Rear Wheels Steering/Stabilisation"],
+	["legocar_brake_R","legocar_brake_R", "Rear Brakes"],
+	["wheel_R_6","legocar_wheel_suv_24x19_R","Rear Wheels", {"nodeOffset":{"x":"$=$trackoffset_R+0.21", "y":1.00, "z":"$=-$springheight_R"}}],
+	["legocar_wheeldata_R","legocar_wheeldata_R", "Rear Spindles", {"coreSlot":true}],
+    ],
+    "flexbodies": [
+         ["mesh", "[group]:", "nonFlexMaterials"],
+         ["legocar_hub_6lug", ["wheel_RR","wheelhub_RR"], [], {"pos":{"x":"$=-$trackoffset_R-0.51", "y":1.0, "z":0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+         ["legocar_hub_6lug", ["wheel_RL","wheelhub_RL"], [], {"pos":{"x":"$= $trackoffset_R+0.51", "y":1.0, "z":0}, "rot":{"x":0, "y":0, "z":0},   "scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//these are for wheel attachment only, weight is not scaled, no flexbodies
+	{"nodeWeight": 8.5},
+	{"group":""},
+
+	["rhub4r",-0.60, 1.15, 0.000, {"collision":false, "selfCollision":false}],
+        ["rhub4l", 0.60, 1.15, 0.000, {"collision":false, "selfCollision":false}],
+        ["rhub3r",-0.60, 1.01, 0.150, {"collision":false, "selfCollision":false}],
+        ["rhub3l", 0.60, 1.01, 0.150, {"collision":false, "selfCollision":false}],
+	["rhub2r",-0.60, 0.85,-0.010, {"collision":false, "selfCollision":false}],
+        ["rhub2l", 0.60, 0.85,-0.010, {"collision":false, "selfCollision":false}],
+        ["rhub5r",-0.60, 0.99,-0.145, {"collision":false, "selfCollision":false}],
+        ["rhub5l", 0.60, 0.99,-0.145, {"collision":false, "selfCollision":false}],
+	
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+
+	//These beam values don't get scaled, they are only to attach wheels
+	{"beamSpring":4001000,"beamDamp":75},
+	//all get broken with wheels to remove excess mass, so here we can put infinite strength like the rest of the car
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	{"breakGroup":"wheelhubRL"},
+	["rhub2l","rhub3l"],
+	["rhub2l","rhub4l"],
+	["rhub2l","rhub5l"],
+	["rhub3l","rhub4l"],
+	["rhub3l","rhub5l"],
+	["rhub4l","rhub5l"],
+
+	{"breakGroup":"wheelhubRR"},
+	["rhub2r","rhub3r"],
+	["rhub2r","rhub4r"],
+	["rhub2r","rhub5r"],
+	["rhub3r","rhub4r"],
+	["rhub3r","rhub5r"],
+	["rhub4r","rhub5r"],
+
+	//attach to axle in a way that allows rotation
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+
+	//left hub
+	{"breakGroup":"wheelhubRL"},
+
+	["rhub3l","Rsusp3f"],
+	["rhub3l","Rsusp3b"],
+	["rhub3l","Rsusp3l"],
+	["rhub3l","Rsusp3r"],
+	["rhub3l","Rsusp4f"],
+	["rhub3l","Rsusp4b"],
+
+	["rhub5l","Rsusp3f"],
+	["rhub5l","Rsusp3b"],
+	["rhub5l","Rsusp3l"],
+	["rhub5l","Rsusp3r"],
+	["rhub5l","Rsusp4f"],
+	["rhub5l","Rsusp4b"],
+
+	//right hub
+	{"breakGroup":"wheelhubRR"},
+
+	["rhub3r","Rsusp3f"],
+	["rhub3r","Rsusp3b"],
+	["rhub3r","Rsusp3l"],
+	["rhub3r","Rsusp3r"],
+	["rhub3r","Rsusp4f"],
+	["rhub3r","Rsusp4b"],
+
+	["rhub5r","Rsusp3f"],
+	["rhub5r","Rsusp3b"],
+	["rhub5r","Rsusp3l"],
+	["rhub5r","Rsusp3r"],
+	["rhub5r","Rsusp4f"],
+	["rhub5r","Rsusp4b"],
+
+	//--ATTACH TO WHEELS--
+	{"optional":true},
+
+	//these values can't be scaled, they have to fit wheels universally
+	{"beamSpring":5001000,"beamDamp":75},
+
+	//breaking these beams triggers hub breakage and spindle breaking
+        {"beamDeform":"$=$strength*5", "beamStrength":"$=$strength*5"},
+
+	{"breakGroup":"wheelhubRL"},
+	["rw1l","rhub2l", {"name":"axle_RL"}],
+	["rw1l","rhub3l"],
+	["rw1l","rhub4l"],
+	["rw1l","rhub5l"],
+	["rw1ll","rhub2l"],
+	["rw1ll","rhub3l"],
+	["rw1ll","rhub4l"],
+	["rw1ll","rhub5l"],
+
+	{"breakGroup":"wheelhubRR"},
+	["rw1r","rhub2r", {"name":"axle_RR"}],
+	["rw1r","rhub3r"],
+	["rw1r","rhub4r"],
+	["rw1r","rhub5r"],
+	["rw1rr","rhub2r"],
+	["rw1rr","rhub3r"],
+	["rw1rr","rhub4r"],
+	["rw1rr","rhub5r"],
+	
+	{"optional":false},
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "powertrain" : [
+        ["type", "name", "inputName", "inputIndex"],
+        ["shaft", "spindleRL", "wheelaxleRL", 1, {"connectedWheel":"RL", "breakTriggerBeam":"axle_RL", "uiName":"Rear Left Axle", "friction":0, "dynamicFriction":0, "torqueLossCoef": 0}],
+        ["shaft", "spindleRR", "wheelaxleRR", 1, {"connectedWheel":"RR", "breakTriggerBeam":"axle_RR", "uiName":"Rear Right Axle", "friction":0, "dynamicFriction":0, "torqueLossCoef": 0}],
+    ],
+    "pressureWheels": [
+            ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+            //cancel out brake properties
+            {"brakeTorque":0},
+            {"parkingTorque":0},
+            {"enableBrakeThermals":false},
+            {"brakeDiameter":false},
+            {"brakeMass":false},
+            {"brakeType":false},
+            {"rotorMaterial":false},
+            {"brakeVentingCoef":false},
+    ],
+},
+
+}

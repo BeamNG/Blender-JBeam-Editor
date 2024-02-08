@@ -1,0 +1,291 @@
+{
+"legocar_net_R_outer": {
+    "information":{
+        "name":"Right Outer Race Net",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_net_R",
+    "sounds": {
+        "$+cabinFilterCoef": 0.03,
+    },
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_sideglass_black", ["legocar_net_R"], [], {"pos":{"x":-0.625, "y":0.000, "z":0.8},"rot":{"x":0, "y":0, "z":-90},"scale":{"x":1, "y":1, "z":1}}],
+	["legocar_sticker_net",     ["legocar_net_R"], [], {"pos":{"x":-0.625, "y":0.000, "z":0.8},"rot":{"x":0, "y":0, "z":-90},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_net_R"},
+
+	//2 pieces, 6 half pieces, 8 nodes - 0.625 kg/node
+	{"nodeWeight": "$=$weight*0.625"},
+
+	["Rnet1r", -0.75,-0.22, 0.80],
+	["Rnet1l", -0.50,-0.22, 0.80],
+	["Rnet2r", -0.75, 0.22, 0.80],
+	["Rnet2l", -0.50, 0.22, 0.80],
+	["Rnet3r", -0.75,-0.22, 1.40],
+	["Rnet3l", -0.50,-0.22, 1.40],
+	["Rnet4r", -0.75, 0.22, 1.40],
+	["Rnet4l", -0.50, 0.22, 1.40],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--RIGHT NET--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*625000", "beamDamp":"$=$weight*62.5"},
+
+	//uniform structure
+	["Rnet1l", "Rnet1r"],
+	["Rnet2l", "Rnet2r"],
+	["Rnet3l", "Rnet3r"],
+	["Rnet4l", "Rnet4r"],
+
+	["Rnet1l", "Rnet2r"],
+	["Rnet2l", "Rnet3r"],
+	["Rnet3l", "Rnet4r"],
+	["Rnet4l", "Rnet1r"],
+
+	["Rnet1l", "Rnet3r"],
+	["Rnet2l", "Rnet4r"],
+	["Rnet3l", "Rnet1r"],
+	["Rnet4l", "Rnet2r"],
+
+	["Rnet1l", "Rnet4r"],
+	["Rnet2l", "Rnet1r"],
+	["Rnet3l", "Rnet2r"],
+	["Rnet4l", "Rnet3r"],
+
+	["Rnet1l", "Rnet2l"],
+	["Rnet2l", "Rnet3l"],
+	["Rnet3l", "Rnet4l"],
+	["Rnet4l", "Rnet1l"],
+
+	["Rnet1l", "Rnet3l"],
+	["Rnet2l", "Rnet4l"],
+
+	["Rnet1r", "Rnet2r"],
+	["Rnet2r", "Rnet3r"],
+	["Rnet3r", "Rnet4r"],
+	["Rnet4r", "Rnet1r"],
+
+	["Rnet1r", "Rnet3r"],
+	["Rnet2r", "Rnet4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*110000", "beamDamp":"$=$weight*10"},
+	{"breakGroup":"net_R_break"},
+
+	["Rnet1l", "roof3r"],
+	["Rnet1l", "roof3rr"],
+	["Rnet1l", "roof3rrr"],
+	["Rnet1l", "roof2rrr"],
+	["Rnet1l", "roofrig"],
+	
+	["Rnet1r", "roof3r"],
+	["Rnet1r", "roof3rr"],
+	["Rnet1r", "roof3rrr"],
+	["Rnet1r", "roof2rrr"],
+	["Rnet1r", "roofrig"],
+
+	["Rnet2r", "roof2r"],
+	["Rnet2r", "roof2rr"],
+	["Rnet2r", "roof2rrr"],
+	["Rnet2r", "roof3rrr"],
+	["Rnet2r", "roofrig"],
+	
+	["Rnet2l", "roof2r"],
+	["Rnet2l", "roof2rr"],
+	["Rnet2l", "roof2rrr"],
+	["Rnet2l", "roof3rrr"],
+	["Rnet2l", "roofrig"],
+
+	["Rnet3r", "roof3r"],
+	["Rnet3r", "roof3rr"],
+	["Rnet3r", "roof3rrr"],
+	["Rnet3r", "roof2rrr"],
+	["Rnet3r", "roofrig"],
+	
+	["Rnet3l", "roof3r"],
+	["Rnet3l", "roof3rr"],
+	["Rnet3l", "roof3rrr"],
+	["Rnet3l", "roof2rrr"],
+	["Rnet3l", "roofrig"],
+
+	["Rnet4r", "roof2r"],
+	["Rnet4r", "roof2rr"],
+	["Rnet4r", "roof2rrr"],
+	["Rnet4r", "roof3rrr"],
+	["Rnet4r", "roofrig"],
+	
+	["Rnet4l", "roof2r"],
+	["Rnet4l", "roof2rr"],
+	["Rnet4l", "roof2rrr"],
+	["Rnet4l", "roof3rrr"],
+	["Rnet4l", "roofrig"],
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_net_R"},   
+	["Rnet2r","Rnet2l","Rnet1l","Rnet1r"],
+	["Rnet4l","Rnet4r","Rnet3r","Rnet3l"],
+	["Rnet4r","Rnet2r","Rnet1r","Rnet3r"],
+        {"group":""},
+    ],
+},
+
+"legocar_net_R_inner": {
+    "information":{
+        "name":"Right Inner Race Net",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_net_R",
+    "sounds": {
+        "$+cabinFilterCoef": 0.015,
+    },
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_sideglass_black", ["legocar_net_R"], [], {"pos":{"x":-0.625, "y":0.000, "z":0.8},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1, "y":1, "z":1}}],
+	["legocar_sticker_net",     ["legocar_net_R"], [], {"pos":{"x":-0.625, "y":0.000, "z":0.8},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_net_R"},
+
+	//2 pieces, 6 half pieces, 8 nodes - 0.625 kg/node
+	{"nodeWeight": "$=$weight*0.625"},
+
+	["Rnet1r", -0.75,-0.22, 0.80],
+	["Rnet1l", -0.50,-0.22, 0.80],
+	["Rnet2r", -0.75, 0.22, 0.80],
+	["Rnet2l", -0.50, 0.22, 0.80],
+	["Rnet3r", -0.75,-0.22, 1.40],
+	["Rnet3l", -0.50,-0.22, 1.40],
+	["Rnet4r", -0.75, 0.22, 1.40],
+	["Rnet4l", -0.50, 0.22, 1.40],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--RIGHT NET--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*625000", "beamDamp":"$=$weight*62.5"},
+
+	//uniform structure
+	["Rnet1l", "Rnet1r"],
+	["Rnet2l", "Rnet2r"],
+	["Rnet3l", "Rnet3r"],
+	["Rnet4l", "Rnet4r"],
+
+	["Rnet1l", "Rnet2r"],
+	["Rnet2l", "Rnet3r"],
+	["Rnet3l", "Rnet4r"],
+	["Rnet4l", "Rnet1r"],
+
+	["Rnet1l", "Rnet3r"],
+	["Rnet2l", "Rnet4r"],
+	["Rnet3l", "Rnet1r"],
+	["Rnet4l", "Rnet2r"],
+
+	["Rnet1l", "Rnet4r"],
+	["Rnet2l", "Rnet1r"],
+	["Rnet3l", "Rnet2r"],
+	["Rnet4l", "Rnet3r"],
+
+	["Rnet1l", "Rnet2l"],
+	["Rnet2l", "Rnet3l"],
+	["Rnet3l", "Rnet4l"],
+	["Rnet4l", "Rnet1l"],
+
+	["Rnet1l", "Rnet3l"],
+	["Rnet2l", "Rnet4l"],
+
+	["Rnet1r", "Rnet2r"],
+	["Rnet2r", "Rnet3r"],
+	["Rnet3r", "Rnet4r"],
+	["Rnet4r", "Rnet1r"],
+
+	["Rnet1r", "Rnet3r"],
+	["Rnet2r", "Rnet4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*110000", "beamDamp":"$=$weight*10"},
+	{"breakGroup":"net_R_break"},
+
+	["Rnet1l", "roof3r"],
+	["Rnet1l", "roof3rr"],
+	["Rnet1l", "roof3rrr"],
+	["Rnet1l", "roof2rrr"],
+	["Rnet1l", "roofrig"],
+	
+	["Rnet1r", "roof3r"],
+	["Rnet1r", "roof3rr"],
+	["Rnet1r", "roof3rrr"],
+	["Rnet1r", "roof2rrr"],
+	["Rnet1r", "roofrig"],
+
+	["Rnet2r", "roof2r"],
+	["Rnet2r", "roof2rr"],
+	["Rnet2r", "roof2rrr"],
+	["Rnet2r", "roof3rrr"],
+	["Rnet2r", "roofrig"],
+	
+	["Rnet2l", "roof2r"],
+	["Rnet2l", "roof2rr"],
+	["Rnet2l", "roof2rrr"],
+	["Rnet2l", "roof3rrr"],
+	["Rnet2l", "roofrig"],
+
+	["Rnet3r", "roof3r"],
+	["Rnet3r", "roof3rr"],
+	["Rnet3r", "roof3rrr"],
+	["Rnet3r", "roof2rrr"],
+	["Rnet3r", "roofrig"],
+	
+	["Rnet3l", "roof3r"],
+	["Rnet3l", "roof3rr"],
+	["Rnet3l", "roof3rrr"],
+	["Rnet3l", "roof2rrr"],
+	["Rnet3l", "roofrig"],
+
+	["Rnet4r", "roof2r"],
+	["Rnet4r", "roof2rr"],
+	["Rnet4r", "roof2rrr"],
+	["Rnet4r", "roof3rrr"],
+	["Rnet4r", "roofrig"],
+	
+	["Rnet4l", "roof2r"],
+	["Rnet4l", "roof2rr"],
+	["Rnet4l", "roof2rrr"],
+	["Rnet4l", "roof3rrr"],
+	["Rnet4l", "roofrig"],
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_net_R"},   
+	["Rnet2r","Rnet2l","Rnet1l","Rnet1r"],
+	["Rnet4l","Rnet4r","Rnet3r","Rnet3l"],
+	["Rnet4l","Rnet2l","Rnet1l","Rnet3l"],
+        {"group":""},
+    ],
+},
+
+
+}

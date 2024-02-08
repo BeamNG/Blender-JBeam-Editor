@@ -1,0 +1,250 @@
+{
+"legocar_beaconlight_rack_M_loudspeaker_grey": {
+    "information":{
+        "name":"Grey Loudspeaker",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_beaconlight_rack_M_bulb",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_loudspeaker_grey",["legocar_loudspeaker_rack_M"],[], {"pos":{"x": 0.000, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//loudspeaker
+	{"group":"legocar_loudspeaker_rack_M"},
+	//6 pieces, 6 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+
+	["Mrackspeaker1l",  0.095, 0.100, 1.825],
+	["Mrackspeaker1r", -0.095, 0.100, 1.825],
+	["Mrackspeaker2l",  0.095, 0.100, 2.025],
+	["Mrackspeaker2r", -0.095, 0.100, 2.025],
+	["Mrackspeaker3",   0.000, 0.650, 1.925],
+	["Mrackspeaker4",   0.000, 0.375, 1.750, {"selfCollision":false}],
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+	//torsion friction
+        {"spring":"$=$weight*101000", "damp":0, "deform":"$=$strength*0.01", "strength":"FLT_MAX"},
+	["Mrackspeaker1l","Mrackspeaker4","lbarrackTrig","lbarrackT1l"],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//square
+	["Mrackspeaker1l", "Mrackspeaker1r"],
+	["Mrackspeaker2l", "Mrackspeaker2r"],
+	["Mrackspeaker1l", "Mrackspeaker2r"],
+	["Mrackspeaker2l", "Mrackspeaker1r"],
+	["Mrackspeaker1l", "Mrackspeaker2l"],
+	["Mrackspeaker1r", "Mrackspeaker2r"],
+
+	//tip
+	["Mrackspeaker1l", "Mrackspeaker3"],
+	["Mrackspeaker1r", "Mrackspeaker3"],
+	["Mrackspeaker2l", "Mrackspeaker3"],
+	["Mrackspeaker2r", "Mrackspeaker3"],
+
+	//handle
+	["Mrackspeaker1l", "Mrackspeaker4"],
+	["Mrackspeaker1r", "Mrackspeaker4"],
+	["Mrackspeaker2l", "Mrackspeaker4"],
+	["Mrackspeaker2r", "Mrackspeaker4"],
+	["Mrackspeaker3",  "Mrackspeaker4"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$=$strength*0.25", "beamStrength":"$=$strength*0.25"},
+	{"breakGroup":"loudspeaker_rack_M_break"},
+	
+	["Mrackspeaker4", "lbarrackT1l"],
+	["Mrackspeaker4", "lbarrackT1r"],
+	["Mrackspeaker4", "lbarrackT2l"],
+	["Mrackspeaker4", "lbarrackT2r"],
+	["Mrackspeaker4", "lbarrackTrig"],
+
+	["Mrackspeaker1l", "lbarrackTrig"],
+	["Mrackspeaker1r", "lbarrackTrig"],
+	["Mrackspeaker2l", "lbarrackTrig"],
+	["Mrackspeaker2r", "lbarrackTrig"],
+	["Mrackspeaker3",  "lbarrackTrig"],
+
+	//dampers
+	{"beamSpring":0, "beamDamp":"$=$weight*100"},
+	["Mrackspeaker2l", "lbarrackT1l"],
+	["Mrackspeaker2r", "lbarrackT1r"],
+	["Mrackspeaker2l", "lbarrackT2l"],
+	["Mrackspeaker2r", "lbarrackT2r"],
+	["Mrackspeaker3", "lbarrackT1l"],
+	["Mrackspeaker3", "lbarrackT1r"],
+	["Mrackspeaker3", "lbarrackT2l"],
+	["Mrackspeaker3", "lbarrackT2r"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT DAMPERS--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["Mrackspeaker1l", "roofMrig"],
+	["Mrackspeaker1r", "roofMrig"],
+	["Mrackspeaker2l", "roofMrig"],
+	["Mrackspeaker2r", "roofMrig"],
+	["Mrackspeaker3", "roofMrig"],
+	["Mrackspeaker3", "roofMrig"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_loudspeaker_rack_M"},
+	["Mrackspeaker3","Mrackspeaker2l","Mrackspeaker1l"],
+	["Mrackspeaker3","Mrackspeaker1l","Mrackspeaker1r"],
+	["Mrackspeaker3","Mrackspeaker1r","Mrackspeaker2r"],
+	["Mrackspeaker3","Mrackspeaker2r","Mrackspeaker2l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_loudspeaker_rack_M"},   
+	["Mrackspeaker1r","Mrackspeaker1l","Mrackspeaker2l","Mrackspeaker2r"],	
+        {"group":""},
+    ],
+},
+
+"legocar_beaconlight_rack_M_loudspeaker_black": {
+    "information":{
+        "name":"Black Loudspeaker",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_beaconlight_rack_M_bulb",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_loudspeaker_black",["legocar_loudspeaker_rack_M"],[], {"pos":{"x": 0.000, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//loudspeaker
+	{"group":"legocar_loudspeaker_rack_M"},
+	//6 pieces, 6 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+
+	["Mrackspeaker1l",  0.095, 0.100, 1.825],
+	["Mrackspeaker1r", -0.095, 0.100, 1.825],
+	["Mrackspeaker2l",  0.095, 0.100, 2.025],
+	["Mrackspeaker2r", -0.095, 0.100, 2.025],
+	["Mrackspeaker3",   0.000, 0.650, 1.925],
+	["Mrackspeaker4",   0.000, 0.375, 1.750, {"selfCollision":false}],
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+	//torsion friction
+        {"spring":"$=$weight*101000", "damp":0, "deform":"$=$strength*0.01", "strength":"FLT_MAX"},
+	["Mrackspeaker1l","Mrackspeaker4","lbarrackTrig","lbarrackT1l"],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//square
+	["Mrackspeaker1l", "Mrackspeaker1r"],
+	["Mrackspeaker2l", "Mrackspeaker2r"],
+	["Mrackspeaker1l", "Mrackspeaker2r"],
+	["Mrackspeaker2l", "Mrackspeaker1r"],
+	["Mrackspeaker1l", "Mrackspeaker2l"],
+	["Mrackspeaker1r", "Mrackspeaker2r"],
+
+	//tip
+	["Mrackspeaker1l", "Mrackspeaker3"],
+	["Mrackspeaker1r", "Mrackspeaker3"],
+	["Mrackspeaker2l", "Mrackspeaker3"],
+	["Mrackspeaker2r", "Mrackspeaker3"],
+
+	//handle
+	["Mrackspeaker1l", "Mrackspeaker4"],
+	["Mrackspeaker1r", "Mrackspeaker4"],
+	["Mrackspeaker2l", "Mrackspeaker4"],
+	["Mrackspeaker2r", "Mrackspeaker4"],
+	["Mrackspeaker3",  "Mrackspeaker4"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$=$strength*0.25", "beamStrength":"$=$strength*0.25"},
+	{"breakGroup":"loudspeaker_rack_M_break"},
+	
+	["Mrackspeaker4", "lbarrackT1l"],
+	["Mrackspeaker4", "lbarrackT1r"],
+	["Mrackspeaker4", "lbarrackT2l"],
+	["Mrackspeaker4", "lbarrackT2r"],
+	["Mrackspeaker4", "lbarrackTrig"],
+
+	["Mrackspeaker1l", "lbarrackTrig"],
+	["Mrackspeaker1r", "lbarrackTrig"],
+	["Mrackspeaker2l", "lbarrackTrig"],
+	["Mrackspeaker2r", "lbarrackTrig"],
+	["Mrackspeaker3",  "lbarrackTrig"],
+
+	//dampers
+	{"beamSpring":0, "beamDamp":"$=$weight*100"},
+	["Mrackspeaker2l", "lbarrackT1l"],
+	["Mrackspeaker2r", "lbarrackT1r"],
+	["Mrackspeaker2l", "lbarrackT2l"],
+	["Mrackspeaker2r", "lbarrackT2r"],
+	["Mrackspeaker3", "lbarrackT1l"],
+	["Mrackspeaker3", "lbarrackT1r"],
+	["Mrackspeaker3", "lbarrackT2l"],
+	["Mrackspeaker3", "lbarrackT2r"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT DAMPERS--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["Mrackspeaker1l", "roofMrig"],
+	["Mrackspeaker1r", "roofMrig"],
+	["Mrackspeaker2l", "roofMrig"],
+	["Mrackspeaker2r", "roofMrig"],
+	["Mrackspeaker3", "roofMrig"],
+	["Mrackspeaker3", "roofMrig"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_loudspeaker_rack_M"},
+	["Mrackspeaker3","Mrackspeaker2l","Mrackspeaker1l"],
+	["Mrackspeaker3","Mrackspeaker1l","Mrackspeaker1r"],
+	["Mrackspeaker3","Mrackspeaker1r","Mrackspeaker2r"],
+	["Mrackspeaker3","Mrackspeaker2r","Mrackspeaker2l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_loudspeaker_rack_M"},   
+	["Mrackspeaker1r","Mrackspeaker1l","Mrackspeaker2l","Mrackspeaker2r"],	
+        {"group":""},
+    ],
+},
+
+}

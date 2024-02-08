@@ -1,0 +1,231 @@
+{
+"legocar_subframe_F": {
+    "information":{
+        "name":"Front Subframe",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_subframe_F",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_bulkhead", "legocar_bulkhead", "Bulkhead"],
+	["legocar_underglow_F", "", "Front Accessory"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x2_flat_grey", ["legocar_subframe_F"], [], {"pos":{"x": 0.000, "y":-1.250, "z":0.0},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//bleed generic values again in case they got overwriten by wheels
+	{"nodeMaterial":"|NM_PLASTIC"},
+        {"frictionCoef":0.75},
+	{"collision":true},
+        {"selfCollision":true},
+
+	//--FRONT SUBFRAME--
+	{"group":"legocar_subframe_F"},
+	//8 pieces, 5 nodes - 1.6 kg/node
+	{"nodeWeight": "$=$weight*1.6"},
+
+	["Fsubf1l",  0.25, -0.75, 0.05],
+	["Fsubf1r", -0.25, -0.75, 0.05],
+	["Fsubf2l",  0.25, -1.75, 0.05],
+	["Fsubf2r", -0.25, -1.75, 0.05],
+
+	//rigidifier
+	["Fsubfrig", 0, -1.25, 0.4, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FRONT SUBFRAME--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//uniform structure
+	["Fsubf1l", "Fsubf1r"],
+	["Fsubf2l", "Fsubf2r"],
+	["Fsubf1l", "Fsubf2l"],
+	["Fsubf1r", "Fsubf2r"],
+	["Fsubf1l", "Fsubf2r"],
+	["Fsubf2l", "Fsubf1r"],
+
+	//rigidifier
+	["Fsubf1l", "Fsubfrig"],
+	["Fsubf1r", "Fsubfrig"],
+	["Fsubf2l", "Fsubfrig"],
+	["Fsubf2r", "Fsubfrig"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	//bleed generic values again in case they got overwriten by wheels
+	{"groundModel":"plastic"},
+        {"dragCoef":"$drag"},
+
+        {"group":"legocar_subframe_F"},   
+	["Fsubf1r","Fsubf1l","Fsubf2l","Fsubf2r"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_bulkhead": {
+    "information":{
+        "name":"Bulkhead",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bulkhead",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_radsupport", "legocar_radsupport", "Radiator Support"],
+	["legocar_bulkhead_extra", "", "Unused Slot"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x2_flat_black",["legocar_bulkhead"], [], {"pos":{"x": 0.000, "y":-1.500, "z":0.1},"rot":{"x":0, "y":0, "z":90 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_4x2_flat_grey", ["legocar_bulkhead"], [], {"pos":{"x": 0.000, "y":-1.500, "z":0.2},"rot":{"x":0, "y":0, "z":90 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--BULKHEAD JOINED PIECES--
+	{"group":"legocar_bulkhead"},
+	//16 pieces, 8 nodes - 2 kg/node
+	{"nodeWeight": "$=$weight*2"},
+
+	["bulk1l",  0.5, -1.25, 0.1],
+	["bulk1r", -0.5, -1.25, 0.1],
+	["bulk2l",  0.5, -1.75, 0.1],
+	["bulk2r", -0.5, -1.75, 0.1],
+
+	["bulk3l",  0.5, -1.25, 0.3],
+	["bulk3r", -0.5, -1.25, 0.3],
+	["bulk4l",  0.5, -1.75, 0.3],
+	["bulk4r", -0.5, -1.75, 0.3],
+
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--BULKHEAD--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//uniform structure
+	["bulk1l", "bulk1r"],
+	["bulk2l", "bulk2r"],
+	["bulk3l", "bulk3r"],
+	["bulk4l", "bulk4r"],
+
+	["bulk1l", "bulk2r"],
+	["bulk2l", "bulk3r"],
+	["bulk3l", "bulk4r"],
+	["bulk4l", "bulk1r"],
+
+	["bulk1l", "bulk3r"],
+	["bulk2l", "bulk4r"],
+	["bulk3l", "bulk1r"],
+	["bulk4l", "bulk2r"],
+
+	["bulk1l", "bulk4r"],
+	["bulk2l", "bulk1r"],
+	["bulk3l", "bulk2r"],
+	["bulk4l", "bulk3r"],
+
+	["bulk1l", "bulk2l"],
+	["bulk2l", "bulk3l"],
+	["bulk3l", "bulk4l"],
+	["bulk4l", "bulk1l"],
+
+	["bulk1l", "bulk3l"],
+	["bulk2l", "bulk4l"],
+
+	["bulk1r", "bulk2r"],
+	["bulk2r", "bulk3r"],
+	["bulk3r", "bulk4r"],
+	["bulk4r", "bulk1r"],
+
+	["bulk1r", "bulk3r"],
+	["bulk2r", "bulk4r"],
+
+	
+	//--ATTACH--
+	//half the spring and damp because the bulkhead attaches to several other pieces above
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"bulkhead_break"},
+	{"optional":true},
+	
+	["Fsubf1r", "bulk2r"],
+	["Fsubf1r", "bulk3r"],
+	["Fsubf1r", "bulk1l"],
+
+	["Fsubf1l", "bulk2l"],
+	["Fsubf1l", "bulk3l"],
+	["Fsubf1l", "bulk1r"],
+
+	["Fsubf2r", "bulk1r"],
+	["Fsubf2r", "bulk4r"],
+	["Fsubf2r", "bulk2l"],
+
+	["Fsubf2l", "bulk1l"],
+	["Fsubf2l", "bulk4l"],
+	["Fsubf2l", "bulk2r"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//subframe
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	["Fsubf1r", "bulk2r"],
+	["Fsubf1r", "bulk3r"],
+	["Fsubf1r", "bulk1l"],
+
+	["Fsubf1l", "bulk2l"],
+	["Fsubf1l", "bulk3l"],
+	["Fsubf1l", "bulk1r"],
+
+	["Fsubf2r", "bulk1r"],
+	["Fsubf2r", "bulk4r"],
+	["Fsubf2r", "bulk2l"],
+
+	["Fsubf2l", "bulk1l"],
+	["Fsubf2l", "bulk4l"],
+	["Fsubf2l", "bulk2r"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_bulkhead"},   
+
+	["bulk1r","bulk1l","bulk2l","bulk2r"],
+	["bulk3l","bulk3r","bulk4r","bulk4l"],
+	["bulk1r","bulk2r","bulk4r","bulk3r"],
+	["bulk2l","bulk1l","bulk3l","bulk4l"],
+	["bulk2r","bulk2l","bulk4l","bulk4r"],
+	["bulk1l","bulk1r","bulk3r","bulk3l"],
+
+        {"group":""},
+    ],
+},
+
+}

@@ -1,0 +1,228 @@
+{
+"legocar_trunk_spoiler_tall": {
+    "information":{
+        "name":"Tall Lip Spoiler",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_trunk_spoiler",
+    "slots": [
+        ["type", "default", "description"],
+	["skin_spoiler","legocar_skin_spoiler_grey", "Spoiler Paint", {"coreSlot":true}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_spoiler",      ["legocar_spoiler_B"],[], {"pos":{"x": 0.000, "y":1.875, "z":0.8},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1.00, "y":1.00, "z":0.99}}],
+	["lego_6x1_flat_notip_spoiler",["legocar_spoiler_T"],[], {"pos":{"x": 0.000, "y":1.875, "z":0.9},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1.00, "y":1.00, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//spoiler bottom
+	{"group":"legocar_spoiler_B"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["spoilB1l",  0.75, 1.75, 0.85],
+	["spoilB1r", -0.75, 1.75, 0.85],
+	["spoilB2l",  0.75, 2.00, 0.85],
+	["spoilB2r", -0.75, 2.00, 0.85],
+	//rigidifier
+	["spoilBrig", 0, 1.875, 0.4, {"collision":false, "selfCollision":false, "group":""}],
+
+
+	//spoiler top
+	{"group":"legocar_spoiler_T"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["spoilT1l",  0.75, 1.75, 0.95],
+	["spoilT1r", -0.75, 1.75, 0.95],
+	["spoilT2l",  0.75, 2.00, 0.95],
+	["spoilT2r", -0.75, 2.00, 0.95],
+	//rigidifier
+	["spoilTrig", 0, 1.875, 0.5, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--SPOILER BOTTOM--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1201000", "beamDamp":"$=$weight*120"},
+
+	//uniform structure
+	["spoilB1l", "spoilB1r"],
+	["spoilB2l", "spoilB2r"],
+	["spoilB1l", "spoilB2l"],
+	["spoilB1r", "spoilB2r"],
+	["spoilB1l", "spoilB2r"],
+	["spoilB2l", "spoilB1r"],
+
+	//rigidifier
+	["spoilB1l", "spoilBrig"],
+	["spoilB1r", "spoilBrig"],
+	["spoilB2l", "spoilBrig"],
+	["spoilB2r", "spoilBrig"],
+
+
+	//--SPOILER TOP--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1201000", "beamDamp":"$=$weight*120"},
+
+	//uniform structure
+	["spoilT1l", "spoilT1r"],
+	["spoilT2l", "spoilT2r"],
+	["spoilT1l", "spoilT2l"],
+	["spoilT1r", "spoilT2r"],
+	["spoilT1l", "spoilT2r"],
+	["spoilT2l", "spoilT1r"],
+
+	//rigidifier
+	["spoilT1l", "spoilTrig"],
+	["spoilT1r", "spoilTrig"],
+	["spoilT2l", "spoilTrig"],
+	["spoilT2r", "spoilTrig"],
+
+	
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//top to bottom
+	{"beamSpring":"$=$weight*601000", "beamDamp":"$=$weight*60"},
+	{"breakGroup":"spoiler_break"},
+	
+	["spoilB1l", "spoilT1l"],
+	["spoilB1l", "spoilT1r"],
+	["spoilB1l", "spoilT2l"],
+	["spoilB1l", "spoilT2r"],
+	["spoilB1l", "spoilTrig"],
+
+	["spoilB1r", "spoilT1l"],
+	["spoilB1r", "spoilT1r"],
+	["spoilB1r", "spoilT2l"],
+	["spoilB1r", "spoilT2r"],
+	["spoilB1r", "spoilTrig"],
+
+	["spoilB2l", "spoilT1l"],
+	["spoilB2l", "spoilT1r"],
+	["spoilB2l", "spoilT2l"],
+	["spoilB2l", "spoilT2r"],
+	["spoilB2l", "spoilTrig"],
+
+	["spoilB2r", "spoilT1l"],
+	["spoilB2r", "spoilT1r"],
+	["spoilB2r", "spoilT2l"],
+	["spoilB2r", "spoilT2r"],
+	["spoilB2r", "spoilTrig"],
+
+	["spoilBrig", "spoilT1l"],
+	["spoilBrig", "spoilT1r"],
+	["spoilBrig", "spoilT2l"],
+	["spoilBrig", "spoilT2r"],
+
+
+	//bottom to left trunk side
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"spoiler_trunk_L_break"},
+
+	["trunkL1l", "spoilB1l"],
+	["trunkL1l", "spoilB2l"],
+	["trunkL1l", "spoilB1r"],
+	["trunkL1l", "spoilBrig"],
+
+	["trunkL1r", "spoilB1r"],
+	["trunkL1r", "spoilB2r"],
+	["trunkL1r", "spoilB1l"],
+	["trunkL1r", "spoilBrig"],
+
+	["trunkL2l", "spoilB2l"],
+	["trunkL2l", "spoilB1l"],
+	["trunkL2l", "spoilB2r"],
+	["trunkL2l", "spoilBrig"],
+
+	["trunkL2r", "spoilB2r"],
+	["trunkL2r", "spoilB1r"],
+	["trunkL2r", "spoilB2l"],
+	["trunkL2r", "spoilBrig"],
+
+	["trunkLrig", "spoilB1l"],
+	["trunkLrig", "spoilB2l"],
+	["trunkLrig", "spoilB1r"],
+	["trunkLrig", "spoilB2r"],
+
+
+	//bottom to right trunk side
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"spoiler_trunk_R_break"},
+
+	["trunkR1l", "spoilB1l"],
+	["trunkR1l", "spoilB2l"],
+	["trunkR1l", "spoilB1r"],
+	["trunkR1l", "spoilBrig"],
+
+	["trunkR1r", "spoilB1r"],
+	["trunkR1r", "spoilB2r"],
+	["trunkR1r", "spoilB1l"],
+	["trunkR1r", "spoilBrig"],
+
+	["trunkR2l", "spoilB2l"],
+	["trunkR2l", "spoilB1l"],
+	["trunkR2l", "spoilB2r"],
+	["trunkR2l", "spoilBrig"],
+
+	["trunkR2r", "spoilB2r"],
+	["trunkR2r", "spoilB1r"],
+	["trunkR2r", "spoilB2l"],
+	["trunkR2r", "spoilBrig"],
+
+	["trunkRrig", "spoilB1l"],
+	["trunkRrig", "spoilB2l"],
+	["trunkRrig", "spoilB1r"],
+	["trunkRrig", "spoilB2r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	//breakable back collision triangles
+        {"group":"spoiler_trunk_L_break"},
+	{"breakGroup":"spoiler_trunk_L_break"},
+	["trunkL2l","spoilB2l","spoilB1l"],
+	["trunkL2l","trunkL2r","spoilB2l"],
+	["trunkL2r","spoilB2r","spoilB2l"],
+
+	{"group":"spoiler_trunk_R_break"},
+	{"breakGroup":"spoiler_trunk_R_break"},
+	["trunkR2r","spoilB1r","spoilB2r"],
+	["trunkR2l","trunkR2r","spoilB2r"],
+	["trunkR2l","spoilB2r","spoilB2l"],
+
+        {"breakGroup":""},
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_spoiler_B"},
+	["spoilB2l","spoilB2r","spoilB1r","spoilB1l"],
+	{"group":"legocar_spoiler_T"},
+	["spoilT2l","spoilT2r","spoilT1r","spoilT1l"],
+
+	//breakable back collision triangles
+        {"group":"spoiler_break"},
+	["spoilB1l","spoilB2l","spoilT2l","spoilT1l"],
+	["spoilB2l","spoilB2r","spoilT2r","spoilT2l"],
+	["spoilB2r","spoilB1r","spoilT1r","spoilT2r"],
+	["spoilB1r","spoilB1l","spoilT1l","spoilT1r"],
+
+	{"breakGroup":""},
+        {"group":""},
+    ],
+},
+
+}

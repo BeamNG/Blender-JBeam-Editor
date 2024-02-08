@@ -1,0 +1,201 @@
+{
+"legocar_fueltank_gasoline": {
+    "information":{
+        "name":"Gasoline Fuel Tank",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fueltank",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_fire", "legocar_fire", "Fire Effect On Break"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x2_flat_grey",["legocar_fueltank"], [], {"pos":{"x": 0.000, "y":1.000, "z":0.0},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+     ],
+     "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$fuel", "range", "L", "Chassis", 75, 0, 75, "Fuel Volume", "Initial fuel volume", {"stepDis":0.5}],
+    ],
+    "energyStorage": [
+        ["type", "name"],
+        ["fuelTank", "mainTank"],
+    ],
+    "mainTank": {
+        "energyType":"gasoline",
+        "fuelCapacity": 75,
+        "startingFuelCapacity": "$fuel",
+        "fuel": {"[engineGroup]:":["fuel"]},
+        "breakTriggerBeam": "fuelTank",
+    },
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//bleed generic values again in case they got overwriten by wheels
+	{"nodeMaterial":"|NM_PLASTIC"},
+        {"frictionCoef":0.75},
+	{"collision":true},
+        {"selfCollision":true},
+
+	{"group":"legocar_fueltank"},
+	{"engineGroup":["fuel"]},
+
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["fueltank1l",  0.25, 0.75, 0.05],
+	["fueltank1r", -0.25, 0.75, 0.05],
+	["fueltank2l",  0.25, 1.25, 0.05],
+	["fueltank2r", -0.25, 1.25, 0.05],
+
+	//rigidifier
+	["fueltankrig", 0, 1, 0.25, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"engineGroup":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["fueltank1l", "fueltank1r"],
+	["fueltank2l", "fueltank2r"],
+	["fueltank1l", "fueltank2l"],
+	["fueltank1r", "fueltank2r"],
+	["fueltank1l", "fueltank2r"],
+	["fueltank2l", "fueltank1r"],
+
+	//rigidifier
+	["fueltank1l", "fueltankrig"],
+	["fueltank1r", "fueltankrig"],
+	["fueltank2l", "fueltankrig"],
+	["fueltank2r", "fueltankrig"],
+
+
+	//fuel tank break trigger beam
+	//activates fuel leak when fuel tank gets too far away from the chassis, doesn't affect physics
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	["fueltankrig","chassis0", {"name":"fuelTank","containerBeam": "fuelTank", "deformGroup":"fueltank_break"}],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        //bleed generic values again in case they got overwriten by wheels
+	{"groundModel":"plastic"},
+        {"dragCoef":"$drag"},
+
+        {"group":"legocar_fueltank"},   
+	["fueltank1l","fueltank1r","fueltank2r","fueltank2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_fueltank_magic": {
+    "information":{
+        "name":"Magic Fuel Tank (Weightless Fuel)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fueltank",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_fire", "legocar_fire", "Fire Effect On Break"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x2_flat_grey",["legocar_fueltank"], [], {"pos":{"x": 0.000, "y":1.000, "z":0.0},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+     ],
+     "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$fuel", "range", "L", "Chassis", 75, 0, 75, "Fuel Volume", "Initial fuel volume", {"stepDis":0.5}],
+    ],
+    "energyStorage": [
+        ["type", "name"],
+        ["fuelTank", "mainTank"],
+    ],
+    "mainTank": {
+        "energyType":"magic",
+	"fuelLiquidDensity": 0.75,
+        "energyDensity": 41000000,
+        "fuelCapacity": 75,
+        "startingFuelCapacity": "$fuel",
+        "breakTriggerBeam": "fuelTank",
+    },
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//bleed generic values again in case they got overwriten by wheels
+	{"nodeMaterial":"|NM_PLASTIC"},
+        {"frictionCoef":0.75},
+	{"collision":true},
+        {"selfCollision":true},
+
+	{"group":"legocar_fueltank"},
+
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["fueltank1l",  0.25, 0.75, 0.05],
+	["fueltank1r", -0.25, 0.75, 0.05],
+	["fueltank2l",  0.25, 1.25, 0.05],
+	["fueltank2r", -0.25, 1.25, 0.05],
+
+	//rigidifier
+	["fueltankrig", 0, 1, 0.25, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["fueltank1l", "fueltank1r"],
+	["fueltank2l", "fueltank2r"],
+	["fueltank1l", "fueltank2l"],
+	["fueltank1r", "fueltank2r"],
+	["fueltank1l", "fueltank2r"],
+	["fueltank2l", "fueltank1r"],
+
+	//rigidifier
+	["fueltank1l", "fueltankrig"],
+	["fueltank1r", "fueltankrig"],
+	["fueltank2l", "fueltankrig"],
+	["fueltank2r", "fueltankrig"],
+
+	//fuel tank break trigger beam
+	//activates fuel leak when fuel tank gets too far away from the chassis, doesn't affect physics
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	["fueltankrig","chassis0", {"name":"fuelTank","containerBeam": "fuelTank", "deformGroup":"fueltank_break"}],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	//bleed generic values again in case they got overwriten by wheels
+	{"groundModel":"plastic"},
+        {"dragCoef":"$drag"},
+
+        {"group":"legocar_fueltank"},   
+	["fueltank1l","fueltank1r","fueltank2r","fueltank2l"],
+        {"group":""},
+    ],
+},
+
+}

@@ -1,0 +1,250 @@
+{
+"legocar_beaconlight_F_loudspeaker_grey": {
+    "information":{
+        "name":"Grey Loudspeaker",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_beaconlight_F_bulb",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_loudspeaker_grey",["legocar_loudspeaker_F"],[], {"pos":{"x": 0.000, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//loudspeaker
+	{"group":"legocar_loudspeaker_F"},
+	//6 pieces, 6 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+
+	["Fspeaker1l",  0.095, 0.100, 1.825],
+	["Fspeaker1r", -0.095, 0.100, 1.825],
+	["Fspeaker2l",  0.095, 0.100, 2.025],
+	["Fspeaker2r", -0.095, 0.100, 2.025],
+	["Fspeaker3",   0.000, 0.650, 1.925],
+	["Fspeaker4",   0.000, 0.375, 1.750, {"selfCollision":false}],
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+	//torsion friction
+        {"spring":"$=$weight*101000", "damp":0, "deform":"$=$strength*0.01", "strength":"FLT_MAX"},
+	["Fspeaker1l","Fspeaker4","FbeaconBrig","FbeaconB1l"],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//square
+	["Fspeaker1l", "Fspeaker1r"],
+	["Fspeaker2l", "Fspeaker2r"],
+	["Fspeaker1l", "Fspeaker2r"],
+	["Fspeaker2l", "Fspeaker1r"],
+	["Fspeaker1l", "Fspeaker2l"],
+	["Fspeaker1r", "Fspeaker2r"],
+
+	//tip
+	["Fspeaker1l", "Fspeaker3"],
+	["Fspeaker1r", "Fspeaker3"],
+	["Fspeaker2l", "Fspeaker3"],
+	["Fspeaker2r", "Fspeaker3"],
+
+	//handle
+	["Fspeaker1l", "Fspeaker4"],
+	["Fspeaker1r", "Fspeaker4"],
+	["Fspeaker2l", "Fspeaker4"],
+	["Fspeaker2r", "Fspeaker4"],
+	["Fspeaker3",  "Fspeaker4"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$=$strength*0.25", "beamStrength":"$=$strength*0.25"},
+	{"breakGroup":"loudspeaker_F_break"},
+	
+	["Fspeaker4", "FbeaconB1l"],
+	["Fspeaker4", "FbeaconB1r"],
+	["Fspeaker4", "FbeaconB2l"],
+	["Fspeaker4", "FbeaconB2r"],
+	["Fspeaker4", "FbeaconBrig"],
+
+	["Fspeaker1l", "FbeaconBrig"],
+	["Fspeaker1r", "FbeaconBrig"],
+	["Fspeaker2l", "FbeaconBrig"],
+	["Fspeaker2r", "FbeaconBrig"],
+	["Fspeaker3",  "FbeaconBrig"],
+
+	//dampers
+	{"beamSpring":0, "beamDamp":"$=$weight*100"},
+	["Fspeaker2l", "FbeaconB1l"],
+	["Fspeaker2r", "FbeaconB1r"],
+	["Fspeaker2l", "FbeaconB2l"],
+	["Fspeaker2r", "FbeaconB2r"],
+	["Fspeaker3", "FbeaconB1l"],
+	["Fspeaker3", "FbeaconB1r"],
+	["Fspeaker3", "FbeaconB2l"],
+	["Fspeaker3", "FbeaconB2r"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT DAMPERS--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["Fspeaker1l", "roofrig"],
+	["Fspeaker1r", "roofrig"],
+	["Fspeaker2l", "roofrig"],
+	["Fspeaker2r", "roofrig"],
+	["Fspeaker3", "roofrig"],
+	["Fspeaker3", "roofrig"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_loudspeaker_F"},
+	["Fspeaker3","Fspeaker2l","Fspeaker1l"],
+	["Fspeaker3","Fspeaker1l","Fspeaker1r"],
+	["Fspeaker3","Fspeaker1r","Fspeaker2r"],
+	["Fspeaker3","Fspeaker2r","Fspeaker2l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_loudspeaker_F"},   
+	["Fspeaker1r","Fspeaker1l","Fspeaker2l","Fspeaker2r"],	
+        {"group":""},
+    ],
+},
+
+"legocar_beaconlight_F_loudspeaker_black": {
+    "information":{
+        "name":"Black Loudspeaker",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_beaconlight_F_bulb",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_loudspeaker_black",["legocar_loudspeaker_F"],[], {"pos":{"x": 0.000, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//loudspeaker
+	{"group":"legocar_loudspeaker_F"},
+	//6 pieces, 6 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+
+	["Fspeaker1l",  0.095, 0.100, 1.825],
+	["Fspeaker1r", -0.095, 0.100, 1.825],
+	["Fspeaker2l",  0.095, 0.100, 2.025],
+	["Fspeaker2r", -0.095, 0.100, 2.025],
+	["Fspeaker3",   0.000, 0.650, 1.925],
+	["Fspeaker4",   0.000, 0.375, 1.750, {"selfCollision":false}],
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+	//torsion friction
+        {"spring":"$=$weight*101000", "damp":0, "deform":"$=$strength*0.01", "strength":"FLT_MAX"},
+	["Fspeaker1l","Fspeaker4","FbeaconBrig","FbeaconB1l"],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//square
+	["Fspeaker1l", "Fspeaker1r"],
+	["Fspeaker2l", "Fspeaker2r"],
+	["Fspeaker1l", "Fspeaker2r"],
+	["Fspeaker2l", "Fspeaker1r"],
+	["Fspeaker1l", "Fspeaker2l"],
+	["Fspeaker1r", "Fspeaker2r"],
+
+	//tip
+	["Fspeaker1l", "Fspeaker3"],
+	["Fspeaker1r", "Fspeaker3"],
+	["Fspeaker2l", "Fspeaker3"],
+	["Fspeaker2r", "Fspeaker3"],
+
+	//handle
+	["Fspeaker1l", "Fspeaker4"],
+	["Fspeaker1r", "Fspeaker4"],
+	["Fspeaker2l", "Fspeaker4"],
+	["Fspeaker2r", "Fspeaker4"],
+	["Fspeaker3",  "Fspeaker4"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$=$strength*0.25", "beamStrength":"$=$strength*0.25"},
+	{"breakGroup":"loudspeaker_F_break"},
+	
+	["Fspeaker4", "FbeaconB1l"],
+	["Fspeaker4", "FbeaconB1r"],
+	["Fspeaker4", "FbeaconB2l"],
+	["Fspeaker4", "FbeaconB2r"],
+	["Fspeaker4", "FbeaconBrig"],
+
+	["Fspeaker1l", "FbeaconBrig"],
+	["Fspeaker1r", "FbeaconBrig"],
+	["Fspeaker2l", "FbeaconBrig"],
+	["Fspeaker2r", "FbeaconBrig"],
+	["Fspeaker3",  "FbeaconBrig"],
+
+	//dampers
+	{"beamSpring":0, "beamDamp":"$=$weight*100"},
+	["Fspeaker2l", "FbeaconB1l"],
+	["Fspeaker2r", "FbeaconB1r"],
+	["Fspeaker2l", "FbeaconB2l"],
+	["Fspeaker2r", "FbeaconB2r"],
+	["Fspeaker3", "FbeaconB1l"],
+	["Fspeaker3", "FbeaconB1r"],
+	["Fspeaker3", "FbeaconB2l"],
+	["Fspeaker3", "FbeaconB2r"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT DAMPERS--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["Fspeaker1l", "roofrig"],
+	["Fspeaker1r", "roofrig"],
+	["Fspeaker2l", "roofrig"],
+	["Fspeaker2r", "roofrig"],
+	["Fspeaker3", "roofrig"],
+	["Fspeaker3", "roofrig"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_loudspeaker_F"},
+	["Fspeaker3","Fspeaker2l","Fspeaker1l"],
+	["Fspeaker3","Fspeaker1l","Fspeaker1r"],
+	["Fspeaker3","Fspeaker1r","Fspeaker2r"],
+	["Fspeaker3","Fspeaker2r","Fspeaker2l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_loudspeaker_F"},   
+	["Fspeaker1r","Fspeaker1l","Fspeaker2l","Fspeaker2r"],	
+        {"group":""},
+    ],
+},
+
+}

@@ -1,0 +1,337 @@
+{
+"legocar_trunk": {
+    "information":{
+        "name":"Trunk",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_trunk",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fascia_mount_R", "legocar_fascia_mount_R", "Rear Fascia Mount"],
+	["legocar_trunk_middle","legocar_trunk_middle", "Middle Trunk Panel"],
+	["legocar_trunk_chmsl","legocar_trunk_chmsl", "Sport Center High Mounted Stop Light"],
+	["legocar_trunk_spoiler","legocar_trunk_spoiler_tall", "Spoiler"],
+	["legocar_trunk_accessory_L","legocar_trunk_vent_L", "Left Trunk Accessory"],
+	["legocar_trunk_accessory_R","legocar_trunk_vent_R", "Right Trunk Accessory"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_trunk_bot",["legocar_trunk_B"],[], {"pos":{"x": 0.000, "y":1.750, "z":0.6},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1.00, "y":0.99, "z":0.99}}],
+	["legocar_trunk_L",  ["legocar_trunk_L"],[], {"pos":{"x": 0.500, "y":1.500, "z":0.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+	["legocar_trunk_R",  ["legocar_trunk_R"],[], {"pos":{"x":-0.500, "y":1.500, "z":0.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--TRUNK BOTTOM--
+	{"group":"legocar_trunk_B"},
+	//12 pieces, 5 nodes - 2.4 kg/node
+	{"nodeWeight": "$=$weight*2.4"},
+
+	["trunkB1l",  0.75, 1.53, 0.65],
+	["trunkB1r", -0.75, 1.53, 0.65],
+	["trunkB2l",  0.75, 2.00, 0.65],
+	["trunkB2r", -0.75, 2.00, 0.65],
+	//rigidifier
+	["trunkBrig", 0, 1.75, 0.25, {"collision":false, "selfCollision":false, "group":""}],
+
+
+	//--TRUNK LEFT SIDE--
+	{"group":"legocar_trunk_L"},
+	//8 pieces, 5 nodes - 1.6 kg/node
+	{"nodeWeight": "$=$weight*1.6"},
+
+	["trunkL1l",  0.75, 1.03, 0.75],
+	["trunkL1r",  0.25, 1.03, 0.75],
+	["trunkL2l",  0.75, 2.00, 0.75],
+	["trunkL2r",  0.25, 2.00, 0.75],
+	//rigidifier
+	["trunkLrig", 0.5, 1.5, 0.4, {"collision":false, "selfCollision":false, "group":""}],
+
+
+	//--TRUNK RIGHT SIDE--
+	{"group":"legocar_trunk_R"},
+	//8 pieces, 5 nodes - 1.6 kg/node
+	{"nodeWeight": "$=$weight*1.6"},
+
+	["trunkR1r", -0.75, 1.03, 0.75],
+	["trunkR1l", -0.25, 1.03, 0.75],
+	["trunkR2r", -0.75, 2.00, 0.75],
+	["trunkR2l", -0.25, 2.00, 0.75],
+	//rigidifier
+	["trunkRrig",-0.5, 1.5, 0.4, {"collision":false, "selfCollision":false, "group":""}],
+
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--TRUNK LEFT SIDE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//uniform structure
+	["trunkL1l", "trunkL1r"],
+	["trunkL2l", "trunkL2r"],
+	["trunkL1l", "trunkL2l"],
+	["trunkL1r", "trunkL2r"],
+	["trunkL1l", "trunkL2r"],
+	["trunkL2l", "trunkL1r"],
+
+	//rigidifier
+	["trunkL1l", "trunkLrig"],
+	["trunkL1r", "trunkLrig"],
+	["trunkL2l", "trunkLrig"],
+	["trunkL2r", "trunkLrig"],
+
+
+	//--TRUNK RIGHT SIDE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//uniform structure
+	["trunkR1l", "trunkR1r"],
+	["trunkR2l", "trunkR2r"],
+	["trunkR1l", "trunkR2l"],
+	["trunkR1r", "trunkR2r"],
+	["trunkR1l", "trunkR2r"],
+	["trunkR2l", "trunkR1r"],
+
+	//rigidifier
+	["trunkR1l", "trunkRrig"],
+	["trunkR1r", "trunkRrig"],
+	["trunkR2l", "trunkRrig"],
+	["trunkR2r", "trunkRrig"],
+
+
+	//--TRUNK BOTTOM--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*3001000", "beamDamp":"$=$weight*300"},
+
+	//uniform structure
+	["trunkB1l", "trunkB1r"],
+	["trunkB2l", "trunkB2r"],
+	["trunkB1l", "trunkB2l"],
+	["trunkB1r", "trunkB2r"],
+	["trunkB1l", "trunkB2r"],
+	["trunkB2l", "trunkB1r"],
+
+	//rigidifier
+	["trunkB1l", "trunkBrig"],
+	["trunkB1r", "trunkBrig"],
+	["trunkB2l", "trunkBrig"],
+	["trunkB2r", "trunkBrig"],
+
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//bottom to left side
+	{"beamSpring":"$=$weight*901000", "beamDamp":"$=$weight*90"},
+	{"breakGroup":"trunk_L_break"},
+
+	["trunkL1l", "trunkB1l"],
+	["trunkL1l", "trunkB2l"],
+	["trunkL1l", "trunkB1r"],
+	["trunkL1l", "trunkBrig"],
+
+	["trunkL1r", "trunkB1r"],
+	["trunkL1r", "trunkB2r"],
+	["trunkL1r", "trunkB1l"],
+	["trunkL1r", "trunkBrig"],
+
+	["trunkL2l", "trunkB2l"],
+	["trunkL2l", "trunkB1l"],
+	["trunkL2l", "trunkB2r"],
+	["trunkL2l", "trunkBrig"],
+
+	["trunkL2r", "trunkB2r"],
+	["trunkL2r", "trunkB1r"],
+	["trunkL2r", "trunkB2l"],
+	["trunkL2r", "trunkBrig"],
+
+	["trunkLrig", "trunkB1l"],
+	["trunkLrig", "trunkB2l"],
+	["trunkLrig", "trunkB1r"],
+	["trunkLrig", "trunkB2r"],
+
+
+	//bottom to right side
+	{"beamSpring":"$=$weight*901000", "beamDamp":"$=$weight*90"},
+	{"breakGroup":"trunk_R_break"},
+
+	["trunkR1l", "trunkB1l"],
+	["trunkR1l", "trunkB2l"],
+	["trunkR1l", "trunkB1r"],
+	["trunkR1l", "trunkBrig"],
+
+	["trunkR1r", "trunkB1r"],
+	["trunkR1r", "trunkB2r"],
+	["trunkR1r", "trunkB1l"],
+	["trunkR1r", "trunkBrig"],
+
+	["trunkR2l", "trunkB2l"],
+	["trunkR2l", "trunkB1l"],
+	["trunkR2l", "trunkB2r"],
+	["trunkR2l", "trunkBrig"],
+
+	["trunkR2r", "trunkB2r"],
+	["trunkR2r", "trunkB1r"],
+	["trunkR2r", "trunkB2l"],
+	["trunkR2r", "trunkBrig"],
+
+	["trunkRrig", "trunkB1l"],
+	["trunkRrig", "trunkB2l"],
+	["trunkRrig", "trunkB1r"],
+	["trunkRrig", "trunkB2r"],
+
+
+	//left to quarter panel
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"breakGroup":"trunk_quarterpanel_L_break"},
+	
+	["trunkL1l", "Lqpan1l"],
+	["trunkL1l", "Lqpan2r"],
+	["trunkL1l", "Lqpan2l"],
+	["trunkL1l", "Lqpanrig"],
+
+	["trunkL1r", "Lqpan2l"],
+	["trunkL1r", "Lqpan1r"],
+	["trunkL1r", "Lqpan2r"],
+	["trunkL1r", "Lqpanrig"],
+
+	["trunkL2l", "Lqpan1l"],
+	["trunkL2l", "Lqpan2r"],
+	["trunkL2l", "Lqpan2l"],
+	["trunkL2l", "Lqpanrig"],
+
+	["trunkL2r", "Lqpan2l"],
+	["trunkL2r", "Lqpan1r"],
+	["trunkL2r", "Lqpan2r"],
+	["trunkL2r", "Lqpanrig"],
+
+	["trunkLrig", "Lqpan1l"],
+	["trunkLrig", "Lqpan1r"],
+	["trunkLrig", "Lqpan2l"],
+	["trunkLrig", "Lqpan2r"],
+
+
+	//right to quarter panel
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"breakGroup":"trunk_quarterpanel_R_break"},
+	
+	["trunkR1l", "Rqpan1l"],
+	["trunkR1l", "Rqpan2r"],
+	["trunkR1l", "Rqpan2l"],
+	["trunkR1l", "Rqpanrig"],
+
+	["trunkR1r", "Rqpan2l"],
+	["trunkR1r", "Rqpan1r"],
+	["trunkR1r", "Rqpan2r"],
+	["trunkR1r", "Rqpanrig"],
+
+	["trunkR2l", "Rqpan1l"],
+	["trunkR2l", "Rqpan2r"],
+	["trunkR2l", "Rqpan2l"],
+	["trunkR2l", "Rqpanrig"],
+
+	["trunkR2r", "Rqpan2l"],
+	["trunkR2r", "Rqpan1r"],
+	["trunkR2r", "Rqpan2r"],
+	["trunkR2r", "Rqpanrig"],
+
+	["trunkRrig", "Rqpan1l"],
+	["trunkRrig", "Rqpan1r"],
+	["trunkRrig", "Rqpan2l"],
+	["trunkRrig", "Rqpan2r"],
+
+
+	//bottom to rear fascia mount
+	{"beamSpring":"$=$weight*601000", "beamDamp":"$=$weight*60"},
+	{"breakGroup":"trunk_fascia_mount_R_break"},
+	{"optional":true},
+
+	["trunkB1l", "rfscmnt1l"],
+	["trunkB1l", "rfscmnt3r"],
+	["trunkB1l", "rfscmnt4l"],
+
+	["trunkB1r", "rfscmnt1r"],
+	["trunkB1r", "rfscmnt3l"],
+	["trunkB1r", "rfscmnt4r"],
+
+	["trunkB2l", "rfscmnt3l"],
+	["trunkB2l", "rfscmnt1r"],
+	["trunkB2l", "rfscmnt2l"],
+
+	["trunkB2r", "rfscmnt3r"],
+	["trunkB2r", "rfscmnt1l"],
+	["trunkB2r", "rfscmnt2r"],
+
+	["trunkBrig", "rfscmnt1l"],
+	["trunkBrig", "rfscmnt1r"],
+	["trunkBrig", "rfscmnt2l"],
+	["trunkBrig", "rfscmnt2r"],
+
+
+	{"optional":false},
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*901000", "beamDamp":"$=$weight*90"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["trunkL1l", "trunkBrig"],
+	["trunkL1r", "trunkBrig"],
+	["trunkL2l", "trunkBrig"],
+	["trunkL2r", "trunkBrig"],
+
+	["trunkR1l", "trunkBrig"],
+	["trunkR1r", "trunkBrig"],
+	["trunkR2l", "trunkBrig"],
+	["trunkR2r", "trunkBrig"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	//breakable back collision triangles
+        {"group":"trunk_L_break"},
+	{"breakGroup":"trunk_L_break"},
+	["trunkL1l","trunkB1l","trunkL2l"],
+	["trunkB1l","trunkB2l","trunkL2l"],
+	["trunkB2l","trunkL2r","trunkL2l"],
+	["trunkB2l","trunkB2r","trunkL2r"],
+
+	{"group":"trunk_R_break"},
+	{"breakGroup":"trunk_R_break"},
+	["trunkR2l","trunkB2r","trunkR2r"],
+	["trunkB2r","trunkB1r","trunkR2r"],
+	["trunkB1r","trunkR1r","trunkR2r"],
+	["trunkB2l","trunkB2r","trunkR2l"],
+
+        {"breakGroup":""},
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_trunk_B"},
+	["trunkB2l","trunkB2r","trunkB1r","trunkB1l"],
+	{"group":"legocar_trunk_L"},
+	["trunkL1r","trunkL1l","trunkL2l","trunkL2r"],
+	{"group":"legocar_trunk_R"},
+	["trunkR1r","trunkR1l","trunkR2l","trunkR2r"],
+        {"group":""},
+    ],
+},
+
+}

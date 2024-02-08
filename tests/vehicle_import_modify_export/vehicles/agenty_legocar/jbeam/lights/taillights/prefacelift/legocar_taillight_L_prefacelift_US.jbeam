@@ -1,0 +1,238 @@
+{
+"legocar_taillight_L_prefacelift": {
+    "information":{
+        "name":"Left Prefacelift Reverse Light (US)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_taillight_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"taillight_L_break", "deformMaterialBase":"legocar_taillight_reverse_stock", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_taillight_reverse_L_stock", ["legocar_taillight_L"],[], {"pos":{"x": 0.375, "y":1.850, "z":0.475},"rot":{"x":-90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+	{
+            "lightInnerAngle":0,
+            "lightOuterAngle":150,
+            "lightRange":10,
+            "lightColor":{"r":252, "g":252, "b":252, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleReverseLightFlare",
+            "cookieName":"art/special/BNG_light_cookie_headlight.dds"
+            "texSize":512,
+            "shadowSoftness":0.5,
+        },
+	["reverse_wigwag_L","SPOTLIGHT", "Ltllight2r", "Ltllight1r", "Ltllight2l",{"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0.1},"flareScale":0.05,"lightBrightness":0.06,"deformGroup":"taillight_L_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_taillight_L"},
+	["Ltllight1r", 0.280, 1.85, 0.380],
+	["Ltllight2r", 0.280, 1.85, 0.570],
+	["Ltllight1l", 0.470, 1.85, 0.380],
+	["Ltllight2l", 0.470, 1.85, 0.570],
+	["Ltllight0",  0.375, 2.00, 0.475],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["Ltllight1l", "Ltllight1r"],
+	["Ltllight2l", "Ltllight2r"],
+	["Ltllight1l", "Ltllight2r"],
+	["Ltllight2l", "Ltllight1r"],
+	["Ltllight1l", "Ltllight2l"],
+	["Ltllight1r", "Ltllight2r"],
+
+	//tip
+	["Ltllight1l", "Ltllight0"],
+	["Ltllight1r", "Ltllight0"],
+	["Ltllight2l", "Ltllight0"],
+	["Ltllight2r", "Ltllight0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*91000", "beamDamp":"$=$weight*9"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"taillight_L_break"},
+	{"deformGroup":"taillight_L_break"},
+	
+	["Ltllight1l", "Rfasc1l"],
+	["Ltllight1l", "Rfasc1r"],
+	["Ltllight1l", "Rfasc2l"],
+
+	["Ltllight2l", "Rfasc1l"],
+	["Ltllight2l", "Rfasc2r"],
+	["Ltllight2l", "Rfasc2l"],
+
+	["Ltllight1r", "Rfasc1l"],
+	["Ltllight1r", "Rfasc1r"],
+	["Ltllight1r", "Rfasc2l"],
+
+	["Ltllight2r", "Rfasc1l"],
+	["Ltllight2r", "Rfasc2r"],
+	["Ltllight2r", "Rfasc2l"],
+
+	["Ltllight0", "Rfasc1l"],
+	["Ltllight0", "Rfasc1r"],
+	["Ltllight0", "Rfasc2l"],
+
+	//stiffeners
+	["Ltllight1l", "Rfascrig"],
+	["Ltllight1r", "Rfascrig"],
+	["Ltllight2l", "Rfascrig"],
+	["Ltllight2r", "Rfascrig"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_taillight_L"},
+	["Ltllight0","Ltllight2l","Ltllight1l"],
+	["Ltllight0","Ltllight2r","Ltllight2l"],
+	["Ltllight0","Ltllight1r","Ltllight2r"],
+	["Ltllight0","Ltllight1l","Ltllight1r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_taillight_L"},   
+	["Ltllight1r","Ltllight1l","Ltllight2l","Ltllight2r"],	
+        {"group":""},
+    ],
+},
+
+"legocar_taillight_L_prefacelift_smoked": {
+    "information":{
+        "name":"Left Prefacelift Smoked Reverse Light (US)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_taillight_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"taillight_L_break", "deformMaterialBase":"legocar_taillight_reverse_smoked", "deformMaterialDamaged":"lego_transcol_black"},
+	["legocar_taillight_reverse_L_smoked", ["legocar_taillight_L"],[], {"pos":{"x": 0.375, "y":1.850, "z":0.475},"rot":{"x":-90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+	{
+            "lightInnerAngle":0,
+            "lightOuterAngle":150,
+            "lightRange":10,
+            "lightColor":{"r":100, "g":94, "b":81, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleReverseLightFlare",
+            "cookieName":"art/special/BNG_light_cookie_headlight.dds"
+            "texSize":512,
+            "shadowSoftness":0.5,
+        },
+	["reverse_wigwag_L","SPOTLIGHT", "Ltllight2r", "Ltllight1r", "Ltllight2l",{"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0.1},"flareScale":0.05,"lightBrightness":0.03,"deformGroup":"taillight_L_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_taillight_L"},
+	["Ltllight1r", 0.280, 1.85, 0.380],
+	["Ltllight2r", 0.280, 1.85, 0.570],
+	["Ltllight1l", 0.470, 1.85, 0.380],
+	["Ltllight2l", 0.470, 1.85, 0.570],
+	["Ltllight0",  0.375, 2.00, 0.475],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["Ltllight1l", "Ltllight1r"],
+	["Ltllight2l", "Ltllight2r"],
+	["Ltllight1l", "Ltllight2r"],
+	["Ltllight2l", "Ltllight1r"],
+	["Ltllight1l", "Ltllight2l"],
+	["Ltllight1r", "Ltllight2r"],
+
+	//tip
+	["Ltllight1l", "Ltllight0"],
+	["Ltllight1r", "Ltllight0"],
+	["Ltllight2l", "Ltllight0"],
+	["Ltllight2r", "Ltllight0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*91000", "beamDamp":"$=$weight*9"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"taillight_L_break"},
+	{"deformGroup":"taillight_L_break"},
+	
+	["Ltllight1l", "Rfasc1l"],
+	["Ltllight1l", "Rfasc1r"],
+	["Ltllight1l", "Rfasc2l"],
+
+	["Ltllight2l", "Rfasc1l"],
+	["Ltllight2l", "Rfasc2r"],
+	["Ltllight2l", "Rfasc2l"],
+
+	["Ltllight1r", "Rfasc1l"],
+	["Ltllight1r", "Rfasc1r"],
+	["Ltllight1r", "Rfasc2l"],
+
+	["Ltllight2r", "Rfasc1l"],
+	["Ltllight2r", "Rfasc2r"],
+	["Ltllight2r", "Rfasc2l"],
+
+	["Ltllight0", "Rfasc1l"],
+	["Ltllight0", "Rfasc1r"],
+	["Ltllight0", "Rfasc2l"],
+
+	//stiffeners
+	["Ltllight1l", "Rfascrig"],
+	["Ltllight1r", "Rfascrig"],
+	["Ltllight2l", "Rfascrig"],
+	["Ltllight2r", "Rfascrig"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_taillight_L"},
+	["Ltllight0","Ltllight2l","Ltllight1l"],
+	["Ltllight0","Ltllight2r","Ltllight2l"],
+	["Ltllight0","Ltllight1r","Ltllight2r"],
+	["Ltllight0","Ltllight1l","Ltllight1r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_taillight_L"},   
+	["Ltllight1r","Ltllight1l","Ltllight2l","Ltllight2r"],	
+        {"group":""},
+    ],
+},
+
+}

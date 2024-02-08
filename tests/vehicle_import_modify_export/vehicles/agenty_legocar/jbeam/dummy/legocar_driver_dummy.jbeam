@@ -1,0 +1,266 @@
+//torso weight 7kg
+//hips weight 6kg
+//legs weight 3kg each
+//arms weight 3kg each
+//head weight 6kg
+//total 62kg with 2x scale
+
+{
+"legocar_driver_camera": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Driver Camera Only"
+    },
+    "slotType" : "legocar_driver",
+    "camerasInternal":[
+        ["type", "x", "y", "z", "fov", "id1:", "id2:", "id3:", "id4:", "id5:", "id6:"],
+        {"nodeWeight":2},
+	{"beamSpring":50000,"beamDamp":100},
+        {"selfCollision":false},
+        {"collision":false},
+        //dash cam
+        ["dash", 0, -0.125,  "$=$sit_height == nil and 1.1 or $sit_height+1.1", 55, "chassis2ll","chassis2rr","chassis7ll","chassis7rr","chassis3l","chassis3r", {"beamDeform":5001000,"beamStrength":"FLT_MAX"}],
+    ],
+},
+    
+"legocar_driver_dummy": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Dummy Driver"
+    },
+    "slotType" : "legocar_driver",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_driver_dummy_camera_type","legocar_driver_dummy_camera_car", "Driver Camera Type"],
+	["legocar_driver_dummy_animation","legocar_driver_dummy_animation", "Dummy Animation"],
+	["skin_legodummy_face","legodummy_face_skin_neutral", "Dummy Face", {"coreSlot":true}],
+	["legodummy_torso","legodummy_torso", "Torso",   {"coreSlot":true, "nodeMove":{"x":0, "y":-0.125, "z":"$=$sit_height == nil and 0.425 or $sit_height+0.425"}}],
+	["legodummy_hips", "legodummy_hips", "Hips",     {"coreSlot":true, "nodeMove":{"x":0, "y":-0.125, "z":"$=$sit_height == nil and 0.425 or $sit_height+0.425"}}],
+	["legodummy_head", "legodummy_head", "Head",     {"coreSlot":true, "nodeMove":{"x":0, "y":-0.125, "z":"$=$sit_height == nil and 0.425 or $sit_height+0.425"}}],
+	["legodummy_arm_L","legodummy_arm_L", "Left Arm",{"coreSlot":true, "nodeMove":{"x":0, "y":-0.125, "z":"$=$sit_height == nil and 0.425 or $sit_height+0.425"}}],
+	["legodummy_arm_R","legodummy_arm_R","Right Arm",{"coreSlot":true, "nodeMove":{"x":0, "y":-0.125, "z":"$=$sit_height == nil and 0.425 or $sit_height+0.425"}}],
+	["legodummy_leg_L","legodummy_leg_L", "Left Leg",{"coreSlot":true, "nodeMove":{"x":0, "y":-0.125, "z":"$=$sit_height == nil and 0.425 or $sit_height+0.425"}}],
+	["legodummy_leg_R","legodummy_leg_R","Right Leg",{"coreSlot":true, "nodeMove":{"x":0, "y":-0.125, "z":"$=$sit_height == nil and 0.425 or $sit_height+0.425"}}],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+	["$fig_weight",   "range", "kg","Driver", 2,     1,     5,      "Weight",                   "Set the weight of the dummy (default is 62kg)",        {"minDis":31,  "maxDis":155,  "stepDis":0.01}],
+	["$fig_strength", "range", "x", "Driver", 40000, 10000, 400000, "Connection Strength Scale","Scale of the force it takes to separate 2 pieces",     {"minDis":0.25,"maxDis":10.00,"stepDis":0.01}],
+	["$seatbelt",     "range", "x", "Driver", 10000, 2500,  100000, "Seatbelt Strength Scale",  "Scale of the force it takes for the dummy to fall off",{"minDis":0.25, "maxDis":10, "stepDis":0.01}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+
+	//--ATTACH DRIVER--
+	{"beamSpring":"$=$weight*$fig_weight*41000", "beamDamp":"$=$weight*$fig_weight*4"},
+	{"beamDeform":"$seatbelt", "beamStrength":"$seatbelt"},
+	{"optional":true},
+
+	//left leg
+	{"breakGroup":"seatbelt_L_break"},
+
+	["foot2l", "chassis2l", {"name": "seatbelt_L"}],
+	["foot2l", "chassis2ll"],
+	["foot2l", "chassis3l"],
+	["foot2l", "chassis1l"],
+	["foot2l", "chassis5"],
+
+	["foot1l", "chassis2l"],
+	["foot1l", "chassis2ll"],
+	["foot1l", "chassis3l"],
+	["foot1l", "chassis1l"],
+	["foot1l", "chassis5"],
+
+	["foot4l", "chassis2l"],
+	["foot4l", "chassis2ll"],
+	["foot4l", "chassis3l"],
+	["foot4l", "chassis1l"],
+	["foot4l", "chassis5"],
+
+	["foot3l", "chassis2l"],
+	["foot3l", "chassis2ll"],
+	["foot3l", "chassis3l"],
+	["foot3l", "chassis1l"],
+	["foot3l", "chassis5"],
+
+	//right leg
+	{"breakGroup":"seatbelt_R_break"},
+
+	["foot1r", "chassis2r", {"name": "seatbelt_R"}],
+	["foot1r", "chassis2rr"],
+	["foot1r", "chassis3r"],
+	["foot1r", "chassis1r"],
+	["foot1r", "chassis5"],
+
+	["foot2r", "chassis2r"],
+	["foot2r", "chassis2rr"],
+	["foot2r", "chassis3r"],
+	["foot2r", "chassis1r"],
+	["foot2r", "chassis5"],
+
+	["foot3r", "chassis2r"],
+	["foot3r", "chassis2rr"],
+	["foot3r", "chassis3r"],
+	["foot3r", "chassis1r"],
+	["foot3r", "chassis5"],
+
+	["foot4r", "chassis2r"],
+	["foot4r", "chassis2rr"],
+	["foot4r", "chassis3r"],
+	["foot4r", "chassis1r"],
+	["foot4r", "chassis5"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT BEAMS--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//legs to chassis
+	{"beamSpring":"$=$weight*$fig_weight*101000", "beamDamp":"$=$weight*$fig_weight*10"},
+
+	["leg4l", "chassis2l"],
+	["leg4l", "chassis2ll"],
+	["leg4l", "chassis3l"],
+	["leg4l", "chassis1l"],
+	["leg4l", "chassis5"],
+
+	["leg3l", "chassis2l"],
+	["leg3l", "chassis2ll"],
+	["leg3l", "chassis3l"],
+	["leg3l", "chassis1l"],
+	["leg3l", "chassis5"],
+
+	["leg4r", "chassis2r"],
+	["leg4r", "chassis2rr"],
+	["leg4r", "chassis3r"],
+	["leg4r", "chassis1r"],
+	["leg4r", "chassis5"],
+
+	["leg3r", "chassis2r"],
+	["leg3r", "chassis2rr"],
+	["leg3r", "chassis3r"],
+	["leg3r", "chassis1r"],
+	["leg3r", "chassis5"],
+
+
+	//ass to chassis
+	{"beamSpring":"$=$weight*$fig_weight*51000", "beamDamp":"$=$weight*$fig_weight*5"},
+
+	["hips1r", "chassis7rr"],
+	["hips2r", "chassis7rr"],
+	["hips4r", "chassis7rr"],
+
+	["hips1l", "chassis7ll"],
+	["hips2l", "chassis7ll"],
+	["hips4l", "chassis7ll"],
+
+	["hips1l", "chassis7rr"],
+	["hips2l", "chassis7rr"],
+
+	["hips1r", "chassis7ll"],
+	["hips2r", "chassis7ll"],
+	
+
+	//torso dampers
+	{"beamSpring":0, "beamDamp":"$=$weight*$fig_weight*25"},
+	["torso5", "chassis2rr"],
+	["torso5", "chassis7rr"],
+	["torso5", "chassis2ll"],
+	["torso5", "chassis7ll"],
+
+	["torso6", "chassis2rr"],
+	["torso6", "chassis7rr"],
+	["torso6", "chassis2ll"],
+	["torso6", "chassis7ll"],
+
+
+	//arm dampers
+	{"beamSpring":0, "beamDamp":"$=$weight*$fig_weight*50"},
+	["arm1r", "chassis2rr"],
+	["arm1r", "chassis7rr"],
+	["arm1r", "chassis2ll"],
+	["arm1r", "chassis7ll"],
+
+	["arm1l", "chassis2rr"],
+	["arm1l", "chassis7rr"],
+	["arm1l", "chassis2ll"],
+	["arm1l", "chassis7ll"],
+
+	["arm2r", "chassis2rr"],
+	["arm2r", "chassis7rr"],
+	["arm2r", "chassis2ll"],
+	["arm2r", "chassis7ll"],
+
+	["arm2l", "chassis2rr"],
+	["arm2l", "chassis7rr"],
+	["arm2l", "chassis2ll"],
+	["arm2l", "chassis7ll"],
+
+	["arm3r", "chassis2rr"],
+	["arm3r", "chassis7rr"],
+	["arm3r", "chassis2ll"],
+	["arm3r", "chassis7ll"],
+
+	["arm3l", "chassis2rr"],
+	["arm3l", "chassis7rr"],
+	["arm3l", "chassis2ll"],
+	["arm3l", "chassis7ll"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+},
+
+"legocar_driver_dummy_animation": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Driving Animation"
+    },
+    "slotType" : "legocar_driver_dummy_animation",
+    "controller": [
+        ["fileName"],
+        ["legocar_driver", {}],
+    ], 
+    "legocar_driver":{
+	"axisBeams": ["neck", "leg_L", "leg_R", "spine", "seatbelt_L", "seatbelt_R"],
+	"breakBeams":["arm_L", "arm_R", "head", "dashpanel", "steeringcolumn"]
+    },
+},
+
+"legocar_driver_dummy_camera_car": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Attached to Car"
+    },
+    "slotType" : "legocar_driver_dummy_camera_type",
+    "camerasInternal":[
+        ["type", "x", "y", "z", "fov", "id1:", "id2:", "id3:", "id4:", "id5:", "id6:"],
+        {"nodeWeight":2},
+	{"beamSpring":50000,"beamDamp":100},
+        {"selfCollision":false},
+        {"collision":false},
+        //dash cam
+        ["dash", 0, -0.250, "$=$sit_height == nil and 1.1 or $sit_height+1.1", 55, "chassis2ll","chassis2rr","chassis7ll","chassis7rr","chassis3l","chassis3r", {"beamDeform":5001000,"beamStrength":"FLT_MAX"}],
+    ],
+},
+"legocar_driver_dummy_camera_head": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Attached to Driver Head"
+    },
+    "slotType" : "legocar_driver_dummy_camera_type",
+    "camerasInternal":[
+        ["type", "x", "y", "z", "fov", "id1:", "id2:", "id3:", "id4:", "id5:", "id6:"],
+        {"nodeWeight": "$=$fig_weight*0.15"},
+	{"beamSpring":"$=$fig_weight*101000", "beamDamp":"$=$fig_weight*10"},
+        {"selfCollision":false},
+        {"collision":false},
+        //dash cam
+        ["dash", 0, -0.250,  "$=$sit_height == nil and 1.1 or $sit_height+1.1", 55, "head1l","head1r","head2l","head2r","head3l","head3r", {"beamDeform":"FLT_MAX","beamStrength":"FLT_MAX"}],
+    ],
+},
+
+
+}

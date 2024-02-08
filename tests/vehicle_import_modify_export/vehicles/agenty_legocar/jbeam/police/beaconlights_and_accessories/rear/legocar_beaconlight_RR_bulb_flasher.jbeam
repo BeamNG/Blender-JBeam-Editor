@@ -1,0 +1,341 @@
+{
+"legocar_beaconlight_RR_bulb_red_flasher": {
+    "information":{
+        "name":"Flat Red LED Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_beaconlight_RR_bulb",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"beaconlight_RR_break", "deformMaterialBase":"legocar_beacon_flasher_RR_red", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_beacon_flasher_RR_red",["legocar_beaconlight_RR"],[], {"pos":{"x": 0.000, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+	{
+            "lightRange":15,
+            "lightBrightness": 1,
+            "lightColor":{"r":201, "g":26, "b":9, "a":555},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.0,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_EU_R", "POINTLIGHT",  "RRbeacon2r","RRbeacon2l","RRbeacon1r", {"x": 60,"y":90,"z": 2.50}, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.10},"deformGroup":"beaconlight_RR_break"}],
+        ["cop_EU_R", "POINTLIGHT",  "RRbeacon2l","RRbeacon2r","RRbeacon1l", {"x":-60,"y":90,"z":-2.50}, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z": 0.10},"deformGroup":"beaconlight_RR_break"}],
+	{"lightRange":0},
+	["cop_EU_R", "POINTLIGHT",  "RRbeacon2l","RRbeacon2r","RRbeacon1l", {"x": 0, "y":0, "z": 0.00}, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z": 0.05},"deformGroup":"beaconlight_RR_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//beacon light
+	{"group":"legocar_beaconlight_RR"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RRbeacon1l",  0.095, 0.280, 1.75],
+	["RRbeacon1r", -0.095, 0.280, 1.75],
+	["RRbeacon2l",  0.095, 0.470, 1.75],
+	["RRbeacon2r", -0.095, 0.470, 1.75],
+	//rigidifier
+	["RRbeacon0",   0.000, 0.375, 1.60, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["RRbeacon1l", "RRbeacon1r"],
+	["RRbeacon2l", "RRbeacon2r"],
+	["RRbeacon1l", "RRbeacon2r"],
+	["RRbeacon2l", "RRbeacon1r"],
+	["RRbeacon1l", "RRbeacon2l"],
+	["RRbeacon1r", "RRbeacon2r"],
+
+	//tip
+	["RRbeacon1l", "RRbeacon0"],
+	["RRbeacon1r", "RRbeacon0"],
+	["RRbeacon2l", "RRbeacon0"],
+	["RRbeacon2r", "RRbeacon0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"beaconlight_RR_break"},
+	{"deformGroup":"beaconlight_RR_break"},
+	
+	["RRbeacon1l", "roofR1l"],
+	["RRbeacon1l", "roofR1r"],
+	["RRbeacon1l", "roofR2r"],
+	["RRbeacon1l", "roofRrig"],
+
+	["RRbeacon1r", "roofR1l"],
+	["RRbeacon1r", "roofR1r"],
+	["RRbeacon1r", "roofR2r"],
+	["RRbeacon1r", "roofRrig"],
+
+	["RRbeacon2l", "roofR2l"],
+	["RRbeacon2l", "roofR1r"],
+	["RRbeacon2l", "roofR2r"],
+	["RRbeacon2l", "roofRrig"],
+
+	["RRbeacon2r", "roofR2l"],
+	["RRbeacon2r", "roofR1r"],
+	["RRbeacon2r", "roofR2r"],
+	["RRbeacon2r", "roofRrig"],
+
+	["RRbeacon0", "roofR1l"],
+	["RRbeacon0", "roofR1r"],
+	["RRbeacon0", "roofR2l"],
+	["RRbeacon0", "roofR2r"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_beaconlight_RR"},   
+	["RRbeacon1r","RRbeacon1l","RRbeacon2l","RRbeacon2r"],	
+        {"group":""},
+    ],
+},
+
+"legocar_beaconlight_RR_bulb_blue_flasher": {
+    "information":{
+        "name":"Flat Blue LED Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_beaconlight_RR_bulb",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"beaconlight_RR_break", "deformMaterialBase":"legocar_beacon_flasher_RR_blue", "deformMaterialDamaged":"lego_transcol_blue"},
+	["legocar_beacon_flasher_RR_blue",["legocar_beaconlight_RR"],[], {"pos":{"x": 0.000, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+	{
+            "lightRange":15,
+            "lightBrightness": 1,
+            "lightColor":{"r":0, "g":32, "b":160, "a":555},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.0,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_EU_R", "POINTLIGHT",  "RRbeacon2r","RRbeacon2l","RRbeacon1r", {"x": 60,"y":90,"z": 2.50}, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.10},"deformGroup":"beaconlight_RR_break"}],
+        ["cop_EU_R", "POINTLIGHT",  "RRbeacon2l","RRbeacon2r","RRbeacon1l", {"x":-60,"y":90,"z":-2.50}, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z": 0.10},"deformGroup":"beaconlight_RR_break"}],
+	{"lightRange":0},
+	["cop_EU_R", "POINTLIGHT",  "RRbeacon2l","RRbeacon2r","RRbeacon1l", {"x": 0, "y":0, "z": 0.00}, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z": 0.05},"deformGroup":"beaconlight_RR_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//beacon light
+	{"group":"legocar_beaconlight_RR"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RRbeacon1l",  0.095, 0.280, 1.75],
+	["RRbeacon1r", -0.095, 0.280, 1.75],
+	["RRbeacon2l",  0.095, 0.470, 1.75],
+	["RRbeacon2r", -0.095, 0.470, 1.75],
+	//rigidifier
+	["RRbeacon0",   0.000, 0.375, 1.60, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["RRbeacon1l", "RRbeacon1r"],
+	["RRbeacon2l", "RRbeacon2r"],
+	["RRbeacon1l", "RRbeacon2r"],
+	["RRbeacon2l", "RRbeacon1r"],
+	["RRbeacon1l", "RRbeacon2l"],
+	["RRbeacon1r", "RRbeacon2r"],
+
+	//tip
+	["RRbeacon1l", "RRbeacon0"],
+	["RRbeacon1r", "RRbeacon0"],
+	["RRbeacon2l", "RRbeacon0"],
+	["RRbeacon2r", "RRbeacon0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"beaconlight_RR_break"},
+	{"deformGroup":"beaconlight_RR_break"},
+	
+	["RRbeacon1l", "roofR1l"],
+	["RRbeacon1l", "roofR1r"],
+	["RRbeacon1l", "roofR2r"],
+	["RRbeacon1l", "roofRrig"],
+
+	["RRbeacon1r", "roofR1l"],
+	["RRbeacon1r", "roofR1r"],
+	["RRbeacon1r", "roofR2r"],
+	["RRbeacon1r", "roofRrig"],
+
+	["RRbeacon2l", "roofR2l"],
+	["RRbeacon2l", "roofR1r"],
+	["RRbeacon2l", "roofR2r"],
+	["RRbeacon2l", "roofRrig"],
+
+	["RRbeacon2r", "roofR2l"],
+	["RRbeacon2r", "roofR1r"],
+	["RRbeacon2r", "roofR2r"],
+	["RRbeacon2r", "roofRrig"],
+
+	["RRbeacon0", "roofR1l"],
+	["RRbeacon0", "roofR1r"],
+	["RRbeacon0", "roofR2l"],
+	["RRbeacon0", "roofR2r"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_beaconlight_RR"},   
+	["RRbeacon1r","RRbeacon1l","RRbeacon2l","RRbeacon2r"],	
+        {"group":""},
+    ],
+},
+
+"legocar_beaconlight_RR_bulb_orange_flasher": {
+    "information":{
+        "name":"Flat Orange LED Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_beaconlight_RR_bulb",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"beaconlight_RR_break", "deformMaterialBase":"legocar_beacon_flasher_RR_orange", "deformMaterialDamaged":"lego_transcol_orange"},
+	["legocar_beacon_flasher_RR_orange",["legocar_beaconlight_RR"],[], {"pos":{"x": 0.000, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightRange":15,
+            "lightBrightness": 1,
+            "lightColor":{"r":240, "g":143, "b":28, "a":555},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.0,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_EU_R", "POINTLIGHT",  "RRbeacon2r","RRbeacon2l","RRbeacon1r", {"x": 60,"y":90,"z": 2.50}, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.10},"deformGroup":"beaconlight_RR_break"}],
+        ["cop_EU_R", "POINTLIGHT",  "RRbeacon2l","RRbeacon2r","RRbeacon1l", {"x":-60,"y":90,"z":-2.50}, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z": 0.10},"deformGroup":"beaconlight_RR_break"}],
+	{"lightRange":0},
+	["cop_EU_R", "POINTLIGHT",  "RRbeacon2l","RRbeacon2r","RRbeacon1l", {"x": 0, "y":0, "z": 0.00}, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z": 0.05},"deformGroup":"beaconlight_RR_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//beacon light
+	{"group":"legocar_beaconlight_RR"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RRbeacon1l",  0.095, 0.280, 1.75],
+	["RRbeacon1r", -0.095, 0.280, 1.75],
+	["RRbeacon2l",  0.095, 0.470, 1.75],
+	["RRbeacon2r", -0.095, 0.470, 1.75],
+	//rigidifier
+	["RRbeacon0",   0.000, 0.375, 1.60, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["RRbeacon1l", "RRbeacon1r"],
+	["RRbeacon2l", "RRbeacon2r"],
+	["RRbeacon1l", "RRbeacon2r"],
+	["RRbeacon2l", "RRbeacon1r"],
+	["RRbeacon1l", "RRbeacon2l"],
+	["RRbeacon1r", "RRbeacon2r"],
+
+	//tip
+	["RRbeacon1l", "RRbeacon0"],
+	["RRbeacon1r", "RRbeacon0"],
+	["RRbeacon2l", "RRbeacon0"],
+	["RRbeacon2r", "RRbeacon0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"beaconlight_RR_break"},
+	{"deformGroup":"beaconlight_RR_break"},
+	
+	["RRbeacon1l", "roofR1l"],
+	["RRbeacon1l", "roofR1r"],
+	["RRbeacon1l", "roofR2r"],
+	["RRbeacon1l", "roofRrig"],
+
+	["RRbeacon1r", "roofR1l"],
+	["RRbeacon1r", "roofR1r"],
+	["RRbeacon1r", "roofR2r"],
+	["RRbeacon1r", "roofRrig"],
+
+	["RRbeacon2l", "roofR2l"],
+	["RRbeacon2l", "roofR1r"],
+	["RRbeacon2l", "roofR2r"],
+	["RRbeacon2l", "roofRrig"],
+
+	["RRbeacon2r", "roofR2l"],
+	["RRbeacon2r", "roofR1r"],
+	["RRbeacon2r", "roofR2r"],
+	["RRbeacon2r", "roofRrig"],
+
+	["RRbeacon0", "roofR1l"],
+	["RRbeacon0", "roofR1r"],
+	["RRbeacon0", "roofR2l"],
+	["RRbeacon0", "roofR2r"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_beaconlight_RR"},   
+	["RRbeacon1r","RRbeacon1l","RRbeacon2l","RRbeacon2r"],	
+        {"group":""},
+    ],
+},
+
+}

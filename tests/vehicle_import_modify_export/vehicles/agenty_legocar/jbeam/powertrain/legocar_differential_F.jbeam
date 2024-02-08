@@ -1,0 +1,154 @@
+{
+"legocar_differential_F_open": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible Open Front Differential",
+    },
+    "slotType" : "legocar_differential_F",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_finaldrive_F","legocar_finaldrive_F", "Front Final Drive", {"coreSlot":true}],
+	["legocar_halfshafts_F","legocar_halfshafts_F", "Front Halfshafts"],
+    ],
+    "powertrain" : [
+        ["type", "name", "inputName", "inputIndex"],
+        ["differential", "differential_F", "driveshaft_F", 1, {"diffType":"open", "uiName":"Front Differential","defaultVirtualInertia":0.25}],
+    ],
+    "differential_F": {
+        "friction": 0,
+        "dynamicFriction": 0,
+        "torqueLossCoef": 0,
+    },
+},
+"legocar_differential_F_welded": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible Welded Front Differential",
+    },
+    "slotType" : "legocar_differential_F",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_finaldrive_F","legocar_finaldrive_F", "Front Final Drive", {"coreSlot":true}],
+	["legocar_halfshafts_F","legocar_halfshafts_F", "Front Halfshafts"],
+    ],
+    "powertrain" : [
+        ["type", "name", "inputName", "inputIndex"],
+        ["differential", "differential_F", "driveshaft_F", 1, {"diffType":"locked", "lockTorque":10000, "uiName":"Front Differential","defaultVirtualInertia":0.25}],
+    ],
+    "differential_F": {
+        "friction": 0,
+        "dynamicFriction": 0,
+        "torqueLossCoef": 0,
+    },
+},
+"legocar_differential_F_viscous": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible Viscous Front Differential",
+    },
+    "slotType" : "legocar_differential_F",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_finaldrive_F","legocar_finaldrive_F", "Front Final Drive", {"coreSlot":true}],
+	["legocar_halfshafts_F","legocar_halfshafts_F", "Front Halfshafts"],
+    ],
+    "powertrain" : [
+        ["type", "name", "inputName", "inputIndex"],
+        ["differential", "differential_F", "driveshaft_F", 1, {"diffType":"viscous", "viscousCoef":100, "viscousTorque":1000, "uiName":"Front Differential","defaultVirtualInertia":0.25}],
+    ],
+    "differential_F": {
+        "friction": 0,
+        "dynamicFriction": 0,
+        "torqueLossCoef": 0,
+    },
+},
+"legocar_differential_F_lsd": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible Front LSD",
+    },
+    "slotType" : "legocar_differential_F",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_finaldrive_F","legocar_finaldrive_F", "Front Final Drive", {"coreSlot":true}],
+	["legocar_halfshafts_F","legocar_halfshafts_F", "Front Halfshafts"],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$lsdpreload_F", "range", "N/m", "Differentials", 100, 0, 500, "Pre-load Torque", "Initial locking torque between left and right wheels", {"subCategory":"Front"}],
+        ["$lsdlockcoef_F", "range", "", "Differentials", 0.125, 0, 0.5, "Power Lock Rate", "Additional locking torque proportional to engine torque", {"minDis":0, "maxDis":100, "subCategory":"Front"}],
+        ["$lsdlockcoefrev_F", "range", "", "Differentials", 0.025, 0, 0.5, "Coast Lock Rate", "Additional locking torque proportional to engine braking", {"minDis":0, "maxDis":100, "subCategory":"Front"}],
+    ],
+    "powertrain" : [
+        ["type", "name", "inputName", "inputIndex"],
+        ["differential", "differential_F", "driveshaft_F", 1, {"diffType":"lsd", "gearRatio":1, "lsdPreload":"$lsdpreload_F", "lsdLockCoef":"$lsdlockcoef_F", "lsdRevLockCoef":"$lsdlockcoefrev_F", "uiName":"Front Differential","defaultVirtualInertia":0.25}],
+    ],
+    "differential_F": {
+        "friction": 0,
+        "dynamicFriction": 0,
+        "torqueLossCoef": 0,
+    },
+},
+"legocar_differential_F_locking": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible Locking Front Differential",
+    },
+    "slotType" : "legocar_differential_F",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_finaldrive_F","legocar_finaldrive_F", "Front Final Drive", {"coreSlot":true}],
+	["legocar_halfshafts_F","legocar_halfshafts_F_offroad", "Front Halfshafts"],
+    ],
+    "powertrain" : [
+        ["type", "name", "inputName", "inputIndex"],
+        ["differential", "differential_F", "driveshaft_F", 1, {"diffType":["open","locked"], "lockTorque":20000, "uiName":"Front Differential","defaultVirtualInertia":0.25}],
+    ],
+    "differential_F": {
+        "friction": 0,
+        "dynamicFriction": 0,
+        "torqueLossCoef": 0,
+    },
+},
+
+"legocar_finaldrive_F": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Adjustable Front Final Drive",
+    },
+    "slotType" : "legocar_finaldrive_F",
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$finaldrive_F", "range", ":1", "Differentials", 4.50, 0.1, 10.0, "Final Drive Gear Ratio", "Torque multiplication ratio", {"stepDis":0.01,"subCategory":"Front"}],
+    ],
+    "differential_F" : {
+        "gearRatio":"$finaldrive_F",
+    },
+},
+
+"legocar_halfshafts_F": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible Front Halfshafts",
+    },
+    "slotType" : "legocar_halfshafts_F",
+    "powertrain" : [
+        ["type", "name", "inputName", "inputIndex"],
+        ["shaft", "wheelaxleFL", "differential_F", 1, {"breakTriggerBeam":"halfshaft_FL", "uiName":"Front Left Halfshaft", "friction":0, "dynamicFriction":0, "torqueLossCoef": 0}],
+        ["shaft", "wheelaxleFR", "differential_F", 2, {"breakTriggerBeam":"halfshaft_FR", "uiName":"Front Right Halfshaft", "friction":0, "dynamicFriction":0, "torqueLossCoef": 0}],
+    ],
+},
+"legocar_halfshafts_F_offroad": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible Locking Front Halfshafts",
+    },
+    "slotType" : "legocar_halfshafts_F",
+    "powertrain" : [
+        ["type", "name", "inputName", "inputIndex"],
+        ["shaft", "wheelaxleFL", "differential_F", 1, {"canDisconnect":true, "electricsName":"axle_FL", "breakTriggerBeam":"halfshaft_FL", "uiName":"Front Left Halfshaft", "friction":0, "dynamicFriction":0, "torqueLossCoef": 0}],
+        ["shaft", "wheelaxleFR", "differential_F", 2, {"canDisconnect":true, "electricsName":"axle_FR", "breakTriggerBeam":"halfshaft_FR", "uiName":"Front Right Halfshaft", "friction":0, "dynamicFriction":0, "torqueLossCoef": 0}],
+    ],
+},
+
+}

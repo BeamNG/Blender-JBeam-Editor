@@ -1,0 +1,260 @@
+{
+"legocar_spotlight_L_antenna": {
+    "information":{
+        "name":"Antenna",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_spotlight_L_accessory",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_shifterbase_dgrey",["legocar_antenna_spotlight_L_base"],[], {"pos":{"x": 1.000, "y":-0.575, "z":0.955},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_shifter_M",        ["legocar_antenna_spotlight_L"],     [], {"pos":{"x": 1.000, "y":-0.450, "z":0.830},"rot":{"x": 0 , "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ANTENNA--
+	//1 piece, 4 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	//base
+	{"group":"legocar_antenna_spotlight_L_base"},
+	["spotLant1", 1.000, -0.325, 0.955],
+	["spotLant2", 1.000, -0.575, 0.955],
+
+	//rotation axis
+	{"group":["legocar_antenna_spotlight_L_base", "legocar_antenna_spotlight_L"]},
+	["spotLant4", 1.125, -0.450, 0.955],
+	["spotLant3", 0.875, -0.450, 0.955],
+
+	//antenna
+	{"group":"legocar_antenna_spotlight_L"},
+	{"nodeWeight": "$=$weight*0.4"},
+	["spotLant5", 1.000, -0.450, 1.375],
+
+	//rigidifier
+	{"group":""},
+	["spotLantrig", 1.000, -0.450, 0.830],	
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$weight*10", "damp":"$=$weight*0.1", "deform":"$=$strength*0.1", "strength":"FLT_MAX"},
+        ["spotLant5","spotLant3","spotLant4","spotLantrig", {"precompressionAngle":-0.1}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//base uniform structure
+	["spotLant1", "spotLant2"],
+	["spotLant1", "spotLant3"],
+	["spotLant1", "spotLant4"],
+	["spotLant2", "spotLant3"],
+	["spotLant2", "spotLant4"],
+	["spotLant3", "spotLant4"],
+
+	//rigidifier
+	["spotLant1", "spotLantrig"],
+	["spotLant2", "spotLantrig"],
+	["spotLant3", "spotLantrig"],
+	["spotLant4", "spotLantrig"],
+	
+	//antenna
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	["spotLant5", "spotLant3"],
+	["spotLant5", "spotLant4"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.75", "beamStrength":"$=$strength*0.75"},
+	{"breakGroup":"antenna_spotlight_L_break"},
+
+	["spotLant1", "spot1l"],
+	["spotLant1", "spot2l"],
+	["spotLant1", "spot3l"],
+	["spotLant1", "spot4l"],
+
+	["spotLant2", "spot1l"],
+	["spotLant2", "spot2l"],
+	["spotLant2", "spot3l"],
+	["spotLant2", "spot4l"],
+
+	["spotLant3", "spot1l"],
+	["spotLant3", "spot2l"],
+	["spotLant3", "spot3l"],
+	["spotLant3", "spot4l"],
+
+	["spotLant4", "spot1l"],
+	["spotLant4", "spot2l"],
+	["spotLant4", "spot3l"],
+	["spotLant4", "spot4l"],
+
+	["spotLantrig", "spot1l"],
+	["spotLantrig", "spot2l"],
+	["spotLantrig", "spot3l"],
+	["spotLantrig", "spot4l"],
+	
+	{"breakGroup":""},
+
+
+	//--LIMITERS--
+	{"beamPrecompression":1,"beamType":"|SUPPORT", "beamLongBound":100},
+	{"beamSpring":"$=$weight*21000", "beamDamp":"$=$weight*200"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//antenna limiter
+	["spotLant5", "spotLant2", {"beamPrecompression":1.00}],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_antenna_spotlight_L"},
+	["spotLant5","spotLant1","spotLant3"],
+	["spotLant5","spotLant3","spotLant2"],
+	["spotLant5","spotLant2","spotLant4"],
+	["spotLant5","spotLant4","spotLant1"],
+	["spotLantrig","spotLant3","spotLant1"],
+	["spotLantrig","spotLant2","spotLant3"],
+	["spotLantrig","spotLant4","spotLant2"],
+	["spotLantrig","spotLant1","spotLant4"],
+        {"group":""},
+    ],
+},
+
+"legocar_spotlight_R_antenna": {
+    "information":{
+        "name":"Antenna",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_spotlight_R_accessory",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_shifterbase_dgrey",["legocar_antenna_spotlight_R_base"],[], {"pos":{"x":-1.000, "y":-0.575, "z":0.955},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_shifter_M",        ["legocar_antenna_spotlight_R"],     [], {"pos":{"x":-1.000, "y":-0.450, "z":0.830},"rot":{"x": 0 , "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ANTENNA--
+	//1 piece, 4 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	//base
+	{"group":"legocar_antenna_spotlight_R_base"},
+	["spotRant1", -1.000, -0.325, 0.955],
+	["spotRant2", -1.000, -0.575, 0.955],
+
+	//rotation axis
+	{"group":["legocar_antenna_spotlight_R_base", "legocar_antenna_spotlight_R"]},
+	["spotRant3", -1.125, -0.450, 0.955],
+	["spotRant4", -0.875, -0.450, 0.955],
+
+	//antenna
+	{"group":"legocar_antenna_spotlight_R"},
+	{"nodeWeight": "$=$weight*0.4"},
+	["spotRant5", -1.000, -0.450, 1.375],
+
+	//rigidifier
+	{"group":""},
+	["spotRantrig", -1.000, -0.450, 0.830],	
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$weight*10", "damp":"$=$weight*0.1", "deform":"$=$strength*0.1", "strength":"FLT_MAX"},
+        ["spotRant5","spotRant3","spotRant4","spotRantrig", {"precompressionAngle":-0.1}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//base uniform structure
+	["spotRant1", "spotRant2"],
+	["spotRant1", "spotRant3"],
+	["spotRant1", "spotRant4"],
+	["spotRant2", "spotRant3"],
+	["spotRant2", "spotRant4"],
+	["spotRant3", "spotRant4"],
+
+	//rigidifier
+	["spotRant1", "spotRantrig"],
+	["spotRant2", "spotRantrig"],
+	["spotRant3", "spotRantrig"],
+	["spotRant4", "spotRantrig"],
+	
+	//antenna
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	["spotRant5", "spotRant3"],
+	["spotRant5", "spotRant4"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.75", "beamStrength":"$=$strength*0.75"},
+	{"breakGroup":"antenna_spotlight_R_break"},
+
+	["spotRant1", "spot1r"],
+	["spotRant1", "spot2r"],
+	["spotRant1", "spot3r"],
+	["spotRant1", "spot4r"],
+
+	["spotRant2", "spot1r"],
+	["spotRant2", "spot2r"],
+	["spotRant2", "spot3r"],
+	["spotRant2", "spot4r"],
+
+	["spotRant3", "spot1r"],
+	["spotRant3", "spot2r"],
+	["spotRant3", "spot3r"],
+	["spotRant3", "spot4r"],
+
+	["spotRant4", "spot1r"],
+	["spotRant4", "spot2r"],
+	["spotRant4", "spot3r"],
+	["spotRant4", "spot4r"],
+
+	["spotRantrig", "spot1r"],
+	["spotRantrig", "spot2r"],
+	["spotRantrig", "spot3r"],
+	["spotRantrig", "spot4r"],
+	
+	{"breakGroup":""},
+
+
+	//--LIMITERS--
+	{"beamPrecompression":1,"beamType":"|SUPPORT", "beamLongBound":100},
+	{"beamSpring":"$=$weight*21000", "beamDamp":"$=$weight*200"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//antenna limiter
+	["spotRant5", "spotRant2", {"beamPrecompression":1.00}],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_antenna_spotlight_R"},
+	["spotRant5","spotRant1","spotRant3"],
+	["spotRant5","spotRant3","spotRant2"],
+	["spotRant5","spotRant2","spotRant4"],
+	["spotRant5","spotRant4","spotRant1"],
+	["spotRantrig","spotRant3","spotRant1"],
+	["spotRantrig","spotRant2","spotRant3"],
+	["spotRantrig","spotRant4","spotRant2"],
+	["spotRantrig","spotRant1","spotRant4"],
+        {"group":""},
+    ],
+},
+
+}

@@ -1,0 +1,163 @@
+{
+"legocar_wheeliebar_support": {
+    "information":{
+        "name":"Wheelie Bar Support Bars",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_wheeliebar_support",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_wheeliebar_support_L",["legocar_wheeliebar_support_L"]],
+	["legocar_wheeliebar_support_R",["legocar_wheeliebar_support_R"]],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"selfCollision":false},
+
+	//sides
+	//3 pieces, 7 half-pieces, 5 nodes - 1.3 kg/node
+	{"nodeWeight": "$=$weight*1.3"},
+
+	{"group":"legocar_wheeliebar_support_L"},
+	["whbarsuppL1l", 0.47, 2.200, 0.15],
+	["whbarsuppL1r", 0.37, 2.200, 0.15],
+	["whbarsuppL2l", 0.47, 3.280, -0.025],
+	["whbarsuppL2r", 0.37, 3.280, -0.025],
+	//rigidifier
+	["whbarsuppLrig", 0.42, 2.735, 0.4, {"collision":false, "group":""}],
+
+	{"group":"legocar_wheeliebar_support_R"},
+	["whbarsuppR1r",-0.47, 2.200, 0.15],
+	["whbarsuppR1l",-0.37, 2.200, 0.15],
+	["whbarsuppR2r",-0.47, 3.280, -0.025],
+	["whbarsuppR2l",-0.37, 3.280, -0.025],
+	//rigidifier
+	["whbarsuppRrig",-0.42, 2.735, 0.4, {"collision":false, "group":""}],
+
+	{"selfCollision":true},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	
+	//--WHEELIE BAR SUPPORTS--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1625000", "beamDamp":"$=$weight*162.5"},
+
+	//left uniform structure
+	
+	["whbarsuppL1l", "whbarsuppL1r"],
+	["whbarsuppL2l", "whbarsuppL2r"],
+	["whbarsuppL1l", "whbarsuppL2l", {"beamPrecompression":0.98}],
+	["whbarsuppL1r", "whbarsuppL2r", {"beamPrecompression":0.98}],
+	["whbarsuppL1l", "whbarsuppL2r", {"beamPrecompression":0.985}],
+	["whbarsuppL2l", "whbarsuppL1r", {"beamPrecompression":0.985}],
+
+	//left rigidifier
+	["whbarsuppL1l", "whbarsuppLrig"],
+	["whbarsuppL1r", "whbarsuppLrig"],
+	["whbarsuppL2l", "whbarsuppLrig"],
+	["whbarsuppL2r", "whbarsuppLrig"],
+
+	//right uniform structure
+	["whbarsuppR1l", "whbarsuppR1r"],
+	["whbarsuppR2l", "whbarsuppR2r"],
+	["whbarsuppR1l", "whbarsuppR2l", {"beamPrecompression":0.98}],
+	["whbarsuppR1r", "whbarsuppR2r", {"beamPrecompression":0.98}],
+	["whbarsuppR1l", "whbarsuppR2r", {"beamPrecompression":0.985}],
+	["whbarsuppR2l", "whbarsuppR1r", {"beamPrecompression":0.985}],
+
+	//right rigidifier
+	["whbarsuppR1l", "whbarsuppRrig"],
+	["whbarsuppR1r", "whbarsuppRrig"],
+	["whbarsuppR2l", "whbarsuppRrig"],
+	["whbarsuppR2r", "whbarsuppRrig"],
+
+	
+	//--REAR PIECE FRICTION--
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	{"beamDeform":"$=$strength*0.1", "beamStrength":"FLT_MAX"},
+
+	{"breakGroup":"wheeliebar_support_L_break"},
+	["whbarsuppL2l", "whbarBl"],
+	["whbarsuppL1l", "whbarBl"],
+
+	{"breakGroup":"wheeliebar_support_R_break"},
+	["whbarsuppR2l", "whbarBr"],
+	["whbarsuppR1l", "whbarBr"],
+
+
+	//--BREAK TRIGGER BEAMS--
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	{"breakGroup":"wheeliebar_support_L_break"},
+	["whbarsuppL2l", "whbarBr"],
+	{"breakGroup":"wheeliebar_support_R_break"},
+	["whbarsuppR2r", "whbarBl"],
+
+	{"beamPrecompression":1, "beamLongBound":0.5, "beamShortBound":1},
+
+	{"breakGroup":"wheeliebar_support_L_hinge_break"},
+	["whbarsuppL1r", "whbarsuppmtL3l"],
+	["whbarsuppL1l", "whbarsuppmtL3r"],
+	["whbarsuppL1r", "whbarsuppmtL3r"],
+
+	{"breakGroup":"wheeliebar_support_R_hinge_break"},
+	["whbarsuppR1l", "whbarsuppmtR3l"],
+	["whbarsuppR1r", "whbarsuppmtR3l"],
+	["whbarsuppR1l", "whbarsuppmtR3r"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT LIMITERS--
+	{"beamPrecompression":0.99, "beamType":"|SUPPORT", "beamLongBound":1, "beamShortBound":1},
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["whbarBl", "whbarsuppmtL2l"],
+	["whbarBl", "whbarsuppmtL2r"],
+	["whbarBl", "whbarsuppmtR2l"],
+	["whbarBl", "whbarsuppmtR2r"],
+
+	["whbarBr", "whbarsuppmtL2l"],
+	["whbarBr", "whbarsuppmtL2r"],
+	["whbarBr", "whbarsuppmtR2l"],
+	["whbarBr", "whbarsuppmtR2r"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "rails": {
+        "wheeliebar_support_L":{"links:":["whbarsuppmtL3l", "whbarsuppmtL3r"], "broken:":[], "looped":false, "capped":true},
+	"wheeliebar_support_R":{"links:":["whbarsuppmtR3l", "whbarsuppmtR3r"], "broken:":[], "looped":false, "capped":true},
+    },
+    "slidenodes": [
+        ["id:", "railName", "attached", "fixToRail", "tolerance", "spring", "strength", "capStrength"],
+        ["whbarsuppL2l", "wheeliebar", true, true, 0.0, "$=$weight*751000", "FLT_MAX", "FLT_MAX"],
+	["whbarsuppL2r", "wheeliebar", true, true, 0.0, "$=$weight*751000", "FLT_MAX", "FLT_MAX"],
+        ["whbarsuppR2l", "wheeliebar", true, true, 0.0, "$=$weight*751000", "FLT_MAX", "FLT_MAX"],
+	["whbarsuppR2r", "wheeliebar", true, true, 0.0, "$=$weight*751000", "FLT_MAX", "FLT_MAX"],
+
+	["whbarsuppL1l", "wheeliebar_support_L", true, true, 0.0, "$=$weight*751000", "FLT_MAX", "FLT_MAX"],
+	["whbarsuppL1r", "wheeliebar_support_L", true, true, 0.0, "$=$weight*751000", "FLT_MAX", "FLT_MAX"],
+        ["whbarsuppR1l", "wheeliebar_support_R", true, true, 0.0, "$=$weight*751000", "FLT_MAX", "FLT_MAX"],
+	["whbarsuppR1r", "wheeliebar_support_R", true, true, 0.0, "$=$weight*751000", "FLT_MAX", "FLT_MAX"],
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_wheeliebar_support_L"},
+	["whbarsuppL1r","whbarsuppL1l","whbarsuppL2l","whbarsuppL2r"],
+	{"group":"legocar_wheeliebar_support_R"},
+	["whbarsuppR1r","whbarsuppR1l","whbarsuppR2l","whbarsuppR2r"],
+        {"group":""},
+    ],
+},
+
+}

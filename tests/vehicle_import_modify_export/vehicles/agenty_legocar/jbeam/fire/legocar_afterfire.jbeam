@@ -1,0 +1,378 @@
+{
+"legocar_engbay_NA_derby_fire": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Fire Effects",
+    },
+    "slotType" : "legocar_stacks",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_derby_nostacks","legocar_afterfire_derby_nostacks", "Afterfire Effect"],
+	["legocar_nitrofire_derby_nostacks","legocar_nitrofire_derby_nostacks_yellow", "Nitrous Flames"],
+    ],
+},
+"legocar_exhaus_L_fire": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Fire Effects",
+    },
+    "slotType" : "legocar_exhausttip_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_BL","legocar_afterfire_BL", "Afterfire Effect", {"nodeMove":{"x":0, "y":-0.02, "z":0}}],
+	["legocar_nitrofire_BL","", "Nitrous Flames", {"nodeMove":{"x":0, "y":-0.02, "z":0}}],
+    ],
+},
+"legocar_exhaus_R_fire": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Fire Effects",
+    },
+    "slotType" : "legocar_exhausttip_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_BR","legocar_afterfire_BR", "Afterfire Effect", {"nodeMove":{"x":0, "y":-0.02, "z":0}}],
+	["legocar_nitrofire_BR","", "Nitrous Flames", {"nodeMove":{"x":0, "y":-0.02, "z":0}}],
+    ],
+},
+"legocar_exhaus_M_fire": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Fire Effects",
+    },
+    "slotType" : "legocar_exhausttip_M",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_BM","legocar_afterfire_BM", "Afterfire Effect", {"nodeMove":{"x":0, "y":-0.02, "z":0}}],
+	["legocar_nitrofire_BM","", "Nitrous Flames", {"nodeMove":{"x":0, "y":-0.02, "z":0}}],
+    ],
+},
+"legocar_exhaust_side_L_fire": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Fire Effects",
+    },
+    "slotType" : "legocar_exhausttip_side_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_side_L","legocar_afterfire_side_L", "Afterfire Effect"],
+	["legocar_nitrofire_side_L","", "Nitrous Flames"],
+    ],
+},
+"legocar_exhaust_side_R_fire": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Fire Effects",
+    },
+    "slotType" : "legocar_exhausttip_side_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_side_R","legocar_afterfire_side_R", "Afterfire Effect"],
+	["legocar_nitrofire_side_R","", "Nitrous Flames"],
+    ],
+},
+
+"legocar_afterfire_derby_stacks": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Afterfire Effect",
+    },
+    "slotType" : "legocar_afterfire_derby_stacks"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["lego_fire",["legocar_stack_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"afterfire_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["lego_fire",["legocar_stack_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "mainEngine":{
+        "$*instantAfterFireCoef": 2,
+        "$*sustainedAfterFireCoef":2,
+    },
+},
+"legocar_afterfire_derby_stacks_turbo": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Afterfire Effect",
+    },
+    "slotType" : "legocar_afterfire_derby_stacks_turbo"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["lego_fire",["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"afterfire_R_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["lego_fire",["legocar_exhaust_turbo_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    	{"deformGroup":""},
+    ],
+    "mainEngine":{
+        "$*instantAfterFireCoef": 2,
+        "$*sustainedAfterFireCoef":2,
+    },
+},
+"legocar_afterfire_derby_nostacks": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Afterfire Effect",
+    },
+    "slotType" : "legocar_afterfire_derby_nostacks"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["lego_fire",["legocar_header_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.6},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"afterfire_R_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["lego_fire",["legocar_header_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.6},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "mainEngine":{
+        "$*instantAfterFireCoef": 2,
+        "$*sustainedAfterFireCoef":2,
+    },
+},
+"legocar_afterfire_derby_turbo": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Afterfire Effect",
+    },
+    "slotType" : "legocar_afterfire_derby_turbo"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["lego_fire",["legocar_exhaust_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.9},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "mainEngine":{
+        "$*instantAfterFireCoef": 2,
+        "$*sustainedAfterFireCoef":2,
+    },
+},
+
+"legocar_afterfire_side_FL": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Afterfire Effect",
+    },
+    "slotType" : "legocar_afterfire_side_FL"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_FL_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["lego_fire",["legocar_fascia_F_side_L"], [], {"pos":{"x": 0.575, "y":-1.525,"z":0.30},"rot":{"x":0, "y":50, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "mainEngine":{
+        "$*instantAfterFireCoef": 1.5,
+        "$*sustainedAfterFireCoef":1.5,
+    },
+},
+"legocar_afterfire_side_FR": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Afterfire Effect",
+    },
+    "slotType" : "legocar_afterfire_side_FR"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_FR_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["lego_fire",["legocar_fascia_F_side_R"], [], {"pos":{"x":-0.575, "y":-1.525,"z":0.30},"rot":{"x":0, "y":-50, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "mainEngine":{
+        "$*instantAfterFireCoef": 1.5,
+        "$*sustainedAfterFireCoef":1.5,
+    },
+},
+"legocar_afterfire_side_RL": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Afterfire Effect",
+    },
+    "slotType" : "legocar_afterfire_side_RL"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_RL_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["lego_fire",["legocar_fascia_R_side_L"], [], {"pos":{"x": 0.575, "y":1.525,"z":0.30},"rot":{"x":0, "y":50, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "mainEngine":{
+        "$*instantAfterFireCoef": 1.5,
+        "$*sustainedAfterFireCoef":1.5,
+    },
+},
+"legocar_afterfire_side_RR": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Afterfire Effect",
+    },
+    "slotType" : "legocar_afterfire_side_RR"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_RR_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["lego_fire",["legocar_fascia_R_side_R"], [], {"pos":{"x":-0.575, "y":1.525,"z":0.30},"rot":{"x":0, "y":-50, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "mainEngine":{
+        "$*instantAfterFireCoef": 1.5,
+        "$*sustainedAfterFireCoef":1.5,
+    },
+},
+
+"legocar_afterfire_BL": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Afterfire Effect",
+    },
+    "slotType" : "legocar_afterfire_BL"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_BL_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["lego_fire",["legocar_exhaust_L"], [], {"pos":{"x": 0.500, "y":2.070, "z":0.000},"rot":{"x":-90, "y":0, "z":180},"scale":{"x":1, "y":1, "z":1}}],
+	{"deformGroup":""},
+    ],
+    "mainEngine":{
+        "$*instantAfterFireCoef": 1.5,
+        "$*sustainedAfterFireCoef":1.5,
+    },
+},
+"legocar_afterfire_BR": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Afterfire Effect",
+    },
+    "slotType" : "legocar_afterfire_BR"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_BR_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["lego_fire",["legocar_exhaust_R"], [], {"pos":{"x":-0.500, "y":2.070, "z":0.000},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":1, "y":1, "z":1}}],
+	{"deformGroup":""},
+    ],
+    "mainEngine":{
+        "$*instantAfterFireCoef": 1.5,
+        "$*sustainedAfterFireCoef":1.5,
+    },
+},
+"legocar_afterfire_BM": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Afterfire Effect",
+    },
+    "slotType" : "legocar_afterfire_BM"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_BM_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["lego_fire",["legocar_exhaust_M"], [], {"pos":{"x": 0.000, "y":2.070, "z":0.000},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":1, "y":1, "z":1}}],
+	{"deformGroup":""},
+    ],
+    "mainEngine":{
+        "$*instantAfterFireCoef": 1.5,
+        "$*sustainedAfterFireCoef":1.5,
+    },
+},
+
+"legocar_afterfire_high": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Afterfire Effect",
+    },
+    "slotType" : "legocar_afterfire_high"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_highL_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["lego_fire",["legocar_high_exhaust_L"], [], {"pos":{"x": 0.125, "y":2.150, "z":0.475},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":1, "y":1, "z":1}}],
+	{"deformGroup":"afterfire_highR_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["lego_fire",["legocar_high_exhaust_R"], [], {"pos":{"x":-0.125, "y":2.150, "z":0.475},"rot":{"x":-90, "y":0, "z":180},"scale":{"x":1, "y":1, "z":1}}],
+	{"deformGroup":""},
+    ],
+    "mainEngine":{
+        "$*instantAfterFireCoef": 1.5,
+        "$*sustainedAfterFireCoef":1.5,
+    },
+},
+
+"legocar_afterfire_side_L": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Afterfire Effect",
+    },
+    "slotType" : "legocar_afterfire_side_L"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_side_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["lego_fire",["legocar_sidepipe_L"], [], {"pos":{"x": 0.900, "y":0.525, "z":0.18},"rot":{"x":-90, "y":0, "z":180},"scale":{"x":1, "y":1, "z":1}}],
+	{"deformGroup":""},
+    ],
+    "mainEngine":{
+        "$*instantAfterFireCoef": 1.5,
+        "$*sustainedAfterFireCoef":1.5,
+    },
+},
+"legocar_afterfire_side_R": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Afterfire Effect",
+    },
+    "slotType" : "legocar_afterfire_side_R"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_side_R_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["lego_fire",["legocar_sidepipe_R"], [], {"pos":{"x":-0.900, "y":0.525, "z":0.18},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":1, "y":1, "z":1}}],
+	{"deformGroup":""},
+    ],
+    "mainEngine":{
+        "$*instantAfterFireCoef": 1.5,
+        "$*sustainedAfterFireCoef":1.5,
+    },
+},
+
+"legocar_afterfire_boso_L": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Afterfire Effect",
+    },
+    "slotType" : "legocar_afterfire_boso_L"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_BL_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["lego_fire",["legocar_exhaust_L6"], [], {"pos":{"x": 0.600, "y":1.150, "z":2.000},"rot":{"x":0, "y":0, "z":180},"scale":{"x":1, "y":1, "z":1}}],
+	{"deformGroup":""},
+    ],
+    "mainEngine":{
+        "$*instantAfterFireCoef": 1.5,
+        "$*sustainedAfterFireCoef":1.5,
+    },
+},
+"legocar_afterfire_boso_R": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Afterfire Effect",
+    },
+    "slotType" : "legocar_afterfire_boso_R"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_BR_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["lego_fire",["legocar_exhaust_R6"], [], {"pos":{"x":-0.600, "y":1.150, "z":2.000},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":1, "y":1, "z":1}}],
+	{"deformGroup":""},
+    ],
+    "mainEngine":{
+        "$*instantAfterFireCoef": 1.5,
+        "$*sustainedAfterFireCoef":1.5,
+    },
+},
+"legocar_afterfire_boso_M": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Afterfire Effect",
+    },
+    "slotType" : "legocar_afterfire_boso_M"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_BM_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["lego_fire",["legocar_exhaust_M6"], [], {"pos":{"x": 0.000, "y":1.150, "z":2.000},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":1, "y":1, "z":1}}],
+	{"deformGroup":""},
+    ],
+    "mainEngine":{
+        "$*instantAfterFireCoef": 1.5,
+        "$*sustainedAfterFireCoef":1.5,
+    },
+},
+
+}

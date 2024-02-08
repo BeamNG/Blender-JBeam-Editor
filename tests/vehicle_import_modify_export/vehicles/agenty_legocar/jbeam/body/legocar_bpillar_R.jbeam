@@ -1,0 +1,210 @@
+{
+"legocar_bpillar_R": {
+    "information":{
+        "name":"Right B-Pillar",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bpillar_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_wheelhouse_filler_RR", "legocar_wheelhouse_filler_RR", "Rear Right Wheelhouse Filler"],
+	["legocar_quarterglass_mount_R", "legocar_quarterglass_mount_R", "Rear Right Quarter Glass Mount"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_col1",  ["legocar_bpillar_mount_R"], [], {"pos":{"x":-0.375, "y":0.500, "z":0.3},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_tall_door_R",["legocar_bpillar_R"],       [], {"pos":{"x":-0.500, "y":0.375, "z":0.4},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//right b-pillar mount
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+	{"group":"legocar_bpillar_mount_R"},
+
+	["Rbpmount1r", -0.50,  0.28, 0.35],
+	["Rbpmount1l", -0.25,  0.28, 0.35],
+	["Rbpmount2r", -0.50,  0.75, 0.35],
+	["Rbpmount2l", -0.25,  0.75, 0.35],
+	//rigidifier
+	["Rbpmountrig", -0.375, 0.5, 0.6, {"collision":false, "selfCollision":false, "group":""}],
+
+	//right b-pillar
+	//6 pieces, 8 nodes - 0.75 kg/node
+	{"nodeWeight": "$=$weight*0.75"},
+	{"group":"legocar_bpillar_R"},
+
+	["Rbpillar1r",  -0.75,  0.28, 0.4],
+	["Rbpillar1l",  -0.25,  0.28, 0.4],
+	["Rbpillar2r",  -0.75,  0.47, 0.4],
+	["Rbpillar2l",  -0.25,  0.47, 0.4],
+	["Rbpillar3r",  -0.75,  0.28, 0.7],
+	["Rbpillar3l",  -0.25,  0.28, 0.7],
+	["Rbpillar4r",  -0.75,  0.47, 0.7],
+	["Rbpillar4l",  -0.25,  0.47, 0.7],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--RIGHT B-PILLAR MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["Rbpmount1l", "Rbpmount1r"],
+	["Rbpmount2l", "Rbpmount2r"],
+	["Rbpmount1l", "Rbpmount2l"],
+	["Rbpmount1r", "Rbpmount2r"],
+	["Rbpmount1l", "Rbpmount2r"],
+	["Rbpmount2l", "Rbpmount1r"],
+
+	//rigidifier
+	["Rbpmount1l", "Rbpmountrig"],
+	["Rbpmount1r", "Rbpmountrig"],
+	["Rbpmount2l", "Rbpmountrig"],
+	["Rbpmount2r", "Rbpmountrig"],
+
+
+	//--RIGHT B-PILLAR--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//uniform structure
+	["Rbpillar1l", "Rbpillar1r"],
+	["Rbpillar2l", "Rbpillar2r"],
+	["Rbpillar3l", "Rbpillar3r"],
+	["Rbpillar4l", "Rbpillar4r"],
+
+	["Rbpillar1l", "Rbpillar2r"],
+	["Rbpillar2l", "Rbpillar3r"],
+	["Rbpillar3l", "Rbpillar4r"],
+	["Rbpillar4l", "Rbpillar1r"],
+
+	["Rbpillar1l", "Rbpillar3r"],
+	["Rbpillar2l", "Rbpillar4r"],
+	["Rbpillar3l", "Rbpillar1r"],
+	["Rbpillar4l", "Rbpillar2r"],
+
+	["Rbpillar1l", "Rbpillar4r"],
+	["Rbpillar2l", "Rbpillar1r"],
+	["Rbpillar3l", "Rbpillar2r"],
+	["Rbpillar4l", "Rbpillar3r"],
+
+	["Rbpillar1l", "Rbpillar2l"],
+	["Rbpillar2l", "Rbpillar3l"],
+	["Rbpillar3l", "Rbpillar4l"],
+	["Rbpillar4l", "Rbpillar1l"],
+
+	["Rbpillar1l", "Rbpillar3l"],
+	["Rbpillar2l", "Rbpillar4l"],
+
+	["Rbpillar1r", "Rbpillar2r"],
+	["Rbpillar2r", "Rbpillar3r"],
+	["Rbpillar3r", "Rbpillar4r"],
+	["Rbpillar4r", "Rbpillar1r"],
+
+	["Rbpillar1r", "Rbpillar3r"],
+	["Rbpillar2r", "Rbpillar4r"],
+
+
+	//--RIGHT B-PILLAR TO MOUNT--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bpillar_R_break"},
+
+	["Rbpillar3l", "Rbpmount1l"],
+	["Rbpillar3l", "Rbpmount1r"],
+	["Rbpillar3l", "Rbpmount2l"],
+	["Rbpillar3l", "Rbpmountrig"],
+
+	["Rbpillar3r", "Rbpmount1l"],
+	["Rbpillar3r", "Rbpmount1r"],
+	["Rbpillar3r", "Rbpmount2r"],
+	["Rbpillar3r", "Rbpmountrig"],
+
+	["Rbpillar4l", "Rbpmount1l"],
+	["Rbpillar4l", "Rbpmount2r"],
+	["Rbpillar4l", "Rbpmount2l"],
+	["Rbpillar4l", "Rbpmountrig"],
+
+	["Rbpillar4r", "Rbpmount2l"],
+	["Rbpillar4r", "Rbpmount1r"],
+	["Rbpillar4r", "Rbpmount2r"],
+	["Rbpillar4r", "Rbpmountrig"],
+
+
+	//--ATTACH MOUNT TO CHASSIS--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bpillar_mount_R_break"},
+
+	["Rbpmount1l", "chassis6r"],
+	["Rbpmount1l", "chassis7rr"],
+	["Rbpmount1l", "chassis8r"],
+
+	["Rbpmount1r", "chassis6r"],
+	["Rbpmount1r", "chassis7r"],
+	["Rbpmount1r", "chassis8r"],
+
+	["Rbpmount2l", "chassis6r"],
+	["Rbpmount2l", "chassis7rr"],
+	["Rbpmount2l", "chassis8r"],
+
+	["Rbpmount2r", "chassis6r"],
+	["Rbpmount2r", "chassis7r"],
+	["Rbpmount2r", "chassis8r"],
+
+	["Rbpmountrig", "chassis6r"],
+	["Rbpmountrig", "chassis7r"],
+	["Rbpmountrig", "chassis7rr"],
+	["Rbpmountrig", "chassis8r"],
+
+
+	//--ATTACH TO ROCKER--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"bpillar_rocker_R_break"},
+
+	["Rbpillar3l", "RrockT2l"],
+	["Rbpillar3l", "RrockT4r"],
+	["Rbpillar3l", "RrockT6l"],
+
+	["Rbpillar3r", "RrockT2r"],
+	["Rbpillar3r", "RrockT4l"],
+	["Rbpillar3r", "RrockT6r"],
+
+	["Rbpillar4l", "RrockT2l"],
+	["Rbpillar4l", "RrockT4r"],
+	["Rbpillar4l", "RrockT6l"],
+
+	["Rbpillar4r", "RrockT2r"],
+	["Rbpillar4r", "RrockT4l"],
+	["Rbpillar4r", "RrockT6r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_bpillar_mount_R"},
+	["Rbpmount1r","Rbpmount1l","Rbpmount2l","Rbpmount2r"],
+
+	{"group":"legocar_bpillar_R"},   
+	["Rbpillar2r","Rbpillar2l","Rbpillar1l","Rbpillar1r"],
+	["Rbpillar4l","Rbpillar4r","Rbpillar3r","Rbpillar3l"],
+	["Rbpillar3r","Rbpillar4r","Rbpillar2r","Rbpillar1r"],
+	["Rbpillar4l","Rbpillar3l","Rbpillar1l","Rbpillar2l"],
+	["Rbpillar4r","Rbpillar4l","Rbpillar2l","Rbpillar2r"],
+	["Rbpillar3l","Rbpillar3r","Rbpillar1r","Rbpillar1l"],
+
+        {"group":""},
+    ],
+},
+
+}

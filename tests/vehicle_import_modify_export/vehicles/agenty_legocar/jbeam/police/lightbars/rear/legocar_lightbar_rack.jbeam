@@ -1,0 +1,126 @@
+{
+"legocar_lightbar_rack": {
+    "information":{
+        "name":"Beacon Rack Light Bar",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_lightbar_rack_M","legocar_lightbar_rack_M_short", "Middle Holder"],
+	["legocar_beaconlight_rack_L_bulb","legocar_beaconlight_rack_L_bulb_red", "Left Attachment", {"nodeMove":{"x": 0.375, "y":0.25, "z":0.2}}],
+	["legocar_beaconlight_rack_R_bulb","legocar_beaconlight_rack_R_bulb_blue","Right Attachment",{"nodeMove":{"x":-0.375, "y":0.25, "z":0.2}}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_rack", ["legocar_lightbar_rack"],[], {"pos":{"x": 0.000, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//rack lightbar
+	{"group":"legocar_lightbar_rack"},
+	//8 pieces, 6 nodes - 1.33 kg/node
+	{"nodeWeight": "$=$weight*1.33"},
+
+	["lbarrack1l",  0.625, 0.500, 1.60],
+	["lbarrack1r", -0.625, 0.500, 1.60],
+	["lbarrack2l",  0.625, 0.750, 1.60],
+	["lbarrack2r", -0.625, 0.750, 1.60],
+	["lbarrack3l",  0.375, 0.625, 1.87],
+	["lbarrack3r", -0.375, 0.625, 1.87],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--LIGHTBAR RACK--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1331000", "beamDamp":"$=$weight*133"},
+
+	//left
+	["lbarrack1l", "lbarrack2l"],
+	["lbarrack2l", "lbarrack3l"],
+	["lbarrack3l", "lbarrack1l"],
+
+	//right
+	["lbarrack1r", "lbarrack2r"],
+	["lbarrack2r", "lbarrack3r"],
+	["lbarrack3r", "lbarrack1r"],
+
+	//left to right
+	["lbarrack1l", "lbarrack1r"],
+	["lbarrack2l", "lbarrack2r"],
+	["lbarrack3l", "lbarrack3r"],
+	["lbarrack1l", "lbarrack2r"],
+	["lbarrack2l", "lbarrack3r"],
+	["lbarrack3l", "lbarrack1r"],
+	["lbarrack1r", "lbarrack2l"],
+	["lbarrack2r", "lbarrack3l"],
+	["lbarrack3r", "lbarrack1l"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*671000", "beamDamp":"$=$weight*67"},
+
+	//left
+	{"breakGroup":"lightbar_rack_L_break"},
+
+	["lbarrack1l", "roofM1l"],
+	["lbarrack1l", "roofM1r"],
+	["lbarrack1l", "roofM2l"],
+	["lbarrack1l", "roofMrig"],
+
+	["lbarrack2l", "roofM1l"],
+	["lbarrack2l", "roofM2r"],
+	["lbarrack2l", "roofM2l"],
+	["lbarrack2l", "roofMrig"],
+
+	["lbarrack3l", "roofM1l"],
+	["lbarrack3l", "roofM1r"],
+	["lbarrack3l", "roofM2l"],
+	["lbarrack3l", "roofM2r"],
+
+	//right
+	{"breakGroup":"lightbar_rack_R_break"},
+
+	["lbarrack1r", "roofM1l"],
+	["lbarrack1r", "roofM1r"],
+	["lbarrack1r", "roofM2r"],
+	["lbarrack1r", "roofMrig"],
+
+	["lbarrack2r", "roofM1r"],
+	["lbarrack2r", "roofM2r"],
+	["lbarrack2r", "roofM2l"],
+	["lbarrack2r", "roofMrig"],
+
+	["lbarrack3r", "roofM1l"],
+	["lbarrack3r", "roofM1r"],
+	["lbarrack3r", "roofM2l"],
+	["lbarrack3r", "roofM2r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_lightbar_rack"},
+	["lbarrack1l","lbarrack2l","lbarrack3l"],
+	["lbarrack1r","lbarrack3r","lbarrack2r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_lightbar_rack"},   
+	["lbarrack1r","lbarrack1l","lbarrack3l","lbarrack3r"],
+	["lbarrack2l","lbarrack2r","lbarrack3r","lbarrack3l"],
+	["lbarrack1l","lbarrack1r","lbarrack2r","lbarrack2l"],
+        {"group":""},
+    ],
+},
+
+}

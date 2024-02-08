@@ -1,0 +1,179 @@
+{
+"legocar_trunk_skin_col2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Color Palette 2",
+    },
+    "slotType" : "skin_trunk",
+    "skinName" : "trunk_col2",
+},
+"legocar_trunk_skin_col3": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Color Palette 3",
+    },
+    "slotType" : "skin_trunk",
+    "skinName" : "trunk_col3",
+},
+
+"legocar_trunk_skin_twotone": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Two-Tone",
+    },
+    "slotType" : "skin_trunk",
+    "skinName" : "trunk_twotone",
+},
+"legocar_trunk_skin_twotonealt": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Inverted Two-Tone",
+    },
+    "slotType" : "skin_trunk",
+    "skinName" : "trunk_twotonealt",
+},
+"legocar_trunk_skin_twotonealtb": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Inverted Two-Tone (Alternative)",
+    },
+    "slotType" : "skin_trunk",
+    "skinName" : "trunk_twotonealtb",
+},
+
+"legocar_trunk_skin_stripes": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Stripes Sticker",
+    },
+    "slotType" : "skin_trunk",
+    "skinName" : "trunk_stripes",
+},
+"legocar_trunk_skin_stripes_alt": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Two-Tone Stripes Sticker",
+    },
+    "slotType" : "skin_trunk",
+    "skinName" : "trunk_stripes_alt",
+},
+
+"legocar_trunk_skin_fpd": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Firwood Police Department Stickers",
+    },
+    "slotType" : "skin_trunk",
+    "skinName" : "trunk_fpd",
+},
+"legocar_trunk_skin_polizei": {
+    "information":{
+        "authors":"AgentY",
+        "name":"German Police Stickers",
+    },
+    "slotType" : "skin_trunk",
+    "skinName" : "trunk_polizei",
+},
+"legocar_trunk_skin_polizia": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Italian Police Stickers",
+    },
+    "slotType" : "skin_trunk",
+    "skinName" : "trunk_polizia",
+},
+"legocar_trunk_skin_retiredcop": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Retired Police Stickers",
+    },
+    "slotType" : "skin_trunk",
+    "skinName" : "trunk_retiredcop",
+},
+
+"legocar_trunk_skin_crashtest": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Crash Test Sticker",
+    },
+    "slotType" : "skin_trunk",
+    "skinName" : "trunk_crashtest",
+},
+
+"legocar_trunk_skin_derby": {
+    "information":{
+        "authors":"AgentY",
+        "name":"The Brick Wall Stickers",
+    },
+    "slotType" : "skin_trunk",
+    "skinName" : "trunk_derby",
+},
+
+"legocar_trunk_skin_rusty": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty Old Paint (Color 1)",
+    },
+    "slotType" : "skin_trunk",
+    "skinName" : "trunk_rusty",
+},
+"legocar_trunk_skin_rusty2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty Old Paint (Color 2)",
+    },
+    "slotType" : "skin_trunk",
+    "skinName" : "trunk_rusty2",
+},
+"legocar_trunk_skin_rusty3": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty Old Paint (Color 3)",
+    },
+    "slotType" : "skin_trunk",
+    "skinName" : "trunk_rusty3",
+},
+"legocar_trunk_skin_rusty_alt": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty (Color 1)",
+    },
+    "slotType" : "skin_trunk",
+    "skinName" : "trunk_rusty_alt",
+},
+"legocar_trunk_skin_rusty2_alt": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty (Color 2)",
+    },
+    "slotType" : "skin_trunk",
+    "skinName" : "trunk_rusty2_alt",
+},
+"legocar_trunk_skin_rusty3_alt": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty (Color 3)",
+    },
+    "slotType" : "skin_trunk",
+    "skinName" : "trunk_rusty3_alt",
+},
+
+"legocar_trunk_skin_rally": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rally Sticker",
+    },
+    "slotType" : "skin_trunk",
+    "skinName" : "trunk_rally",
+},
+
+"legocar_trunk_skin_stockcar2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Modern Stock Car Stickers",
+    },
+    "slotType" : "skin_trunk",
+    "skinName" : "trunk_stockcar2",
+},
+
+}

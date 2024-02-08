@@ -1,0 +1,137 @@
+{
+"legocar_nitrofire_side_L_white": {
+    "information":{
+        "authors":"AgentY",
+        "name":"White Nitrous Flames",
+    },
+    "slotType" : "legocar_nitrofire_side_L"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_side_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_white", ["legocar_sidepipe_L"], [], {"pos":{"x":0.900, "y":0.525, "z":0.18},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["legocar_nitrofire_white2",["legocar_sidepipe_L"], [], {"pos":{"x":0.900, "y":0.525, "z":0.18},"rot":{"x":-90, "y":0, "z":180 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	{"deformGroup":""},
+    ],
+},
+
+"legocar_nitrofire_side_L_red": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Red Nitrous Flames",
+    },
+    "slotType" : "legocar_nitrofire_side_L"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_side_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_red", ["legocar_sidepipe_L"], [], {"pos":{"x":0.900, "y":0.525, "z":0.18},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["legocar_nitrofire_red2",["legocar_sidepipe_L"], [], {"pos":{"x":0.900, "y":0.525, "z":0.18},"rot":{"x":-90, "y":0, "z":180 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	{"deformGroup":""},
+    ],
+},
+
+"legocar_nitrofire_side_L_orange": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Orange Nitrous Flames",
+    },
+    "slotType" : "legocar_nitrofire_side_L"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_side_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_orange", ["legocar_sidepipe_L"], [], {"pos":{"x":0.900, "y":0.525, "z":0.18},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["legocar_nitrofire_orange2",["legocar_sidepipe_L"], [], {"pos":{"x":0.900, "y":0.525, "z":0.18},"rot":{"x":-90, "y":0, "z":180 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	{"deformGroup":""},
+    ],
+},
+
+"legocar_nitrofire_side_L_yellow": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Yellow Nitrous Flames",
+    },
+    "slotType" : "legocar_nitrofire_side_L"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_side_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_yellow", ["legocar_sidepipe_L"], [], {"pos":{"x":0.900, "y":0.525, "z":0.18},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["legocar_nitrofire_yellow2",["legocar_sidepipe_L"], [], {"pos":{"x":0.900, "y":0.525, "z":0.18},"rot":{"x":-90, "y":0, "z":180 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	{"deformGroup":""},
+    ],
+},
+
+"legocar_nitrofire_side_L_bgreen": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Bright Green Nitrous Flames",
+    },
+    "slotType" : "legocar_nitrofire_side_L"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_side_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_bgreen", ["legocar_sidepipe_L"], [], {"pos":{"x":0.900, "y":0.525, "z":0.18},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["legocar_nitrofire_bgreen2",["legocar_sidepipe_L"], [], {"pos":{"x":0.900, "y":0.525, "z":0.18},"rot":{"x":-90, "y":0, "z":180 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	{"deformGroup":""},
+    ],
+},
+
+"legocar_nitrofire_side_L_green": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Dark Green Nitrous Flames",
+    },
+    "slotType" : "legocar_nitrofire_side_L"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_side_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_green", ["legocar_sidepipe_L"], [], {"pos":{"x":0.900, "y":0.525, "z":0.18},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["legocar_nitrofire_green2",["legocar_sidepipe_L"], [], {"pos":{"x":0.900, "y":0.525, "z":0.18},"rot":{"x":-90, "y":0, "z":180 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	{"deformGroup":""},
+    ],
+},
+
+"legocar_nitrofire_side_L_lblue": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Light Blue Nitrous Flames",
+    },
+    "slotType" : "legocar_nitrofire_side_L"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_side_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_lblue", ["legocar_sidepipe_L"], [], {"pos":{"x":0.900, "y":0.525, "z":0.18},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["legocar_nitrofire_lblue2",["legocar_sidepipe_L"], [], {"pos":{"x":0.900, "y":0.525, "z":0.18},"rot":{"x":-90, "y":0, "z":180 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	{"deformGroup":""},
+    ],
+},
+
+"legocar_nitrofire_side_L_blue": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Dark Blue Nitrous Flames",
+    },
+    "slotType" : "legocar_nitrofire_side_L"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_side_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_blue", ["legocar_sidepipe_L"], [], {"pos":{"x":0.900, "y":0.525, "z":0.18},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["legocar_nitrofire_blue2",["legocar_sidepipe_L"], [], {"pos":{"x":0.900, "y":0.525, "z":0.18},"rot":{"x":-90, "y":0, "z":180 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	{"deformGroup":""},
+    ],
+},
+
+"legocar_nitrofire_side_L_pink": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Pink Nitrous Flames",
+    },
+    "slotType" : "legocar_nitrofire_side_L"
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"afterfire_side_L_disable", "deformMaterialBase":"lego_fire", "deformMaterialDamaged":"invis"},
+	["legocar_nitrofire_pink", ["legocar_sidepipe_L"], [], {"pos":{"x":0.900, "y":0.525, "z":0.18},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["legocar_nitrofire_pink2",["legocar_sidepipe_L"], [], {"pos":{"x":0.900, "y":0.525, "z":0.18},"rot":{"x":-90, "y":0, "z":180 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	{"deformGroup":""},
+    ],
+},
+
+}

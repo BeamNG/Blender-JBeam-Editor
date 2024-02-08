@@ -1,0 +1,487 @@
+{
+"legocar_spotlight_mount_R_col1": {
+    "information":{
+        "name":"Right Spotlight Mount (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_turnsignal_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_spotlight_R","legocar_spotlight_R_black", "Right Spotlight"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_clip_col1", ["legocar_spotlight_mount_R"],[], {"pos":{"x":-0.800, "y":-0.625, "z":0.825},"rot":{"x":0, "y":-90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_spotlight_mount_R"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["signal1r", -0.83, -0.530, 0.700],
+	["signal2r", -0.83, -0.530, 0.950],
+	["signal3r", -0.83, -0.750, 0.700],
+	["signal4r", -0.83, -0.750, 0.950],
+	["signal0r", -1.00, -0.625, 0.825, {"selfCollision":false}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+
+	//square
+	["signal1r", "signal2r"],
+	["signal1r", "signal3r"],
+	["signal1r", "signal4r"],
+	["signal2r", "signal3r"],
+	["signal2r", "signal4r"],
+	["signal3r", "signal4r"],
+	
+	//tip
+	["signal0r", "signal1r"],
+	["signal0r", "signal2r"],
+	["signal0r", "signal3r"],
+	["signal0r", "signal4r"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"beamDeform":"$=$strength*0.75", "beamStrength":"$=$strength*0.75"},
+
+	{"breakGroup":"spotlight_mount_R_break"},
+	
+	["signal1r", "mirrormt1r"],
+	["signal1r", "mirrormt2rr"],
+	["signal1r", "mirrormt3rr"],
+
+	["signal2r", "mirrormt1r"],
+	["signal2r", "mirrormt1rr"],
+	["signal2r", "mirrormt4rr"],
+
+	["signal3r", "mirrormt2r"],
+	["signal3r", "mirrormt1rr"],
+	["signal3r", "mirrormt4rr"],
+
+	["signal4r", "mirrormt1r"],
+	["signal4r", "mirrormt2rr"],
+	["signal4r", "mirrormt3rr"],
+
+	["signal0r", "mirrormt1rr"],
+	["signal0r", "mirrormt2rr"],
+	["signal0r", "mirrormt3rr"],
+	["signal0r", "mirrormt4rr"],
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_spotlight_mount_R"},
+	["signal0r","signal2r","signal1r"],
+	["signal0r","signal4r","signal2r"],
+	["signal0r","signal3r","signal4r"],
+	["signal0r","signal1r","signal3r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_spotlight_mount_R"},   
+	["signal2r","signal4r","signal3r","signal1r"],
+        {"group":""},
+    ], 
+},
+
+"legocar_spotlight_mount_R_col2": {
+    "information":{
+        "name":"Right Spotlight Mount (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_turnsignal_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_spotlight_R","legocar_spotlight_R_black", "Right Spotlight"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_clip_col2", ["legocar_spotlight_mount_R"],[], {"pos":{"x":-0.800, "y":-0.625, "z":0.825},"rot":{"x":0, "y":-90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_spotlight_mount_R"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["signal1r", -0.83, -0.530, 0.700],
+	["signal2r", -0.83, -0.530, 0.950],
+	["signal3r", -0.83, -0.750, 0.700],
+	["signal4r", -0.83, -0.750, 0.950],
+	["signal0r", -1.00, -0.625, 0.825, {"selfCollision":false}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+
+	//square
+	["signal1r", "signal2r"],
+	["signal1r", "signal3r"],
+	["signal1r", "signal4r"],
+	["signal2r", "signal3r"],
+	["signal2r", "signal4r"],
+	["signal3r", "signal4r"],
+	
+	//tip
+	["signal0r", "signal1r"],
+	["signal0r", "signal2r"],
+	["signal0r", "signal3r"],
+	["signal0r", "signal4r"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"beamDeform":"$=$strength*0.75", "beamStrength":"$=$strength*0.75"},
+
+	{"breakGroup":"spotlight_mount_R_break"},
+	
+	["signal1r", "mirrormt1r"],
+	["signal1r", "mirrormt2rr"],
+	["signal1r", "mirrormt3rr"],
+
+	["signal2r", "mirrormt1r"],
+	["signal2r", "mirrormt1rr"],
+	["signal2r", "mirrormt4rr"],
+
+	["signal3r", "mirrormt2r"],
+	["signal3r", "mirrormt1rr"],
+	["signal3r", "mirrormt4rr"],
+
+	["signal4r", "mirrormt1r"],
+	["signal4r", "mirrormt2rr"],
+	["signal4r", "mirrormt3rr"],
+
+	["signal0r", "mirrormt1rr"],
+	["signal0r", "mirrormt2rr"],
+	["signal0r", "mirrormt3rr"],
+	["signal0r", "mirrormt4rr"],
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_spotlight_mount_R"},
+	["signal0r","signal2r","signal1r"],
+	["signal0r","signal4r","signal2r"],
+	["signal0r","signal3r","signal4r"],
+	["signal0r","signal1r","signal3r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_spotlight_mount_R"},   
+	["signal2r","signal4r","signal3r","signal1r"],
+        {"group":""},
+    ], 
+},
+
+"legocar_spotlight_mount_R_col3": {
+    "information":{
+        "name":"Right Spotlight Mount (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_turnsignal_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_spotlight_R","legocar_spotlight_R_black", "Right Spotlight"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_clip_col3", ["legocar_spotlight_mount_R"],[], {"pos":{"x":-0.800, "y":-0.625, "z":0.825},"rot":{"x":0, "y":-90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_spotlight_mount_R"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["signal1r", -0.83, -0.530, 0.700],
+	["signal2r", -0.83, -0.530, 0.950],
+	["signal3r", -0.83, -0.750, 0.700],
+	["signal4r", -0.83, -0.750, 0.950],
+	["signal0r", -1.00, -0.625, 0.825, {"selfCollision":false}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+
+	//square
+	["signal1r", "signal2r"],
+	["signal1r", "signal3r"],
+	["signal1r", "signal4r"],
+	["signal2r", "signal3r"],
+	["signal2r", "signal4r"],
+	["signal3r", "signal4r"],
+	
+	//tip
+	["signal0r", "signal1r"],
+	["signal0r", "signal2r"],
+	["signal0r", "signal3r"],
+	["signal0r", "signal4r"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"beamDeform":"$=$strength*0.75", "beamStrength":"$=$strength*0.75"},
+
+	{"breakGroup":"spotlight_mount_R_break"},
+	
+	["signal1r", "mirrormt1r"],
+	["signal1r", "mirrormt2rr"],
+	["signal1r", "mirrormt3rr"],
+
+	["signal2r", "mirrormt1r"],
+	["signal2r", "mirrormt1rr"],
+	["signal2r", "mirrormt4rr"],
+
+	["signal3r", "mirrormt2r"],
+	["signal3r", "mirrormt1rr"],
+	["signal3r", "mirrormt4rr"],
+
+	["signal4r", "mirrormt1r"],
+	["signal4r", "mirrormt2rr"],
+	["signal4r", "mirrormt3rr"],
+
+	["signal0r", "mirrormt1rr"],
+	["signal0r", "mirrormt2rr"],
+	["signal0r", "mirrormt3rr"],
+	["signal0r", "mirrormt4rr"],
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_spotlight_mount_R"},
+	["signal0r","signal2r","signal1r"],
+	["signal0r","signal4r","signal2r"],
+	["signal0r","signal3r","signal4r"],
+	["signal0r","signal1r","signal3r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_spotlight_mount_R"},   
+	["signal2r","signal4r","signal3r","signal1r"],
+        {"group":""},
+    ], 
+},
+
+"legocar_spotlight_mount_R_grey": {
+    "information":{
+        "name":"Right Spotlight Mount (Light Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_turnsignal_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_spotlight_R","legocar_spotlight_R_grey", "Right Spotlight"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_clip_grey", ["legocar_spotlight_mount_R"],[], {"pos":{"x":-0.800, "y":-0.625, "z":0.825},"rot":{"x":0, "y":-90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_spotlight_mount_R"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["signal1r", -0.83, -0.530, 0.700],
+	["signal2r", -0.83, -0.530, 0.950],
+	["signal3r", -0.83, -0.750, 0.700],
+	["signal4r", -0.83, -0.750, 0.950],
+	["signal0r", -1.00, -0.625, 0.825, {"selfCollision":false}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+
+	//square
+	["signal1r", "signal2r"],
+	["signal1r", "signal3r"],
+	["signal1r", "signal4r"],
+	["signal2r", "signal3r"],
+	["signal2r", "signal4r"],
+	["signal3r", "signal4r"],
+	
+	//tip
+	["signal0r", "signal1r"],
+	["signal0r", "signal2r"],
+	["signal0r", "signal3r"],
+	["signal0r", "signal4r"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"beamDeform":"$=$strength*0.75", "beamStrength":"$=$strength*0.75"},
+
+	{"breakGroup":"spotlight_mount_R_break"},
+	
+	["signal1r", "mirrormt1r"],
+	["signal1r", "mirrormt2rr"],
+	["signal1r", "mirrormt3rr"],
+
+	["signal2r", "mirrormt1r"],
+	["signal2r", "mirrormt1rr"],
+	["signal2r", "mirrormt4rr"],
+
+	["signal3r", "mirrormt2r"],
+	["signal3r", "mirrormt1rr"],
+	["signal3r", "mirrormt4rr"],
+
+	["signal4r", "mirrormt1r"],
+	["signal4r", "mirrormt2rr"],
+	["signal4r", "mirrormt3rr"],
+
+	["signal0r", "mirrormt1rr"],
+	["signal0r", "mirrormt2rr"],
+	["signal0r", "mirrormt3rr"],
+	["signal0r", "mirrormt4rr"],
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_spotlight_mount_R"},
+	["signal0r","signal2r","signal1r"],
+	["signal0r","signal4r","signal2r"],
+	["signal0r","signal3r","signal4r"],
+	["signal0r","signal1r","signal3r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_spotlight_mount_R"},   
+	["signal2r","signal4r","signal3r","signal1r"],
+        {"group":""},
+    ], 
+},
+
+"legocar_spotlight_mount_R_dgrey": {
+    "information":{
+        "name":"Right Spotlight Mount (Dark Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_turnsignal_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_spotlight_R","legocar_spotlight_R_grey", "Right Spotlight"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_clip_dgrey", ["legocar_spotlight_mount_R"],[], {"pos":{"x":-0.800, "y":-0.625, "z":0.825},"rot":{"x":0, "y":-90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_spotlight_mount_R"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["signal1r", -0.83, -0.530, 0.700],
+	["signal2r", -0.83, -0.530, 0.950],
+	["signal3r", -0.83, -0.750, 0.700],
+	["signal4r", -0.83, -0.750, 0.950],
+	["signal0r", -1.00, -0.625, 0.825, {"selfCollision":false}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+
+	//square
+	["signal1r", "signal2r"],
+	["signal1r", "signal3r"],
+	["signal1r", "signal4r"],
+	["signal2r", "signal3r"],
+	["signal2r", "signal4r"],
+	["signal3r", "signal4r"],
+	
+	//tip
+	["signal0r", "signal1r"],
+	["signal0r", "signal2r"],
+	["signal0r", "signal3r"],
+	["signal0r", "signal4r"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"beamDeform":"$=$strength*0.75", "beamStrength":"$=$strength*0.75"},
+
+	{"breakGroup":"spotlight_mount_R_break"},
+	
+	["signal1r", "mirrormt1r"],
+	["signal1r", "mirrormt2rr"],
+	["signal1r", "mirrormt3rr"],
+
+	["signal2r", "mirrormt1r"],
+	["signal2r", "mirrormt1rr"],
+	["signal2r", "mirrormt4rr"],
+
+	["signal3r", "mirrormt2r"],
+	["signal3r", "mirrormt1rr"],
+	["signal3r", "mirrormt4rr"],
+
+	["signal4r", "mirrormt1r"],
+	["signal4r", "mirrormt2rr"],
+	["signal4r", "mirrormt3rr"],
+
+	["signal0r", "mirrormt1rr"],
+	["signal0r", "mirrormt2rr"],
+	["signal0r", "mirrormt3rr"],
+	["signal0r", "mirrormt4rr"],
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_spotlight_mount_R"},
+	["signal0r","signal2r","signal1r"],
+	["signal0r","signal4r","signal2r"],
+	["signal0r","signal3r","signal4r"],
+	["signal0r","signal1r","signal3r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_spotlight_mount_R"},   
+	["signal2r","signal4r","signal3r","signal1r"],
+        {"group":""},
+    ], 
+},
+
+}

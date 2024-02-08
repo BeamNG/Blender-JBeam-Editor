@@ -1,0 +1,836 @@
+{
+
+//--INCLUDE RIGIDIFIER WEIGHT IN SPRING AND DAMP SETTINGS, LOWER STIFFNESS NEEDED DUE TO USE OF TORSIONBARS AND MANY PARTS ATTACHED--
+
+"legocar_fascia_R_col1": {
+    "information":{
+        "name":"Rear Fascia (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fascia_R_side_L", "legocar_fascia_R_side_L_col1", "Left Rear Fascia Side"],
+	["legocar_fascia_R_side_R", "legocar_fascia_R_side_R_col1", "Right Rear Fascia Side"],
+	["legocar_exhaust", "legocar_exhaust_dual_grey", "Exhaust System"],
+	["legocar_taillight_L", "legocar_taillight_L_prefacelift", "Left Inner Taillight"],
+	["legocar_taillight_R", "legocar_taillight_R_prefacelift", "Right Inner Taillight"],
+	["legocar_taillight_LL", "legocar_taillight_LL_prefacelift", "Left Outer Taillight"],
+	["legocar_taillight_RR", "legocar_taillight_RR_prefacelift", "Right Outer Taillight"],
+	["legocar_licenseplate_mount_R", "legocar_licenseplate_mount_R_col1", "Rear License Plate Mount"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_col1", ["legocar_fascia_R"], [], {"pos":{"x": 0.000, "y":1.750, "z":0.475},"rot":{"x":-90, "y":0, "z":90},"scale":{"x":0.99, "y":1, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_fascia_R"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Rfasc1l",  0.75, 1.80, 0.38],
+	["Rfasc1r", -0.75, 1.80, 0.38],
+	["Rfasc2l",  0.75, 1.80, 0.60],
+	["Rfasc2r", -0.75, 1.80, 0.60],
+	//rigidifier
+	["Rfascrig", 0, 1.35, 0.475, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT FASCIA--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*901000", "beamDamp":"$=$weight*90"},
+
+	//uniform structure
+	["Rfasc1l", "Rfasc1r"],
+	["Rfasc2l", "Rfasc2r"],
+	["Rfasc1l", "Rfasc2l"],
+	["Rfasc1r", "Rfasc2r"],
+	["Rfasc1l", "Rfasc2r"],
+	["Rfasc2l", "Rfasc1r"],
+
+	//rigidifier
+	["Rfasc1l", "Rfascrig"],
+	["Rfasc1r", "Rfascrig"],
+	["Rfasc2l", "Rfascrig"],
+	["Rfasc2r", "Rfascrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"breakGroup":"fascia_R_break"},
+
+	["Rfasc1l", "rfscmnt1l"],
+	["Rfasc1l", "rfscmnt2l"],
+	["Rfasc1l", "rfscmnt2r"],
+	["Rfasc1l", "rfscmnt3l"],
+	["Rfasc1l", "rfscmnt4l"],
+
+	["Rfasc1r", "rfscmnt1r"],
+	["Rfasc1r", "rfscmnt2r"],
+	["Rfasc1r", "rfscmnt2l"],
+	["Rfasc1r", "rfscmnt3r"],
+	["Rfasc1r", "rfscmnt4r"],
+
+	["Rfasc2l", "rfscmnt3l"],
+	["Rfasc2l", "rfscmnt4l"],
+	["Rfasc2l", "rfscmnt4r"],
+	["Rfasc2l", "rfscmnt2l"],
+	["Rfasc2l", "rfscmnt1l"],
+
+	["Rfasc2r", "rfscmnt3r"],
+	["Rfasc2r", "rfscmnt4r"],
+	["Rfasc2r", "rfscmnt4l"],
+	["Rfasc2r", "rfscmnt2r"],
+	["Rfasc2r", "rfscmnt1r"],
+
+	//anti wobble
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	["Rfascrig", "rfscmnt1r"],
+	["Rfascrig", "rfscmnt1l"],
+	["Rfascrig", "rfscmnt2r"],
+	["Rfascrig", "rfscmnt2l"],
+	["Rfascrig", "rfscmnt3r"],
+	["Rfascrig", "rfscmnt3l"],
+	["Rfascrig", "rfscmnt4r"],
+	["Rfascrig", "rfscmnt4l"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["Rfasc1l", "rfscmnt1l"],
+	["Rfasc1l", "rfscmnt3l"],
+	["Rfasc1l", "rfscmnt1r"],
+	["Rfasc1l", "rfscmnt3r"],
+
+	["Rfasc1r", "rfscmnt1r"],
+	["Rfasc1r", "rfscmnt3r"],
+	["Rfasc1r", "rfscmnt1l"],
+	["Rfasc1r", "rfscmnt3l"],
+
+	["Rfasc2l", "rfscmnt3l"],
+	["Rfasc2l", "rfscmnt1l"],
+	["Rfasc2l", "rfscmnt3r"],
+	["Rfasc2l", "rfscmnt1r"],
+
+	["Rfasc2r", "rfscmnt3r"],
+	["Rfasc2r", "rfscmnt1r"],
+	["Rfasc2r", "rfscmnt3l"],
+	["Rfasc2r", "rfscmnt1l"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_fascia_R"},
+	["Rfasc1l","Rfasc1r","Rfasc2r","Rfasc2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_fascia_R_col2": {
+    "information":{
+        "name":"Rear Fascia (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fascia_R_side_L", "legocar_fascia_R_side_L_col2", "Left Rear Fascia Side"],
+	["legocar_fascia_R_side_R", "legocar_fascia_R_side_R_col2", "Right Rear Fascia Side"],
+	["legocar_exhaust", "legocar_exhaust_dual_grey", "Exhaust System"],
+	["legocar_taillight_L", "legocar_taillight_L_prefacelift", "Left Inner Taillight"],
+	["legocar_taillight_R", "legocar_taillight_R_prefacelift", "Right Inner Taillight"],
+	["legocar_taillight_LL", "legocar_taillight_LL_prefacelift", "Left Outer Taillight"],
+	["legocar_taillight_RR", "legocar_taillight_RR_prefacelift", "Right Outer Taillight"],
+	["legocar_licenseplate_mount_R", "legocar_licenseplate_mount_R_col2", "Rear License Plate Mount"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_col2", ["legocar_fascia_R"], [], {"pos":{"x": 0.000, "y":1.750, "z":0.475},"rot":{"x":-90, "y":0, "z":90},"scale":{"x":0.99, "y":1, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_fascia_R"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Rfasc1l",  0.75, 1.80, 0.38],
+	["Rfasc1r", -0.75, 1.80, 0.38],
+	["Rfasc2l",  0.75, 1.80, 0.60],
+	["Rfasc2r", -0.75, 1.80, 0.60],
+	//rigidifier
+	["Rfascrig", 0, 1.35, 0.475, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR FASCIA--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*901000", "beamDamp":"$=$weight*90"},
+
+	//uniform structure
+	["Rfasc1l", "Rfasc1r"],
+	["Rfasc2l", "Rfasc2r"],
+	["Rfasc1l", "Rfasc2l"],
+	["Rfasc1r", "Rfasc2r"],
+	["Rfasc1l", "Rfasc2r"],
+	["Rfasc2l", "Rfasc1r"],
+
+	//rigidifier
+	["Rfasc1l", "Rfascrig"],
+	["Rfasc1r", "Rfascrig"],
+	["Rfasc2l", "Rfascrig"],
+	["Rfasc2r", "Rfascrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"breakGroup":"fascia_R_break"},
+
+	["Rfasc1l", "rfscmnt1l"],
+	["Rfasc1l", "rfscmnt2l"],
+	["Rfasc1l", "rfscmnt2r"],
+	["Rfasc1l", "rfscmnt3l"],
+	["Rfasc1l", "rfscmnt4l"],
+
+	["Rfasc1r", "rfscmnt1r"],
+	["Rfasc1r", "rfscmnt2r"],
+	["Rfasc1r", "rfscmnt2l"],
+	["Rfasc1r", "rfscmnt3r"],
+	["Rfasc1r", "rfscmnt4r"],
+
+	["Rfasc2l", "rfscmnt3l"],
+	["Rfasc2l", "rfscmnt4l"],
+	["Rfasc2l", "rfscmnt4r"],
+	["Rfasc2l", "rfscmnt2l"],
+	["Rfasc2l", "rfscmnt1l"],
+
+	["Rfasc2r", "rfscmnt3r"],
+	["Rfasc2r", "rfscmnt4r"],
+	["Rfasc2r", "rfscmnt4l"],
+	["Rfasc2r", "rfscmnt2r"],
+	["Rfasc2r", "rfscmnt1r"],
+
+	//anti wobble
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	["Rfascrig", "rfscmnt1r"],
+	["Rfascrig", "rfscmnt1l"],
+	["Rfascrig", "rfscmnt2r"],
+	["Rfascrig", "rfscmnt2l"],
+	["Rfascrig", "rfscmnt3r"],
+	["Rfascrig", "rfscmnt3l"],
+	["Rfascrig", "rfscmnt4r"],
+	["Rfascrig", "rfscmnt4l"],
+
+
+	{"breakGroup":""},
+
+	
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["Rfasc1l", "rfscmnt1l"],
+	["Rfasc1l", "rfscmnt3l"],
+	["Rfasc1l", "rfscmnt1r"],
+	["Rfasc1l", "rfscmnt3r"],
+
+	["Rfasc1r", "rfscmnt1r"],
+	["Rfasc1r", "rfscmnt3r"],
+	["Rfasc1r", "rfscmnt1l"],
+	["Rfasc1r", "rfscmnt3l"],
+
+	["Rfasc2l", "rfscmnt3l"],
+	["Rfasc2l", "rfscmnt1l"],
+	["Rfasc2l", "rfscmnt3r"],
+	["Rfasc2l", "rfscmnt1r"],
+
+	["Rfasc2r", "rfscmnt3r"],
+	["Rfasc2r", "rfscmnt1r"],
+	["Rfasc2r", "rfscmnt3l"],
+	["Rfasc2r", "rfscmnt1l"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_fascia_R"},
+	["Rfasc1l","Rfasc1r","Rfasc2r","Rfasc2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_fascia_R_col3": {
+    "information":{
+        "name":"Rear Fascia (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fascia_R_side_L", "legocar_fascia_R_side_L_col3", "Left Rear Fascia Side"],
+	["legocar_fascia_R_side_R", "legocar_fascia_R_side_R_col3", "Right Rear Fascia Side"],
+	["legocar_exhaust", "legocar_exhaust_dual_grey", "Exhaust System"],
+	["legocar_taillight_L", "legocar_taillight_L_prefacelift", "Left Inner Taillight"],
+	["legocar_taillight_R", "legocar_taillight_R_prefacelift", "Right Inner Taillight"],
+	["legocar_taillight_LL", "legocar_taillight_LL_prefacelift", "Left Outer Taillight"],
+	["legocar_taillight_RR", "legocar_taillight_RR_prefacelift", "Right Outer Taillight"],
+	["legocar_licenseplate_mount_R", "legocar_licenseplate_mount_R_col3", "Rear License Plate Mount"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_col3", ["legocar_fascia_R"], [], {"pos":{"x": 0.000, "y":1.750, "z":0.475},"rot":{"x":-90, "y":0, "z":90},"scale":{"x":0.99, "y":1, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_fascia_R"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Rfasc1l",  0.75, 1.80, 0.38],
+	["Rfasc1r", -0.75, 1.80, 0.38],
+	["Rfasc2l",  0.75, 1.80, 0.60],
+	["Rfasc2r", -0.75, 1.80, 0.60],
+	//rigidifier
+	["Rfascrig", 0, 1.35, 0.475, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR FASCIA--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*901000", "beamDamp":"$=$weight*90"},
+
+	//uniform structure
+	["Rfasc1l", "Rfasc1r"],
+	["Rfasc2l", "Rfasc2r"],
+	["Rfasc1l", "Rfasc2l"],
+	["Rfasc1r", "Rfasc2r"],
+	["Rfasc1l", "Rfasc2r"],
+	["Rfasc2l", "Rfasc1r"],
+
+	//rigidifier
+	["Rfasc1l", "Rfascrig"],
+	["Rfasc1r", "Rfascrig"],
+	["Rfasc2l", "Rfascrig"],
+	["Rfasc2r", "Rfascrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"breakGroup":"fascia_R_break"},
+
+	["Rfasc1l", "rfscmnt1l"],
+	["Rfasc1l", "rfscmnt2l"],
+	["Rfasc1l", "rfscmnt2r"],
+	["Rfasc1l", "rfscmnt3l"],
+	["Rfasc1l", "rfscmnt4l"],
+
+	["Rfasc1r", "rfscmnt1r"],
+	["Rfasc1r", "rfscmnt2r"],
+	["Rfasc1r", "rfscmnt2l"],
+	["Rfasc1r", "rfscmnt3r"],
+	["Rfasc1r", "rfscmnt4r"],
+
+	["Rfasc2l", "rfscmnt3l"],
+	["Rfasc2l", "rfscmnt4l"],
+	["Rfasc2l", "rfscmnt4r"],
+	["Rfasc2l", "rfscmnt2l"],
+	["Rfasc2l", "rfscmnt1l"],
+
+	["Rfasc2r", "rfscmnt3r"],
+	["Rfasc2r", "rfscmnt4r"],
+	["Rfasc2r", "rfscmnt4l"],
+	["Rfasc2r", "rfscmnt2r"],
+	["Rfasc2r", "rfscmnt1r"],
+
+	//anti wobble
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	["Rfascrig", "rfscmnt1r"],
+	["Rfascrig", "rfscmnt1l"],
+	["Rfascrig", "rfscmnt2r"],
+	["Rfascrig", "rfscmnt2l"],
+	["Rfascrig", "rfscmnt3r"],
+	["Rfascrig", "rfscmnt3l"],
+	["Rfascrig", "rfscmnt4r"],
+	["Rfascrig", "rfscmnt4l"],
+
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["Rfasc1l", "rfscmnt1l"],
+	["Rfasc1l", "rfscmnt3l"],
+	["Rfasc1l", "rfscmnt1r"],
+	["Rfasc1l", "rfscmnt3r"],
+
+	["Rfasc1r", "rfscmnt1r"],
+	["Rfasc1r", "rfscmnt3r"],
+	["Rfasc1r", "rfscmnt1l"],
+	["Rfasc1r", "rfscmnt3l"],
+
+	["Rfasc2l", "rfscmnt3l"],
+	["Rfasc2l", "rfscmnt1l"],
+	["Rfasc2l", "rfscmnt3r"],
+	["Rfasc2l", "rfscmnt1r"],
+
+	["Rfasc2r", "rfscmnt3r"],
+	["Rfasc2r", "rfscmnt1r"],
+	["Rfasc2r", "rfscmnt3l"],
+	["Rfasc2r", "rfscmnt1l"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_fascia_R"},
+	["Rfasc1l","Rfasc1r","Rfasc2r","Rfasc2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_fascia_R_grey": {
+    "information":{
+        "name":"Rear Fascia (Light Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fascia_R_side_L", "legocar_fascia_R_side_L_col1", "Left Rear Fascia Side"],
+	["legocar_fascia_R_side_R", "legocar_fascia_R_side_R_col1", "Right Rear Fascia Side"],
+	["legocar_exhaust", "legocar_exhaust_dual_grey", "Exhaust System"],
+	["legocar_taillight_L", "legocar_taillight_L_prefacelift", "Left Inner Taillight"],
+	["legocar_taillight_R", "legocar_taillight_R_prefacelift", "Right Inner Taillight"],
+	["legocar_taillight_LL", "legocar_taillight_LL_prefacelift", "Left Outer Taillight"],
+	["legocar_taillight_RR", "legocar_taillight_RR_prefacelift", "Right Outer Taillight"],
+	["legocar_licenseplate_mount_R", "legocar_licenseplate_mount_R_grey", "Rear License Plate Mount"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_grey", ["legocar_fascia_R"], [], {"pos":{"x": 0.000, "y":1.750, "z":0.475},"rot":{"x":-90, "y":0, "z":90},"scale":{"x":0.99, "y":1, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_fascia_R"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Rfasc1l",  0.75, 1.80, 0.38],
+	["Rfasc1r", -0.75, 1.80, 0.38],
+	["Rfasc2l",  0.75, 1.80, 0.60],
+	["Rfasc2r", -0.75, 1.80, 0.60],
+	//rigidifier
+	["Rfascrig", 0, 1.35, 0.475, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR FASCIA--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*901000", "beamDamp":"$=$weight*90"},
+
+	//uniform structure
+	["Rfasc1l", "Rfasc1r"],
+	["Rfasc2l", "Rfasc2r"],
+	["Rfasc1l", "Rfasc2l"],
+	["Rfasc1r", "Rfasc2r"],
+	["Rfasc1l", "Rfasc2r"],
+	["Rfasc2l", "Rfasc1r"],
+
+	//rigidifier
+	["Rfasc1l", "Rfascrig"],
+	["Rfasc1r", "Rfascrig"],
+	["Rfasc2l", "Rfascrig"],
+	["Rfasc2r", "Rfascrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"breakGroup":"fascia_R_break"},
+
+	["Rfasc1l", "rfscmnt1l"],
+	["Rfasc1l", "rfscmnt2l"],
+	["Rfasc1l", "rfscmnt2r"],
+	["Rfasc1l", "rfscmnt3l"],
+	["Rfasc1l", "rfscmnt4l"],
+
+	["Rfasc1r", "rfscmnt1r"],
+	["Rfasc1r", "rfscmnt2r"],
+	["Rfasc1r", "rfscmnt2l"],
+	["Rfasc1r", "rfscmnt3r"],
+	["Rfasc1r", "rfscmnt4r"],
+
+	["Rfasc2l", "rfscmnt3l"],
+	["Rfasc2l", "rfscmnt4l"],
+	["Rfasc2l", "rfscmnt4r"],
+	["Rfasc2l", "rfscmnt2l"],
+	["Rfasc2l", "rfscmnt1l"],
+
+	["Rfasc2r", "rfscmnt3r"],
+	["Rfasc2r", "rfscmnt4r"],
+	["Rfasc2r", "rfscmnt4l"],
+	["Rfasc2r", "rfscmnt2r"],
+	["Rfasc2r", "rfscmnt1r"],
+
+	//anti wobble
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	["Rfascrig", "rfscmnt1r"],
+	["Rfascrig", "rfscmnt1l"],
+	["Rfascrig", "rfscmnt2r"],
+	["Rfascrig", "rfscmnt2l"],
+	["Rfascrig", "rfscmnt3r"],
+	["Rfascrig", "rfscmnt3l"],
+	["Rfascrig", "rfscmnt4r"],
+	["Rfascrig", "rfscmnt4l"],
+
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["Rfasc1l", "rfscmnt1l"],
+	["Rfasc1l", "rfscmnt3l"],
+	["Rfasc1l", "rfscmnt1r"],
+	["Rfasc1l", "rfscmnt3r"],
+
+	["Rfasc1r", "rfscmnt1r"],
+	["Rfasc1r", "rfscmnt3r"],
+	["Rfasc1r", "rfscmnt1l"],
+	["Rfasc1r", "rfscmnt3l"],
+
+	["Rfasc2l", "rfscmnt3l"],
+	["Rfasc2l", "rfscmnt1l"],
+	["Rfasc2l", "rfscmnt3r"],
+	["Rfasc2l", "rfscmnt1r"],
+
+	["Rfasc2r", "rfscmnt3r"],
+	["Rfasc2r", "rfscmnt1r"],
+	["Rfasc2r", "rfscmnt3l"],
+	["Rfasc2r", "rfscmnt1l"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_fascia_R"},
+	["Rfasc1l","Rfasc1r","Rfasc2r","Rfasc2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_fascia_R_dgrey": {
+    "information":{
+        "name":"Rear Fascia (Dark Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fascia_R_side_L", "legocar_fascia_R_side_L_col1", "Left Rear Fascia Side"],
+	["legocar_fascia_R_side_R", "legocar_fascia_R_side_R_col1", "Right Rear Fascia Side"],
+	["legocar_exhaust", "legocar_exhaust_dual_grey", "Exhaust System"],
+	["legocar_taillight_L", "legocar_taillight_L_prefacelift", "Left Inner Taillight"],
+	["legocar_taillight_R", "legocar_taillight_R_prefacelift", "Right Inner Taillight"],
+	["legocar_taillight_LL", "legocar_taillight_LL_prefacelift", "Left Outer Taillight"],
+	["legocar_taillight_RR", "legocar_taillight_RR_prefacelift", "Right Outer Taillight"],
+	["legocar_licenseplate_mount_R", "legocar_licenseplate_mount_R_dgrey", "Rear License Plate Mount"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_dgrey", ["legocar_fascia_R"], [], {"pos":{"x": 0.000, "y":1.750, "z":0.475},"rot":{"x":-90, "y":0, "z":90},"scale":{"x":0.99, "y":1, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_fascia_R"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Rfasc1l",  0.75, 1.80, 0.38],
+	["Rfasc1r", -0.75, 1.80, 0.38],
+	["Rfasc2l",  0.75, 1.80, 0.60],
+	["Rfasc2r", -0.75, 1.80, 0.60],
+	//rigidifier
+	["Rfascrig", 0, 1.35, 0.475, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR FASCIA--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*901000", "beamDamp":"$=$weight*90"},
+
+	//uniform structure
+	["Rfasc1l", "Rfasc1r"],
+	["Rfasc2l", "Rfasc2r"],
+	["Rfasc1l", "Rfasc2l"],
+	["Rfasc1r", "Rfasc2r"],
+	["Rfasc1l", "Rfasc2r"],
+	["Rfasc2l", "Rfasc1r"],
+
+	//rigidifier
+	["Rfasc1l", "Rfascrig"],
+	["Rfasc1r", "Rfascrig"],
+	["Rfasc2l", "Rfascrig"],
+	["Rfasc2r", "Rfascrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"breakGroup":"fascia_R_break"},
+
+	["Rfasc1l", "rfscmnt1l"],
+	["Rfasc1l", "rfscmnt2l"],
+	["Rfasc1l", "rfscmnt2r"],
+	["Rfasc1l", "rfscmnt3l"],
+	["Rfasc1l", "rfscmnt4l"],
+
+	["Rfasc1r", "rfscmnt1r"],
+	["Rfasc1r", "rfscmnt2r"],
+	["Rfasc1r", "rfscmnt2l"],
+	["Rfasc1r", "rfscmnt3r"],
+	["Rfasc1r", "rfscmnt4r"],
+
+	["Rfasc2l", "rfscmnt3l"],
+	["Rfasc2l", "rfscmnt4l"],
+	["Rfasc2l", "rfscmnt4r"],
+	["Rfasc2l", "rfscmnt2l"],
+	["Rfasc2l", "rfscmnt1l"],
+
+	["Rfasc2r", "rfscmnt3r"],
+	["Rfasc2r", "rfscmnt4r"],
+	["Rfasc2r", "rfscmnt4l"],
+	["Rfasc2r", "rfscmnt2r"],
+	["Rfasc2r", "rfscmnt1r"],
+
+	//anti wobble
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	["Rfascrig", "rfscmnt1r"],
+	["Rfascrig", "rfscmnt1l"],
+	["Rfascrig", "rfscmnt2r"],
+	["Rfascrig", "rfscmnt2l"],
+	["Rfascrig", "rfscmnt3r"],
+	["Rfascrig", "rfscmnt3l"],
+	["Rfascrig", "rfscmnt4r"],
+	["Rfascrig", "rfscmnt4l"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["Rfasc1l", "rfscmnt1l"],
+	["Rfasc1l", "rfscmnt3l"],
+	["Rfasc1l", "rfscmnt1r"],
+	["Rfasc1l", "rfscmnt3r"],
+
+	["Rfasc1r", "rfscmnt1r"],
+	["Rfasc1r", "rfscmnt3r"],
+	["Rfasc1r", "rfscmnt1l"],
+	["Rfasc1r", "rfscmnt3l"],
+
+	["Rfasc2l", "rfscmnt3l"],
+	["Rfasc2l", "rfscmnt1l"],
+	["Rfasc2l", "rfscmnt3r"],
+	["Rfasc2l", "rfscmnt1r"],
+
+	["Rfasc2r", "rfscmnt3r"],
+	["Rfasc2r", "rfscmnt1r"],
+	["Rfasc2r", "rfscmnt3l"],
+	["Rfasc2r", "rfscmnt1l"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_fascia_R"},
+	["Rfasc1l","Rfasc1r","Rfasc2r","Rfasc2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_fascia_R_black": {
+    "information":{
+        "name":"Rear Fascia (Black)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fascia_R_side_L", "legocar_fascia_R_side_L_col1", "Left Rear Fascia Side"],
+	["legocar_fascia_R_side_R", "legocar_fascia_R_side_R_col1", "Right Rear Fascia Side"],
+	["legocar_exhaust", "legocar_exhaust_dual_grey", "Exhaust System"],
+	["legocar_taillight_L", "legocar_taillight_L_prefacelift", "Left Inner Taillight"],
+	["legocar_taillight_R", "legocar_taillight_R_prefacelift", "Right Inner Taillight"],
+	["legocar_taillight_LL", "legocar_taillight_LL_prefacelift", "Left Outer Taillight"],
+	["legocar_taillight_RR", "legocar_taillight_RR_prefacelift", "Right Outer Taillight"],
+	["legocar_licenseplate_mount_R", "legocar_licenseplate_mount_R_dgrey", "Rear License Plate Mount"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_black", ["legocar_fascia_R"], [], {"pos":{"x": 0.000, "y":1.750, "z":0.475},"rot":{"x":-90, "y":0, "z":90},"scale":{"x":0.99, "y":1, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_fascia_R"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Rfasc1l",  0.75, 1.80, 0.38],
+	["Rfasc1r", -0.75, 1.80, 0.38],
+	["Rfasc2l",  0.75, 1.80, 0.60],
+	["Rfasc2r", -0.75, 1.80, 0.60],
+	//rigidifier
+	["Rfascrig", 0, 1.35, 0.475, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR FASCIA--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*901000", "beamDamp":"$=$weight*90"},
+
+	//uniform structure
+	["Rfasc1l", "Rfasc1r"],
+	["Rfasc2l", "Rfasc2r"],
+	["Rfasc1l", "Rfasc2l"],
+	["Rfasc1r", "Rfasc2r"],
+	["Rfasc1l", "Rfasc2r"],
+	["Rfasc2l", "Rfasc1r"],
+
+	//rigidifier
+	["Rfasc1l", "Rfascrig"],
+	["Rfasc1r", "Rfascrig"],
+	["Rfasc2l", "Rfascrig"],
+	["Rfasc2r", "Rfascrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"breakGroup":"fascia_R_break"},
+
+	["Rfasc1l", "rfscmnt1l"],
+	["Rfasc1l", "rfscmnt2l"],
+	["Rfasc1l", "rfscmnt2r"],
+	["Rfasc1l", "rfscmnt3l"],
+	["Rfasc1l", "rfscmnt4l"],
+
+	["Rfasc1r", "rfscmnt1r"],
+	["Rfasc1r", "rfscmnt2r"],
+	["Rfasc1r", "rfscmnt2l"],
+	["Rfasc1r", "rfscmnt3r"],
+	["Rfasc1r", "rfscmnt4r"],
+
+	["Rfasc2l", "rfscmnt3l"],
+	["Rfasc2l", "rfscmnt4l"],
+	["Rfasc2l", "rfscmnt4r"],
+	["Rfasc2l", "rfscmnt2l"],
+	["Rfasc2l", "rfscmnt1l"],
+
+	["Rfasc2r", "rfscmnt3r"],
+	["Rfasc2r", "rfscmnt4r"],
+	["Rfasc2r", "rfscmnt4l"],
+	["Rfasc2r", "rfscmnt2r"],
+	["Rfasc2r", "rfscmnt1r"],
+
+	//anti wobble
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	["Rfascrig", "rfscmnt1r"],
+	["Rfascrig", "rfscmnt1l"],
+	["Rfascrig", "rfscmnt2r"],
+	["Rfascrig", "rfscmnt2l"],
+	["Rfascrig", "rfscmnt3r"],
+	["Rfascrig", "rfscmnt3l"],
+	["Rfascrig", "rfscmnt4r"],
+	["Rfascrig", "rfscmnt4l"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["Rfasc1l", "rfscmnt1l"],
+	["Rfasc1l", "rfscmnt3l"],
+	["Rfasc1l", "rfscmnt1r"],
+	["Rfasc1l", "rfscmnt3r"],
+
+	["Rfasc1r", "rfscmnt1r"],
+	["Rfasc1r", "rfscmnt3r"],
+	["Rfasc1r", "rfscmnt1l"],
+	["Rfasc1r", "rfscmnt3l"],
+
+	["Rfasc2l", "rfscmnt3l"],
+	["Rfasc2l", "rfscmnt1l"],
+	["Rfasc2l", "rfscmnt3r"],
+	["Rfasc2l", "rfscmnt1r"],
+
+	["Rfasc2r", "rfscmnt3r"],
+	["Rfasc2r", "rfscmnt1r"],
+	["Rfasc2r", "rfscmnt3l"],
+	["Rfasc2r", "rfscmnt1l"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_fascia_R"},
+	["Rfasc1l","Rfasc1r","Rfasc2r","Rfasc2l"],
+        {"group":""},
+    ],
+},
+
+}

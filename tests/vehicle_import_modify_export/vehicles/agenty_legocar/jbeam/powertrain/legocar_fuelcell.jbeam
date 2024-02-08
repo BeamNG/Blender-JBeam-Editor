@@ -1,0 +1,327 @@
+{
+"legocar_fuelcell_gasoline": {
+    "information":{
+        "name":"Interior Fuel Cell (Gasoline)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_interior_load",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fire_fuelcell", "legocar_fire_fuelcell", "Fire Effect On Break"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x2_flat_black",      ["legocar_fuelcell"], [], {"pos":{"x": 0, "y":0.500, "z":0.3},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_2x2_flat_black",      ["legocar_fuelcell"], [], {"pos":{"x": 0, "y":0.500, "z":0.4},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_circle_grey",["legocar_fuelcell"], [], {"pos":{"x": 0, "y":0.500, "z":0.5},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$fuel_cell", "range", "L", "Chassis", 75, 0, 75, "Fuel Volume", "Initial fuel volume", {"stepDis":0.5, "subCategory":"Fuel Cell"}],
+    ],
+    "energyStorage": [
+        ["type", "name"],
+        ["fuelTank", "fuelCell"],
+    ],
+    "fuelCell": {
+        "energyType":"gasoline",
+        "fuelCapacity": 75,
+        "startingFuelCapacity": "$fuel_cell",
+        "fuel": {"[engineGroup]:":["fuel_cell"]},
+        "breakTriggerBeam": "fuelCell",
+    },
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//fuel cell
+	{"group":"legocar_fuelcell"},
+	{"engineGroup":["fuel_cell"]},
+
+	//9 pieces, 8 nodes - 1.125 kg/node
+	{"nodeWeight": "$=$weight*1.125"},
+
+	["fuelcell1l",  0.22, 0.28, 0.33],
+	["fuelcell1r", -0.22, 0.28, 0.33],
+	["fuelcell2l",  0.22, 0.75, 0.33],
+	["fuelcell2r", -0.22, 0.75, 0.33],
+	["fuelcell3l",  0.22, 0.28, 0.55],
+	["fuelcell3r", -0.22, 0.28, 0.55],
+	["fuelcell4l",  0.22, 0.75, 0.55],
+	["fuelcell4r", -0.22, 0.75, 0.55],
+
+	{"engineGroup":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FUEL CELL--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1125000", "beamDamp":"$=$weight*112.5"},
+
+	//uniform structure
+	["fuelcell1l", "fuelcell1r"],
+	["fuelcell2l", "fuelcell2r"],
+	["fuelcell3l", "fuelcell3r"],
+	["fuelcell4l", "fuelcell4r"],
+
+	["fuelcell1l", "fuelcell2r"],
+	["fuelcell2l", "fuelcell3r"],
+	["fuelcell3l", "fuelcell4r"],
+	["fuelcell4l", "fuelcell1r"],
+
+	["fuelcell1l", "fuelcell3r"],
+	["fuelcell2l", "fuelcell4r"],
+	["fuelcell3l", "fuelcell1r"],
+	["fuelcell4l", "fuelcell2r"],
+
+	["fuelcell1l", "fuelcell4r"],
+	["fuelcell2l", "fuelcell1r"],
+	["fuelcell3l", "fuelcell2r"],
+	["fuelcell4l", "fuelcell3r"],
+
+	["fuelcell1l", "fuelcell2l"],
+	["fuelcell2l", "fuelcell3l"],
+	["fuelcell3l", "fuelcell4l"],
+	["fuelcell4l", "fuelcell1l"],
+
+	["fuelcell1l", "fuelcell3l"],
+	["fuelcell2l", "fuelcell4l"],
+
+	["fuelcell1r", "fuelcell2r"],
+	["fuelcell2r", "fuelcell3r"],
+	["fuelcell3r", "fuelcell4r"],
+	["fuelcell4r", "fuelcell1r"],
+
+	["fuelcell1r", "fuelcell3r"],
+	["fuelcell2r", "fuelcell4r"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"fuelcell_break"},
+
+	["fuelcell3r", "chassis3r", {"name":"fuelCell","containerBeam": "fuelCell", "deformGroup":"fuelcell_break"}],
+	["fuelcell3r", "chassis6r"],
+	["fuelcell3r", "chassis2r"],
+	["fuelcell3r", "chassis2rr"],
+	["fuelcell3r", "chassis7rr"],
+	["fuelcell3r", "chassis0"],
+
+	["fuelcell3l", "chassis3l"],
+	["fuelcell3l", "chassis6l"],
+	["fuelcell3l", "chassis2l"],
+	["fuelcell3l", "chassis2ll"],
+	["fuelcell3l", "chassis7ll"],
+	["fuelcell3l", "chassis0"],
+
+	["fuelcell4r", "chassis6r"],
+	["fuelcell4r", "chassis7r"],
+	["fuelcell4r", "chassis7rr"],
+	["fuelcell4r", "chassis0"],
+
+	["fuelcell4l", "chassis6l"],
+	["fuelcell4l", "chassis7l"],
+	["fuelcell4l", "chassis7ll"],
+	["fuelcell4l", "chassis0"],
+
+	//stiffeners
+	{"optional":true},
+
+	["fuelcell3l", "chassis4"],
+	["fuelcell3r", "chassis4"],
+	["fuelcell4l", "chassis4"],
+	["fuelcell4r", "chassis4"],
+
+	["fuelcell3l", "chassis5"],
+	["fuelcell3r", "chassis5"],
+	["fuelcell4l", "chassis5"],
+	["fuelcell4r", "chassis5"],
+
+	{"optional":false},
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_fuelcell"},   
+	["fuelcell2r","fuelcell2l","fuelcell1l","fuelcell1r"],
+	["fuelcell4l","fuelcell4r","fuelcell3r","fuelcell3l"],
+	["fuelcell3r","fuelcell4r","fuelcell2r","fuelcell1r"],
+	["fuelcell4l","fuelcell3l","fuelcell1l","fuelcell2l"],
+	["fuelcell4r","fuelcell4l","fuelcell2l","fuelcell2r"],
+	["fuelcell3l","fuelcell3r","fuelcell1r","fuelcell1l"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_fuelcell_magic": {
+    "information":{
+        "name":"Interior Fuel Cell (Magic)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_interior_load",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fire_fuelcell", "legocar_fire_fuelcell", "Fire Effect On Break"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x2_flat_black",      ["legocar_fuelcell"], [], {"pos":{"x": 0, "y":0.500, "z":0.3},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_2x2_flat_black",      ["legocar_fuelcell"], [], {"pos":{"x": 0, "y":0.500, "z":0.4},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_circle_grey",["legocar_fuelcell"], [], {"pos":{"x": 0, "y":0.500, "z":0.5},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$fuel_cell", "range", "L", "Chassis", 75, 0, 75, "Fuel Volume", "Initial fuel volume", {"stepDis":0.5, "subCategory":"Fuel Cell"}],
+    ],
+    "energyStorage": [
+        ["type", "name"],
+        ["fuelTank", "fuelCell"],
+    ],
+    "fuelCell": {
+        "energyType":"magic",
+	"fuelLiquidDensity": 0.75,
+        "energyDensity": 41000000,
+        "fuelCapacity": 75,
+        "startingFuelCapacity": "$fuel_cell",
+        "fuel": {"[engineGroup]:":["fuel_cell"]},
+        "breakTriggerBeam": "fuelCell",
+    },
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//fuel cell
+	{"group":"legocar_fuelcell"},
+
+	//9 pieces, 8 nodes - 1.125 kg/node
+	{"nodeWeight": "$=$weight*1.125"},
+
+	["fuelcell1l",  0.22, 0.28, 0.33],
+	["fuelcell1r", -0.22, 0.28, 0.33],
+	["fuelcell2l",  0.22, 0.75, 0.33],
+	["fuelcell2r", -0.22, 0.75, 0.33],
+	["fuelcell3l",  0.22, 0.28, 0.55],
+	["fuelcell3r", -0.22, 0.28, 0.55],
+	["fuelcell4l",  0.22, 0.75, 0.55],
+	["fuelcell4r", -0.22, 0.75, 0.55],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FUEL CELL--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1125000", "beamDamp":"$=$weight*112.5"},
+
+	//uniform structure
+	["fuelcell1l", "fuelcell1r"],
+	["fuelcell2l", "fuelcell2r"],
+	["fuelcell3l", "fuelcell3r"],
+	["fuelcell4l", "fuelcell4r"],
+
+	["fuelcell1l", "fuelcell2r"],
+	["fuelcell2l", "fuelcell3r"],
+	["fuelcell3l", "fuelcell4r"],
+	["fuelcell4l", "fuelcell1r"],
+
+	["fuelcell1l", "fuelcell3r"],
+	["fuelcell2l", "fuelcell4r"],
+	["fuelcell3l", "fuelcell1r"],
+	["fuelcell4l", "fuelcell2r"],
+
+	["fuelcell1l", "fuelcell4r"],
+	["fuelcell2l", "fuelcell1r"],
+	["fuelcell3l", "fuelcell2r"],
+	["fuelcell4l", "fuelcell3r"],
+
+	["fuelcell1l", "fuelcell2l"],
+	["fuelcell2l", "fuelcell3l"],
+	["fuelcell3l", "fuelcell4l"],
+	["fuelcell4l", "fuelcell1l"],
+
+	["fuelcell1l", "fuelcell3l"],
+	["fuelcell2l", "fuelcell4l"],
+
+	["fuelcell1r", "fuelcell2r"],
+	["fuelcell2r", "fuelcell3r"],
+	["fuelcell3r", "fuelcell4r"],
+	["fuelcell4r", "fuelcell1r"],
+
+	["fuelcell1r", "fuelcell3r"],
+	["fuelcell2r", "fuelcell4r"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"fuelcell_break"},
+
+	["fuelcell3r", "chassis3r", {"name":"fuelCell","containerBeam": "fuelCell", "deformGroup":"fuelcell_break"}],
+	["fuelcell3r", "chassis6r"],
+	["fuelcell3r", "chassis2r"],
+	["fuelcell3r", "chassis2rr"],
+	["fuelcell3r", "chassis7rr"],
+	["fuelcell3r", "chassis0"],
+
+	["fuelcell3l", "chassis3l"],
+	["fuelcell3l", "chassis6l"],
+	["fuelcell3l", "chassis2l"],
+	["fuelcell3l", "chassis2ll"],
+	["fuelcell3l", "chassis7ll"],
+	["fuelcell3l", "chassis0"],
+
+	["fuelcell4r", "chassis6r"],
+	["fuelcell4r", "chassis7r"],
+	["fuelcell4r", "chassis7rr"],
+	["fuelcell4r", "chassis0"],
+
+	["fuelcell4l", "chassis6l"],
+	["fuelcell4l", "chassis7l"],
+	["fuelcell4l", "chassis7ll"],
+	["fuelcell4l", "chassis0"],
+
+	//stiffeners
+	{"optional":true},
+
+	["fuelcell3l", "chassis4"],
+	["fuelcell3r", "chassis4"],
+	["fuelcell4l", "chassis4"],
+	["fuelcell4r", "chassis4"],
+
+	["fuelcell3l", "chassis5"],
+	["fuelcell3r", "chassis5"],
+	["fuelcell4l", "chassis5"],
+	["fuelcell4r", "chassis5"],
+
+	{"optional":false},
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_fuelcell"},   
+	["fuelcell2r","fuelcell2l","fuelcell1l","fuelcell1r"],
+	["fuelcell4l","fuelcell4r","fuelcell3r","fuelcell3l"],
+	["fuelcell3r","fuelcell4r","fuelcell2r","fuelcell1r"],
+	["fuelcell4l","fuelcell3l","fuelcell1l","fuelcell2l"],
+	["fuelcell4r","fuelcell4l","fuelcell2l","fuelcell2r"],
+	["fuelcell3l","fuelcell3r","fuelcell1r","fuelcell1l"],
+
+        {"group":""},
+    ],
+},
+
+}

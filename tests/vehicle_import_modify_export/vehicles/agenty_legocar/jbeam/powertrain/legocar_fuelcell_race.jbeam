@@ -1,0 +1,131 @@
+{
+"legocar_fuelcell_race_gasoline": {
+    "information":{
+        "name":"Gasoline Fuel Cell",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fuelcell_race",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x2_flat_grey",["legocar_sparetirepan"], [], {"pos":{"x":0, "y":1.500, "z":0.2},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":0.99, "z":0.99}}],
+     ],
+     "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$fuel_racecell", "range", "L", "Chassis", 75, 0, 75, "Fuel Volume", "Initial fuel volume", {"stepDis":0.5}],
+    ],
+    "energyStorage": [
+        ["type", "name"],
+        ["fuelTank", "raceCell"],
+    ],
+    "raceCell": {
+        "energyType":"gasoline",
+        "fuelCapacity": 75,
+        "startingFuelCapacity": "$fuel_racecell",
+        "fuel": {"[engineGroup]:":["fuel"]},
+        "breakTriggerBeam": "raceCell",
+    },
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"engineGroup":["fuel"]},
+
+	//add weight
+	//8 pieces, 8 half pieces, 8 nodes - 1.5 kg/node
+	{"nodeWeight": "$=$weight*1.5"},
+	{"group":"legocar_sparetirepan"},
+
+	["sptpan1l", 0.50, 1.28, 0.1],
+	["sptpan1r",-0.50, 1.28, 0.1],
+	["sptpan2l", 0.50, 1.75, 0.1],
+	["sptpan2r",-0.50, 1.75, 0.1],
+
+	["sptpan3l", 0.50, 1.28, 0.3],
+	["sptpan3r",-0.50, 1.28, 0.3],
+	["sptpan4l", 0.50, 1.75, 0.3],
+	["sptpan4r",-0.50, 1.75, 0.3],
+
+	{"group":""},
+	{"engineGroup":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//fuel cell break trigger beam
+	//activates fuel leak when fuel tank gets too far away from the chassis, doesn't affect physics
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	["sptpan1l","chassis0", {"name":"raceCell","containerBeam": "raceCell", "deformGroup":"raceCell_break"}],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+},
+
+"legocar_fuelcell_race_magic": {
+    "information":{
+        "name":"Magic Fuel Cell",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fuelcell_race",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x2_flat_grey",["legocar_sparetirepan"], [], {"pos":{"x":0, "y":1.500, "z":0.2},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":0.99, "z":0.99}}],
+     ],
+     "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$fuel_racecell", "range", "L", "Chassis", 75, 0, 75, "Fuel Volume", "Initial fuel volume", {"stepDis":0.5}],
+    ],
+    "energyStorage": [
+        ["type", "name"],
+        ["fuelTank", "raceCell"],
+    ],
+    "raceCell": {
+        "energyType":"magic",
+	"fuelLiquidDensity": 0.75,
+        "energyDensity": 41000000,
+        "fuelCapacity": 75,
+        "startingFuelCapacity": "$fuel_racecell",
+        "fuel": {"[engineGroup]:":["fuel"]},
+        "breakTriggerBeam": "raceCell",
+    },
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//add weight
+	//8 pieces, 8 half pieces, 8 nodes - 1.5 kg/node
+	{"nodeWeight": "$=$weight*1.5"},
+	{"group":"legocar_sparetirepan"},
+
+	["sptpan1l", 0.50, 1.28, 0.1],
+	["sptpan1r",-0.50, 1.28, 0.1],
+	["sptpan2l", 0.50, 1.75, 0.1],
+	["sptpan2r",-0.50, 1.75, 0.1],
+
+	["sptpan3l", 0.50, 1.28, 0.3],
+	["sptpan3r",-0.50, 1.28, 0.3],
+	["sptpan4l", 0.50, 1.75, 0.3],
+	["sptpan4r",-0.50, 1.75, 0.3],
+
+	{"group":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//fuel cell break trigger beam
+	//activates fuel leak when fuel tank gets too far away from the chassis, doesn't affect physics
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	["sptpan1l","chassis0", {"name":"raceCell","containerBeam": "raceCell", "deformGroup":"raceCell_break"}],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+},
+
+}

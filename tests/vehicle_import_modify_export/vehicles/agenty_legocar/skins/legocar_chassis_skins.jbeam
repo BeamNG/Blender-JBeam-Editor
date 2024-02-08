@@ -1,0 +1,51 @@
+{
+"legocar_skin_chassis_dgrey": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Dark Grey",
+    },
+    "slotType" : "skin_chassis",
+},
+"legocar_skin_chassis_black": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Black",
+    },
+    "slotType" : "skin_chassis",
+    "skinName" : "black",
+},
+"legocar_skin_chassis_bred": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Bright Red",
+    },
+    "slotType" : "skin_chassis",
+    "skinName" : "bred",
+},
+
+"legocar_skin_chassis_col1": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Colorable (Palette 1)",
+    },
+    "slotType" : "skin_chassis",
+    "skinName" : "col1",
+},
+"legocar_skin_chassis_col2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Colorable (Palette 2)",
+    },
+    "slotType" : "skin_chassis",
+    "skinName" : "col2",
+},
+"legocar_skin_chassis_col3": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Colorable (Palette 3)",
+    },
+    "slotType" : "skin_chassis",
+    "skinName" : "col3",
+},
+
+}

@@ -1,0 +1,332 @@
+{
+"legocar_widebodykit_L_col1": {
+    "information":{
+        "name":"Left Widebody Kit (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_widebodykit_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x1_flat_notip_col1",["legocar_widebody_L"], [], {"pos":{"x": 0.8, "y":0, "z":0.225},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":1, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_widebody_L"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["wide1l",  0.90, -0.50, 0.10],
+	["wide2l",  0.90,  0.50, 0.10],
+	["wide3l",  0.90, -0.50, 0.35],
+	["wide4l",  0.90,  0.50, 0.35],
+
+	//rigidifier
+	["wide0l", 0.60, 0, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT WIDEBODY--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["wide1l", "wide2l"],
+	["wide1l", "wide3l"],
+	["wide1l", "wide4l"],
+	["wide2l", "wide3l"],
+	["wide2l", "wide4l"],
+	["wide3l", "wide4l"],
+
+	//rigidifier
+	["wide1l", "wide0l"],
+	["wide2l", "wide0l"],
+	["wide3l", "wide0l"],
+	["wide4l", "wide0l"],
+
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//front
+	{"breakGroup":"wideody_FL_break"},
+
+	["wide1l", "FLsideskirt1r"],
+	["wide1l", "FLsideskirt2l"],
+	["wide1l", "FLsideskirt3l"],
+
+	["wide2l", "FLsideskirt2r"],
+	["wide2l", "FLsideskirt1l"],
+	["wide2l", "FLsideskirt4l"],
+
+	["wide3l", "FLsideskirt1r"],
+	["wide3l", "FLsideskirt4l"],
+	["wide3l", "FLsideskirt1l"],
+
+	["wide4l", "FLsideskirt2r"],
+	["wide4l", "FLsideskirt3l"],
+	["wide4l", "FLsideskirt2l"],
+
+	["wide0l", "FLsideskirt2l"],
+	["wide0l", "FLsideskirt4l"],
+
+	//back
+	{"breakGroup":"wideody_RL_break"},
+
+	["wide2l", "RLsideskirt1r"],
+	["wide2l", "RLsideskirt2l"],
+	["wide2l", "RLsideskirt3l"],
+
+	["wide1l", "RLsideskirt2r"],
+	["wide1l", "RLsideskirt1l"],
+	["wide1l", "RLsideskirt4l"],
+
+	["wide4l", "RLsideskirt1r"],
+	["wide4l", "RLsideskirt4l"],
+	["wide4l", "RLsideskirt1l"],
+
+	["wide3l", "RLsideskirt2r"],
+	["wide3l", "RLsideskirt3l"],
+	["wide3l", "RLsideskirt2l"],
+
+	["wide0l", "RLsideskirt1l"],
+	["wide0l", "RLsideskirt3l"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_widebody_L"},
+	["wide1l","wide2l","wide4l","wide3l"],
+        {"group":""},
+    ],
+},
+
+"legocar_widebodykit_L_col2": {
+    "information":{
+        "name":"Left Widebody Kit (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_widebodykit_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x1_flat_notip_col2",["legocar_widebody_L"], [], {"pos":{"x": 0.8, "y":0, "z":0.225},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":1, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_widebody_L"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["wide1l",  0.90, -0.50, 0.10],
+	["wide2l",  0.90,  0.50, 0.10],
+	["wide3l",  0.90, -0.50, 0.35],
+	["wide4l",  0.90,  0.50, 0.35],
+
+	//rigidifier
+	["wide0l", 0.60, 0, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT WIDEBODY--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["wide1l", "wide2l"],
+	["wide1l", "wide3l"],
+	["wide1l", "wide4l"],
+	["wide2l", "wide3l"],
+	["wide2l", "wide4l"],
+	["wide3l", "wide4l"],
+
+	//rigidifier
+	["wide1l", "wide0l"],
+	["wide2l", "wide0l"],
+	["wide3l", "wide0l"],
+	["wide4l", "wide0l"],
+
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//front
+	{"breakGroup":"wideody_FL_break"},
+
+	["wide1l", "FLsideskirt1r"],
+	["wide1l", "FLsideskirt2l"],
+	["wide1l", "FLsideskirt3l"],
+
+	["wide2l", "FLsideskirt2r"],
+	["wide2l", "FLsideskirt1l"],
+	["wide2l", "FLsideskirt4l"],
+
+	["wide3l", "FLsideskirt1r"],
+	["wide3l", "FLsideskirt4l"],
+	["wide3l", "FLsideskirt1l"],
+
+	["wide4l", "FLsideskirt2r"],
+	["wide4l", "FLsideskirt3l"],
+	["wide4l", "FLsideskirt2l"],
+
+	["wide0l", "FLsideskirt2l"],
+	["wide0l", "FLsideskirt4l"],
+
+	//back
+	{"breakGroup":"wideody_RL_break"},
+
+	["wide2l", "RLsideskirt1r"],
+	["wide2l", "RLsideskirt2l"],
+	["wide2l", "RLsideskirt3l"],
+
+	["wide1l", "RLsideskirt2r"],
+	["wide1l", "RLsideskirt1l"],
+	["wide1l", "RLsideskirt4l"],
+
+	["wide4l", "RLsideskirt1r"],
+	["wide4l", "RLsideskirt4l"],
+	["wide4l", "RLsideskirt1l"],
+
+	["wide3l", "RLsideskirt2r"],
+	["wide3l", "RLsideskirt3l"],
+	["wide3l", "RLsideskirt2l"],
+
+	["wide0l", "RLsideskirt1l"],
+	["wide0l", "RLsideskirt3l"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_widebody_L"},
+	["wide1l","wide2l","wide4l","wide3l"],
+        {"group":""},
+    ],
+},
+
+"legocar_widebodykit_L_col3": {
+    "information":{
+        "name":"Left Widebody Kit (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_widebodykit_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x1_flat_notip_col3",["legocar_widebody_L"], [], {"pos":{"x": 0.8, "y":0, "z":0.225},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":1, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_widebody_L"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["wide1l",  0.90, -0.50, 0.10],
+	["wide2l",  0.90,  0.50, 0.10],
+	["wide3l",  0.90, -0.50, 0.35],
+	["wide4l",  0.90,  0.50, 0.35],
+
+	//rigidifier
+	["wide0l", 0.60, 0, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT WIDEBODY--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["wide1l", "wide2l"],
+	["wide1l", "wide3l"],
+	["wide1l", "wide4l"],
+	["wide2l", "wide3l"],
+	["wide2l", "wide4l"],
+	["wide3l", "wide4l"],
+
+	//rigidifier
+	["wide1l", "wide0l"],
+	["wide2l", "wide0l"],
+	["wide3l", "wide0l"],
+	["wide4l", "wide0l"],
+
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//front
+	{"breakGroup":"wideody_FL_break"},
+
+	["wide1l", "FLsideskirt1r"],
+	["wide1l", "FLsideskirt2l"],
+	["wide1l", "FLsideskirt3l"],
+
+	["wide2l", "FLsideskirt2r"],
+	["wide2l", "FLsideskirt1l"],
+	["wide2l", "FLsideskirt4l"],
+
+	["wide3l", "FLsideskirt1r"],
+	["wide3l", "FLsideskirt4l"],
+	["wide3l", "FLsideskirt1l"],
+
+	["wide4l", "FLsideskirt2r"],
+	["wide4l", "FLsideskirt3l"],
+	["wide4l", "FLsideskirt2l"],
+
+	["wide0l", "FLsideskirt2l"],
+	["wide0l", "FLsideskirt4l"],
+
+	//back
+	{"breakGroup":"wideody_RL_break"},
+
+	["wide2l", "RLsideskirt1r"],
+	["wide2l", "RLsideskirt2l"],
+	["wide2l", "RLsideskirt3l"],
+
+	["wide1l", "RLsideskirt2r"],
+	["wide1l", "RLsideskirt1l"],
+	["wide1l", "RLsideskirt4l"],
+
+	["wide4l", "RLsideskirt1r"],
+	["wide4l", "RLsideskirt4l"],
+	["wide4l", "RLsideskirt1l"],
+
+	["wide3l", "RLsideskirt2r"],
+	["wide3l", "RLsideskirt3l"],
+	["wide3l", "RLsideskirt2l"],
+
+	["wide0l", "RLsideskirt1l"],
+	["wide0l", "RLsideskirt3l"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_widebody_L"},
+	["wide1l","wide2l","wide4l","wide3l"],
+        {"group":""},
+    ],
+},
+
+}

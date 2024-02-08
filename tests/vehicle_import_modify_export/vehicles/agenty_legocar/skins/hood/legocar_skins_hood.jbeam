@@ -1,0 +1,254 @@
+{
+"legocar_hood_skin_col2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Color Palette 2",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_col2",
+},
+"legocar_hood_skin_col3": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Color Palette 3",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_col3",
+},
+
+"legocar_hood_skin_stripes": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Stripes Sticker",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_stripes",
+},
+"legocar_hood_skin_stripes_alt": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Two-Tone Stripes Sticker",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_stripes_alt",
+},
+
+"legocar_hood_skin_glass": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Transparent",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "glasshood",
+},
+
+"legocar_hood_skin_fpd": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Firwood Police Department Stickers",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_fpd",
+},
+"legocar_hood_skin_fpd2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Firwood Police Department Modernized Decals",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_fpd2",
+},
+"legocar_hood_skin_polizei": {
+    "information":{
+        "authors":"AgentY",
+        "name":"German Police Decals",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_polizei",
+},
+"legocar_hood_skin_police": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Generic Police Sticker",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_police",
+},
+"legocar_hood_skin_polizia": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Italian Police Decals",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_polizia",
+},
+"legocar_hood_skin_carabinieri": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Italian Interceptor Sticker",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_carabinieri",
+},
+"legocar_hood_skin_gendarmerie": {
+    "information":{
+        "authors":"AgentY",
+        "name":"French Police Sticker",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_gendarmerie",
+},
+"legocar_hood_skin_sheriff": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Sheriff Sticker",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_sheriff",
+},
+
+"legocar_hood_skin_firechief": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Fire Chief Decals",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_firechief",
+},
+
+"legocar_hood_skin_crashtest": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Crash Test Stickers",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_crashtest",
+},
+
+"legocar_hood_skin_flames": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Flames Sticker",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_flames",
+},
+
+"legocar_hood_skin_derby": {
+    "information":{
+        "authors":"AgentY",
+        "name":"The Brick Wall Sticker",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_derby",
+},
+
+"legocar_hood_skin_rusty": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty Old Paint (Color 1)",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_rusty",
+},
+"legocar_hood_skin_rusty2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty Old Paint (Color 2)",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_rusty2",
+},
+"legocar_hood_skin_rusty3": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty Old Paint (Color 3)",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_rusty3",
+},
+"legocar_hood_skin_rusty_alt": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty (Color 1)",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_rusty_alt",
+},
+"legocar_hood_skin_rusty2_alt": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty (Color 2)",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_rusty2_alt",
+},
+"legocar_hood_skin_rusty3_alt": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty (Color 3)",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_rusty3_alt",
+},
+
+"legocar_hood_skin_baja": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Baja Decals",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_baja",
+},
+"legocar_hood_skin_rally": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rally Decals",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_rally",
+},
+"legocar_hood_skin_groupb": {
+    "information":{
+        "authors":"AgentY",
+        "name":"TIMS Sponsor Sticker",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_groupb",
+},
+
+"legocar_hood_skin_pacecar": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Pace Car Decals",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_pacecar",
+},
+"legocar_hood_skin_stockcar": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Stock Car Decals",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_stockcar",
+},
+"legocar_hood_skin_stockcar2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Modern Stock Car Sticker",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_stockcar2",
+},
+
+"legocar_hood_skin_tuning": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Tuning Studio Sticker",
+    },
+    "slotType" : "skin_hood",
+    "skinName" : "hood_tuning",
+},
+
+}

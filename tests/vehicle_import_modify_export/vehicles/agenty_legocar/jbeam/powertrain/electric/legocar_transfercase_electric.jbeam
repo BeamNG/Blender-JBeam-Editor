@@ -1,0 +1,156 @@
+{
+"legocar_transfercase_electric_FWD": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible FWD Transfer Case",
+    },
+    "slotType" : "legocar_transfercase_electric",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_differential_F","legocar_differential_F_open","Front Differential"],
+	["legocar_driveshaft_F","legocar_driveshaft_F","Front Driveshaft"],
+   ],
+   "powertrain": [
+        ["type", "name", "inputName", "inputIndex"],
+        ["shaft", "transfercase", "mainMotor", 1, {"friction":0, "dynamicFriction":0, "torqueLossCoef":0, "uiName":"Front Output Shaft"}],
+    ],
+},
+"legocar_transfercase_electric_RWD": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible RWD Transfer Case",
+    },
+    "slotType" : "legocar_transfercase_electric",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_differential_R","legocar_differential_R_open","Rear Differential"],
+	["legocar_driveshaft_R","legocar_driveshaft_R","Rear Driveshaft"],
+   ],
+   "powertrain": [
+        ["type", "name", "inputName", "inputIndex"],
+        ["shaft", "transfercase", "mainMotor", 1, {"outputPortOverride":[2], "friction":0, "dynamicFriction":0, "torqueLossCoef":0, "uiName":"Front Output Shaft"}],
+    ],
+},
+
+"legocar_transfercase_electric_AWD_locked": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible Locked AWD Transfer Case",
+    },
+    "slotType" : "legocar_transfercase_electric",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_differential_F","legocar_differential_F_welded","Front Differential"],
+	["legocar_differential_R","legocar_differential_R_welded","Rear Differential"],
+	["legocar_driveshaft_F","legocar_driveshaft_F","Front Driveshaft"],
+	["legocar_driveshaft_R","legocar_driveshaft_R","Rear Driveshaft"],
+   ],
+   "powertrain": [
+        ["type", "name", "inputName", "inputIndex"],
+        ["differential", "transfercase", "mainMotor", 1, {"diffType":"locked", "lockTorque":10000, "friction":0, "dynamicFriction":0, "torqueLossCoef":0, "uiName":"Center Differential", "defaultVirtualInertia":0.1, "speedLimitCoef":0.1}],
+    ],
+},
+"legocar_transfercase_electric_AWD_viscous": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible Viscous AWD Transfer Case",
+    },
+    "slotType" : "legocar_transfercase_electric",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_differential_F","legocar_differential_F_viscous","Front Differential"],
+	["legocar_differential_R","legocar_differential_R_viscous","Rear Differential"],
+	["legocar_driveshaft_F","legocar_driveshaft_F","Front Driveshaft"],
+	["legocar_driveshaft_R","legocar_driveshaft_R","Rear Driveshaft"],
+   ],
+   "powertrain": [
+        ["type", "name", "inputName", "inputIndex"],
+        ["differential", "transfercase", "mainMotor", 1, {"diffType":"viscous", "viscousCoef":100, "viscousTorque":1000, "friction":0, "dynamicFriction":0, "torqueLossCoef":0, "uiName":"Center Differential", "defaultVirtualInertia":0.1, "speedLimitCoef":0.1}],
+    ],
+},
+"legocar_transfercase_electric_AWD_locking": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible Locking AWD Transfer Case",
+    },
+    "slotType" : "legocar_transfercase_electric",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_differential_F","legocar_differential_F_locking","Front Differential"],
+	["legocar_differential_R","legocar_differential_R_locking","Rear Differential"],
+	["legocar_driveshaft_F","legocar_driveshaft_F","Front Driveshaft"],
+	["legocar_driveshaft_R","legocar_driveshaft_R","Rear Driveshaft"],
+   ],
+   "powertrain": [
+        ["type", "name", "inputName", "inputIndex"],
+	["rangeBox", "rangebox", "mainMotor", 1, {"gearRatios":[1,4], "uiName":"Rangebox"}],
+        ["differential", "transfercase", "rangebox", 1, {"diffType":["lsd","locked"], "lsdPreload":50, "lsdLockCoef":0.05, "lsdRevLockCoef":0.05, "diffTorqueSplit":0.3, "friction":0, "dynamicFriction":0, "torqueLossCoef":0, "uiName":"Center Differential", "defaultVirtualInertia":0.1, "speedLimitCoef":0.1}],
+    ],
+},
+"legocar_transfercase_electric_AWD": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible AWD Transfer Case",
+    },
+    "slotType" : "legocar_transfercase_electric",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_differential_F","legocar_differential_F_lsd","Front Differential"],
+	["legocar_differential_R","legocar_differential_R_lsd","Rear Differential"],
+	["legocar_driveshaft_F","legocar_driveshaft_F","Front Driveshaft"],
+	["legocar_driveshaft_R","legocar_driveshaft_R","Rear Driveshaft"],
+   ],
+   "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$difftorquesplit_C", "range", "", "Differentials", 0.5, 0.25, 0.75, "Base Torque Split", "Percent torque to rear wheels", {"minDis":25, "maxDis":75, "stepDis":1, "subCategory":"Center"}],
+        ["$lsdpreload_C", "range", "N/m", "Differentials", 25, 0, 200, "Pre-load Torque", "Initial cross torque between front and rear wheels", {"subCategory":"Center"}],
+        ["$lsdlockcoef_C", "range", "", "Differentials", 0.125, 0, 0.5, "Power Lock Rate", "Additional locking torque proportional to engine torque", {"minDis":0, "maxDis":100, "subCategory":"Center"}],
+        ["$lsdlockcoefrev_C", "range", "", "Differentials", 0.025, 0, 0.5, "Coast Lock Rate", "Additional locking torque proportional to engine braking", {"minDis":0, "maxDis":100, "subCategory":"Center"}],
+   ],
+   "powertrain": [
+        ["type", "name", "inputName", "inputIndex"],
+        ["differential", "transfercase", "mainMotor", 1, {"diffType":"lsd", "lsdPreload":"$lsdpreload_C", "lsdLockCoef":"$lsdlockcoef_C", "lsdRevLockCoef":"$lsdlockcoefrev_C", "diffTorqueSplit":"$difftorquesplit_C", "friction":0, "dynamicFriction":0, "torqueLossCoef":0, "uiName":"Center Differential", "defaultVirtualInertia":0.1, "speedLimitCoef":0.1}],
+    ],
+},
+
+"legocar_transfercase_electric_4WD": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible 4WD Transfer Case",
+    },
+    "slotType" : "legocar_transfercase_electric",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_differential_F","legocar_differential_F_locking","Front Differential"],
+	["legocar_differential_R","legocar_differential_R_locking","Rear Differential"],
+	["legocar_driveshaft_F","legocar_driveshaft_F_offroad","Front Driveshaft"],
+	["legocar_driveshaft_R","legocar_driveshaft_R","Rear Driveshaft"],
+   ],
+   "powertrain": [
+        ["type", "name", "inputName", "inputIndex"],
+	["rangeBox", "rangebox", "mainMotor", 1, {"gearRatios":[1,2], "uiName":"Rangebox"}],
+        ["differential", "transfercase", "rangebox", 1, {"diffType":"locked", "lockTorque":10000, "friction":0, "dynamicFriction":0, "torqueLossCoef":0, "uiName":"Center Differential", "defaultVirtualInertia":0.1, "speedLimitCoef":0.1}],
+    ],
+},
+"legocar_transfercase_electric_4WD_offroad": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Invisible 4WD Crawler Transfer Case",
+    },
+    "slotType" : "legocar_transfercase_electric",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_differential_F","legocar_differential_F_locking","Front Differential"],
+	["legocar_differential_R","legocar_differential_R_locking","Rear Differential"],
+	["legocar_driveshaft_F","legocar_driveshaft_F_offroad","Front Driveshaft"],
+	["legocar_driveshaft_R","legocar_driveshaft_R_offroad","Rear Driveshaft"],
+   ],
+   "powertrain": [
+        ["type", "name", "inputName", "inputIndex"],
+	["rangeBox", "rangebox", "mainMotor", 1, {"gearRatios":[1,4], "uiName":"Rangebox"}],
+        ["differential", "transfercase", "rangebox", 1, {"diffType":"locked", "lockTorque":10000, "friction":0, "dynamicFriction":0, "torqueLossCoef":0, "uiName":"Center Differential", "defaultVirtualInertia":0.1, "speedLimitCoef":0.1}],
+    ],
+},
+
+
+}

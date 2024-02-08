@@ -1,0 +1,99 @@
+{
+"legocar_skin_seat_col2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Colorable (Palette 2)",
+    },
+    "slotType" : "skin_seat",
+},
+"legocar_skin_seat_col3": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Colorable (Palette 3)",
+    },
+    "slotType" : "skin_seat",
+    "skinName" : "col3",
+},
+
+"legocar_skin_seat_black": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Black",
+    },
+    "slotType" : "skin_seat",
+    "skinName" : "black",
+},
+"legocar_skin_seat_white": {
+    "information":{
+        "authors":"AgentY",
+        "name":"White",
+    },
+    "slotType" : "skin_seat",
+    "skinName" : "white",
+},
+"legocar_skin_seat_grey": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Grey",
+    },
+    "slotType" : "skin_seat",
+    "skinName" : "grey",
+},
+"legocar_skin_seat_dgrey": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Dark Grey",
+    },
+    "slotType" : "skin_seat",
+    "skinName" : "dgrey",
+},
+"legocar_skin_seat_lgrey": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Light Grey",
+    },
+    "slotType" : "skin_seat",
+    "skinName" : "lgrey",
+},
+"legocar_skin_seat_rbrown": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Reddish Brown",
+	},
+    "slotType" : "skin_seat",
+    "skinName" : "rbrown",
+},
+"legocar_skin_seat_lobrown": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Light Orange Brown",
+	},
+    "slotType" : "skin_seat",
+    "skinName" : "lobrown",
+},
+"legocar_skin_seat_dorange": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Dark Orange",
+	},
+    "slotType" : "skin_seat",
+    "skinName" : "dorange",
+},
+"legocar_skin_seat_drblue": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Dark Royal Blue",
+	},
+    "slotType" : "skin_seat",
+    "skinName" : "drblue",
+},
+"legocar_skin_seat_bred": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Bright Red",
+	},
+    "slotType" : "skin_seat",
+    "skinName" : "bred",
+},
+
+}

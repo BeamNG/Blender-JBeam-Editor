@@ -1,3 +1,6 @@
+Unless explicitly stated otherwise, the license below applies to all files 
+in the directory which this file is located in and its subdirectories.
+
 Creative Commons Legal Code
 
 CC0 1.0 Universal

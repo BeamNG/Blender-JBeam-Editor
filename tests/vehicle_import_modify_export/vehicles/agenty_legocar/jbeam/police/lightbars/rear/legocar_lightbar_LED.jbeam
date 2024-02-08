@@ -1,0 +1,210 @@
+{
+"legocar_lightbar_LED": {
+    "information":{
+        "name":"LED Light Bar",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_lightbar_LED_T","legocar_lightbar_LED_T", "Light Bar Top"],
+	["legocar_lightbar_LED_L","legocar_lightbar_LED_L_red", "Left Flashers"],
+	["legocar_lightbar_LED_R","legocar_lightbar_LED_R_blue","Right Flashers"],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+
+	//attach flashers here so we don't have to do it for each variant separately
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"optional":true},
+
+	//l3
+	{"breakGroup":"policeled_L3_break"},
+	{"deformGroup":"policeled_L3_break"},
+
+	["lbarledL31l", "roofM1l"],
+	["lbarledL31l", "roofM1r"],
+	["lbarledL31l", "roofM2l"],
+	["lbarledL31l", "roofMrig"],
+
+	["lbarledL31r", "roofM1l"],
+	["lbarledL31r", "roofM1r"],
+	["lbarledL31r", "roofM2r"],
+	["lbarledL31r", "roofMrig"],
+
+	["lbarledL32l", "roofM1l"],
+	["lbarledL32l", "roofM2r"],
+	["lbarledL32l", "roofM2l"],
+	["lbarledL32l", "roofMrig"],
+
+	["lbarledL32r", "roofM2l"],
+	["lbarledL32r", "roofM1r"],
+	["lbarledL32r", "roofM2r"],
+	["lbarledL32r", "roofMrig"],
+
+	["lbarledL3rig", "roofM1l"],
+	["lbarledL3rig", "roofM1r"],
+	["lbarledL3rig", "roofM2l"],
+	["lbarledL3rig", "roofM2r"],
+
+
+	//l2
+	{"breakGroup":"policeled_L2_break"},
+	{"deformGroup":"policeled_L2_break"},
+
+	["lbarledL21l", "roofM1l"],
+	["lbarledL21l", "roofM1r"],
+	["lbarledL21l", "roofM2l"],
+	["lbarledL21l", "roofMrig"],
+
+	["lbarledL21r", "roofM1l"],
+	["lbarledL21r", "roofM1r"],
+	["lbarledL21r", "roofM2r"],
+	["lbarledL21r", "roofMrig"],
+
+	["lbarledL22l", "roofM1l"],
+	["lbarledL22l", "roofM2r"],
+	["lbarledL22l", "roofM2l"],
+	["lbarledL22l", "roofMrig"],
+
+	["lbarledL22r", "roofM2l"],
+	["lbarledL22r", "roofM1r"],
+	["lbarledL22r", "roofM2r"],
+	["lbarledL22r", "roofMrig"],
+
+	["lbarledL2rig", "roofM1l"],
+	["lbarledL2rig", "roofM1r"],
+	["lbarledL2rig", "roofM2l"],
+	["lbarledL2rig", "roofM2r"],
+
+
+	//l1
+	{"breakGroup":"policeled_L1_break"},
+	{"deformGroup":"policeled_L1_break"},
+
+	["lbarledL11l", "roofM1l"],
+	["lbarledL11l", "roofM1r"],
+	["lbarledL11l", "roofM2l"],
+	["lbarledL11l", "roofMrig"],
+
+	["lbarledL11r", "roofM1l"],
+	["lbarledL11r", "roofM1r"],
+	["lbarledL11r", "roofM2r"],
+	["lbarledL11r", "roofMrig"],
+
+	["lbarledL12l", "roofM1l"],
+	["lbarledL12l", "roofM2r"],
+	["lbarledL12l", "roofM2l"],
+	["lbarledL12l", "roofMrig"],
+
+	["lbarledL12r", "roofM2l"],
+	["lbarledL12r", "roofM1r"],
+	["lbarledL12r", "roofM2r"],
+	["lbarledL12r", "roofMrig"],
+
+	["lbarledL1rig", "roofM1l"],
+	["lbarledL1rig", "roofM1r"],
+	["lbarledL1rig", "roofM2l"],
+	["lbarledL1rig", "roofM2r"],
+
+
+	//r3
+	{"breakGroup":"policeled_R3_break"},
+	{"deformGroup":"policeled_R3_break"},
+
+	["lbarledR31l", "roofM1l"],
+	["lbarledR31l", "roofM1r"],
+	["lbarledR31l", "roofM2l"],
+	["lbarledR31l", "roofMrig"],
+
+	["lbarledR31r", "roofM1l"],
+	["lbarledR31r", "roofM1r"],
+	["lbarledR31r", "roofM2r"],
+	["lbarledR31r", "roofMrig"],
+
+	["lbarledR32l", "roofM1l"],
+	["lbarledR32l", "roofM2r"],
+	["lbarledR32l", "roofM2l"],
+	["lbarledR32l", "roofMrig"],
+
+	["lbarledR32r", "roofM2l"],
+	["lbarledR32r", "roofM1r"],
+	["lbarledR32r", "roofM2r"],
+	["lbarledR32r", "roofMrig"],
+
+	["lbarledR3rig", "roofM1l"],
+	["lbarledR3rig", "roofM1r"],
+	["lbarledR3rig", "roofM2l"],
+	["lbarledR3rig", "roofM2r"],
+
+
+	//r2
+	{"breakGroup":"policeled_R2_break"},
+	{"deformGroup":"policeled_R2_break"},
+
+	["lbarledR21l", "roofM1l"],
+	["lbarledR21l", "roofM1r"],
+	["lbarledR21l", "roofM2l"],
+	["lbarledR21l", "roofMrig"],
+
+	["lbarledR21r", "roofM1l"],
+	["lbarledR21r", "roofM1r"],
+	["lbarledR21r", "roofM2r"],
+	["lbarledR21r", "roofMrig"],
+
+	["lbarledR22l", "roofM1l"],
+	["lbarledR22l", "roofM2r"],
+	["lbarledR22l", "roofM2l"],
+	["lbarledR22l", "roofMrig"],
+
+	["lbarledR22r", "roofM2l"],
+	["lbarledR22r", "roofM1r"],
+	["lbarledR22r", "roofM2r"],
+	["lbarledR22r", "roofMrig"],
+
+	["lbarledR2rig", "roofM1l"],
+	["lbarledR2rig", "roofM1r"],
+	["lbarledR2rig", "roofM2l"],
+	["lbarledR2rig", "roofM2r"],
+
+
+	//r1
+	{"breakGroup":"policeled_R1_break"},
+	{"deformGroup":"policeled_R1_break"},
+
+	["lbarledR11l", "roofM1l"],
+	["lbarledR11l", "roofM1r"],
+	["lbarledR11l", "roofM2l"],
+	["lbarledR11l", "roofMrig"],
+
+	["lbarledR11r", "roofM1l"],
+	["lbarledR11r", "roofM1r"],
+	["lbarledR11r", "roofM2r"],
+	["lbarledR11r", "roofMrig"],
+
+	["lbarledR12l", "roofM1l"],
+	["lbarledR12l", "roofM2r"],
+	["lbarledR12l", "roofM2l"],
+	["lbarledR12l", "roofMrig"],
+
+	["lbarledR12r", "roofM2l"],
+	["lbarledR12r", "roofM1r"],
+	["lbarledR12r", "roofM2r"],
+	["lbarledR12r", "roofMrig"],
+
+	["lbarledR1rig", "roofM1l"],
+	["lbarledR1rig", "roofM1r"],
+	["lbarledR1rig", "roofM2l"],
+	["lbarledR1rig", "roofM2r"],
+
+	
+	{"optional":false},
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+},
+
+}

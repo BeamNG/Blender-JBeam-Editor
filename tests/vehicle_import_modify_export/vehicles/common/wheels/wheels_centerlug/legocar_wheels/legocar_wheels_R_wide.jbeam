@@ -1,0 +1,76 @@
+//piece scale: 0.25m to 7.8mm = 1 to 31.2/1000 = 32.05128205128205:1
+//wheel diameter 11mm*32.05128205128205 = 0.3525641025641026m = 13.880476479 inches
+//wheel width 9.36mm*32.05128205128205 = 0.3m = 11.811023622 inches
+//tire diameter roughly 21mm*32.05128205128205 = 0.6730769230769231 = around 26.5 inches
+//sidewall height roughly (26.5 - 13.880476479)/2 inches = around 6.3 inches
+//sidewall height to tire width percentage roughly (6.3/11.811023622)*100% = 53.34%
+//estimated wheel size: 13.88x11.81
+//estimated tire size: 300/53R13.88
+
+{
+"legocar_wheel_standard_13.88x11.81_R": {
+    "information":{
+        "authors":"AgentY",
+        "name":"14x12 Toy Car 6014b Sport Rear Wheels",
+    },
+    "slotType" : "wheel_R_centerlug",
+    "slots": [
+        ["type", "default", "description"],
+	["skin_legocar_wheel_R","legocar_skin_wheel_R_grey", "Wheels Color",{"coreSlot":true}],
+        ["tire_R_13.88x11.81","tire_R_300_53_13.88_treaded", "Rear Tires"],
+    ],
+    "flexbodies": [
+         ["mesh", "[group]:", "nonFlexMaterials"],
+         ["legocar_wheel_R_standard", ["wheel_RR","wheelhub_RR"], [], {"pos":{"x":-0.375, "y":-0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+         ["legocar_wheel_R_standard", ["wheel_RL","wheelhub_RL"], [], {"pos":{"x": 0.375, "y":-0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0},   "scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+        {"collision":true},
+        {"selfCollision":true},
+        //rear wheels
+        {"nodeWeight":5.0},
+        {"nodeMaterial":"|NM_PLASTIC"},
+        {"frictionCoef":0.5},
+        {"group":"wheelhub_RR"},
+        ["rw1r", -0.375, 0.0, 0.0, {"staticCollision":false}],
+        {"group":"wheelhub_RR"},
+        ["rw1rr", -0.625, 0.0, 0.0, {"staticCollision":false}],
+        {"group":"wheelhub_RL"},
+        ["rw1l", 0.375, 0.0, 0.0, {"staticCollision":false}],
+        {"group":"wheelhub_RL"},
+        ["rw1ll", 0.625, 0.0, 0.0, {"staticCollision":false}],
+        {"group":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+        {"breakGroup":""},
+        {"beamDeform":"FLT_MAX","beamStrength":"FLT_MAX"},
+        {"beamSpring":1501000,"beamDamp":25},
+        //rear wheel
+        ["rw1r","rw1rr"],
+        ["rw1l","rw1ll"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+    ],
+    "pressureWheels": [
+        ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+        {"disableMeshBreaking":false,"disableHubMeshBreaking":false,"enableHubcaps":false,"hasTire":false},
+
+        //general settings
+        {"hubRadius":0.1762820502820513},
+        {"wheelOffset":-0.055},
+        {"hubWidth":0.3},
+        {"numRays":16},
+
+        //hub options
+        {"hubTreadBeamSpring":1001000, "hubTreadBeamDamp":10},
+        {"hubPeripheryBeamSpring":1001000, "hubPeripheryBeamDamp":10},
+        {"hubSideBeamSpring":1501000, "hubSideBeamDamp":10},
+        {"hubNodeWeight":0.5},
+        {"hubNodeMaterial":"|NM_PLASTIC"},
+        {"hubFrictionCoef":0.5},
+        {"hubBeamDeform":"FLT_MAX", "hubBeamStrength":"FLT_MAX"},
+    ],
+},
+}

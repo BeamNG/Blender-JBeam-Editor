@@ -1,0 +1,287 @@
+{
+"legocar_parcelshelf_sign_flasher_R_red": {
+    "information":{
+        "name":"Red Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_parcelshelf_sign_flasher_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"parcelshelf_sign_R_break", "deformMaterialBase":"legocar_flasher_sign_R_red", "deformMaterialDamaged":"lego_transcol_black"},
+	["legocar_flasher_sign_R_red", ["legocar_flasher_sign_R"],[], {"pos":{"x":-0.375, "y":0.625, "z":1.0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--LEFT FLASHER--
+	{"group":"legocar_flasher_sign_R"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["shelfsignR1r", -0.50, 0.50, 1.05],
+	["shelfsignR1l", -0.25, 0.50, 1.05],
+	["shelfsignR2r", -0.50, 0.75, 1.05],
+	["shelfsignR2l", -0.25, 0.75, 1.05],
+	//rigidifier
+	["shelfsignRrig",-0.375, 0.625, 0.95, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["shelfsignR1l", "shelfsignR1r"],
+	["shelfsignR2l", "shelfsignR2r"],
+	["shelfsignR1l", "shelfsignR2l"],
+	["shelfsignR1r", "shelfsignR2r"],
+	["shelfsignR1l", "shelfsignR2r"],
+	["shelfsignR2l", "shelfsignR1r"],
+
+	//rigidifier
+	["shelfsignR1l", "shelfsignRrig"],
+	["shelfsignR1r", "shelfsignRrig"],
+	["shelfsignR2l", "shelfsignRrig"],
+	["shelfsignR2r", "shelfsignRrig"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"parcelshelf_sign_R_break"},
+	{"deformGroup":"parcelshelf_sign_R_break"},
+	
+	["shelfsignR1l", "shelfsignmtB1l"],
+	["shelfsignR1l", "shelfsignmtB1r"],
+	["shelfsignR1l", "shelfsignmtB2l"],
+	["shelfsignR1l", "shelfsignmtBrig"],
+
+	["shelfsignR1r", "shelfsignmtB1l"],
+	["shelfsignR1r", "shelfsignmtB1r"],
+	["shelfsignR1r", "shelfsignmtB2r"],
+	["shelfsignR1r", "shelfsignmtBrig"],
+
+	["shelfsignR2l", "shelfsignmtB1l"],
+	["shelfsignR2l", "shelfsignmtB2r"],
+	["shelfsignR2l", "shelfsignmtB2l"],
+	["shelfsignR2l", "shelfsignmtBrig"],
+
+	["shelfsignR2r", "shelfsignmtB2l"],
+	["shelfsignR2r", "shelfsignmtB1r"],
+	["shelfsignR2r", "shelfsignmtB2r"],
+	["shelfsignR2r", "shelfsignmtBrig"],
+
+	["shelfsignRrig", "shelfsignmtB1l"],
+	["shelfsignRrig", "shelfsignmtB1r"],
+	["shelfsignRrig", "shelfsignmtB2l"],
+	["shelfsignRrig", "shelfsignmtB2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_parcelshelf_sign_R"},
+	["shelfsignR1r","shelfsignR1l","shelfsignR2l","shelfsignR2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_parcelshelf_sign_flasher_R_blue": {
+    "information":{
+        "name":"Blue Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_parcelshelf_sign_flasher_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"parcelshelf_sign_R_break", "deformMaterialBase":"legocar_flasher_sign_R_blue", "deformMaterialDamaged":"lego_transcol_black"},
+	["legocar_flasher_sign_R_blue", ["legocar_flasher_sign_R"],[], {"pos":{"x":-0.375, "y":0.625, "z":1.0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--LEFT FLASHER--
+	{"group":"legocar_flasher_sign_R"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["shelfsignR1r", -0.50, 0.50, 1.05],
+	["shelfsignR1l", -0.25, 0.50, 1.05],
+	["shelfsignR2r", -0.50, 0.75, 1.05],
+	["shelfsignR2l", -0.25, 0.75, 1.05],
+	//rigidifier
+	["shelfsignRrig",-0.375, 0.625, 0.95, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["shelfsignR1l", "shelfsignR1r"],
+	["shelfsignR2l", "shelfsignR2r"],
+	["shelfsignR1l", "shelfsignR2l"],
+	["shelfsignR1r", "shelfsignR2r"],
+	["shelfsignR1l", "shelfsignR2r"],
+	["shelfsignR2l", "shelfsignR1r"],
+
+	//rigidifier
+	["shelfsignR1l", "shelfsignRrig"],
+	["shelfsignR1r", "shelfsignRrig"],
+	["shelfsignR2l", "shelfsignRrig"],
+	["shelfsignR2r", "shelfsignRrig"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"parcelshelf_sign_R_break"},
+	{"deformGroup":"parcelshelf_sign_R_break"},
+	
+	["shelfsignR1l", "shelfsignmtB1l"],
+	["shelfsignR1l", "shelfsignmtB1r"],
+	["shelfsignR1l", "shelfsignmtB2l"],
+	["shelfsignR1l", "shelfsignmtBrig"],
+
+	["shelfsignR1r", "shelfsignmtB1l"],
+	["shelfsignR1r", "shelfsignmtB1r"],
+	["shelfsignR1r", "shelfsignmtB2r"],
+	["shelfsignR1r", "shelfsignmtBrig"],
+
+	["shelfsignR2l", "shelfsignmtB1l"],
+	["shelfsignR2l", "shelfsignmtB2r"],
+	["shelfsignR2l", "shelfsignmtB2l"],
+	["shelfsignR2l", "shelfsignmtBrig"],
+
+	["shelfsignR2r", "shelfsignmtB2l"],
+	["shelfsignR2r", "shelfsignmtB1r"],
+	["shelfsignR2r", "shelfsignmtB2r"],
+	["shelfsignR2r", "shelfsignmtBrig"],
+
+	["shelfsignRrig", "shelfsignmtB1l"],
+	["shelfsignRrig", "shelfsignmtB1r"],
+	["shelfsignRrig", "shelfsignmtB2l"],
+	["shelfsignRrig", "shelfsignmtB2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_parcelshelf_sign_R"},
+	["shelfsignR1r","shelfsignR1l","shelfsignR2l","shelfsignR2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_parcelshelf_sign_flasher_R_orange": {
+    "information":{
+        "name":"Orange Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_parcelshelf_sign_flasher_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"parcelshelf_sign_R_break", "deformMaterialBase":"legocar_flasher_sign_R_orange", "deformMaterialDamaged":"lego_transcol_black"},
+	["legocar_flasher_sign_R_orange", ["legocar_flasher_sign_R"],[], {"pos":{"x":-0.375, "y":0.625, "z":1.0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--LEFT FLASHER--
+	{"group":"legocar_flasher_sign_R"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["shelfsignR1r", -0.50, 0.50, 1.05],
+	["shelfsignR1l", -0.25, 0.50, 1.05],
+	["shelfsignR2r", -0.50, 0.75, 1.05],
+	["shelfsignR2l", -0.25, 0.75, 1.05],
+	//rigidifier
+	["shelfsignRrig",-0.375, 0.625, 0.95, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["shelfsignR1l", "shelfsignR1r"],
+	["shelfsignR2l", "shelfsignR2r"],
+	["shelfsignR1l", "shelfsignR2l"],
+	["shelfsignR1r", "shelfsignR2r"],
+	["shelfsignR1l", "shelfsignR2r"],
+	["shelfsignR2l", "shelfsignR1r"],
+
+	//rigidifier
+	["shelfsignR1l", "shelfsignRrig"],
+	["shelfsignR1r", "shelfsignRrig"],
+	["shelfsignR2l", "shelfsignRrig"],
+	["shelfsignR2r", "shelfsignRrig"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"parcelshelf_sign_R_break"},
+	{"deformGroup":"parcelshelf_sign_R_break"},
+	
+	["shelfsignR1l", "shelfsignmtB1l"],
+	["shelfsignR1l", "shelfsignmtB1r"],
+	["shelfsignR1l", "shelfsignmtB2l"],
+	["shelfsignR1l", "shelfsignmtBrig"],
+
+	["shelfsignR1r", "shelfsignmtB1l"],
+	["shelfsignR1r", "shelfsignmtB1r"],
+	["shelfsignR1r", "shelfsignmtB2r"],
+	["shelfsignR1r", "shelfsignmtBrig"],
+
+	["shelfsignR2l", "shelfsignmtB1l"],
+	["shelfsignR2l", "shelfsignmtB2r"],
+	["shelfsignR2l", "shelfsignmtB2l"],
+	["shelfsignR2l", "shelfsignmtBrig"],
+
+	["shelfsignR2r", "shelfsignmtB2l"],
+	["shelfsignR2r", "shelfsignmtB1r"],
+	["shelfsignR2r", "shelfsignmtB2r"],
+	["shelfsignR2r", "shelfsignmtBrig"],
+
+	["shelfsignRrig", "shelfsignmtB1l"],
+	["shelfsignRrig", "shelfsignmtB1r"],
+	["shelfsignRrig", "shelfsignmtB2l"],
+	["shelfsignRrig", "shelfsignmtB2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_parcelshelf_sign_R"},
+	["shelfsignR1r","shelfsignR1l","shelfsignR2l","shelfsignR2r"],
+        {"group":""},
+    ],
+},
+
+}

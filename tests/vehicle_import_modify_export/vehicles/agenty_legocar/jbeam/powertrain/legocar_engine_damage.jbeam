@@ -1,0 +1,90 @@
+{
+"legocar_engine_damage": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Engine Damage",
+    },
+    "slotType" : "legocar_engine_damage",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_engine_damage_headgasket","legocar_engine_damage_headgasket", "Blown Head Gasket"],
+	["legocar_engine_damage_pistonrings","legocar_engine_damage_pistonrings", "Piston Rings Damage"],
+	["legocar_engine_damage_conrodbearings","legocar_engine_damage_conrodbearings", "Connecting Rod Bearings Damage"],
+	["legocar_engine_damage_roughidle","legocar_engine_damage_roughidle", "Spark Plugs & Injector Damage"],
+	["legocar_engine_damage_starter","legocar_engine_damage_starter", "Starter Damage"],
+	["legocar_engine_damage_mileage","legocar_engine_damage_mileage", "Mileage & Wear Damage"],
+    ],
+},
+
+"legocar_engine_damage_headgasket": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Blown Head Gasket",
+    },
+    "slotType" : "legocar_engine_damage_headgasket",
+    "mainEngine":{
+        "headGasketBlownOverride":true,
+    },
+},
+"legocar_engine_damage_pistonrings": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Piston Rings Damage",
+    },
+    "slotType" : "legocar_engine_damage_pistonrings",
+    "mainEngine":{
+        "pistonRingsDamagedOverride":true,
+    },
+},
+"legocar_engine_damage_conrodbearings": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Connecting Rod Bearings Damage",
+    },
+    "slotType" : "legocar_engine_damage_conrodbearings",
+    "mainEngine":{
+        "connectingRodBearingsDamagedOverride":true,
+    },
+},
+"legocar_engine_damage_roughidle": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Spark Plugs & Injector Damage",
+    },
+    "slotType" : "legocar_engine_damage_roughidle",
+    "mainEngine":{
+        "idleRPMRoughness":5000,
+    },
+},
+"legocar_engine_damage_starter": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Starter Damage",
+    },
+    "slotType" : "legocar_engine_damage_starter",
+    "mainEngine":{
+        "starterThrottleKillTime":5,
+    },
+},
+"legocar_engine_damage_mileage": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Adjustable Mileage & Wear Damage",
+    },
+    "slotType" : "legocar_engine_damage_mileage",
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$odometer","range", "km","Mileage", 50000, 30000, 100000,"Odometer Value", "Distance driven by the car", {"stepDis":500.0}],
+	["$wear",    "range", "x", "Mileage", 0.500, 0.000, 1.000, "Powertrain Wear","Wear caused by bad driving", {"stepDis":0.001}],
+    ],
+    "controller": [
+        ["fileName"],
+        ["mileage", {}],
+    ],
+    "mileage":{
+	"odometer":"$=$odometer*1000",
+	"wear":"$wear",
+    },
+},
+
+}

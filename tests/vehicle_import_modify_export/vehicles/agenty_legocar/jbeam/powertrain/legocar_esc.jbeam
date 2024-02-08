@@ -1,0 +1,149 @@
+{
+    "legocar_ESC": {
+        "information":{
+            "authors":"AgentY",
+            "name":"Electronic Stability & Tracton Control",
+        },
+        "slotType" : "legocar_ESC",
+        "controller": [
+            ["fileName"],
+            ["esc"],
+        ],
+        "esc": {
+            "actionedWheels": ["FL", "FR", "RR", "RL"],
+            "isDebugMode": 0,
+            "defaultConfig": 2,
+            "configurations": {
+                "Regular ESC": {
+                    //ESC
+                    "escEnabled": true,
+                    "escConfigurationEnabled": true,
+                    "order":10,
+                    "activeColor":"98FB00",
+
+                    "maxSideAcceleration": 10,
+                    "brakeForceMultiplier": 1,
+                    "escThreshold": 0.2,
+                    "characteristicSpeed": -1,
+                    "proportionalFactor": 0.95,
+                    "integralFactor": 2.0,
+                    "maxIntegralPart": 2.0,
+                    "skewStiffnessFront": 128000,
+                    "skewStiffnessRear": 114000,
+                    "desiredYawRateSmoothing": 570,
+                    //TCS
+                    "slipThreshold": 0.05,
+                    "minThrottleFactor": 0.05,
+                    "maxBrakingFactor": 0.85,
+                    "throttleProportionalFactor": 3.5,
+                    "throttleIntegralFactor": 5,
+                    "brakingProportionalFactor": 2,
+                    "brakingIntegralFactor": 1,
+                    "brakeThrottleSwitchThreshold": 20,
+                },
+                "Sport ESC": {
+                    //ESC
+                    "escEnabled": true,
+                    "escConfigurationEnabled": true,
+                    "order":20,
+                    "activeColor":"3096F1",
+
+                    "maxSideAcceleration":11,
+                    "brakeForceMultiplier":1,
+                    "escThreshold":0.3,
+                    "characteristicSpeed":-1,
+                    "proportionalFactor": 0.6,
+                    "integralFactor": 1.5,
+                    "maxIntegralPart": 3.0,
+                    "skewStiffnessFront":128000,
+                    "skewStiffnessRear":114000,
+                    "desiredYawRateSmoothing":570,
+                    "escThrottleReduceCoef":0.3,
+                    //TCS
+                    "slipThreshold": 0.1,
+                    "minThrottleFactor": 0.3,
+                    "maxBrakingFactor": 0.85,
+                    "throttleProportionalFactor": 3.5,
+                    "throttleIntegralFactor": 5,
+                    "brakingProportionalFactor": 2,
+                    "brakingIntegralFactor": 1,
+                    "brakeThrottleSwitchThreshold": 20,
+                },
+                "Drift ESC": {
+                    //ESC
+                    "escEnabled": true,
+                    "escConfigurationEnabled": true,
+                    "order":30,
+                    "activeColor":"FF1306",
+
+                    "maxSideAcceleration":11,
+                    "brakeForceMultiplier":1,
+                    "escThreshold":0.3,
+                    "characteristicSpeed":-1,
+                    "proportionalFactor": 0.05,
+                    "integralFactor": 1.8,
+                    "maxIntegralPart": 2.9,
+                    "skewStiffnessFront":123000,
+                    "skewStiffnessRear":108000,
+                    "desiredYawRateSmoothing":570,
+                    "escThrottleReduceCoef": 0.8,
+                    //TCS
+                    "slipThreshold": 2.0,
+                    "minThrottleFactor": 1.0,
+                    "maxBrakingFactor": 0.0,
+                    "brakeThrottleSwitchThreshold": 40,
+                },
+                "ESC Off":{
+                    //ESC
+                    "escEnabled": false,
+                    "order":40,
+                    "escConfigurationEnabled": true,
+                    "activeColor":"AA3939",
+                    //UI
+                    "overrideESCPulse": 1,
+                    "overrideTCSPulse": 1,
+                },
+            },
+        },
+    },
+
+    "legocar_supercharger_control": {
+        "information":{
+            "authors":"AgentY",
+            "name":"Supercharger Control",
+        },
+        "slotType" : "legocar_ESC",
+        "controller": [
+            ["fileName"],
+            ["driveModes"]
+        ],
+        "driveModes": {
+            "enabledModes":["on", "off"]
+            "defaultMode": "on"
+            "defaultSettings": [
+                ["type"]
+                ["supercharger", {"name": "mainEngine", "bypassPressure": 9999}]
+            ],
+            "modes": {
+                "on": {
+                    "name": "Supercharger ON",
+                    "order": 20,
+                    "settings": [
+                        ["type"]
+                        ["supercharger", {"name": "mainEngine", "bypassPressure": 9999}]
+                        ["simpleControlButton", {"buttonId":"dse", "uiName":"DSE","icon":"powertrain_esc","color":"00FF00", "offColor":"343434", "offColorElectric":"dseWarningPulse"}]
+                    ],
+                },
+		"off": {
+                    "name": "Supercharger OFF",
+                    "order": 10,
+                    "settings": [
+                        ["type"]
+                        ["supercharger", {"name": "mainEngine", "bypassPressure": 0}]
+                        ["simpleControlButton", {"buttonId":"dse", "uiName":"DSE","icon":"powertrain_esc","color":"999999", "offColor":"343434", "offColorElectric":"dseWarningPulse"}]
+                    ],
+                },
+            },
+        },
+    },
+}

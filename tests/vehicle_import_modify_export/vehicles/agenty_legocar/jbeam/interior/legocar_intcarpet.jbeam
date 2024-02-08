@@ -1,0 +1,180 @@
+{
+"legocar_intcarpet": {
+    "information":{
+        "name":"Interior Carpet",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_intcarpet",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_notip_interior",["legocar_intcarpet_R"], [], {"pos":{"x":-0.375, "y": 0.000, "z":0.3},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_3x1_flat_notip_interior",["legocar_intcarpet_L"], [], {"pos":{"x": 0.375, "y":-0.125, "z":0.3},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//right
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+	{"group":"legocar_intcarpet_R"},
+
+	["Rcarpet1r", -0.50, -0.25, 0.35],
+	["Rcarpet1l", -0.28, -0.25, 0.35],
+	["Rcarpet2r", -0.50,  0.25, 0.35],
+	["Rcarpet2l", -0.28,  0.25, 0.35],
+	//rigidifier
+	["Rcarpetrig", -0.375, 0, 0.6, {"collision":false, "selfCollision":false, "group":""}],
+
+	//left
+	//3 pieces, 5 nodes - 0.6 kg/node
+	{"nodeWeight": "$=$weight*0.6"},
+	{"group":"legocar_intcarpet_L"},
+
+	["Lcarpet1l", 0.50, -0.47, 0.35],
+	["Lcarpet1r", 0.28, -0.47, 0.35],
+	["Lcarpet2l", 0.50,  0.25, 0.35],
+	["Lcarpet2r", 0.28,  0.25, 0.35],
+	//rigidifier
+	["Lcarpetrig", 0.375, -0.125, 0.65, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--RIGHT CARPET--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["Rcarpet1l", "Rcarpet1r"],
+	["Rcarpet2l", "Rcarpet2r"],
+	["Rcarpet1l", "Rcarpet2l"],
+	["Rcarpet1r", "Rcarpet2r"],
+	["Rcarpet1l", "Rcarpet2r"],
+	["Rcarpet2l", "Rcarpet1r"],
+
+	//rigidifier
+	["Rcarpet1l", "Rcarpetrig"],
+	["Rcarpet1r", "Rcarpetrig"],
+	["Rcarpet2l", "Rcarpetrig"],
+	["Rcarpet2r", "Rcarpetrig"],
+
+
+	//--LEFT CARPET--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//uniform structure
+	["Lcarpet1l", "Lcarpet1r"],
+	["Lcarpet2l", "Lcarpet2r"],
+	["Lcarpet1l", "Lcarpet2l"],
+	["Lcarpet1r", "Lcarpet2r"],
+	["Lcarpet1l", "Lcarpet2r"],
+	["Lcarpet2l", "Lcarpet1r"],
+
+	//rigidifier
+	["Lcarpet1l", "Lcarpetrig"],
+	["Lcarpet1r", "Lcarpetrig"],
+	["Lcarpet2l", "Lcarpetrig"],
+	["Lcarpet2r", "Lcarpetrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//right
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+	{"breakGroup":"intcarpet_R_break"},
+
+	["Rcarpet1l", "chassis1r"],
+	["Rcarpet1l", "chassis2rr"],
+	["Rcarpet1l", "chassis3r"],
+	["Rcarpet1l", "chassis0"],
+
+	["Rcarpet1r", "chassis1r"],
+	["Rcarpet1r", "chassis2rr"],
+	["Rcarpet1r", "chassis3r"],
+	["Rcarpet1r", "chassis0"],
+
+	["Rcarpet2l", "chassis6r"],
+	["Rcarpet2l", "chassis7rr"],
+	["Rcarpet2l", "chassis8r"],
+	["Rcarpet2l", "chassis0"],
+
+	["Rcarpet2r", "chassis6r"],
+	["Rcarpet2r", "chassis7rr"],
+	["Rcarpet2r", "chassis8r"],
+	["Rcarpet2r", "chassis0"],
+
+	["Rcarpetrig", "chassis2rr"],
+	["Rcarpetrig", "chassis2r"],
+	["Rcarpetrig", "chassis7rr"],
+	["Rcarpetrig", "chassis7r"],
+
+	//stiffeners
+	{"optional":true},
+	["Rcarpet1l", "chassis4"],
+	["Rcarpet1r", "chassis4"],
+	["Rcarpet2l", "chassis4"],
+	["Rcarpet2r", "chassis4"],
+	{"optional":false},
+
+
+	//left
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+	{"breakGroup":"intcarpet_L_break"},
+
+	["Lcarpet1l", "chassis1l"],
+	["Lcarpet1l", "chassis2ll"],
+	["Lcarpet1l", "chassis3l"],
+	["Lcarpet1l", "chassis0"],
+
+	["Lcarpet1r", "chassis1l"],
+	["Lcarpet1r", "chassis2ll"],
+	["Lcarpet1r", "chassis3l"],
+	["Lcarpet1r", "chassis0"],
+
+	["Lcarpet2l", "chassis6l"],
+	["Lcarpet2l", "chassis7ll"],
+	["Lcarpet2l", "chassis8l"],
+	["Lcarpet2l", "chassis0"],
+
+	["Lcarpet2r", "chassis6l"],
+	["Lcarpet2r", "chassis7ll"],
+	["Lcarpet2r", "chassis8l"],
+	["Lcarpet2r", "chassis0"],
+
+	["Lcarpetrig", "chassis2ll"],
+	["Lcarpetrig", "chassis2l"],
+	["Lcarpetrig", "chassis7ll"],
+	["Lcarpetrig", "chassis7l"],
+
+	//stiffeners
+	{"optional":true},
+	["Lcarpet1l", "chassis4"],
+	["Lcarpet1r", "chassis4"],
+	["Lcarpet2l", "chassis4"],
+	["Lcarpet2r", "chassis4"],
+	{"optional":false},
+
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_intcarper_R"},
+	["Rcarpet1r","Rcarpet1l","Rcarpet2l","Rcarpet2r"],
+	{"group":"legocar_intcarper_L"},
+	["Lcarpet1r","Lcarpet1l","Lcarpet2l","Lcarpet2r"],
+        {"group":""},
+    ],
+},
+
+}
