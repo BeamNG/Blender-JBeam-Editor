@@ -45,7 +45,7 @@ def jbeam_editor_test():
     # Cleanup code'''
 
 
-# Import, choose JBeam mesh, add new nodes in this order and export (valid):
+# Import vehicle, choose JBeam mesh, add new nodes in this order and export (valid):
 # 'new_node1': (0.23,5.56,77.13),
 def test_1():
     jbeam_editor_test.set_test_to_run(test_1.__name__)
@@ -72,7 +72,7 @@ def test_1():
     jbeam_editor_test.cleanup(veh_name)
 
 
-# Import, choose JBeam mesh, add new nodes in this order and export (valid):
+# Import vehicle, choose JBeam mesh, add new nodes in this order and export (valid):
 # 'new_node1': (1,2,3),
 # 'new_node2': (9,8,7),
 # 'new_node3': (0.1,0.11,0.111),
@@ -105,7 +105,7 @@ def test_2():
     jbeam_editor_test.cleanup(veh_name)
 
 
-# Import, choose JBeam mesh, add new nodes in this order and export (valid):
+# Import vehicle, add new nodes to two JBeam meshes, and export (valid):
 # 'new_node1': (100,200,300),
 # 'new_node2': (9,80,700),
 # 'new_node3': (1.1,10.11,100.111),
@@ -146,228 +146,3 @@ def test_3():
     assert jbeam_editor_test.export_selected_parts_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup(veh_name)
-
-
-# # Import, choose JBeam mesh, add new nodes in this order and export (valid):
-# # 'new_node1': (333,444,555),
-# # 'new_node2': (97,65,7600),
-# # 'new_node3': (1.123,10.1234,100.12345),
-# # 'new_node4': (1000.1,3.2,100006.3)
-# def test_4():
-#     jbeam_editor_test.set_test_to_run(test_4.__name__)
-#     chosen_part = jbeam_editor_test.import_part
-
-#     node_ids = ['new_node1', 'new_node2', 'new_node3', 'new_node4']
-#     #node_ids = ['new_node1']
-#     node_id_to_new_position = {
-#         'new_node1': (333,444,555),
-#         'new_node2': (97,65,7600),
-#         'new_node3': (1.1,10.12,100.123),
-#         'new_node4': (999.15,300.2,1.3)
-#     }
-
-#     # Import chosen part from JBeam file
-#     jbeam_editor_test.import_jbeam()
-
-#     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(node_ids, node_id_to_new_position)
-
-#     # Export JBeam file and test result
-#     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
-#     assert jbeam_editor_test.test_result()
-#     jbeam_editor_test.cleanup()
-
-
-# # Import, choose JBeam mesh, add new nodes in this order and export (valid):
-# # 'new_node1': (100,200,300),
-# # 'new_node2': (9,80,700),
-# # 'new_node3': (1.1,10.11,100.111),
-# # 'new_node4': (1000.21,3.55,100006.50)
-# def test_5():
-#     jbeam_editor_test.set_test_to_run(test_5.__name__)
-#     chosen_part = jbeam_editor_test.import_part
-
-#     node_ids = ['new_node1', 'new_node2', 'new_node3', 'new_node4']
-#     node_id_to_new_position = {
-#         'new_node1': (100,200,300),
-#         'new_node2': (9,80,700),
-#         'new_node3': (1.1,10.11,100.111),
-#         'new_node4': (1000.21,3.55,100006.50)
-#     }
-
-#     # Import chosen part from JBeam file
-#     jbeam_editor_test.import_jbeam()
-
-#     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(node_ids, node_id_to_new_position)
-
-#     # Export JBeam file and test result
-#     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
-#     assert jbeam_editor_test.test_result()
-#     jbeam_editor_test.cleanup()
-
-
-# # Import, choose JBeam mesh, add new nodes in this order and export (valid):
-# # 'new_node1': (1,2,3),
-# # 'new_node2': (9,8,7),
-# # 'new_node3': (0.1,0.11,0.111),
-# # 'new_node4': (1.21,3.55,6.50),
-# def test_6():
-#     jbeam_editor_test.set_test_to_run(test_6.__name__)
-#     chosen_part = jbeam_editor_test.import_part
-
-#     node_ids = ['new_node1', 'new_node2', 'new_node3', 'new_node4']
-#     node_id_to_new_position = {
-#         'new_node1': (1,2,3),
-#         'new_node2': (9,8,7),
-#         'new_node3': (0.1,0.11,0.111),
-#         'new_node4': (1.21,3.55,6.50)
-#     }
-
-#     # Import chosen part from JBeam file
-#     jbeam_editor_test.import_jbeam()
-
-#     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(node_ids, node_id_to_new_position)
-
-#     # Export JBeam file and test result
-#     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
-#     assert jbeam_editor_test.test_result()
-#     jbeam_editor_test.cleanup()
-
-
-# # Import, choose JBeam mesh, add new nodes in this order and export (valid):
-# # 'new_node1': (1,2,3),
-# # 'new_node2': (9,8,7),
-# # 'new_node3': (0.1,0.11,0.111),
-# # 'new_node4': (1.21,3.55,6.50),
-# def test_7():
-#     jbeam_editor_test.set_test_to_run(test_7.__name__)
-#     chosen_part = jbeam_editor_test.import_part
-
-#     node_ids = ['new_node1', 'new_node2', 'new_node3', 'new_node4']
-#     node_id_to_new_position = {
-#         'new_node1': (1,2,3),
-#         'new_node2': (9,8,7),
-#         'new_node3': (0.1,0.11,0.111),
-#         'new_node4': (1.21,3.55,6.50)
-#     }
-
-#     # Import chosen part from JBeam file
-#     jbeam_editor_test.import_jbeam()
-
-#     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(node_ids, node_id_to_new_position)
-
-#     # Export JBeam file and test result
-#     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
-#     assert jbeam_editor_test.test_result()
-#     jbeam_editor_test.cleanup()
-
-
-# # Import, choose JBeam mesh, add new nodes in this order and export (valid):
-# # 'new_node1': (1,2,3),
-# # 'new_node2': (9,8,7),
-# # 'new_node3': (0.1,0.11,0.111),
-# # 'new_node4': (1.21,3.55,6.50),
-# def test_8():
-#     jbeam_editor_test.set_test_to_run(test_8.__name__)
-#     chosen_part = jbeam_editor_test.import_part
-
-#     node_ids = ['new_node1', 'new_node2', 'new_node3', 'new_node4']
-#     node_id_to_new_position = {
-#         'new_node1': (1,2,3),
-#         'new_node2': (9,8,7),
-#         'new_node3': (0.1,0.11,0.111),
-#         'new_node4': (1.21,3.55,6.50)
-#     }
-
-#     # Import chosen part from JBeam file
-#     jbeam_editor_test.import_jbeam()
-
-#     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(node_ids, node_id_to_new_position)
-
-#     # Export JBeam file and test result
-#     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
-#     assert jbeam_editor_test.test_result()
-#     jbeam_editor_test.cleanup()
-
-
-# # Import, choose JBeam mesh, add new nodes in this order and export (valid):
-# # 'new_node1': (1,2,3),
-# # 'new_node2': (9,8,7),
-# # 'new_node3': (0.1,0.11,0.111),
-# # 'new_node4': (1.21,3.55,6.50),
-# def test_9():
-#     jbeam_editor_test.set_test_to_run(test_9.__name__)
-#     chosen_part = jbeam_editor_test.import_part
-
-#     node_ids = ['new_node1', 'new_node2', 'new_node3', 'new_node4']
-#     node_id_to_new_position = {
-#         'new_node1': (1,2,3),
-#         'new_node2': (9,8,7),
-#         'new_node3': (0.1,0.11,0.111),
-#         'new_node4': (1.21,3.55,6.50)
-#     }
-
-#     # Import chosen part from JBeam file
-#     jbeam_editor_test.import_jbeam()
-
-#     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(node_ids, node_id_to_new_position)
-
-#     # Export JBeam file and test result
-#     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
-#     assert jbeam_editor_test.test_result()
-#     jbeam_editor_test.cleanup()
-
-
-# # Import, choose JBeam mesh, add new nodes in this order and export (valid):
-# # 'new_node1': (1,2,3),
-# # 'new_node2': (9,8,7),
-# # 'new_node3': (0.1,0.11,0.111),
-# # 'new_node4': (1.21,3.55,6.50),
-# def test_10():
-#     jbeam_editor_test.set_test_to_run(test_10.__name__)
-#     chosen_part = jbeam_editor_test.import_part
-
-#     node_ids = ['new_node1', 'new_node2', 'new_node3', 'new_node4']
-#     node_id_to_new_position = {
-#         'new_node1': (1,2,3),
-#         'new_node2': (9,8,7),
-#         'new_node3': (0.1,0.11,0.111),
-#         'new_node4': (1.21,3.55,6.50)
-#     }
-
-#     # Import chosen part from JBeam file
-#     jbeam_editor_test.import_jbeam()
-
-#     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(node_ids, node_id_to_new_position)
-
-#     # Export JBeam file and test result
-#     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
-#     assert jbeam_editor_test.test_result()
-#     jbeam_editor_test.cleanup()
-
-
-# # Import, choose JBeam mesh, add new nodes in this order and export (valid):
-# # 'new_node1': (1,2,3),
-# # 'new_node2': (9,8,7),
-# # 'new_node3': (0.1,0.11,0.111),
-# # 'new_node4': (1.21,3.55,6.50),
-# def test_11():
-#     jbeam_editor_test.set_test_to_run(test_11.__name__)
-#     chosen_part = jbeam_editor_test.import_part
-
-#     node_ids = ['new_node1', 'new_node2', 'new_node3', 'new_node4']
-#     node_id_to_new_position = {
-#         'new_node1': (1,2,3),
-#         'new_node2': (9,8,7),
-#         'new_node3': (0.1,0.11,0.111),
-#         'new_node4': (1.21,3.55,6.50)
-#     }
-
-#     # Import chosen part from JBeam file
-#     jbeam_editor_test.import_jbeam()
-
-#     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(node_ids, node_id_to_new_position)
-
-#     # Export JBeam file and test result
-#     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
-#     assert jbeam_editor_test.test_result()
-#     jbeam_editor_test.cleanup()
