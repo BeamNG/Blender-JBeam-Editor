@@ -34,7 +34,7 @@ from addon_helper import get_version
 
 from test_blender_plugin_helper import JBeamEditorTest
 
-jbeam_editor_test = JBeamEditorTest('jbeam_import_modify_export\\no_edits')
+jbeam_editor_test = JBeamEditorTest('no_edits')
 
 
 # Import, choose JBeam mesh, export (valid)

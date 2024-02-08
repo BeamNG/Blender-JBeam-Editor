@@ -36,7 +36,7 @@ from addon_helper import get_version
 
 from test_blender_plugin_helper import JBeamEditorTest
 
-jbeam_editor_test = JBeamEditorTest('jbeam_import_modify_export\\move_nodes')
+jbeam_editor_test = JBeamEditorTest('move_nodes')
 
 
 # Import, choose JBeam mesh, move node nl10 from (0.8,-0.8,-0.2) to (-0.84,0.99,10), export (valid)

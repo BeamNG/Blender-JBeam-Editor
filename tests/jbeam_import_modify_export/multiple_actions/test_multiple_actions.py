@@ -36,7 +36,7 @@ from addon_helper import get_version
 
 from test_blender_plugin_helper import JBeamEditorTest
 
-jbeam_editor_test = JBeamEditorTest('jbeam_import_modify_export\\multiple_actions')
+jbeam_editor_test = JBeamEditorTest('multiple_actions')
 
 
 # Import, choose JBeam mesh, delete node nr6, rename node nl10 to nr6, and export (valid)

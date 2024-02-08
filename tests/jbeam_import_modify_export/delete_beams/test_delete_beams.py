@@ -36,7 +36,7 @@ from addon_helper import get_version
 
 from test_blender_plugin_helper import JBeamEditorTest
 
-jbeam_editor_test = JBeamEditorTest('jbeam_import_modify_export\\delete_beams')
+jbeam_editor_test = JBeamEditorTest('delete_beams')
 
 '''@pytest.fixture
 def jbeam_editor_test():

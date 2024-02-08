@@ -36,7 +36,7 @@ from addon_helper import get_version
 
 from test_blender_plugin_helper import JBeamEditorTest
 
-jbeam_editor_test = JBeamEditorTest('jbeam_import_modify_export\\undo_redo')
+jbeam_editor_test = JBeamEditorTest('undo_redo')
 #bpy.ops.ed.undo_push()
 
 '''@pytest.fixture

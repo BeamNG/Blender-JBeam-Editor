@@ -33,8 +33,8 @@ from jbeam_editor import export_jbeam
 class JBeamEditorTest:
     def __init__(self, test_suite_name):
         self.test_suite_name = test_suite_name
-        self.test_suite_folder = os.getcwd() + '\\tests\\' + test_suite_name + '\\'
-        self.temp_test_suite_folder = os.getcwd() + '\\tests\\temp\\' + test_suite_name + '\\'
+        self.test_suite_folder = os.getcwd() + '\\tests\\jbeam_import_modify_export\\' + test_suite_name + '\\'
+        self.temp_test_suite_folder = os.getcwd() + '\\tests\\jbeam_import_modify_export\\temp\\' + test_suite_name + '\\'
 
         if os.path.exists(self.temp_test_suite_folder):
             shutil.rmtree(self.temp_test_suite_folder)

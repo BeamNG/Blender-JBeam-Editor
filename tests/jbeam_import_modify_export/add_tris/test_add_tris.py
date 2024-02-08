@@ -36,7 +36,7 @@ from addon_helper import get_version
 
 from test_blender_plugin_helper import JBeamEditorTest
 
-jbeam_editor_test = JBeamEditorTest('jbeam_import_modify_export\\add_tris')
+jbeam_editor_test = JBeamEditorTest('add_tris')
 
 '''@pytest.fixture
 def jbeam_editor_test():
