@@ -65,19 +65,22 @@ class JBeamEditorTest:
         assert bpy.ops.jbeam_editor.import_vehicle(
             filepath=self.temp_test_folder + 'original\\' + pc_file
         ) == {'FINISHED'}
-        
+
         assert veh_name in bpy.data.collections
 
 
-    def select_jbeam_mesh(self, part_name):
-        assert part_name in bpy.context.scene.objects
+    def select_jbeam_meshs(self, part_names):
+        if isinstance(part_names, str):
+            part_names = [part_names]
 
         for obj in bpy.context.selected_objects:
             obj.select_set(False)
 
-        # Set added JBeam object as active object
-        bpy.context.view_layer.objects.active = bpy.context.scene.objects[part_name]
-        bpy.context.active_object.select_set(True)
+        # Set JBeam objects as active objects
+        for part_name in part_names:
+            assert part_name in bpy.context.scene.objects
+            bpy.context.view_layer.objects.active = bpy.context.scene.objects[part_name]
+            bpy.context.active_object.select_set(True)
 
 
     def set_to_edit_mode_and_get_imported_mesh(self, part_name):
@@ -217,7 +220,7 @@ class JBeamEditorTest:
 
 
     def add_nodes_from_imported_jbeam_mesh(self, part_name: str, node_ids: list, node_id_to_new_position: dict):
-        self.select_jbeam_mesh(part_name)
+        self.select_jbeam_meshs(part_name)
         obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh(part_name)
 
         init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
@@ -451,7 +454,7 @@ class JBeamEditorTest:
             export_jbeam.auto_export(active_obj.name)
 
 
-    def export_jbeam_to_file(self):
+    def export_selected_parts_to_file(self):
         #print("export_jbeam" , self.test_suite_name, self.test_name, self.temp_import_file)
         #return bpy.ops.jbeam_editor.export_jbeam(filepath=self.temp_import_file)
         return bpy.ops.jbeam_editor.export_jbeam()

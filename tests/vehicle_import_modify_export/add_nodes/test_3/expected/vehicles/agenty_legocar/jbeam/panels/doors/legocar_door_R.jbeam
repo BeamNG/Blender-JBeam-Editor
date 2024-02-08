@@ -1,0 +1,151 @@
+{
+"legocar_door_R": {
+    "information":{
+        "name":"Right Door",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_door_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_door_R",["legocar_door_R"], [], {"pos":{"x":-0.625, "y":-0.375, "z":0.4},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+    ],
+    "triggers":[
+        ["id", "label", "idRef:", "idX:", "idY:", "type", "size", "baseRotation", "rotation", "translation", "baseTranslation"],
+        ["door_R", "", "door3r","door5r","door4r", "box", {"x":0.055, "y":0.04, "z":0.055}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0.3225, "y":0.1425, "z":-0.045}],
+    ],
+    "triggerEventLinks":[
+        ["triggerId:triggers", "action", "targetEventId:events"],
+        ["door_R", "action0", "doorLatch_R"],
+    ],
+    "events":[
+        ["id", "title", "desc"],
+        ["doorLatch_R", "ui.inputActions.common.doorLatch_R.title", "ui.inputActions.common.doorLatch_R.description", {"onUp":"electrics.values.doorFR_input = 1-(electrics.values.doorFR_input or 0)"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_door_R"},
+	//6 pieces, 7 nodes - 0.86 kg/node
+	{"nodeWeight": "$=$weight*0.86"},
+
+	["door1r",  -0.625, -0.375, 0.38],
+	["door2r",  -0.625, -0.375, 0.70],
+	["door3r",  -0.750, -0.250, 0.38],
+	["door4r",  -0.750, -0.250, 0.70],
+	["door5r",  -0.750,  0.250, 0.38],
+	["door6r",  -0.750,  0.250, 0.70],
+
+	//rigidifier
+	["doorrigr", -0.5, 0, 0.55, {"collision":false, "selfCollision":false, "group":""}],
+        ["new_node3", 1.1, 10.11, 100.111],
+        ["new_node4", 1000.21, 3.55, 100006.5],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--RIGHT DOOR--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["door1r", "door3r"],
+	["door1r", "door4r"],
+	["door1r", "door5r"],
+	["door1r", "door6r"],
+
+	["door2r", "door3r"],
+	["door2r", "door4r"],
+	["door2r", "door5r"],
+	["door2r", "door6r"],
+
+	["door3r", "door4r"],
+	["door3r", "door5r"],
+	["door3r", "door6r"],
+	
+	["door4r", "door5r"],
+	["door4r", "door6r"],
+	["door5r", "door6r"],
+
+	//rigidifier
+	["door1r", "doorrigr"],
+	["door2r", "doorrigr"],
+	["door3r", "doorrigr"],
+	["door4r", "doorrigr"],
+	["door5r", "doorrigr"],
+	["door6r", "doorrigr"],
+
+	//this is the rotation axis, it triggers latch breakage
+	["door1r", "door2r", {"breakGroup":"door_latch_FR", "disableMeshBreaking":true}],
+
+	//limiters
+	{"beamPrecompression":0.99, "beamType":"|SUPPORT", "beamLongBound":4, "beamShortBound":1},
+	//lower spring and damp for more stability
+	{"beamSpring":"$=$weight*101000", "beamDamp":"$=$weight*10"},
+	["door5r", "RrockT2l", {"breakGroup":"Rdoor_break", "breakGroupType":1}],
+	["door6r", "RrockT4l", {"breakGroup":"Rdoor_break", "breakGroupType":1}],
+	["door5r", "RrockT2r", {"breakGroup":"Rdoor_break", "breakGroupType":1}],
+	["door6r", "RrockT4r", {"breakGroup":"Rdoor_break", "breakGroupType":1}],
+	["door5r", "chassis0", {"breakGroup":"Rdoor_break", "breakGroupType":1}],
+	["door6r", "chassis0", {"breakGroup":"Rdoor_break", "breakGroupType":1}],
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*301000", "beamDamp":"$=$weight*30"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"Rdoor_break"},
+
+	["door1r", "RrockT1l"],
+	["door1r", "RrockT1r"],
+	["door1r", "RrockT2l"],
+	["door1r", "RrockT2r"],
+	["door1r", "RrockT3l"],
+	["door1r", "RrockT3r"],
+
+	["door2r", "RrockT1l"],
+	["door2r", "RrockT1r"],
+	["door2r", "RrockT2l"],
+	["door2r", "RrockT2r"],
+	["door2r", "RrockT3l"],
+	["door2r", "RrockT3r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "torsionHydros": [
+        ["id1:","id2:","id3:","id4:"],
+	//spring = weight * 50000, damp = weight * 5
+        {"spring":"$=$weight*51000", "damp":"$=$weight*5", "deform":1000, "strength":"FLT_MAX"},
+	//door opening
+	//factor: -0.375*pi
+        ["door3r","door1r","door2r","RrockT2r", {"factor":-1.1780972450961724184992363007041,"inRate":2,"outRate":2,"inputSource":"doorFR"}],
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_door_R"},
+	["door1r","door3r","door5r"],
+	["door2r","door6r","door4r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_door_R"},
+	["door2r","door4r","door3r","door1r"],
+	["door5r","door6r","door2r","door1r"],
+	["door4r","door6r","door5r","door3r"],
+
+	//breakable side collision quad
+	{"group":"Rdoor_break"},
+	{"breakGroup":"Rdoor_break"},
+	["door4r","door3r","RrockT1r","RrockT3r"],
+	{"breakGroup":""},
+        {"group":""},
+    ],
+},
+
+}

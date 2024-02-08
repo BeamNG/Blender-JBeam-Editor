@@ -50,6 +50,7 @@ def jbeam_editor_test():
 def test_1():
     jbeam_editor_test.set_test_to_run(test_1.__name__)
 
+    pc_file = 'vehicles\\agenty_legocar\\agenty_custom.pc'
     veh_name = 'agenty_legocar'
     part_name = 'legocar_chassis'
 
@@ -59,71 +60,92 @@ def test_1():
     }
 
     # Import vehicle
-    jbeam_editor_test.import_vehicle('vehicles\\agenty_legocar\\agenty_custom.pc', veh_name)
+    jbeam_editor_test.import_vehicle(pc_file, veh_name)
 
-    jbeam_editor_test.select_jbeam_mesh(part_name)
+    # Select mesh and add nodes to it
+    jbeam_editor_test.select_jbeam_meshs(part_name)
     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(part_name, node_ids, node_id_to_new_position)
 
     # # Export JBeam file and test result
-    assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
+    assert jbeam_editor_test.export_selected_parts_to_file() == {'FINISHED'}
     assert jbeam_editor_test.test_result()
     jbeam_editor_test.cleanup(veh_name)
 
 
-# # Import, choose JBeam mesh, add new nodes in this order and export (valid):
-# # 'new_node1': (1,2,3),
-# # 'new_node2': (9,8,7),
-# # 'new_node3': (0.1,0.11,0.111),
-# # 'new_node4': (1.21,3.55,6.50),
-# def test_2():
-#     jbeam_editor_test.set_test_to_run(test_2.__name__)
-#     chosen_part = jbeam_editor_test.import_part
+# Import, choose JBeam mesh, add new nodes in this order and export (valid):
+# 'new_node1': (1,2,3),
+# 'new_node2': (9,8,7),
+# 'new_node3': (0.1,0.11,0.111),
+# 'new_node4': (1.21,3.55,6.50),
+def test_2():
+    jbeam_editor_test.set_test_to_run(test_2.__name__)
 
-#     node_ids = ['new_node1', 'new_node2', 'new_node3', 'new_node4']
-#     node_id_to_new_position = {
-#         'new_node1': (1,2,3),
-#         'new_node2': (9,8,7),
-#         'new_node3': (0.1,0.11,0.111),
-#         'new_node4': (1.21,3.55,6.50)
-#     }
+    pc_file = 'vehicles\\agenty_legocar\\agenty_custom.pc'
+    veh_name = 'agenty_legocar'
+    part_name = 'legocar_chassis'
 
-#     # Import chosen part from JBeam file
-#     jbeam_editor_test.import_jbeam()
+    node_ids = ['new_node1', 'new_node2', 'new_node3', 'new_node4']
+    node_id_to_new_position = {
+        'new_node1': (1,2,3),
+        'new_node2': (9,8,7),
+        'new_node3': (0.1,0.11,0.111),
+        'new_node4': (1.21,3.55,6.50)
+    }
 
-#     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(node_ids, node_id_to_new_position)
+    # Import vehicle
+    jbeam_editor_test.import_vehicle(pc_file, veh_name)
 
-#     # Export JBeam file and test result
-#     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
-#     assert jbeam_editor_test.test_result()
-#     jbeam_editor_test.cleanup()
+    # Select mesh and add nodes to it
+    jbeam_editor_test.select_jbeam_meshs(part_name)
+    jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(part_name, node_ids, node_id_to_new_position)
+
+    # Export JBeam file and test result
+    assert jbeam_editor_test.export_selected_parts_to_file() == {'FINISHED'}
+    assert jbeam_editor_test.test_result()
+    jbeam_editor_test.cleanup(veh_name)
 
 
-# # Import, choose JBeam mesh, add new nodes in this order and export (valid):
-# # 'new_node1': (100,200,300),
-# # 'new_node2': (9,80,700),
-# # 'new_node3': (1.1,10.11,100.111),
-# # 'new_node4': (1000.21,3.55,100006.50)
-# def test_3():
-#     jbeam_editor_test.set_test_to_run(test_3.__name__)
-#     chosen_part = jbeam_editor_test.import_part
+# Import, choose JBeam mesh, add new nodes in this order and export (valid):
+# 'new_node1': (100,200,300),
+# 'new_node2': (9,80,700),
+# 'new_node3': (1.1,10.11,100.111),
+# 'new_node4': (1000.21,3.55,100006.50)
+def test_3():
+    jbeam_editor_test.set_test_to_run(test_3.__name__)
 
-#     node_ids = ['new_node1', 'new_node2', 'new_node3', 'new_node4']
-#     node_id_to_new_position = {
-#         'new_node1': (100,200,300),
-#         'new_node2': (9,80,700),
-#         'new_node3': (1.1,10.11,100.111),
-#         'new_node4': (1000.21,3.55,100006.50)
-#     }
+    pc_file = 'vehicles\\agenty_legocar\\agenty_custom.pc'
+    veh_name = 'agenty_legocar'
+    part_name_1 = 'legocar_bpillar_L'
+    part_name_2 = 'legocar_door_R'
 
-#     # Import chosen part from JBeam file
-#     jbeam_editor_test.import_jbeam()
+    node_ids_1 = ['new_node1', 'new_node2']
+    node_id_to_new_position_1 = {
+        'new_node1': (100,200,300),
+        'new_node2': (9,80,700),
+    }
+    node_ids_2 = ['new_node3', 'new_node4']
+    node_id_to_new_position_2 = {
+        'new_node3': (1.1,10.11,100.111),
+        'new_node4': (1000.21,3.55,100006.50)
+    }
 
-#     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(node_ids, node_id_to_new_position)
+    # Import vehicle
+    jbeam_editor_test.import_vehicle(pc_file, veh_name)
 
-#     # Export JBeam file and test result
-#     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
-#     assert jbeam_editor_test.test_result()
-#     jbeam_editor_test.cleanup()
+    # Select mesh and add nodes to it
+    jbeam_editor_test.select_jbeam_meshs(part_name_1)
+    jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(part_name_1, node_ids_1, node_id_to_new_position_1)
+
+    # Select another mesh and add nodes to it
+    jbeam_editor_test.select_jbeam_meshs(part_name_2)
+    jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(part_name_2, node_ids_2, node_id_to_new_position_2)
+
+    jbeam_editor_test.select_jbeam_meshs([part_name_1, part_name_2])
+
+    # Export JBeam file and test result
+    assert jbeam_editor_test.export_selected_parts_to_file() == {'FINISHED'}
+    assert jbeam_editor_test.test_result()
+    jbeam_editor_test.cleanup(veh_name)
 
 
 # # Import, choose JBeam mesh, add new nodes in this order and export (valid):

@@ -1,0 +1,212 @@
+{
+"legocar_bpillar_L": {
+    "information":{
+        "name":"Left B-Pillar",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bpillar_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_wheelhouse_filler_RL", "legocar_wheelhouse_filler_RL", "Rear Left Wheelhouse Filler"],
+	["legocar_quarterglass_mount_L", "legocar_quarterglass_mount_L", "Rear Left Quarter Glass Mount"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_col1",  ["legocar_bpillar_mount_L"], [], {"pos":{"x":0.375, "y":0.500, "z":0.3},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_tall_door_L",["legocar_bpillar_L"],       [], {"pos":{"x":0.500, "y":0.375, "z":0.4},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//left b-pillar mount
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+	{"group":"legocar_bpillar_mount_L"},
+
+	["Lbpmount1l", 0.50,  0.28, 0.35],
+	["Lbpmount1r", 0.25,  0.28, 0.35],
+	["Lbpmount2l", 0.50,  0.75, 0.35],
+	["Lbpmount2r", 0.25,  0.75, 0.35],
+	//rigidifier
+	["Lbpmountrig", 0.375, 0.5, 0.6, {"collision":false, "selfCollision":false, "group":""}],
+
+	//left b-pillar
+	//6 pieces, 8 nodes - 0.75 kg/node
+	{"nodeWeight": "$=$weight*0.75"},
+	{"group":"legocar_bpillar_L"},
+
+	["Lbpillar1l",  0.75,  0.28, 0.4],
+	["Lbpillar1r",  0.25,  0.28, 0.4],
+	["Lbpillar2l",  0.75,  0.47, 0.4],
+	["Lbpillar2r",  0.25,  0.47, 0.4],
+	["Lbpillar3l",  0.75,  0.28, 0.7],
+	["Lbpillar3r",  0.25,  0.28, 0.7],
+	["Lbpillar4l",  0.75,  0.47, 0.7],
+	["Lbpillar4r",  0.25,  0.47, 0.7],
+        ["new_node1", 100, 200, 300],
+        ["new_node2", 9, 80, 700],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--LEFT B-PILLAR MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["Lbpmount1l", "Lbpmount1r"],
+	["Lbpmount2l", "Lbpmount2r"],
+	["Lbpmount1l", "Lbpmount2l"],
+	["Lbpmount1r", "Lbpmount2r"],
+	["Lbpmount1l", "Lbpmount2r"],
+	["Lbpmount2l", "Lbpmount1r"],
+
+	//rigidifier
+	["Lbpmount1l", "Lbpmountrig"],
+	["Lbpmount1r", "Lbpmountrig"],
+	["Lbpmount2l", "Lbpmountrig"],
+	["Lbpmount2r", "Lbpmountrig"],
+
+
+	//--LEFT B-PILLAR--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//uniform structure
+	["Lbpillar1l", "Lbpillar1r"],
+	["Lbpillar2l", "Lbpillar2r"],
+	["Lbpillar3l", "Lbpillar3r"],
+	["Lbpillar4l", "Lbpillar4r"],
+
+	["Lbpillar1l", "Lbpillar2r"],
+	["Lbpillar2l", "Lbpillar3r"],
+	["Lbpillar3l", "Lbpillar4r"],
+	["Lbpillar4l", "Lbpillar1r"],
+
+	["Lbpillar1l", "Lbpillar3r"],
+	["Lbpillar2l", "Lbpillar4r"],
+	["Lbpillar3l", "Lbpillar1r"],
+	["Lbpillar4l", "Lbpillar2r"],
+
+	["Lbpillar1l", "Lbpillar4r"],
+	["Lbpillar2l", "Lbpillar1r"],
+	["Lbpillar3l", "Lbpillar2r"],
+	["Lbpillar4l", "Lbpillar3r"],
+
+	["Lbpillar1l", "Lbpillar2l"],
+	["Lbpillar2l", "Lbpillar3l"],
+	["Lbpillar3l", "Lbpillar4l"],
+	["Lbpillar4l", "Lbpillar1l"],
+
+	["Lbpillar1l", "Lbpillar3l"],
+	["Lbpillar2l", "Lbpillar4l"],
+
+	["Lbpillar1r", "Lbpillar2r"],
+	["Lbpillar2r", "Lbpillar3r"],
+	["Lbpillar3r", "Lbpillar4r"],
+	["Lbpillar4r", "Lbpillar1r"],
+
+	["Lbpillar1r", "Lbpillar3r"],
+	["Lbpillar2r", "Lbpillar4r"],
+
+
+	//--LEFT B-PILLAR TO MOUNT--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bpillar_L_break"},
+
+	["Lbpillar3l", "Lbpmount1l"],
+	["Lbpillar3l", "Lbpmount1r"],
+	["Lbpillar3l", "Lbpmount2l"],
+	["Lbpillar3l", "Lbpmountrig"],
+
+	["Lbpillar3r", "Lbpmount1l"],
+	["Lbpillar3r", "Lbpmount1r"],
+	["Lbpillar3r", "Lbpmount2r"],
+	["Lbpillar3r", "Lbpmountrig"],
+
+	["Lbpillar4l", "Lbpmount1l"],
+	["Lbpillar4l", "Lbpmount2r"],
+	["Lbpillar4l", "Lbpmount2l"],
+	["Lbpillar4l", "Lbpmountrig"],
+
+	["Lbpillar4r", "Lbpmount2l"],
+	["Lbpillar4r", "Lbpmount1r"],
+	["Lbpillar4r", "Lbpmount2r"],
+	["Lbpillar4r", "Lbpmountrig"],
+
+
+	//--ATTACH MOUNT TO CHASSIS--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bpillar_mount_L_break"},
+
+	["Lbpmount1l", "chassis6l"],
+	["Lbpmount1l", "chassis7l"],
+	["Lbpmount1l", "chassis8l"],
+
+	["Lbpmount1r", "chassis6l"],
+	["Lbpmount1r", "chassis7ll"],
+	["Lbpmount1r", "chassis8l"],
+
+	["Lbpmount2l", "chassis6l"],
+	["Lbpmount2l", "chassis7l"],
+	["Lbpmount2l", "chassis8l"],
+
+	["Lbpmount2r", "chassis6l"],
+	["Lbpmount2r", "chassis7ll"],
+	["Lbpmount2r", "chassis8l"],
+
+	["Lbpmountrig", "chassis6l"],
+	["Lbpmountrig", "chassis7l"],
+	["Lbpmountrig", "chassis7ll"],
+	["Lbpmountrig", "chassis8l"],
+
+
+	//--ATTACH TO ROCKER--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"bpillar_rocker_L_break"},
+
+	["Lbpillar3l", "LrockT2l"],
+	["Lbpillar3l", "LrockT4r"],
+	["Lbpillar3l", "LrockT6l"],
+
+	["Lbpillar3r", "LrockT2r"],
+	["Lbpillar3r", "LrockT4l"],
+	["Lbpillar3r", "LrockT6r"],
+
+	["Lbpillar4l", "LrockT2l"],
+	["Lbpillar4l", "LrockT4r"],
+	["Lbpillar4l", "LrockT6l"],
+
+	["Lbpillar4r", "LrockT2r"],
+	["Lbpillar4r", "LrockT4l"],
+	["Lbpillar4r", "LrockT6r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_bpillar_mount_L"},
+	["Lbpmount1r","Lbpmount1l","Lbpmount2l","Lbpmount2r"],
+
+	{"group":"legocar_bpillar_L"},   
+	["Lbpillar2r","Lbpillar2l","Lbpillar1l","Lbpillar1r"],
+	["Lbpillar4l","Lbpillar4r","Lbpillar3r","Lbpillar3l"],
+	["Lbpillar3r","Lbpillar4r","Lbpillar2r","Lbpillar1r"],
+	["Lbpillar4l","Lbpillar3l","Lbpillar1l","Lbpillar2l"],
+	["Lbpillar4r","Lbpillar4l","Lbpillar2l","Lbpillar2r"],
+	["Lbpillar3l","Lbpillar3r","Lbpillar1r","Lbpillar1l"],
+
+        {"group":""},
+    ],
+},
+
+}
