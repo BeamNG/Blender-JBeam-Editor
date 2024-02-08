@@ -541,5 +541,7 @@ class JBEAM_EDITOR_OT_import_vehicle(Operator, ImportHelper):
 
     def execute(self, context):
         pc_config_path = Path(self.filepath).as_posix()
-        import_vehicle(context, pc_config_path)
+        res = import_vehicle(context, pc_config_path)
+        if not res:
+            return {'CANCELLED'}
         return {'FINISHED'}

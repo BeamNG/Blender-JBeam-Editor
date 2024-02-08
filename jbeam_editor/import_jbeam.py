@@ -364,9 +364,13 @@ class JBEAM_EDITOR_OT_choose_jbeam(Operator):
 
         if self.import_all_parts:
             for part in _jbeam_part_choices:
-                import_jbeam_part(context, _jbeam_file_path, _jbeam_file_data, part)
+                res = import_jbeam_part(context, _jbeam_file_path, _jbeam_file_data, part)
+                if not res:
+                    return {'CANCELLED'}
         else:
-            import_jbeam_part(context, _jbeam_file_path, _jbeam_file_data, chosen_part)
+            res = import_jbeam_part(context, _jbeam_file_path, _jbeam_file_data, chosen_part)
+            if not res:
+                return {'CANCELLED'}
 
         text_editor.check_int_files_for_changes(context, [_jbeam_file_path], False, False)
 
@@ -414,11 +418,14 @@ class JBEAM_EDITOR_OT_import_jbeam(Operator, ImportHelper):
         _jbeam_file_data, cached_changed = jbeam_io.get_jbeam(_jbeam_file_path, False, True)
 
         if _jbeam_file_data is None:
-            return {'FINISHED'}
+            return {'CANCELLED'}
 
         # # Set from unit tests
         if self.set_chosen_part:
-            import_jbeam_part(context, _jbeam_file_path, _jbeam_file_data, self.chosen_part)
+            res = import_jbeam_part(context, _jbeam_file_path, _jbeam_file_data, self.chosen_part)
+            if not res:
+                return {'CANCELLED'}
+
             text_editor.check_int_files_for_changes(context, [_jbeam_file_path], False, False)
             return {'FINISHED'}
 
