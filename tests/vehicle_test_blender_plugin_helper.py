@@ -379,11 +379,11 @@ class JBeamEditorTest:
         return faces_selected
 
 
-    def add_beams_from_imported_jbeam_mesh(self, beams: list):
-        self.select_imported_jbeam_mesh()
+    def add_beams_from_imported_jbeam_mesh(self, part_name: str, beams: list):
+        self.select_jbeam_meshs(part_name)
 
         for (n1, n2) in beams:
-            obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh()
+            obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh(part_name)
             beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
 
             v1 = self.select_node_by_node_id(bm, n1)
