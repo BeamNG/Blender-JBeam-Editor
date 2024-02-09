@@ -66,19 +66,43 @@ def test_1():
     jbeam_editor_test.cleanup(veh_name)
 
 
-# # Import, choose JBeam mesh, add new beams, and export (valid):
-# def test_2():
-#     jbeam_editor_test.set_test_to_run(test_2.__name__)
-#     chosen_part = jbeam_editor_test.import_part
+# Import, choose JBeam mesh, add new beams, and export (valid):
+def test_2():
+    jbeam_editor_test.set_test_to_run(test_2.__name__)
 
-#     beams = [('nl11', 'nr21'), ('nl9', 'nr20'), ('nl17', 'nr12')]
+    pc_file = 'vehicles\\agenty_legocar\\agenty_custom.pc'
+    veh_name = 'agenty_legocar'
+    part_name = 'legocar_roof_F'
 
-#     # Import chosen part from JBeam file
-#     jbeam_editor_test.import_jbeam()
+    beams = [('roof4lll', 'roof2r'), ('roof4r', 'roof2ll'), ('roof4rr', 'roof1l')]
 
-#     jbeam_editor_test.add_beams_from_imported_jbeam_mesh(beams)
+    # Import vehicle
+    jbeam_editor_test.import_vehicle(pc_file, veh_name)
 
-#     # Export JBeam file and test result
-#     assert jbeam_editor_test.export_jbeam_to_file() == {'FINISHED'}
-#     assert jbeam_editor_test.test_result()
-#     jbeam_editor_test.cleanup()
+    jbeam_editor_test.add_beams_from_imported_jbeam_mesh(part_name, beams)
+
+    # Export JBeam file and test result
+    assert jbeam_editor_test.export_selected_parts_to_file() == {'FINISHED'}
+    assert jbeam_editor_test.test_result()
+    jbeam_editor_test.cleanup(veh_name)
+
+
+# Import, choose JBeam mesh, add new beams, and export (valid):
+def test_3():
+    jbeam_editor_test.set_test_to_run(test_3.__name__)
+
+    pc_file = 'vehicles\\agenty_legocar\\agenty_custom.pc'
+    veh_name = 'agenty_legocar'
+    part_name = 'legocar_trunk_spoiler_tall'
+
+    beams = [('spoilT1l', 'roofR2r'), ('wshld4l', 'wshld1r')]
+
+    # Import vehicle
+    jbeam_editor_test.import_vehicle(pc_file, veh_name)
+
+    jbeam_editor_test.add_beams_from_imported_jbeam_mesh(part_name, beams)
+
+    # Export JBeam file and test result
+    assert jbeam_editor_test.export_selected_parts_to_file() == {'FINISHED'}
+    assert jbeam_editor_test.test_result()
+    jbeam_editor_test.cleanup(veh_name)
