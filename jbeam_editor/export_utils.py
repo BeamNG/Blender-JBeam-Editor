@@ -1123,8 +1123,11 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, 
             bm = bmesh.new()
             bm.from_mesh(obj_data)
 
-        part_nodes_actions: PartNodesActions = parts_nodes_actions[jbeam_part]
-        nodes_to_add, nodes_to_delete, node_renames = part_nodes_actions.nodes_to_add, part_nodes_actions.nodes_to_delete, part_nodes_actions.nodes_to_rename
+        part_nodes_actions: PartNodesActions | None = parts_nodes_actions.get(jbeam_part)
+        if part_nodes_actions is not None:
+            nodes_to_add, nodes_to_delete, node_renames = part_nodes_actions.nodes_to_add, part_nodes_actions.nodes_to_delete, part_nodes_actions.nodes_to_rename
+        else:
+            nodes_to_add, nodes_to_delete, node_renames = set(), {}, set()
 
         #init_nodes_data = data.get('nodes')
         init_beams_data = data.get('beams')

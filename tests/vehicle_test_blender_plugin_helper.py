@@ -244,9 +244,9 @@ class JBeamEditorTest:
         self.export_jbeam()
 
 
-    def delete_nodes_from_imported_jbeam_mesh(self, node_ids: set):
-        self.select_imported_jbeam_mesh()
-        obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh()
+    def delete_nodes_from_imported_jbeam_mesh(self, part_name: str, node_ids: set):
+        self.select_jbeam_meshs(part_name)
+        obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh(part_name)
         self.deselect_all_vertices_edges_faces(bm)
         self.select_nodes_by_node_id(bm, node_ids)
         self.delete_selected_vertices(bm)
@@ -256,9 +256,9 @@ class JBeamEditorTest:
         self.export_jbeam()
 
 
-    def move_nodes_from_imported_jbeam_mesh(self, node_ids_to_new_pos: dict):
-        self.select_imported_jbeam_mesh()
-        obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh()
+    def move_nodes_from_imported_jbeam_mesh(self, part_name: str, node_ids_to_new_pos: dict):
+        self.select_jbeam_meshs(part_name)
+        obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh(part_name)
         self.deselect_all_vertices_edges_faces(bm)
 
         # Move nodes one at a time, replicating user behavior

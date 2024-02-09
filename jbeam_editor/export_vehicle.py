@@ -57,7 +57,7 @@ def export(veh_collection: bpy.types.Collection, active_obj: bpy.types.Object):
         blender_nodes, parts_nodes_actions, is_deleting_nodes, is_renaming_nodes = export_utils.get_nodes_add_delete_rename(active_obj, bm, jbeam_part, init_nodes_data)
         parts_to_update = set(parts_nodes_actions.keys())
 
-        if is_deleting_nodes or is_renaming_nodes:
+        if affect_node_references and (is_deleting_nodes or is_renaming_nodes):
             parts_to_update.add(True)
 
         jbeam_files_to_jbeam_part_objs = {}
@@ -75,9 +75,9 @@ def export(veh_collection: bpy.types.Collection, active_obj: bpy.types.Object):
         filepaths = []
 
         for jbeam_filepath, objs in jbeam_files_to_jbeam_part_objs.items():
-            parts = jbeam_files_to_jbeam_parts[jbeam_filepath]
+            jbeam_file_parts = jbeam_files_to_jbeam_parts[jbeam_filepath]
 
-            if True in parts_to_update or parts <= parts_to_update:
+            if True in parts_to_update or jbeam_file_parts <= parts_to_update:
                 export_utils.export_file(jbeam_filepath, objs, vdata, blender_nodes, parts_nodes_actions, affect_node_references, parts_to_update)
                 filepaths.append(jbeam_filepath)
         t1 = timeit.default_timer()
