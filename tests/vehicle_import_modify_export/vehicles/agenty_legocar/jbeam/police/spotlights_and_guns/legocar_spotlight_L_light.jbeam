@@ -283,7 +283,6 @@
             "texSize":512,
             "shadowSoftness":0.5,
             "flareScale":0.05,
-	    "lightBrightness":0.75,
             "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
         },
         ["cop_bulb_L", "SPOTLIGHT", "Lspot1r", "Lspot2r", "Lspot1l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0.1},"deformGroup":"spotlight_L_light_break"}],
@@ -402,7 +401,6 @@
             "texSize":512,
             "shadowSoftness":0.5,
             "flareScale":0.05,
-	    "lightBrightness":0.75,
             "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
         },
         ["cop_bulb_L", "SPOTLIGHT", "Lspot1r", "Lspot2r", "Lspot1l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0.1},"deformGroup":"spotlight_L_light_break"}],
@@ -521,7 +519,6 @@
             "texSize":512,
             "shadowSoftness":0.5,
             "flareScale":0.05,
-	    "lightBrightness":0.75,
             "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
         },
         ["cop_bulb_L", "SPOTLIGHT", "Lspot1r", "Lspot2r", "Lspot1l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0.1},"deformGroup":"spotlight_L_light_break"}],

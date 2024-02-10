@@ -9,11 +9,6 @@
         ["type", "default", "description"],
 	["legocar_transfercase","legocar_transfercase_AWD","Transfer Case"],
     ],
-   "powertrain": [
-        ["type", "name", "inputName", "inputIndex"],
-        ["torqueConverter", "torqueConverter", "mainEngine", 1],
-        ["automaticGearbox", "gearbox", "torqueConverter", 1],
-    ],
     "powertrain": [
         ["type", "name", "inputName", "inputIndex"],
         ["torqueConverter", "torqueConverter", "mainEngine", 1],

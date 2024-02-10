@@ -367,7 +367,6 @@
 	"legocar_policeled_new_R1_multicolor_base":	{"simpleFunction":{"cop_led_new_R1_r":1, "cop_led_new_R1_b":1, "cop_led_new_R1_o":1, "cop_led_new_R1_w":1},	"off":"lego_transcol_white",	"on":"invis",	"on_intense":"invis"},
 	"legocar_policeled_new_R2_multicolor_base":	{"simpleFunction":{"cop_led_new_R2_r":1, "cop_led_new_R2_b":1, "cop_led_new_R2_o":1, "cop_led_new_R2_w":1},	"off":"lego_transcol_white",	"on":"invis",	"on_intense":"invis"},
 	"legocar_policeled_new_R3_multicolor_base":	{"simpleFunction":{"cop_led_new_R3_r":1, "cop_led_new_R3_b":1, "cop_led_new_R3_o":1, "cop_led_new_R3_w":1},	"off":"lego_transcol_white",	"on":"invis",	"on_intense":"invis"},
-	"legocar_policeled_new_L1_multicolor_red":	{"simpleFunction":{"cop_led_new_L1_r":1, "cop_led_new_L1_b":1, "cop_led_new_L1_o":1, "cop_led_new_L1_w":1},	"off":"lego_transcol_white",	"on":"invis",	"on_intense":"invis"},
 
 	//multicolor version - flashers
 	"legocar_policeled_new_L1_multicolor_red":	{"simpleFunction":{"cop_led_new_L1_r":1},	"off":"invis",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
