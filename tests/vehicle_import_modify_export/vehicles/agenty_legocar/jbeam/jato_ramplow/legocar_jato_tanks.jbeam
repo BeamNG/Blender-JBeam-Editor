@@ -454,7 +454,7 @@
     ],
     "jato":{
         "thrusterNodes:":["jato13", "jato12"],
-        "fuel": 99999999999999999999999999999,
+        "fuel": 999999999999999,
     },
     "nodes": [
         ["id", "posX", "posY", "posZ"],

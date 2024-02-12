@@ -76,7 +76,7 @@
 	//spring = weight * 100000
         {"spring":"$=$fig_weight*17500", "damp":0, "deform":5000, "strength":"FLT_MAX"},
 	//3600 degrees rotation
-        ["head3l","torso6","torso5","torso3l", {"factor":62.831853072,"inRate":1.5,"outRate":1.5,"inputSource":"head"}],
+        ["head3l","torso6","torso5","torso3l", {"factor":62.8318530,"inRate":1.5,"outRate":1.5,"inputSource":"head"}],
     ],
     "beams": [
         ["id1:", "id2:"],

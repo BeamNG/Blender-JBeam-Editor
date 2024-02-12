@@ -170,7 +170,7 @@
         {"spring":"$=$weight*33000", "damp":0, "deform":"FLT_MAX", "strength":"FLT_MAX"},
 	//steering wheel animation
 	//factor: -3*pi
-        ["steer1","steercol0","steercol3","steercol1l", {"factor":-9.4247779607693797153879301498385,"inRate":15,"outRate":15,"inputSource":"steering_input"}],
+        ["steer1","steercol0","steercol3","steercol1l", {"factor":-9.4247779,"inRate":15,"outRate":15,"inputSource":"steering_input"}],
     ],
     "triangles": [
         ["id1:","id2:","id3:"],
@@ -235,7 +235,7 @@
         {"spring":"$=$weight*33000", "damp":0, "deform":"FLT_MAX", "strength":"FLT_MAX"},
 	//steering wheel animation
 	//factor: -2*pi
-        ["steer1","steercol0","steercol3","steercol1l", {"factor":-6.283185307179586476925286766559,"inRate":15,"outRate":15,"inputSource":"steering_input"}],
+        ["steer1","steercol0","steercol3","steercol1l", {"factor":-6.2831853,"inRate":15,"outRate":15,"inputSource":"steering_input"}],
     ],
     "triangles": [
         ["id1:","id2:","id3:"],

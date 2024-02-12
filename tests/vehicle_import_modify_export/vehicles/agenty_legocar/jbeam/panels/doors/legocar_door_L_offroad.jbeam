@@ -294,7 +294,7 @@
         {"spring":"$=$weight*31000", "damp":"$=$weight*3", "deform":1000, "strength":"FLT_MAX"},
 	//door opening
 	//factor: 0.75*pi
-        ["offdoor3l","offdoor1l","offdoor2l","Ldoor3l", {"factor":2.3561944901923449288469825374596,"inRate":2,"outRate":2,"inputSource":"doorFL"}],
+        ["offdoor3l","offdoor1l","offdoor2l","Ldoor3l", {"factor":2.3561944,"inRate":2,"outRate":2,"inputSource":"doorFL"}],
     ],
     "quads": [
         ["id1:","id2:","id3:","id4:"],

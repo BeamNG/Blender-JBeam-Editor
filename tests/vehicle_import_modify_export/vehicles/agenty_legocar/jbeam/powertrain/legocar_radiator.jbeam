@@ -49,7 +49,7 @@
     "slotType":"legocar_radiator",
     "mainEngine":{
         "radiatorArea":0.3,
-        "radiatorEffectiveness":9999999999999999999999999999999999999999,
+        "radiatorEffectiveness":999999999999999,
         "coolantVolume":10,
         "radiatorFanType":"electric",
         "radiatorFanTemperature":100,
@@ -156,7 +156,7 @@
     "slotType":"legocar_radiator_cut",
     "mainEngine":{
         "radiatorArea":0.15,
-        "radiatorEffectiveness":9999999999999999999999999999999999999999,
+        "radiatorEffectiveness":9999999,
         "coolantVolume":5,
         "radiatorFanType":"electric",
         "radiatorFanTemperature":100,

@@ -20,7 +20,7 @@
         {"enableTirePeripheryReinfBeams":true},
 
         //general settings
-        {"radius":0.3365384615384616},
+        {"radius":0.3365384},
         {"tireWidth":0.3},
 
         //tire options
@@ -95,7 +95,7 @@
         {"enableTirePeripheryReinfBeams":true},
 
         //general settings
-        {"radius":0.3365384615384616},
+        {"radius":0.3365384},
         {"tireWidth":0.3},
 
         //tire options

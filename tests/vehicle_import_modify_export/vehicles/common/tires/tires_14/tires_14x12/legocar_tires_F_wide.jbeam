@@ -1,9 +1,9 @@
-//piece scale: 0.25m to 7.8mm = 1 to 31.2/1000 = 32.05128205128205:1
-//wheel diameter 11mm*32.05128205128205 = 0.3525641025641026m = 13.880476479 inches
-//wheel width 9.36mm*32.05128205128205 = 0.3m = 11.811023622 inches
-//tire diameter roughly 21mm*32.05128205128205 = 0.6730769230769231 = around 26.5 inches
-//sidewall height roughly (26.5 - 13.880476479)/2 inches = around 6.3 inches
-//sidewall height to tire width percentage roughly (6.3/11.811023622)*100% = 53.34%
+//piece scale: 0.25m to 7.8mm = 1 to 31.2/1000 = 32.0512820:1
+//wheel diameter 11mm*32.0512820 = 0.3525641m = 13.8804764 inches
+//wheel width 9.36mm*32.0512820 = 0.3m = 11.8110236 inches
+//tire diameter roughly 21mm*32.0512820 = 0.6730769 = around 26.5 inches
+//sidewall height roughly (26.5 - 13.8804764)/2 inches = around 6.3 inches
+//sidewall height to tire width percentage roughly (6.3/11.8110236)*100% = 53.34%
 //estimated wheel size: 13.88x11.81
 //estimated tire size: 300/53R13.88
 
@@ -38,7 +38,7 @@
         {"enableTirePeripheryReinfBeams":true},
 
         //general settings
-        {"radius":0.3365384615384616},
+        {"radius":0.3365384},
         {"tireWidth":0.3},
 
         //tire options
@@ -123,7 +123,7 @@
 
 
         //general settings
-        {"radius":0.3365384615384616},
+        {"radius":0.3365384},
         {"tireWidth":0.3},
 
         //tire options

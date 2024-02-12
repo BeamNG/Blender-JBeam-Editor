@@ -46,8 +46,8 @@
         {"spring":"$=$weight*2000", "damp":"$=$weight*2", "deform":"FLT_MAX", "strength":"FLT_MAX"},
 	//shifter animation
 	//factor = pi/2
-        ["shift2","shift1","shiftb2l","shiftb3", {"factor":1.5707963267948966192313216916398,"inRate":5,"outRate":5,"inputSource":"shifterX"}],
-	["shiftb1","shift1","shiftb0", "dash1r", {"factor":1.5707963267948966192313216916398,"inRate":5,"outRate":5,"inputSource":"shifterZ"}],
+        ["shift2","shift1","shiftb2l","shiftb3", {"factor":1.5707963,"inRate":5,"outRate":5,"inputSource":"shifterX"}],
+	["shiftb1","shift1","shiftb0", "dash1r", {"factor":1.5707963,"inRate":5,"outRate":5,"inputSource":"shifterZ"}],
     ],
     "beams": [
         ["id1:", "id2:"],
@@ -194,8 +194,8 @@
         {"spring":"$=$weight*2000", "damp":"$=$weight*2", "deform":"FLT_MAX", "strength":"FLT_MAX"},
 	//shifter animation
 	//factor = pi/2
-        ["shift2","shift1","shiftb2l","shiftb3", {"factor":1.5707963267948966192313216916398,"inRate":5,"outRate":5,"inputSource":"shifterX"}],
-	["shiftb1","shift1","shiftb0", "dash1r", {"factor":1.5707963267948966192313216916398,"inRate":5,"outRate":5,"inputSource":"shifterZ"}],
+        ["shift2","shift1","shiftb2l","shiftb3", {"factor":1.5707963,"inRate":5,"outRate":5,"inputSource":"shifterX"}],
+	["shiftb1","shift1","shiftb0", "dash1r", {"factor":1.5707963,"inRate":5,"outRate":5,"inputSource":"shifterZ"}],
     ],
     "beams": [
         ["id1:", "id2:"],

@@ -42,7 +42,7 @@
         {"disableMeshBreaking":false,"disableHubMeshBreaking":false,"enableHubcaps":false,"hasTire":false},
 
         //general settings
-        {"hubRadius":0.1762820502820513},
+        {"hubRadius":0.1762820},
         {"wheelOffset":-0.055},
         {"hubWidth":0.3},
         {"numRays":16},

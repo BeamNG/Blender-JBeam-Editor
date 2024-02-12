@@ -52,7 +52,7 @@
         ["id1:","id2:","id3:","id4:"],
         {"spring":"$=$fig_weight*10000", "damp":"$=$fig_weight*0.1", "deform":5000, "strength":"FLT_MAX"},
 	//3600 degrees rotation
-        ["spine3l","torso5","torso6","torso3l", {"factor":-62.831853072,"inRate":5,"outRate":5,"inputSource":"torso"}],
+        ["spine3l","torso5","torso6","torso3l", {"factor":-62.8318530,"inRate":5,"outRate":5,"inputSource":"torso"}],
     ],
     "beams": [
         ["id1:", "id2:"],

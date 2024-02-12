@@ -124,7 +124,7 @@
         "lowShelfFreq":20,
         "lowShelfGain":20,
         "mainGain":20,
-        "muffling":0.8500000238,
+        "muffling":0.8500000,
         "offLoadGain":0.5,
         "onLoadGain":1
     },

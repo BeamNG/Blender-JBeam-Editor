@@ -46,7 +46,7 @@
         {"spring":"$=$weight*2000", "damp":"$=$weight*2", "deform":"FLT_MAX", "strength":"FLT_MAX"},
 	//handbrake animation
 	//factor = pi/2, input source = simple custom LUA script
-        ["hand2","hand1","handb2l","handb3", {"factor":1.5707963267948966192313216916398,"inRate":5,"outRate":5,"inputSource":"handbrakeStick"}],
+        ["hand2","hand1","handb2l","handb3", {"factor":1.5707963,"inRate":5,"outRate":5,"inputSource":"handbrakeStick"}],
     ],
     "beams": [
         ["id1:", "id2:"],

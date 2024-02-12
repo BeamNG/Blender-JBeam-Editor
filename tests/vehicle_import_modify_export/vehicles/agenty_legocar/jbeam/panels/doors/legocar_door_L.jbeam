@@ -120,7 +120,7 @@
         {"spring":"$=$weight*51000", "damp":"$=$weight*5", "deform":1000, "strength":"FLT_MAX"},
 	//door opening
 	//factor: 0.375*pi
-        ["door3l","door1l","door2l","LrockT2l", {"factor":1.1780972450961724644234912687298,"inRate":2,"outRate":2,"inputSource":"doorFL"}],
+        ["door3l","door1l","door2l","LrockT2l", {"factor":1.1780972,"inRate":2,"outRate":2,"inputSource":"doorFL"}],
     ],
     "triangles": [
         ["id1:","id2:","id3:"],
