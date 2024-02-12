@@ -45,7 +45,7 @@ def jbeam_editor_test():
     # Cleanup code'''
 
 
-# Import, choose JBeam mesh, add new beams, and export (valid):
+# Import, choose JBeam mesh, delete beams, and export (valid):
 def test_1():
     jbeam_editor_test.set_test_to_run(test_1.__name__)
 
@@ -66,7 +66,7 @@ def test_1():
     jbeam_editor_test.cleanup(veh_name)
 
 
-# Import, choose JBeam mesh, add new beams, and export (valid):
+# Import, choose JBeam mesh, delete beams, and export (valid):
 def test_2():
     jbeam_editor_test.set_test_to_run(test_2.__name__)
 
@@ -75,6 +75,31 @@ def test_2():
     part_name = 'legocar_headlight_L_facelift'
 
     beams = {tuple(sorted(('hdlight4ll', 'Ffasc2r')))}
+
+    # Import vehicle
+    jbeam_editor_test.import_vehicle(pc_file, veh_name)
+
+    jbeam_editor_test.delete_beams_from_imported_jbeam_mesh(part_name, beams)
+
+    # Export JBeam file and test result
+    assert jbeam_editor_test.export_selected_parts_to_file() == {'FINISHED'}
+    assert jbeam_editor_test.test_result()
+    jbeam_editor_test.cleanup(veh_name)
+
+
+# Import, choose JBeam mesh, delete beams, and export (valid):
+def test_3():
+    jbeam_editor_test.set_test_to_run(test_3.__name__)
+
+    pc_file = 'vehicles\\agenty_legocar\\agenty_custom.pc'
+    veh_name = 'agenty_legocar'
+    part_name = 'legocar_headlight_L_facelift'
+
+    beams = {
+        tuple(sorted(('hdlight2lll', 'Ffasc1l'))),
+        tuple(sorted(('hdlight4ll', 'hdlight1lll'))),
+        tuple(sorted(('hdlight1lll', 'Ffasc2l')))
+    }
 
     # Import vehicle
     jbeam_editor_test.import_vehicle(pc_file, veh_name)
