@@ -408,9 +408,9 @@ class JBeamEditorTest:
         bm.free()
 
 
-    def delete_beams_from_imported_jbeam_mesh(self, beams: set):
-        self.select_imported_jbeam_mesh()
-        obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh()
+    def delete_beams_from_imported_jbeam_mesh(self, part_name: str, beams: set):
+        self.select_jbeam_meshes(part_name)
+        obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh(part_name)
         self.deselect_all_vertices_edges_faces(bm)
         self.select_beams(bm, beams)
         self.delete_selected_edges(bm)
@@ -420,11 +420,11 @@ class JBeamEditorTest:
         self.export_jbeam()
 
 
-    def add_faces_from_imported_jbeam_mesh(self, faces: list):
-        self.select_imported_jbeam_mesh()
+    def add_faces_from_imported_jbeam_mesh(self, part_name: str, faces: list):
+        self.select_jbeam_meshes(part_name)
 
         for face in faces:
-            obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh()
+            obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh(part_name)
             face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
             face_list = [self.select_node_by_node_id(bm, node) for node in face]
             len_face_list = len(face_list)
@@ -437,9 +437,9 @@ class JBeamEditorTest:
         bm.free()
 
 
-    def delete_faces_from_imported_jbeam_mesh(self, faces: set):
-        self.select_imported_jbeam_mesh()
-        obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh()
+    def delete_faces_from_imported_jbeam_mesh(self, part_name: str, faces: set):
+        self.select_jbeam_meshes(part_name)
+        obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh(part_name)
         self.deselect_all_vertices_edges_faces(bm)
         self.select_faces(bm, faces)
         self.delete_selected_faces(bm)
