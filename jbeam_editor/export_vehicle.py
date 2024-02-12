@@ -54,11 +54,8 @@ def export(veh_collection: bpy.types.Collection, active_obj: bpy.types.Object):
             bm = bmesh.new()
             bm.from_mesh(active_obj_data)
 
-        blender_nodes, parts_nodes_actions, is_deleting_nodes, is_renaming_nodes = export_utils.get_nodes_add_delete_rename(active_obj, bm, jbeam_part, init_nodes_data)
+        blender_nodes, parts_nodes_actions = export_utils.get_nodes_add_delete_rename(active_obj, bm, jbeam_part, init_nodes_data, affect_node_references)
         parts_to_update = set(parts_nodes_actions.keys())
-
-        if affect_node_references and (is_deleting_nodes or is_renaming_nodes):
-            parts_to_update.add(True)
 
         jbeam_files_to_jbeam_part_objs = {}
         jbeam_files_to_jbeam_parts = {}

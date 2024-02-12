@@ -140,7 +140,7 @@ def export_existing_jbeam(obj: bpy.types.Object):
             bm = bmesh.new()
             bm.from_mesh(obj_data)
 
-        blender_nodes, parts_nodes_actions, is_deleting_nodes, is_renaming_nodes = export_utils.get_nodes_add_delete_rename(obj, bm, part_name, init_nodes_data)
+        blender_nodes, parts_nodes_actions = export_utils.get_nodes_add_delete_rename(obj, bm, part_name, init_nodes_data, affect_node_references)
         parts_to_update = set(parts_nodes_actions.keys())
 
         export_utils.export_file(jbeam_filepath, [obj], part_data, blender_nodes, parts_nodes_actions, affect_node_references, parts_to_update)

@@ -211,10 +211,10 @@ def check_int_files_for_changes(context: bpy.types.Context, filenames: list, und
         curr_file_text = text.as_string()
         last_file_text = scene[SCENE_PREV_TEXTS].get(short_filename, False)
         if last_file_text == False:
-            return
+            continue
         filename = scene[SCENE_SHORT_TO_FULL_FILENAME].get(short_filename)
         if filename is None:
-            return
+            continue
 
         if curr_file_text != last_file_text:
             # File changed!
