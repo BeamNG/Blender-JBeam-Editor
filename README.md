@@ -26,4 +26,5 @@ Find more information about developing this plugin [here](docs/dev/dev_docs.md) 
 <br>
 
 ## Credits
-* Credits to AgentY for allowing me to use his "Toy Building Block Car" mod for testing: https://www.beamng.com/resources/toy-building-block-car.26315/
+* [AgentY](https://www.beamng.com/members/agent_y.390433/) for allowing me to use his "Toy Building Block Car" mod for testing: https://www.beamng.com/resources/toy-building-block-car.26315/
+* Beta Testers for testing out the plugin (shoutout to [SaiMonicL](https://www.beamng.com/members/saimonicl.449776/)!)
