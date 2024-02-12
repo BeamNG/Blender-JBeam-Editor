@@ -63,7 +63,7 @@ def test_1():
     jbeam_editor_test.import_vehicle(pc_file, veh_name)
 
     # Select mesh and add nodes to it
-    jbeam_editor_test.select_jbeam_meshs(part_name)
+    jbeam_editor_test.select_jbeam_meshes(part_name)
     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(part_name, node_ids, node_id_to_new_position)
 
     # # Export JBeam file and test result
@@ -96,7 +96,7 @@ def test_2():
     jbeam_editor_test.import_vehicle(pc_file, veh_name)
 
     # Select mesh and add nodes to it
-    jbeam_editor_test.select_jbeam_meshs(part_name)
+    jbeam_editor_test.select_jbeam_meshes(part_name)
     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(part_name, node_ids, node_id_to_new_position)
 
     # Export JBeam file and test result
@@ -133,14 +133,14 @@ def test_3():
     jbeam_editor_test.import_vehicle(pc_file, veh_name)
 
     # Select mesh and add nodes to it
-    jbeam_editor_test.select_jbeam_meshs(part_name_1)
+    jbeam_editor_test.select_jbeam_meshes(part_name_1)
     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(part_name_1, node_ids_1, node_id_to_new_position_1)
 
     # Select another mesh and add nodes to it
-    jbeam_editor_test.select_jbeam_meshs(part_name_2)
+    jbeam_editor_test.select_jbeam_meshes(part_name_2)
     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(part_name_2, node_ids_2, node_id_to_new_position_2)
 
-    jbeam_editor_test.select_jbeam_meshs([part_name_1, part_name_2])
+    jbeam_editor_test.select_jbeam_meshes([part_name_1, part_name_2])
 
     # Export JBeam file and test result
     assert jbeam_editor_test.export_selected_parts_to_file() == {'FINISHED'}

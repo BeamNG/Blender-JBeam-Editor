@@ -61,7 +61,7 @@ def test_1():
     jbeam_editor_test.import_vehicle(pc_file, veh_name)
 
     # Select mesh and add nodes to it
-    jbeam_editor_test.select_jbeam_meshs(part_name)
+    jbeam_editor_test.select_jbeam_meshes(part_name)
     jbeam_editor_test.delete_nodes_from_imported_jbeam_mesh(part_name, node_ids)
 
     # # Export JBeam file and test result
@@ -70,37 +70,31 @@ def test_1():
     jbeam_editor_test.cleanup(veh_name)
 
 
-# # Import vehicle, choose JBeam mesh, add new nodes in this order and export (valid):
-# # 'new_node1': (1,2,3),
-# # 'new_node2': (9,8,7),
-# # 'new_node3': (0.1,0.11,0.111),
-# # 'new_node4': (1.21,3.55,6.50),
-# def test_2():
-#     jbeam_editor_test.set_test_to_run(test_2.__name__)
+# Import, choose JBeam mesh, and delete nodes and export (valid):
+def test_2():
+    jbeam_editor_test.set_test_to_run(test_2.__name__)
 
-#     pc_file = 'vehicles\\agenty_legocar\\agenty_custom.pc'
-#     veh_name = 'agenty_legocar'
-#     part_name = 'legocar_chassis'
+    pc_file = 'vehicles\\agenty_legocar\\agenty_custom.pc'
+    veh_name = 'agenty_legocar'
+    part_name = 'legocar_seat_back_F'
 
-#     node_ids = ['new_node1', 'new_node2', 'new_node3', 'new_node4']
-#     node_id_to_new_position = {
-#         'new_node1': (1,2,3),
-#         'new_node2': (9,8,7),
-#         'new_node3': (0.1,0.11,0.111),
-#         'new_node4': (1.21,3.55,6.50)
-#     }
+    node_ids = {'FseatT3l'}
 
-#     # Import vehicle
-#     jbeam_editor_test.import_vehicle(pc_file, veh_name)
+    bpy.context.scene.ui_properties.affect_node_references = True
 
-#     # Select mesh and add nodes to it
-#     jbeam_editor_test.select_jbeam_meshs(part_name)
-#     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(part_name, node_ids, node_id_to_new_position)
+    # Import vehicle
+    jbeam_editor_test.import_vehicle(pc_file, veh_name)
 
-#     # Export JBeam file and test result
-#     assert jbeam_editor_test.export_selected_parts_to_file() == {'FINISHED'}
-#     assert jbeam_editor_test.test_result()
-#     jbeam_editor_test.cleanup(veh_name)
+    # Select mesh and add nodes to it
+    jbeam_editor_test.select_jbeam_meshes(part_name)
+    jbeam_editor_test.delete_nodes_from_imported_jbeam_mesh(part_name, node_ids)
+
+    jbeam_editor_test.select_all_vehicle_meshes(veh_name)
+
+    # # Export JBeam file and test result
+    assert jbeam_editor_test.export_selected_parts_to_file() == {'FINISHED'}
+    assert jbeam_editor_test.test_result()
+    jbeam_editor_test.cleanup(veh_name)
 
 
 # # Import vehicle, add new nodes to two JBeam meshes, and export (valid):

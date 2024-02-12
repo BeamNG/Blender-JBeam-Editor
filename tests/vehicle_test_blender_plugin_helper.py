@@ -69,7 +69,7 @@ class JBeamEditorTest:
         assert veh_name in bpy.data.collections
 
 
-    def select_jbeam_meshs(self, part_names):
+    def select_jbeam_meshes(self, part_names):
         if isinstance(part_names, str):
             part_names = [part_names]
 
@@ -79,6 +79,19 @@ class JBeamEditorTest:
         # Set JBeam objects as active objects
         for part_name in part_names:
             assert part_name in bpy.context.scene.objects
+            bpy.context.view_layer.objects.active = bpy.context.scene.objects[part_name]
+            bpy.context.active_object.select_set(True)
+
+
+    def select_all_vehicle_meshes(self, veh_name):
+        assert veh_name in bpy.data.collections
+
+        for obj in bpy.context.selected_objects:
+            obj.select_set(False)
+
+        collection = bpy.data.collections[veh_name]
+        for obj in collection.objects:
+            part_name = obj.data[constants.MESH_JBEAM_PART]
             bpy.context.view_layer.objects.active = bpy.context.scene.objects[part_name]
             bpy.context.active_object.select_set(True)
 
@@ -220,7 +233,7 @@ class JBeamEditorTest:
 
 
     def add_nodes_from_imported_jbeam_mesh(self, part_name: str, node_ids: list, node_id_to_new_position: dict):
-        self.select_jbeam_meshs(part_name)
+        self.select_jbeam_meshes(part_name)
         obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh(part_name)
 
         init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
@@ -245,7 +258,7 @@ class JBeamEditorTest:
 
 
     def delete_nodes_from_imported_jbeam_mesh(self, part_name: str, node_ids: set):
-        self.select_jbeam_meshs(part_name)
+        self.select_jbeam_meshes(part_name)
         obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh(part_name)
         self.deselect_all_vertices_edges_faces(bm)
         self.select_nodes_by_node_id(bm, node_ids)
@@ -257,7 +270,7 @@ class JBeamEditorTest:
 
 
     def move_nodes_from_imported_jbeam_mesh(self, part_name: str, node_ids_to_new_pos: dict):
-        self.select_jbeam_meshs(part_name)
+        self.select_jbeam_meshes(part_name)
         obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh(part_name)
         self.deselect_all_vertices_edges_faces(bm)
 
@@ -380,7 +393,7 @@ class JBeamEditorTest:
 
 
     def add_beams_from_imported_jbeam_mesh(self, part_name: str, beams: list):
-        self.select_jbeam_meshs(part_name)
+        self.select_jbeam_meshes(part_name)
 
         for (n1, n2) in beams:
             obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh(part_name)
