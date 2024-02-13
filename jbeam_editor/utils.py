@@ -21,6 +21,9 @@
 from pickle import loads as pickle_loads, dumps as pickle_dumps
 import sys
 
+import bpy
+
+from . import constants
 from . import bng_sjson
 
 ignore_sections = {'maxIDs': True, 'options': True}
@@ -55,6 +58,16 @@ class Metadata:
 
     def __str__(self) -> str:
         return str(self._data)
+
+
+# https://blender.stackexchange.com/a/110112
+# icon types = https://docs.blender.org/api/current/bpy_types_enum_items/icon_items.html#rna-enum-icon-items
+def show_message_box(icon = 'INFO', title = "Message Box", message = ""):
+    def draw(self, context):
+        self.layout.label(text=message)
+
+    if not constants.UNIT_TESTING:
+        bpy.context.window_manager.popup_menu(draw, title = title, icon = icon)
 
 
 def read_file(filepath: str):

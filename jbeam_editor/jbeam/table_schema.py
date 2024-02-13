@@ -234,6 +234,8 @@ def convert_dict_to_list_tables(vehicle: dict):
     for k, tbl in new_tables.items():
         vehicle[k] = tbl
 
+    return True
+
 
 # Checks if node references exist and assigns jbeam as 'virtual' if one or more references don't exist
 def check_node_references(vehicle: dict):
@@ -256,13 +258,13 @@ def check_node_references(vehicle: dict):
                         row_value['__virtual'] = True
                 else:
                     row_value['__virtual'] = True
-    return True
 
 
 def post_process(vehicle: dict):
-    convert_dict_to_list_tables(vehicle)
+    res = convert_dict_to_list_tables(vehicle)
+    if not res:
+        return False
     check_node_references(vehicle)
-
     return True
 
 
@@ -288,7 +290,6 @@ def process(vehicle: dict):
         # verify element name
         if re_match(r'^[a-zA-Z_]+[a-zA-Z0-9_]*$', key_entry) is None:
             print(f"*** Invalid attribute name '{key_entry}'", sys.stderr)
-
             return False
 
         # init max

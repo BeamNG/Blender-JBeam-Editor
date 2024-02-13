@@ -59,16 +59,6 @@ def save_post_callback(filepath):
 
         bm.free()
 
-
-# https://blender.stackexchange.com/a/110112
-def show_message_box(message = "", title = "Message Box", icon = 'INFO'):
-
-    def draw(self, context):
-        self.layout.label(text=message)
-
-    bpy.context.window_manager.popup_menu(draw, title = title, icon = icon)
-
-
 def export_new_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_id_layer, filepath):
     node_names = []
     longest_node_name = 0

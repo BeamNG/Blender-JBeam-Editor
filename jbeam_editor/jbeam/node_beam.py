@@ -30,7 +30,7 @@ def process_nodes(vehicle: dict):
     k: str
     v: dict
     for k, v in vehicle['nodes'].items():
-        pos_no_offset = (v['posX'], v['posY'], v['posZ'])
+        pos_no_offset = (v.get('posX', 0), v.get('posY', 0), v.get('posZ', 0))
         total_offset_x, total_offset_y, total_offset_z = 0.0, 0.0, 0.0
 
         if 'nodeOffset' in v and isinstance(v['nodeOffset'], dict) and v['nodeOffset'].keys() >= keys_to_test:

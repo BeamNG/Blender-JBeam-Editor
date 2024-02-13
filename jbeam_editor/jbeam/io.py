@@ -186,6 +186,7 @@ def start_loading(directories: list[str], vehicle_config: dict, reimporting_file
     # parts = ['"' + part + '"' for part in slots_to_part.values() if part != '']
     # parts.append('main') # main isn't a part but a slotType, but still find the file with it
     is_reimporting = reimporting_files_changed is not None
+    jbeam_parsing_errors = False
 
     for directory in directories:
         filepaths = [path.as_posix() for path in Path(directory).rglob('*.jbeam')]
@@ -198,11 +199,14 @@ def start_loading(directories: list[str], vehicle_config: dict, reimporting_file
                 invalidate_cache_for_file(filepath)
                 invalidate_cache = True
 
+            if not res:
+                jbeam_parsing_errors = True
+
         if invalidate_cache:
             for filepath in filepaths:
                 add_jbeam_metadata_to_cache(directory, filepath)
 
-    return {'dirs': directories}
+    return jbeam_parsing_errors, {'dirs': directories}
 
 
 def get_part(io_ctx: dict, part_name: str | None):

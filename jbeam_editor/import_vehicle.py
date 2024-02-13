@@ -49,10 +49,7 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict, reimporting
     """load all the jbeam and construct the thing in memory"""
     print('Reading JBeam files...')
     t0 = timeit.default_timer()
-    io_ctx = jbeam_io.start_loading(vehicle_directories, vehicle_config, reimporting_files_changed)
-    if io_ctx is None:
-        return None
-
+    jbeam_parsing_errors, io_ctx = jbeam_io.start_loading(vehicle_directories, vehicle_config, reimporting_files_changed)
     t1 = timeit.default_timer()
     print('Done reading JBeam files. Time =', round(t1 - t0, 2), 's')
 
@@ -66,8 +63,8 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict, reimporting
 
     print('Finding parts...')
     vehicle, unify_journal, chosen_parts, active_parts_orig = jbeam_slot_system.find_parts(io_ctx, vehicle_config)
-    if vehicle is None or unify_journal is None:
-        return None
+    if vehicle is None:
+        raise Exception('JBeam processing error.')
 
     # Map parts to JBeam file
     veh_parts = list(chosen_parts.values())
@@ -89,18 +86,16 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict, reimporting
     all_variables = jbeam_variables.process_parts(vehicle, unify_journal, vehicle_config)
 
     print('Unifying parts...')
-    if jbeam_slot_system.unify_part_journal(io_ctx, unify_journal) is None:
-        return None
-
+    jbeam_slot_system.unify_part_journal(io_ctx, unify_journal)
     jbeam_variables.process_unified_vehicle(vehicle, all_variables)
 
     print('Assembling tables ...')
-    if jbeam_table_schema.process(vehicle) is None:
-        print('*** preparation error"', file=sys.stderr)
-        return None
+    if not jbeam_table_schema.process(vehicle):
+        raise Exception('JBeam processing error.')
 
     # Exclusive to Python vehicle importer
-    jbeam_table_schema.post_process(vehicle)
+    if not jbeam_table_schema.post_process(vehicle):
+        raise Exception('JBeam processing error.')
 
     jbeam_node_beam.process(vehicle)
 
@@ -113,7 +108,7 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict, reimporting
     t2 = timeit.default_timer()
     print('Done loading JBeam. Time =', round(t2 - t1, 2), 's')
 
-    return {
+    return jbeam_parsing_errors, {
         'vehicleDirectory' : vehicle_directories[0],
         'vdata'            : vehicle,
         'config'           : vehicle_config,
@@ -136,11 +131,11 @@ def build_config(config_path, reimporting=False):
         pc_filetext = text_editor.write_from_ext_to_int_file(config_path)
 
     if pc_filetext is None:
-        return None
+        raise Exception("Failed to read .pc file.")
 
     file_data = utils.sjson_decode(pc_filetext, config_path)
     if not file_data:
-        return None
+        raise Exception("Failed to parse .pc file.")
 
     res['partConfigFilename'] = config_path
     if file_data.get('format') == 2:
@@ -337,11 +332,6 @@ def generate_meshes(vehicle_bundle: dict):
     pc_filepath = vehicle_bundle['config']['partConfigFilename']
     parts = vehicle_bundle['chosenParts'].values()
 
-    # Prevent overriding a vehicle that already exists in scene!
-    if bpy.data.collections.get(vehicle_model):
-        print(f'Collection named {vehicle_model} already exists! Vehicle will not be generated to avoid overriding it...', file=sys.stderr)
-        return None
-
     vertices, parts_edges, parts_faces, node_index_to_id = get_vertices_edges_faces(vehicle_bundle)
 
     # make collection
@@ -453,58 +443,62 @@ def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Colle
         config_path = veh_collection[constants.COLLECTION_PC_FILEPATH]
 
         vehicle_config = build_config(config_path, True)
-        if vehicle_config is None:
-            return False
-
         vehicle_dir = Path(config_path).parent.as_posix()
         vehicles_dir = Path(vehicle_dir).parent.as_posix()
         vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]
 
-        vehicle_bundle = load_jbeam(vehicle_directories, vehicle_config, jbeam_files)
-        if vehicle_bundle is None:
-            return False
+        jbeam_parsing_errors, vehicle_bundle = load_jbeam(vehicle_directories, vehicle_config, jbeam_files)
 
         # Create Blender meshes from JBeam data
         _reimport_vehicle(context, veh_collection, vehicle_bundle)
 
-        print('Done reimporting vehicle.')
+        if not jbeam_parsing_errors:
+            print('Done reimporting vehicle.')
+        else:
+            print('WARNING, done reimporting vehicle with errors. Some parts may not be imported.')
         return True
     except:
         traceback.print_exc()
         return False
 
 
-def import_vehicle(self, context: bpy.types.Context, config_path: str):    
+def import_vehicle(context: bpy.types.Context, config_path: str):
     try:
         # Import and process JBeam data
-
         vehicle_dir = Path(config_path).parent.as_posix()
         vehicles_dir = Path(vehicle_dir).parent.as_posix()
         vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]
 
+        # figure out the model name based on the directory given
+        re_match = re.search(r'/vehicles/([^/]+)', vehicle_directories[0])
+        model_name = re_match.group(1) if re_match is not None else None
+
+        # Prevent overriding a vehicle that already exists in scene!
+        if bpy.data.collections.get(model_name):
+            raise Exception('JBeam vehicle already exists in scene!')
+
         jbeam_io.invalidate_cache_on_new_import(vehicle_dir)
 
         vehicle_config = build_config(config_path)
-        if vehicle_config is None:
-            return False
 
-        vehicle_bundle = load_jbeam(vehicle_directories, vehicle_config, None)
-
-        if vehicle_bundle is None:
-            return False
+        jbeam_parsing_errors, vehicle_bundle = load_jbeam(vehicle_directories, vehicle_config, None)
 
         # Create Blender meshes from JBeam data
-        if generate_meshes(vehicle_bundle) is None:
-            return False
+        generate_meshes(vehicle_bundle)
 
         text_editor.check_all_int_files_for_changes(context, False, False)
 
         print('Done importing vehicle.')
-        self.report({'INFO'}, 'Done importing vehicle. Check the "System Console" for any errors.')
+
+        if not jbeam_parsing_errors:
+            utils.show_message_box('INFO', 'Import Vehicle', 'Done importing vehicle.')
+        else:
+            utils.show_message_box('ERROR', 'Import Vehicle', 'Done importing vehicle. WARNING some JBeam parts may not be imported due to JBeam parsing errors. Check the "System Console" for details.')
+
         return True
     except:
         traceback.print_exc()
-        self.report({'ERROR'}, 'ERROR importing vehicle. Check the "System Console" for details.')
+        utils.show_message_box('ERROR', 'Import Vehicle', 'ERROR importing vehicle. Check the "System Console" for details.')
         return False
 
 
@@ -540,7 +534,7 @@ class JBEAM_EDITOR_OT_import_vehicle(Operator, ImportHelper):
 
     def execute(self, context):
         pc_config_path = Path(self.filepath).as_posix()
-        res = import_vehicle(self, context, pc_config_path)
+        res = import_vehicle(context, pc_config_path)
         if not res:
             return {'CANCELLED'}
         return {'FINISHED'}

@@ -225,5 +225,3 @@ def find_parts(io_ctx: dict, vehicle_config: dict):
 def unify_part_journal(io_ctx: dict, unify_journal: list):
     for x in unify_journal:
         unify_parts(*x)
-
-    return True
