@@ -1,0 +1,302 @@
+{
+"legocar_seat_back_F": {
+    "information":{
+        "name":"Standard Driver Seat Back",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_seat_back_F",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_headrest_F", "legocar_headrest_F", "Driver Headrest"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_tall_seat",     ["legocar_seat_back_bot_F"], [], {"pos":{"x": 0, "y":0.125, "z":0.3},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_seat_back_top_F",["legocar_seat_back_top_F"], [], {"pos":{"x": 0, "y":0.125, "z":0.6},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//bottom
+	{"group":"legocar_seat_back_bot_F"},
+
+	//6 pieces, 8 nodes - 0.75 kg/node
+	{"nodeWeight": "$=$weight*0.75"},
+
+	["FseatB2l",  0.25, 0.25, 0.33],
+	["FseatB2r", -0.25, 0.25, 0.33],
+	["FseatB3l",  0.25, 0.00, 0.60],
+	["FseatB3r", -0.25, 0.00, 0.60],
+	["FseatB4l",  0.25, 0.25, 0.60],
+	["FseatB4r", -0.25, 0.25, 0.60],
+
+	//top
+	{"group":"legocar_seat_back_top_F"},
+
+	//2 pieces, 2 half pieces, 6 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+
+	["FseatT1l",  0.25, 0.00, 0.63],
+	["FseatT1r", -0.25, 0.00, 0.63],
+	["FseatT2l",  0.25, 0.25, 0.63],
+	["FseatT2r", -0.25, 0.25, 0.63],
+	["FseatT3l",  0.25, 0.20, 0.95],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--SEAT BACK BOTTOM--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//uniform structure
+	["FseatB2l", "FseatB2r"],
+	["FseatB3l", "FseatB3r"],
+	["FseatB4l", "FseatB4r"],
+
+	["FseatB2l", "FseatB3r"],
+	["FseatB3l", "FseatB4r"],
+
+	["FseatB2l", "FseatB4r"],
+	["FseatB4l", "FseatB2r"],
+
+	["FseatB3l", "FseatB2r"],
+	["FseatB4l", "FseatB3r"],
+
+	["FseatB2l", "FseatB3l"],
+	["FseatB3l", "FseatB4l"],
+
+	["FseatB2l", "FseatB4l"],
+
+	["FseatB2r", "FseatB3r"],
+	["FseatB3r", "FseatB4r"],
+
+	["FseatB2r", "FseatB4r"],
+
+
+	//--SEAT BACK TOP--	
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["FseatT1l", "FseatT1r"],
+	["FseatT2l", "FseatT2r"],
+
+	["FseatT2l", "FseatT1l"],
+	["FseatT2r", "FseatT1r"],
+	["FseatT2l", "FseatT3l"],
+	["FseatT3l", "FseatT1l"],
+
+	["FseatT1l", "FseatT2r"],
+	["FseatT2l", "FseatT1r"],
+	["FseatT3l", "FseatT2r"],
+	["FseatT3l", "FseatT1r"],
+
+
+	//--TOP TO BOTTOM--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"seat_back_top_F_break"},
+
+	["FseatT1r", "FseatB2r"],
+
+	["FseatT1l", "FseatB2l"],
+
+	["FseatT2r", "FseatB2r"],
+	["FseatT2r", "FseatB2l"],
+
+	["FseatT2l", "FseatB2r"],
+	["FseatT2l", "FseatB2l"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"seat_back_bot_F_break"},
+
+	["FseatB3r", "chassis3r"],
+	["FseatB3r", "chassis6r"],
+	["FseatB3r", "chassis2r"],
+	["FseatB3r", "chassis2rr"],
+	["FseatB3r", "chassis7rr"],
+	["FseatB3r", "chassis0"],
+
+	["FseatB3l", "chassis3l"],
+	["FseatB3l", "chassis6l"],
+	["FseatB3l", "chassis2l"],
+	["FseatB3l", "chassis2ll"],
+	["FseatB3l", "chassis7ll"],
+	["FseatB3l", "chassis0"],
+
+	["FseatB4r", "chassis6r"],
+	["FseatB4r", "chassis7r"],
+	["FseatB4r", "chassis7rr"],
+	["FseatB4r", "chassis0"],
+
+	["FseatB4l", "chassis6l"],
+	["FseatB4l", "chassis7l"],
+	["FseatB4l", "chassis7ll"],
+	["FseatB4l", "chassis0"],
+
+	//stiffeners
+	{"optional":true},
+
+	["FseatB3l", "chassis4"],
+	["FseatB3r", "chassis4"],
+	["FseatB4l", "chassis4"],
+	["FseatB4r", "chassis4"],
+
+	["FseatB3l", "chassis5"],
+	["FseatB3r", "chassis5"],
+	["FseatB4l", "chassis5"],
+	["FseatB4r", "chassis5"],
+
+	{"optional":false},
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["FseatT1r", "FseatB2r"],
+
+	["FseatT1l", "FseatB2l"],
+
+	["FseatT2r", "FseatB2r"],
+	["FseatT2r", "FseatB2l"],
+
+	["FseatT2l", "FseatB2r"],
+	["FseatT2l", "FseatB2l"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_seat_back_top_F"},
+	["FseatT1l","FseatT2l","FseatT3l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_seat_back_bot_F"},   
+	["FseatB4l","FseatB4r","FseatB3r","FseatB3l"],
+	["FseatB4r","FseatB4l","FseatB2l","FseatB2r"],
+
+	{"group":"legocar_seat_back_top_F"},
+	["FseatT1l","FseatT1r","FseatT2r","FseatT2l"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_seat_back_F_short": {
+    "information":{
+        "name":"Short Driver Seat Back",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_seat_back_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_seat",     ["legocar_seat_back_F"], [], {"pos":{"x": 0, "y":0.125, "z":0.3},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_seat_back_top_F",["legocar_seat_back_F"], [], {"pos":{"x": 0, "y":0.125, "z":0.4},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_seat_back_F"},
+
+	//4 pieces, 2 half pieces, 6 nodes - 0.83 kg/node
+	{"nodeWeight": "$=$weight*0.83"},
+
+	["FseatB1l",  0.25, 0.00, 0.33],
+	["FseatB1r", -0.25, 0.00, 0.33],
+	["FseatB2l",  0.25, 0.25, 0.33],
+	["FseatB2r", -0.25, 0.25, 0.33],
+	["FseatB3l",  0.25, 0.20, 0.75],
+	["FseatB3r", -0.25, 0.20, 0.75],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--SEAT BACK--	
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*831000", "beamDamp":"$=$weight*83"},
+
+	//uniform structure
+	["FseatB1l", "FseatB1r"],
+	["FseatB2l", "FseatB2r"],
+	["FseatB3l", "FseatB3r"],
+
+	["FseatB2l", "FseatB1l"],
+	["FseatB2r", "FseatB1r"],
+	["FseatB2l", "FseatB3l"],
+	["FseatB2r", "FseatB3r"],
+	["FseatB3l", "FseatB1l"],
+	["FseatB3r", "FseatB1r"],
+
+	["FseatB1l", "FseatB2r"],
+	["FseatB2l", "FseatB1r"],
+	["FseatB2l", "FseatB3r"],
+	["FseatB3l", "FseatB2r"],
+	["FseatB3l", "FseatB1r"],
+	["FseatB1l", "FseatB3r"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*421000", "beamDamp":"$=$weight*42"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"seat_back_F_break"},
+
+	["FseatB1r", "chassis3r"],
+	["FseatB1r", "chassis6r"],
+	["FseatB1r", "chassis2r"],
+	["FseatB1r", "chassis2rr"],
+	["FseatB1r", "chassis7rr"],
+	["FseatB1r", "chassis0"],
+
+	["FseatB1l", "chassis3l"],
+	["FseatB1l", "chassis6l"],
+	["FseatB1l", "chassis2l"],
+	["FseatB1l", "chassis2ll"],
+	["FseatB1l", "chassis7ll"],
+	["FseatB1l", "chassis0"],
+
+	["FseatB3r", "chassis6r"],
+	["FseatB3r", "chassis7r"],
+	["FseatB3r", "chassis7rr"],
+	["FseatB3r", "chassis0"],
+
+	["FseatB3l", "chassis6l"],
+	["FseatB3l", "chassis7l"],
+	["FseatB3l", "chassis7ll"],
+	["FseatB3l", "chassis0"],
+
+	{"breakGroup":""},	
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_seat_back_F"},
+	["FseatB1l","FseatB2l","FseatB3l"],
+	["FseatB1r","FseatB3r","FseatB2r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_seat_back_F"},
+	["FseatB1l","FseatB1r","FseatB2r","FseatB2l"],
+	["FseatB2l","FseatB2r","FseatB3r","FseatB3l"],
+	["FseatB3l","FseatB3r","FseatB1r","FseatB1l"],
+        {"group":""},
+    ],
+},
+
+}

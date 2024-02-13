@@ -486,6 +486,8 @@ class JBeamEditorTest:
         bpy.data.collections.remove(collection)
 
         assert len(bpy.data.objects) == 3 # camera, light, cube
+        
+        bpy.context.scene.ui_properties.affect_node_references = False
 
 
 # https://stackoverflow.com/a/6681395

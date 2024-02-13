@@ -97,44 +97,55 @@ def test_2():
     jbeam_editor_test.cleanup(veh_name)
 
 
-# # Import vehicle, add new nodes to two JBeam meshes, and export (valid):
-# # 'new_node1': (100,200,300),
-# # 'new_node2': (9,80,700),
-# # 'new_node3': (1.1,10.11,100.111),
-# # 'new_node4': (1000.21,3.55,100006.50)
-# def test_3():
-#     jbeam_editor_test.set_test_to_run(test_3.__name__)
+# Import, choose JBeam mesh, and delete nodes and export (valid):
+def test_3():
+    jbeam_editor_test.set_test_to_run(test_3.__name__)
 
-#     pc_file = 'vehicles\\agenty_legocar\\agenty_custom.pc'
-#     veh_name = 'agenty_legocar'
-#     part_name_1 = 'legocar_bpillar_L'
-#     part_name_2 = 'legocar_door_R'
+    pc_file = 'vehicles\\agenty_legocar\\agenty_custom.pc'
+    veh_name = 'agenty_legocar'
+    part_name = 'legocar_seat_back_F'
 
-#     node_ids_1 = ['new_node1', 'new_node2']
-#     node_id_to_new_position_1 = {
-#         'new_node1': (100,200,300),
-#         'new_node2': (9,80,700),
-#     }
-#     node_ids_2 = ['new_node3', 'new_node4']
-#     node_id_to_new_position_2 = {
-#         'new_node3': (1.1,10.11,100.111),
-#         'new_node4': (1000.21,3.55,100006.50)
-#     }
+    node_ids = {'FseatB1l', 'FseatB1r', 'FseatT3r'}
 
-#     # Import vehicle
-#     jbeam_editor_test.import_vehicle(pc_file, veh_name)
+    bpy.context.scene.ui_properties.affect_node_references = False
 
-#     # Select mesh and add nodes to it
-#     jbeam_editor_test.select_jbeam_meshs(part_name_1)
-#     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(part_name_1, node_ids_1, node_id_to_new_position_1)
+    # Import vehicle
+    jbeam_editor_test.import_vehicle(pc_file, veh_name)
 
-#     # Select another mesh and add nodes to it
-#     jbeam_editor_test.select_jbeam_meshs(part_name_2)
-#     jbeam_editor_test.add_nodes_from_imported_jbeam_mesh(part_name_2, node_ids_2, node_id_to_new_position_2)
+    # Select mesh and add nodes to it
+    jbeam_editor_test.select_jbeam_meshes(part_name)
+    jbeam_editor_test.delete_nodes_from_imported_jbeam_mesh(part_name, node_ids)
 
-#     jbeam_editor_test.select_jbeam_meshs([part_name_1, part_name_2])
+    jbeam_editor_test.select_all_vehicle_meshes(veh_name)
 
-#     # Export JBeam file and test result
-#     assert jbeam_editor_test.export_selected_parts_to_file() == {'FINISHED'}
-#     assert jbeam_editor_test.test_result()
-#     jbeam_editor_test.cleanup(veh_name)
+    # # Export JBeam file and test result
+    assert jbeam_editor_test.export_selected_parts_to_file() == {'FINISHED'}
+    assert jbeam_editor_test.test_result()
+    jbeam_editor_test.cleanup(veh_name)
+
+
+# Import, choose JBeam mesh, and delete nodes and export (valid):
+def test_4():
+    jbeam_editor_test.set_test_to_run(test_4.__name__)
+
+    pc_file = 'vehicles\\agenty_legocar\\agenty_custom.pc'
+    veh_name = 'agenty_legocar'
+    part_name = 'legocar_seat_back_F'
+
+    node_ids = {'FseatB1l', 'FseatB1r', 'FseatT3r'}
+
+    bpy.context.scene.ui_properties.affect_node_references = True
+
+    # Import vehicle
+    jbeam_editor_test.import_vehicle(pc_file, veh_name)
+
+    # Select mesh and add nodes to it
+    jbeam_editor_test.select_jbeam_meshes(part_name)
+    jbeam_editor_test.delete_nodes_from_imported_jbeam_mesh(part_name, node_ids)
+
+    jbeam_editor_test.select_all_vehicle_meshes(veh_name)
+
+    # # Export JBeam file and test result
+    assert jbeam_editor_test.export_selected_parts_to_file() == {'FINISHED'}
+    assert jbeam_editor_test.test_result()
+    jbeam_editor_test.cleanup(veh_name)
