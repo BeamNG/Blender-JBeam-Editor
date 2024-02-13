@@ -474,7 +474,7 @@ def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Colle
         return False
 
 
-def import_vehicle(context: bpy.types.Context, config_path: str):
+def import_vehicle(self, context: bpy.types.Context, config_path: str):    
     try:
         # Import and process JBeam data
 
@@ -500,9 +500,11 @@ def import_vehicle(context: bpy.types.Context, config_path: str):
         text_editor.check_all_int_files_for_changes(context, False, False)
 
         print('Done importing vehicle.')
+        self.report({'INFO'}, 'Done importing vehicle. Check the "System Console" for any errors.')
         return True
     except:
         traceback.print_exc()
+        self.report({'ERROR'}, 'ERROR importing vehicle. Check the "System Console" for details.')
         return False
 
 
@@ -538,7 +540,7 @@ class JBEAM_EDITOR_OT_import_vehicle(Operator, ImportHelper):
 
     def execute(self, context):
         pc_config_path = Path(self.filepath).as_posix()
-        res = import_vehicle(context, pc_config_path)
+        res = import_vehicle(self, context, pc_config_path)
         if not res:
             return {'CANCELLED'}
         return {'FINISHED'}

@@ -86,7 +86,6 @@ def sjson_decode(content: str, context: str):
     try:
         data = bng_sjson.decode(content, context)
     except Exception as e:
-        print(f"unable to decode JSON: {context}", file=sys.stderr)
         print(f"JSON decoding error: {e}", file=sys.stderr)
     return data
 

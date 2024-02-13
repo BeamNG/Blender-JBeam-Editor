@@ -125,9 +125,7 @@ def load_jbeam(filepath: str, reimporting: bool, invalidate_cache: bool):
             return False, False
 
         file_content = sjson_decode(file_text, filepath)
-
         if file_content is None:
-            print(f'Cannot read file: {filepath}', file=sys.stderr)
             return False, False
 
         jbeam_cache[filepath] = file_content

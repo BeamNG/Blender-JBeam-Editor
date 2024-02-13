@@ -200,7 +200,7 @@ def generate_part_mesh(obj: bpy.types.Object, obj_data: bpy.types.Mesh, bm: bmes
     obj_data[constants.MESH_FACE_COUNT] = len(bm_faces)
 
 
-def import_jbeam_part(context: bpy.types.Context, jbeam_file_path: str, jbeam_file_data: dict, chosen_part: str):
+def import_jbeam_part(self, context: bpy.types.Context, jbeam_file_path: str, jbeam_file_data: dict, chosen_part: str):
     try:
         # Prevent overriding a jbeam part that already exists in scene!
         jbeam_collection: bpy.types.Collection | None = bpy.data.collections.get('JBeam Objects')
@@ -240,9 +240,11 @@ def import_jbeam_part(context: bpy.types.Context, jbeam_file_path: str, jbeam_fi
         jbeam_collection.objects.link(obj)
 
         print('Done importing JBeam.')
+        self.report({'INFO'}, 'Done importing JBeam. Check the "System Console" for any errors.')
         return True
     except:
         traceback.print_exc()
+        self.report({'ERROR'}, 'ERROR importing JBeam. Check the "System Console" for details.')
         return False
 
 
@@ -361,11 +363,11 @@ class JBEAM_EDITOR_OT_choose_jbeam(Operator):
 
         if self.import_all_parts:
             for part in _jbeam_part_choices:
-                res = import_jbeam_part(context, _jbeam_file_path, _jbeam_file_data, part)
+                res = import_jbeam_part(self, context, _jbeam_file_path, _jbeam_file_data, part)
                 if not res:
                     return {'CANCELLED'}
         else:
-            res = import_jbeam_part(context, _jbeam_file_path, _jbeam_file_data, chosen_part)
+            res = import_jbeam_part(self, context, _jbeam_file_path, _jbeam_file_data, chosen_part)
             if not res:
                 return {'CANCELLED'}
 
@@ -415,11 +417,12 @@ class JBEAM_EDITOR_OT_import_jbeam(Operator, ImportHelper):
         _jbeam_file_data, cached_changed = jbeam_io.get_jbeam(_jbeam_file_path, False, True)
 
         if _jbeam_file_data is None:
+            self.report({'ERROR'}, 'ERROR importing JBeam. Check the "System Console" for details.')
             return {'CANCELLED'}
 
         # # Set from unit tests
         if self.set_chosen_part:
-            res = import_jbeam_part(context, _jbeam_file_path, _jbeam_file_data, self.chosen_part)
+            res = import_jbeam_part(self, context, _jbeam_file_path, _jbeam_file_data, self.chosen_part)
             if not res:
                 return {'CANCELLED'}
 
@@ -432,7 +435,7 @@ class JBEAM_EDITOR_OT_import_jbeam(Operator, ImportHelper):
 
         '''if self.import_all_parts:
             for part in part_choices:
-                import_jbeam_part(jbeam_file_path, str_data, data, part)
+                import_jbeam_part(self, jbeam_file_path, str_data, data, part)
             return {'FINISHED'}'''
 
         _jbeam_part_choices = part_choices
