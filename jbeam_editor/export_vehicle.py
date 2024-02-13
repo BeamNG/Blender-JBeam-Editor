@@ -74,7 +74,7 @@ def export(veh_collection: bpy.types.Collection, active_obj: bpy.types.Object):
         for jbeam_filepath, objs in jbeam_files_to_jbeam_part_objs.items():
             jbeam_file_parts = jbeam_files_to_jbeam_parts[jbeam_filepath]
 
-            if True in parts_to_update or jbeam_file_parts <= parts_to_update:
+            if True in parts_to_update or any(x in parts_to_update for x in jbeam_file_parts):
                 export_utils.export_file(jbeam_filepath, objs, vdata, blender_nodes, parts_nodes_actions, affect_node_references, parts_to_update)
                 filepaths.append(jbeam_filepath)
         t1 = timeit.default_timer()
