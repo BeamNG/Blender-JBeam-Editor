@@ -189,9 +189,9 @@ def get_vertices_edges_faces(vehicle_bundle: dict):
                     node_index_to_id_append(ids[2])
                     vertices_append((n3['pos'], True))
 
-                    faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx))
+                    faces.append((3, (n1_vert_idx, n2_vert_idx, n3_vert_idx)))
                 else:
-                    faces.append(None)
+                    faces.append((3, None))
 
         # Translate quads to faces
         if 'quads' in vdata:
@@ -219,9 +219,9 @@ def get_vertices_edges_faces(vehicle_bundle: dict):
                     node_index_to_id_append(ids[3])
                     vertices_append((n4['pos'], True))
 
-                    faces.append((n1_vert_idx, n2_vert_idx, n3_vert_idx, n4_vert_idx))
+                    faces.append((4, (n1_vert_idx, n2_vert_idx, n3_vert_idx, n4_vert_idx)))
                 else:
-                    faces.append(None)
+                    faces.append((4, None))
 
         # Translate nodes to vertices
         for i, (node_id, node) in enumerate(nodes.items()):
@@ -307,20 +307,17 @@ def generate_part_mesh(obj: bpy.types.Object, obj_data: bpy.types.Mesh, bm: bmes
                 e[beam_indices_layer] = bytes(f'{last_indices},{i}', 'utf-8')
 
     tri_idx_in_part, quad_idx_in_part = 1, 1
-    for face in faces:
-        if face is not None:
-            num_verts = len(face)
-            assert num_verts in (3,4)
-            if num_verts == 3:
+    for (num_verts, face) in faces:
+        if num_verts == 3:
+            if face is not None:
                 f = bm_faces_new((bm_verts[face[0]], bm_verts[face[1]], bm_verts[face[2]]))
                 f[face_idx_layer] = tri_idx_in_part
-                tri_idx_in_part += 1
-            else:
+            tri_idx_in_part += 1
+        else:
+            if face is not None:
                 f = bm_faces_new((bm_verts[face[0]], bm_verts[face[1]], bm_verts[face[2]], bm_verts[face[3]]))
                 f[face_idx_layer] = quad_idx_in_part
-                quad_idx_in_part += 1
-
-            f[face_origin_layer] = bytes_part
+            quad_idx_in_part += 1
 
     obj_data[constants.MESH_JBEAM_PART] = part
     obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_filepath
