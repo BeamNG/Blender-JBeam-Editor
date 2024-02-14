@@ -1,0 +1,144 @@
+{
+"legocar_dashpanel": {
+    "information":{
+        "name":"Dash Panel",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_dashpanel",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_steeringcolumn", "legocar_steeringcolumn", "Steering Column"],
+	["legocar_shifter", "legocar_shifter", "Shifter"],
+	["legocar_gaugecluster", "legocar_gaugecluster", "Gauge Cluster"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x4_flat_interior",["legocar_dashpanel"], [], {"pos":{"x": 0.000, "y":-0.625, "z":0.3},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_dashpanel"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["new_dash1l", 0.5, -0.50, 0.35],
+	["dash1r",-0.5, -0.50, 0.35],
+	["dash2l", 0.5, -0.72, 0.35],
+	["dash2r",-0.5, -0.72, 0.35],
+	
+	//rigidifier
+	["dashrig", 0, -0.625, 0.5, {"collision":false, "selfCollision":false, "group":""}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["new_dash1l", "dash1r"],
+	["dash2l", "dash2r"],
+	["new_dash1l", "dash2l"],
+	["dash1r", "dash2r"],
+	["new_dash1l", "dash2r"],
+	["dash2l", "dash1r"],
+
+	//rigidifier
+	["new_dash1l", "dashrig"],
+	["dash1r", "dashrig"],
+	["dash2l", "dashrig"],
+	["dash2r", "dashrig"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"dashpanel_break"},
+
+	["new_dash1l", "chassis3l", {"name": "dashpanel"}],
+	["new_dash1l", "chassis1l"],
+	["new_dash1l", "chassis2rr"],
+	
+	["dash1r", "chassis3r"],
+	["dash1r", "chassis1r"],
+	["dash1r", "chassis2ll"],
+
+	["dash2l", "chassis3l"],
+	["dash2l", "chassis1l"],
+	["dash2l", "chassis2rr"],
+	
+	["dash2r", "chassis3r"],
+	["dash2r", "chassis1r"],
+	["dash2r", "chassis2ll"],
+
+	["dashrig", "chassis1l"],
+	["dashrig", "chassis1r"],
+	["dashrig", "chassis2ll"],
+	["dashrig", "chassis2rr"],
+	
+	//to rigidifier
+	["new_dash1l", "chassis0"],
+	["dash1r", "chassis0"],
+	["dash2l", "chassis0"],
+	["dash2r", "chassis0"],
+	["dashrig", "chassis0"],
+
+	//stiffeners
+	{"optional":true},
+	["new_dash1l", "chassis4"],
+	["dash1r", "chassis4"],
+	["dash2l", "chassis4"],
+	["dash2r", "chassis4"],
+	["dashrig", "chassis4"],
+	{"optional":false},
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["new_dash1l", "chassis3l"],
+	["new_dash1l", "chassis1l"],
+	["new_dash1l", "chassis2rr"],
+	["new_dash1l", "chassis7ll"],
+	
+	["dash1r", "chassis3r"],
+	["dash1r", "chassis1r"],
+	["dash1r", "chassis2ll"],
+	["dash1r", "chassis7rr"],
+
+	["dash2l", "chassis3l"],
+	["dash2l", "chassis1l"],
+	["dash2l", "chassis2rr"],
+	["dash2l", "chassis7ll"],
+	
+	["dash2r", "chassis3r"],
+	["dash2r", "chassis1r"],
+	["dash2r", "chassis2ll"],
+	["dash2r", "chassis7rr"],
+
+	["dashrig", "chassis1l"],
+	["dashrig", "chassis1r"],
+	["dashrig", "chassis2ll"],
+	["dashrig", "chassis2rr"],
+	["dashrig", "chassis7ll"],
+	["dashrig", "chassis7rr"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_dash"},   
+	["new_dash1l","dash1r","dash2r","dash2l"],
+        {"group":""},
+    ],
+},
+
+}

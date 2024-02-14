@@ -311,9 +311,9 @@ class JBeamEditorTest:
         bm.free()'''
 
 
-    def rename_nodes_from_imported_jbeam_mesh(self, old_to_new_node_ids: list[tuple[str, str]]):
-        self.select_imported_jbeam_mesh()
-        obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh()
+    def rename_nodes_from_imported_jbeam_mesh(self, part_name: str, old_to_new_node_ids: list[tuple]):
+        self.select_jbeam_meshes(part_name)
+        obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh(part_name)
         self.deselect_all_vertices_edges_faces(bm)
 
         # Rename nodes one at a time, replicating user behavior
