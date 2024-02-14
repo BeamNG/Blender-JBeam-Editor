@@ -65,7 +65,7 @@ The very first thing to do is import your JBeam part in order to actually edit i
 #### Importing a Vehicle to Edit
 Or you can import a full vehicle! Initially, this requires you need to extract the JBeam files and .pc files from BeamNG.drive's game installation folder so you can actually load in the vehicle.
 
-1. Run the jbeam_pc_files_extractor.bat script (download from the releases page "jbeam_pc_files_extractor.zip" and unzip it) (make sure Python is installed) to extract the .jbeam files and .pc files from the BeamNG.drive's installation folder. You'll be prompted to choose the *\content\vehicles* folder located in the game installation folder (e.g. *C:\Program Files (x86)\Steam\steamapps\common\BeamNG.drive\content\vehicles*). Then choose the folder to export the files to, and you can pick any folder.
+1. Run the *jbeam_pc_files_extractor.bat* script (download from the releases page [jbeam_pc_files_extractor.zip](https://github.com/BeamNG/Blender-JBeam-Editor/releases/download/v0.2/jbeam_pc_files_extractor.zip) and unzip it) (make sure Python is installed) to extract the .jbeam files and .pc files from the BeamNG.drive's installation folder. You'll be prompted to choose the *\content\vehicles* folder located in the game installation folder (e.g. *C:\Program Files (x86)\Steam\steamapps\common\BeamNG.drive\content\vehicles*). Then choose the folder to export the files to, and you can pick any folder.
     ![](usage_extractor_1.png)
     ![](usage_extractor_2.png)
 
