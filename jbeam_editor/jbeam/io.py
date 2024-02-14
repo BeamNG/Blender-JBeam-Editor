@@ -214,11 +214,13 @@ def get_part(io_ctx: dict, part_name: str | None):
         return None, None
 
     for directory in io_ctx['dirs']:
-        jbeam_filename = dir_part_to_file_map[directory].get(part_name)
-        if jbeam_filename is not None:
-            content, cache_changed = get_jbeam(jbeam_filename, True, False)
-            if content is not None:
-                return content[part_name], jbeam_filename
+        part_to_file_map = dir_part_to_file_map.get(directory)
+        if part_to_file_map is not None:
+            jbeam_filename = part_to_file_map.get(part_name)
+            if jbeam_filename is not None:
+                content, cache_changed = get_jbeam(jbeam_filename, True, False)
+                if content is not None:
+                    return content[part_name], jbeam_filename
 
     return None, None
 
