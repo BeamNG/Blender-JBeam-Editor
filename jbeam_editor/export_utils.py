@@ -412,7 +412,7 @@ def undo_node_move_offset_and_apply_translation_to_expr(init_node_data: dict, ne
     return pos_tup
 
 
-def set_node_renames_positions(jbeam_file_data_modified: dict, jbeam_part: str, blender_nodes: dict, node_renames: dict):
+def set_node_renames_positions(jbeam_file_data_modified: dict, jbeam_part: str, blender_nodes: dict, node_renames: dict, affect_node_references: bool):
     # Update current JBeam file data with blender data (only renames and moving, no additions or deletions)
     if jbeam_part not in jbeam_file_data_modified:
         return
@@ -439,7 +439,7 @@ def set_node_renames_positions(jbeam_file_data_modified: dict, jbeam_part: str, 
                             row_data[1], row_data[2], row_data[3] = pos[0], pos[1], pos[2]
 
             # Rename node references in all other sections
-            if isinstance(section_data, list):
+            elif affect_node_references:
                 row_header = section_data[0]
                 len_row_header = len(row_header)
                 for row_idx, row_data in enumerate(section_data, 1):
@@ -1143,7 +1143,7 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, 
         init_tris_data = data.get('triangles', [])
         init_quads_data = data.get('quads', [])
 
-        set_node_renames_positions(jbeam_file_data_modified, jbeam_part, blender_nodes, node_renames)
+        set_node_renames_positions(jbeam_file_data_modified, jbeam_part, blender_nodes, node_renames, affect_node_references)
 
         if init_beams_data is not None:
             beams_to_add, beams_to_delete = get_beams_add_remove(obj, bm, init_beams_data, jbeam_file_data_modified, jbeam_part, nodes_to_delete, affect_node_references)
