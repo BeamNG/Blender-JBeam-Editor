@@ -15,13 +15,6 @@ This Blender plugin allows you to import existing JBeam parts or whole vehicles,
 * Live updates reflected in Blender text editor
 * Export changes directly to disk
 
-## Future Features (list is subject to change)
-* Import full vehicle
-* Text editor integration (similiar to NodeBeam Editor)
-* Edit beams
-* Edit triangles
-* And more!
-
 ## User Documentation (everybody should read this!)
 Find more information about installing and using this plugin [here](docs/user/user_docs.md) or [online version here](https://github.com/BeamNG/Blender-JBeam-Editor/blob/main/docs/user/user_docs.md).
 
