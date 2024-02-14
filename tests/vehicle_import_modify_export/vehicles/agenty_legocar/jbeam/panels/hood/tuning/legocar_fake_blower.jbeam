@@ -1,0 +1,298 @@
+{
+"legocar_fake_blower": {
+    "information":{
+        "name":"Fake Blower",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hood_accessory",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_blower",["legocar_fake_blower"], [], {"pos":{"x": 0.000, "y":-1.250, "z":0.8},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ], 
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_fake_blower"},
+
+	//16 pieces, 8 nodes - 2 kg/node
+	{"nodeWeight": "$=$weight*2"},
+
+	["fake1l",  0.225, -1.025, 0.83],
+	["fake1r", -0.225, -1.025, 0.83],
+	["fake2l",  0.225, -1.475, 0.83],
+	["fake2r", -0.225, -1.475, 0.83],
+
+	["fake3l",  0.125, -1.025, 1.20],
+	["fake3r", -0.125, -1.025, 1.20],
+	["fake4l",  0.225, -1.475, 1.20],
+	["fake4r", -0.225, -1.475, 1.20],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//uniform structure
+	["fake1l", "fake1r"],
+	["fake2l", "fake2r"],
+	["fake3l", "fake3r"],
+	["fake4l", "fake4r"],
+
+	["fake1l", "fake2r"],
+	["fake2l", "fake3r"],
+	["fake3l", "fake4r"],
+	["fake4l", "fake1r"],
+
+	["fake1l", "fake3r"],
+	["fake2l", "fake4r"],
+	["fake3l", "fake1r"],
+	["fake4l", "fake2r"],
+
+	["fake1l", "fake4r"],
+	["fake2l", "fake1r"],
+	["fake3l", "fake2r"],
+	["fake4l", "fake3r"],
+
+	["fake1l", "fake2l"],
+	["fake2l", "fake3l"],
+	["fake3l", "fake4l"],
+	["fake4l", "fake1l"],
+
+	["fake1l", "fake3l"],
+	["fake2l", "fake4l"],
+
+	["fake1r", "fake2r"],
+	["fake2r", "fake3r"],
+	["fake3r", "fake4r"],
+	["fake4r", "fake1r"],
+
+	["fake1r", "fake3r"],
+	["fake2r", "fake4r"],
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	{"breakGroup":"fake_blower_break"},
+
+	["fake1l", "hood1l"],
+	["fake1l", "hood1ll"],
+	["fake1l", "hood1lll"],
+	["fake1l", "hood2l"],
+	["fake1l", "hoodrig"],
+
+	["fake1r", "hood1r"],
+	["fake1r", "hood1rr"],
+	["fake1r", "hood1rrr"],
+	["fake1r", "hood2r"],
+	["fake1r", "hoodrig"],
+
+	["fake2l", "hood3l"],
+	["fake2l", "hood3ll"],
+	["fake2l", "hood3lll"],
+	["fake2l", "hood2l"],
+	["fake2l", "hoodrig"],
+
+	["fake2r", "hood3r"],
+	["fake2r", "hood3rr"],
+	["fake2r", "hood3rrr"],
+	["fake2r", "hood2r"],
+	["fake2r", "hoodrig"],
+
+	["fake3l", "hood1l"],
+	["fake3l", "hood1ll"],
+	["fake3l", "hood1lll"],
+	["fake3l", "hood2l"],
+	["fake3l", "hoodrig"],
+
+	["fake3r", "hood1r"],
+	["fake3r", "hood1rr"],
+	["fake3r", "hood1rrr"],
+	["fake3r", "hood2r"],
+	["fake3r", "hoodrig"],
+
+	["fake4l", "hood3l"],
+	["fake4l", "hood3ll"],
+	["fake4l", "hood3lll"],
+	["fake4l", "hood2l"],
+	["fake4l", "hoodrig"],
+
+	["fake4r", "hood3r"],
+	["fake4r", "hood3rr"],
+	["fake4r", "hood3rrr"],
+	["fake4r", "hood2r"],
+	["fake4r", "hoodrig"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_fake_blower"},
+   
+	["fake1r","fake1l","fake2l","fake2r"],
+	["fake3l","fake3r","fake4r","fake4l"],
+	["fake1r","fake2r","fake4r","fake3r"],
+	["fake2l","fake1l","fake3l","fake4l"],
+	["fake2r","fake2l","fake4l","fake4r"],
+	["fake1l","fake1r","fake3r","fake3l"],
+
+        {"group":""},
+    ], 
+},
+
+"legocar_fake_blower_derby": {
+    "information":{
+        "name":"Fake Blower",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hood_accessory_cut",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_blower",["legocar_fake_blower"], [], {"pos":{"x": 0.000, "y":-1.250, "z":0.8},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ], 
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_fake_blower"},
+
+	//16 pieces, 8 nodes - 2 kg/node
+	{"nodeWeight": "$=$weight*2"},
+
+	["fake1l",  0.225, -1.025, 0.83],
+	["fake1r", -0.225, -1.025, 0.83],
+	["fake2l",  0.225, -1.475, 0.83],
+	["fake2r", -0.225, -1.475, 0.83],
+
+	["fake3l",  0.125, -1.025, 1.20],
+	["fake3r", -0.125, -1.025, 1.20],
+	["fake4l",  0.225, -1.475, 1.20],
+	["fake4r", -0.225, -1.475, 1.20],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//uniform structure
+	["fake1l", "fake1r"],
+	["fake2l", "fake2r"],
+	["fake3l", "fake3r"],
+	["fake4l", "fake4r"],
+
+	["fake1l", "fake2r"],
+	["fake2l", "fake3r"],
+	["fake3l", "fake4r"],
+	["fake4l", "fake1r"],
+
+	["fake1l", "fake3r"],
+	["fake2l", "fake4r"],
+	["fake3l", "fake1r"],
+	["fake4l", "fake2r"],
+
+	["fake1l", "fake4r"],
+	["fake2l", "fake1r"],
+	["fake3l", "fake2r"],
+	["fake4l", "fake3r"],
+
+	["fake1l", "fake2l"],
+	["fake2l", "fake3l"],
+	["fake3l", "fake4l"],
+	["fake4l", "fake1l"],
+
+	["fake1l", "fake3l"],
+	["fake2l", "fake4l"],
+
+	["fake1r", "fake2r"],
+	["fake2r", "fake3r"],
+	["fake3r", "fake4r"],
+	["fake4r", "fake1r"],
+
+	["fake1r", "fake3r"],
+	["fake2r", "fake4r"],
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	{"breakGroup":"fake_blower_break"},
+
+	["fake1l", "hood1l"],
+	["fake1l", "hood1ll"],
+	["fake1l", "hood1lll"],
+	["fake1l", "hood2l"],
+	["fake1l", "hoodrig"],
+
+	["fake1r", "hood1r"],
+	["fake1r", "hood1rr"],
+	["fake1r", "hood1rrr"],
+	["fake1r", "hood2r"],
+	["fake1r", "hoodrig"],
+
+	["fake2l", "hood3l"],
+	["fake2l", "hood3ll"],
+	["fake2l", "hood3lll"],
+	["fake2l", "hood2l"],
+	["fake2l", "hoodrig"],
+
+	["fake2r", "hood3r"],
+	["fake2r", "hood3rr"],
+	["fake2r", "hood3rrr"],
+	["fake2r", "hood2r"],
+	["fake2r", "hoodrig"],
+
+	["fake3l", "hood1l"],
+	["fake3l", "hood1ll"],
+	["fake3l", "hood1lll"],
+	["fake3l", "hood2l"],
+	["fake3l", "hoodrig"],
+
+	["fake3r", "hood1r"],
+	["fake3r", "hood1rr"],
+	["fake3r", "hood1rrr"],
+	["fake3r", "hood2r"],
+	["fake3r", "hoodrig"],
+
+	["fake4l", "hood3l"],
+	["fake4l", "hood3ll"],
+	["fake4l", "hood3lll"],
+	["fake4l", "hood2l"],
+	["fake4l", "hoodrig"],
+
+	["fake4r", "hood3r"],
+	["fake4r", "hood3rr"],
+	["fake4r", "hood3rrr"],
+	["fake4r", "hood2r"],
+	["fake4r", "hoodrig"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_fake_blower"},
+   
+	["fake1r","fake1l","fake2l","fake2r"],
+	["fake3l","fake3r","fake4r","fake4l"],
+	["fake1r","fake2r","fake4r","fake3r"],
+	["fake2l","fake1l","fake3l","fake4l"],
+	["fake2r","fake2l","fake4l","fake4r"],
+	["fake1l","fake1r","fake3r","fake3l"],
+
+        {"group":""},
+    ], 
+},
+
+}

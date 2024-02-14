@@ -1,0 +1,266 @@
+{
+"legocar_skin_wheel_F_white": {
+    "information":{
+        "authors":"AgentY",
+        "name":"White",
+    },
+    "slotType" : "skin_legocar_wheel_F",
+    "skinName" : "legocar_wheel_F_white",
+},
+"legocar_skin_wheel_F_lgrey": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Light Grey",
+    },
+    "slotType" : "skin_legocar_wheel_F",
+    "skinName" : "legocar_wheel_F_lgrey",
+},
+"legocar_skin_wheel_F_grey": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Grey",
+    },
+    "slotType" : "skin_legocar_wheel_F",
+},
+"legocar_skin_wheel_F_dgrey": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Dark Grey",
+    },
+    "slotType" : "skin_legocar_wheel_F",
+    "skinName" : "legocar_wheel_F_dgrey",
+},
+"legocar_skin_wheel_F_black": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Black",
+    },
+    "slotType" : "skin_legocar_wheel_F",
+    "skinName" : "legocar_wheel_F_black",
+},
+"legocar_skin_wheel_F_yellow": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Yellow",
+    },
+    "slotType" : "skin_legocar_wheel_F",
+    "skinName" : "legocar_wheel_F_yellow",
+},
+"legocar_skin_wheel_F_gold": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Gold",
+    },
+    "slotType" : "skin_legocar_wheel_F",
+    "skinName" : "legocar_wheel_F_gold",
+},
+"legocar_skin_wheel_F_silv": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Silver",
+    },
+    "slotType" : "skin_legocar_wheel_F",
+    "skinName" : "legocar_wheel_F_silver",
+},
+"legocar_skin_wheel_F_bodycolor": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Color Palette 1",
+    },
+    "slotType" : "skin_legocar_wheel_F",
+    "skinName" : "legocar_wheel_F_col1",
+},
+"legocar_skin_wheel_F_bodycolor2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Color Palette 2",
+    },
+    "slotType" : "skin_legocar_wheel_F",
+    "skinName" : "legocar_wheel_F_col2",
+},
+"legocar_skin_wheel_F_bodycolor3": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Color Palette 3",
+    },
+    "slotType" : "skin_legocar_wheel_F",
+    "skinName" : "legocar_wheel_F_col3",
+},
+
+"legocar_skin_wheel_R_white": {
+    "information":{
+        "authors":"AgentY",
+        "name":"White",
+    },
+    "slotType" : "skin_legocar_wheel_R",
+    "skinName" : "legocar_wheel_R_white",
+},
+"legocar_skin_wheel_R_lgrey": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Light Grey",
+    },
+    "slotType" : "skin_legocar_wheel_R",
+    "skinName" : "legocar_wheel_R_lgrey",
+},
+"legocar_skin_wheel_R_grey": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Grey",
+    },
+    "slotType" : "skin_legocar_wheel_R",
+},
+"legocar_skin_wheel_R_dgrey": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Dark Grey",
+    },
+    "slotType" : "skin_legocar_wheel_R",
+    "skinName" : "legocar_wheel_R_dgrey",
+},
+"legocar_skin_wheel_R_black": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Black",
+    },
+    "slotType" : "skin_legocar_wheel_R",
+    "skinName" : "legocar_wheel_R_black",
+},
+"legocar_skin_wheel_R_bodycolor": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Color Palette 1",
+    },
+    "slotType" : "skin_legocar_wheel_R",
+    "skinName" : "legocar_wheel_R_col1",
+},
+"legocar_skin_wheel_R_bodycolor2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Color Palette 2",
+    },
+    "slotType" : "skin_legocar_wheel_R",
+    "skinName" : "legocar_wheel_R_col2",
+},
+"legocar_skin_wheel_R_bodycolor3": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Color Palette 3",
+    },
+    "slotType" : "skin_legocar_wheel_R",
+    "skinName" : "legocar_wheel_R_col3",
+},
+"legocar_skin_wheel_R_yellow": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Yellow",
+    },
+    "slotType" : "skin_legocar_wheel_R",
+    "skinName" : "legocar_wheel_R_yellow",
+},
+"legocar_skin_wheel_R_gold": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Gold",
+    },
+    "slotType" : "skin_legocar_wheel_R",
+    "skinName" : "legocar_wheel_R_gold",
+},
+"legocar_skin_wheel_R_silv": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Silver",
+    },
+    "slotType" : "skin_legocar_wheel_R",
+    "skinName" : "legocar_wheel_R_silver",
+},
+
+"legocar_skin_wheel_spare_white": {
+    "information":{
+        "authors":"AgentY",
+        "name":"White",
+    },
+    "slotType" : "skin_legocar_wheel_spare",
+    "skinName" : "legocar_wheel_spare_white",
+},
+"legocar_skin_wheel_spare_lgrey": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Light Grey",
+    },
+    "slotType" : "skin_legocar_wheel_spare",
+    "skinName" : "legocar_wheel_spare_lgrey",
+},
+"legocar_skin_wheel_spare_grey": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Grey",
+    },
+    "slotType" : "skin_legocar_wheel_spare",
+},
+"legocar_skin_wheel_spare_dgrey": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Dark Grey",
+    },
+    "slotType" : "skin_legocar_wheel_spare",
+    "skinName" : "legocar_wheel_spare_dgrey",
+},
+"legocar_skin_wheel_spare_black": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Black",
+    },
+    "slotType" : "skin_legocar_wheel_spare",
+    "skinName" : "legocar_wheel_spare_black",
+},
+"legocar_skin_wheel_spare_yellow": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Yellow",
+    },
+    "slotType" : "skin_legocar_wheel_spare",
+    "skinName" : "legocar_wheel_spare_yellow",
+},
+"legocar_skin_wheel_spare_gold": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Gold",
+    },
+    "slotType" : "skin_legocar_wheel_spare",
+    "skinName" : "legocar_wheel_spare_gold",
+},
+"legocar_skin_wheel_spare_silv": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Silver",
+    },
+    "slotType" : "skin_legocar_wheel_spare",
+    "skinName" : "legocar_wheel_spare_silver",
+},
+"legocar_skin_wheel_spare_bodycolor": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Color Palette 1",
+    },
+    "slotType" : "skin_legocar_wheel_spare",
+    "skinName" : "legocar_wheel_spare_col1",
+},
+"legocar_skin_wheel_spare_bodycolor2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Color Palette 2",
+    },
+    "slotType" : "skin_legocar_wheel_spare",
+    "skinName" : "legocar_wheel_spare_col2",
+},
+"legocar_skin_wheel_spare_bodycolor3": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Color Palette 3",
+    },
+    "slotType" : "skin_legocar_wheel_spare",
+    "skinName" : "legocar_wheel_spare_col3",
+},
+
+}

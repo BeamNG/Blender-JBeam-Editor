@@ -1,0 +1,974 @@
+{
+"legocar_pushbar_mount_R": {
+    "information":{
+        "name":"Rear Push Bar Mount (Black)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_R_prefacelift_sides_extra",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_pushbar_R","legocar_pushbar_R", "Rear Push Bar"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_clip_black",["legocar_bumperguard_RL"], [], {"pos":{"x": 0.375, "y":2.050, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_clip_black",["legocar_bumperguard_RR"], [], {"pos":{"x":-0.375, "y":2.050, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_pushbar_bottom",  ["legocar_pushbar_mount_R"],[], {"pos":{"x": 0.000, "y":2.250, "z":0.225},"rot":{"x":  0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//left
+	{"group":"legocar_bumperguard_RL"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RLbguard1l",  0.50, 2.05, 0.10],
+	["RLbguard1r",  0.25, 2.05, 0.10],
+	["RLbguard2l",  0.50, 2.05, 0.35],
+	["RLbguard2r",  0.25, 2.05, 0.35],
+	//rigidifier
+	["RLbguardrig", 0.375, 2.25, 0.225, {"selfCollision":false}],
+
+	//right
+	{"group":"legocar_bumperguard_RR"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RRbguard1r", -0.50, 2.05, 0.10],
+	["RRbguard1l", -0.25, 2.05, 0.10],
+	["RRbguard2r", -0.50, 2.05, 0.35],
+	["RRbguard2l", -0.25, 2.05, 0.35],
+	//rigidifier
+	["RRbguardrig",-0.375, 2.25, 0.225, {"selfCollision":false}],
+
+	//mount
+	{"group":"legocar_pushbar_mount_R"},
+	//4 half pieces, 3 nodes - 0.67 kg/node
+	{"nodeWeight": "$=$weight*0.67"},
+
+	["RpushbarmtL", 0.5, 2.25, 0.225],
+	["RpushbarmtR",-0.5, 2.25, 0.225],
+	//rigidifier
+	["RpushbarmtM", 0.0, 2.00, 0.225, {"collision":false, "selfCollision":false}],
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$weight*11000", "damp":"$=$weight*1", "deform":"$=$strength*0.05", "strength":"FLT_MAX"},
+	//push bar initial angle
+        ["RLpushbar4l","RLpushbar1l","RpushbarmtR","RpushbarmtM", {"precompressionAngle":-0.15, "optional":true}],
+	["RRpushbar4r","RRpushbar1r","RpushbarmtL","RpushbarmtM", {"precompressionAngle": 0.15, "optional":true}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR LEFT BUMPER GUARD--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RLbguard1l", "RLbguard1r"],
+	["RLbguard2l", "RLbguard2r"],
+	["RLbguard1l", "RLbguard2l"],
+	["RLbguard1r", "RLbguard2r"],
+	["RLbguard1l", "RLbguard2r"],
+	["RLbguard2l", "RLbguard1r"],
+
+	//rigidifier
+	["RLbguard1l", "RLbguardrig"],
+	["RLbguard1r", "RLbguardrig"],
+	["RLbguard2l", "RLbguardrig"],
+	["RLbguard2r", "RLbguardrig"],
+
+
+	//--REAR RIGHT BUMPER GUARD--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RRbguard1l", "RRbguard1r"],
+	["RRbguard2l", "RRbguard2r"],
+	["RRbguard1l", "RRbguard2l"],
+	["RRbguard1r", "RRbguard2r"],
+	["RRbguard1l", "RRbguard2r"],
+	["RRbguard2l", "RRbguard1r"],
+
+	//rigidifier
+	["RRbguard1l", "RRbguardrig"],
+	["RRbguard1r", "RRbguardrig"],
+	["RRbguard2l", "RRbguardrig"],
+	["RRbguard2r", "RRbguardrig"],
+
+
+	//--PUSH BAR MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*671000", "beamDamp":"$=$weight*67"},
+	
+	//uniform structure
+	["RpushbarmtL", "RpushbarmtR"],
+	["RpushbarmtR", "RpushbarmtM"],
+	["RpushbarmtM", "RpushbarmtL"],
+
+	//rail break trigger
+	{"beamSpring":0, "beamDamp":0},
+	{"breakGroup":"pushbar_R_break"},
+	["RpushbarmtL", "RpushbarmtR", {"disableMeshBreaking":true}],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left to mount
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"breakGroup":"pushbar_mount_RL_break"},
+
+	["RpushbarmtL", "RLbguard1l"],
+	["RpushbarmtL", "RLbguard1r"],
+	["RpushbarmtL", "RLbguard2l"],
+	["RpushbarmtL", "RLbguard2r"],
+	["RpushbarmtL", "RLbguardrig"],
+
+	["RpushbarmtR", "RLbguard1l"],
+	["RpushbarmtR", "RLbguard1r"],
+	["RpushbarmtR", "RLbguard2l"],
+	["RpushbarmtR", "RLbguard2r"],
+	["RpushbarmtR", "RLbguardrig"],
+
+	["RpushbarmtM", "RLbguard1l"],
+	["RpushbarmtM", "RLbguard1r"],
+	["RpushbarmtM", "RLbguard2l"],
+	["RpushbarmtM", "RLbguard2r"],
+	["RpushbarmtM", "RLbguardrig"],
+
+
+	//right to mount
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"breakGroup":"pushbar_mount_RR_break"},
+
+	["RpushbarmtL", "RRbguard1l"],
+	["RpushbarmtL", "RRbguard1r"],
+	["RpushbarmtL", "RRbguard2l"],
+	["RpushbarmtL", "RRbguard2r"],
+	["RpushbarmtL", "RRbguardrig"],
+
+	["RpushbarmtR", "RRbguard1l"],
+	["RpushbarmtR", "RRbguard1r"],
+	["RpushbarmtR", "RRbguard2l"],
+	["RpushbarmtR", "RRbguard2r"],
+	["RpushbarmtR", "RRbguardrig"],
+
+	["RpushbarmtM", "RRbguard1l"],
+	["RpushbarmtM", "RRbguard1r"],
+	["RpushbarmtM", "RRbguard2l"],
+	["RpushbarmtM", "RRbguard2r"],
+	["RpushbarmtM", "RRbguardrig"],
+
+
+	//left to bumper
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"bumperguard_RL_break"},
+	
+	["RLbguard1l", "RLbumprig"],
+	["RLbguard1l", "RLbump1r"],
+	["RLbguard1l", "RLbump2l"],
+
+	["RLbguard1r", "RLbumprig"],
+	["RLbguard1r", "RLbump1l"],
+	["RLbguard1r", "RLbump2r"],
+
+	["RLbguard2l", "RLbumprig"],
+	["RLbguard2l", "RLbump2r"],
+	["RLbguard2l", "RLbump1l"],
+
+	["RLbguard2r", "RLbumprig"],
+	["RLbguard2r", "RLbump2l"],
+	["RLbguard2r", "RLbump1r"],
+
+
+	//right to bumper
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"bumperguard_RR_break"},
+	
+	["RRbguard1l", "RRbumprig"],
+	["RRbguard1l", "RRbump1r"],
+	["RRbguard1l", "RRbump2l"],
+
+	["RRbguard1r", "RRbumprig"],
+	["RRbguard1r", "RRbump1l"],
+	["RRbguard1r", "RRbump2r"],
+
+	["RRbguard2l", "RRbumprig"],
+	["RRbguard2l", "RRbump2r"],
+	["RRbguard2l", "RRbump1l"],
+
+	["RRbguard2r", "RRbumprig"],
+	["RRbguard2r", "RRbump2l"],
+	["RRbguard2r", "RRbump1r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_buperguard_RL"},
+	["RLbguardrig","RLbguard2l","RLbguard1l"],
+	["RLbguardrig","RLbguard1l","RLbguard1r"],
+	["RLbguardrig","RLbguard1r","RLbguard2r"],
+	["RLbguardrig","RLbguard2r","RLbguard2l"],
+
+	{"group":"legocar_buperguard_RR"},
+	["RRbguardrig","RRbguard2l","RRbguard1l"],
+	["RRbguardrig","RRbguard1l","RRbguard1r"],
+	["RRbguardrig","RRbguard1r","RRbguard2r"],
+	["RRbguardrig","RRbguard2r","RRbguard2l"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_buperguard_RL"},
+	["RLbguard2l","RLbguard2r","RLbguard1r","RLbguard1l"],
+	{"group":"legocar_buperguard_RR"},
+	["RRbguard2l","RRbguard2r","RRbguard1r","RRbguard1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_pushbar_mount_R_col1": {
+    "information":{
+        "name":"Rear Push Bar Mount (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_R_prefacelift_sides_extra",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_pushbar_R","legocar_pushbar_R", "Rear Push Bar"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_clip_col1",["legocar_bumperguard_RL"], [], {"pos":{"x": 0.375, "y":2.050, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_clip_col1",["legocar_bumperguard_RR"], [], {"pos":{"x":-0.375, "y":2.050, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_pushbar_bottom", ["legocar_pushbar_mount_R"],[], {"pos":{"x": 0.000, "y":2.250, "z":0.225},"rot":{"x":  0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//left
+	{"group":"legocar_bumperguard_RL"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RLbguard1l",  0.50, 2.05, 0.10],
+	["RLbguard1r",  0.25, 2.05, 0.10],
+	["RLbguard2l",  0.50, 2.05, 0.35],
+	["RLbguard2r",  0.25, 2.05, 0.35],
+	//rigidifier
+	["RLbguardrig", 0.375, 2.25, 0.225, {"selfCollision":false}],
+
+	//right
+	{"group":"legocar_bumperguard_RR"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RRbguard1r", -0.50, 2.05, 0.10],
+	["RRbguard1l", -0.25, 2.05, 0.10],
+	["RRbguard2r", -0.50, 2.05, 0.35],
+	["RRbguard2l", -0.25, 2.05, 0.35],
+	//rigidifier
+	["RRbguardrig",-0.375, 2.25, 0.225, {"selfCollision":false}],
+
+	//mount
+	{"group":"legocar_pushbar_mount_R"},
+	//4 half pieces, 3 nodes - 0.67 kg/node
+	{"nodeWeight": "$=$weight*0.67"},
+
+	["RpushbarmtL", 0.5, 2.25, 0.225],
+	["RpushbarmtR",-0.5, 2.25, 0.225],
+	//rigidifier
+	["RpushbarmtM", 0.0, 2.00, 0.225, {"collision":false, "selfCollision":false}],
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$weight*11000", "damp":"$=$weight*1", "deform":"$=$strength*0.05", "strength":"FLT_MAX"},
+	//push bar initial angle
+        ["RLpushbar4l","RLpushbar1l","RpushbarmtR","RpushbarmtM", {"precompressionAngle":-0.15, "optional":true}],
+	["RRpushbar4r","RRpushbar1r","RpushbarmtL","RpushbarmtM", {"precompressionAngle": 0.15, "optional":true}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR LEFT BUMPER GUARD--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RLbguard1l", "RLbguard1r"],
+	["RLbguard2l", "RLbguard2r"],
+	["RLbguard1l", "RLbguard2l"],
+	["RLbguard1r", "RLbguard2r"],
+	["RLbguard1l", "RLbguard2r"],
+	["RLbguard2l", "RLbguard1r"],
+
+	//rigidifier
+	["RLbguard1l", "RLbguardrig"],
+	["RLbguard1r", "RLbguardrig"],
+	["RLbguard2l", "RLbguardrig"],
+	["RLbguard2r", "RLbguardrig"],
+
+
+	//--REAR RIGHT BUMPER GUARD--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RRbguard1l", "RRbguard1r"],
+	["RRbguard2l", "RRbguard2r"],
+	["RRbguard1l", "RRbguard2l"],
+	["RRbguard1r", "RRbguard2r"],
+	["RRbguard1l", "RRbguard2r"],
+	["RRbguard2l", "RRbguard1r"],
+
+	//rigidifier
+	["RRbguard1l", "RRbguardrig"],
+	["RRbguard1r", "RRbguardrig"],
+	["RRbguard2l", "RRbguardrig"],
+	["RRbguard2r", "RRbguardrig"],
+
+
+	//--PUSH BAR MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*671000", "beamDamp":"$=$weight*67"},
+	
+	//uniform structure
+	["RpushbarmtL", "RpushbarmtR"],
+	["RpushbarmtR", "RpushbarmtM"],
+	["RpushbarmtM", "RpushbarmtL"],
+
+	//rail break trigger
+	{"beamSpring":0, "beamDamp":0},
+	{"breakGroup":"pushbar_R_break"},
+	["RpushbarmtL", "RpushbarmtR", {"disableMeshBreaking":true}],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left to mount
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"breakGroup":"pushbar_mount_RL_break"},
+
+	["RpushbarmtL", "RLbguard1l"],
+	["RpushbarmtL", "RLbguard1r"],
+	["RpushbarmtL", "RLbguard2l"],
+	["RpushbarmtL", "RLbguard2r"],
+	["RpushbarmtL", "RLbguardrig"],
+
+	["RpushbarmtR", "RLbguard1l"],
+	["RpushbarmtR", "RLbguard1r"],
+	["RpushbarmtR", "RLbguard2l"],
+	["RpushbarmtR", "RLbguard2r"],
+	["RpushbarmtR", "RLbguardrig"],
+
+	["RpushbarmtM", "RLbguard1l"],
+	["RpushbarmtM", "RLbguard1r"],
+	["RpushbarmtM", "RLbguard2l"],
+	["RpushbarmtM", "RLbguard2r"],
+	["RpushbarmtM", "RLbguardrig"],
+
+
+	//right to mount
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"breakGroup":"pushbar_mount_RR_break"},
+
+	["RpushbarmtL", "RRbguard1l"],
+	["RpushbarmtL", "RRbguard1r"],
+	["RpushbarmtL", "RRbguard2l"],
+	["RpushbarmtL", "RRbguard2r"],
+	["RpushbarmtL", "RRbguardrig"],
+
+	["RpushbarmtR", "RRbguard1l"],
+	["RpushbarmtR", "RRbguard1r"],
+	["RpushbarmtR", "RRbguard2l"],
+	["RpushbarmtR", "RRbguard2r"],
+	["RpushbarmtR", "RRbguardrig"],
+
+	["RpushbarmtM", "RRbguard1l"],
+	["RpushbarmtM", "RRbguard1r"],
+	["RpushbarmtM", "RRbguard2l"],
+	["RpushbarmtM", "RRbguard2r"],
+	["RpushbarmtM", "RRbguardrig"],
+
+
+	//left to bumper
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"bumperguard_RL_break"},
+	
+	["RLbguard1l", "RLbumprig"],
+	["RLbguard1l", "RLbump1r"],
+	["RLbguard1l", "RLbump2l"],
+
+	["RLbguard1r", "RLbumprig"],
+	["RLbguard1r", "RLbump1l"],
+	["RLbguard1r", "RLbump2r"],
+
+	["RLbguard2l", "RLbumprig"],
+	["RLbguard2l", "RLbump2r"],
+	["RLbguard2l", "RLbump1l"],
+
+	["RLbguard2r", "RLbumprig"],
+	["RLbguard2r", "RLbump2l"],
+	["RLbguard2r", "RLbump1r"],
+
+
+	//right to bumper
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"bumperguard_RR_break"},
+	
+	["RRbguard1l", "RRbumprig"],
+	["RRbguard1l", "RRbump1r"],
+	["RRbguard1l", "RRbump2l"],
+
+	["RRbguard1r", "RRbumprig"],
+	["RRbguard1r", "RRbump1l"],
+	["RRbguard1r", "RRbump2r"],
+
+	["RRbguard2l", "RRbumprig"],
+	["RRbguard2l", "RRbump2r"],
+	["RRbguard2l", "RRbump1l"],
+
+	["RRbguard2r", "RRbumprig"],
+	["RRbguard2r", "RRbump2l"],
+	["RRbguard2r", "RRbump1r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_buperguard_RL"},
+	["RLbguardrig","RLbguard2l","RLbguard1l"],
+	["RLbguardrig","RLbguard1l","RLbguard1r"],
+	["RLbguardrig","RLbguard1r","RLbguard2r"],
+	["RLbguardrig","RLbguard2r","RLbguard2l"],
+
+	{"group":"legocar_buperguard_RR"},
+	["RRbguardrig","RRbguard2l","RRbguard1l"],
+	["RRbguardrig","RRbguard1l","RRbguard1r"],
+	["RRbguardrig","RRbguard1r","RRbguard2r"],
+	["RRbguardrig","RRbguard2r","RRbguard2l"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_buperguard_RL"},
+	["RLbguard2l","RLbguard2r","RLbguard1r","RLbguard1l"],
+	{"group":"legocar_buperguard_RR"},
+	["RRbguard2l","RRbguard2r","RRbguard1r","RRbguard1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_pushbar_mount_R_col2": {
+    "information":{
+        "name":"Rear Push Bar Mount (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_R_prefacelift_sides_extra",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_pushbar_R","legocar_pushbar_R", "Rear Push Bar"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_clip_col2",["legocar_bumperguard_RL"], [], {"pos":{"x": 0.375, "y":2.050, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_clip_col2",["legocar_bumperguard_RR"], [], {"pos":{"x":-0.375, "y":2.050, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_pushbar_bottom", ["legocar_pushbar_mount_R"],[], {"pos":{"x": 0.000, "y":2.250, "z":0.225},"rot":{"x":  0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//left
+	{"group":"legocar_bumperguard_RL"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RLbguard1l",  0.50, 2.05, 0.10],
+	["RLbguard1r",  0.25, 2.05, 0.10],
+	["RLbguard2l",  0.50, 2.05, 0.35],
+	["RLbguard2r",  0.25, 2.05, 0.35],
+	//rigidifier
+	["RLbguardrig", 0.375, 2.25, 0.225, {"selfCollision":false}],
+
+	//right
+	{"group":"legocar_bumperguard_RR"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RRbguard1r", -0.50, 2.05, 0.10],
+	["RRbguard1l", -0.25, 2.05, 0.10],
+	["RRbguard2r", -0.50, 2.05, 0.35],
+	["RRbguard2l", -0.25, 2.05, 0.35],
+	//rigidifier
+	["RRbguardrig",-0.375, 2.25, 0.225, {"selfCollision":false}],
+
+	//mount
+	{"group":"legocar_pushbar_mount_R"},
+	//4 half pieces, 3 nodes - 0.67 kg/node
+	{"nodeWeight": "$=$weight*0.67"},
+
+	["RpushbarmtL", 0.5, 2.25, 0.225],
+	["RpushbarmtR",-0.5, 2.25, 0.225],
+	//rigidifier
+	["RpushbarmtM", 0.0, 2.00, 0.225, {"collision":false, "selfCollision":false}],
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$weight*11000", "damp":"$=$weight*1", "deform":"$=$strength*0.05", "strength":"FLT_MAX"},
+	//push bar initial angle
+        ["RLpushbar4l","RLpushbar1l","RpushbarmtR","RpushbarmtM", {"precompressionAngle":-0.15, "optional":true}],
+	["RRpushbar4r","RRpushbar1r","RpushbarmtL","RpushbarmtM", {"precompressionAngle": 0.15, "optional":true}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR LEFT BUMPER GUARD--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RLbguard1l", "RLbguard1r"],
+	["RLbguard2l", "RLbguard2r"],
+	["RLbguard1l", "RLbguard2l"],
+	["RLbguard1r", "RLbguard2r"],
+	["RLbguard1l", "RLbguard2r"],
+	["RLbguard2l", "RLbguard1r"],
+
+	//rigidifier
+	["RLbguard1l", "RLbguardrig"],
+	["RLbguard1r", "RLbguardrig"],
+	["RLbguard2l", "RLbguardrig"],
+	["RLbguard2r", "RLbguardrig"],
+
+
+	//--REAR RIGHT BUMPER GUARD--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RRbguard1l", "RRbguard1r"],
+	["RRbguard2l", "RRbguard2r"],
+	["RRbguard1l", "RRbguard2l"],
+	["RRbguard1r", "RRbguard2r"],
+	["RRbguard1l", "RRbguard2r"],
+	["RRbguard2l", "RRbguard1r"],
+
+	//rigidifier
+	["RRbguard1l", "RRbguardrig"],
+	["RRbguard1r", "RRbguardrig"],
+	["RRbguard2l", "RRbguardrig"],
+	["RRbguard2r", "RRbguardrig"],
+
+
+	//--PUSH BAR MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*671000", "beamDamp":"$=$weight*67"},
+	
+	//uniform structure
+	["RpushbarmtL", "RpushbarmtR"],
+	["RpushbarmtR", "RpushbarmtM"],
+	["RpushbarmtM", "RpushbarmtL"],
+
+	//rail break trigger
+	{"beamSpring":0, "beamDamp":0},
+	{"breakGroup":"pushbar_R_break"},
+	["RpushbarmtL", "RpushbarmtR", {"disableMeshBreaking":true}],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left to mount
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"breakGroup":"pushbar_mount_RL_break"},
+
+	["RpushbarmtL", "RLbguard1l"],
+	["RpushbarmtL", "RLbguard1r"],
+	["RpushbarmtL", "RLbguard2l"],
+	["RpushbarmtL", "RLbguard2r"],
+	["RpushbarmtL", "RLbguardrig"],
+
+	["RpushbarmtR", "RLbguard1l"],
+	["RpushbarmtR", "RLbguard1r"],
+	["RpushbarmtR", "RLbguard2l"],
+	["RpushbarmtR", "RLbguard2r"],
+	["RpushbarmtR", "RLbguardrig"],
+
+	["RpushbarmtM", "RLbguard1l"],
+	["RpushbarmtM", "RLbguard1r"],
+	["RpushbarmtM", "RLbguard2l"],
+	["RpushbarmtM", "RLbguard2r"],
+	["RpushbarmtM", "RLbguardrig"],
+
+
+	//right to mount
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"breakGroup":"pushbar_mount_RR_break"},
+
+	["RpushbarmtL", "RRbguard1l"],
+	["RpushbarmtL", "RRbguard1r"],
+	["RpushbarmtL", "RRbguard2l"],
+	["RpushbarmtL", "RRbguard2r"],
+	["RpushbarmtL", "RRbguardrig"],
+
+	["RpushbarmtR", "RRbguard1l"],
+	["RpushbarmtR", "RRbguard1r"],
+	["RpushbarmtR", "RRbguard2l"],
+	["RpushbarmtR", "RRbguard2r"],
+	["RpushbarmtR", "RRbguardrig"],
+
+	["RpushbarmtM", "RRbguard1l"],
+	["RpushbarmtM", "RRbguard1r"],
+	["RpushbarmtM", "RRbguard2l"],
+	["RpushbarmtM", "RRbguard2r"],
+	["RpushbarmtM", "RRbguardrig"],
+
+
+	//left to bumper
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"bumperguard_RL_break"},
+	
+	["RLbguard1l", "RLbumprig"],
+	["RLbguard1l", "RLbump1r"],
+	["RLbguard1l", "RLbump2l"],
+
+	["RLbguard1r", "RLbumprig"],
+	["RLbguard1r", "RLbump1l"],
+	["RLbguard1r", "RLbump2r"],
+
+	["RLbguard2l", "RLbumprig"],
+	["RLbguard2l", "RLbump2r"],
+	["RLbguard2l", "RLbump1l"],
+
+	["RLbguard2r", "RLbumprig"],
+	["RLbguard2r", "RLbump2l"],
+	["RLbguard2r", "RLbump1r"],
+
+
+	//right to bumper
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"bumperguard_RR_break"},
+	
+	["RRbguard1l", "RRbumprig"],
+	["RRbguard1l", "RRbump1r"],
+	["RRbguard1l", "RRbump2l"],
+
+	["RRbguard1r", "RRbumprig"],
+	["RRbguard1r", "RRbump1l"],
+	["RRbguard1r", "RRbump2r"],
+
+	["RRbguard2l", "RRbumprig"],
+	["RRbguard2l", "RRbump2r"],
+	["RRbguard2l", "RRbump1l"],
+
+	["RRbguard2r", "RRbumprig"],
+	["RRbguard2r", "RRbump2l"],
+	["RRbguard2r", "RRbump1r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_buperguard_RL"},
+	["RLbguardrig","RLbguard2l","RLbguard1l"],
+	["RLbguardrig","RLbguard1l","RLbguard1r"],
+	["RLbguardrig","RLbguard1r","RLbguard2r"],
+	["RLbguardrig","RLbguard2r","RLbguard2l"],
+
+	{"group":"legocar_buperguard_RR"},
+	["RRbguardrig","RRbguard2l","RRbguard1l"],
+	["RRbguardrig","RRbguard1l","RRbguard1r"],
+	["RRbguardrig","RRbguard1r","RRbguard2r"],
+	["RRbguardrig","RRbguard2r","RRbguard2l"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_buperguard_RL"},
+	["RLbguard2l","RLbguard2r","RLbguard1r","RLbguard1l"],
+	{"group":"legocar_buperguard_RR"},
+	["RRbguard2l","RRbguard2r","RRbguard1r","RRbguard1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_pushbar_mount_R_col3": {
+    "information":{
+        "name":"Rear Push Bar Mount (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_R_prefacelift_sides_extra",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_pushbar_R","legocar_pushbar_R", "Rear Push Bar"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_clip_col3",["legocar_bumperguard_RL"], [], {"pos":{"x": 0.375, "y":2.050, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_clip_col3",["legocar_bumperguard_RR"], [], {"pos":{"x":-0.375, "y":2.050, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_pushbar_bottom", ["legocar_pushbar_mount_R"],[], {"pos":{"x": 0.000, "y":2.250, "z":0.225},"rot":{"x":  0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//left
+	{"group":"legocar_bumperguard_RL"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RLbguard1l",  0.50, 2.05, 0.10],
+	["RLbguard1r",  0.25, 2.05, 0.10],
+	["RLbguard2l",  0.50, 2.05, 0.35],
+	["RLbguard2r",  0.25, 2.05, 0.35],
+	//rigidifier
+	["RLbguardrig", 0.375, 2.25, 0.225, {"selfCollision":false}],
+
+	//right
+	{"group":"legocar_bumperguard_RR"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RRbguard1r", -0.50, 2.05, 0.10],
+	["RRbguard1l", -0.25, 2.05, 0.10],
+	["RRbguard2r", -0.50, 2.05, 0.35],
+	["RRbguard2l", -0.25, 2.05, 0.35],
+	//rigidifier
+	["RRbguardrig",-0.375, 2.25, 0.225, {"selfCollision":false}],
+
+	//mount
+	{"group":"legocar_pushbar_mount_R"},
+	//4 half pieces, 3 nodes - 0.67 kg/node
+	{"nodeWeight": "$=$weight*0.67"},
+
+	["RpushbarmtL", 0.5, 2.25, 0.225],
+	["RpushbarmtR",-0.5, 2.25, 0.225],
+	//rigidifier
+	["RpushbarmtM", 0.0, 2.00, 0.225, {"collision":false, "selfCollision":false}],
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$weight*11000", "damp":"$=$weight*1", "deform":"$=$strength*0.05", "strength":"FLT_MAX"},
+	//push bar initial angle
+        ["RLpushbar4l","RLpushbar1l","RpushbarmtR","RpushbarmtM", {"precompressionAngle":-0.15, "optional":true}],
+	["RRpushbar4r","RRpushbar1r","RpushbarmtL","RpushbarmtM", {"precompressionAngle": 0.15, "optional":true}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR LEFT BUMPER GUARD--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RLbguard1l", "RLbguard1r"],
+	["RLbguard2l", "RLbguard2r"],
+	["RLbguard1l", "RLbguard2l"],
+	["RLbguard1r", "RLbguard2r"],
+	["RLbguard1l", "RLbguard2r"],
+	["RLbguard2l", "RLbguard1r"],
+
+	//rigidifier
+	["RLbguard1l", "RLbguardrig"],
+	["RLbguard1r", "RLbguardrig"],
+	["RLbguard2l", "RLbguardrig"],
+	["RLbguard2r", "RLbguardrig"],
+
+
+	//--REAR RIGHT BUMPER GUARD--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RRbguard1l", "RRbguard1r"],
+	["RRbguard2l", "RRbguard2r"],
+	["RRbguard1l", "RRbguard2l"],
+	["RRbguard1r", "RRbguard2r"],
+	["RRbguard1l", "RRbguard2r"],
+	["RRbguard2l", "RRbguard1r"],
+
+	//rigidifier
+	["RRbguard1l", "RRbguardrig"],
+	["RRbguard1r", "RRbguardrig"],
+	["RRbguard2l", "RRbguardrig"],
+	["RRbguard2r", "RRbguardrig"],
+
+
+	//--PUSH BAR MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*671000", "beamDamp":"$=$weight*67"},
+	
+	//uniform structure
+	["RpushbarmtL", "RpushbarmtR"],
+	["RpushbarmtR", "RpushbarmtM"],
+	["RpushbarmtM", "RpushbarmtL"],
+
+	//rail break trigger
+	{"beamSpring":0, "beamDamp":0},
+	{"breakGroup":"pushbar_R_break"},
+	["RpushbarmtL", "RpushbarmtR", {"disableMeshBreaking":true}],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left to mount
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"breakGroup":"pushbar_mount_RL_break"},
+
+	["RpushbarmtL", "RLbguard1l"],
+	["RpushbarmtL", "RLbguard1r"],
+	["RpushbarmtL", "RLbguard2l"],
+	["RpushbarmtL", "RLbguard2r"],
+	["RpushbarmtL", "RLbguardrig"],
+
+	["RpushbarmtR", "RLbguard1l"],
+	["RpushbarmtR", "RLbguard1r"],
+	["RpushbarmtR", "RLbguard2l"],
+	["RpushbarmtR", "RLbguard2r"],
+	["RpushbarmtR", "RLbguardrig"],
+
+	["RpushbarmtM", "RLbguard1l"],
+	["RpushbarmtM", "RLbguard1r"],
+	["RpushbarmtM", "RLbguard2l"],
+	["RpushbarmtM", "RLbguard2r"],
+	["RpushbarmtM", "RLbguardrig"],
+
+
+	//right to mount
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"breakGroup":"pushbar_mount_RR_break"},
+
+	["RpushbarmtL", "RRbguard1l"],
+	["RpushbarmtL", "RRbguard1r"],
+	["RpushbarmtL", "RRbguard2l"],
+	["RpushbarmtL", "RRbguard2r"],
+	["RpushbarmtL", "RRbguardrig"],
+
+	["RpushbarmtR", "RRbguard1l"],
+	["RpushbarmtR", "RRbguard1r"],
+	["RpushbarmtR", "RRbguard2l"],
+	["RpushbarmtR", "RRbguard2r"],
+	["RpushbarmtR", "RRbguardrig"],
+
+	["RpushbarmtM", "RRbguard1l"],
+	["RpushbarmtM", "RRbguard1r"],
+	["RpushbarmtM", "RRbguard2l"],
+	["RpushbarmtM", "RRbguard2r"],
+	["RpushbarmtM", "RRbguardrig"],
+
+
+	//left to bumper
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"bumperguard_RL_break"},
+	
+	["RLbguard1l", "RLbumprig"],
+	["RLbguard1l", "RLbump1r"],
+	["RLbguard1l", "RLbump2l"],
+
+	["RLbguard1r", "RLbumprig"],
+	["RLbguard1r", "RLbump1l"],
+	["RLbguard1r", "RLbump2r"],
+
+	["RLbguard2l", "RLbumprig"],
+	["RLbguard2l", "RLbump2r"],
+	["RLbguard2l", "RLbump1l"],
+
+	["RLbguard2r", "RLbumprig"],
+	["RLbguard2r", "RLbump2l"],
+	["RLbguard2r", "RLbump1r"],
+
+
+	//right to bumper
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"bumperguard_RR_break"},
+	
+	["RRbguard1l", "RRbumprig"],
+	["RRbguard1l", "RRbump1r"],
+	["RRbguard1l", "RRbump2l"],
+
+	["RRbguard1r", "RRbumprig"],
+	["RRbguard1r", "RRbump1l"],
+	["RRbguard1r", "RRbump2r"],
+
+	["RRbguard2l", "RRbumprig"],
+	["RRbguard2l", "RRbump2r"],
+	["RRbguard2l", "RRbump1l"],
+
+	["RRbguard2r", "RRbumprig"],
+	["RRbguard2r", "RRbump2l"],
+	["RRbguard2r", "RRbump1r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_buperguard_RL"},
+	["RLbguardrig","RLbguard2l","RLbguard1l"],
+	["RLbguardrig","RLbguard1l","RLbguard1r"],
+	["RLbguardrig","RLbguard1r","RLbguard2r"],
+	["RLbguardrig","RLbguard2r","RLbguard2l"],
+
+	{"group":"legocar_buperguard_RR"},
+	["RRbguardrig","RRbguard2l","RRbguard1l"],
+	["RRbguardrig","RRbguard1l","RRbguard1r"],
+	["RRbguardrig","RRbguard1r","RRbguard2r"],
+	["RRbguardrig","RRbguard2r","RRbguard2l"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_buperguard_RL"},
+	["RLbguard2l","RLbguard2r","RLbguard1r","RLbguard1l"],
+	{"group":"legocar_buperguard_RR"},
+	["RRbguard2l","RRbguard2r","RRbguard1r","RRbguard1l"],
+        {"group":""},
+    ],
+},
+
+}

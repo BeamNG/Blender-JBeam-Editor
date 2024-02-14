@@ -1,0 +1,253 @@
+{
+"legocar_enginebaystuff_cut": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Cut Engine Bay Stuff",
+    },
+    "slotType" : "legocar_enginebaystuff_cut",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_3x1_flat_black",["legocar_engbaystuff_L"], [], {"pos":{"x": 0.375, "y":-1.375, "z":0.6},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_3x1_flat_black",["legocar_engbaystuff_R"], [], {"pos":{"x":-0.375, "y":-1.375, "z":0.6},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//sides
+	//3 pieces, 5 nodes - 0.6 kg/node
+	{"nodeWeight": "$=$weight*0.6"},
+
+	{"group":"legocar_engbaystuff_L"},
+	["Lstuff1l", 0.50, -1.03, 0.65],
+	["Lstuff1r", 0.28, -1.03, 0.65],
+	["Lstuff2l", 0.50, -1.75, 0.65],
+	["Lstuff2r", 0.28, -1.75, 0.65],
+	//rigidifier
+	["Lstuffrig", 0.375, -1.375, 0.4, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":"legocar_engbaystuff_R"},
+	["Rstuff1r", -0.50, -1.03, 0.65],
+	["Rstuff1l", -0.28, -1.03, 0.65],
+	["Rstuff2r", -0.50, -1.75, 0.65],
+	["Rstuff2l", -0.28, -1.75, 0.65],
+	//rigidifier
+	["Rstuffrig", -0.375, -1.375, 0.4, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//uniform structure
+	["Lstuff1l", "Lstuff1r"],
+	["Lstuff2l", "Lstuff2r"],
+	["Lstuff1l", "Lstuff2l"],
+	["Lstuff1r", "Lstuff2r"],
+	["Lstuff1l", "Lstuff2r"],
+	["Lstuff2l", "Lstuff1r"],
+
+	//rigidifier
+	["Lstuff1l", "Lstuffrig"],
+	["Lstuff1r", "Lstuffrig"],
+	["Lstuff2l", "Lstuffrig"],
+	["Lstuff2r", "Lstuffrig"],
+
+
+	//--RIGHT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//uniform structure
+	["Rstuff1l", "Rstuff1r"],
+	["Rstuff2l", "Rstuff2r"],
+	["Rstuff1l", "Rstuff2l"],
+	["Rstuff1r", "Rstuff2r"],
+	["Rstuff1l", "Rstuff2r"],
+	["Rstuff2l", "Rstuff1r"],
+
+	//rigidifier
+	["Rstuff1l", "Rstuffrig"],
+	["Rstuff1r", "Rstuffrig"],
+	["Rstuff2l", "Rstuffrig"],
+	["Rstuff2r", "Rstuffrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.1", "beamStrength":"$=$strength*0.1"}
+
+	//left to engine bay
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"engbaystuff_L_engbay_break"},
+
+	["Lstuff1l", "engbay1l"],
+	["Lstuff1l", "engbay3ll"],
+	["Lstuff1l", "engbay4l"],
+
+	["Lstuff1r", "engbay1l"],
+	["Lstuff1r", "engbay3ll"],
+	["Lstuff1r", "engbay4l"],
+
+	["Lstuff2l", "engbay2l"],
+	["Lstuff2l", "engbay4ll"],
+	["Lstuff2l", "engbay3l"],
+
+	["Lstuff2r", "engbay2l"],
+	["Lstuff2r", "engbay4ll"],
+	["Lstuff2r", "engbay3l"],
+
+
+	//right to engine bay
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"engbaystuff_R_engbay_break"},
+
+	["Rstuff1r", "engbay1r"],
+	["Rstuff1r", "engbay3rr"],
+	["Rstuff1r", "engbay4r"],
+
+	["Rstuff1l", "engbay1r"],
+	["Rstuff1l", "engbay3rr"],
+	["Rstuff1l", "engbay4r"],
+
+	["Rstuff2r", "engbay2r"],
+	["Rstuff2r", "engbay4rr"],
+	["Rstuff2r", "engbay3r"],
+
+	["Rstuff2l", "engbay2r"],
+	["Rstuff2l", "engbay4rr"],
+	["Rstuff2l", "engbay3r"],
+	
+	
+	//left to radiator support
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"engbaystuff_L_radsupport_break"},
+
+	["Lstuff1l", "radsupp1l"],
+	["Lstuff1l", "radsupp2r"],
+	["Lstuff1l", "radsupp3r"],
+	["Lstuff1l", "radsupp4l"],
+
+	["Lstuff1r", "radsupp1l"],
+	["Lstuff1r", "radsupp2r"],
+	["Lstuff1r", "radsupp3r"],
+	["Lstuff1r", "radsupp4l"],
+
+	["Lstuff2l", "radsupp1l"],
+	["Lstuff2l", "radsupp4r"],
+	["Lstuff2l", "radsupp3l"],
+
+	["Lstuff2r", "radsupp1l"],
+	["Lstuff2r", "radsupp4r"],
+	["Lstuff2r", "radsupp3l"],
+
+
+	//right to radiator support
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"engbaystuff_R_radsupport_break"},
+
+	["Rstuff1l", "radsupp1r"],
+	["Rstuff1l", "radsupp2l"],
+	["Rstuff1l", "radsupp3l"],
+	["Rstuff1l", "radsupp4r"],
+
+	["Rstuff1r", "radsupp1r"],
+	["Rstuff1r", "radsupp2l"],
+	["Rstuff1r", "radsupp3l"],
+	["Rstuff1r", "radsupp4r"],
+
+	["Rstuff2l", "radsupp1r"],
+	["Rstuff2l", "radsupp4l"],
+	["Rstuff2l", "radsupp3r"],
+
+	["Rstuff2r", "radsupp1r"],
+	["Rstuff2r", "radsupp4l"],
+	["Rstuff2r", "radsupp3r"],
+	
+	
+	{"optional":true},
+
+	//left to fender
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"engbaystuff_L_fender_break"},
+
+	["Lstuff1l", "fendFL1l"],
+	["Lstuff1l", "fendFL2r"],
+	["Lstuff1l", "fendFL3r"],
+	["Lstuff1l", "fendFL4l"],
+
+	["Lstuff1r", "fendFL1l"],
+	["Lstuff1r", "fendFL2r"],
+	["Lstuff1r", "fendFL3r"],
+	["Lstuff1r", "fendFL4l"],
+
+	["Lstuff2l", "fendFL1l"],
+	["Lstuff2l", "fendFL4r"],
+	["Lstuff2l", "fendFL3l"],
+
+	["Lstuff2r", "fendFL1l"],
+	["Lstuff2r", "fendFL4r"],
+	["Lstuff2r", "fendFL3l"],
+
+
+	//right to fender
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"engbaystuff_R_fender_break"},
+
+	["Rstuff1l", "fendFR1r"],
+	["Rstuff1l", "fendFR2l"],
+	["Rstuff1l", "fendFR3l"],
+	["Rstuff1l", "fendFR4r"],
+
+	["Rstuff1r", "fendFR1r"],
+	["Rstuff1r", "fendFR2l"],
+	["Rstuff1r", "fendFR3l"],
+	["Rstuff1r", "fendFR4r"],
+
+	["Rstuff2l", "fendFR1r"],
+	["Rstuff2l", "fendFR4l"],
+	["Rstuff2l", "fendFR3r"],
+
+	["Rstuff2r", "fendFR1r"],
+	["Rstuff2r", "fendFR4l"],
+	["Rstuff2r", "fendFR3r"],
+
+
+	{"optional":false},
+	{"breakGroup":""},
+
+
+	//--ENGINE BAY STUFF DAMAGE TRIGGERS--
+	//activate engine damage when each part of the stuff (represent pipes, pans, boxes, filters, etc) gets far away from engine
+	//damage is limited by breaking the beams when it's too far away to prevent from damaging it too much
+	//unkike with intake, because that is a way more important part for the engine, so losing it should damage it a lot
+
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+	{"deformGroup":"mainEngine_accessories","deformationTriggerRatio":0.1},
+	{"optional":true},
+
+	["Lstuffrig", "eng3l", {"deformLimit":"","deformLimitExpansion":""}],
+	["Rstuffrig", "eng3r", {"deformLimit":"","deformLimitExpansion":""}],
+
+	{"deformGroup":""},
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_engbaystuff_L"},
+	["Lstuff1l","Lstuff1r","Lstuff2r","Lstuff2l"],
+	{"group":"legocar_engbaystuff_R"},
+	["Rstuff1l","Rstuff1r","Rstuff2r","Rstuff2l"],
+        {"group":""},
+    ],
+},
+
+}

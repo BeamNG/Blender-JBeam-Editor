@@ -1,0 +1,126 @@
+{
+"legocar_gaugecluster": {
+    "information":{
+        "name":"Gauge Cluster",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_gaugecluster",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_tacho", "legocar_tacho", "Lower Gauge"],
+	["legocar_speedo", "legocar_speedo_imperial", "Speedometer"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	//full size mesh to prevent visual clipping
+	["lego_1x1_tall_corner_inset_dgrey",["legocar_gaugecluster"],[], {"pos":{"x":0.375, "y":-0.625, "z":0.4},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_gaugecluster"},
+	//3 pieces, 8 nodes - 0.375 kg/node
+	{"nodeWeight": "$=$weight*0.375"},
+
+	["gauge1l", 0.47, -0.53, 0.4],
+	["gauge1r", 0.28, -0.53, 0.4],
+	["gauge2l", 0.47, -0.72, 0.4],
+	["gauge2r", 0.28, -0.72, 0.4],
+
+	["gauge3l", 0.47, -0.53, 0.7],
+	["gauge3r", 0.28, -0.53, 0.7,	{"selfCollision":false}],
+	["gauge4l", 0.47, -0.72, 0.7],
+	["gauge4r", 0.28, -0.72, 0.7],	
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--GAUGE CLUSTER--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+
+	//uniform structure
+	["gauge1l", "gauge1r"],
+	["gauge2l", "gauge2r"],
+	["gauge3l", "gauge3r"],
+	["gauge4l", "gauge4r"],
+
+	["gauge1l", "gauge2r"],
+	["gauge2l", "gauge3r"],
+	["gauge3l", "gauge4r"],
+	["gauge4l", "gauge1r"],
+
+	["gauge1l", "gauge3r"],
+	["gauge2l", "gauge4r"],
+	["gauge3l", "gauge1r"],
+	["gauge4l", "gauge2r"],
+
+	["gauge1l", "gauge4r"],
+	["gauge2l", "gauge1r"],
+	["gauge3l", "gauge2r"],
+	["gauge4l", "gauge3r"],
+
+	["gauge1l", "gauge2l"],
+	["gauge2l", "gauge3l"],
+	["gauge3l", "gauge4l"],
+	["gauge4l", "gauge1l"],
+
+	["gauge1l", "gauge3l"],
+	["gauge2l", "gauge4l"],
+
+	["gauge1r", "gauge2r"],
+	["gauge2r", "gauge3r"],
+	["gauge3r", "gauge4r"],
+	["gauge4r", "gauge1r"],
+
+	["gauge1r", "gauge3r"],
+	["gauge2r", "gauge4r"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*351000", "beamDamp":"$=$weight*35"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"gaugecluster_break"},
+	
+	["gauge3l", "dash1l"],
+	["gauge3l", "dash2l"],
+	["gauge3l", "dash1r"],
+	["gauge3l", "dashrig"],
+
+	["gauge4l", "dash1l"],
+	["gauge4l", "dash2l"],
+	["gauge4l", "dash2r"],
+	["gauge4l", "dashrig"],
+
+	["gauge3r", "dash1l"],
+	["gauge3r", "dash2l"],
+	["gauge3r", "dash1r"],
+	["gauge3r", "dashrig"],
+
+	["gauge4r", "dash1l"],
+	["gauge4r", "dash2l"],
+	["gauge4r", "dash2r"],
+	["gauge4r", "dashrig"],
+
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_gaugecluster"},   
+
+	["gauge1r","gauge1l","gauge2l","gauge2r"],
+	["gauge3l","gauge3r","gauge4r","gauge4l"],
+	["gauge1r","gauge2r","gauge4r","gauge3r"],
+	["gauge2l","gauge1l","gauge3l","gauge4l"],
+	["gauge2r","gauge2l","gauge4l","gauge4r"],
+	["gauge1l","gauge1r","gauge3r","gauge3l"],
+
+        {"group":""},
+    ],
+},
+
+}

@@ -1,0 +1,584 @@
+{
+"legocar_bumper_R_end_facelift_col1_licenseplate_EU": {
+    "information":{
+        "name":"Facelft Rear EU License Plate (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_R_end",
+    "licenseplateFormat": "52-11",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_notip_col1", ["legocar_bumper_R_end"], [], {"pos":{"x": 0.000, "y":1.950, "z":0.225},"rot":{"x":-90, "y":0, "z": 90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+	["licenseplate-52-11",             ["legocar_bumper_R_end"], [], {"pos":{"x": 0.000, "y":2.050, "z":0.225},"rot":{"x": 0 , "y":0, "z":180},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumper_R_end"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Rbumpend1l",  0.75, 2.00, 0.10],
+	["Rbumpend1r", -0.75, 2.00, 0.10],
+	["Rbumpend2l",  0.75, 2.00, 0.35],
+	["Rbumpend2r", -0.75, 2.00, 0.35],
+	//rigidifier
+	["Rbumpendrig", 0, 1.55, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Rbumpend1l", "Rbumpend1r"],
+	["Rbumpend2l", "Rbumpend2r"],
+	["Rbumpend1l", "Rbumpend2l"],
+	["Rbumpend1r", "Rbumpend2r"],
+	["Rbumpend1l", "Rbumpend2r"],
+	["Rbumpend2l", "Rbumpend1r"],
+
+	//rigidifier
+	["Rbumpend1l", "Rbumpendrig"],
+	["Rbumpend1r", "Rbumpendrig"],
+	["Rbumpend2l", "Rbumpendrig"],
+	["Rbumpend2r", "Rbumpendrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*651000", "beamDamp":"$=$weight*65"},
+	{"breakGroup":"bumper_R_end_break"},
+
+	["Rbump1l", "Rbumpend1l"],
+	["Rbump1l", "Rbumpend2l"],
+	["Rbump1l", "Rbumpend1r"],
+	["Rbump1l", "Rbumpendrig"],
+
+	["Rbump1r", "Rbumpend1r"],
+	["Rbump1r", "Rbumpend2r"],
+	["Rbump1r", "Rbumpend1l"],
+	["Rbump1r", "Rbumpendrig"],
+
+	["Rbump2l", "Rbumpend2l"],
+	["Rbump2l", "Rbumpend1l"],
+	["Rbump2l", "Rbumpend2r"],
+	["Rbump2l", "Rbumpendrig"],
+
+	["Rbump2r", "Rbumpend2r"],
+	["Rbump2r", "Rbumpend1r"],
+	["Rbump2r", "Rbumpend2l"],
+	["Rbump2r", "Rbumpendrig"],
+
+	{"optional":true},
+	["Rbumprig", "Rbumpend1l"],
+	["Rbumprig", "Rbumpend2l"],
+	["Rbumprig", "Rbumpend1r"],
+	["Rbumprig", "Rbumpend2r"],
+	["Rbumprig", "Rbumpendrig"],
+	{"optional":false},
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumper_R_end"},
+	["Rbumpend2r","Rbumpend2l","Rbumpend1l","Rbumpend1r"],
+        {"group":""},
+    ],
+},
+
+"legocar_bumper_R_end_facelift_col2_licenseplate_EU": {
+    "information":{
+        "name":"Facelft Rear EU License Plate (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_R_end",
+    "licenseplateFormat": "52-11",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_notip_col2", ["legocar_bumper_R_end"], [], {"pos":{"x": 0.000, "y":1.950, "z":0.225},"rot":{"x":-90, "y":0, "z": 90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+	["licenseplate-52-11",             ["legocar_bumper_R_end"], [], {"pos":{"x": 0.000, "y":2.050, "z":0.225},"rot":{"x": 0 , "y":0, "z":180},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumper_R_end"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Rbumpend1l",  0.75, 2.00, 0.10],
+	["Rbumpend1r", -0.75, 2.00, 0.10],
+	["Rbumpend2l",  0.75, 2.00, 0.35],
+	["Rbumpend2r", -0.75, 2.00, 0.35],
+	//rigidifier
+	["Rbumpendrig", 0, 1.55, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Rbumpend1l", "Rbumpend1r"],
+	["Rbumpend2l", "Rbumpend2r"],
+	["Rbumpend1l", "Rbumpend2l"],
+	["Rbumpend1r", "Rbumpend2r"],
+	["Rbumpend1l", "Rbumpend2r"],
+	["Rbumpend2l", "Rbumpend1r"],
+
+	//rigidifier
+	["Rbumpend1l", "Rbumpendrig"],
+	["Rbumpend1r", "Rbumpendrig"],
+	["Rbumpend2l", "Rbumpendrig"],
+	["Rbumpend2r", "Rbumpendrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*651000", "beamDamp":"$=$weight*65"},
+	{"breakGroup":"bumper_R_end_break"},
+
+	["Rbump1l", "Rbumpend1l"],
+	["Rbump1l", "Rbumpend2l"],
+	["Rbump1l", "Rbumpend1r"],
+	["Rbump1l", "Rbumpendrig"],
+
+	["Rbump1r", "Rbumpend1r"],
+	["Rbump1r", "Rbumpend2r"],
+	["Rbump1r", "Rbumpend1l"],
+	["Rbump1r", "Rbumpendrig"],
+
+	["Rbump2l", "Rbumpend2l"],
+	["Rbump2l", "Rbumpend1l"],
+	["Rbump2l", "Rbumpend2r"],
+	["Rbump2l", "Rbumpendrig"],
+
+	["Rbump2r", "Rbumpend2r"],
+	["Rbump2r", "Rbumpend1r"],
+	["Rbump2r", "Rbumpend2l"],
+	["Rbump2r", "Rbumpendrig"],
+
+	{"optional":true},
+	["Rbumprig", "Rbumpend1l"],
+	["Rbumprig", "Rbumpend2l"],
+	["Rbumprig", "Rbumpend1r"],
+	["Rbumprig", "Rbumpend2r"],
+	["Rbumprig", "Rbumpendrig"],
+	{"optional":false},
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumper_R_end"},
+	["Rbumpend2r","Rbumpend2l","Rbumpend1l","Rbumpend1r"],
+        {"group":""},
+    ],
+},
+
+"legocar_bumper_R_end_facelift_col3_licenseplate_EU": {
+    "information":{
+        "name":"Facelft Rear EU License Plate (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_R_end",
+    "licenseplateFormat": "52-11",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_notip_col3", ["legocar_bumper_R_end"], [], {"pos":{"x": 0.000, "y":1.950, "z":0.225},"rot":{"x":-90, "y":0, "z": 90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+	["licenseplate-52-11",             ["legocar_bumper_R_end"], [], {"pos":{"x": 0.000, "y":2.050, "z":0.225},"rot":{"x": 0 , "y":0, "z":180},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumper_R_end"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Rbumpend1l",  0.75, 2.00, 0.10],
+	["Rbumpend1r", -0.75, 2.00, 0.10],
+	["Rbumpend2l",  0.75, 2.00, 0.35],
+	["Rbumpend2r", -0.75, 2.00, 0.35],
+	//rigidifier
+	["Rbumpendrig", 0, 1.55, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Rbumpend1l", "Rbumpend1r"],
+	["Rbumpend2l", "Rbumpend2r"],
+	["Rbumpend1l", "Rbumpend2l"],
+	["Rbumpend1r", "Rbumpend2r"],
+	["Rbumpend1l", "Rbumpend2r"],
+	["Rbumpend2l", "Rbumpend1r"],
+
+	//rigidifier
+	["Rbumpend1l", "Rbumpendrig"],
+	["Rbumpend1r", "Rbumpendrig"],
+	["Rbumpend2l", "Rbumpendrig"],
+	["Rbumpend2r", "Rbumpendrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*651000", "beamDamp":"$=$weight*65"},
+	{"breakGroup":"bumper_R_end_break"},
+
+	["Rbump1l", "Rbumpend1l"],
+	["Rbump1l", "Rbumpend2l"],
+	["Rbump1l", "Rbumpend1r"],
+	["Rbump1l", "Rbumpendrig"],
+
+	["Rbump1r", "Rbumpend1r"],
+	["Rbump1r", "Rbumpend2r"],
+	["Rbump1r", "Rbumpend1l"],
+	["Rbump1r", "Rbumpendrig"],
+
+	["Rbump2l", "Rbumpend2l"],
+	["Rbump2l", "Rbumpend1l"],
+	["Rbump2l", "Rbumpend2r"],
+	["Rbump2l", "Rbumpendrig"],
+
+	["Rbump2r", "Rbumpend2r"],
+	["Rbump2r", "Rbumpend1r"],
+	["Rbump2r", "Rbumpend2l"],
+	["Rbump2r", "Rbumpendrig"],
+
+	{"optional":true},
+	["Rbumprig", "Rbumpend1l"],
+	["Rbumprig", "Rbumpend2l"],
+	["Rbumprig", "Rbumpend1r"],
+	["Rbumprig", "Rbumpend2r"],
+	["Rbumprig", "Rbumpendrig"],
+	{"optional":false},
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumper_R_end"},
+	["Rbumpend2r","Rbumpend2l","Rbumpend1l","Rbumpend1r"],
+        {"group":""},
+    ],
+},
+
+"legocar_bumper_R_end_facelift_grey_licenseplate_EU": {
+    "information":{
+        "name":"Facelft Rear EU License Plate (Light Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_R_end",
+    "licenseplateFormat": "52-11",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_notip_grey", ["legocar_bumper_R_end"], [], {"pos":{"x": 0.000, "y":1.950, "z":0.225},"rot":{"x":-90, "y":0, "z": 90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+	["licenseplate-52-11",             ["legocar_bumper_R_end"], [], {"pos":{"x": 0.000, "y":2.050, "z":0.225},"rot":{"x": 0 , "y":0, "z":180},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumper_R_end"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Rbumpend1l",  0.75, 2.00, 0.10],
+	["Rbumpend1r", -0.75, 2.00, 0.10],
+	["Rbumpend2l",  0.75, 2.00, 0.35],
+	["Rbumpend2r", -0.75, 2.00, 0.35],
+	//rigidifier
+	["Rbumpendrig", 0, 1.55, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Rbumpend1l", "Rbumpend1r"],
+	["Rbumpend2l", "Rbumpend2r"],
+	["Rbumpend1l", "Rbumpend2l"],
+	["Rbumpend1r", "Rbumpend2r"],
+	["Rbumpend1l", "Rbumpend2r"],
+	["Rbumpend2l", "Rbumpend1r"],
+
+	//rigidifier
+	["Rbumpend1l", "Rbumpendrig"],
+	["Rbumpend1r", "Rbumpendrig"],
+	["Rbumpend2l", "Rbumpendrig"],
+	["Rbumpend2r", "Rbumpendrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*651000", "beamDamp":"$=$weight*65"},
+	{"breakGroup":"bumper_R_end_break"},
+
+	["Rbump1l", "Rbumpend1l"],
+	["Rbump1l", "Rbumpend2l"],
+	["Rbump1l", "Rbumpend1r"],
+	["Rbump1l", "Rbumpendrig"],
+
+	["Rbump1r", "Rbumpend1r"],
+	["Rbump1r", "Rbumpend2r"],
+	["Rbump1r", "Rbumpend1l"],
+	["Rbump1r", "Rbumpendrig"],
+
+	["Rbump2l", "Rbumpend2l"],
+	["Rbump2l", "Rbumpend1l"],
+	["Rbump2l", "Rbumpend2r"],
+	["Rbump2l", "Rbumpendrig"],
+
+	["Rbump2r", "Rbumpend2r"],
+	["Rbump2r", "Rbumpend1r"],
+	["Rbump2r", "Rbumpend2l"],
+	["Rbump2r", "Rbumpendrig"],
+
+	{"optional":true},
+	["Rbumprig", "Rbumpend1l"],
+	["Rbumprig", "Rbumpend2l"],
+	["Rbumprig", "Rbumpend1r"],
+	["Rbumprig", "Rbumpend2r"],
+	["Rbumprig", "Rbumpendrig"],
+	{"optional":false},
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumper_R_end"},
+	["Rbumpend2r","Rbumpend2l","Rbumpend1l","Rbumpend1r"],
+        {"group":""},
+    ],
+},
+
+"legocar_bumper_R_end_facelift_dgrey_licenseplate_EU": {
+    "information":{
+        "name":"Facelft Rear EU License Plate (Dark Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_R_end",
+    "licenseplateFormat": "52-11",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_notip_dgrey", ["legocar_bumper_R_end"], [], {"pos":{"x": 0.000, "y":1.950, "z":0.225},"rot":{"x":-90, "y":0, "z": 90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+	["licenseplate-52-11",              ["legocar_bumper_R_end"], [], {"pos":{"x": 0.000, "y":2.050, "z":0.225},"rot":{"x": 0 , "y":0, "z":180},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumper_R_end"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Rbumpend1l",  0.75, 2.00, 0.10],
+	["Rbumpend1r", -0.75, 2.00, 0.10],
+	["Rbumpend2l",  0.75, 2.00, 0.35],
+	["Rbumpend2r", -0.75, 2.00, 0.35],
+	//rigidifier
+	["Rbumpendrig", 0, 1.55, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Rbumpend1l", "Rbumpend1r"],
+	["Rbumpend2l", "Rbumpend2r"],
+	["Rbumpend1l", "Rbumpend2l"],
+	["Rbumpend1r", "Rbumpend2r"],
+	["Rbumpend1l", "Rbumpend2r"],
+	["Rbumpend2l", "Rbumpend1r"],
+
+	//rigidifier
+	["Rbumpend1l", "Rbumpendrig"],
+	["Rbumpend1r", "Rbumpendrig"],
+	["Rbumpend2l", "Rbumpendrig"],
+	["Rbumpend2r", "Rbumpendrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*651000", "beamDamp":"$=$weight*65"},
+	{"breakGroup":"bumper_R_end_break"},
+
+	["Rbump1l", "Rbumpend1l"],
+	["Rbump1l", "Rbumpend2l"],
+	["Rbump1l", "Rbumpend1r"],
+	["Rbump1l", "Rbumpendrig"],
+
+	["Rbump1r", "Rbumpend1r"],
+	["Rbump1r", "Rbumpend2r"],
+	["Rbump1r", "Rbumpend1l"],
+	["Rbump1r", "Rbumpendrig"],
+
+	["Rbump2l", "Rbumpend2l"],
+	["Rbump2l", "Rbumpend1l"],
+	["Rbump2l", "Rbumpend2r"],
+	["Rbump2l", "Rbumpendrig"],
+
+	["Rbump2r", "Rbumpend2r"],
+	["Rbump2r", "Rbumpend1r"],
+	["Rbump2r", "Rbumpend2l"],
+	["Rbump2r", "Rbumpendrig"],
+
+	{"optional":true},
+	["Rbumprig", "Rbumpend1l"],
+	["Rbumprig", "Rbumpend2l"],
+	["Rbumprig", "Rbumpend1r"],
+	["Rbumprig", "Rbumpend2r"],
+	["Rbumprig", "Rbumpendrig"],
+	{"optional":false},
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumper_R_end"},
+	["Rbumpend2r","Rbumpend2l","Rbumpend1l","Rbumpend1r"],
+        {"group":""},
+    ],
+},
+
+"legocar_bumper_R_end_facelift_twotone_licenseplate_EU": {
+    "information":{
+        "name":"Facelft Rear EU License Plate (Two-Tone)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_R_end",
+    "licenseplateFormat": "52-11",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_notip_licenseplate", ["legocar_bumper_R_end"], [], {"pos":{"x": 0.000, "y":1.950, "z":0.225},"rot":{"x":-90, "y":0, "z": 90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+	["licenseplate-52-11",             	     ["legocar_bumper_R_end"], [], {"pos":{"x": 0.000, "y":2.050, "z":0.225},"rot":{"x": 0 , "y":0, "z":180},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumper_R_end"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Rbumpend1l",  0.75, 2.00, 0.10],
+	["Rbumpend1r", -0.75, 2.00, 0.10],
+	["Rbumpend2l",  0.75, 2.00, 0.35],
+	["Rbumpend2r", -0.75, 2.00, 0.35],
+	//rigidifier
+	["Rbumpendrig", 0, 1.55, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Rbumpend1l", "Rbumpend1r"],
+	["Rbumpend2l", "Rbumpend2r"],
+	["Rbumpend1l", "Rbumpend2l"],
+	["Rbumpend1r", "Rbumpend2r"],
+	["Rbumpend1l", "Rbumpend2r"],
+	["Rbumpend2l", "Rbumpend1r"],
+
+	//rigidifier
+	["Rbumpend1l", "Rbumpendrig"],
+	["Rbumpend1r", "Rbumpendrig"],
+	["Rbumpend2l", "Rbumpendrig"],
+	["Rbumpend2r", "Rbumpendrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*651000", "beamDamp":"$=$weight*65"},
+	{"breakGroup":"bumper_R_end_break"},
+
+	["Rbump1l", "Rbumpend1l"],
+	["Rbump1l", "Rbumpend2l"],
+	["Rbump1l", "Rbumpend1r"],
+	["Rbump1l", "Rbumpendrig"],
+
+	["Rbump1r", "Rbumpend1r"],
+	["Rbump1r", "Rbumpend2r"],
+	["Rbump1r", "Rbumpend1l"],
+	["Rbump1r", "Rbumpendrig"],
+
+	["Rbump2l", "Rbumpend2l"],
+	["Rbump2l", "Rbumpend1l"],
+	["Rbump2l", "Rbumpend2r"],
+	["Rbump2l", "Rbumpendrig"],
+
+	["Rbump2r", "Rbumpend2r"],
+	["Rbump2r", "Rbumpend1r"],
+	["Rbump2r", "Rbumpend2l"],
+	["Rbump2r", "Rbumpendrig"],
+
+	{"optional":true},
+	["Rbumprig", "Rbumpend1l"],
+	["Rbumprig", "Rbumpend2l"],
+	["Rbumprig", "Rbumpend1r"],
+	["Rbumprig", "Rbumpend2r"],
+	["Rbumprig", "Rbumpendrig"],
+	{"optional":false},
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumper_R_end"},
+	["Rbumpend2r","Rbumpend2l","Rbumpend1l","Rbumpend1r"],
+        {"group":""},
+    ],
+},
+
+}

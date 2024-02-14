@@ -1,0 +1,136 @@
+{
+"legocar_beaconlight_FL_antenna": {
+    "information":{
+        "name":"Antenna",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_beaconlight_FL_bulb",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_shifterbase_grey",["legocar_antenna_FL_base"],[], {"pos":{"x":0.000, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_shifter_M",       ["legocar_antenna_FL"],     [], {"pos":{"x":0.000, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ANTENNA--
+	//1 piece, 4 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	//base
+	{"group":"legocar_antenna_FL_base"},
+	["FLant1", 0, 0.500, 1.825],
+	["FLant2", 0, 0.250, 1.825],
+
+	//rotation axis
+	{"group":["legocar_antenna_FL_base", "legocar_antenna_FL"]},
+	["FLant3",-0.125, 0.375, 1.825],
+	["FLant4", 0.125, 0.375, 1.825],
+
+	//antenna
+	{"group":"legocar_antenna_FL"},
+	{"nodeWeight": "$=$weight*0.4"},
+	["FLant5", 0, 0.375, 2.245],	
+
+	//rigidifier
+	["FLantrig", 0, 0.375, 1.7, {"selfCollision":false, "group":""}],	
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$weight*10", "damp":"$=$weight*0.1", "deform":"$=$strength*0.1", "strength":"FLT_MAX"},
+        ["FLant5","FLant3","FLant4","FLantrig"],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//base uniform structure
+	["FLant1", "FLant2"],
+	["FLant1", "FLant3"],
+	["FLant1", "FLant4"],
+	["FLant2", "FLant3"],
+	["FLant2", "FLant4"],
+	["FLant3", "FLant4"],
+
+	//rigidifier
+	["FLant1", "FLantrig"],
+	["FLant2", "FLantrig"],
+	["FLant3", "FLantrig"],
+	["FLant4", "FLantrig"],
+	
+	//antenna
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	["FLant5", "FLant3"],
+	["FLant5", "FLant4"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.75", "beamStrength":"$=$strength*0.75"},
+	{"breakGroup":"antenna_FL_break"},
+
+	["FLant1", "roof1l"],
+	["FLant1", "roof1ll"],
+	["FLant1", "roof2l"],
+	["FLant1", "roof2ll"],
+	["FLant1", "roofrig"],
+
+	["FLant2", "roof1l"],
+	["FLant2", "roof1ll"],
+	["FLant2", "roof2l"],
+	["FLant2", "roof2ll"],
+	["FLant2", "roofrig"],
+	
+	["FLant3", "roof1l"],
+	["FLant3", "roof1ll"],
+	["FLant3", "roof2l"],
+	["FLant3", "roof2ll"],
+	["FLant3", "roofrig"],
+
+	["FLant4", "roof1l"],
+	["FLant4", "roof1ll"],
+	["FLant4", "roof2l"],
+	["FLant4", "roof2ll"],
+	["FLant4", "roofrig"],
+
+	["FLantrig", "roof1l"],
+	["FLantrig", "roof1ll"],
+	["FLantrig", "roof2l"],
+	["FLantrig", "roof2ll"],
+
+	{"breakGroup":""},
+
+
+	//--LIMITERS--
+	{"beamPrecompression":1,"beamType":"|SUPPORT", "beamLongBound":100},
+	{"beamSpring":"$=$weight*21000", "beamDamp":"$=$weight*200"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//antenna limiter
+	["FLant5", "FLantrig", {"beamPrecompression":0.8}],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_antenna_FL"},
+	["FLant5","FLant1","FLant3"],
+	["FLant5","FLant3","FLant2"],
+	["FLant5","FLant2","FLant4"],
+	["FLant5","FLant4","FLant1"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_antenna_FL"},   
+	["FLant1","FLant3","FLant2","FLant4"],	
+        {"group":""},
+    ],
+},
+
+}

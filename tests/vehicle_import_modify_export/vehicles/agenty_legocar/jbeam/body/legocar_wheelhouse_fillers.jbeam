@@ -1,0 +1,286 @@
+{
+"legocar_wheelhouse_filler_RL": {
+    "information":{
+        "name":"Rear Left Wheelhouse Filler",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_wheelhouse_filler_RL",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_col1",  ["legocar_wheelhouse_filler_RL"], [], {"pos":{"x":0.375, "y":0.625, "z":0.4},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_col1",  ["legocar_wheelhouse_filler_RL"], [], {"pos":{"x":0.375, "y":0.625, "z":0.5},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//2 pieces, 8 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+	{"group":"legocar_wheelhouse_filler_RL"},
+
+	["RLwhfill1l",  0.50,  0.50, 0.4],
+	["RLwhfill1r",  0.25,  0.50, 0.4],
+	["RLwhfill2l",  0.50,  0.75, 0.4],
+	["RLwhfill2r",  0.25,  0.75, 0.4],
+	["RLwhfill3l",  0.50,  0.50, 0.6],
+	["RLwhfill3r",  0.25,  0.50, 0.6],
+	["RLwhfill4l",  0.50,  0.75, 0.6],
+	["RLwhfill4r",  0.25,  0.75, 0.6],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--RL WHEELHOUSE FILLER--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RLwhfill1l", "RLwhfill1r"],
+	["RLwhfill2l", "RLwhfill2r"],
+	["RLwhfill3l", "RLwhfill3r"],
+	["RLwhfill4l", "RLwhfill4r"],
+
+	["RLwhfill1l", "RLwhfill2r"],
+	["RLwhfill2l", "RLwhfill3r"],
+	["RLwhfill3l", "RLwhfill4r"],
+	["RLwhfill4l", "RLwhfill1r"],
+
+	["RLwhfill1l", "RLwhfill3r"],
+	["RLwhfill2l", "RLwhfill4r"],
+	["RLwhfill3l", "RLwhfill1r"],
+	["RLwhfill4l", "RLwhfill2r"],
+
+	["RLwhfill1l", "RLwhfill4r"],
+	["RLwhfill2l", "RLwhfill1r"],
+	["RLwhfill3l", "RLwhfill2r"],
+	["RLwhfill4l", "RLwhfill3r"],
+
+	["RLwhfill1l", "RLwhfill2l"],
+	["RLwhfill2l", "RLwhfill3l"],
+	["RLwhfill3l", "RLwhfill4l"],
+	["RLwhfill4l", "RLwhfill1l"],
+
+	["RLwhfill1l", "RLwhfill3l"],
+	["RLwhfill2l", "RLwhfill4l"],
+
+	["RLwhfill1r", "RLwhfill2r"],
+	["RLwhfill2r", "RLwhfill3r"],
+	["RLwhfill3r", "RLwhfill4r"],
+	["RLwhfill4r", "RLwhfill1r"],
+
+	["RLwhfill1r", "RLwhfill3r"],
+	["RLwhfill2r", "RLwhfill4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+
+	//to b-pillar mount
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"wheelhouse_bpillar_L_break"},
+
+	["RLwhfill3l", "Lbpmount1l"],
+	["RLwhfill3l", "Lbpmount1r"],
+	["RLwhfill3l", "Lbpmount2l"],
+
+	["RLwhfill3r", "Lbpmount1l"],
+	["RLwhfill3r", "Lbpmount1r"],
+	["RLwhfill3r", "Lbpmount2r"],
+
+	["RLwhfill4l", "Lbpmount1l"],
+	["RLwhfill4l", "Lbpmount2r"],
+	["RLwhfill4l", "Lbpmount2l"],
+
+	["RLwhfill4r", "Lbpmount2l"],
+	["RLwhfill4r", "Lbpmount1r"],
+	["RLwhfill4r", "Lbpmount2r"],
+	
+
+	//to quarter panel
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"wheelhouse_quarterpanel_L_break"},
+	{"optional":true},
+
+	["RLwhfill1l", "Lqpan1l"],
+	["RLwhfill1l", "Lqpan1r"],
+	["RLwhfill1l", "Lqpan2l"],
+
+	["RLwhfill1r", "Lqpan1l"],
+	["RLwhfill1r", "Lqpan1r"],
+	["RLwhfill1r", "Lqpan2r"],
+
+	["RLwhfill2l", "Lqpan1l"],
+	["RLwhfill2l", "Lqpan2r"],
+	["RLwhfill2l", "Lqpan2l"],
+
+	["RLwhfill2r", "Lqpan2l"],
+	["RLwhfill2r", "Lqpan1r"],
+	["RLwhfill2r", "Lqpan2r"],
+	
+
+	{"optional":false},
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_wheelhouse_filler_RL"},   
+	["RLwhfill2r","RLwhfill2l","RLwhfill1l","RLwhfill1r"],
+	["RLwhfill4l","RLwhfill4r","RLwhfill3r","RLwhfill3l"],
+	["RLwhfill3r","RLwhfill4r","RLwhfill2r","RLwhfill1r"],
+	["RLwhfill4l","RLwhfill3l","RLwhfill1l","RLwhfill2l"],
+	["RLwhfill4r","RLwhfill4l","RLwhfill2l","RLwhfill2r"],
+	["RLwhfill3l","RLwhfill3r","RLwhfill1r","RLwhfill1l"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_wheelhouse_filler_RR": {
+    "information":{
+        "name":"Rear Right Wheelhouse Filler",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_wheelhouse_filler_RR",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_col1",  ["legocar_wheelhouse_filler_RR"], [], {"pos":{"x":-0.375, "y":0.625, "z":0.4},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_col1",  ["legocar_wheelhouse_filler_RR"], [], {"pos":{"x":-0.375, "y":0.625, "z":0.5},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//2 pieces, 8 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+	{"group":"legocar_wheelhouse_filler_RR"},
+
+	["RRwhfill1r", -0.50,  0.50, 0.4],
+	["RRwhfill1l", -0.25,  0.50, 0.4],
+	["RRwhfill2r", -0.50,  0.75, 0.4],
+	["RRwhfill2l", -0.25,  0.75, 0.4],
+	["RRwhfill3r", -0.50,  0.50, 0.6],
+	["RRwhfill3l", -0.25,  0.50, 0.6],
+	["RRwhfill4r", -0.50,  0.75, 0.6],
+	["RRwhfill4l", -0.25,  0.75, 0.6],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--RR WHEELHOUSE FILLER--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RRwhfill1l", "RRwhfill1r"],
+	["RRwhfill2l", "RRwhfill2r"],
+	["RRwhfill3l", "RRwhfill3r"],
+	["RRwhfill4l", "RRwhfill4r"],
+
+	["RRwhfill1l", "RRwhfill2r"],
+	["RRwhfill2l", "RRwhfill3r"],
+	["RRwhfill3l", "RRwhfill4r"],
+	["RRwhfill4l", "RRwhfill1r"],
+
+	["RRwhfill1l", "RRwhfill3r"],
+	["RRwhfill2l", "RRwhfill4r"],
+	["RRwhfill3l", "RRwhfill1r"],
+	["RRwhfill4l", "RRwhfill2r"],
+
+	["RRwhfill1l", "RRwhfill4r"],
+	["RRwhfill2l", "RRwhfill1r"],
+	["RRwhfill3l", "RRwhfill2r"],
+	["RRwhfill4l", "RRwhfill3r"],
+
+	["RRwhfill1l", "RRwhfill2l"],
+	["RRwhfill2l", "RRwhfill3l"],
+	["RRwhfill3l", "RRwhfill4l"],
+	["RRwhfill4l", "RRwhfill1l"],
+
+	["RRwhfill1l", "RRwhfill3l"],
+	["RRwhfill2l", "RRwhfill4l"],
+
+	["RRwhfill1r", "RRwhfill2r"],
+	["RRwhfill2r", "RRwhfill3r"],
+	["RRwhfill3r", "RRwhfill4r"],
+	["RRwhfill4r", "RRwhfill1r"],
+
+	["RRwhfill1r", "RRwhfill3r"],
+	["RRwhfill2r", "RRwhfill4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+
+	//to b-pillar mount
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"wheelhouse_bpillar_R_break"},
+
+	["RRwhfill3l", "Rbpmount1l"],
+	["RRwhfill3l", "Rbpmount1r"],
+	["RRwhfill3l", "Rbpmount2l"],
+
+	["RRwhfill3r", "Rbpmount1l"],
+	["RRwhfill3r", "Rbpmount1r"],
+	["RRwhfill3r", "Rbpmount2r"],
+
+	["RRwhfill4l", "Rbpmount1l"],
+	["RRwhfill4l", "Rbpmount2r"],
+	["RRwhfill4l", "Rbpmount2l"],
+
+	["RRwhfill4r", "Rbpmount2l"],
+	["RRwhfill4r", "Rbpmount1r"],
+	["RRwhfill4r", "Rbpmount2r"],
+	
+
+	//to quarter panel
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"wheelhouse_quarterpanel_R_break"},
+	{"optional":true},
+
+	["RRwhfill1l", "Rqpan1l"],
+	["RRwhfill1l", "Rqpan1r"],
+	["RRwhfill1l", "Rqpan2l"],
+
+	["RRwhfill1r", "Rqpan1l"],
+	["RRwhfill1r", "Rqpan1r"],
+	["RRwhfill1r", "Rqpan2r"],
+
+	["RRwhfill2l", "Rqpan1l"],
+	["RRwhfill2l", "Rqpan2r"],
+	["RRwhfill2l", "Rqpan2l"],
+
+	["RRwhfill2r", "Rqpan2l"],
+	["RRwhfill2r", "Rqpan1r"],
+	["RRwhfill2r", "Rqpan2r"],
+	
+
+	{"optional":false},
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_wheelhouse_filler_RL"},   
+	["RRwhfill2r","RRwhfill2l","RRwhfill1l","RRwhfill1r"],
+	["RRwhfill4l","RRwhfill4r","RRwhfill3r","RRwhfill3l"],
+	["RRwhfill3r","RRwhfill4r","RRwhfill2r","RRwhfill1r"],
+	["RRwhfill4l","RRwhfill3l","RRwhfill1l","RRwhfill2l"],
+	["RRwhfill4r","RRwhfill4l","RRwhfill2l","RRwhfill2r"],
+	["RRwhfill3l","RRwhfill3r","RRwhfill1r","RRwhfill1l"],
+
+        {"group":""},
+    ],
+},
+
+}

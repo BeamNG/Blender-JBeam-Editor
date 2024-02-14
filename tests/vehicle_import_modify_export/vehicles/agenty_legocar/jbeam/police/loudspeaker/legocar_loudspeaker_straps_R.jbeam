@@ -1,0 +1,456 @@
+{
+"legocar_loudspeaker_straps_R": {
+    "information":{
+        "name":"Trunk Straps",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_loudspeaker_straps_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_rope_RL",       ["legocar_rope_RL", "legocar_rope_RL_botpin", "legocar_rope_RL_toppin"]],
+	["legocar_rope_RL_botpin",["legocar_rope_RL_botpin"]],
+	["legocar_rope_RL_toppin",["legocar_rope_RL_toppin"]],
+	["legocar_rope_RR",       ["legocar_rope_RR", "legocar_rope_RR_botpin", "legocar_rope_RR_toppin"]],
+	["legocar_rope_RR_botpin",["legocar_rope_RR_botpin"]],
+	["legocar_rope_RR_toppin",["legocar_rope_RR_toppin"]],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//rope pins
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_rope_RL_toppin"},
+	["RLropepinT1l", 0.470, 0.780, 1.70],
+	["RLropepinT1r", 0.280, 0.780, 1.70],
+	["RLropepinT2l", 0.470, 0.970, 1.70],
+	["RLropepinT2r", 0.280, 0.970, 1.70],
+	["RLropepinT0",  0.375, 0.875, 1.82],
+
+	{"group":"legocar_rope_RR_toppin"},
+	["RRropepinT1r",-0.470, 0.780, 1.70],
+	["RRropepinT1l",-0.280, 0.780, 1.70],
+	["RRropepinT2r",-0.470, 0.970, 1.70],
+	["RRropepinT2l",-0.280, 0.970, 1.70],
+	["RRropepinT0", -0.375, 0.875, 1.82],
+
+	{"group":"legocar_rope_RL_botpin"},
+	["RLropepinB1l", 0.720, 1.530, 0.80],
+	["RLropepinB1r", 0.530, 1.530, 0.80],
+	["RLropepinB2l", 0.720, 1.720, 0.80],
+	["RLropepinB2r", 0.530, 1.720, 0.80],
+	["RLropepinB0",  0.625, 1.625, 0.95],
+
+	{"group":"legocar_rope_RR_botpin"},
+	["RRropepinB1r",-0.720, 1.530, 0.80],
+	["RRropepinB1l",-0.530, 1.530, 0.80],
+	["RRropepinB2r",-0.720, 1.720, 0.80],
+	["RRropepinB2l",-0.530, 1.720, 0.80],
+	["RRropepinB0", -0.625, 1.625, 0.95],
+
+
+	//ropes
+	{"nodeWeight": "$=$weight*0.1125"},
+
+	{"group":"legocar_rope_RL"},
+	["RLrope1", 0.425, 1.082, 1.585],
+	["RLrope2", 0.475, 1.194, 1.395],
+	["RLrope3", 0.525, 1.306, 1.205],
+	["RLrope4", 0.575, 1.419, 1.015],
+	//flexbody help
+	["RLrope0", 0.5, 1.15, 1.25, {"collision":false, "selfCollision":false}],
+
+	{"group":"legocar_rope_RR"},
+	["RRrope1", -0.425, 1.082, 1.585],
+	["RRrope2", -0.475, 1.194, 1.395],
+	["RRrope3", -0.525, 1.306, 1.205],
+	["RRrope4", -0.575, 1.419, 1.015],
+	//flexbody help
+	["RRrope0", -0.5, 1.15, 1.25, {"collision":false, "selfCollision":false}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--ROPE PINS--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//top left square
+	["RLropepinT1l", "RLropepinT1r"],
+	["RLropepinT2l", "RLropepinT2r"],
+	["RLropepinT1l", "RLropepinT2r"],
+	["RLropepinT2l", "RLropepinT1r"],
+	["RLropepinT1l", "RLropepinT2l"],
+	["RLropepinT1r", "RLropepinT2r"],
+
+	//top left tip
+	["RLropepinT1l", "RLropepinT0"],
+	["RLropepinT1r", "RLropepinT0"],
+	["RLropepinT2l", "RLropepinT0"],
+	["RLropepinT2r", "RLropepinT0"],
+
+	//top right square
+	["RRropepinT1l", "RRropepinT1r"],
+	["RRropepinT2l", "RRropepinT2r"],
+	["RRropepinT1l", "RRropepinT2r"],
+	["RRropepinT2l", "RRropepinT1r"],
+	["RRropepinT1l", "RRropepinT2l"],
+	["RRropepinT1r", "RRropepinT2r"],
+
+	//top right tip
+	["RRropepinT1l", "RRropepinT0"],
+	["RRropepinT1r", "RRropepinT0"],
+	["RRropepinT2l", "RRropepinT0"],
+	["RRropepinT2r", "RRropepinT0"],
+	
+	//bot left square
+	["RLropepinB1l", "RLropepinB1r"],
+	["RLropepinB2l", "RLropepinB2r"],
+	["RLropepinB1l", "RLropepinB2r"],
+	["RLropepinB2l", "RLropepinB1r"],
+	["RLropepinB1l", "RLropepinB2l"],
+	["RLropepinB1r", "RLropepinB2r"],
+
+	//bot left tip
+	["RLropepinB1l", "RLropepinB0"],
+	["RLropepinB1r", "RLropepinB0"],
+	["RLropepinB2l", "RLropepinB0"],
+	["RLropepinB2r", "RLropepinB0"],
+
+	//bot right square
+	["RRropepinB1l", "RRropepinB1r"],
+	["RRropepinB2l", "RRropepinB2r"],
+	["RRropepinB1l", "RRropepinB2r"],
+	["RRropepinB2l", "RRropepinB1r"],
+	["RRropepinB1l", "RRropepinB2l"],
+	["RRropepinB1r", "RRropepinB2r"],
+
+	//bot right tip
+	["RRropepinB1l", "RRropepinB0"],
+	["RRropepinB1r", "RRropepinB0"],
+	["RRropepinB2l", "RRropepinB0"],
+	["RRropepinB2r", "RRropepinB0"],
+
+
+	//--ROPES--
+
+	//main shape
+	{"beamPrecompression":1, "beamType":"|ANISOTROPIC", "beamLongBound":10, "beamShortBound":1},
+        {"beamSpring":"$=$weight*25000","beamDamp":"$=$weight*10"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+        {"springExpansion":"$=$weight*201000","dampExpansion":"$=$weight*10"},
+        {"beamPrecompression":1.025,"beamPrecompressionTime":0.5},
+
+	["RLrope1", "RLrope2"],
+	["RLrope2", "RLrope3"],
+	["RLrope3", "RLrope4"],
+
+	["RRrope1", "RRrope2"],
+	["RRrope2", "RRrope3"],
+	["RRrope3", "RRrope4"],
+
+	//extension limiters
+	{"beamSpring":0,"beamDamp":0},
+	{"springExpansion":"$=$weight*701000","dampExpansion":"$=$weight*125"},
+	{"beamPrecompression":1.05,"beamPrecompressionTime":0.5},
+	["RLrope1", "RLrope4"],
+	["RRrope1", "RRrope4"],
+
+
+	//rigids
+	{"beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+	{"beamSpring":"$=$weight*1000", "beamDamp":"$=$weight*2.5"},
+	{"springExpansion":"","dampExpansion":""},
+	{"beamPrecompression":1.025,"beamPrecompressionTime":0.5},
+
+	["RLrope1", "RLrope3"],
+	["RLrope2", "RLrope4"],
+	["RRrope1", "RRrope3"],
+	["RRrope2", "RRrope4"],
+
+
+	//flexbody help
+	{"beamSpring":"$=$weight*500", "beamDamp":"$=$weight*1"},
+	{"beamPrecompression":1.0,"beamPrecompressionTime":0},
+
+	["RLrope1", "RLrope0"],
+	["RLrope2", "RLrope0"],
+	["RLrope3", "RLrope0"],
+	["RLrope4", "RLrope0"],
+
+	["RRrope1", "RRrope0"],
+	["RRrope2", "RRrope0"],
+	["RRrope3", "RRrope0"],
+	["RRrope4", "RRrope0"],
+
+
+	//to pins
+	{"beamSpring":"$=$weight*101000", "beamDamp":"$=$weight*10"},
+
+	["RLrope1", "RLropepinT1l"],
+	["RLrope1", "RLropepinT1r"],
+	["RLrope1", "RLropepinT2l"],
+	["RLrope1", "RLropepinT2r"],
+	["RLrope1", "RLropepinT0"],
+	["RLrope0", "RLropepinT1l", {"beamSpring":"$=$weight*500", "beamDamp":"$=$weight*1"}],
+	["RLrope0", "RLropepinT1r", {"beamSpring":"$=$weight*500", "beamDamp":"$=$weight*1"}],
+
+	["RRrope1", "RRropepinT1l"],
+	["RRrope1", "RRropepinT1r"],
+	["RRrope1", "RRropepinT2l"],
+	["RRrope1", "RRropepinT2r"],
+	["RRrope1", "RRropepinT0"],
+	["RRrope0", "RRropepinT1l", {"beamSpring":"$=$weight*500", "beamDamp":"$=$weight*1"}],
+	["RRrope0", "RRropepinT1r", {"beamSpring":"$=$weight*500", "beamDamp":"$=$weight*1"}],
+
+	["RLrope4", "RLropepinB1l"],
+	["RLrope4", "RLropepinB1r"],
+	["RLrope4", "RLropepinB2l"],
+	["RLrope4", "RLropepinB2r"],
+	["RLrope4", "RLropepinB0"],
+	["RLrope0", "RLropepinB2l", {"beamSpring":"$=$weight*500", "beamDamp":"$=$weight*1"}],
+	["RLrope0", "RLropepinB2r", {"beamSpring":"$=$weight*500", "beamDamp":"$=$weight*1"}],
+
+	["RRrope4", "RRropepinB1l"],
+	["RRrope4", "RRropepinB1r"],
+	["RRrope4", "RRropepinB2l"],
+	["RRrope4", "RRropepinB2r"],
+	["RRrope4", "RRropepinB0"],
+	["RRrope0", "RRropepinB2l", {"beamSpring":"$=$weight*500", "beamDamp":"$=$weight*1"}],
+	["RRrope0", "RRropepinB2r", {"beamSpring":"$=$weight*500", "beamDamp":"$=$weight*1"}],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//top left pin to frame bottom
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"rope_RL_top_B_break"},
+	
+	["RLropepinT1l", "loudframeB1l"],
+	["RLropepinT1l", "loudframeB2l"],
+	["RLropepinT1l", "loudframeB2r"],
+	["RLropepinT1l", "loudframeBrig"],
+
+	["RLropepinT1r", "loudframeB1l"],
+	["RLropepinT1r", "loudframeB2l"],
+	["RLropepinT1r", "loudframeB2r"],
+	["RLropepinT1r", "loudframeBrig"],
+
+	["RLropepinT2l", "loudframeB1l"],
+	["RLropepinT2l", "loudframeB2l"],
+	["RLropepinT2l", "loudframeB2r"],
+	["RLropepinT2l", "loudframeBrig"],
+
+	["RLropepinT2r", "loudframeB1l"],
+	["RLropepinT2r", "loudframeB2l"],
+	["RLropepinT2r", "loudframeB2r"],
+	["RLropepinT2r", "loudframeBrig"],
+
+	["RLropepinT0", "loudframeB1l"],
+	["RLropepinT0", "loudframeB2l"],
+	["RLropepinT0", "loudframeB2r"],
+	["RLropepinT0", "loudframeBrig"],
+
+
+	//top right pin to frame bottom
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"rope_RR_top_B_break"},
+	
+	["RRropepinT1l", "loudframeB2l"],
+	["RRropepinT1l", "loudframeB1r"],
+	["RRropepinT1l", "loudframeB2r"],
+	["RRropepinT1l", "loudframeBrig"],
+
+	["RRropepinT1r", "loudframeB2l"],
+	["RRropepinT1r", "loudframeB1r"],
+	["RRropepinT1r", "loudframeB2r"],
+	["RRropepinT1r", "loudframeBrig"],
+
+	["RRropepinT2l", "loudframeB2l"],
+	["RRropepinT2l", "loudframeB1r"],
+	["RRropepinT2l", "loudframeB2r"],
+	["RRropepinT2l", "loudframeBrig"],
+
+	["RRropepinT2r", "loudframeB2l"],
+	["RRropepinT2r", "loudframeB1r"],
+	["RRropepinT2r", "loudframeB2r"],
+	["RRropepinT2r", "loudframeBrig"],
+
+	["RRropepinT0", "loudframeB2l"],
+	["RRropepinT0", "loudframeB1r"],
+	["RRropepinT0", "loudframeB2r"],
+	["RRropepinT0", "loudframeBrig"],
+
+
+	//top left pin to frame rear
+	{"beamSpring":"$=$weight*101000", "beamDamp":"$=$weight*10"},
+	{"breakGroup":"rope_RL_top_R_break"},
+	
+	["RLropepinT1l", "loudframeR1l"],
+	["RLropepinT1l", "loudframeR2l"],
+	["RLropepinT1l", "loudframeR1r"],
+	["RLropepinT1l", "loudframeRrig"],
+
+	["RLropepinT1r", "loudframeR1l"],
+	["RLropepinT1r", "loudframeR2l"],
+	["RLropepinT1r", "loudframeR1r"],
+	["RLropepinT1r", "loudframeRrig"],
+
+	["RLropepinT2l", "loudframeR1l"],
+	["RLropepinT2l", "loudframeR2l"],
+	["RLropepinT2l", "loudframeR2r"],
+	["RLropepinT2l", "loudframeRrig"],
+
+	["RLropepinT2r", "loudframeR1l"],
+	["RLropepinT2r", "loudframeR2l"],
+	["RLropepinT2r", "loudframeR2r"],
+	["RLropepinT2r", "loudframeRrig"],
+
+	["RLropepinT0", "loudframeR1l"],
+	["RLropepinT0", "loudframeR2l"],
+	["RLropepinT0", "loudframeR2r"],
+	["RLropepinT0", "loudframeR1r"],
+
+
+	//top right pin to frame rear
+	{"beamSpring":"$=$weight*101000", "beamDamp":"$=$weight*10"},
+	{"breakGroup":"rope_RR_top_R_break"},
+	
+	["RRropepinT1l", "loudframeR1l"],
+	["RRropepinT1l", "loudframeR1r"],
+	["RRropepinT1l", "loudframeR2r"],
+	["RRropepinT1l", "loudframeRrig"],
+
+	["RRropepinT1r", "loudframeR1l"],
+	["RRropepinT1r", "loudframeR1r"],
+	["RRropepinT1r", "loudframeR2r"],
+	["RRropepinT1r", "loudframeRrig"],
+
+	["RRropepinT2l", "loudframeR2l"],
+	["RRropepinT2l", "loudframeR1r"],
+	["RRropepinT2l", "loudframeR2r"],
+	["RRropepinT2l", "loudframeRrig"],
+
+	["RRropepinT2r", "loudframeR2l"],
+	["RRropepinT2r", "loudframeR1r"],
+	["RRropepinT2r", "loudframeR2r"],
+	["RRropepinT2r", "loudframeRrig"],
+
+	["RRropepinT0", "loudframeR2l"],
+	["RRropepinT0", "loudframeR1r"],
+	["RRropepinT0", "loudframeR2r"],
+	["RRropepinT0", "loudframeR1l"],
+
+
+	//bottom left pin to trunk
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"rope_RL_bot_break"},
+	
+	["RLropepinB1l", "trunkL1l"],
+	["RLropepinB1l", "trunkL1r"],
+	["RLropepinB1l", "trunkL2l"],
+	["RLropepinB1l", "trunkLrig"],
+
+	["RLropepinB1r", "trunkL1l"],
+	["RLropepinB1r", "trunkL1r"],
+	["RLropepinB1r", "trunkL2l"],
+	["RLropepinB1r", "trunkLrig"],
+
+	["RLropepinB2l", "trunkL1l"],
+	["RLropepinB2l", "trunkL2r"],
+	["RLropepinB2l", "trunkL2l"],
+	["RLropepinB2l", "trunkLrig"],
+
+	["RLropepinB2r", "trunkL1l"],
+	["RLropepinB2r", "trunkL2r"],
+	["RLropepinB2r", "trunkL2l"],
+	["RLropepinB2r", "trunkLrig"],
+
+	["RLropepinB0", "trunkL1l"],
+	["RLropepinB0", "trunkL1r"],
+	["RLropepinB0", "trunkL2l"],
+	["RLropepinB0", "trunkL2r"],
+
+	
+	//bottom right pin to trunk
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"rope_RR_bot_break"},
+	
+	["RRropepinB1l", "trunkR1l"],
+	["RRropepinB1l", "trunkR1r"],
+	["RRropepinB1l", "trunkR2r"],
+	["RRropepinB1l", "trunkRrig"],
+
+	["RRropepinB1r", "trunkR1l"],
+	["RRropepinB1r", "trunkR1r"],
+	["RRropepinB1r", "trunkR2r"],
+	["RRropepinB1r", "trunkRrig"],
+
+	["RRropepinB2l", "trunkR1r"],
+	["RRropepinB2l", "trunkR2r"],
+	["RRropepinB2l", "trunkR2l"],
+	["RRropepinB2l", "trunkRrig"],
+
+	["RRropepinB2r", "trunkR1r"],
+	["RRropepinB2r", "trunkR2r"],
+	["RRropepinB2r", "trunkR2l"],
+	["RRropepinB2r", "trunkRrig"],
+
+	["RRropepinB0", "trunkR1l"],
+	["RRropepinB0", "trunkR1r"],
+	["RRropepinB0", "trunkR2l"],
+	["RRropepinB0", "trunkR2r"],
+
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_rope_RL_toppin"},
+	["RLropepinT0","RLropepinT1l","RLropepinT2l"],
+	["RLropepinT0","RLropepinT2l","RLropepinT2r"],
+	["RLropepinT0","RLropepinT2r","RLropepinT1r"],
+	["RLropepinT0","RLropepinT1r","RLropepinT1l"],
+
+	{"group":"legocar_rope_RR_toppin"},
+	["RRropepinT0","RRropepinT1l","RRropepinT2l"],
+	["RRropepinT0","RRropepinT2l","RRropepinT2r"],
+	["RRropepinT0","RRropepinT2r","RRropepinT1r"],
+	["RRropepinT0","RRropepinT1r","RRropepinT1l"],
+	
+	{"group":"legocar_rope_RL_botpin"},
+	["RLropepinB0","RLropepinB1l","RLropepinB2l"],
+	["RLropepinB0","RLropepinB2l","RLropepinB2r"],
+	["RLropepinB0","RLropepinB2r","RLropepinB1r"],
+	["RLropepinB0","RLropepinB1r","RLropepinB1l"],
+
+	{"group":"legocar_rope_RR_botpin"},
+	["RRropepinB0","RRropepinB1l","RRropepinB2l"],
+	["RRropepinB0","RRropepinB2l","RRropepinB2r"],
+	["RRropepinB0","RRropepinB2r","RRropepinB1r"],
+	["RRropepinB0","RRropepinB1r","RRropepinB1l"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_rope_RL_toppin"},   
+	["RLropepinT1l","RLropepinT1r","RLropepinT2r","RLropepinT2l"],
+	{"group":"legocar_rope_RR_toppin"},   
+	["RRropepinT1l","RRropepinT1r","RRropepinT2r","RRropepinT2l"],
+	{"group":"legocar_rope_RL_botpin"},   
+	["RLropepinB1l","RLropepinB1r","RLropepinB2r","RLropepinB2l"],
+	{"group":"legocar_rope_RR_botpin"},   
+	["RRropepinB1l","RRropepinB1r","RRropepinB2r","RRropepinB2l"],
+        {"group":""},
+    ],
+},
+
+}

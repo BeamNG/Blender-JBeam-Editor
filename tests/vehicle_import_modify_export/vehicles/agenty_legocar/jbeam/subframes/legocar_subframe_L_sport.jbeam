@@ -1,0 +1,509 @@
+{
+"legocar_subframe_L_sport_col1": {
+    "information":{
+        "name":"Left Sport Subframe (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_subframe_L",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_sideskirts_L", "legocar_sideskirts_L_col1", "Left Sport Sideskirts"],
+	["legocar_underglow_L", "", "Left Accessory",{"nodeMove":{"x":0,"y":0,"z":-0.1}}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	//extensions are part of the chassis, otherwise they bend visually and look weird
+	["lego_6x1_flat_col1", ["legocar_chassis"],   [], {"pos":{"x":0.375, "y":0.0, "z":0.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_4x2_flat_col1", ["legocar_subframe_L"],[], {"pos":{"x":0.500, "y":0.0, "z":0.0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ADD WEIGHT TO CHASSIS--
+	{"group":"legocar_chassis"},
+
+	//+0.5kg/node to bottom and side pieces, default 2kg/node, updated 2.5kg/node
+	{"nodeWeight": "$=$weight*2.5"},
+
+	["chassis3l",  0.25,-0.74, 0.09],
+	["chassis6l",  0.25, 0.74, 0.09],
+	["chassis2ll", 0.50,-0.74, 0.3],
+	["chassis7ll", 0.50, 0.74, 0.3],
+
+
+	//--EXTEND CHASSIS COLLISION--
+	{"nodeWeight": "$=$weight*2"},
+	["chassis3ll",  0.50,-0.74, 0.09],
+	["chassis6ll",  0.50, 0.74, 0.09],
+
+
+	//--LEFT SUBFRAME--
+	{"group":"legocar_subframe_L"},
+	//8 pieces, 5 nodes - 1.6 kg/node
+	{"nodeWeight": "$=$weight*1.6"},
+
+	["Lsubf1l",  0.75, -0.50, 0.05],
+	["Lsubf1r",  0.28, -0.50, 0.05],
+	["Lsubf2l",  0.75,  0.50, 0.05],
+	["Lsubf2r",  0.28,  0.50, 0.05],
+
+	//rigidifier
+	["Lsubfrig", 0.5, 0, 0.4, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--CHASSIS EXTRA COLLISION--
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//to bottom piece
+	["chassis3ll", "chassis3l"],
+	["chassis6ll", "chassis6l"],
+	["chassis3ll", "chassis6l"],
+	["chassis6ll", "chassis3l"],
+
+	//to side piece
+	["chassis2l", "chassis3ll"],
+	["chassis7l", "chassis6ll"],
+	["chassis3ll", "chassis6ll"],
+	["chassis2l", "chassis6ll"],
+	["chassis3ll", "chassis7l"],
+	
+	//rigids
+	//IMPORTANT!! Need lower spring and damp to prevent node shake
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	["chassis3ll", "chassis3r"],
+	["chassis6ll", "chassis6r"],
+	["chassis3ll", "chassis6r"],
+	["chassis6ll", "chassis3r"],
+
+	//rigidifier
+	//lower spring to avoid stressing the structure, about 0.1x normal spring
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*200"},
+	["chassis0", "chassis3ll"],
+	["chassis0", "chassis6ll"],
+
+
+	//--LEFT SUBFRAME--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//uniform structure
+	["Lsubf1l", "Lsubf1r"],
+	["Lsubf2l", "Lsubf2r"],
+	["Lsubf1l", "Lsubf2l"],
+	["Lsubf1r", "Lsubf2r"],
+	["Lsubf1l", "Lsubf2r"],
+	["Lsubf2l", "Lsubf1r"],
+
+	//rigidifier
+	["Lsubf1l", "Lsubfrig"],
+	["Lsubf1r", "Lsubfrig"],
+	["Lsubf2l", "Lsubfrig"],
+	["Lsubf2r", "Lsubfrig"],
+
+	
+	//--ATTACH--
+	//half the spring and damp for more stability
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"Lsubf_break"},
+
+	//--IMPORTANT!!! DON'T CHANGE ATTACHMENT POINTS, THIS GUARANTEES LOW WEIGHT STABILITY!!--
+
+	["Lsubf1l", "chassis2l"],
+	["Lsubf1l", "chassis3l"],
+	["Lsubf1l", "chassis3r"],
+	["Lsubf1l", "chassis6l"],
+
+	["Lsubf1r", "chassis2l"],
+	["Lsubf1r", "chassis3l"],
+	["Lsubf1r", "chassis3r"],
+	["Lsubf1r", "chassis6l"],
+
+	["Lsubf2l", "chassis7l"],
+	["Lsubf2l", "chassis6l"],
+	["Lsubf2l", "chassis6r"],
+	["Lsubf2l", "chassis3l"],
+
+	["Lsubf2r", "chassis7l"],
+	["Lsubf2r", "chassis6l"],
+	["Lsubf2r", "chassis6r"],
+	["Lsubf2r", "chassis3l"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-STUCK--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["Lsubf1l", "LrockB1l"],
+	["Lsubf1l", "LrockB1r"],
+	["Lsubf2l", "LrockB2l"],
+	["Lsubf2l", "LrockB2r"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	//extend chassis collision
+	{"group":"legocar_chassis"},
+	["chassis6l","chassis6ll","chassis3ll","chassis3l"],
+	["chassis3ll","chassis6ll","chassis7ll","chassis2ll"],
+	["chassis7l","chassis7ll","chassis6ll","chassis6l"],
+	["chassis2l","chassis3l","chassis3ll","chassis2ll"],
+
+	//left subframe
+        {"group":"legocar_subframe_L"},   
+	["Lsubf1l","Lsubf1r","Lsubf2r","Lsubf2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_subframe_L_sport_col2": {
+    "information":{
+        "name":"Left Sport Subframe (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_subframe_L",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_sideskirts_L", "legocar_sideskirts_L_col2", "Left Sport Sideskirts"],
+	["legocar_underglow_L", "", "Left Accessory",{"nodeMove":{"x":0,"y":0,"z":-0.1}}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	//extensions are part of the chassis, otherwise they bend visually and look weird
+	["lego_6x1_flat_col2", ["legocar_chassis"],   [], {"pos":{"x":0.375, "y":0.0, "z":0.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_4x2_flat_col2", ["legocar_subframe_L"],[], {"pos":{"x":0.500, "y":0.0, "z":0.0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ADD WEIGHT TO CHASSIS--
+	{"group":"legocar_chassis"},
+
+	//+0.5kg/node to bottom and side pieces, default 2kg/node, updated 2.5kg/node
+	{"nodeWeight": "$=$weight*2.5"},
+
+	["chassis3l",  0.25,-0.74, 0.09],
+	["chassis6l",  0.25, 0.74, 0.09],
+	["chassis2ll", 0.50,-0.74, 0.3],
+	["chassis7ll", 0.50, 0.74, 0.3],
+
+
+	//--EXTEND CHASSIS COLLISION--
+	{"nodeWeight": "$=$weight*2"},
+	["chassis3ll",  0.50,-0.74, 0.09],
+	["chassis6ll",  0.50, 0.74, 0.09],
+
+
+	//--LEFT SUBFRAME--
+	{"group":"legocar_subframe_L"},
+	//8 pieces, 5 nodes - 1.6 kg/node
+	{"nodeWeight": "$=$weight*1.6"},
+
+	["Lsubf1l",  0.75, -0.50, 0.05],
+	["Lsubf1r",  0.28, -0.50, 0.05],
+	["Lsubf2l",  0.75,  0.50, 0.05],
+	["Lsubf2r",  0.28,  0.50, 0.05],
+
+	//rigidifier
+	["Lsubfrig", 0.5, 0, 0.4, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--CHASSIS EXTRA COLLISION--
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//to bottom piece
+	["chassis3ll", "chassis3l"],
+	["chassis6ll", "chassis6l"],
+	["chassis3ll", "chassis6l"],
+	["chassis6ll", "chassis3l"],
+
+	//to side piece
+	["chassis2l", "chassis3ll"],
+	["chassis7l", "chassis6ll"],
+	["chassis3ll", "chassis6ll"],
+	["chassis2l", "chassis6ll"],
+	["chassis3ll", "chassis7l"],
+	
+	//rigids
+	//IMPORTANT!! Need lower spring and damp to prevent node shake
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	["chassis3ll", "chassis3r"],
+	["chassis6ll", "chassis6r"],
+	["chassis3ll", "chassis6r"],
+	["chassis6ll", "chassis3r"],
+
+	//rigidifier
+	//lower spring to avoid stressing the structure, about 0.1x normal spring
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*200"},
+	["chassis0", "chassis3ll"],
+	["chassis0", "chassis6ll"],
+
+
+	//--LEFT SUBFRAME--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//uniform structure
+	["Lsubf1l", "Lsubf1r"],
+	["Lsubf2l", "Lsubf2r"],
+	["Lsubf1l", "Lsubf2l"],
+	["Lsubf1r", "Lsubf2r"],
+	["Lsubf1l", "Lsubf2r"],
+	["Lsubf2l", "Lsubf1r"],
+
+	//rigidifier
+	["Lsubf1l", "Lsubfrig"],
+	["Lsubf1r", "Lsubfrig"],
+	["Lsubf2l", "Lsubfrig"],
+	["Lsubf2r", "Lsubfrig"],
+
+	
+	//--ATTACH--
+	//half the spring and damp for more stability
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"Lsubf_break"},
+
+	//--IMPORTANT!!! DON'T CHANGE ATTACHMENT POINTS, THIS GUARANTEES LOW WEIGHT STABILITY!!--
+
+	["Lsubf1l", "chassis2l"],
+	["Lsubf1l", "chassis3l"],
+	["Lsubf1l", "chassis3r"],
+	["Lsubf1l", "chassis6l"],
+
+	["Lsubf1r", "chassis2l"],
+	["Lsubf1r", "chassis3l"],
+	["Lsubf1r", "chassis3r"],
+	["Lsubf1r", "chassis6l"],
+
+	["Lsubf2l", "chassis7l"],
+	["Lsubf2l", "chassis6l"],
+	["Lsubf2l", "chassis6r"],
+	["Lsubf2l", "chassis3l"],
+
+	["Lsubf2r", "chassis7l"],
+	["Lsubf2r", "chassis6l"],
+	["Lsubf2r", "chassis6r"],
+	["Lsubf2r", "chassis3l"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-STUCK--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["Lsubf1l", "LrockB1l"],
+	["Lsubf1l", "LrockB1r"],
+	["Lsubf2l", "LrockB2l"],
+	["Lsubf2l", "LrockB2r"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	//extend chassis collision
+	{"group":"legocar_chassis"},
+	["chassis6l","chassis6ll","chassis3ll","chassis3l"],
+	["chassis3ll","chassis6ll","chassis7ll","chassis2ll"],
+	["chassis7l","chassis7ll","chassis6ll","chassis6l"],
+	["chassis2l","chassis3l","chassis3ll","chassis2ll"],
+
+	//left subframe
+        {"group":"legocar_subframe_L"},   
+	["Lsubf1l","Lsubf1r","Lsubf2r","Lsubf2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_subframe_L_sport_col3": {
+    "information":{
+        "name":"Left Sport Subframe (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_subframe_L",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_sideskirts_L", "legocar_sideskirts_L_col3", "Left Sport Sideskirts"],
+	["legocar_underglow_L", "", "Left Accessory",{"nodeMove":{"x":0,"y":0,"z":-0.1}}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	//extensions are part of the chassis, otherwise they bend visually and look weird
+	["lego_6x1_flat_col3", ["legocar_chassis"],   [], {"pos":{"x":0.375, "y":0.0, "z":0.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_4x2_flat_col3", ["legocar_subframe_L"],[], {"pos":{"x":0.500, "y":0.0, "z":0.0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ADD WEIGHT TO CHASSIS--
+	{"group":"legocar_chassis"},
+
+	//+0.5kg/node to bottom and side pieces, default 2kg/node, updated 2.5kg/node
+	{"nodeWeight": "$=$weight*2.5"},
+
+	["chassis3l",  0.25,-0.74, 0.09],
+	["chassis6l",  0.25, 0.74, 0.09],
+	["chassis2ll", 0.50,-0.74, 0.3],
+	["chassis7ll", 0.50, 0.74, 0.3],
+
+
+	//--EXTEND CHASSIS COLLISION--
+	{"nodeWeight": "$=$weight*2"},
+	["chassis3ll",  0.50,-0.74, 0.09],
+	["chassis6ll",  0.50, 0.74, 0.09],
+
+
+	//--LEFT SUBFRAME--
+	{"group":"legocar_subframe_L"},
+	//8 pieces, 5 nodes - 1.6 kg/node
+	{"nodeWeight": "$=$weight*1.6"},
+
+	["Lsubf1l",  0.75, -0.50, 0.05],
+	["Lsubf1r",  0.28, -0.50, 0.05],
+	["Lsubf2l",  0.75,  0.50, 0.05],
+	["Lsubf2r",  0.28,  0.50, 0.05],
+
+	//rigidifier
+	["Lsubfrig", 0.5, 0, 0.4, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--CHASSIS EXTRA COLLISION--
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//to bottom piece
+	["chassis3ll", "chassis3l"],
+	["chassis6ll", "chassis6l"],
+	["chassis3ll", "chassis6l"],
+	["chassis6ll", "chassis3l"],
+
+	//to side piece
+	["chassis2l", "chassis3ll"],
+	["chassis7l", "chassis6ll"],
+	["chassis3ll", "chassis6ll"],
+	["chassis2l", "chassis6ll"],
+	["chassis3ll", "chassis7l"],
+	
+	//rigids
+	//IMPORTANT!! Need lower spring and damp to prevent node shake
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	["chassis3ll", "chassis3r"],
+	["chassis6ll", "chassis6r"],
+	["chassis3ll", "chassis6r"],
+	["chassis6ll", "chassis3r"],
+
+	//rigidifier
+	//lower spring to avoid stressing the structure, about 0.1x normal spring
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*200"},
+	["chassis0", "chassis3ll"],
+	["chassis0", "chassis6ll"],
+
+
+	//--LEFT SUBFRAME--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//uniform structure
+	["Lsubf1l", "Lsubf1r"],
+	["Lsubf2l", "Lsubf2r"],
+	["Lsubf1l", "Lsubf2l"],
+	["Lsubf1r", "Lsubf2r"],
+	["Lsubf1l", "Lsubf2r"],
+	["Lsubf2l", "Lsubf1r"],
+
+	//rigidifier
+	["Lsubf1l", "Lsubfrig"],
+	["Lsubf1r", "Lsubfrig"],
+	["Lsubf2l", "Lsubfrig"],
+	["Lsubf2r", "Lsubfrig"],
+
+	
+	//--ATTACH--
+	//half the spring and damp for more stability
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"Lsubf_break"},
+
+	//--IMPORTANT!!! DON'T CHANGE ATTACHMENT POINTS, THIS GUARANTEES LOW WEIGHT STABILITY!!--
+
+	["Lsubf1l", "chassis2l"],
+	["Lsubf1l", "chassis3l"],
+	["Lsubf1l", "chassis3r"],
+	["Lsubf1l", "chassis6l"],
+
+	["Lsubf1r", "chassis2l"],
+	["Lsubf1r", "chassis3l"],
+	["Lsubf1r", "chassis3r"],
+	["Lsubf1r", "chassis6l"],
+
+	["Lsubf2l", "chassis7l"],
+	["Lsubf2l", "chassis6l"],
+	["Lsubf2l", "chassis6r"],
+	["Lsubf2l", "chassis3l"],
+
+	["Lsubf2r", "chassis7l"],
+	["Lsubf2r", "chassis6l"],
+	["Lsubf2r", "chassis6r"],
+	["Lsubf2r", "chassis3l"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-STUCK--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["Lsubf1l", "LrockB1l"],
+	["Lsubf1l", "LrockB1r"],
+	["Lsubf2l", "LrockB2l"],
+	["Lsubf2l", "LrockB2r"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	//extend chassis collision
+	{"group":"legocar_chassis"},
+	["chassis6l","chassis6ll","chassis3ll","chassis3l"],
+	["chassis3ll","chassis6ll","chassis7ll","chassis2ll"],
+	["chassis7l","chassis7ll","chassis6ll","chassis6l"],
+	["chassis2l","chassis3l","chassis3ll","chassis2ll"],
+
+	//left subframe
+        {"group":"legocar_subframe_L"},   
+	["Lsubf1l","Lsubf1r","Lsubf2r","Lsubf2l"],
+        {"group":""},
+    ],
+},
+
+}

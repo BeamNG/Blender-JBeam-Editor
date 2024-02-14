@@ -1,0 +1,443 @@
+{
+"legocar_tacho_filler": {
+    "information":{
+        "name":"Filler Panel",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_tacho",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_tacho_filler", ["legocar_tacho"],[], {"pos":{"x":0.375, "y":-0.550, "z":0.575},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_tacho"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["tacho1l", 0.50, -0.50, 0.45],
+	["tacho1r", 0.25, -0.50, 0.45],
+	["tacho2l", 0.50, -0.50, 0.70],
+	["tacho2r", 0.25, -0.50, 0.70,	{"selfCollision":false}],
+
+	//rigidifier
+	["tachorig", 0.375, -0.65, 0.575, {"collision":false, "selfCollision":false, "group":""}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["tacho1l", "tacho1r"],
+	["tacho2l", "tacho2r"],
+	["tacho1l", "tacho2l"],
+	["tacho1r", "tacho2r"],
+	["tacho1l", "tacho2r"],
+	["tacho2l", "tacho1r"],
+
+	//rigidifier
+	["tacho1l", "tachorig"],
+	["tacho1r", "tachorig"],
+	["tacho2l", "tachorig"],
+	["tacho2r", "tachorig"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	//the piece is not properly secured from all sides on the cluster, easier to break
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"tacho_break"},
+	
+	["tacho1l", "gauge2l"],
+	["tacho1l", "gauge3l"],
+	["tacho1l", "gauge1r"],
+
+	["tacho1r", "gauge2r"],
+	["tacho1r", "gauge3r"],
+	["tacho1r", "gauge1l"],
+
+	["tacho2l", "gauge4l"],
+	["tacho2l", "gauge1l"],
+	["tacho2l", "gauge3r"],
+
+	["tacho2r", "gauge4r"],
+	["tacho2r", "gauge1r"],
+	["tacho2r", "gauge3l"],
+
+	["tachorig", "gauge1r"],
+	["tachorig", "gauge1l"],
+	["tachorig", "gauge3r"],
+	["tachorig", "gauge3l"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_tacho"},   
+	["tacho1l","tacho1r","tacho2r","tacho2l"],
+        {"group":""},
+    ],
+},
+"legocar_tacho_race": {
+    "information":{
+        "name":"Race Controls",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_tacho",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_tacho_race", ["legocar_tacho"],[], {"pos":{"x":0.375, "y":-0.550, "z":0.575},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_tacho"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["tacho1l", 0.50, -0.50, 0.45],
+	["tacho1r", 0.25, -0.50, 0.45],
+	["tacho2l", 0.50, -0.50, 0.70],
+	["tacho2r", 0.25, -0.50, 0.70,	{"selfCollision":false}],
+
+	//rigidifier
+	["tachorig", 0.375, -0.65, 0.575, {"collision":false, "selfCollision":false, "group":""}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["tacho1l", "tacho1r"],
+	["tacho2l", "tacho2r"],
+	["tacho1l", "tacho2l"],
+	["tacho1r", "tacho2r"],
+	["tacho1l", "tacho2r"],
+	["tacho2l", "tacho1r"],
+
+	//rigidifier
+	["tacho1l", "tachorig"],
+	["tacho1r", "tachorig"],
+	["tacho2l", "tachorig"],
+	["tacho2r", "tachorig"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	//the piece is not properly secured from all sides on the cluster, easier to break
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"tacho_break"},
+	
+	["tacho1l", "gauge2l"],
+	["tacho1l", "gauge3l"],
+	["tacho1l", "gauge1r"],
+
+	["tacho1r", "gauge2r"],
+	["tacho1r", "gauge3r"],
+	["tacho1r", "gauge1l"],
+
+	["tacho2l", "gauge4l"],
+	["tacho2l", "gauge1l"],
+	["tacho2l", "gauge3r"],
+
+	["tacho2r", "gauge4r"],
+	["tacho2r", "gauge1r"],
+	["tacho2r", "gauge3l"],
+
+	["tachorig", "gauge1r"],
+	["tachorig", "gauge1l"],
+	["tachorig", "gauge3r"],
+	["tachorig", "gauge3l"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_tacho"},   
+	["tacho1l","tacho1r","tacho2r","tacho2l"],
+        {"group":""},
+    ],
+},
+"legocar_tacho_drag": {
+    "information":{
+        "name":"Drag Controls",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_tacho",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_tacho_drag", ["legocar_tacho"],[], {"pos":{"x":0.375, "y":-0.550, "z":0.575},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_tacho"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["tacho1l", 0.50, -0.50, 0.45],
+	["tacho1r", 0.25, -0.50, 0.45],
+	["tacho2l", 0.50, -0.50, 0.70],
+	["tacho2r", 0.25, -0.50, 0.70,	{"selfCollision":false}],
+
+	//rigidifier
+	["tachorig", 0.375, -0.65, 0.575, {"collision":false, "selfCollision":false, "group":""}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["tacho1l", "tacho1r"],
+	["tacho2l", "tacho2r"],
+	["tacho1l", "tacho2l"],
+	["tacho1r", "tacho2r"],
+	["tacho1l", "tacho2r"],
+	["tacho2l", "tacho1r"],
+
+	//rigidifier
+	["tacho1l", "tachorig"],
+	["tacho1r", "tachorig"],
+	["tacho2l", "tachorig"],
+	["tacho2r", "tachorig"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	//the piece is not properly secured from all sides on the cluster, easier to break
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"tacho_break"},
+	
+	["tacho1l", "gauge2l"],
+	["tacho1l", "gauge3l"],
+	["tacho1l", "gauge1r"],
+
+	["tacho1r", "gauge2r"],
+	["tacho1r", "gauge3r"],
+	["tacho1r", "gauge1l"],
+
+	["tacho2l", "gauge4l"],
+	["tacho2l", "gauge1l"],
+	["tacho2l", "gauge3r"],
+
+	["tacho2r", "gauge4r"],
+	["tacho2r", "gauge1r"],
+	["tacho2r", "gauge3l"],
+
+	["tachorig", "gauge1r"],
+	["tachorig", "gauge1l"],
+	["tachorig", "gauge3r"],
+	["tachorig", "gauge3l"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_tacho"},   
+	["tacho1l","tacho1r","tacho2r","tacho2l"],
+        {"group":""},
+    ],
+},
+"legocar_tacho_police": {
+    "information":{
+        "name":"Police Controls",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_tacho",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_tacho_police", ["legocar_tacho"],[], {"pos":{"x":0.375, "y":-0.550, "z":0.575},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_tacho"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["tacho1l", 0.50, -0.50, 0.45],
+	["tacho1r", 0.25, -0.50, 0.45],
+	["tacho2l", 0.50, -0.50, 0.70],
+	["tacho2r", 0.25, -0.50, 0.70,	{"selfCollision":false}],
+
+	//rigidifier
+	["tachorig", 0.375, -0.65, 0.575, {"collision":false, "selfCollision":false, "group":""}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["tacho1l", "tacho1r"],
+	["tacho2l", "tacho2r"],
+	["tacho1l", "tacho2l"],
+	["tacho1r", "tacho2r"],
+	["tacho1l", "tacho2r"],
+	["tacho2l", "tacho1r"],
+
+	//rigidifier
+	["tacho1l", "tachorig"],
+	["tacho1r", "tachorig"],
+	["tacho2l", "tachorig"],
+	["tacho2r", "tachorig"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	//the piece is not properly secured from all sides on the cluster, easier to break
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"tacho_break"},
+	
+	["tacho1l", "gauge2l"],
+	["tacho1l", "gauge3l"],
+	["tacho1l", "gauge1r"],
+
+	["tacho1r", "gauge2r"],
+	["tacho1r", "gauge3r"],
+	["tacho1r", "gauge1l"],
+
+	["tacho2l", "gauge4l"],
+	["tacho2l", "gauge1l"],
+	["tacho2l", "gauge3r"],
+
+	["tacho2r", "gauge4r"],
+	["tacho2r", "gauge1r"],
+	["tacho2r", "gauge3l"],
+
+	["tachorig", "gauge1r"],
+	["tachorig", "gauge1l"],
+	["tachorig", "gauge3r"],
+	["tachorig", "gauge3l"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_tacho"},   
+	["tacho1l","tacho1r","tacho2r","tacho2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_tacho_gps": {
+    "information":{
+        "name":"Navigation Unit",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_tacho",
+    "controller": [
+        ["fileName"],
+        ["beamNavigator"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_tacho_filler", ["legocar_tacho"],[], {"pos":{"x":0.375, "y":-0.550, "z":0.575},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"display_break", "deformMaterialBase":"screen_gps", "deformMaterialDamaged":"legocar_gauges_break"},
+	["legocar_gps",          ["legocar_tacho"],[], {"pos":{"x":0.375, "y":-0.550, "z":0.575},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"", "deformMaterialBase":"", "deformMaterialDamaged":""},
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_tacho"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["tacho1l", 0.50, -0.50, 0.45],
+	["tacho1r", 0.25, -0.50, 0.45],
+	["tacho2l", 0.50, -0.50, 0.70],
+	["tacho2r", 0.25, -0.50, 0.70,	{"selfCollision":false}],
+
+	//rigidifier
+	["tachorig", 0.375, -0.65, 0.575, {"collision":false, "selfCollision":false, "group":""}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["tacho1l", "tacho1r"],
+	["tacho2l", "tacho2r"],
+	["tacho1l", "tacho2l"],
+	["tacho1r", "tacho2r"],
+	["tacho1l", "tacho2r"],
+	["tacho2l", "tacho1r"],
+
+	//rigidifier
+	["tacho1l", "tachorig"],
+	["tacho1r", "tachorig"],
+	["tacho2l", "tachorig"],
+	["tacho2r", "tachorig"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	//the piece is not properly secured from all sides on the cluster, easier to break
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"tacho_break"},
+	{"deformGroup":"display_break"},
+	
+	["tacho1l", "gauge2l"],
+	["tacho1l", "gauge3l"],
+	["tacho1l", "gauge1r"],
+
+	["tacho1r", "gauge2r"],
+	["tacho1r", "gauge3r"],
+	["tacho1r", "gauge1l"],
+
+	["tacho2l", "gauge4l"],
+	["tacho2l", "gauge1l"],
+	["tacho2l", "gauge3r"],
+
+	["tacho2r", "gauge4r"],
+	["tacho2r", "gauge1r"],
+	["tacho2r", "gauge3l"],
+
+	["tachorig", "gauge1r"],
+	["tachorig", "gauge1l"],
+	["tachorig", "gauge3r"],
+	["tachorig", "gauge3l"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_tacho"},   
+	["tacho1l","tacho1r","tacho2r","tacho2l"],
+        {"group":""},
+    ],
+},
+
+}

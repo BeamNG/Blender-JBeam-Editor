@@ -1,0 +1,578 @@
+{
+"legocar_licenseplate_R_col1_facelift_filler": {
+    "information":{
+        "name":"Rear Facelift Filler Panel (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_licenseplate_mount_R",
+    
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_notip_col1", ["legocar_licenseplate_mount_R"], [], {"pos":{"x": 0.000, "y":1.850, "z":0.475},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_licenseplate_mount_R"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["Rplate1l",  0.25, 1.90, 0.38],
+	["Rplate1r", -0.25, 1.90, 0.38],
+	["Rplate2l",  0.25, 1.90, 0.60],
+	["Rplate2r", -0.25, 1.90, 0.60],
+	//rigidifier
+	["Rplaterig", 0, 1.65, 0.475, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR LICENSE PLATE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["Rplate1l", "Rplate1r"],
+	["Rplate2l", "Rplate2r"],
+	["Rplate1l", "Rplate2l"],
+	["Rplate1r", "Rplate2r"],
+	["Rplate1l", "Rplate2r"],
+	["Rplate2l", "Rplate1r"],
+
+	//rigidifier
+	["Rplate1l", "Rplaterig"],
+	["Rplate1r", "Rplaterig"],
+	["Rplate2l", "Rplaterig"],
+	["Rplate2r", "Rplaterig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"licenseplate_R_break"},
+
+	["Rplate1l", "Rfasc1l"],
+	["Rplate1l", "Rfasc2l"],
+	["Rplate1l", "Rfasc1r"],
+	["Rplate1l", "Rfascrig"],
+
+	["Rplate1r", "Rfasc1r"],
+	["Rplate1r", "Rfasc2r"],
+	["Rplate1r", "Rfasc1l"],
+	["Rplate1r", "Rfascrig"],
+
+	["Rplate2l", "Rfasc2l"],
+	["Rplate2l", "Rfasc2r"],
+	["Rplate2l", "Rfasc1l"],
+	["Rplate2l", "Rfascrig"],
+
+	["Rplate2r", "Rfasc2r"],
+	["Rplate2r", "Rfasc1r"],
+	["Rplate2r", "Rfasc2l"],
+	["Rplate2r", "Rfascrig"],
+
+	//anti wobble
+	["Rplaterig", "Rfasc1r"],
+	["Rplaterig", "Rfasc1l"],
+	["Rplaterig", "Rfasc2r"],
+	["Rplaterig", "Rfasc2l"],
+	["Rplaterig", "Rfascrig"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_licenseplate_mount_R"},
+	["Rplate1l","Rplate1r","Rplate2r","Rplate2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_licenseplate_R_col2_facelift_filler": {
+    "information":{
+        "name":"Rear Facelift Filler Panel (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_licenseplate_mount_R",
+    
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_notip_col2", ["legocar_licenseplate_mount_R"], [], {"pos":{"x": 0.000, "y":1.850, "z":0.475},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_licenseplate_mount_R"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["Rplate1l",  0.25, 1.90, 0.38],
+	["Rplate1r", -0.25, 1.90, 0.38],
+	["Rplate2l",  0.25, 1.90, 0.60],
+	["Rplate2r", -0.25, 1.90, 0.60],
+	//rigidifier
+	["Rplaterig", 0, 1.65, 0.475, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR LICENSE PLATE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["Rplate1l", "Rplate1r"],
+	["Rplate2l", "Rplate2r"],
+	["Rplate1l", "Rplate2l"],
+	["Rplate1r", "Rplate2r"],
+	["Rplate1l", "Rplate2r"],
+	["Rplate2l", "Rplate1r"],
+
+	//rigidifier
+	["Rplate1l", "Rplaterig"],
+	["Rplate1r", "Rplaterig"],
+	["Rplate2l", "Rplaterig"],
+	["Rplate2r", "Rplaterig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"licenseplate_R_break"},
+
+	["Rplate1l", "Rfasc1l"],
+	["Rplate1l", "Rfasc2l"],
+	["Rplate1l", "Rfasc1r"],
+	["Rplate1l", "Rfascrig"],
+
+	["Rplate1r", "Rfasc1r"],
+	["Rplate1r", "Rfasc2r"],
+	["Rplate1r", "Rfasc1l"],
+	["Rplate1r", "Rfascrig"],
+
+	["Rplate2l", "Rfasc2l"],
+	["Rplate2l", "Rfasc2r"],
+	["Rplate2l", "Rfasc1l"],
+	["Rplate2l", "Rfascrig"],
+
+	["Rplate2r", "Rfasc2r"],
+	["Rplate2r", "Rfasc1r"],
+	["Rplate2r", "Rfasc2l"],
+	["Rplate2r", "Rfascrig"],
+
+	//anti wobble
+	["Rplaterig", "Rfasc1r"],
+	["Rplaterig", "Rfasc1l"],
+	["Rplaterig", "Rfasc2r"],
+	["Rplaterig", "Rfasc2l"],
+	["Rplaterig", "Rfascrig"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_licenseplate_mount_R"},
+	["Rplate1l","Rplate1r","Rplate2r","Rplate2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_licenseplate_R_col3_facelift_filler": {
+    "information":{
+        "name":"Rear Facelift Filler Panel (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_licenseplate_mount_R",
+    
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_notip_col3", ["legocar_licenseplate_mount_R"], [], {"pos":{"x": 0.000, "y":1.850, "z":0.475},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_licenseplate_mount_R"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["Rplate1l",  0.25, 1.90, 0.38],
+	["Rplate1r", -0.25, 1.90, 0.38],
+	["Rplate2l",  0.25, 1.90, 0.60],
+	["Rplate2r", -0.25, 1.90, 0.60],
+	//rigidifier
+	["Rplaterig", 0, 1.65, 0.475, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR LICENSE PLATE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["Rplate1l", "Rplate1r"],
+	["Rplate2l", "Rplate2r"],
+	["Rplate1l", "Rplate2l"],
+	["Rplate1r", "Rplate2r"],
+	["Rplate1l", "Rplate2r"],
+	["Rplate2l", "Rplate1r"],
+
+	//rigidifier
+	["Rplate1l", "Rplaterig"],
+	["Rplate1r", "Rplaterig"],
+	["Rplate2l", "Rplaterig"],
+	["Rplate2r", "Rplaterig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"licenseplate_R_break"},
+
+	["Rplate1l", "Rfasc1l"],
+	["Rplate1l", "Rfasc2l"],
+	["Rplate1l", "Rfasc1r"],
+	["Rplate1l", "Rfascrig"],
+
+	["Rplate1r", "Rfasc1r"],
+	["Rplate1r", "Rfasc2r"],
+	["Rplate1r", "Rfasc1l"],
+	["Rplate1r", "Rfascrig"],
+
+	["Rplate2l", "Rfasc2l"],
+	["Rplate2l", "Rfasc2r"],
+	["Rplate2l", "Rfasc1l"],
+	["Rplate2l", "Rfascrig"],
+
+	["Rplate2r", "Rfasc2r"],
+	["Rplate2r", "Rfasc1r"],
+	["Rplate2r", "Rfasc2l"],
+	["Rplate2r", "Rfascrig"],
+
+	//anti wobble
+	["Rplaterig", "Rfasc1r"],
+	["Rplaterig", "Rfasc1l"],
+	["Rplaterig", "Rfasc2r"],
+	["Rplaterig", "Rfasc2l"],
+	["Rplaterig", "Rfascrig"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_licenseplate_mount_R"},
+	["Rplate1l","Rplate1r","Rplate2r","Rplate2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_licenseplate_R_grey_facelift_filler": {
+    "information":{
+        "name":"Rear Facelift Filler Panel (Light Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_licenseplate_mount_R",
+    
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_notip_grey", ["legocar_licenseplate_mount_R"], [], {"pos":{"x": 0.000, "y":1.850, "z":0.475},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_licenseplate_mount_R"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["Rplate1l",  0.25, 1.90, 0.38],
+	["Rplate1r", -0.25, 1.90, 0.38],
+	["Rplate2l",  0.25, 1.90, 0.60],
+	["Rplate2r", -0.25, 1.90, 0.60],
+	//rigidifier
+	["Rplaterig", 0, 1.65, 0.475, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR LICENSE PLATE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["Rplate1l", "Rplate1r"],
+	["Rplate2l", "Rplate2r"],
+	["Rplate1l", "Rplate2l"],
+	["Rplate1r", "Rplate2r"],
+	["Rplate1l", "Rplate2r"],
+	["Rplate2l", "Rplate1r"],
+
+	//rigidifier
+	["Rplate1l", "Rplaterig"],
+	["Rplate1r", "Rplaterig"],
+	["Rplate2l", "Rplaterig"],
+	["Rplate2r", "Rplaterig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"licenseplate_R_break"},
+
+	["Rplate1l", "Rfasc1l"],
+	["Rplate1l", "Rfasc2l"],
+	["Rplate1l", "Rfasc1r"],
+	["Rplate1l", "Rfascrig"],
+
+	["Rplate1r", "Rfasc1r"],
+	["Rplate1r", "Rfasc2r"],
+	["Rplate1r", "Rfasc1l"],
+	["Rplate1r", "Rfascrig"],
+
+	["Rplate2l", "Rfasc2l"],
+	["Rplate2l", "Rfasc2r"],
+	["Rplate2l", "Rfasc1l"],
+	["Rplate2l", "Rfascrig"],
+
+	["Rplate2r", "Rfasc2r"],
+	["Rplate2r", "Rfasc1r"],
+	["Rplate2r", "Rfasc2l"],
+	["Rplate2r", "Rfascrig"],
+
+	//anti wobble
+	["Rplaterig", "Rfasc1r"],
+	["Rplaterig", "Rfasc1l"],
+	["Rplaterig", "Rfasc2r"],
+	["Rplaterig", "Rfasc2l"],
+	["Rplaterig", "Rfascrig"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_licenseplate_mount_R"},
+	["Rplate1l","Rplate1r","Rplate2r","Rplate2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_licenseplate_R_dgrey_facelift_filler": {
+    "information":{
+        "name":"Rear Facelift Filler Panel (Dark Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_licenseplate_mount_R",
+    
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_notip_dgrey",["legocar_licenseplate_mount_R"], [], {"pos":{"x": 0.000, "y":1.850, "z":0.475},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_licenseplate_mount_R"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["Rplate1l",  0.25, 1.90, 0.38],
+	["Rplate1r", -0.25, 1.90, 0.38],
+	["Rplate2l",  0.25, 1.90, 0.60],
+	["Rplate2r", -0.25, 1.90, 0.60],
+	//rigidifier
+	["Rplaterig", 0, 1.65, 0.475, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR LICENSE PLATE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["Rplate1l", "Rplate1r"],
+	["Rplate2l", "Rplate2r"],
+	["Rplate1l", "Rplate2l"],
+	["Rplate1r", "Rplate2r"],
+	["Rplate1l", "Rplate2r"],
+	["Rplate2l", "Rplate1r"],
+
+	//rigidifier
+	["Rplate1l", "Rplaterig"],
+	["Rplate1r", "Rplaterig"],
+	["Rplate2l", "Rplaterig"],
+	["Rplate2r", "Rplaterig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"licenseplate_R_break"},
+
+	["Rplate1l", "Rfasc1l"],
+	["Rplate1l", "Rfasc2l"],
+	["Rplate1l", "Rfasc1r"],
+	["Rplate1l", "Rfascrig"],
+
+	["Rplate1r", "Rfasc1r"],
+	["Rplate1r", "Rfasc2r"],
+	["Rplate1r", "Rfasc1l"],
+	["Rplate1r", "Rfascrig"],
+
+	["Rplate2l", "Rfasc2l"],
+	["Rplate2l", "Rfasc2r"],
+	["Rplate2l", "Rfasc1l"],
+	["Rplate2l", "Rfascrig"],
+
+	["Rplate2r", "Rfasc2r"],
+	["Rplate2r", "Rfasc1r"],
+	["Rplate2r", "Rfasc2l"],
+	["Rplate2r", "Rfascrig"],
+
+	//anti wobble
+	["Rplaterig", "Rfasc1r"],
+	["Rplaterig", "Rfasc1l"],
+	["Rplaterig", "Rfasc2r"],
+	["Rplaterig", "Rfasc2l"],
+	["Rplaterig", "Rfascrig"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_licenseplate_mount_R"},
+	["Rplate1l","Rplate1r","Rplate2r","Rplate2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_licenseplate_R_police_facelift": {
+    "information":{
+        "name":"Rear Facelift Filler Panel (Police)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_licenseplate_mount_R",
+    
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_notip_police",["legocar_licenseplate_mount_R"], [], {"pos":{"x": 0.000, "y":1.850, "z":0.475},"rot":{"x":-90, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_licenseplate_mount_R"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["Rplate1l",  0.25, 1.90, 0.38],
+	["Rplate1r", -0.25, 1.90, 0.38],
+	["Rplate2l",  0.25, 1.90, 0.60],
+	["Rplate2r", -0.25, 1.90, 0.60],
+	//rigidifier
+	["Rplaterig", 0, 1.65, 0.475, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR LICENSE PLATE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["Rplate1l", "Rplate1r"],
+	["Rplate2l", "Rplate2r"],
+	["Rplate1l", "Rplate2l"],
+	["Rplate1r", "Rplate2r"],
+	["Rplate1l", "Rplate2r"],
+	["Rplate2l", "Rplate1r"],
+
+	//rigidifier
+	["Rplate1l", "Rplaterig"],
+	["Rplate1r", "Rplaterig"],
+	["Rplate2l", "Rplaterig"],
+	["Rplate2r", "Rplaterig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"licenseplate_R_break"},
+
+	["Rplate1l", "Rfasc1l"],
+	["Rplate1l", "Rfasc2l"],
+	["Rplate1l", "Rfasc1r"],
+	["Rplate1l", "Rfascrig"],
+
+	["Rplate1r", "Rfasc1r"],
+	["Rplate1r", "Rfasc2r"],
+	["Rplate1r", "Rfasc1l"],
+	["Rplate1r", "Rfascrig"],
+
+	["Rplate2l", "Rfasc2l"],
+	["Rplate2l", "Rfasc2r"],
+	["Rplate2l", "Rfasc1l"],
+	["Rplate2l", "Rfascrig"],
+
+	["Rplate2r", "Rfasc2r"],
+	["Rplate2r", "Rfasc1r"],
+	["Rplate2r", "Rfasc2l"],
+	["Rplate2r", "Rfascrig"],
+
+	//anti wobble
+	["Rplaterig", "Rfasc1r"],
+	["Rplaterig", "Rfasc1l"],
+	["Rplaterig", "Rfasc2r"],
+	["Rplaterig", "Rfasc2l"],
+	["Rplaterig", "Rfascrig"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_licenseplate_mount_R"},
+	["Rplate1l","Rplate1r","Rplate2r","Rplate2l"],
+        {"group":""},
+    ],
+},
+
+}

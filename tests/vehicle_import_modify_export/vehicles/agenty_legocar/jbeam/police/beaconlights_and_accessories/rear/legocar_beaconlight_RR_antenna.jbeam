@@ -1,0 +1,136 @@
+{
+"legocar_beaconlight_RR_antenna": {
+    "information":{
+        "name":"Antenna",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_beaconlight_RR_bulb",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_shifterbase_grey",["legocar_antenna_RR_base"],[], {"pos":{"x":0.000, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_shifter_M",       ["legocar_antenna_RR"],     [], {"pos":{"x":0.000, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ANTENNA--
+	//1 piece, 4 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	//base
+	{"group":"legocar_antenna_RR_base"},
+	["RRant1", 0, 0.500, 1.825],
+	["RRant2", 0, 0.250, 1.825],
+
+	//rotation axis
+	{"group":["legocar_antenna_RR_base", "legocar_antenna_RR"]},
+	["RRant3",-0.125, 0.375, 1.825],
+	["RRant4", 0.125, 0.375, 1.825],
+
+	//antenna
+	{"group":"legocar_antenna_RR"},
+	{"nodeWeight": "$=$weight*0.4"},
+	["RRant5", 0, 0.375, 2.245],	
+
+	//rigidifier
+	["RRantrig", 0, 0.375, 1.7, {"selfCollision":false, "group":""}],	
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$weight*10", "damp":"$=$weight*0.1", "deform":"$=$strength*0.1", "strength":"FLT_MAX"},
+        ["RRant5","RRant3","RRant4","RRantrig"],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//base uniform structure
+	["RRant1", "RRant2"],
+	["RRant1", "RRant3"],
+	["RRant1", "RRant4"],
+	["RRant2", "RRant3"],
+	["RRant2", "RRant4"],
+	["RRant3", "RRant4"],
+
+	//rigidifier
+	["RRant1", "RRantrig"],
+	["RRant2", "RRantrig"],
+	["RRant3", "RRantrig"],
+	["RRant4", "RRantrig"],
+	
+	//antenna
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	["RRant5", "RRant3"],
+	["RRant5", "RRant4"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.75", "beamStrength":"$=$strength*0.75"},
+	{"breakGroup":"antenna_RR_break"},
+
+	["RRant1", "roofR1l"],
+	["RRant1", "roofR1r"],
+	["RRant1", "roofR2l"],
+	["RRant1", "roofR2r"],
+	["RRant1", "roofRrig"],
+
+	["RRant2", "roofR1l"],
+	["RRant2", "roofR1r"],
+	["RRant2", "roofR2l"],
+	["RRant2", "roofR2r"],
+	["RRant2", "roofRrig"],
+	
+	["RRant3", "roofR1l"],
+	["RRant3", "roofR1r"],
+	["RRant3", "roofR2l"],
+	["RRant3", "roofR2r"],
+	["RRant3", "roofRrig"],
+
+	["RRant4", "roofR1l"],
+	["RRant4", "roofR1r"],
+	["RRant4", "roofR2l"],
+	["RRant4", "roofR2r"],
+	["RRant4", "roofRrig"],
+
+	["RRantrig", "roofR1l"],
+	["RRantrig", "roofR1r"],
+	["RRantrig", "roofR2l"],
+	["RRantrig", "roofR2r"],
+
+	{"breakGroup":""},
+
+
+	//--LIMITERS--
+	{"beamPrecompression":1,"beamType":"|SUPPORT", "beamLongBound":100},
+	{"beamSpring":"$=$weight*21000", "beamDamp":"$=$weight*200"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//antenna limiter
+	["RRant5", "RRantrig", {"beamPrecompression":0.8}],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_antenna_RR"},
+	["RRant5","RRant1","RRant3"],
+	["RRant5","RRant3","RRant2"],
+	["RRant5","RRant2","RRant4"],
+	["RRant5","RRant4","RRant1"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_antenna_RR"},   
+	["RRant1","RRant3","RRant2","RRant4"],	
+        {"group":""},
+    ],
+},
+
+}

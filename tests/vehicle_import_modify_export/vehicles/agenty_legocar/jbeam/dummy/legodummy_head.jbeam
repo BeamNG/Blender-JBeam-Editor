@@ -1,0 +1,312 @@
+{ 
+"legodummy_head": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Head"
+    },
+    "slotType" : "legodummy_head",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legodummy_head",        ["legodummy_head"],        [], {"pos":{"x": 0, "y":0, "z":0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+	["legodummy_face",        ["legodummy_face"],        [], {"pos":{"x": 0, "y":0, "z":0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+	["legodummy_head_decal_L",["legodummy_head_decal_L"],[], {"pos":{"x": 0, "y":0, "z":0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+	["legodummy_head_decal_R",["legodummy_head_decal_R"],[], {"pos":{"x": 0, "y":0, "z":0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],	
+    ],
+    "camerasInternal":[
+        ["type", "x", "y", "z", "fov", "id1:", "id2:", "id3:", "id4:", "id5:", "id6:"],
+        {"nodeWeight": "$=$fig_weight*0.33"},
+	{"beamSpring":"$=$fig_weight*331000", "beamDamp":"$=$fig_weight*33"},
+        {"selfCollision":false},
+        {"collision":false},
+        ["dummy_view", 0, -0.125, 0.675, 55, "head1l","head1r","head2l","head2r","head3l","head3r", {"beamDeform":"FLT_MAX","beamStrength":"FLT_MAX", "idBack:":"head2l", "idUp:":"head3l", "idRef:":"head1l"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--HEAD--
+	{"group":"legodummy_head"},
+	//3kg / 9 nodes = 0.33 kg/node
+	{"nodeWeight": "$=$fig_weight*0.33"},
+
+	["head1l", 0.125,-0.125, 0.580],
+	["head1r",-0.125,-0.125, 0.580],
+	["head2l", 0.125, 0.125, 0.580],
+	["head2r",-0.125, 0.125, 0.580],
+	["head3l", 0.125,-0.125, 0.850],
+	["head3r",-0.125,-0.125, 0.850],
+	["head4l", 0.125, 0.125, 0.850],
+	["head4r",-0.125, 0.125, 0.850],
+
+
+	//--DECALS--
+	{"nodeWeight": "$=$fig_weight*0.2"},
+
+	//face
+	{"group":"legodummy_face"},
+	["face1l", 0.125,-0.175, 0.600],
+	["face1r",-0.125,-0.175, 0.600],
+	["face3l", 0.125,-0.175, 0.850],
+	["face3r",-0.125,-0.175, 0.850],
+	//rigidifier
+	{"group":""},
+	["face2",  0.000,-0.025, 0.725, {"collision":false, "selfCollision":false}],
+
+	//left
+	{"group":"legodummy_head_decal_L"},
+	["hdec1l", 0.175,-0.095, 0.630],
+	["hdec2l", 0.175, 0.095, 0.630],
+	["hdec3l", 0.175,-0.095, 0.820],
+	["hdec4l", 0.175, 0.095, 0.820],
+	//rigidifier
+	{"group":""},
+	["hdec0l", 0.030, 0.000, 0.725, {"collision":false, "selfCollision":false}],
+
+	//right
+	{"group":"legodummy_head_decal_R"},
+	["hdec1r",-0.175,-0.095, 0.630],
+	["hdec2r",-0.175, 0.095, 0.630],
+	["hdec3r",-0.175,-0.095, 0.820],
+	["hdec4r",-0.175, 0.095, 0.820],
+	//rigidifier
+	{"group":""},
+	["hdec0r",-0.030, 0.000, 0.725, {"collision":false, "selfCollision":false}],
+    ],
+    "torsionHydros": [
+        ["id1:","id2:","id3:","id4:"],
+	//spring = weight * 100000
+        {"spring":"$=$fig_weight*17500", "damp":0, "deform":5000, "strength":"FLT_MAX"},
+	//3600 degrees rotation
+        ["head3l","torso6","torso5","torso3l", {"factor":62.8318530,"inRate":1.5,"outRate":1.5,"inputSource":"head"}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--HEAD--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$fig_weight*331000", "beamDamp":"$=$fig_weight*33"},
+
+	//uniform structure
+	["head1l", "head1r"],
+	["head2l", "head2r"],
+	["head3l", "head3r"],
+	["head4l", "head4r"],
+
+	["head1l", "head2r"],
+	["head2l", "head3r"],
+	["head3l", "head4r"],
+	["head4l", "head1r"],
+
+	["head1l", "head3r"],
+	["head2l", "head4r"],
+	["head3l", "head1r"],
+	["head4l", "head2r"],
+
+	["head1l", "head4r"],
+	["head2l", "head1r"],
+	["head3l", "head2r"],
+	["head4l", "head3r"],
+
+	["head1l", "head2l"],
+	["head2l", "head3l"],
+	["head3l", "head4l"],
+	["head4l", "head1l"],
+
+	["head1l", "head3l"],
+	["head2l", "head4l"],
+
+	["head1r", "head2r"],
+	["head2r", "head3r"],
+	["head3r", "head4r"],
+	["head4r", "head1r"],
+
+	["head1r", "head3r"],
+	["head2r", "head4r"],
+
+
+	//--DECALS--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$fig_weight*201000", "beamDamp":"$=$fig_weight*20"},
+
+	//face
+	["face1l", "face1r"],
+	["face3l", "face3r"],
+	["face1l", "face3r"],
+	["face3l", "face1r"],
+	["face1l", "face3l"],
+	["face1r", "face3r"],
+
+	["face1l", "face2"],
+	["face1r", "face2"],
+	["face3l", "face2"],
+	["face3r", "face2"],
+
+	//left
+	["hdec1l", "hdec2l"],
+	["hdec2l", "hdec3l"],
+	["hdec3l", "hdec4l"],
+	["hdec4l", "hdec1l"],
+	["hdec1l", "hdec3l"],
+	["hdec2l", "hdec4l"],
+
+	["hdec1l", "hdec0l"],
+	["hdec2l", "hdec0l"],
+	["hdec3l", "hdec0l"],
+	["hdec4l", "hdec0l"],
+
+	//right
+	["hdec1r", "hdec2r"],
+	["hdec2r", "hdec3r"],
+	["hdec3r", "hdec4r"],
+	["hdec4r", "hdec1r"],
+	["hdec1r", "hdec3r"],
+	["hdec2r", "hdec4r"],
+
+	["hdec1r", "hdec0r"],
+	["hdec2r", "hdec0r"],
+	["hdec3r", "hdec0r"],
+	["hdec4r", "hdec0r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$fig_strength*0.5", "beamStrength":"$=$fig_strength*0.5"},
+
+	//decals to head
+	{"beamSpring":"$=$fig_weight*101000", "beamDamp":"$=$fig_weight*10"},
+
+	//face
+	{"breakGroup":"face_break"},
+
+	["face1l", "head1l"],
+	["face1l", "head1r"],
+	["face1l", "head2l"],
+	["face1l", "head3l"],
+
+	["face1r", "head1l"],
+	["face1r", "head1r"],
+	["face1r", "head2r"],
+	["face1r", "head3r"],
+
+	["face3l", "head1l"],
+	["face3l", "head3r"],
+	["face3l", "head4l"],
+	["face3l", "head3l"],
+
+	["face3r", "head3l"],
+	["face3r", "head1r"],
+	["face3r", "head4r"],
+	["face3r", "head3r"],
+
+	["face2", "head2l"],
+	["face2", "head2r"],
+	["face2", "head4l"],
+	["face2", "head4r"],
+	
+	//left
+	{"breakGroup":"head_decal_L_break"},
+
+	["hdec1l", "head1l"],
+	["hdec1l", "head1r"],
+	["hdec1l", "head2l"],
+	["hdec1l", "head3l"],
+
+	["hdec2l", "head1l"],
+	["hdec2l", "head2r"],
+	["hdec2l", "head2l"],
+	["hdec2l", "head4l"],
+
+	["hdec3l", "head1l"],
+	["hdec3l", "head3r"],
+	["hdec3l", "head4l"],
+	["hdec3l", "head3l"],
+
+	["hdec4l", "head3l"],
+	["hdec4l", "head4r"],
+	["hdec4l", "head2l"],
+	["hdec4l", "head4l"],
+
+	["hdec0l", "head1r"],
+	["hdec0l", "head2r"],
+	["hdec0l", "head3r"],
+	["hdec0l", "head4r"],
+
+	//right
+	{"breakGroup":"head_decal_R_break"},
+
+	["hdec1r", "head1l"],
+	["hdec1r", "head1r"],
+	["hdec1r", "head2r"],
+	["hdec1r", "head3r"],
+
+	["hdec2r", "head1r"],
+	["hdec2r", "head2r"],
+	["hdec2r", "head2l"],
+	["hdec2r", "head4r"],
+
+	["hdec3r", "head1r"],
+	["hdec3r", "head3r"],
+	["hdec3r", "head4r"],
+	["hdec3r", "head3l"],
+
+	["hdec4r", "head3r"],
+	["hdec4r", "head4r"],
+	["hdec4r", "head2r"],
+	["hdec4r", "head4l"],
+
+	["hdec0r", "head1l"],
+	["hdec0r", "head2l"],
+	["hdec0r", "head3l"],
+	["hdec0r", "head4l"],
+
+
+	//head to torso
+	{"beamSpring":"$=$fig_weight*151000", "beamDamp":"$=$fig_weight*15"},
+	{"breakGroup":"head_break"},
+
+	["head1l", "torso5"],
+	["head1r", "torso5"],
+	["head2l", "torso5"],
+	["head2r", "torso5"],
+	["head3l", "torso5"],
+	["head3r", "torso5"],
+	["head4l", "torso5"],
+	["head4r", "torso5"],
+
+	["head1l", "torso6", {"name":"head"}],
+	["head1r", "torso6"],
+	["head2l", "torso6"],
+	["head2r", "torso6"],
+	["head3l", "torso6"],
+	["head3r", "torso6"],
+	["head4l", "torso6"],
+	["head4r", "torso6"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legodummy_head"},   
+	["head3r","head4r","head2r","head1r"],
+	["head4l","head3l","head1l","head2l"],
+	["head4r","head4l","head2l","head2r"],
+	["head3l","head3r","head1r","head1l"],
+	["head3r","head3l","head4l","head4r"],
+	["head2r","head2l","head1l","head1r"],
+
+	{"group":"legodummy_face"},   
+	["face3l","face3r","face1r","face1l"],
+	{"group":"legodummy_head_decal_L"},   
+	["hdec4l","hdec3l","hdec1l","hdec2l"],
+	{"group":"legodummy_head_decal_R"},   
+	["hdec3r","hdec4r","hdec2r","hdec1r"],
+
+        {"group":""},
+    ],
+},
+
+}

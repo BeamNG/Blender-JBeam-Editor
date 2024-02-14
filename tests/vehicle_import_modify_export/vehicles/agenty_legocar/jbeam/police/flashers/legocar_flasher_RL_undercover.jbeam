@@ -1,0 +1,344 @@
+{
+"legocar_flasher_RL_red_undercover": {
+    "information":{
+        "name":"Undercover Red Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_flasher_RL",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"RLflasher_break", "deformMaterialBase":"legocar_flasher_RL_red_undercover", "deformMaterialDamaged":"lego_transcol_black"},
+	["legocar_flasher_RL_red_undercover", ["legocar_flasher_RL"],[], {"pos":{"x": 0.375, "y":0.625, "z":1.0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":90,
+	    "lightRange":10,
+            "lightColor":{"r":201, "g":26, "b":9, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.04,
+	    "lightBrightness":0.8,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_flasher_RL","SPOTLIGHT", "RLflasher1r", "RLflasher2r", "RLflasher1l",{"x":90, "y":-90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":1, "y":0.5, "z":0},"deformGroup":"RLflasher_break"}],
+	{"lightBrightness":0.4},
+	["cop_flasher_RL_dim","SPOTLIGHT", "RLflasher1r", "RLflasher2r", "RLflasher1l",{"x":90, "y":-90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":1, "y":0.5, "z":0},"deformGroup":"RLflasher_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--LEFT FLASHER--
+	{"group":"legocar_flasher_RL"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RLflasher1l", 0.50, 0.50, 1.05],
+	["RLflasher1r", 0.25, 0.50, 1.05],
+	["RLflasher2l", 0.50, 0.75, 1.05],
+	["RLflasher2r", 0.25, 0.75, 1.05],
+	//rigidifier
+	["RLflasherrig", 0.375, 0.625, 0.95, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RLflasher1l", "RLflasher1r"],
+	["RLflasher2l", "RLflasher2r"],
+	["RLflasher1l", "RLflasher2l"],
+	["RLflasher1r", "RLflasher2r"],
+	["RLflasher1l", "RLflasher2r"],
+	["RLflasher2l", "RLflasher1r"],
+
+	//rigidifier
+	["RLflasher1l", "RLflasherrig"],
+	["RLflasher1r", "RLflasherrig"],
+	["RLflasher2l", "RLflasherrig"],
+	["RLflasher2r", "RLflasherrig"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"RLflasher_break"},
+	{"deformGroup":"RLflasher_break"},
+	
+	["RLflasher1l", "shelfR1l"],
+	["RLflasher1l", "shelfR1r"],
+	["RLflasher1l", "shelfR2l"],
+	["RLflasher1l", "shelfRrig"],
+
+	["RLflasher1r", "shelfR1l"],
+	["RLflasher1r", "shelfR1r"],
+	["RLflasher1r", "shelfR2r"],
+	["RLflasher1r", "shelfRrig"],
+
+	["RLflasher2l", "shelfR1l"],
+	["RLflasher2l", "shelfR2r"],
+	["RLflasher2l", "shelfR2l"],
+	["RLflasher2l", "shelfRrig"],
+
+	["RLflasher2r", "shelfR2l"],
+	["RLflasher2r", "shelfR1r"],
+	["RLflasher2r", "shelfR2r"],
+	["RLflasher2r", "shelfRrig"],
+
+	["RLflasherrig", "shelfR1l"],
+	["RLflasherrig", "shelfR1r"],
+	["RLflasherrig", "shelfR2l"],
+	["RLflasherrig", "shelfR2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_parcelshelf_sign_L"},
+	["RLflasher1r","RLflasher1l","RLflasher2l","RLflasher2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_flasher_RL_blue_undercover": {
+    "information":{
+        "name":"Undercover Blue Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_flasher_RL",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"RLflasher_break", "deformMaterialBase":"legocar_flasher_RL_blue_undercover", "deformMaterialDamaged":"lego_transcol_black"},
+	["legocar_flasher_RL_blue_undercover", ["legocar_flasher_RL"],[], {"pos":{"x": 0.375, "y":0.625, "z":1.0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":90,
+	    "lightRange":10,
+            "lightColor":{"r":0, "g":32, "b":160, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.04,
+	    "lightBrightness":0.8,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_flasher_RL","SPOTLIGHT", "RLflasher1r", "RLflasher2r", "RLflasher1l",{"x":90, "y":-90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":1, "y":0.5, "z":0},"deformGroup":"RLflasher_break"}],
+	{"lightBrightness":0.4},
+	["cop_flasher_RL_dim","SPOTLIGHT", "RLflasher1r", "RLflasher2r", "RLflasher1l",{"x":90, "y":-90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":1, "y":0.5, "z":0},"deformGroup":"RLflasher_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--LEFT FLASHER--
+	{"group":"legocar_flasher_RL"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RLflasher1l", 0.50, 0.50, 1.05],
+	["RLflasher1r", 0.25, 0.50, 1.05],
+	["RLflasher2l", 0.50, 0.75, 1.05],
+	["RLflasher2r", 0.25, 0.75, 1.05],
+	//rigidifier
+	["RLflasherrig", 0.375, 0.625, 0.95, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RLflasher1l", "RLflasher1r"],
+	["RLflasher2l", "RLflasher2r"],
+	["RLflasher1l", "RLflasher2l"],
+	["RLflasher1r", "RLflasher2r"],
+	["RLflasher1l", "RLflasher2r"],
+	["RLflasher2l", "RLflasher1r"],
+
+	//rigidifier
+	["RLflasher1l", "RLflasherrig"],
+	["RLflasher1r", "RLflasherrig"],
+	["RLflasher2l", "RLflasherrig"],
+	["RLflasher2r", "RLflasherrig"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"RLflasher_break"},
+	{"deformGroup":"RLflasher_break"},
+	
+	["RLflasher1l", "shelfR1l"],
+	["RLflasher1l", "shelfR1r"],
+	["RLflasher1l", "shelfR2l"],
+	["RLflasher1l", "shelfRrig"],
+
+	["RLflasher1r", "shelfR1l"],
+	["RLflasher1r", "shelfR1r"],
+	["RLflasher1r", "shelfR2r"],
+	["RLflasher1r", "shelfRrig"],
+
+	["RLflasher2l", "shelfR1l"],
+	["RLflasher2l", "shelfR2r"],
+	["RLflasher2l", "shelfR2l"],
+	["RLflasher2l", "shelfRrig"],
+
+	["RLflasher2r", "shelfR2l"],
+	["RLflasher2r", "shelfR1r"],
+	["RLflasher2r", "shelfR2r"],
+	["RLflasher2r", "shelfRrig"],
+
+	["RLflasherrig", "shelfR1l"],
+	["RLflasherrig", "shelfR1r"],
+	["RLflasherrig", "shelfR2l"],
+	["RLflasherrig", "shelfR2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_parcelshelf_sign_L"},
+	["RLflasher1r","RLflasher1l","RLflasher2l","RLflasher2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_flasher_RL_orange_undercover": {
+    "information":{
+        "name":"Undercover Orange Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_flasher_RL",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"RLflasher_break", "deformMaterialBase":"legocar_flasher_RL_orange_undercover", "deformMaterialDamaged":"lego_transcol_black"},
+	["legocar_flasher_RL_orange_undercover", ["legocar_flasher_RL"],[], {"pos":{"x": 0.375, "y":0.625, "z":1.0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":90,
+	    "lightRange":10,
+            "lightColor":{"r":240, "g":143, "b":28, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.04,
+	    "lightBrightness":0.8,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_flasher_RL","SPOTLIGHT", "RLflasher1r", "RLflasher2r", "RLflasher1l",{"x":90, "y":-90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":1, "y":0.5, "z":0},"deformGroup":"RLflasher_break"}],
+	{"lightBrightness":0.4},
+	["cop_flasher_RL_dim","SPOTLIGHT", "RLflasher1r", "RLflasher2r", "RLflasher1l",{"x":90, "y":-90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":1, "y":0.5, "z":0},"deformGroup":"RLflasher_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--LEFT FLASHER--
+	{"group":"legocar_flasher_RL"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RLflasher1l", 0.50, 0.50, 1.05],
+	["RLflasher1r", 0.25, 0.50, 1.05],
+	["RLflasher2l", 0.50, 0.75, 1.05],
+	["RLflasher2r", 0.25, 0.75, 1.05],
+	//rigidifier
+	["RLflasherrig", 0.375, 0.625, 0.95, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RLflasher1l", "RLflasher1r"],
+	["RLflasher2l", "RLflasher2r"],
+	["RLflasher1l", "RLflasher2l"],
+	["RLflasher1r", "RLflasher2r"],
+	["RLflasher1l", "RLflasher2r"],
+	["RLflasher2l", "RLflasher1r"],
+
+	//rigidifier
+	["RLflasher1l", "RLflasherrig"],
+	["RLflasher1r", "RLflasherrig"],
+	["RLflasher2l", "RLflasherrig"],
+	["RLflasher2r", "RLflasherrig"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"RLflasher_break"},
+	{"deformGroup":"RLflasher_break"},
+	
+	["RLflasher1l", "shelfR1l"],
+	["RLflasher1l", "shelfR1r"],
+	["RLflasher1l", "shelfR2l"],
+	["RLflasher1l", "shelfRrig"],
+
+	["RLflasher1r", "shelfR1l"],
+	["RLflasher1r", "shelfR1r"],
+	["RLflasher1r", "shelfR2r"],
+	["RLflasher1r", "shelfRrig"],
+
+	["RLflasher2l", "shelfR1l"],
+	["RLflasher2l", "shelfR2r"],
+	["RLflasher2l", "shelfR2l"],
+	["RLflasher2l", "shelfRrig"],
+
+	["RLflasher2r", "shelfR2l"],
+	["RLflasher2r", "shelfR1r"],
+	["RLflasher2r", "shelfR2r"],
+	["RLflasher2r", "shelfRrig"],
+
+	["RLflasherrig", "shelfR1l"],
+	["RLflasherrig", "shelfR1r"],
+	["RLflasherrig", "shelfR2l"],
+	["RLflasherrig", "shelfR2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_parcelshelf_sign_L"},
+	["RLflasher1r","RLflasher1l","RLflasher2l","RLflasher2r"],
+        {"group":""},
+    ],
+},
+
+}

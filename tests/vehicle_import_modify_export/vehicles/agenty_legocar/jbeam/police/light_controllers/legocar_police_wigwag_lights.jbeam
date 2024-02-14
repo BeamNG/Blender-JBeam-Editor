@@ -1,0 +1,183 @@
+{
+"legocar_police_wigwag_lights": {
+    "information":{
+        "name":"Standard Wigwag Lights",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_police_wigwag_lights",
+    "controller": [
+        ["fileName"],
+        ["lightbar", {
+	  "name": "wigwag_lights",
+          "defaultModeIndex": 1,
+          "modes": [
+              ["name", "config"],
+
+              ["Chase", [
+                  ["electric", "value", "duration"],
+                  ["wigwag_L", 1, 0.4],
+                  ["wigwag_L", 0, 0.4],
+                  ["wigwag_R", 0, 0.4],
+                  ["wigwag_R", 1, 0.4],
+                ]
+              ],
+
+              ["Scene", [
+                  ["electric", "value", "duration"],
+                  ["wigwag_L", 1, 0.5],
+                  ["wigwag_L", 0, 0.5],
+                  ["wigwag_R", 0, 0.5],
+                  ["wigwag_R", 1, 0.5],
+                ]
+              ],
+
+              ["Left Signal", [
+                  ["electric", "value", "duration"],
+                  ["wigwag_L", 1, 0.5],
+                  ["wigwag_L", 0, 0.5],
+                  ["wigwag_R", 0, 0.5],
+                  ["wigwag_R", 1, 0.5],
+                ]
+              ],
+
+              ["Right Signal", [
+                  ["electric", "value", "duration"],
+                  ["wigwag_L", 1, 0.5],
+                  ["wigwag_L", 0, 0.5],
+                  ["wigwag_R", 0, 0.5],
+                  ["wigwag_R", 1, 0.5],
+                ]
+              ],
+
+          ]
+        }],
+    ],
+},
+
+"legocar_police_wigwag_lights_alt": {
+    "information":{
+        "name":"Aggressive Wigwag Lights",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_police_wigwag_lights",
+    "controller": [
+        ["fileName"],
+        ["lightbar", {
+	  "name": "wigwag_lights",
+          "defaultModeIndex": 1,
+          "modes": [
+              ["name", "config"],
+
+              ["Chase", [
+                  ["electric", "value", "duration"],
+                  ["wigwag_L", 1, 0.1],
+                  ["wigwag_L", 0, 0.1],
+                  ["wigwag_L", 1, 0.1],
+                  ["wigwag_L", 0, 0.3],
+                  ["wigwag_R", 0, 0.3],
+                  ["wigwag_R", 1, 0.1],
+                  ["wigwag_R", 0, 0.1],
+                  ["wigwag_R", 1, 0.1],
+                ]
+              ],
+
+              ["Scene", [
+                  ["electric", "value", "duration"],
+                  ["wigwag_L", 1, 0.4],
+                  ["wigwag_L", 0, 0.4],
+                  ["wigwag_R", 0, 0.4],
+                  ["wigwag_R", 1, 0.4],
+                ]
+              ],
+
+              ["Left Signal", [
+                  ["electric", "value", "duration"],
+                  ["wigwag_L", 1, 0.4],
+                  ["wigwag_L", 0, 0.4],
+                  ["wigwag_R", 0, 0.4],
+                  ["wigwag_R", 1, 0.4],
+                ]
+              ],
+
+              ["Right Signal", [
+                  ["electric", "value", "duration"],
+                  ["wigwag_L", 1, 0.4],
+                  ["wigwag_L", 0, 0.4],
+                  ["wigwag_R", 0, 0.4],
+                  ["wigwag_R", 1, 0.4],
+                ]
+              ],
+
+          ]
+        }],
+    ],
+},
+
+"legocar_police_wigwag_lights_altb": {
+    "information":{
+        "name":"Very Aggressive Wigwag Lights",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_police_wigwag_lights",
+    "controller": [
+        ["fileName"],
+        ["lightbar", {
+	  "name": "wigwag_lights",
+          "defaultModeIndex": 1,
+          "modes": [
+              ["name", "config"],
+
+              ["Chase", [
+                  ["electric", "value", "duration"],
+                  ["wigwag_L", 1, 0.05],
+                  ["wigwag_L", 0, 0.05],
+                  ["wigwag_L", 1, 0.05],
+		  ["wigwag_L", 0, 0.05],
+                  ["wigwag_L", 1, 0.05],
+                  ["wigwag_L", 0, 0.30],
+                  ["wigwag_R", 0, 0.30],
+                  ["wigwag_R", 1, 0.05],
+                  ["wigwag_R", 0, 0.05],
+                  ["wigwag_R", 1, 0.05],
+		  ["wigwag_R", 0, 0.05],
+                  ["wigwag_R", 1, 0.05],
+                ]
+              ],
+
+              ["Scene", [
+                  ["electric", "value", "duration"],
+                  ["wigwag_L", 1, 0.1],
+                  ["wigwag_L", 0, 0.1],
+                  ["wigwag_L", 1, 0.1],
+                  ["wigwag_L", 0, 0.5],
+                  ["wigwag_R", 0, 0.5],
+                  ["wigwag_R", 1, 0.1],
+                  ["wigwag_R", 0, 0.1],
+                  ["wigwag_R", 1, 0.1],
+                ]
+              ],
+
+              ["Left Signal", [
+                  ["electric", "value", "duration"],
+                  ["wigwag_L", 1, 0.4],
+                  ["wigwag_L", 0, 0.4],
+                  ["wigwag_R", 0, 0.4],
+                  ["wigwag_R", 1, 0.4],
+                ]
+              ],
+
+              ["Right Signal", [
+                  ["electric", "value", "duration"],
+                  ["wigwag_L", 1, 0.4],
+                  ["wigwag_L", 0, 0.4],
+                  ["wigwag_R", 0, 0.4],
+                  ["wigwag_R", 1, 0.4],
+                ]
+              ],
+
+          ]
+        }],
+    ],
+},
+
+}

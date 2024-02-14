@@ -1,0 +1,757 @@
+{
+"legocar_speedo_imperial": {
+    "information":{
+        "name":"Imperial Speedometer (Customizable Range)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_speedo",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	//full size mesh to prevent visual clipping
+	["legocar_speedo", ["legocar_speedo"],[], {"pos":{"x":0.375, "y":-0.625, "z":0.701},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+	["$topspeed","range", "mph", "Speedometer", 140, 1, 500, "Top Speed", "Speed at which the gauge is in its top position", {"stepDis":1}],
+    ],
+    "props": [
+	//from start to redline 255 degrees, offset 20% of top speed
+        ["func",      "mesh",                 "idRef:",  "idX:",    "idY:",    "baseRotation",       "rotation",                                    "translation",     "min","max", "offset",                 "multiplier"],
+        ["wheelspeed","legocar_speedo_needle","speedo3l","speedo3r","speedo1l",{"x":-90,"y":0,"z":0},{"x":0,"y":0,"z":"$=-255/($topspeed*0.44704)"},{"x":0,"y":0,"z":0},0,   100000,"$=$topspeed*0.44704*0.2",1           ,{"baseTranslation":{"x":0.125, "y":0.140, "z":0.001}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_speedo"},
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["speedo1l", 0.50, -0.50, 0.75],
+	["speedo1r", 0.25, -0.50, 0.75,	{"selfCollision":false}],
+	["speedo2l", 0.50, -0.75, 0.75],
+	["speedo2r", 0.25, -0.75, 0.75],
+	["speedo3l", 0.50, -0.75, 0.90],
+	["speedo3r", 0.25, -0.75, 0.90],	
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["speedo1l", "speedo1r"],
+	["speedo2l", "speedo2r"],
+	["speedo3l", "speedo3r"],
+
+	["speedo2l", "speedo1l"],
+	["speedo2r", "speedo1r"],
+	["speedo2l", "speedo3l"],
+	["speedo2r", "speedo3r"],
+	["speedo3l", "speedo1l"],
+	["speedo3r", "speedo1r"],
+
+	["speedo1l", "speedo2r"],
+	["speedo2l", "speedo1r"],
+	["speedo2l", "speedo3r"],
+	["speedo3l", "speedo2r"],
+	["speedo3l", "speedo1r"],
+	["speedo1l", "speedo3r"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	//the piece is not properly secured from all sides on the cluster, easier to break
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"speedo_break"},
+	
+	["speedo1l", "gauge1l"],
+	["speedo1l", "gauge4l"],
+	["speedo1l", "gauge3r"],
+
+	["speedo1r", "gauge1r"],
+	["speedo1r", "gauge4r"],
+	["speedo1r", "gauge3l"],
+
+	["speedo2l", "gauge2l"],
+	["speedo2l", "gauge3l"],
+	["speedo2l", "gauge4r"],
+
+	["speedo2r", "gauge2r"],
+	["speedo2r", "gauge3r"],
+	["speedo2r", "gauge4l"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	//bleed generic values again in case they got overwriten by wheels
+	{"groundModel":"plastic"},
+        {"dragCoef":"$drag"},
+
+	{"group":"legocar_speedo"},
+	["speedo1r","speedo2r","speedo3r"],
+	["speedo2l","speedo1l","speedo3l"],    
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_speedo"},   
+	["speedo1r","speedo1l","speedo2l","speedo2r"],
+	["speedo1l","speedo1r","speedo3r","speedo3l"],
+	["speedo2r","speedo2l","speedo3l","speedo3r"],
+        {"group":""},
+    ],
+},
+"legocar_speedo_metric": {
+    "information":{
+        "name":"Metric Speedometer (Customizable Range)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_speedo",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	//full size mesh to prevent visual clipping
+	["legocar_speedo", ["legocar_speedo"],[], {"pos":{"x":0.375, "y":-0.625, "z":0.701},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+	["$topspeed","range", "km/h", "Speedometer", 280, 1, 500, "Top Speed", "Speed at which the gauge is in its top position", {"stepDis":1}],
+    ],
+    "props": [
+	//from start to redline 255 degrees, offset 20% of top speed
+        ["func",      "mesh",                 "idRef:",  "idX:",    "idY:",    "baseRotation",       "rotation",                                    "translation",     "min","max", "offset",                 "multiplier"],
+        ["wheelspeed","legocar_speedo_needle","speedo3l","speedo3r","speedo1l",{"x":-90,"y":0,"z":0},{"x":0,"y":0,"z":"$=-255/($topspeed*0.27778)"},{"x":0,"y":0,"z":0},0,   100000,"$=$topspeed*0.27778*0.2",1           ,{"baseTranslation":{"x":0.125, "y":0.140, "z":0.001}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_speedo"},
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["speedo1l", 0.50, -0.50, 0.75],
+	["speedo1r", 0.25, -0.50, 0.75,	{"selfCollision":false}],
+	["speedo2l", 0.50, -0.75, 0.75],
+	["speedo2r", 0.25, -0.75, 0.75],
+	["speedo3l", 0.50, -0.75, 0.90],
+	["speedo3r", 0.25, -0.75, 0.90],	
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["speedo1l", "speedo1r"],
+	["speedo2l", "speedo2r"],
+	["speedo3l", "speedo3r"],
+
+	["speedo2l", "speedo1l"],
+	["speedo2r", "speedo1r"],
+	["speedo2l", "speedo3l"],
+	["speedo2r", "speedo3r"],
+	["speedo3l", "speedo1l"],
+	["speedo3r", "speedo1r"],
+
+	["speedo1l", "speedo2r"],
+	["speedo2l", "speedo1r"],
+	["speedo2l", "speedo3r"],
+	["speedo3l", "speedo2r"],
+	["speedo3l", "speedo1r"],
+	["speedo1l", "speedo3r"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	//the piece is not properly secured from all sides on the cluster, easier to break
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"speedo_break"},
+	
+	["speedo1l", "gauge1l"],
+	["speedo1l", "gauge4l"],
+	["speedo1l", "gauge3r"],
+
+	["speedo1r", "gauge1r"],
+	["speedo1r", "gauge4r"],
+	["speedo1r", "gauge3l"],
+
+	["speedo2l", "gauge2l"],
+	["speedo2l", "gauge3l"],
+	["speedo2l", "gauge4r"],
+
+	["speedo2r", "gauge2r"],
+	["speedo2r", "gauge3r"],
+	["speedo2r", "gauge4l"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	//bleed generic values again in case they got overwriten by wheels
+	{"groundModel":"plastic"},
+        {"dragCoef":"$drag"},
+
+	{"group":"legocar_speedo"},
+	["speedo1r","speedo2r","speedo3r"],
+	["speedo2l","speedo1l","speedo3l"],    
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_speedo"},   
+	["speedo1r","speedo1l","speedo2l","speedo2r"],
+	["speedo1l","speedo1r","speedo3r","speedo3l"],
+	["speedo2r","speedo2l","speedo3l","speedo3r"],
+        {"group":""},
+    ],
+},
+"legocar_speedo_imperial_gold": {
+    "information":{
+        "name":"Imperial Gold Edition Speedometer (Customizable Range)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_speedo",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	//full size mesh to prevent visual clipping
+	["legocar_speedo_gold", ["legocar_speedo"],[], {"pos":{"x":0.375, "y":-0.625, "z":0.701},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+	["$topspeed","range", "mph", "Speedometer", 140, 1, 500, "Top Speed", "Speed at which the gauge is in its top position", {"stepDis":1}],
+    ],
+    "props": [
+	//from start to redline 255 degrees, offset 20% of top speed
+        ["func",      "mesh",                 "idRef:",  "idX:",    "idY:",    "baseRotation",       "rotation",                                    "translation",     "min","max", "offset",                 "multiplier"],
+        ["wheelspeed","legocar_speedo_needle","speedo3l","speedo3r","speedo1l",{"x":-90,"y":0,"z":0},{"x":0,"y":0,"z":"$=-255/($topspeed*0.44704)"},{"x":0,"y":0,"z":0},0,   100000,"$=$topspeed*0.44704*0.2",1           ,{"baseTranslation":{"x":0.125, "y":0.140, "z":0.001}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_speedo"},
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["speedo1l", 0.50, -0.50, 0.75],
+	["speedo1r", 0.25, -0.50, 0.75,	{"selfCollision":false}],
+	["speedo2l", 0.50, -0.75, 0.75],
+	["speedo2r", 0.25, -0.75, 0.75],
+	["speedo3l", 0.50, -0.75, 0.90],
+	["speedo3r", 0.25, -0.75, 0.90],	
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["speedo1l", "speedo1r"],
+	["speedo2l", "speedo2r"],
+	["speedo3l", "speedo3r"],
+
+	["speedo2l", "speedo1l"],
+	["speedo2r", "speedo1r"],
+	["speedo2l", "speedo3l"],
+	["speedo2r", "speedo3r"],
+	["speedo3l", "speedo1l"],
+	["speedo3r", "speedo1r"],
+
+	["speedo1l", "speedo2r"],
+	["speedo2l", "speedo1r"],
+	["speedo2l", "speedo3r"],
+	["speedo3l", "speedo2r"],
+	["speedo3l", "speedo1r"],
+	["speedo1l", "speedo3r"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	//the piece is not properly secured from all sides on the cluster, easier to break
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"speedo_break"},
+	
+	["speedo1l", "gauge1l"],
+	["speedo1l", "gauge4l"],
+	["speedo1l", "gauge3r"],
+
+	["speedo1r", "gauge1r"],
+	["speedo1r", "gauge4r"],
+	["speedo1r", "gauge3l"],
+
+	["speedo2l", "gauge2l"],
+	["speedo2l", "gauge3l"],
+	["speedo2l", "gauge4r"],
+
+	["speedo2r", "gauge2r"],
+	["speedo2r", "gauge3r"],
+	["speedo2r", "gauge4l"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	//bleed generic values again in case they got overwriten by wheels
+	{"groundModel":"plastic"},
+        {"dragCoef":"$drag"},
+
+	{"group":"legocar_speedo"},
+	["speedo1r","speedo2r","speedo3r"],
+	["speedo2l","speedo1l","speedo3l"],    
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_speedo"},   
+	["speedo1r","speedo1l","speedo2l","speedo2r"],
+	["speedo1l","speedo1r","speedo3r","speedo3l"],
+	["speedo2r","speedo2l","speedo3l","speedo3r"],
+        {"group":""},
+    ],
+},
+"legocar_speedo_metric_gold": {
+    "information":{
+        "name":"Metric Gold Edition Speedometer (Customizable Range)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_speedo",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	//full size mesh to prevent visual clipping
+	["legocar_speedo_gold", ["legocar_speedo"],[], {"pos":{"x":0.375, "y":-0.625, "z":0.701},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+	["$topspeed","range", "km/h", "Speedometer", 280, 1, 500, "Top Speed", "Speed at which the gauge is in its top position", {"stepDis":1}],
+    ],
+    "props": [
+	//from start to redline 255 degrees, offset 20% of top speed
+        ["func",      "mesh",                 "idRef:",  "idX:",    "idY:",    "baseRotation",       "rotation",                                    "translation",     "min","max", "offset",                 "multiplier"],
+        ["wheelspeed","legocar_speedo_needle","speedo3l","speedo3r","speedo1l",{"x":-90,"y":0,"z":0},{"x":0,"y":0,"z":"$=-255/($topspeed*0.27778)"},{"x":0,"y":0,"z":0},0,   100000,"$=$topspeed*0.27778*0.2",1           ,{"baseTranslation":{"x":0.125, "y":0.140, "z":0.001}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_speedo"},
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["speedo1l", 0.50, -0.50, 0.75],
+	["speedo1r", 0.25, -0.50, 0.75,	{"selfCollision":false}],
+	["speedo2l", 0.50, -0.75, 0.75],
+	["speedo2r", 0.25, -0.75, 0.75],
+	["speedo3l", 0.50, -0.75, 0.90],
+	["speedo3r", 0.25, -0.75, 0.90],	
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["speedo1l", "speedo1r"],
+	["speedo2l", "speedo2r"],
+	["speedo3l", "speedo3r"],
+
+	["speedo2l", "speedo1l"],
+	["speedo2r", "speedo1r"],
+	["speedo2l", "speedo3l"],
+	["speedo2r", "speedo3r"],
+	["speedo3l", "speedo1l"],
+	["speedo3r", "speedo1r"],
+
+	["speedo1l", "speedo2r"],
+	["speedo2l", "speedo1r"],
+	["speedo2l", "speedo3r"],
+	["speedo3l", "speedo2r"],
+	["speedo3l", "speedo1r"],
+	["speedo1l", "speedo3r"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	//the piece is not properly secured from all sides on the cluster, easier to break
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"speedo_break"},
+	
+	["speedo1l", "gauge1l"],
+	["speedo1l", "gauge4l"],
+	["speedo1l", "gauge3r"],
+
+	["speedo1r", "gauge1r"],
+	["speedo1r", "gauge4r"],
+	["speedo1r", "gauge3l"],
+
+	["speedo2l", "gauge2l"],
+	["speedo2l", "gauge3l"],
+	["speedo2l", "gauge4r"],
+
+	["speedo2r", "gauge2r"],
+	["speedo2r", "gauge3r"],
+	["speedo2r", "gauge4l"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	//bleed generic values again in case they got overwriten by wheels
+	{"groundModel":"plastic"},
+        {"dragCoef":"$drag"},
+
+	{"group":"legocar_speedo"},
+	["speedo1r","speedo2r","speedo3r"],
+	["speedo2l","speedo1l","speedo3l"],    
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_speedo"},   
+	["speedo1r","speedo1l","speedo2l","speedo2r"],
+	["speedo1l","speedo1r","speedo3r","speedo3l"],
+	["speedo2r","speedo2l","speedo3l","speedo3r"],
+        {"group":""},
+    ],
+},
+
+"legocar_speedo_imperial_numbers": {
+    "information":{
+        "name":"Imperial Speedometer (140mph, Visible Numbers)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_speedo",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	//full size mesh to prevent visual clipping
+	["legocar_speedo_numbers_mph", ["legocar_speedo"],[], {"pos":{"x":0.375, "y":-0.625, "z":0.701},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "props": [
+	//from start to redline 255 degrees, offset 20% of top speed
+        ["func",      "mesh",                 "idRef:",  "idX:",    "idY:",    "baseRotation",       "rotation",                              "translation",     "min","max", "offset",          "multiplier"],
+        ["wheelspeed","legocar_speedo_needle","speedo3l","speedo3r","speedo1l",{"x":-90,"y":0,"z":0},{"x":0,"y":0,"z":"$=-255/(140*0.44704)"},{"x":0,"y":0,"z":0},0,   100000,"$=140*0.44704*0.2",1           ,{"baseTranslation":{"x":0.125, "y":0.140, "z":0.001}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_speedo"},
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["speedo1l", 0.50, -0.50, 0.75],
+	["speedo1r", 0.25, -0.50, 0.75,	{"selfCollision":false}],
+	["speedo2l", 0.50, -0.75, 0.75],
+	["speedo2r", 0.25, -0.75, 0.75],
+	["speedo3l", 0.50, -0.75, 0.90],
+	["speedo3r", 0.25, -0.75, 0.90],	
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["speedo1l", "speedo1r"],
+	["speedo2l", "speedo2r"],
+	["speedo3l", "speedo3r"],
+
+	["speedo2l", "speedo1l"],
+	["speedo2r", "speedo1r"],
+	["speedo2l", "speedo3l"],
+	["speedo2r", "speedo3r"],
+	["speedo3l", "speedo1l"],
+	["speedo3r", "speedo1r"],
+
+	["speedo1l", "speedo2r"],
+	["speedo2l", "speedo1r"],
+	["speedo2l", "speedo3r"],
+	["speedo3l", "speedo2r"],
+	["speedo3l", "speedo1r"],
+	["speedo1l", "speedo3r"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	//the piece is not properly secured from all sides on the cluster, easier to break
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"speedo_break"},
+	
+	["speedo1l", "gauge1l"],
+	["speedo1l", "gauge4l"],
+	["speedo1l", "gauge3r"],
+
+	["speedo1r", "gauge1r"],
+	["speedo1r", "gauge4r"],
+	["speedo1r", "gauge3l"],
+
+	["speedo2l", "gauge2l"],
+	["speedo2l", "gauge3l"],
+	["speedo2l", "gauge4r"],
+
+	["speedo2r", "gauge2r"],
+	["speedo2r", "gauge3r"],
+	["speedo2r", "gauge4l"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	//bleed generic values again in case they got overwriten by wheels
+	{"groundModel":"plastic"},
+        {"dragCoef":"$drag"},
+
+	{"group":"legocar_speedo"},
+	["speedo1r","speedo2r","speedo3r"],
+	["speedo2l","speedo1l","speedo3l"],    
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_speedo"},   
+	["speedo1r","speedo1l","speedo2l","speedo2r"],
+	["speedo1l","speedo1r","speedo3r","speedo3l"],
+	["speedo2r","speedo2l","speedo3l","speedo3r"],
+        {"group":""},
+    ],
+},
+"legocar_speedo_metric_numbers": {
+    "information":{
+        "name":"Metric Speedometer (280km/h, Visible Numbers)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_speedo",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	//full size mesh to prevent visual clipping
+	["legocar_speedo_numbers_kmh", ["legocar_speedo"],[], {"pos":{"x":0.375, "y":-0.625, "z":0.701},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "props": [
+	//from start to redline 255 degrees, offset 20% of top speed
+        ["func",      "mesh",                 "idRef:",  "idX:",    "idY:",    "baseRotation",       "rotation",                              "translation",     "min","max", "offset",           "multiplier"],
+        ["wheelspeed","legocar_speedo_needle","speedo3l","speedo3r","speedo1l",{"x":-90,"y":0,"z":0},{"x":0,"y":0,"z":"$=-255/(280*0.27778)"},{"x":0,"y":0,"z":0},0,   100000,"$=280*0.27778*0.2",1           ,{"baseTranslation":{"x":0.125, "y":0.140, "z":0.001}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_speedo"},
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["speedo1l", 0.50, -0.50, 0.75],
+	["speedo1r", 0.25, -0.50, 0.75,	{"selfCollision":false}],
+	["speedo2l", 0.50, -0.75, 0.75],
+	["speedo2r", 0.25, -0.75, 0.75],
+	["speedo3l", 0.50, -0.75, 0.90],
+	["speedo3r", 0.25, -0.75, 0.90],	
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["speedo1l", "speedo1r"],
+	["speedo2l", "speedo2r"],
+	["speedo3l", "speedo3r"],
+
+	["speedo2l", "speedo1l"],
+	["speedo2r", "speedo1r"],
+	["speedo2l", "speedo3l"],
+	["speedo2r", "speedo3r"],
+	["speedo3l", "speedo1l"],
+	["speedo3r", "speedo1r"],
+
+	["speedo1l", "speedo2r"],
+	["speedo2l", "speedo1r"],
+	["speedo2l", "speedo3r"],
+	["speedo3l", "speedo2r"],
+	["speedo3l", "speedo1r"],
+	["speedo1l", "speedo3r"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	//the piece is not properly secured from all sides on the cluster, easier to break
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"speedo_break"},
+	
+	["speedo1l", "gauge1l"],
+	["speedo1l", "gauge4l"],
+	["speedo1l", "gauge3r"],
+
+	["speedo1r", "gauge1r"],
+	["speedo1r", "gauge4r"],
+	["speedo1r", "gauge3l"],
+
+	["speedo2l", "gauge2l"],
+	["speedo2l", "gauge3l"],
+	["speedo2l", "gauge4r"],
+
+	["speedo2r", "gauge2r"],
+	["speedo2r", "gauge3r"],
+	["speedo2r", "gauge4l"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	//bleed generic values again in case they got overwriten by wheels
+	{"groundModel":"plastic"},
+        {"dragCoef":"$drag"},
+
+	{"group":"legocar_speedo"},
+	["speedo1r","speedo2r","speedo3r"],
+	["speedo2l","speedo1l","speedo3l"],    
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_speedo"},   
+	["speedo1r","speedo1l","speedo2l","speedo2r"],
+	["speedo1l","speedo1r","speedo3r","speedo3l"],
+	["speedo2r","speedo2l","speedo3l","speedo3r"],
+        {"group":""},
+    ],
+},
+
+"legocar_speedo_digital": {
+    "information":{
+        "name":"Digital Gauges",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_speedo",
+    "slots":[
+        ["type", "default", "description"],
+        ["digidash_screen_logic","digidash_screen_logic_bng", "Screen", {"coreSlot":true}],
+	["legocar_speedo_digital_test","", "Test"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	//full size mesh to prevent visual clipping
+	["lego_1x1_slope_grey",["legocar_speedo"],[], {"pos":{"x":0.375, "y":-0.625, "z":0.701},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1.0, "y":1.0, "z":1.0}}],
+	["digidash_screen",    ["legocar_speedo"],[], {"pos":{"x":0.375, "y":-0.625, "z":0.811},"rot":{"x":60,"y":0, "z":0},"scale":{"x":1.7, "y":1.2, "z":3.5}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_speedo"},
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["speedo1l", 0.50, -0.50, 0.75],
+	["speedo1r", 0.25, -0.50, 0.75,	{"selfCollision":false}],
+	["speedo2l", 0.50, -0.75, 0.75],
+	["speedo2r", 0.25, -0.75, 0.75],
+	["speedo3l", 0.50, -0.75, 0.90],
+	["speedo3r", 0.25, -0.75, 0.90],	
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["speedo1l", "speedo1r"],
+	["speedo2l", "speedo2r"],
+	["speedo3l", "speedo3r"],
+
+	["speedo2l", "speedo1l"],
+	["speedo2r", "speedo1r"],
+	["speedo2l", "speedo3l"],
+	["speedo2r", "speedo3r"],
+	["speedo3l", "speedo1l"],
+	["speedo3r", "speedo1r"],
+
+	["speedo1l", "speedo2r"],
+	["speedo2l", "speedo1r"],
+	["speedo2l", "speedo3r"],
+	["speedo3l", "speedo2r"],
+	["speedo3l", "speedo1r"],
+	["speedo1l", "speedo3r"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	//the piece is not properly secured from all sides on the cluster, easier to break
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"speedo_break"},
+	
+	["speedo1l", "gauge1l"],
+	["speedo1l", "gauge4l"],
+	["speedo1l", "gauge3r"],
+
+	["speedo1r", "gauge1r"],
+	["speedo1r", "gauge4r"],
+	["speedo1r", "gauge3l"],
+
+	["speedo2l", "gauge2l"],
+	["speedo2l", "gauge3l"],
+	["speedo2l", "gauge4r"],
+
+	["speedo2r", "gauge2r"],
+	["speedo2r", "gauge3r"],
+	["speedo2r", "gauge4l"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	//bleed generic values again in case they got overwriten by wheels
+	{"groundModel":"plastic"},
+        {"dragCoef":"$drag"},
+
+	{"group":"legocar_speedo"},
+	["speedo1r","speedo2r","speedo3r"],
+	["speedo2l","speedo1l","speedo3l"],    
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_speedo"},   
+	["speedo1r","speedo1l","speedo2l","speedo2r"],
+	["speedo1l","speedo1r","speedo3r","speedo3l"],
+	["speedo2r","speedo2l","speedo3l","speedo3r"],
+        {"group":""},
+    ],
+},
+
+}

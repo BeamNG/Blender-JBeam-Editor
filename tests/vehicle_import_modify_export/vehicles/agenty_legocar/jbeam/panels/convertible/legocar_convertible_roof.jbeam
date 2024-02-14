@@ -1,0 +1,344 @@
+{
+"legocar_convertible_roof": {
+    "information":{
+        "name":" Folded Convertible Roof",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_backlight",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_notip_black", ["legocar_convertible_roof_B"], [], {"pos":{"x": 0.000, "y":1.125, "z":0.8},"rot":{"x":0, "y":0, "z":90 },"scale":{"x":0.99, "y":1, "z":0.99}}],
+	["lego_3x1_flat_notip_black", ["legocar_convertible_roof_L"], [], {"pos":{"x": 0.625, "y":0.625, "z":0.8},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":1, "z":0.99}}],
+	["lego_3x1_flat_notip_black", ["legocar_convertible_roof_R"], [], {"pos":{"x":-0.625, "y":0.625, "z":0.8},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":1, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//back
+	{"group":"legocar_convertible_roof_B"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["convrfB1l",  0.75, 1.03, 0.85],
+	["convrfB1r", -0.75, 1.03, 0.85],
+	["convrfB2l",  0.75, 1.22, 0.85],
+	["convrfB2r", -0.75, 1.22, 0.85],
+	//rigidifier
+	["convrfBrig", 0, 1.125, 0.4, {"collision":false, "selfCollision":false, "group":""}],
+
+	//left
+	//3 pieces, 5 nodes - 0.6 kg/node
+	{"nodeWeight": "$=$weight*0.6"},
+	{"group":"legocar_convertible_roof_L"},
+
+	["convrfL1l", 0.75, 0.25, 0.85],
+	["convrfL1r", 0.53, 0.25, 0.85],
+	["convrfL2l", 0.75, 1.00, 0.85],
+	["convrfL2r", 0.53, 1.00, 0.85],
+	//rigidifier
+	["convrfLrig", 0.625, 0.625, 0.55, {"collision":false, "selfCollision":false, "group":""}],
+	
+	//right
+	//3 pieces, 5 nodes - 0.6 kg/node
+	{"nodeWeight": "$=$weight*0.6"},
+	{"group":"legocar_convertible_roof_R"},
+
+	["convrfR1r", -0.75, 0.25, 0.85],
+	["convrfR1l", -0.53, 0.25, 0.85],
+	["convrfR2r", -0.75, 1.00, 0.85],
+	["convrfR2l", -0.53, 1.00, 0.85],
+	//rigidifier
+	["convrfRrig", -0.625, 0.625, 0.55, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--CONVERTIBLE ROOF BACK--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["convrfB1l", "convrfB1r"],
+	["convrfB2l", "convrfB2r"],
+	["convrfB1l", "convrfB2l"],
+	["convrfB1r", "convrfB2r"],
+	["convrfB1l", "convrfB2r"],
+	["convrfB2l", "convrfB1r"],
+
+	//rigidifier
+	["convrfB1l", "convrfBrig"],
+	["convrfB1r", "convrfBrig"],
+	["convrfB2l", "convrfBrig"],
+	["convrfB2r", "convrfBrig"],
+	
+	
+	//--CONVERTIBLE ROOF SIDES--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//left uniform structure
+	["convrfL1l", "convrfL1r"],
+	["convrfL2l", "convrfL2r"],
+	["convrfL1l", "convrfL2l"],
+	["convrfL1r", "convrfL2r"],
+	["convrfL1l", "convrfL2r"],
+	["convrfL2l", "convrfL1r"],
+
+	//left rigidifier
+	["convrfL1l", "convrfLrig"],
+	["convrfL1r", "convrfLrig"],
+	["convrfL2l", "convrfLrig"],
+	["convrfL2r", "convrfLrig"],
+	
+	//right uniform structure
+	["convrfR1l", "convrfR1r"],
+	["convrfR2l", "convrfR2r"],
+	["convrfR1l", "convrfR2l"],
+	["convrfR1r", "convrfR2r"],
+	["convrfR1l", "convrfR2r"],
+	["convrfR2l", "convrfR1r"],
+
+	//right rigidifier
+	["convrfR1l", "convrfRrig"],
+	["convrfR1r", "convrfRrig"],
+	["convrfR2l", "convrfRrig"],
+	["convrfR2r", "convrfRrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"optional":true},	
+
+	//back to left trunk piece
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	{"breakGroup":"convertible_roof_BL_break"},
+
+	["convrfB1l", "trunkL1l"],
+	["convrfB1l", "trunkL1r"],
+	["convrfB1l", "trunkL2l"],
+	["convrfB1l", "trunkLrig"],
+
+	["convrfB1r", "trunkL1l"],
+	["convrfB1r", "trunkL1r"],
+	["convrfB1r", "trunkL2r"],
+	["convrfB1r", "trunkLrig"],
+
+	["convrfB2l", "trunkL1l"],
+	["convrfB2l", "trunkL1r"],
+	["convrfB2l", "trunkL2l"],
+	["convrfB2l", "trunkLrig"],
+
+	["convrfB2r", "trunkL1l"],
+	["convrfB2r", "trunkL1r"],
+	["convrfB2r", "trunkL2r"],
+	["convrfB2r", "trunkLrig"],
+
+	["convrfBrig", "trunkL1l"],
+	["convrfBrig", "trunkL1r"],
+	["convrfBrig", "trunkL2l"],
+	["convrfBrig", "trunkL2r"],
+
+
+	//back to right trunk piece
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	{"breakGroup":"convertible_roof_BR_break"},
+
+	["convrfB1l", "trunkR1l"],
+	["convrfB1l", "trunkR1r"],
+	["convrfB1l", "trunkR2l"],
+	["convrfB1l", "trunkRrig"],
+
+	["convrfB1r", "trunkR1l"],
+	["convrfB1r", "trunkR1r"],
+	["convrfB1r", "trunkR2r"],
+	["convrfB1r", "trunkRrig"],
+
+	["convrfB2l", "trunkR1l"],
+	["convrfB2l", "trunkR1r"],
+	["convrfB2l", "trunkR2l"],
+	["convrfB2l", "trunkRrig"],
+
+	["convrfB2r", "trunkR1l"],
+	["convrfB2r", "trunkR1r"],
+	["convrfB2r", "trunkR2r"],
+	["convrfB2r", "trunkRrig"],
+
+	["convrfBrig", "trunkR1l"],
+	["convrfBrig", "trunkR1r"],
+	["convrfBrig", "trunkR2l"],
+	["convrfBrig", "trunkR2r"],
+
+
+	//back to backlight support
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"convertible_roof_BM_break"},
+
+	["convrfB1l", "sqpantop1l"],
+	["convrfB1l", "sqpantop1r"],
+	["convrfB1l", "sqpantop2l"],
+	["convrfB1l", "sqpantoprig"],
+
+	["convrfB1r", "sqpantop1l"],
+	["convrfB1r", "sqpantop1r"],
+	["convrfB1r", "sqpantop2r"],
+	["convrfB1r", "sqpantoprig"],
+
+	["convrfB2l", "sqpantop1l"],
+	["convrfB2l", "sqpantop2r"],
+	["convrfB2l", "sqpantop2l"],
+	["convrfB2l", "sqpantoprig"],
+
+	["convrfB2r", "sqpantop2l"],
+	["convrfB2r", "sqpantop1r"],
+	["convrfB2r", "sqpantop2r"],
+	["convrfB2r", "sqpantoprig"],
+
+	["convrfBrig", "sqpantop1l"],
+	["convrfBrig", "sqpantop1r"],
+	["convrfBrig", "sqpantop2l"],
+	["convrfBrig", "sqpantop2r"],
+
+
+	//left to shelf panel
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+	{"breakGroup":"convertible_roof_LB_break"},
+
+	["convrfL1l", "shelfpan1l"],
+	["convrfL1l", "shelfpan1r"],
+	["convrfL1l", "shelfpan2l"],
+	["convrfL1l", "shelfpanrig"],
+
+	["convrfL1r", "shelfpan1l"],
+	["convrfL1r", "shelfpan1r"],
+	["convrfL1r", "shelfpan2l"],
+	["convrfL1r", "shelfpanrig"],
+
+	["convrfL2l", "shelfpan1l"],
+	["convrfL2l", "shelfpan2r"],
+	["convrfL2l", "shelfpan2l"],
+	["convrfL2l", "shelfpanrig"],
+
+	["convrfL2r", "shelfpan1l"],
+	["convrfL2r", "shelfpan2r"],
+	["convrfL2r", "shelfpan2l"],
+	["convrfL2r", "shelfpanrig"],
+
+	["convrfLrig", "shelfpan1l"],
+	["convrfLrig", "shelfpan1r"],
+	["convrfLrig", "shelfpan2l"],
+	["convrfLrig", "shelfpan2r"],
+
+
+	//right to shelf panel
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+	{"breakGroup":"convertible_roof_RB_break"},
+
+	["convrfR1l", "shelfpan1l"],
+	["convrfR1l", "shelfpan1r"],
+	["convrfR1l", "shelfpan2r"],
+	["convrfR1l", "shelfpanrig"],
+
+	["convrfR1r", "shelfpan1l"],
+	["convrfR1r", "shelfpan1r"],
+	["convrfR1r", "shelfpan2r"],
+	["convrfR1r", "shelfpanrig"],
+
+	["convrfR2l", "shelfpan1r"],
+	["convrfR2l", "shelfpan2r"],
+	["convrfR2l", "shelfpan2l"],
+	["convrfR2l", "shelfpanrig"],
+
+	["convrfR2r", "shelfpan1r"],
+	["convrfR2r", "shelfpan2r"],
+	["convrfR2r", "shelfpan2l"],
+	["convrfR2r", "shelfpanrig"],
+
+	["convrfRrig", "shelfpan1l"],
+	["convrfRrig", "shelfpan1r"],
+	["convrfRrig", "shelfpan2l"],
+	["convrfRrig", "shelfpan2r"],
+
+
+	//left to quarter glass mount
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+	{"breakGroup":"convertible_roof_LF_break"},
+
+	["convrfL1l", "Lqglassmt1l"],
+	["convrfL1l", "Lqglassmt1r"],
+	["convrfL1l", "Lqglassmt2l"],
+	["convrfL1l", "Lqglassmtrig"],
+
+	["convrfL1r", "Lqglassmt1l"],
+	["convrfL1r", "Lqglassmt1r"],
+	["convrfL1r", "Lqglassmt2r"],
+	["convrfL1r", "Lqglassmtrig"],
+
+	["convrfL2l", "Lqglassmt1l"],
+	["convrfL2l", "Lqglassmt2r"],
+	["convrfL2l", "Lqglassmt2l"],
+	["convrfL2l", "Lqglassmtrig"],
+
+	["convrfL2r", "Lqglassmt1r"],
+	["convrfL2r", "Lqglassmt2r"],
+	["convrfL2r", "Lqglassmt2l"],
+	["convrfL2r", "Lqglassmtrig"],
+
+	["convrfLrig", "Lqglassmt1l"],
+	["convrfLrig", "Lqglassmt1r"],
+	["convrfLrig", "Lqglassmt2l"],
+	["convrfLrig", "Lqglassmt2r"],
+
+
+	//right to quarter glass mount
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+	{"breakGroup":"convertible_roof_RF_break"},
+
+	["convrfR1l", "Rqglassmt1l"],
+	["convrfR1l", "Rqglassmt1r"],
+	["convrfR1l", "Rqglassmt2l"],
+	["convrfR1l", "Rqglassmtrig"],
+
+	["convrfR1r", "Rqglassmt1l"],
+	["convrfR1r", "Rqglassmt1r"],
+	["convrfR1r", "Rqglassmt2r"],
+	["convrfR1r", "Rqglassmtrig"],
+
+	["convrfR2l", "Rqglassmt1l"],
+	["convrfR2l", "Rqglassmt2r"],
+	["convrfR2l", "Rqglassmt2l"],
+	["convrfR2l", "Rqglassmtrig"],
+
+	["convrfR2r", "Rqglassmt1r"],
+	["convrfR2r", "Rqglassmt2r"],
+	["convrfR2r", "Rqglassmt2l"],
+	["convrfR2r", "Rqglassmtrig"],
+
+	["convrfRrig", "Rqglassmt1l"],
+	["convrfRrig", "Rqglassmt1r"],
+	["convrfRrig", "Rqglassmt2l"],
+	["convrfRrig", "Rqglassmt2r"],
+
+
+	{"breakGroup":""},
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+		
+        {"group":"legocar_convertible_roof_B"},
+	["convrfB2l","convrfB2r","convrfB1r","convrfB1l"],
+	{"group":"legocar_convertible_roof_L"},
+	["convrfL2l","convrfL2r","convrfL1r","convrfL1l"],
+	{"group":"legocar_convertible_roof_R"},
+	["convrfR2l","convrfR2r","convrfR1r","convrfR1l"],
+	
+        {"group":""},
+    ],
+},
+
+}

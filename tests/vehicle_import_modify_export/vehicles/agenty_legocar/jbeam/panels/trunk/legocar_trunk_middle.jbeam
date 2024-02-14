@@ -1,0 +1,246 @@
+{
+"legocar_trunk_middle": {
+    "information":{
+        "name":"Middle Trunk Panel",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_trunk_middle",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_trunk_M",["legocar_trunk_M"],[], {"pos":{"x": 0.000, "y":1.500, "z":0.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_trunk_M"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["trunkM1l",  0.22, 1.28, 0.75],
+	["trunkM1r", -0.22, 1.28, 0.75],
+	["trunkM2l",  0.22, 1.72, 0.75],
+	["trunkM2r", -0.22, 1.72, 0.75],
+
+	//rigidifier
+	["trunkMrig", 0, 1.5, 0.55, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["trunkM1l", "trunkM1r"],
+	["trunkM2l", "trunkM2r"],
+	["trunkM1l", "trunkM2l"],
+	["trunkM1r", "trunkM2r"],
+	["trunkM1l", "trunkM2r"],
+	["trunkM2l", "trunkM1r"],
+
+	//rigidifier
+	["trunkM1l", "trunkMrig"],
+	["trunkM1r", "trunkMrig"],
+	["trunkM2l", "trunkMrig"],
+	["trunkM2r", "trunkMrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//bottom to middle
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"trunk_M_break"},
+
+	["trunkM1l", "trunkB1l"],
+	["trunkM1l", "trunkB2l"],
+	["trunkM1l", "trunkB1r"],
+	["trunkM1l", "trunkBrig"],
+
+	["trunkM1r", "trunkB1r"],
+	["trunkM1r", "trunkB2r"],
+	["trunkM1r", "trunkB1l"],
+	["trunkM1r", "trunkBrig"],
+
+	["trunkM2l", "trunkB2l"],
+	["trunkM2l", "trunkB1l"],
+	["trunkM2l", "trunkB2r"],
+	["trunkM2l", "trunkBrig"],
+
+	["trunkM2r", "trunkB2r"],
+	["trunkM2r", "trunkB1r"],
+	["trunkM2r", "trunkB2l"],
+	["trunkM2r", "trunkBrig"],
+
+	["trunkMrig", "trunkB1l"],
+	["trunkMrig", "trunkB2l"],
+	["trunkMrig", "trunkB1r"],
+	["trunkMrig", "trunkB2r"],
+
+	//to squab panel
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"breakGroup":"trunk_squabpanel_break"},
+
+	["trunkM1l", "sqpan3l"],
+	["trunkM1l", "sqpan4l"],
+	["trunkM1l", "sqpan3r"],
+	["trunkM1l", "sqpan1l"],
+
+	["trunkM1r", "sqpan3r"],
+	["trunkM1r", "sqpan4r"],
+	["trunkM1r", "sqpan3l"],
+	["trunkM1r", "sqpan1r"],
+
+	["trunkM2l", "sqpan4l"],
+	["trunkM2l", "sqpan3l"],
+	["trunkM2l", "sqpan4r"],
+	["trunkM2l", "sqpan2l"],
+
+	["trunkM2r", "sqpan4r"],
+	["trunkM2r", "sqpan3r"],
+	["trunkM2r", "sqpan4l"],
+	["trunkM2r", "sqpan2r"],
+
+	["trunkMrig", "sqpan1l"],
+	["trunkMrig", "sqpan2l"],
+	["trunkMrig", "sqpan1r"],
+	["trunkMrig", "sqpan2r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_trunk_M"},   
+	["trunkM1r","trunkM1l","trunkM2l","trunkM2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_trunk_middle_alt": {
+    "information":{
+        "name":"Middle Trunk Panel",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_trunk_middle_alt",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_trunk_M",["legocar_trunk_M"],[], {"pos":{"x": 0.000, "y":1.500, "z":0.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_trunk_M"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["trunkM1l",  0.22, 1.28, 0.75],
+	["trunkM1r", -0.22, 1.28, 0.75],
+	["trunkM2l",  0.22, 1.72, 0.75],
+	["trunkM2r", -0.22, 1.72, 0.75],
+
+	//rigidifier
+	["trunkMrig", 0, 1.5, 0.55, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["trunkM1l", "trunkM1r"],
+	["trunkM2l", "trunkM2r"],
+	["trunkM1l", "trunkM2l"],
+	["trunkM1r", "trunkM2r"],
+	["trunkM1l", "trunkM2r"],
+	["trunkM2l", "trunkM1r"],
+
+	//rigidifier
+	["trunkM1l", "trunkMrig"],
+	["trunkM1r", "trunkMrig"],
+	["trunkM2l", "trunkMrig"],
+	["trunkM2r", "trunkMrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//bottom to middle
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"trunk_M_break"},
+
+	["trunkM1l", "trunkB1l"],
+	["trunkM1l", "trunkB2l"],
+	["trunkM1l", "trunkB1r"],
+	["trunkM1l", "trunkBrig"],
+
+	["trunkM1r", "trunkB1r"],
+	["trunkM1r", "trunkB2r"],
+	["trunkM1r", "trunkB1l"],
+	["trunkM1r", "trunkBrig"],
+
+	["trunkM2l", "trunkB2l"],
+	["trunkM2l", "trunkB1l"],
+	["trunkM2l", "trunkB2r"],
+	["trunkM2l", "trunkBrig"],
+
+	["trunkM2r", "trunkB2r"],
+	["trunkM2r", "trunkB1r"],
+	["trunkM2r", "trunkB2l"],
+	["trunkM2r", "trunkBrig"],
+
+	["trunkMrig", "trunkB1l"],
+	["trunkMrig", "trunkB2l"],
+	["trunkMrig", "trunkB1r"],
+	["trunkMrig", "trunkB2r"],
+
+	//to squab panel
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"breakGroup":"trunk_squabpanel_break"},
+
+	["trunkM1l", "sqpan3l"],
+	["trunkM1l", "sqpan4l"],
+	["trunkM1l", "sqpan3r"],
+	["trunkM1l", "sqpan1l"],
+
+	["trunkM1r", "sqpan3r"],
+	["trunkM1r", "sqpan4r"],
+	["trunkM1r", "sqpan3l"],
+	["trunkM1r", "sqpan1r"],
+
+	["trunkM2l", "sqpan4l"],
+	["trunkM2l", "sqpan3l"],
+	["trunkM2l", "sqpan4r"],
+	["trunkM2l", "sqpan2l"],
+
+	["trunkM2r", "sqpan4r"],
+	["trunkM2r", "sqpan3r"],
+	["trunkM2r", "sqpan4l"],
+	["trunkM2r", "sqpan2r"],
+
+	["trunkMrig", "sqpan1l"],
+	["trunkMrig", "sqpan2l"],
+	["trunkMrig", "sqpan1r"],
+	["trunkMrig", "sqpan2r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_trunk_M"},   
+	["trunkM1r","trunkM1l","trunkM2l","trunkM2r"],
+        {"group":""},
+    ],
+},
+
+}

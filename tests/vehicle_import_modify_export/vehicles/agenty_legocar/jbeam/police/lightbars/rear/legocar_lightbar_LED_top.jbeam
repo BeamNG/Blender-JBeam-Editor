@@ -1,0 +1,632 @@
+{
+"legocar_lightbar_LED_T": {
+    "information":{
+        "name":"Solid Top",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_LED_T",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_lightbar_LED_T_accessory","", "Top Accessory"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_lightbar_LED_top", ["legocar_lightbar_LED_top"],[], {"pos":{"x": 0.000, "y":0.625, "z":1.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1.00, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	//light bar top
+	{"group":"legocar_lightbar_LED_top"},
+	["lbarledT1l",  0.75, 0.50, 1.75],
+	["lbarledT1r", -0.75, 0.50, 1.75],
+	["lbarledT2l",  0.75, 0.75, 1.75],
+	["lbarledT2r", -0.75, 0.75, 1.75],
+	//rigidifier
+	["lbarledTrig", 0, 0.625, 1.3, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--LIGHT BAR TOP--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1201000", "beamDamp":"$=$weight*120"},
+
+	//uniform structure
+	["lbarledT1l", "lbarledT1r"],
+	["lbarledT2l", "lbarledT2r"],
+	["lbarledT1l", "lbarledT2l"],
+	["lbarledT1r", "lbarledT2r"],
+	["lbarledT1l", "lbarledT2r"],
+	["lbarledT2l", "lbarledT1r"],
+
+	//rigidifier
+	["lbarledT1l", "lbarledTrig"],
+	["lbarledT1r", "lbarledTrig"],
+	["lbarledT2l", "lbarledTrig"],
+	["lbarledT2r", "lbarledTrig"],
+
+
+	//--ATTACH TO FLASHERS--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"optional":true},
+
+	//l3
+	{"breakGroup":"policeled_L3_top_break"},
+
+	["lbarledL31l", "lbarledT1l"],
+	["lbarledL31l", "lbarledT1r"],
+	["lbarledL31l", "lbarledT2l"],
+	["lbarledL31l", "lbarledTrig"],
+
+	["lbarledL31r", "lbarledT1l"],
+	["lbarledL31r", "lbarledT1r"],
+	["lbarledL31r", "lbarledT2r"],
+	["lbarledL31r", "lbarledTrig"],
+
+	["lbarledL32l", "lbarledT1l"],
+	["lbarledL32l", "lbarledT2r"],
+	["lbarledL32l", "lbarledT2l"],
+	["lbarledL32l", "lbarledTrig"],
+
+	["lbarledL32r", "lbarledT2l"],
+	["lbarledL32r", "lbarledT1r"],
+	["lbarledL32r", "lbarledT2r"],
+	["lbarledL32r", "lbarledTrig"],
+
+	["lbarledL3rig", "lbarledT1l"],
+	["lbarledL3rig", "lbarledT1r"],
+	["lbarledL3rig", "lbarledT2l"],
+	["lbarledL3rig", "lbarledT2r"],
+
+
+	//l2
+	{"breakGroup":"policeled_L2_top_break"},
+
+	["lbarledL21l", "lbarledT1l"],
+	["lbarledL21l", "lbarledT1r"],
+	["lbarledL21l", "lbarledT2l"],
+	["lbarledL21l", "lbarledTrig"],
+
+	["lbarledL21r", "lbarledT1l"],
+	["lbarledL21r", "lbarledT1r"],
+	["lbarledL21r", "lbarledT2r"],
+	["lbarledL21r", "lbarledTrig"],
+
+	["lbarledL22l", "lbarledT1l"],
+	["lbarledL22l", "lbarledT2r"],
+	["lbarledL22l", "lbarledT2l"],
+	["lbarledL22l", "lbarledTrig"],
+
+	["lbarledL22r", "lbarledT2l"],
+	["lbarledL22r", "lbarledT1r"],
+	["lbarledL22r", "lbarledT2r"],
+	["lbarledL22r", "lbarledTrig"],
+
+	["lbarledL2rig", "lbarledT1l"],
+	["lbarledL2rig", "lbarledT1r"],
+	["lbarledL2rig", "lbarledT2l"],
+	["lbarledL2rig", "lbarledT2r"],
+
+
+	//l1
+	{"breakGroup":"policeled_L1_top_break"},
+
+	["lbarledL11l", "lbarledT1l"],
+	["lbarledL11l", "lbarledT1r"],
+	["lbarledL11l", "lbarledT2l"],
+	["lbarledL11l", "lbarledTrig"],
+
+	["lbarledL11r", "lbarledT1l"],
+	["lbarledL11r", "lbarledT1r"],
+	["lbarledL11r", "lbarledT2r"],
+	["lbarledL11r", "lbarledTrig"],
+
+	["lbarledL12l", "lbarledT1l"],
+	["lbarledL12l", "lbarledT2r"],
+	["lbarledL12l", "lbarledT2l"],
+	["lbarledL12l", "lbarledTrig"],
+
+	["lbarledL12r", "lbarledT2l"],
+	["lbarledL12r", "lbarledT1r"],
+	["lbarledL12r", "lbarledT2r"],
+	["lbarledL12r", "lbarledTrig"],
+
+	["lbarledL1rig", "lbarledT1l"],
+	["lbarledL1rig", "lbarledT1r"],
+	["lbarledL1rig", "lbarledT2l"],
+	["lbarledL1rig", "lbarledT2r"],
+
+
+	//r3
+	{"breakGroup":"policeled_R3_top_break"},
+
+	["lbarledR31l", "lbarledT1l"],
+	["lbarledR31l", "lbarledT1r"],
+	["lbarledR31l", "lbarledT2l"],
+	["lbarledR31l", "lbarledTrig"],
+
+	["lbarledR31r", "lbarledT1l"],
+	["lbarledR31r", "lbarledT1r"],
+	["lbarledR31r", "lbarledT2r"],
+	["lbarledR31r", "lbarledTrig"],
+
+	["lbarledR32l", "lbarledT1l"],
+	["lbarledR32l", "lbarledT2r"],
+	["lbarledR32l", "lbarledT2l"],
+	["lbarledR32l", "lbarledTrig"],
+
+	["lbarledR32r", "lbarledT2l"],
+	["lbarledR32r", "lbarledT1r"],
+	["lbarledR32r", "lbarledT2r"],
+	["lbarledR32r", "lbarledTrig"],
+
+	["lbarledR3rig", "lbarledT1l"],
+	["lbarledR3rig", "lbarledT1r"],
+	["lbarledR3rig", "lbarledT2l"],
+	["lbarledR3rig", "lbarledT2r"],
+
+
+	//r2
+	{"breakGroup":"policeled_R2_top_break"},
+
+	["lbarledR21l", "lbarledT1l"],
+	["lbarledR21l", "lbarledT1r"],
+	["lbarledR21l", "lbarledT2l"],
+	["lbarledR21l", "lbarledTrig"],
+
+	["lbarledR21r", "lbarledT1l"],
+	["lbarledR21r", "lbarledT1r"],
+	["lbarledR21r", "lbarledT2r"],
+	["lbarledR21r", "lbarledTrig"],
+
+	["lbarledR22l", "lbarledT1l"],
+	["lbarledR22l", "lbarledT2r"],
+	["lbarledR22l", "lbarledT2l"],
+	["lbarledR22l", "lbarledTrig"],
+
+	["lbarledR22r", "lbarledT2l"],
+	["lbarledR22r", "lbarledT1r"],
+	["lbarledR22r", "lbarledT2r"],
+	["lbarledR22r", "lbarledTrig"],
+
+	["lbarledR2rig", "lbarledT1l"],
+	["lbarledR2rig", "lbarledT1r"],
+	["lbarledR2rig", "lbarledT2l"],
+	["lbarledR2rig", "lbarledT2r"],
+
+
+	//r1
+	{"breakGroup":"policeled_R1_top_break"},
+
+	["lbarledR11l", "lbarledT1l"],
+	["lbarledR11l", "lbarledT1r"],
+	["lbarledR11l", "lbarledT2l"],
+	["lbarledR11l", "lbarledTrig"],
+
+	["lbarledR11r", "lbarledT1l"],
+	["lbarledR11r", "lbarledT1r"],
+	["lbarledR11r", "lbarledT2r"],
+	["lbarledR11r", "lbarledTrig"],
+
+	["lbarledR12l", "lbarledT1l"],
+	["lbarledR12l", "lbarledT2r"],
+	["lbarledR12l", "lbarledT2l"],
+	["lbarledR12l", "lbarledTrig"],
+
+	["lbarledR12r", "lbarledT2l"],
+	["lbarledR12r", "lbarledT1r"],
+	["lbarledR12r", "lbarledT2r"],
+	["lbarledR12r", "lbarledTrig"],
+
+	["lbarledR1rig", "lbarledT1l"],
+	["lbarledR1rig", "lbarledT1r"],
+	["lbarledR1rig", "lbarledT2l"],
+	["lbarledR1rig", "lbarledT2r"],
+
+	
+	{"optional":false},
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//to roof base
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//l
+	["lbarledT1l", "roofbaseRL1"],
+	["lbarledT1l", "roofbaseRL2"],
+	["lbarledT1l", "roofbaseRL3"],
+
+	["lbarledT1r", "roofbaseRL1"],
+	["lbarledT1r", "roofbaseRL2"],
+	["lbarledT1r", "roofbaseRL3"],
+
+	["lbarledT2l", "roofbaseRL1"],
+	["lbarledT2l", "roofbaseRL2"],
+	["lbarledT2l", "roofbaseRL3"],
+
+	["lbarledT2r", "roofbaseRL1"],
+	["lbarledT2r", "roofbaseRL2"],
+	["lbarledT2r", "roofbaseRL3"],
+
+	//r
+	["lbarledT1l", "roofbaseRR1"],
+	["lbarledT1l", "roofbaseRR2"],
+	["lbarledT1l", "roofbaseRR3"],
+
+	["lbarledT1r", "roofbaseRR1"],
+	["lbarledT1r", "roofbaseRR2"],
+	["lbarledT1r", "roofbaseRR3"],
+
+	["lbarledT2l", "roofbaseRR1"],
+	["lbarledT2l", "roofbaseRR2"],
+	["lbarledT2l", "roofbaseRR3"],
+
+	["lbarledT2r", "roofbaseRR1"],
+	["lbarledT2r", "roofbaseRR2"],
+	["lbarledT2r", "roofbaseRR3"],
+
+
+	//to quarter glass
+	{"beamSpring":"$=$weight*301000", "beamDamp":"$=$weight*30"},
+
+	//l
+	["lbarledT1l", "Lqglass1l"],
+	["lbarledT1l", "Lqglass1r"],
+	["lbarledT1l", "Lqglass2l"],
+	["lbarledT1l", "Lqglass2r"],
+
+	["lbarledT2l", "Lqglass1l"],
+	["lbarledT2l", "Lqglass1r"],
+	["lbarledT2l", "Lqglass2l"],
+	["lbarledT2l", "Lqglass2r"],
+
+	//r
+	["lbarledT1r", "Rqglass1l"],
+	["lbarledT1r", "Rqglass1r"],
+	["lbarledT1r", "Rqglass2l"],
+	["lbarledT1r", "Rqglass2r"],
+
+	["lbarledT2r", "Rqglass1l"],
+	["lbarledT2r", "Rqglass1r"],
+	["lbarledT2r", "Rqglass2l"],
+	["lbarledT2r", "Rqglass2r"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_lightbar_LED_top"},
+	["lbarledT2l","lbarledT2r","lbarledT1r","lbarledT1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_lightbar_LED_T_transparent": {
+    "information":{
+        "name":"Transparent Top",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_LED_T",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_lightbar_LED_T_accessory","", "Top Accessory"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_lightbar_LED_top_transparent", ["legocar_lightbar_LED_top"],[], {"pos":{"x": 0.000, "y":0.625, "z":1.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1.00, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	//light bar top
+	{"group":"legocar_lightbar_LED_top"},
+	["lbarledT1l",  0.75, 0.50, 1.75],
+	["lbarledT1r", -0.75, 0.50, 1.75],
+	["lbarledT2l",  0.75, 0.75, 1.75],
+	["lbarledT2r", -0.75, 0.75, 1.75],
+	//rigidifier
+	["lbarledTrig", 0, 0.625, 1.3, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--LIGHT BAR TOP--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1201000", "beamDamp":"$=$weight*120"},
+
+	//uniform structure
+	["lbarledT1l", "lbarledT1r"],
+	["lbarledT2l", "lbarledT2r"],
+	["lbarledT1l", "lbarledT2l"],
+	["lbarledT1r", "lbarledT2r"],
+	["lbarledT1l", "lbarledT2r"],
+	["lbarledT2l", "lbarledT1r"],
+
+	//rigidifier
+	["lbarledT1l", "lbarledTrig"],
+	["lbarledT1r", "lbarledTrig"],
+	["lbarledT2l", "lbarledTrig"],
+	["lbarledT2r", "lbarledTrig"],
+
+
+	//--ATTACH TO FLASHERS--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"optional":true},
+
+	//l3
+	{"breakGroup":"policeled_L3_top_break"},
+
+	["lbarledL31l", "lbarledT1l"],
+	["lbarledL31l", "lbarledT1r"],
+	["lbarledL31l", "lbarledT2l"],
+	["lbarledL31l", "lbarledTrig"],
+
+	["lbarledL31r", "lbarledT1l"],
+	["lbarledL31r", "lbarledT1r"],
+	["lbarledL31r", "lbarledT2r"],
+	["lbarledL31r", "lbarledTrig"],
+
+	["lbarledL32l", "lbarledT1l"],
+	["lbarledL32l", "lbarledT2r"],
+	["lbarledL32l", "lbarledT2l"],
+	["lbarledL32l", "lbarledTrig"],
+
+	["lbarledL32r", "lbarledT2l"],
+	["lbarledL32r", "lbarledT1r"],
+	["lbarledL32r", "lbarledT2r"],
+	["lbarledL32r", "lbarledTrig"],
+
+	["lbarledL3rig", "lbarledT1l"],
+	["lbarledL3rig", "lbarledT1r"],
+	["lbarledL3rig", "lbarledT2l"],
+	["lbarledL3rig", "lbarledT2r"],
+
+
+	//l2
+	{"breakGroup":"policeled_L2_top_break"},
+
+	["lbarledL21l", "lbarledT1l"],
+	["lbarledL21l", "lbarledT1r"],
+	["lbarledL21l", "lbarledT2l"],
+	["lbarledL21l", "lbarledTrig"],
+
+	["lbarledL21r", "lbarledT1l"],
+	["lbarledL21r", "lbarledT1r"],
+	["lbarledL21r", "lbarledT2r"],
+	["lbarledL21r", "lbarledTrig"],
+
+	["lbarledL22l", "lbarledT1l"],
+	["lbarledL22l", "lbarledT2r"],
+	["lbarledL22l", "lbarledT2l"],
+	["lbarledL22l", "lbarledTrig"],
+
+	["lbarledL22r", "lbarledT2l"],
+	["lbarledL22r", "lbarledT1r"],
+	["lbarledL22r", "lbarledT2r"],
+	["lbarledL22r", "lbarledTrig"],
+
+	["lbarledL2rig", "lbarledT1l"],
+	["lbarledL2rig", "lbarledT1r"],
+	["lbarledL2rig", "lbarledT2l"],
+	["lbarledL2rig", "lbarledT2r"],
+
+
+	//l1
+	{"breakGroup":"policeled_L1_top_break"},
+
+	["lbarledL11l", "lbarledT1l"],
+	["lbarledL11l", "lbarledT1r"],
+	["lbarledL11l", "lbarledT2l"],
+	["lbarledL11l", "lbarledTrig"],
+
+	["lbarledL11r", "lbarledT1l"],
+	["lbarledL11r", "lbarledT1r"],
+	["lbarledL11r", "lbarledT2r"],
+	["lbarledL11r", "lbarledTrig"],
+
+	["lbarledL12l", "lbarledT1l"],
+	["lbarledL12l", "lbarledT2r"],
+	["lbarledL12l", "lbarledT2l"],
+	["lbarledL12l", "lbarledTrig"],
+
+	["lbarledL12r", "lbarledT2l"],
+	["lbarledL12r", "lbarledT1r"],
+	["lbarledL12r", "lbarledT2r"],
+	["lbarledL12r", "lbarledTrig"],
+
+	["lbarledL1rig", "lbarledT1l"],
+	["lbarledL1rig", "lbarledT1r"],
+	["lbarledL1rig", "lbarledT2l"],
+	["lbarledL1rig", "lbarledT2r"],
+
+
+	//r3
+	{"breakGroup":"policeled_R3_top_break"},
+
+	["lbarledR31l", "lbarledT1l"],
+	["lbarledR31l", "lbarledT1r"],
+	["lbarledR31l", "lbarledT2l"],
+	["lbarledR31l", "lbarledTrig"],
+
+	["lbarledR31r", "lbarledT1l"],
+	["lbarledR31r", "lbarledT1r"],
+	["lbarledR31r", "lbarledT2r"],
+	["lbarledR31r", "lbarledTrig"],
+
+	["lbarledR32l", "lbarledT1l"],
+	["lbarledR32l", "lbarledT2r"],
+	["lbarledR32l", "lbarledT2l"],
+	["lbarledR32l", "lbarledTrig"],
+
+	["lbarledR32r", "lbarledT2l"],
+	["lbarledR32r", "lbarledT1r"],
+	["lbarledR32r", "lbarledT2r"],
+	["lbarledR32r", "lbarledTrig"],
+
+	["lbarledR3rig", "lbarledT1l"],
+	["lbarledR3rig", "lbarledT1r"],
+	["lbarledR3rig", "lbarledT2l"],
+	["lbarledR3rig", "lbarledT2r"],
+
+
+	//r2
+	{"breakGroup":"policeled_R2_top_break"},
+
+	["lbarledR21l", "lbarledT1l"],
+	["lbarledR21l", "lbarledT1r"],
+	["lbarledR21l", "lbarledT2l"],
+	["lbarledR21l", "lbarledTrig"],
+
+	["lbarledR21r", "lbarledT1l"],
+	["lbarledR21r", "lbarledT1r"],
+	["lbarledR21r", "lbarledT2r"],
+	["lbarledR21r", "lbarledTrig"],
+
+	["lbarledR22l", "lbarledT1l"],
+	["lbarledR22l", "lbarledT2r"],
+	["lbarledR22l", "lbarledT2l"],
+	["lbarledR22l", "lbarledTrig"],
+
+	["lbarledR22r", "lbarledT2l"],
+	["lbarledR22r", "lbarledT1r"],
+	["lbarledR22r", "lbarledT2r"],
+	["lbarledR22r", "lbarledTrig"],
+
+	["lbarledR2rig", "lbarledT1l"],
+	["lbarledR2rig", "lbarledT1r"],
+	["lbarledR2rig", "lbarledT2l"],
+	["lbarledR2rig", "lbarledT2r"],
+
+
+	//r1
+	{"breakGroup":"policeled_R1_top_break"},
+
+	["lbarledR11l", "lbarledT1l"],
+	["lbarledR11l", "lbarledT1r"],
+	["lbarledR11l", "lbarledT2l"],
+	["lbarledR11l", "lbarledTrig"],
+
+	["lbarledR11r", "lbarledT1l"],
+	["lbarledR11r", "lbarledT1r"],
+	["lbarledR11r", "lbarledT2r"],
+	["lbarledR11r", "lbarledTrig"],
+
+	["lbarledR12l", "lbarledT1l"],
+	["lbarledR12l", "lbarledT2r"],
+	["lbarledR12l", "lbarledT2l"],
+	["lbarledR12l", "lbarledTrig"],
+
+	["lbarledR12r", "lbarledT2l"],
+	["lbarledR12r", "lbarledT1r"],
+	["lbarledR12r", "lbarledT2r"],
+	["lbarledR12r", "lbarledTrig"],
+
+	["lbarledR1rig", "lbarledT1l"],
+	["lbarledR1rig", "lbarledT1r"],
+	["lbarledR1rig", "lbarledT2l"],
+	["lbarledR1rig", "lbarledT2r"],
+
+	
+	{"optional":false},
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//to roof base
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//l
+	["lbarledT1l", "roofbaseRL1"],
+	["lbarledT1l", "roofbaseRL2"],
+	["lbarledT1l", "roofbaseRL3"],
+
+	["lbarledT1r", "roofbaseRL1"],
+	["lbarledT1r", "roofbaseRL2"],
+	["lbarledT1r", "roofbaseRL3"],
+
+	["lbarledT2l", "roofbaseRL1"],
+	["lbarledT2l", "roofbaseRL2"],
+	["lbarledT2l", "roofbaseRL3"],
+
+	["lbarledT2r", "roofbaseRL1"],
+	["lbarledT2r", "roofbaseRL2"],
+	["lbarledT2r", "roofbaseRL3"],
+
+	//r
+	["lbarledT1l", "roofbaseRR1"],
+	["lbarledT1l", "roofbaseRR2"],
+	["lbarledT1l", "roofbaseRR3"],
+
+	["lbarledT1r", "roofbaseRR1"],
+	["lbarledT1r", "roofbaseRR2"],
+	["lbarledT1r", "roofbaseRR3"],
+
+	["lbarledT2l", "roofbaseRR1"],
+	["lbarledT2l", "roofbaseRR2"],
+	["lbarledT2l", "roofbaseRR3"],
+
+	["lbarledT2r", "roofbaseRR1"],
+	["lbarledT2r", "roofbaseRR2"],
+	["lbarledT2r", "roofbaseRR3"],
+
+
+	//to quarter glass
+	{"beamSpring":"$=$weight*301000", "beamDamp":"$=$weight*30"},
+
+	//l
+	["lbarledT1l", "Lqglass1l"],
+	["lbarledT1l", "Lqglass1r"],
+	["lbarledT1l", "Lqglass2l"],
+	["lbarledT1l", "Lqglass2r"],
+
+	["lbarledT2l", "Lqglass1l"],
+	["lbarledT2l", "Lqglass1r"],
+	["lbarledT2l", "Lqglass2l"],
+	["lbarledT2l", "Lqglass2r"],
+
+	//r
+	["lbarledT1r", "Rqglass1l"],
+	["lbarledT1r", "Rqglass1r"],
+	["lbarledT1r", "Rqglass2l"],
+	["lbarledT1r", "Rqglass2r"],
+
+	["lbarledT2r", "Rqglass1l"],
+	["lbarledT2r", "Rqglass1r"],
+	["lbarledT2r", "Rqglass2l"],
+	["lbarledT2r", "Rqglass2r"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_lightbar_LED_top"},
+	["lbarledT2l","lbarledT2r","lbarledT1r","lbarledT1l"],
+        {"group":""},
+    ],
+},
+
+}

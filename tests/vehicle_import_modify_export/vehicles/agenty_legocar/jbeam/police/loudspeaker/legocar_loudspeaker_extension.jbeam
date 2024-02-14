@@ -1,0 +1,334 @@
+{
+"legocar_loudspeaker_extension": {
+    "information":{
+        "name":"Loudspeaker Extension",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_loudspeaker_extension",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_tall_circle_grey",["legocar_loudspeaker_B"],[], {"pos":{"x": 0.000, "y": 0.600, "z":2.200},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["lego_2x2_tall_slope_grey", ["legocar_loudspeaker_T"],[], {"pos":{"x": 0.000, "y": 0.600, "z":2.700},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["lego_3x2_flat_notip_grey", ["legocar_loudspeaker_R"],[], {"pos":{"x": 0.000, "y": 0.900, "z":2.325},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//loudspeaker bottom part
+	{"group":"legocar_loudspeaker_B"},
+	//3 pieces, 8 nodes - 0.375 kg/node
+	{"nodeWeight": "$=$weight*0.375"},
+
+	["loudB1l",  0.125, 0.60, 2.075],
+	["loudB1r", -0.125, 0.60, 2.075],
+	["loudB2l",  0.125, 0.90, 2.075],
+	["loudB2r", -0.125, 0.90, 2.075],
+	["loudB3l",  0.125, 0.60, 2.325],
+	["loudB3r", -0.125, 0.60, 2.325],
+	["loudB4l",  0.125, 0.90, 2.325],
+	["loudB4r", -0.125, 0.90, 2.325],
+
+
+	//loudspeaker rear part
+	{"group":"legocar_loudspeaker_R"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["loudR1l",  0.25, 0.950, 1.95],
+	["loudR1r", -0.25, 0.950, 1.95],
+	["loudR2l",  0.25, 0.950, 2.70],
+	["loudR2r", -0.25, 0.950, 2.70],
+	//rigidifier
+	["loudRrig", 0, 0.7, 2.325, {"collision":false, "selfCollision":false, "group":""}],
+
+
+	//loudspeaker top part
+	{"group":"legocar_loudspeaker_T"},
+	//18 pieces, 8 nodes - 2.25 kg/node
+	{"nodeWeight": "$=$weight*2.25"},
+
+	["loudT1l",  0.25, 0.60, 2.45],
+	["loudT1r", -0.25, 0.60, 2.45],
+	["loudT2l",  0.25, 0.90, 2.45],
+	["loudT2r", -0.25, 0.90, 2.45],
+	["loudT3l",  0.25, 0.60, 2.95],
+	["loudT3r", -0.25, 0.60, 2.95],
+	["loudT4l",  0.25, 0.90, 2.70],
+	["loudT4r", -0.25, 0.90, 2.70],
+
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LOUDSPEAKER EXTENSION--
+
+	//bottom uniform structure
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+
+	["loudB1l", "loudB1r"],
+	["loudB2l", "loudB2r"],
+	["loudB3l", "loudB3r"],
+	["loudB4l", "loudB4r"],
+
+	["loudB1l", "loudB2r"],
+	["loudB2l", "loudB3r"],
+	["loudB3l", "loudB4r"],
+	["loudB4l", "loudB1r"],
+
+	["loudB1l", "loudB3r"],
+	["loudB2l", "loudB4r"],
+	["loudB3l", "loudB1r"],
+	["loudB4l", "loudB2r"],
+
+	["loudB1l", "loudB4r"],
+	["loudB2l", "loudB1r"],
+	["loudB3l", "loudB2r"],
+	["loudB4l", "loudB3r"],
+
+	["loudB1l", "loudB2l"],
+	["loudB2l", "loudB3l"],
+	["loudB3l", "loudB4l"],
+	["loudB4l", "loudB1l"],
+
+	["loudB1l", "loudB3l"],
+	["loudB2l", "loudB4l"],
+
+	["loudB1r", "loudB2r"],
+	["loudB2r", "loudB3r"],
+	["loudB3r", "loudB4r"],
+	["loudB4r", "loudB1r"],
+
+	["loudB1r", "loudB3r"],
+	["loudB2r", "loudB4r"],
+
+	//rear uniform structure
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	["loudR1l", "loudR1r"],
+	["loudR2l", "loudR2r"],
+	["loudR1l", "loudR2l"],
+	["loudR1r", "loudR2r"],
+	["loudR1l", "loudR2r"],
+	["loudR2l", "loudR1r"],
+
+	//middle rigidifier
+	["loudR1l", "loudRrig"],
+	["loudR1r", "loudRrig"],
+	["loudR2l", "loudRrig"],
+	["loudR2r", "loudRrig"],
+	
+	//top uniform structure
+	{"beamSpring":"$=$weight*2251000", "beamDamp":"$=$weight*225"},
+
+	["loudT1l", "loudT1r"],
+	["loudT2l", "loudT2r"],
+	["loudT3l", "loudT3r"],
+	["loudT4l", "loudT4r"],
+
+	["loudT1l", "loudT2r"],
+	["loudT2l", "loudT3r"],
+	["loudT3l", "loudT4r"],
+	["loudT4l", "loudT1r"],
+
+	["loudT1l", "loudT3r"],
+	["loudT2l", "loudT4r"],
+	["loudT3l", "loudT1r"],
+	["loudT4l", "loudT2r"],
+
+	["loudT1l", "loudT4r"],
+	["loudT2l", "loudT1r"],
+	["loudT3l", "loudT2r"],
+	["loudT4l", "loudT3r"],
+
+	["loudT1l", "loudT2l"],
+	["loudT2l", "loudT3l"],
+	["loudT3l", "loudT4l"],
+	["loudT4l", "loudT1l"],
+
+	["loudT1l", "loudT3l"],
+	["loudT2l", "loudT4l"],
+
+	["loudT1r", "loudT2r"],
+	["loudT2r", "loudT3r"],
+	["loudT3r", "loudT4r"],
+	["loudT4r", "loudT1r"],
+
+	["loudT1r", "loudT3r"],
+	["loudT2r", "loudT4r"],
+
+
+	//--ATTACH--
+
+
+	//bottom
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},	
+	{"beamSpring":"$=$weight*175000", "beamDamp":"$=$weight*17.5"},
+	{"breakGroup":"loudspeaker_B_break"},
+
+	["loudB1l", "loudM2l"],
+	["loudB1l", "loudM2r"],
+	["loudB1l", "loudM1l"],
+	["loudB1l", "loudM4l"],
+
+	["loudB1r", "loudM2l"],
+	["loudB1r", "loudM2r"],
+	["loudB1r", "loudM1r"],
+	["loudB1r", "loudM4r"],
+
+	["loudB2l", "loudM2l"],
+	["loudB2l", "loudM2r"],
+	["loudB2l", "loudM1l"],
+	["loudB2l", "loudM4l"],
+
+	["loudB2r", "loudM2l"],
+	["loudB2r", "loudM2r"],
+	["loudB2r", "loudM1r"],
+	["loudB2r", "loudM4r"],
+
+	["loudB3l", "loudM4l"],
+	["loudB3l", "loudM4r"],
+	["loudB3l", "loudM3l"],
+	["loudB3l", "loudM2l"],
+
+	["loudB3r", "loudM4l"],
+	["loudB3r", "loudM4r"],
+	["loudB3r", "loudM3r"],
+	["loudB3r", "loudM2r"],
+
+	["loudB4l", "loudM4l"],
+	["loudB4l", "loudM4r"],
+	["loudB4l", "loudM3l"],
+	["loudB4l", "loudM2l"],
+
+	["loudB4r", "loudM4l"],
+	["loudB4r", "loudM4r"],
+	["loudB4r", "loudM3r"],
+	["loudB4r", "loudM2r"],
+
+
+	//rear
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*175000", "beamDamp":"$=$weight*17.5"},
+	{"breakGroup":"loudspeaker_R_break"},
+
+	["loudB1l", "loudR1l"],
+	["loudB1l", "loudR1r"],
+	["loudB1l", "loudR2l"],
+	["loudB1l", "loudRrig"],
+
+	["loudB1r", "loudR1l"],
+	["loudB1r", "loudR1r"],
+	["loudB1r", "loudR2r"],
+	["loudB1r", "loudRrig"],
+
+	["loudB2l", "loudR1l"],
+	["loudB2l", "loudR2r"],
+	["loudB2l", "loudR2l"],
+	["loudB2l", "loudRrig"],
+
+	["loudB2r", "loudR2l"],
+	["loudB2r", "loudR1r"],
+	["loudB2r", "loudR2r"],
+	["loudB2r", "loudRrig"],
+
+	["loudB3l", "loudR1l"],
+	["loudB3l", "loudR1r"],
+	["loudB3l", "loudR2l"],
+	["loudB3l", "loudRrig"],
+
+	["loudB3r", "loudR1l"],
+	["loudB3r", "loudR1r"],
+	["loudB3r", "loudR2r"],
+	["loudB3r", "loudRrig"],
+
+	["loudB4l", "loudR1l"],
+	["loudB4l", "loudR2r"],
+	["loudB4l", "loudR2l"],
+	["loudB4l", "loudRrig"],
+
+	["loudB4r", "loudR2l"],
+	["loudB4r", "loudR1r"],
+	["loudB4r", "loudR2r"],
+	["loudB4r", "loudRrig"],
+	
+	
+	//top
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	{"breakGroup":"loudspeaker_T_break"},
+
+	["loudT1l", "loudR1l"],
+	["loudT1l", "loudR1r"],
+	["loudT1l", "loudR2l"],
+	["loudT1l", "loudRrig"],
+
+	["loudT1r", "loudR1l"],
+	["loudT1r", "loudR1r"],
+	["loudT1r", "loudR2r"],
+	["loudT1r", "loudRrig"],
+
+	["loudT2l", "loudR1l"],
+	["loudT2l", "loudR2r"],
+	["loudT2l", "loudR2l"],
+	["loudT2l", "loudRrig"],
+
+	["loudT2r", "loudR2l"],
+	["loudT2r", "loudR1r"],
+	["loudT2r", "loudR2r"],
+	["loudT2r", "loudRrig"],
+
+	["loudT3l", "loudR1l"],
+	["loudT3l", "loudR1r"],
+	["loudT3l", "loudR2l"],
+	["loudT3l", "loudRrig"],
+
+	["loudT3r", "loudR1l"],
+	["loudT3r", "loudR1r"],
+	["loudT3r", "loudR2r"],
+	["loudT3r", "loudRrig"],
+
+	["loudT4l", "loudR1l"],
+	["loudT4l", "loudR2r"],
+	["loudT4l", "loudR2l"],
+	["loudT4l", "loudRrig"],
+
+	["loudT4r", "loudR2l"],
+	["loudT4r", "loudR1r"],
+	["loudT4r", "loudR2r"],
+	["loudT4r", "loudRrig"],
+
+
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	
+	{"group":"legocar_loudspeaker_B"},   
+	["loudB2r","loudB2l","loudB1l","loudB1r"],
+	["loudB4l","loudB4r","loudB3r","loudB3l"],
+	["loudB3r","loudB4r","loudB2r","loudB1r"],
+	["loudB4l","loudB3l","loudB1l","loudB2l"],
+	["loudB4r","loudB4l","loudB2l","loudB2r"],
+	["loudB3l","loudB3r","loudB1r","loudB1l"],
+
+	{"group":"legocar_loudspeaker_R"},
+	["loudR1l","loudR1r","loudR2r","loudR2l"],
+	
+	{"group":"legocar_loudspeaker_T"},   
+	["loudT2r","loudT2l","loudT1l","loudT1r"],
+	["loudT4l","loudT4r","loudT3r","loudT3l"],
+	["loudT3r","loudT4r","loudT2r","loudT1r"],
+	["loudT4l","loudT3l","loudT1l","loudT2l"],
+	["loudT4r","loudT4l","loudT2l","loudT2r"],
+	["loudT3l","loudT3r","loudT1r","loudT1l"],
+
+        {"group":""},
+    ],
+},
+
+}

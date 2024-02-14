@@ -18,10 +18,39 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-V_ATTRIBUTE_INIT_NODE_ID = 'jbeam_init_node_id'
-V_ATTRIBUTE_NODE_ID = 'jbeam_node_id'
-ATTRIBUTE_JBEAM_FILE_PATH = 'jbeam_file_path'
-ATTRIBUTE_JBEAM_FILE_DATA_STR = 'jbeam_file_data_str'
-ATTRIBUTE_JBEAM_PART = 'jbeam_part'
-ATTRIBUTE_JBEAM_PART_CHOICES = 'jbeam_part_choices'
-ATTRIBUTE_JBEAM_INIT_NODE_IDS = 'init_node_ids'
+UNIT_TESTING = False
+DEBUG = False
+
+# JBeam Collection Attributes
+COLLECTION_IO_CTX = 'collection_vehicle_io_ctx'
+COLLECTION_VEH_FILES = 'collection_vehicle_files'
+COLLECTION_VEHICLE_MODEL = 'collection_vehicle_model'
+COLLECTION_VEHICLE_BUNDLE = 'collection_vehicle_bundle'
+COLLECTION_PC_FILEPATH = 'collection_vehicle_pc_filepath'
+COLLECTION_PARTS = 'collection_vehicle_parts'
+COLLECTION_MAIN_PART = 'collection_vehicle_main_part'
+COLLECTION_NODES = 'collection_vehicle_nodes'
+
+# JBeam Part Attributes
+MESH_VEHICLE_MODEL = 'vehicle_model'
+MESH_JBEAM_PART = 'jbeam_part'
+MESH_JBEAM_FILE_PATH = 'jbeam_file_path'
+MESH_VERTEX_COUNT = 'mesh_vertex_count'
+MESH_EDGE_COUNT = 'mesh_edge_count'
+MESH_FACE_COUNT = 'mesh_tri_count'
+MESH_VERTEX_DUPLICATES = 'mesh_vertex_duplicates'
+MESH_SINGLE_JBEAM_PART_DATA = 'jbeam_part_data'
+
+# bm.verts.layers.string Attributes
+VLS_INIT_NODE_ID = 'jbeam_init_node_id'
+VLS_NODE_ID = 'jbeam_node_id'
+VLS_NODE_PART_ORIGIN = 'jbeam_node_part_origin'
+VLS_NODE_IS_FAKE = 'jbeam_node_is_fake'
+
+# bm.edges.layers.string Attributes
+ELS_BEAM_PART_ORIGIN = 'jbeam_beam_part_origin'
+ELS_BEAM_INDICES = 'jbeam_beam_indices'
+
+# bm.faces.layers.string Attributes
+FLS_FACE_PART_ORIGIN = 'jbeam_face_part_origin'
+FLS_FACE_IDX = 'jbeam_face_indices'

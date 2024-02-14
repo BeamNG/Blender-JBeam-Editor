@@ -1,0 +1,457 @@
+{
+"legocar_rockertrim_L": {
+    "information":{
+        "name":"Left Rocker Trim (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_rockertrim_L",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_rocker_L", "legocar_rocker_L", "Left Rocker"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x1_flat_col1",      ["legocar_rocker_L_lower"], [], {"pos":{"x":0.625, "y":0.0, "z":0.2},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ROCKER TRIM--
+	{"group":"legocar_rocker_L_lower"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["LrockB1l",  0.75, -0.50, 0.25],
+	["LrockB1r",  0.53, -0.50, 0.25],
+	["LrockB2l",  0.75,  0.50, 0.25],
+	["LrockB2r",  0.53,  0.50, 0.25],
+
+	//rigidifier
+	["LrockBrig", 0.625, 0, 0.6, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--ROCKER TRIM--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["LrockB1l", "LrockB1r"],
+	["LrockB2l", "LrockB2r"],
+	["LrockB1l", "LrockB2l"],
+	["LrockB1r", "LrockB2r"],
+	["LrockB1l", "LrockB2r"],
+	["LrockB2l", "LrockB1r"],
+
+	//rigidifier
+	["LrockB1l", "LrockBrig"],
+	["LrockB1r", "LrockBrig"],
+	["LrockB2l", "LrockBrig"],
+	["LrockB2r", "LrockBrig"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_rocker_L_lower"},
+	["LrockB1l","LrockB1r","LrockB2r","LrockB2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_rockertrim_L_col2": {
+    "information":{
+        "name":"Left Rocker Trim (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_rockertrim_L",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_rocker_L", "legocar_rocker_L", "Left Rocker"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x1_flat_col2",      ["legocar_rocker_L_lower"], [], {"pos":{"x":0.625, "y":0.0, "z":0.2},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ROCKER TRIM--
+	{"group":"legocar_rocker_L_lower"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["LrockB1l",  0.75, -0.50, 0.25],
+	["LrockB1r",  0.53, -0.50, 0.25],
+	["LrockB2l",  0.75,  0.50, 0.25],
+	["LrockB2r",  0.53,  0.50, 0.25],
+
+	//rigidifier
+	["LrockBrig", 0.625, 0, 0.6, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--ROCKER TRIM--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["LrockB1l", "LrockB1r"],
+	["LrockB2l", "LrockB2r"],
+	["LrockB1l", "LrockB2l"],
+	["LrockB1r", "LrockB2r"],
+	["LrockB1l", "LrockB2r"],
+	["LrockB2l", "LrockB1r"],
+
+	//rigidifier
+	["LrockB1l", "LrockBrig"],
+	["LrockB1r", "LrockBrig"],
+	["LrockB2l", "LrockBrig"],
+	["LrockB2r", "LrockBrig"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_rocker_L_lower"},
+	["LrockB1l","LrockB1r","LrockB2r","LrockB2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_rockertrim_L_col3": {
+    "information":{
+        "name":"Left Rocker Trim (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_rockertrim_L",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_rocker_L", "legocar_rocker_L", "Left Rocker"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x1_flat_col3",      ["legocar_rocker_L_lower"], [], {"pos":{"x":0.625, "y":0.0, "z":0.2},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ROCKER TRIM--
+	{"group":"legocar_rocker_L_lower"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["LrockB1l",  0.75, -0.50, 0.25],
+	["LrockB1r",  0.53, -0.50, 0.25],
+	["LrockB2l",  0.75,  0.50, 0.25],
+	["LrockB2r",  0.53,  0.50, 0.25],
+
+	//rigidifier
+	["LrockBrig", 0.625, 0, 0.6, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--ROCKER TRIM--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["LrockB1l", "LrockB1r"],
+	["LrockB2l", "LrockB2r"],
+	["LrockB1l", "LrockB2l"],
+	["LrockB1r", "LrockB2r"],
+	["LrockB1l", "LrockB2r"],
+	["LrockB2l", "LrockB1r"],
+
+	//rigidifier
+	["LrockB1l", "LrockBrig"],
+	["LrockB1r", "LrockBrig"],
+	["LrockB2l", "LrockBrig"],
+	["LrockB2r", "LrockBrig"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_rocker_L_lower"},
+	["LrockB1l","LrockB1r","LrockB2r","LrockB2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_rockertrim_L_black": {
+    "information":{
+        "name":"Left Rocker Trim (Black)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_rockertrim_L",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_rocker_L", "legocar_rocker_L", "Left Rocker"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x1_flat_black",      ["legocar_rocker_L_lower"], [], {"pos":{"x":0.625, "y":0.0, "z":0.2},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ROCKER TRIM--
+	{"group":"legocar_rocker_L_lower"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["LrockB1l",  0.75, -0.50, 0.25],
+	["LrockB1r",  0.53, -0.50, 0.25],
+	["LrockB2l",  0.75,  0.50, 0.25],
+	["LrockB2r",  0.53,  0.50, 0.25],
+
+	//rigidifier
+	["LrockBrig", 0.625, 0, 0.6, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--ROCKER TRIM--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["LrockB1l", "LrockB1r"],
+	["LrockB2l", "LrockB2r"],
+	["LrockB1l", "LrockB2l"],
+	["LrockB1r", "LrockB2r"],
+	["LrockB1l", "LrockB2r"],
+	["LrockB2l", "LrockB1r"],
+
+	//rigidifier
+	["LrockB1l", "LrockBrig"],
+	["LrockB1r", "LrockBrig"],
+	["LrockB2l", "LrockBrig"],
+	["LrockB2r", "LrockBrig"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_rocker_L_lower"},
+	["LrockB1l","LrockB1r","LrockB2r","LrockB2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_rockertrim_L_dgrey": {
+    "information":{
+        "name":"Left Rocker Trim (Dark Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_rockertrim_L",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_rocker_L", "legocar_rocker_L", "Left Rocker"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x1_flat_dgrey",      ["legocar_rocker_L_lower"], [], {"pos":{"x":0.625, "y":0.0, "z":0.2},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ROCKER TRIM--
+	{"group":"legocar_rocker_L_lower"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["LrockB1l",  0.75, -0.50, 0.25],
+	["LrockB1r",  0.53, -0.50, 0.25],
+	["LrockB2l",  0.75,  0.50, 0.25],
+	["LrockB2r",  0.53,  0.50, 0.25],
+
+	//rigidifier
+	["LrockBrig", 0.625, 0, 0.6, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--ROCKER TRIM--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["LrockB1l", "LrockB1r"],
+	["LrockB2l", "LrockB2r"],
+	["LrockB1l", "LrockB2l"],
+	["LrockB1r", "LrockB2r"],
+	["LrockB1l", "LrockB2r"],
+	["LrockB2l", "LrockB1r"],
+
+	//rigidifier
+	["LrockB1l", "LrockBrig"],
+	["LrockB1r", "LrockBrig"],
+	["LrockB2l", "LrockBrig"],
+	["LrockB2r", "LrockBrig"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_rocker_L_lower"},
+	["LrockB1l","LrockB1r","LrockB2r","LrockB2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_rockertrim_L_grey": {
+    "information":{
+        "name":"Left Rocker Trim (Light Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_rockertrim_L",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_rocker_L", "legocar_rocker_L", "Left Rocker"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x1_flat_grey",      ["legocar_rocker_L_lower"], [], {"pos":{"x":0.625, "y":0.0, "z":0.2},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ROCKER TRIM--
+	{"group":"legocar_rocker_L_lower"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["LrockB1l",  0.75, -0.50, 0.25],
+	["LrockB1r",  0.53, -0.50, 0.25],
+	["LrockB2l",  0.75,  0.50, 0.25],
+	["LrockB2r",  0.53,  0.50, 0.25],
+
+	//rigidifier
+	["LrockBrig", 0.625, 0, 0.6, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--ROCKER TRIM--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["LrockB1l", "LrockB1r"],
+	["LrockB2l", "LrockB2r"],
+	["LrockB1l", "LrockB2l"],
+	["LrockB1r", "LrockB2r"],
+	["LrockB1l", "LrockB2r"],
+	["LrockB2l", "LrockB1r"],
+
+	//rigidifier
+	["LrockB1l", "LrockBrig"],
+	["LrockB1r", "LrockBrig"],
+	["LrockB2l", "LrockBrig"],
+	["LrockB2r", "LrockBrig"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_rocker_L_lower"},
+	["LrockB1l","LrockB1r","LrockB2r","LrockB2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_rockertrim_L_chrome": {
+    "information":{
+        "name":"Left Rocker Trim (Chrome)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_rockertrim_L",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_rocker_L", "legocar_rocker_L", "Left Rocker"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x1_flat_chrome",      ["legocar_rocker_L_lower"], [], {"pos":{"x":0.625, "y":0.0, "z":0.2},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ROCKER TRIM--
+	{"group":"legocar_rocker_L_lower"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["LrockB1l",  0.75, -0.50, 0.25],
+	["LrockB1r",  0.53, -0.50, 0.25],
+	["LrockB2l",  0.75,  0.50, 0.25],
+	["LrockB2r",  0.53,  0.50, 0.25],
+
+	//rigidifier
+	["LrockBrig", 0.625, 0, 0.6, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--ROCKER TRIM--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["LrockB1l", "LrockB1r"],
+	["LrockB2l", "LrockB2r"],
+	["LrockB1l", "LrockB2l"],
+	["LrockB1r", "LrockB2r"],
+	["LrockB1l", "LrockB2r"],
+	["LrockB2l", "LrockB1r"],
+
+	//rigidifier
+	["LrockB1l", "LrockBrig"],
+	["LrockB1r", "LrockBrig"],
+	["LrockB2l", "LrockBrig"],
+	["LrockB2r", "LrockBrig"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_rocker_L_lower"},
+	["LrockB1l","LrockB1r","LrockB2r","LrockB2l"],
+        {"group":""},
+    ],
+},
+
+}

@@ -1,0 +1,205 @@
+{
+"legocar_exhausttip_side_L_black": {
+    "information":{
+        "name":"Left Exhaust Tip (Black)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhausttip_side_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_side_L","legocar_afterfire_side_L", "Afterfire Effect"],
+	["legocar_nitrofire_side_L","", "Nitrous Flames"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_cyllinder_connector_talltoflat_black", ["legocar_sidepipe_L"], [], {"pos":{"x": 0.900, "y":0.300, "z":0.18},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//add weight and change exhaust properties
+	{"group":"legocar_sidepipe_L"},
+	//original 0.67 kg/node, + 1kg -> 1.67kg 
+	{"nodeWeight": "$=$weight*1.67"},
+	["sidepipeL1", 0.90,-0.475, 0.18, {"selfCollision":false}],
+	//original 0.67 kg/node, + 0.5kg -> 1.33kg 
+	{"nodeWeight": "$=$weight*1.33"},
+	["sidepipeL2", 0.90, 0.525, 0.18, {"afterFireAudioCoef":0.3,"afterFireVisualCoef":0.35, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-2}],
+    ],
+},
+
+"legocar_exhausttip_side_L_chrome": {
+    "information":{
+        "name":"Left Exhaust Tip (Chrome)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhausttip_side_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_side_L","legocar_afterfire_side_L", "Afterfire Effect"],
+	["legocar_nitrofire_side_L","", "Nitrous Flames"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_cyllinder_connector_talltoflat_chrome", ["legocar_sidepipe_L"], [], {"pos":{"x": 0.900, "y":0.300, "z":0.18},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//add weight and change exhaust properties
+	{"group":"legocar_sidepipe_L"},
+	//original 0.67 kg/node, + 1kg -> 1.67kg 
+	{"nodeWeight": "$=$weight*1.67"},
+	["sidepipeL1", 0.90,-0.475, 0.18, {"selfCollision":false}],
+	//original 0.67 kg/node, + 0.5kg -> 1.33kg 
+	{"nodeWeight": "$=$weight*1.33"},
+	["sidepipeL2", 0.90, 0.525, 0.18, {"afterFireAudioCoef":0.3,"afterFireVisualCoef":0.35, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-2}],
+    ],
+},
+
+"legocar_exhausttip_side_L_yellow": {
+    "information":{
+        "name":"Left Exhaust Tip (Yellow)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhausttip_side_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_side_L","legocar_afterfire_side_L", "Afterfire Effect"],
+	["legocar_nitrofire_side_L","", "Nitrous Flames"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_cyllinder_connector_talltoflat_byellow_metallic", ["legocar_sidepipe_L"], [], {"pos":{"x": 0.900, "y":0.300, "z":0.18},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//add weight and change exhaust properties
+	{"group":"legocar_sidepipe_L"},
+	//original 0.67 kg/node, + 1kg -> 1.67kg 
+	{"nodeWeight": "$=$weight*1.67"},
+	["sidepipeL1", 0.90,-0.475, 0.18, {"selfCollision":false}],
+	//original 0.67 kg/node, + 0.5kg -> 1.33kg 
+	{"nodeWeight": "$=$weight*1.33"},
+	["sidepipeL2", 0.90, 0.525, 0.18, {"afterFireAudioCoef":0.3,"afterFireVisualCoef":0.35, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-2}],
+    ],
+},
+
+"legocar_exhausttip_side_L_blue": {
+    "information":{
+        "name":"Left Exhaust Tip (Blue)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhausttip_side_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_side_L","legocar_afterfire_side_L", "Afterfire Effect"],
+	["legocar_nitrofire_side_L","", "Nitrous Flames"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_cyllinder_connector_talltoflat_drblue_metallic", ["legocar_sidepipe_L"], [], {"pos":{"x": 0.900, "y":0.300, "z":0.18},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//add weight and change exhaust properties
+	{"group":"legocar_sidepipe_L"},
+	//original 0.67 kg/node, + 1kg -> 1.67kg 
+	{"nodeWeight": "$=$weight*1.67"},
+	["sidepipeL1", 0.90,-0.475, 0.18, {"selfCollision":false}],
+	//original 0.67 kg/node, + 0.5kg -> 1.33kg 
+	{"nodeWeight": "$=$weight*1.33"},
+	["sidepipeL2", 0.90, 0.525, 0.18, {"afterFireAudioCoef":0.3,"afterFireVisualCoef":0.35, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-2}],
+    ],
+},
+
+"legocar_exhausttip_side_L_red": {
+    "information":{
+        "name":"Left Exhaust Tip (Red)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhausttip_side_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_side_L","legocar_afterfire_side_L", "Afterfire Effect"],
+	["legocar_nitrofire_side_L","", "Nitrous Flames"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_cyllinder_connector_talltoflat_dred_metallic", ["legocar_sidepipe_L"], [], {"pos":{"x": 0.900, "y":0.300, "z":0.18},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//add weight and change exhaust properties
+	{"group":"legocar_sidepipe_L"},
+	//original 0.67 kg/node, + 1kg -> 1.67kg 
+	{"nodeWeight": "$=$weight*1.67"},
+	["sidepipeL1", 0.90,-0.475, 0.18, {"selfCollision":false}],
+	//original 0.67 kg/node, + 0.5kg -> 1.33kg 
+	{"nodeWeight": "$=$weight*1.33"},
+	["sidepipeL2", 0.90, 0.525, 0.18, {"afterFireAudioCoef":0.3,"afterFireVisualCoef":0.35, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-2}],
+    ],
+},
+
+"legocar_exhausttip_side_L_purple": {
+    "information":{
+        "name":"Left Exhaust Tip (Purple)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhausttip_side_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_side_L","legocar_afterfire_side_L", "Afterfire Effect"],
+	["legocar_nitrofire_side_L","", "Nitrous Flames"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_cyllinder_connector_talltoflat_lpurple_metallic", ["legocar_sidepipe_L"], [], {"pos":{"x": 0.900, "y":0.300, "z":0.18},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//add weight and change exhaust properties
+	{"group":"legocar_sidepipe_L"},
+	//original 0.67 kg/node, + 1kg -> 1.67kg 
+	{"nodeWeight": "$=$weight*1.67"},
+	["sidepipeL1", 0.90,-0.475, 0.18, {"selfCollision":false}],
+	//original 0.67 kg/node, + 0.5kg -> 1.33kg 
+	{"nodeWeight": "$=$weight*1.33"},
+	["sidepipeL2", 0.90, 0.525, 0.18, {"afterFireAudioCoef":0.3,"afterFireVisualCoef":0.35, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-2}],
+    ],
+},
+
+"legocar_exhausttip_side_L_titanium": {
+    "information":{
+        "name":"Left Exhaust Tip (Titanium)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhausttip_side_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_side_L","legocar_afterfire_side_L", "Afterfire Effect"],
+	["legocar_nitrofire_side_L","", "Nitrous Flames"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_cyllinder_connector_talltoflat_titanium", ["legocar_sidepipe_L"], [], {"pos":{"x": 0.900, "y":0.300, "z":0.18},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//add weight and change exhaust properties
+	{"group":"legocar_sidepipe_L"},
+	//original 0.67 kg/node, + 1kg -> 1.67kg 
+	{"nodeWeight": "$=$weight*1.67"},
+	["sidepipeL1", 0.90,-0.475, 0.18, {"selfCollision":false}],
+	//original 0.67 kg/node, + 0.5kg -> 1.33kg 
+	{"nodeWeight": "$=$weight*1.33"},
+	["sidepipeL2", 0.90, 0.525, 0.18, {"afterFireAudioCoef":0.3,"afterFireVisualCoef":0.35, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-2}],
+    ],
+},
+
+}

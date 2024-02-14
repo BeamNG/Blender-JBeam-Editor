@@ -1,0 +1,1648 @@
+{
+"legocar_bumpermount_RM_full_derby_col1": {
+    "information":{
+        "name":"Derby Rear Bumper Mount (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhaust",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_bumper_R", "legocar_bumper_R_col1", "Rear Bumper", {"nodeOffset":{"x":0, "y":0.1, "z":0}}],
+	["legocar_bumpermount_test_slot", "", "Test Slot"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_col1", ["legocar_bumpermount_R"], [], {"pos":{"x": 0.000, "y":1.750, "z":0.225},"rot":{"x":-90, "y":0, "z":90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+	["lego_1x1_flat_col1", ["legocar_bumpermount_RL"],[], {"pos":{"x": 0.375, "y":1.850, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_col1", ["legocar_bumpermount_RR"],[], {"pos":{"x":-0.375, "y":1.850, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumpermount_R"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Rbumpmt1l",  0.75, 1.80, 0.10],
+	["Rbumpmt1r", -0.75, 1.80, 0.10],
+	["Rbumpmt2l",  0.75, 1.80, 0.35],
+	["Rbumpmt2r", -0.75, 1.80, 0.35],
+	//rigidifier
+	["Rbumpmtrig", 0.00, 1.35, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+
+	//left
+	{"group":"legocar_bumpermount_RL"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RLbmount1l",  0.50, 1.90, 0.10],
+	["RLbmount1r",  0.25, 1.90, 0.10],
+	["RLbmount2l",  0.50, 1.90, 0.35],
+	["RLbmount2r",  0.25, 1.90, 0.35],
+	//rigidifier
+	["RLbmountrig", 0.375, 1.75, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+	//right
+	{"group":"legocar_bumpermount_RR"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RRLbmount1r", -0.50, 1.90, 0.10],
+	["RRLbmount1l", -0.25, 1.90, 0.10],
+	["RRLbmount2r", -0.50, 1.90, 0.35],
+	["RRLbmount2l", -0.25, 1.90, 0.35],
+	//rigidifier
+	["RRLbmountrig",-0.375, 1.75, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Rbumpmt1l", "Rbumpmt1r"],
+	["Rbumpmt2l", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2l"],
+	["Rbumpmt1r", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2r"],
+	["Rbumpmt2l", "Rbumpmt1r"],
+
+	//rigidifier
+	["Rbumpmt1l", "Rbumpmtrig"],
+	["Rbumpmt1r", "Rbumpmtrig"],
+	["Rbumpmt2l", "Rbumpmtrig"],
+	["Rbumpmt2r", "Rbumpmtrig"],
+
+
+	//--REAR LEFT BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RLbmount1l", "RLbmount1r"],
+	["RLbmount2l", "RLbmount2r"],
+	["RLbmount1l", "RLbmount2l"],
+	["RLbmount1r", "RLbmount2r"],
+	["RLbmount1l", "RLbmount2r"],
+	["RLbmount2l", "RLbmount1r"],
+
+	//rigidifier
+	["RLbmount1l", "RLbmountrig"],
+	["RLbmount1r", "RLbmountrig"],
+	["RLbmount2l", "RLbmountrig"],
+	["RLbmount2r", "RLbmountrig"],
+
+
+	//--REAR RIGHT BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RRLbmount1l", "RRLbmount1r"],
+	["RRLbmount2l", "RRLbmount2r"],
+	["RRLbmount1l", "RRLbmount2l"],
+	["RRLbmount1r", "RRLbmount2r"],
+	["RRLbmount1l", "RRLbmount2r"],
+	["RRLbmount2l", "RRLbmount1r"],
+
+	//rigidifier
+	["RRLbmount1l", "RRLbmountrig"],
+	["RRLbmount1r", "RRLbmountrig"],
+	["RRLbmount2l", "RRLbmountrig"],
+	["RRLbmount2r", "RRLbmountrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"optional":true},
+
+	//left
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_fascia_L_break"},
+	
+	["Rbumpmt1l", "RLfasc1l"],
+	["Rbumpmt1l", "RLfasc2r"],
+	["Rbumpmt1l", "RLfasc4l"],
+
+	["Rbumpmt1r", "RLfasc1r"],
+	["Rbumpmt1r", "RLfasc2l"],
+	["Rbumpmt1r", "RLfasc4r"],
+
+	["Rbumpmt2l", "RLfasc3l"],
+	["Rbumpmt2l", "RLfasc4r"],
+	["Rbumpmt2l", "RLfasc2l"],
+
+	["Rbumpmt2r", "RLfasc3r"],
+	["Rbumpmt2r", "RLfasc4l"],
+	["Rbumpmt2r", "RLfasc2r"],
+
+	["Rbumpmtrig", "RLfasc2l"],
+	["Rbumpmtrig", "RLfasc1r"],
+	["Rbumpmtrig", "RLfasc4l"],
+	["Rbumpmtrig", "RLfasc3r"],
+
+	//right
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_fascia_R_break"},
+	
+	["Rbumpmt1l", "RRfasc1l"],
+	["Rbumpmt1l", "RRfasc2r"],
+	["Rbumpmt1l", "RRfasc4l"],
+
+	["Rbumpmt1r", "RRfasc1r"],
+	["Rbumpmt1r", "RRfasc2l"],
+	["Rbumpmt1r", "RRfasc4r"],
+
+	["Rbumpmt2l", "RRfasc3l"],
+	["Rbumpmt2l", "RRfasc4r"],
+	["Rbumpmt2l", "RRfasc2l"],
+
+	["Rbumpmt2r", "RRfasc3r"],
+	["Rbumpmt2r", "RRfasc4l"],
+	["Rbumpmt2r", "RRfasc2r"],
+
+	["Rbumpmtrig", "RRfasc2l"],
+	["Rbumpmtrig", "RRfasc1r"],
+	["Rbumpmtrig", "RRfasc4l"],
+	["Rbumpmtrig", "RRfasc3r"],
+
+
+	//left mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bumpermount_R_L_break"},
+
+	["RLbmount1l", "Rbumpmt1l"],
+	["RLbmount1l", "Rbumpmt1r"],
+	["RLbmount1l", "Rbumpmt2l"],
+	["RLbmount1l", "Rbumpmtrig"],
+
+	["RLbmount1r", "Rbumpmt1l"],
+	["RLbmount1r", "Rbumpmt1r"],
+	["RLbmount1r", "Rbumpmt2l"],
+	["RLbmount1r", "Rbumpmtrig"],
+
+	["RLbmount2l", "Rbumpmt1l"],
+	["RLbmount2l", "Rbumpmt2r"],
+	["RLbmount2l", "Rbumpmt2l"],
+	["RLbmount2l", "Rbumpmtrig"],
+
+	["RLbmount2r", "Rbumpmt1l"],
+	["RLbmount2r", "Rbumpmt2r"],
+	["RLbmount2r", "Rbumpmt2l"],
+	["RLbmount2r", "Rbumpmtrig"],
+
+	["RLbmountrig", "Rbumpmt1l"],
+	["RLbmountrig", "Rbumpmt1r"],
+	["RLbmountrig", "Rbumpmt2l"],
+	["RLbmountrig", "Rbumpmt2r"],
+
+
+	//right mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bumpermount_R_R_break"},
+
+	["RRLbmount1l", "Rbumpmt1l"],
+	["RRLbmount1l", "Rbumpmt1r"],
+	["RRLbmount1l", "Rbumpmt2r"],
+	["RRLbmount1l", "Rbumpmtrig"],
+
+	["RRLbmount1r", "Rbumpmt1l"],
+	["RRLbmount1r", "Rbumpmt1r"],
+	["RRLbmount1r", "Rbumpmt2r"],
+	["RRLbmount1r", "Rbumpmtrig"],
+
+	["RRLbmount2l", "Rbumpmt1r"],
+	["RRLbmount2l", "Rbumpmt2r"],
+	["RRLbmount2l", "Rbumpmt2l"],
+	["RRLbmount2l", "Rbumpmtrig"],
+
+	["RRLbmount2r", "Rbumpmt1r"],
+	["RRLbmount2r", "Rbumpmt2r"],
+	["RRLbmount2r", "Rbumpmt2l"],
+	["RRLbmount2r", "Rbumpmtrig"],
+
+	["RRLbmountrig", "Rbumpmt1l"],
+	["RRLbmountrig", "Rbumpmt1r"],
+	["RRLbmountrig", "Rbumpmt2l"],
+	["RRLbmountrig", "Rbumpmt2r"],
+
+
+	//left mount to bumper
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bumper_RL_break"},
+
+	["RLbmount1l", "Rbump1l"],
+	["RLbmount1l", "Rbump1r"],
+	["RLbmount1l", "Rbump2l"],
+	["RLbmount1l", "Rbumprig"],
+
+	["RLbmount1r", "Rbump1l"],
+	["RLbmount1r", "Rbump1r"],
+	["RLbmount1r", "Rbump2l"],
+	["RLbmount1r", "Rbumprig"],
+
+	["RLbmount2l", "Rbump1l"],
+	["RLbmount2l", "Rbump2r"],
+	["RLbmount2l", "Rbump2l"],
+	["RLbmount2l", "Rbumprig"],
+
+	["RLbmount2r", "Rbump1l"],
+	["RLbmount2r", "Rbump2r"],
+	["RLbmount2r", "Rbump2l"],
+	["RLbmount2r", "Rbumprig"],
+
+	["RLbmountrig", "Rbump1l"],
+	["RLbmountrig", "Rbump1r"],
+	["RLbmountrig", "Rbump2l"],
+	["RLbmountrig", "Rbump2r"],
+
+
+	//right mount to bumper
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bumper_RR_break"},
+
+	["RRLbmount1l", "Rbump1l"],
+	["RRLbmount1l", "Rbump1r"],
+	["RRLbmount1l", "Rbump2r"],
+	["RRLbmount1l", "Rbumprig"],
+
+	["RRLbmount1r", "Rbump1l"],
+	["RRLbmount1r", "Rbump1r"],
+	["RRLbmount1r", "Rbump2r"],
+	["RRLbmount1r", "Rbumprig"],
+
+	["RRLbmount2l", "Rbump1r"],
+	["RRLbmount2l", "Rbump2r"],
+	["RRLbmount2l", "Rbump2l"],
+	["RRLbmount2l", "Rbumprig"],
+
+	["RRLbmount2r", "Rbump1r"],
+	["RRLbmount2r", "Rbump2r"],
+	["RRLbmount2r", "Rbump2l"],
+	["RRLbmount2r", "Rbumprig"],
+
+	["RRLbmountrig", "Rbump1l"],
+	["RRLbmountrig", "Rbump1r"],
+	["RRLbmountrig", "Rbump2l"],
+	["RRLbmountrig", "Rbump2r"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-WOBBLE--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["sptpan1l", "Rbumpmt1l"],
+	["sptpan1r", "Rbumpmt1l"],
+	["sptpan3l", "Rbumpmt1l"],
+	["sptpan3r", "Rbumpmt1l"],
+
+	["sptpan1l", "Rbumpmt2l"],
+	["sptpan1r", "Rbumpmt2l"],
+	["sptpan3l", "Rbumpmt2l"],
+	["sptpan3r", "Rbumpmt2l"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_bupermount_RL"},
+	["RLbmount2r","RLbmount2l","RLbmount1l","RLbmount1r"],
+	{"group":"legocar_bupermount_RR"},
+	["RRLbmount2r","RRLbmount2l","RRLbmount1l","RRLbmount1r"],
+        {"group":"legocar_bumpermount_R"},
+	["Rbumpmt1l","Rbumpmt1r","Rbumpmt2r","Rbumpmt2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_bumpermount_RM_full_derby_col2": {
+    "information":{
+        "name":"Derby Rear Bumper Mount (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhaust",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_bumper_R", "legocar_bumper_R_col2", "Rear Bumper", {"nodeOffset":{"x":0, "y":0.1, "z":0}}],
+	["legocar_bumpermount_test_slot", "", "Test Slot"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_col2", ["legocar_bumpermount_R"], [], {"pos":{"x": 0.000, "y":1.750, "z":0.225},"rot":{"x":-90, "y":0, "z":90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+	["lego_1x1_flat_col2", ["legocar_bumpermount_RL"],[], {"pos":{"x": 0.375, "y":1.850, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_col2", ["legocar_bumpermount_RR"],[], {"pos":{"x":-0.375, "y":1.850, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumpermount_R"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Rbumpmt1l",  0.75, 1.80, 0.10],
+	["Rbumpmt1r", -0.75, 1.80, 0.10],
+	["Rbumpmt2l",  0.75, 1.80, 0.35],
+	["Rbumpmt2r", -0.75, 1.80, 0.35],
+	//rigidifier
+	["Rbumpmtrig", 0.00, 1.35, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+
+	//left
+	{"group":"legocar_bumpermount_RL"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RLbmount1l",  0.50, 1.90, 0.10],
+	["RLbmount1r",  0.25, 1.90, 0.10],
+	["RLbmount2l",  0.50, 1.90, 0.35],
+	["RLbmount2r",  0.25, 1.90, 0.35],
+	//rigidifier
+	["RLbmountrig", 0.375, 1.75, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+	//right
+	{"group":"legocar_bumpermount_RR"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RRLbmount1r", -0.50, 1.90, 0.10],
+	["RRLbmount1l", -0.25, 1.90, 0.10],
+	["RRLbmount2r", -0.50, 1.90, 0.35],
+	["RRLbmount2l", -0.25, 1.90, 0.35],
+	//rigidifier
+	["RRLbmountrig",-0.375, 1.75, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Rbumpmt1l", "Rbumpmt1r"],
+	["Rbumpmt2l", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2l"],
+	["Rbumpmt1r", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2r"],
+	["Rbumpmt2l", "Rbumpmt1r"],
+
+	//rigidifier
+	["Rbumpmt1l", "Rbumpmtrig"],
+	["Rbumpmt1r", "Rbumpmtrig"],
+	["Rbumpmt2l", "Rbumpmtrig"],
+	["Rbumpmt2r", "Rbumpmtrig"],
+
+
+	//--REAR LEFT BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RLbmount1l", "RLbmount1r"],
+	["RLbmount2l", "RLbmount2r"],
+	["RLbmount1l", "RLbmount2l"],
+	["RLbmount1r", "RLbmount2r"],
+	["RLbmount1l", "RLbmount2r"],
+	["RLbmount2l", "RLbmount1r"],
+
+	//rigidifier
+	["RLbmount1l", "RLbmountrig"],
+	["RLbmount1r", "RLbmountrig"],
+	["RLbmount2l", "RLbmountrig"],
+	["RLbmount2r", "RLbmountrig"],
+
+
+	//--REAR RIGHT BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RRLbmount1l", "RRLbmount1r"],
+	["RRLbmount2l", "RRLbmount2r"],
+	["RRLbmount1l", "RRLbmount2l"],
+	["RRLbmount1r", "RRLbmount2r"],
+	["RRLbmount1l", "RRLbmount2r"],
+	["RRLbmount2l", "RRLbmount1r"],
+
+	//rigidifier
+	["RRLbmount1l", "RRLbmountrig"],
+	["RRLbmount1r", "RRLbmountrig"],
+	["RRLbmount2l", "RRLbmountrig"],
+	["RRLbmount2r", "RRLbmountrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"optional":true},
+
+	//left
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_fascia_L_break"},
+	
+	["Rbumpmt1l", "RLfasc1l"],
+	["Rbumpmt1l", "RLfasc2r"],
+	["Rbumpmt1l", "RLfasc4l"],
+
+	["Rbumpmt1r", "RLfasc1r"],
+	["Rbumpmt1r", "RLfasc2l"],
+	["Rbumpmt1r", "RLfasc4r"],
+
+	["Rbumpmt2l", "RLfasc3l"],
+	["Rbumpmt2l", "RLfasc4r"],
+	["Rbumpmt2l", "RLfasc2l"],
+
+	["Rbumpmt2r", "RLfasc3r"],
+	["Rbumpmt2r", "RLfasc4l"],
+	["Rbumpmt2r", "RLfasc2r"],
+
+	["Rbumpmtrig", "RLfasc2l"],
+	["Rbumpmtrig", "RLfasc1r"],
+	["Rbumpmtrig", "RLfasc4l"],
+	["Rbumpmtrig", "RLfasc3r"],
+
+	//right
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_fascia_R_break"},
+	
+	["Rbumpmt1l", "RRfasc1l"],
+	["Rbumpmt1l", "RRfasc2r"],
+	["Rbumpmt1l", "RRfasc4l"],
+
+	["Rbumpmt1r", "RRfasc1r"],
+	["Rbumpmt1r", "RRfasc2l"],
+	["Rbumpmt1r", "RRfasc4r"],
+
+	["Rbumpmt2l", "RRfasc3l"],
+	["Rbumpmt2l", "RRfasc4r"],
+	["Rbumpmt2l", "RRfasc2l"],
+
+	["Rbumpmt2r", "RRfasc3r"],
+	["Rbumpmt2r", "RRfasc4l"],
+	["Rbumpmt2r", "RRfasc2r"],
+
+	["Rbumpmtrig", "RRfasc2l"],
+	["Rbumpmtrig", "RRfasc1r"],
+	["Rbumpmtrig", "RRfasc4l"],
+	["Rbumpmtrig", "RRfasc3r"],
+
+
+	//left mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bumpermount_R_L_break"},
+
+	["RLbmount1l", "Rbumpmt1l"],
+	["RLbmount1l", "Rbumpmt1r"],
+	["RLbmount1l", "Rbumpmt2l"],
+	["RLbmount1l", "Rbumpmtrig"],
+
+	["RLbmount1r", "Rbumpmt1l"],
+	["RLbmount1r", "Rbumpmt1r"],
+	["RLbmount1r", "Rbumpmt2l"],
+	["RLbmount1r", "Rbumpmtrig"],
+
+	["RLbmount2l", "Rbumpmt1l"],
+	["RLbmount2l", "Rbumpmt2r"],
+	["RLbmount2l", "Rbumpmt2l"],
+	["RLbmount2l", "Rbumpmtrig"],
+
+	["RLbmount2r", "Rbumpmt1l"],
+	["RLbmount2r", "Rbumpmt2r"],
+	["RLbmount2r", "Rbumpmt2l"],
+	["RLbmount2r", "Rbumpmtrig"],
+
+	["RLbmountrig", "Rbumpmt1l"],
+	["RLbmountrig", "Rbumpmt1r"],
+	["RLbmountrig", "Rbumpmt2l"],
+	["RLbmountrig", "Rbumpmt2r"],
+
+
+	//right mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bumpermount_R_R_break"},
+
+	["RRLbmount1l", "Rbumpmt1l"],
+	["RRLbmount1l", "Rbumpmt1r"],
+	["RRLbmount1l", "Rbumpmt2r"],
+	["RRLbmount1l", "Rbumpmtrig"],
+
+	["RRLbmount1r", "Rbumpmt1l"],
+	["RRLbmount1r", "Rbumpmt1r"],
+	["RRLbmount1r", "Rbumpmt2r"],
+	["RRLbmount1r", "Rbumpmtrig"],
+
+	["RRLbmount2l", "Rbumpmt1r"],
+	["RRLbmount2l", "Rbumpmt2r"],
+	["RRLbmount2l", "Rbumpmt2l"],
+	["RRLbmount2l", "Rbumpmtrig"],
+
+	["RRLbmount2r", "Rbumpmt1r"],
+	["RRLbmount2r", "Rbumpmt2r"],
+	["RRLbmount2r", "Rbumpmt2l"],
+	["RRLbmount2r", "Rbumpmtrig"],
+
+	["RRLbmountrig", "Rbumpmt1l"],
+	["RRLbmountrig", "Rbumpmt1r"],
+	["RRLbmountrig", "Rbumpmt2l"],
+	["RRLbmountrig", "Rbumpmt2r"],
+
+
+	//left mount to bumper
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bumper_RL_break"},
+
+	["RLbmount1l", "Rbump1l"],
+	["RLbmount1l", "Rbump1r"],
+	["RLbmount1l", "Rbump2l"],
+	["RLbmount1l", "Rbumprig"],
+
+	["RLbmount1r", "Rbump1l"],
+	["RLbmount1r", "Rbump1r"],
+	["RLbmount1r", "Rbump2l"],
+	["RLbmount1r", "Rbumprig"],
+
+	["RLbmount2l", "Rbump1l"],
+	["RLbmount2l", "Rbump2r"],
+	["RLbmount2l", "Rbump2l"],
+	["RLbmount2l", "Rbumprig"],
+
+	["RLbmount2r", "Rbump1l"],
+	["RLbmount2r", "Rbump2r"],
+	["RLbmount2r", "Rbump2l"],
+	["RLbmount2r", "Rbumprig"],
+
+	["RLbmountrig", "Rbump1l"],
+	["RLbmountrig", "Rbump1r"],
+	["RLbmountrig", "Rbump2l"],
+	["RLbmountrig", "Rbump2r"],
+
+
+	//right mount to bumper
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bumper_RR_break"},
+
+	["RRLbmount1l", "Rbump1l"],
+	["RRLbmount1l", "Rbump1r"],
+	["RRLbmount1l", "Rbump2r"],
+	["RRLbmount1l", "Rbumprig"],
+
+	["RRLbmount1r", "Rbump1l"],
+	["RRLbmount1r", "Rbump1r"],
+	["RRLbmount1r", "Rbump2r"],
+	["RRLbmount1r", "Rbumprig"],
+
+	["RRLbmount2l", "Rbump1r"],
+	["RRLbmount2l", "Rbump2r"],
+	["RRLbmount2l", "Rbump2l"],
+	["RRLbmount2l", "Rbumprig"],
+
+	["RRLbmount2r", "Rbump1r"],
+	["RRLbmount2r", "Rbump2r"],
+	["RRLbmount2r", "Rbump2l"],
+	["RRLbmount2r", "Rbumprig"],
+
+	["RRLbmountrig", "Rbump1l"],
+	["RRLbmountrig", "Rbump1r"],
+	["RRLbmountrig", "Rbump2l"],
+	["RRLbmountrig", "Rbump2r"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-WOBBLE--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["sptpan1l", "Rbumpmt1l"],
+	["sptpan1r", "Rbumpmt1l"],
+	["sptpan3l", "Rbumpmt1l"],
+	["sptpan3r", "Rbumpmt1l"],
+
+	["sptpan1l", "Rbumpmt2l"],
+	["sptpan1r", "Rbumpmt2l"],
+	["sptpan3l", "Rbumpmt2l"],
+	["sptpan3r", "Rbumpmt2l"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_bupermount_RL"},
+	["RLbmount2r","RLbmount2l","RLbmount1l","RLbmount1r"],
+	{"group":"legocar_bupermount_RR"},
+	["RRLbmount2r","RRLbmount2l","RRLbmount1l","RRLbmount1r"],
+        {"group":"legocar_bumpermount_R"},
+	["Rbumpmt1l","Rbumpmt1r","Rbumpmt2r","Rbumpmt2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_bumpermount_RM_full_derby_col3": {
+    "information":{
+        "name":"Derby Rear Bumper Mount (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhaust",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_bumper_R", "legocar_bumper_R_col3", "Rear Bumper", {"nodeOffset":{"x":0, "y":0.1, "z":0}}],
+	["legocar_bumpermount_test_slot", "", "Test Slot"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_col3", ["legocar_bumpermount_R"], [], {"pos":{"x": 0.000, "y":1.750, "z":0.225},"rot":{"x":-90, "y":0, "z":90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+	["lego_1x1_flat_col3", ["legocar_bumpermount_RL"],[], {"pos":{"x": 0.375, "y":1.850, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_col3", ["legocar_bumpermount_RR"],[], {"pos":{"x":-0.375, "y":1.850, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumpermount_R"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Rbumpmt1l",  0.75, 1.80, 0.10],
+	["Rbumpmt1r", -0.75, 1.80, 0.10],
+	["Rbumpmt2l",  0.75, 1.80, 0.35],
+	["Rbumpmt2r", -0.75, 1.80, 0.35],
+	//rigidifier
+	["Rbumpmtrig", 0.00, 1.35, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+
+	//left
+	{"group":"legocar_bumpermount_RL"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RLbmount1l",  0.50, 1.90, 0.10],
+	["RLbmount1r",  0.25, 1.90, 0.10],
+	["RLbmount2l",  0.50, 1.90, 0.35],
+	["RLbmount2r",  0.25, 1.90, 0.35],
+	//rigidifier
+	["RLbmountrig", 0.375, 1.75, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+	//right
+	{"group":"legocar_bumpermount_RR"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RRLbmount1r", -0.50, 1.90, 0.10],
+	["RRLbmount1l", -0.25, 1.90, 0.10],
+	["RRLbmount2r", -0.50, 1.90, 0.35],
+	["RRLbmount2l", -0.25, 1.90, 0.35],
+	//rigidifier
+	["RRLbmountrig",-0.375, 1.75, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Rbumpmt1l", "Rbumpmt1r"],
+	["Rbumpmt2l", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2l"],
+	["Rbumpmt1r", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2r"],
+	["Rbumpmt2l", "Rbumpmt1r"],
+
+	//rigidifier
+	["Rbumpmt1l", "Rbumpmtrig"],
+	["Rbumpmt1r", "Rbumpmtrig"],
+	["Rbumpmt2l", "Rbumpmtrig"],
+	["Rbumpmt2r", "Rbumpmtrig"],
+
+
+	//--REAR LEFT BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RLbmount1l", "RLbmount1r"],
+	["RLbmount2l", "RLbmount2r"],
+	["RLbmount1l", "RLbmount2l"],
+	["RLbmount1r", "RLbmount2r"],
+	["RLbmount1l", "RLbmount2r"],
+	["RLbmount2l", "RLbmount1r"],
+
+	//rigidifier
+	["RLbmount1l", "RLbmountrig"],
+	["RLbmount1r", "RLbmountrig"],
+	["RLbmount2l", "RLbmountrig"],
+	["RLbmount2r", "RLbmountrig"],
+
+
+	//--REAR RIGHT BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RRLbmount1l", "RRLbmount1r"],
+	["RRLbmount2l", "RRLbmount2r"],
+	["RRLbmount1l", "RRLbmount2l"],
+	["RRLbmount1r", "RRLbmount2r"],
+	["RRLbmount1l", "RRLbmount2r"],
+	["RRLbmount2l", "RRLbmount1r"],
+
+	//rigidifier
+	["RRLbmount1l", "RRLbmountrig"],
+	["RRLbmount1r", "RRLbmountrig"],
+	["RRLbmount2l", "RRLbmountrig"],
+	["RRLbmount2r", "RRLbmountrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"optional":true},
+
+	//left
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_fascia_L_break"},
+	
+	["Rbumpmt1l", "RLfasc1l"],
+	["Rbumpmt1l", "RLfasc2r"],
+	["Rbumpmt1l", "RLfasc4l"],
+
+	["Rbumpmt1r", "RLfasc1r"],
+	["Rbumpmt1r", "RLfasc2l"],
+	["Rbumpmt1r", "RLfasc4r"],
+
+	["Rbumpmt2l", "RLfasc3l"],
+	["Rbumpmt2l", "RLfasc4r"],
+	["Rbumpmt2l", "RLfasc2l"],
+
+	["Rbumpmt2r", "RLfasc3r"],
+	["Rbumpmt2r", "RLfasc4l"],
+	["Rbumpmt2r", "RLfasc2r"],
+
+	["Rbumpmtrig", "RLfasc2l"],
+	["Rbumpmtrig", "RLfasc1r"],
+	["Rbumpmtrig", "RLfasc4l"],
+	["Rbumpmtrig", "RLfasc3r"],
+
+	//right
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_fascia_R_break"},
+	
+	["Rbumpmt1l", "RRfasc1l"],
+	["Rbumpmt1l", "RRfasc2r"],
+	["Rbumpmt1l", "RRfasc4l"],
+
+	["Rbumpmt1r", "RRfasc1r"],
+	["Rbumpmt1r", "RRfasc2l"],
+	["Rbumpmt1r", "RRfasc4r"],
+
+	["Rbumpmt2l", "RRfasc3l"],
+	["Rbumpmt2l", "RRfasc4r"],
+	["Rbumpmt2l", "RRfasc2l"],
+
+	["Rbumpmt2r", "RRfasc3r"],
+	["Rbumpmt2r", "RRfasc4l"],
+	["Rbumpmt2r", "RRfasc2r"],
+
+	["Rbumpmtrig", "RRfasc2l"],
+	["Rbumpmtrig", "RRfasc1r"],
+	["Rbumpmtrig", "RRfasc4l"],
+	["Rbumpmtrig", "RRfasc3r"],
+
+
+	//left mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bumpermount_R_L_break"},
+
+	["RLbmount1l", "Rbumpmt1l"],
+	["RLbmount1l", "Rbumpmt1r"],
+	["RLbmount1l", "Rbumpmt2l"],
+	["RLbmount1l", "Rbumpmtrig"],
+
+	["RLbmount1r", "Rbumpmt1l"],
+	["RLbmount1r", "Rbumpmt1r"],
+	["RLbmount1r", "Rbumpmt2l"],
+	["RLbmount1r", "Rbumpmtrig"],
+
+	["RLbmount2l", "Rbumpmt1l"],
+	["RLbmount2l", "Rbumpmt2r"],
+	["RLbmount2l", "Rbumpmt2l"],
+	["RLbmount2l", "Rbumpmtrig"],
+
+	["RLbmount2r", "Rbumpmt1l"],
+	["RLbmount2r", "Rbumpmt2r"],
+	["RLbmount2r", "Rbumpmt2l"],
+	["RLbmount2r", "Rbumpmtrig"],
+
+	["RLbmountrig", "Rbumpmt1l"],
+	["RLbmountrig", "Rbumpmt1r"],
+	["RLbmountrig", "Rbumpmt2l"],
+	["RLbmountrig", "Rbumpmt2r"],
+
+
+	//right mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bumpermount_R_R_break"},
+
+	["RRLbmount1l", "Rbumpmt1l"],
+	["RRLbmount1l", "Rbumpmt1r"],
+	["RRLbmount1l", "Rbumpmt2r"],
+	["RRLbmount1l", "Rbumpmtrig"],
+
+	["RRLbmount1r", "Rbumpmt1l"],
+	["RRLbmount1r", "Rbumpmt1r"],
+	["RRLbmount1r", "Rbumpmt2r"],
+	["RRLbmount1r", "Rbumpmtrig"],
+
+	["RRLbmount2l", "Rbumpmt1r"],
+	["RRLbmount2l", "Rbumpmt2r"],
+	["RRLbmount2l", "Rbumpmt2l"],
+	["RRLbmount2l", "Rbumpmtrig"],
+
+	["RRLbmount2r", "Rbumpmt1r"],
+	["RRLbmount2r", "Rbumpmt2r"],
+	["RRLbmount2r", "Rbumpmt2l"],
+	["RRLbmount2r", "Rbumpmtrig"],
+
+	["RRLbmountrig", "Rbumpmt1l"],
+	["RRLbmountrig", "Rbumpmt1r"],
+	["RRLbmountrig", "Rbumpmt2l"],
+	["RRLbmountrig", "Rbumpmt2r"],
+
+
+	//left mount to bumper
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bumper_RL_break"},
+
+	["RLbmount1l", "Rbump1l"],
+	["RLbmount1l", "Rbump1r"],
+	["RLbmount1l", "Rbump2l"],
+	["RLbmount1l", "Rbumprig"],
+
+	["RLbmount1r", "Rbump1l"],
+	["RLbmount1r", "Rbump1r"],
+	["RLbmount1r", "Rbump2l"],
+	["RLbmount1r", "Rbumprig"],
+
+	["RLbmount2l", "Rbump1l"],
+	["RLbmount2l", "Rbump2r"],
+	["RLbmount2l", "Rbump2l"],
+	["RLbmount2l", "Rbumprig"],
+
+	["RLbmount2r", "Rbump1l"],
+	["RLbmount2r", "Rbump2r"],
+	["RLbmount2r", "Rbump2l"],
+	["RLbmount2r", "Rbumprig"],
+
+	["RLbmountrig", "Rbump1l"],
+	["RLbmountrig", "Rbump1r"],
+	["RLbmountrig", "Rbump2l"],
+	["RLbmountrig", "Rbump2r"],
+
+
+	//right mount to bumper
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bumper_RR_break"},
+
+	["RRLbmount1l", "Rbump1l"],
+	["RRLbmount1l", "Rbump1r"],
+	["RRLbmount1l", "Rbump2r"],
+	["RRLbmount1l", "Rbumprig"],
+
+	["RRLbmount1r", "Rbump1l"],
+	["RRLbmount1r", "Rbump1r"],
+	["RRLbmount1r", "Rbump2r"],
+	["RRLbmount1r", "Rbumprig"],
+
+	["RRLbmount2l", "Rbump1r"],
+	["RRLbmount2l", "Rbump2r"],
+	["RRLbmount2l", "Rbump2l"],
+	["RRLbmount2l", "Rbumprig"],
+
+	["RRLbmount2r", "Rbump1r"],
+	["RRLbmount2r", "Rbump2r"],
+	["RRLbmount2r", "Rbump2l"],
+	["RRLbmount2r", "Rbumprig"],
+
+	["RRLbmountrig", "Rbump1l"],
+	["RRLbmountrig", "Rbump1r"],
+	["RRLbmountrig", "Rbump2l"],
+	["RRLbmountrig", "Rbump2r"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-WOBBLE--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["sptpan1l", "Rbumpmt1l"],
+	["sptpan1r", "Rbumpmt1l"],
+	["sptpan3l", "Rbumpmt1l"],
+	["sptpan3r", "Rbumpmt1l"],
+
+	["sptpan1l", "Rbumpmt2l"],
+	["sptpan1r", "Rbumpmt2l"],
+	["sptpan3l", "Rbumpmt2l"],
+	["sptpan3r", "Rbumpmt2l"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_bupermount_RL"},
+	["RLbmount2r","RLbmount2l","RLbmount1l","RLbmount1r"],
+	{"group":"legocar_bupermount_RR"},
+	["RRLbmount2r","RRLbmount2l","RRLbmount1l","RRLbmount1r"],
+        {"group":"legocar_bumpermount_R"},
+	["Rbumpmt1l","Rbumpmt1r","Rbumpmt2r","Rbumpmt2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_bumpermount_RM_full_derby_grey": {
+    "information":{
+        "name":"Derby Rear Bumper Mount (Light Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhaust",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_bumper_R", "legocar_bumper_R_grey", "Rear Bumper", {"nodeOffset":{"x":0, "y":0.1, "z":0}}],
+	["legocar_bumpermount_test_slot", "", "Test Slot"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_grey", ["legocar_bumpermount_R"], [], {"pos":{"x": 0.000, "y":1.750, "z":0.225},"rot":{"x":-90, "y":0, "z":90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+	["lego_1x1_flat_grey", ["legocar_bumpermount_RL"],[], {"pos":{"x": 0.375, "y":1.850, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_grey", ["legocar_bumpermount_RR"],[], {"pos":{"x":-0.375, "y":1.850, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumpermount_R"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Rbumpmt1l",  0.75, 1.80, 0.10],
+	["Rbumpmt1r", -0.75, 1.80, 0.10],
+	["Rbumpmt2l",  0.75, 1.80, 0.35],
+	["Rbumpmt2r", -0.75, 1.80, 0.35],
+	//rigidifier
+	["Rbumpmtrig", 0.00, 1.35, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+
+	//left
+	{"group":"legocar_bumpermount_RL"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RLbmount1l",  0.50, 1.90, 0.10],
+	["RLbmount1r",  0.25, 1.90, 0.10],
+	["RLbmount2l",  0.50, 1.90, 0.35],
+	["RLbmount2r",  0.25, 1.90, 0.35],
+	//rigidifier
+	["RLbmountrig", 0.375, 1.75, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+	//right
+	{"group":"legocar_bumpermount_RR"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RRLbmount1r", -0.50, 1.90, 0.10],
+	["RRLbmount1l", -0.25, 1.90, 0.10],
+	["RRLbmount2r", -0.50, 1.90, 0.35],
+	["RRLbmount2l", -0.25, 1.90, 0.35],
+	//rigidifier
+	["RRLbmountrig",-0.375, 1.75, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Rbumpmt1l", "Rbumpmt1r"],
+	["Rbumpmt2l", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2l"],
+	["Rbumpmt1r", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2r"],
+	["Rbumpmt2l", "Rbumpmt1r"],
+
+	//rigidifier
+	["Rbumpmt1l", "Rbumpmtrig"],
+	["Rbumpmt1r", "Rbumpmtrig"],
+	["Rbumpmt2l", "Rbumpmtrig"],
+	["Rbumpmt2r", "Rbumpmtrig"],
+
+
+	//--REAR LEFT BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RLbmount1l", "RLbmount1r"],
+	["RLbmount2l", "RLbmount2r"],
+	["RLbmount1l", "RLbmount2l"],
+	["RLbmount1r", "RLbmount2r"],
+	["RLbmount1l", "RLbmount2r"],
+	["RLbmount2l", "RLbmount1r"],
+
+	//rigidifier
+	["RLbmount1l", "RLbmountrig"],
+	["RLbmount1r", "RLbmountrig"],
+	["RLbmount2l", "RLbmountrig"],
+	["RLbmount2r", "RLbmountrig"],
+
+
+	//--REAR RIGHT BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RRLbmount1l", "RRLbmount1r"],
+	["RRLbmount2l", "RRLbmount2r"],
+	["RRLbmount1l", "RRLbmount2l"],
+	["RRLbmount1r", "RRLbmount2r"],
+	["RRLbmount1l", "RRLbmount2r"],
+	["RRLbmount2l", "RRLbmount1r"],
+
+	//rigidifier
+	["RRLbmount1l", "RRLbmountrig"],
+	["RRLbmount1r", "RRLbmountrig"],
+	["RRLbmount2l", "RRLbmountrig"],
+	["RRLbmount2r", "RRLbmountrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"optional":true},
+
+	//left
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_fascia_L_break"},
+	
+	["Rbumpmt1l", "RLfasc1l"],
+	["Rbumpmt1l", "RLfasc2r"],
+	["Rbumpmt1l", "RLfasc4l"],
+
+	["Rbumpmt1r", "RLfasc1r"],
+	["Rbumpmt1r", "RLfasc2l"],
+	["Rbumpmt1r", "RLfasc4r"],
+
+	["Rbumpmt2l", "RLfasc3l"],
+	["Rbumpmt2l", "RLfasc4r"],
+	["Rbumpmt2l", "RLfasc2l"],
+
+	["Rbumpmt2r", "RLfasc3r"],
+	["Rbumpmt2r", "RLfasc4l"],
+	["Rbumpmt2r", "RLfasc2r"],
+
+	["Rbumpmtrig", "RLfasc2l"],
+	["Rbumpmtrig", "RLfasc1r"],
+	["Rbumpmtrig", "RLfasc4l"],
+	["Rbumpmtrig", "RLfasc3r"],
+
+	//right
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_fascia_R_break"},
+	
+	["Rbumpmt1l", "RRfasc1l"],
+	["Rbumpmt1l", "RRfasc2r"],
+	["Rbumpmt1l", "RRfasc4l"],
+
+	["Rbumpmt1r", "RRfasc1r"],
+	["Rbumpmt1r", "RRfasc2l"],
+	["Rbumpmt1r", "RRfasc4r"],
+
+	["Rbumpmt2l", "RRfasc3l"],
+	["Rbumpmt2l", "RRfasc4r"],
+	["Rbumpmt2l", "RRfasc2l"],
+
+	["Rbumpmt2r", "RRfasc3r"],
+	["Rbumpmt2r", "RRfasc4l"],
+	["Rbumpmt2r", "RRfasc2r"],
+
+	["Rbumpmtrig", "RRfasc2l"],
+	["Rbumpmtrig", "RRfasc1r"],
+	["Rbumpmtrig", "RRfasc4l"],
+	["Rbumpmtrig", "RRfasc3r"],
+
+
+	//left mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bumpermount_R_L_break"},
+
+	["RLbmount1l", "Rbumpmt1l"],
+	["RLbmount1l", "Rbumpmt1r"],
+	["RLbmount1l", "Rbumpmt2l"],
+	["RLbmount1l", "Rbumpmtrig"],
+
+	["RLbmount1r", "Rbumpmt1l"],
+	["RLbmount1r", "Rbumpmt1r"],
+	["RLbmount1r", "Rbumpmt2l"],
+	["RLbmount1r", "Rbumpmtrig"],
+
+	["RLbmount2l", "Rbumpmt1l"],
+	["RLbmount2l", "Rbumpmt2r"],
+	["RLbmount2l", "Rbumpmt2l"],
+	["RLbmount2l", "Rbumpmtrig"],
+
+	["RLbmount2r", "Rbumpmt1l"],
+	["RLbmount2r", "Rbumpmt2r"],
+	["RLbmount2r", "Rbumpmt2l"],
+	["RLbmount2r", "Rbumpmtrig"],
+
+	["RLbmountrig", "Rbumpmt1l"],
+	["RLbmountrig", "Rbumpmt1r"],
+	["RLbmountrig", "Rbumpmt2l"],
+	["RLbmountrig", "Rbumpmt2r"],
+
+
+	//right mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bumpermount_R_R_break"},
+
+	["RRLbmount1l", "Rbumpmt1l"],
+	["RRLbmount1l", "Rbumpmt1r"],
+	["RRLbmount1l", "Rbumpmt2r"],
+	["RRLbmount1l", "Rbumpmtrig"],
+
+	["RRLbmount1r", "Rbumpmt1l"],
+	["RRLbmount1r", "Rbumpmt1r"],
+	["RRLbmount1r", "Rbumpmt2r"],
+	["RRLbmount1r", "Rbumpmtrig"],
+
+	["RRLbmount2l", "Rbumpmt1r"],
+	["RRLbmount2l", "Rbumpmt2r"],
+	["RRLbmount2l", "Rbumpmt2l"],
+	["RRLbmount2l", "Rbumpmtrig"],
+
+	["RRLbmount2r", "Rbumpmt1r"],
+	["RRLbmount2r", "Rbumpmt2r"],
+	["RRLbmount2r", "Rbumpmt2l"],
+	["RRLbmount2r", "Rbumpmtrig"],
+
+	["RRLbmountrig", "Rbumpmt1l"],
+	["RRLbmountrig", "Rbumpmt1r"],
+	["RRLbmountrig", "Rbumpmt2l"],
+	["RRLbmountrig", "Rbumpmt2r"],
+
+
+	//left mount to bumper
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bumper_RL_break"},
+
+	["RLbmount1l", "Rbump1l"],
+	["RLbmount1l", "Rbump1r"],
+	["RLbmount1l", "Rbump2l"],
+	["RLbmount1l", "Rbumprig"],
+
+	["RLbmount1r", "Rbump1l"],
+	["RLbmount1r", "Rbump1r"],
+	["RLbmount1r", "Rbump2l"],
+	["RLbmount1r", "Rbumprig"],
+
+	["RLbmount2l", "Rbump1l"],
+	["RLbmount2l", "Rbump2r"],
+	["RLbmount2l", "Rbump2l"],
+	["RLbmount2l", "Rbumprig"],
+
+	["RLbmount2r", "Rbump1l"],
+	["RLbmount2r", "Rbump2r"],
+	["RLbmount2r", "Rbump2l"],
+	["RLbmount2r", "Rbumprig"],
+
+	["RLbmountrig", "Rbump1l"],
+	["RLbmountrig", "Rbump1r"],
+	["RLbmountrig", "Rbump2l"],
+	["RLbmountrig", "Rbump2r"],
+
+
+	//right mount to bumper
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bumper_RR_break"},
+
+	["RRLbmount1l", "Rbump1l"],
+	["RRLbmount1l", "Rbump1r"],
+	["RRLbmount1l", "Rbump2r"],
+	["RRLbmount1l", "Rbumprig"],
+
+	["RRLbmount1r", "Rbump1l"],
+	["RRLbmount1r", "Rbump1r"],
+	["RRLbmount1r", "Rbump2r"],
+	["RRLbmount1r", "Rbumprig"],
+
+	["RRLbmount2l", "Rbump1r"],
+	["RRLbmount2l", "Rbump2r"],
+	["RRLbmount2l", "Rbump2l"],
+	["RRLbmount2l", "Rbumprig"],
+
+	["RRLbmount2r", "Rbump1r"],
+	["RRLbmount2r", "Rbump2r"],
+	["RRLbmount2r", "Rbump2l"],
+	["RRLbmount2r", "Rbumprig"],
+
+	["RRLbmountrig", "Rbump1l"],
+	["RRLbmountrig", "Rbump1r"],
+	["RRLbmountrig", "Rbump2l"],
+	["RRLbmountrig", "Rbump2r"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-WOBBLE--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["sptpan1l", "Rbumpmt1l"],
+	["sptpan1r", "Rbumpmt1l"],
+	["sptpan3l", "Rbumpmt1l"],
+	["sptpan3r", "Rbumpmt1l"],
+
+	["sptpan1l", "Rbumpmt2l"],
+	["sptpan1r", "Rbumpmt2l"],
+	["sptpan3l", "Rbumpmt2l"],
+	["sptpan3r", "Rbumpmt2l"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_bupermount_RL"},
+	["RLbmount2r","RLbmount2l","RLbmount1l","RLbmount1r"],
+	{"group":"legocar_bupermount_RR"},
+	["RRLbmount2r","RRLbmount2l","RRLbmount1l","RRLbmount1r"],
+        {"group":"legocar_bumpermount_R"},
+	["Rbumpmt1l","Rbumpmt1r","Rbumpmt2r","Rbumpmt2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_bumpermount_RM_full_derby_dgrey": {
+    "information":{
+        "name":"Derby Rear Bumper Mount (Dark Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhaust",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_bumper_R", "legocar_bumper_R_dgrey", "Rear Bumper", {"nodeOffset":{"x":0, "y":0.1, "z":0}}],
+	["legocar_bumpermount_test_slot", "", "Test Slot"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_dgrey", ["legocar_bumpermount_R"], [], {"pos":{"x": 0.000, "y":1.750, "z":0.225},"rot":{"x":-90, "y":0, "z":90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+	["lego_1x1_flat_dgrey", ["legocar_bumpermount_RL"],[], {"pos":{"x": 0.375, "y":1.850, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_dgrey", ["legocar_bumpermount_RR"],[], {"pos":{"x":-0.375, "y":1.850, "z":0.225},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumpermount_R"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Rbumpmt1l",  0.75, 1.80, 0.10],
+	["Rbumpmt1r", -0.75, 1.80, 0.10],
+	["Rbumpmt2l",  0.75, 1.80, 0.35],
+	["Rbumpmt2r", -0.75, 1.80, 0.35],
+	//rigidifier
+	["Rbumpmtrig", 0.00, 1.35, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+
+	//left
+	{"group":"legocar_bumpermount_RL"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RLbmount1l",  0.50, 1.90, 0.10],
+	["RLbmount1r",  0.25, 1.90, 0.10],
+	["RLbmount2l",  0.50, 1.90, 0.35],
+	["RLbmount2r",  0.25, 1.90, 0.35],
+	//rigidifier
+	["RLbmountrig", 0.375, 1.75, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+	//right
+	{"group":"legocar_bumpermount_RR"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["RRLbmount1r", -0.50, 1.90, 0.10],
+	["RRLbmount1l", -0.25, 1.90, 0.10],
+	["RRLbmount2r", -0.50, 1.90, 0.35],
+	["RRLbmount2l", -0.25, 1.90, 0.35],
+	//rigidifier
+	["RRLbmountrig",-0.375, 1.75, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Rbumpmt1l", "Rbumpmt1r"],
+	["Rbumpmt2l", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2l"],
+	["Rbumpmt1r", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2r"],
+	["Rbumpmt2l", "Rbumpmt1r"],
+
+	//rigidifier
+	["Rbumpmt1l", "Rbumpmtrig"],
+	["Rbumpmt1r", "Rbumpmtrig"],
+	["Rbumpmt2l", "Rbumpmtrig"],
+	["Rbumpmt2r", "Rbumpmtrig"],
+
+
+	//--REAR LEFT BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RLbmount1l", "RLbmount1r"],
+	["RLbmount2l", "RLbmount2r"],
+	["RLbmount1l", "RLbmount2l"],
+	["RLbmount1r", "RLbmount2r"],
+	["RLbmount1l", "RLbmount2r"],
+	["RLbmount2l", "RLbmount1r"],
+
+	//rigidifier
+	["RLbmount1l", "RLbmountrig"],
+	["RLbmount1r", "RLbmountrig"],
+	["RLbmount2l", "RLbmountrig"],
+	["RLbmount2r", "RLbmountrig"],
+
+
+	//--REAR RIGHT BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["RRLbmount1l", "RRLbmount1r"],
+	["RRLbmount2l", "RRLbmount2r"],
+	["RRLbmount1l", "RRLbmount2l"],
+	["RRLbmount1r", "RRLbmount2r"],
+	["RRLbmount1l", "RRLbmount2r"],
+	["RRLbmount2l", "RRLbmount1r"],
+
+	//rigidifier
+	["RRLbmount1l", "RRLbmountrig"],
+	["RRLbmount1r", "RRLbmountrig"],
+	["RRLbmount2l", "RRLbmountrig"],
+	["RRLbmount2r", "RRLbmountrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"optional":true},
+
+	//left
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_fascia_L_break"},
+	
+	["Rbumpmt1l", "RLfasc1l"],
+	["Rbumpmt1l", "RLfasc2r"],
+	["Rbumpmt1l", "RLfasc4l"],
+
+	["Rbumpmt1r", "RLfasc1r"],
+	["Rbumpmt1r", "RLfasc2l"],
+	["Rbumpmt1r", "RLfasc4r"],
+
+	["Rbumpmt2l", "RLfasc3l"],
+	["Rbumpmt2l", "RLfasc4r"],
+	["Rbumpmt2l", "RLfasc2l"],
+
+	["Rbumpmt2r", "RLfasc3r"],
+	["Rbumpmt2r", "RLfasc4l"],
+	["Rbumpmt2r", "RLfasc2r"],
+
+	["Rbumpmtrig", "RLfasc2l"],
+	["Rbumpmtrig", "RLfasc1r"],
+	["Rbumpmtrig", "RLfasc4l"],
+	["Rbumpmtrig", "RLfasc3r"],
+
+	//right
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_fascia_R_break"},
+	
+	["Rbumpmt1l", "RRfasc1l"],
+	["Rbumpmt1l", "RRfasc2r"],
+	["Rbumpmt1l", "RRfasc4l"],
+
+	["Rbumpmt1r", "RRfasc1r"],
+	["Rbumpmt1r", "RRfasc2l"],
+	["Rbumpmt1r", "RRfasc4r"],
+
+	["Rbumpmt2l", "RRfasc3l"],
+	["Rbumpmt2l", "RRfasc4r"],
+	["Rbumpmt2l", "RRfasc2l"],
+
+	["Rbumpmt2r", "RRfasc3r"],
+	["Rbumpmt2r", "RRfasc4l"],
+	["Rbumpmt2r", "RRfasc2r"],
+
+	["Rbumpmtrig", "RRfasc2l"],
+	["Rbumpmtrig", "RRfasc1r"],
+	["Rbumpmtrig", "RRfasc4l"],
+	["Rbumpmtrig", "RRfasc3r"],
+
+
+	//left mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bumpermount_R_L_break"},
+
+	["RLbmount1l", "Rbumpmt1l"],
+	["RLbmount1l", "Rbumpmt1r"],
+	["RLbmount1l", "Rbumpmt2l"],
+	["RLbmount1l", "Rbumpmtrig"],
+
+	["RLbmount1r", "Rbumpmt1l"],
+	["RLbmount1r", "Rbumpmt1r"],
+	["RLbmount1r", "Rbumpmt2l"],
+	["RLbmount1r", "Rbumpmtrig"],
+
+	["RLbmount2l", "Rbumpmt1l"],
+	["RLbmount2l", "Rbumpmt2r"],
+	["RLbmount2l", "Rbumpmt2l"],
+	["RLbmount2l", "Rbumpmtrig"],
+
+	["RLbmount2r", "Rbumpmt1l"],
+	["RLbmount2r", "Rbumpmt2r"],
+	["RLbmount2r", "Rbumpmt2l"],
+	["RLbmount2r", "Rbumpmtrig"],
+
+	["RLbmountrig", "Rbumpmt1l"],
+	["RLbmountrig", "Rbumpmt1r"],
+	["RLbmountrig", "Rbumpmt2l"],
+	["RLbmountrig", "Rbumpmt2r"],
+
+
+	//right mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bumpermount_R_R_break"},
+
+	["RRLbmount1l", "Rbumpmt1l"],
+	["RRLbmount1l", "Rbumpmt1r"],
+	["RRLbmount1l", "Rbumpmt2r"],
+	["RRLbmount1l", "Rbumpmtrig"],
+
+	["RRLbmount1r", "Rbumpmt1l"],
+	["RRLbmount1r", "Rbumpmt1r"],
+	["RRLbmount1r", "Rbumpmt2r"],
+	["RRLbmount1r", "Rbumpmtrig"],
+
+	["RRLbmount2l", "Rbumpmt1r"],
+	["RRLbmount2l", "Rbumpmt2r"],
+	["RRLbmount2l", "Rbumpmt2l"],
+	["RRLbmount2l", "Rbumpmtrig"],
+
+	["RRLbmount2r", "Rbumpmt1r"],
+	["RRLbmount2r", "Rbumpmt2r"],
+	["RRLbmount2r", "Rbumpmt2l"],
+	["RRLbmount2r", "Rbumpmtrig"],
+
+	["RRLbmountrig", "Rbumpmt1l"],
+	["RRLbmountrig", "Rbumpmt1r"],
+	["RRLbmountrig", "Rbumpmt2l"],
+	["RRLbmountrig", "Rbumpmt2r"],
+
+
+	//left mount to bumper
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bumper_RL_break"},
+
+	["RLbmount1l", "Rbump1l"],
+	["RLbmount1l", "Rbump1r"],
+	["RLbmount1l", "Rbump2l"],
+	["RLbmount1l", "Rbumprig"],
+
+	["RLbmount1r", "Rbump1l"],
+	["RLbmount1r", "Rbump1r"],
+	["RLbmount1r", "Rbump2l"],
+	["RLbmount1r", "Rbumprig"],
+
+	["RLbmount2l", "Rbump1l"],
+	["RLbmount2l", "Rbump2r"],
+	["RLbmount2l", "Rbump2l"],
+	["RLbmount2l", "Rbumprig"],
+
+	["RLbmount2r", "Rbump1l"],
+	["RLbmount2r", "Rbump2r"],
+	["RLbmount2r", "Rbump2l"],
+	["RLbmount2r", "Rbumprig"],
+
+	["RLbmountrig", "Rbump1l"],
+	["RLbmountrig", "Rbump1r"],
+	["RLbmountrig", "Rbump2l"],
+	["RLbmountrig", "Rbump2r"],
+
+
+	//right mount to bumper
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"bumper_RR_break"},
+
+	["RRLbmount1l", "Rbump1l"],
+	["RRLbmount1l", "Rbump1r"],
+	["RRLbmount1l", "Rbump2r"],
+	["RRLbmount1l", "Rbumprig"],
+
+	["RRLbmount1r", "Rbump1l"],
+	["RRLbmount1r", "Rbump1r"],
+	["RRLbmount1r", "Rbump2r"],
+	["RRLbmount1r", "Rbumprig"],
+
+	["RRLbmount2l", "Rbump1r"],
+	["RRLbmount2l", "Rbump2r"],
+	["RRLbmount2l", "Rbump2l"],
+	["RRLbmount2l", "Rbumprig"],
+
+	["RRLbmount2r", "Rbump1r"],
+	["RRLbmount2r", "Rbump2r"],
+	["RRLbmount2r", "Rbump2l"],
+	["RRLbmount2r", "Rbumprig"],
+
+	["RRLbmountrig", "Rbump1l"],
+	["RRLbmountrig", "Rbump1r"],
+	["RRLbmountrig", "Rbump2l"],
+	["RRLbmountrig", "Rbump2r"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-WOBBLE--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["sptpan1l", "Rbumpmt1l"],
+	["sptpan1r", "Rbumpmt1l"],
+	["sptpan3l", "Rbumpmt1l"],
+	["sptpan3r", "Rbumpmt1l"],
+
+	["sptpan1l", "Rbumpmt2l"],
+	["sptpan1r", "Rbumpmt2l"],
+	["sptpan3l", "Rbumpmt2l"],
+	["sptpan3r", "Rbumpmt2l"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_bupermount_RL"},
+	["RLbmount2r","RLbmount2l","RLbmount1l","RLbmount1r"],
+	{"group":"legocar_bupermount_RR"},
+	["RRLbmount2r","RRLbmount2l","RRLbmount1l","RRLbmount1r"],
+        {"group":"legocar_bumpermount_R"},
+	["Rbumpmt1l","Rbumpmt1r","Rbumpmt2r","Rbumpmt2l"],
+        {"group":""},
+    ],
+},
+
+
+}

@@ -1,0 +1,246 @@
+{ 
+"legodummy_torso": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Torso"
+    },
+    "slotType" : "legodummy_torso",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legodummy_torso",      ["legodummy_torso"],      [], {"pos":{"x": 0, "y":0, "z":0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+	["legodummy_spine_T",    ["legodummy_torso"],      [], {"pos":{"x": 0, "y":0, "z":0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+	["legodummy_arm_joint_L",["legodummy_arm_joint_L"],[], {"pos":{"x": 0, "y":0, "z":0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+	["legodummy_arm_joint_R",["legodummy_arm_joint_R"],[], {"pos":{"x": 0, "y":0, "z":0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],		
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--TORSO--
+	{"group":"legodummy_torso"},
+	//5kg / 10 nodes = 0.5 kg/node
+	{"nodeWeight": "$=$fig_weight*0.5"},
+
+	//main shape
+	["torso1l", 0.150,-0.150, 0.300],
+	["torso1r",-0.150,-0.150, 0.300],
+	["torso2l", 0.150, 0.120, 0.300, {"selfCollision":false}],
+	["torso2r",-0.150, 0.120, 0.300, {"selfCollision":false}],
+	["torso3l", 0.150,-0.150, 0.550],
+	["torso3r",-0.150,-0.150, 0.550],
+	["torso4l", 0.150, 0.120, 0.550],
+	["torso4r",-0.150, 0.120, 0.550],
+
+	//hinge ends
+	{"collision":false},
+	{"selfCollision":false},
+	["torso5", 0.000, 0.000, 0.450],
+	["torso6", 0.000, 0.000, 0.850],
+	{"selfCollision":true},
+	{"collision":true},
+
+
+	//--ARM JOINTS--
+	{"nodeWeight": "$=$fig_weight*0.2"},
+
+	{"group":"legodummy_arm_joint_L"},
+	["armj1l", 0.180, 0.125, 0.325],
+	["armj2l", 0.180, 0.125, 0.575],
+	["armj3l", 0.180,-0.125, 0.325],
+	["armj4l", 0.180,-0.125, 0.575],
+	["armj0l", 0.300, 0.000, 0.450, {"selfCollision":false}],
+
+	{"group":"legodummy_arm_joint_R"},
+	["armj1r",-0.180, 0.125, 0.325],
+	["armj2r",-0.180, 0.125, 0.575],
+	["armj3r",-0.180,-0.125, 0.325],
+	["armj4r",-0.180,-0.125, 0.575],
+	["armj0r",-0.300, 0.000, 0.450, {"selfCollision":false}],
+
+    ],
+    "torsionHydros": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$fig_weight*10000", "damp":"$=$fig_weight*1", "deform":5000, "strength":"FLT_MAX"},
+	//3600 degrees rotation
+        ["armj1l","armj0l","torso5","torso6", {"factor":-62.8318530,"inRate":5,"outRate":5,"inputSource":"arm_L"}],
+	["armj1r","armj0r","torso5","torso6", {"factor": 62.8318530,"inRate":5,"outRate":5,"inputSource":"arm_R"}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--TORSO--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$fig_weight*351000", "beamDamp":"$=$fig_weight*35"},
+
+	//main uniform structure
+	["torso1l", "torso1r"],
+	["torso2l", "torso2r"],
+	["torso3l", "torso3r"],
+	["torso4l", "torso4r"],
+
+	["torso1l", "torso2r"],
+	["torso2l", "torso3r"],
+	["torso3l", "torso4r"],
+	["torso4l", "torso1r"],
+
+	["torso1l", "torso3r"],
+	["torso2l", "torso4r"],
+	["torso3l", "torso1r"],
+	["torso4l", "torso2r"],
+
+	["torso1l", "torso4r"],
+	["torso2l", "torso1r"],
+	["torso3l", "torso2r"],
+	["torso4l", "torso3r"],
+
+	["torso1l", "torso2l"],
+	["torso2l", "torso3l"],
+	["torso3l", "torso4l"],
+	["torso4l", "torso1l"],
+
+	["torso1l", "torso3l"],
+	["torso2l", "torso4l"],
+
+	["torso1r", "torso2r"],
+	["torso2r", "torso3r"],
+	["torso3r", "torso4r"],
+	["torso4r", "torso1r"],
+
+	["torso1r", "torso3r"],
+	["torso2r", "torso4r"],
+
+	//hinge ends
+	["torso5", "torso6"],
+
+	["torso1l", "torso5"],
+	["torso2l", "torso5"],
+	["torso3l", "torso5", {"name":"neck", "disableMeshBreaking":true, "disableTriangleBreaking": true}],
+	["torso4l", "torso5"],
+
+	["torso1r", "torso5"],
+	["torso2r", "torso5"],
+	["torso3r", "torso5"],
+	["torso4r", "torso5"],
+
+	["torso1l", "torso6"],
+	["torso2l", "torso6"],
+	["torso3l", "torso6"],
+	["torso4l", "torso6"],
+
+	["torso1r", "torso6"],
+	["torso2r", "torso6"],
+	["torso3r", "torso6"],
+	["torso4r", "torso6"],
+
+
+	//--ARM JOINTS--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$fig_weight*201000", "beamDamp":"$=$fig_weight*20"},
+
+	//left square
+	["armj1l", "armj2l"],
+	["armj1l", "armj3l"],
+	["armj1l", "armj4l"],
+	["armj2l", "armj3l"],
+	["armj2l", "armj4l"],
+	["armj3l", "armj4l"],
+	
+	//left tip
+	["armj0l", "armj1l", {"name":"arm_L", "disableMeshBreaking":true, "disableTriangleBreaking": true}],
+	["armj0l", "armj2l"],
+	["armj0l", "armj3l"],
+	["armj0l", "armj4l"],
+
+	//right square
+	["armj1r", "armj2r"],
+	["armj1r", "armj3r"],
+	["armj1r", "armj4r"],
+	["armj2r", "armj3r"],
+	["armj2r", "armj4r"],
+	["armj3r", "armj4r"],
+	
+	//right tip
+	["armj0r", "armj1r", {"name":"arm_R", "disableMeshBreaking":true, "disableTriangleBreaking": true}],
+	["armj0r", "armj2r"],
+	["armj0r", "armj3r"],
+	["armj0r", "armj4r"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$fig_weight*101000", "beamDamp":"$=$fig_weight*10"},
+	{"beamDeform":"$=$fig_strength*0.5", "beamStrength":"$=$fig_strength*0.5"},
+
+	//left
+	{"breakGroup":"arm_joint_L_break"},
+
+	["armj1l", "torso5"],
+	["armj2l", "torso5"],
+	["armj3l", "torso5"],
+	["armj4l", "torso5"],
+	["armj0l", "torso5"],
+
+	["armj0l", "torso1r"],
+	["armj0l", "torso2r"],
+	["armj0l", "torso3r"],
+	["armj0l", "torso4r"],
+	["armj0l", "torso6"],
+
+
+	//right
+	{"breakGroup":"arm_joint_R_break"},
+
+	["armj1r", "torso5"],
+	["armj2r", "torso5"],
+	["armj3r", "torso5"],
+	["armj4r", "torso5"],
+	["armj0r", "torso5"],
+
+	["armj0r", "torso1l"],
+	["armj0r", "torso2l"],
+	["armj0r", "torso3l"],
+	["armj0r", "torso4l"],
+	["armj0r", "torso6"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legodummy_arm_joint_L"},
+	["armj0l","armj1l","armj2l"],
+	["armj0l","armj2l","armj4l"],
+	["armj0l","armj4l","armj3l"],
+	["armj0l","armj3l","armj1l"],
+
+	{"group":"legodummy_arm_joint_R"},
+	["armj0r","armj2r","armj1r"],
+	["armj0r","armj4r","armj2r"],
+	["armj0r","armj3r","armj4r"],
+	["armj0r","armj1r","armj3r"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legodummy_torso"},   
+	["torso3r","torso4r","torso2r","torso1r"],
+	["torso4l","torso3l","torso1l","torso2l"],
+	["torso4r","torso4l","torso2l","torso2r"],
+	["torso3l","torso3r","torso1r","torso1l"],
+	["torso3r","torso3l","torso4l","torso4r"],
+
+	{"group":"legodummy_arm_joint_L"},   
+	["armj1l","armj3l","armj4l","armj2l"],
+	{"group":"legodummy_arm_joint_R"},   
+	["armj2r","armj4r","armj3r","armj1r"],
+
+        {"group":""},
+    ],
+},
+
+}

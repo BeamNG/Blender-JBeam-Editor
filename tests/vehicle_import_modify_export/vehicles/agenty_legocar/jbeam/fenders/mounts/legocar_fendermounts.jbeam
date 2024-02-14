@@ -1,0 +1,366 @@
+{
+"legocar_fendermount_FL": {
+    "information":{
+        "name":"Front Left Fender Mount",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fendermount_FL",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fender_FL","legocar_fender_FL_col2", "Front Left Fender"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_grey",["legocar_fendermount_FL"], [], {"pos":{"x": 0.375, "y":-1.000, "z":0.2},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],   
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//bleed generic values again in case they got overwriten by wheels
+	{"nodeMaterial":"|NM_PLASTIC"},
+        {"frictionCoef":0.75},
+	{"collision":true},
+        {"selfCollision":true},
+
+	{"group":"legocar_fendermount_FL"},
+
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["fendmtFL1l", 0.50, -1.22, 0.25],
+	["fendmtFL1r", 0.25, -1.22, 0.25],	
+	["fendmtFL2l", 0.50, -0.77, 0.25],
+	["fendmtFL2r", 0.25, -0.77, 0.25],	
+
+	//rigidifier
+	["fendmtFLrig", 0.375, -1.0, 0.45, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["fendmtFL1l", "fendmtFL1r"],
+	["fendmtFL2l", "fendmtFL2r"],
+	["fendmtFL1l", "fendmtFL2l"],
+	["fendmtFL1r", "fendmtFL2r"],
+	["fendmtFL1l", "fendmtFL2r"],
+	["fendmtFL2l", "fendmtFL1r"],
+
+	//rigidifier
+	["fendmtFL1l", "fendmtFLrig"],
+	["fendmtFL1r", "fendmtFLrig"],
+	["fendmtFL2l", "fendmtFLrig"],
+	["fendmtFL2r", "fendmtFLrig"],
+
+	//--ATTACH TO FENDER--
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"fender_FL_break"},
+	{"optional":true},
+	
+	["fendFL3r", "fendmtFL1r"],
+	["fendFL3r", "fendmtFL2r"],
+	["fendFL3r", "fendmtFL1l"],
+
+	["fendFL4r", "fendmtFL1r"],
+	["fendFL4r", "fendmtFL2r"],
+	["fendFL4r", "fendmtFL2l"],
+
+	["fendFL3l", "fendmtFL1r"],
+	["fendFL3l", "fendmtFL2r"],
+	["fendFL3l", "fendmtFL1l"],
+	["fendFL3l", "fendmtFL2l"],
+
+	["fendFL4l", "fendmtFL1r"],
+	["fendFL4l", "fendmtFL2r"],
+	["fendFL4l", "fendmtFL1l"],
+	["fendFL4l", "fendmtFL2l"],
+	
+	{"breakGroup":""},
+	{"optional":false},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	//bleed generic values again in case they got overwriten by wheels
+	{"groundModel":"plastic"},
+        {"dragCoef":"$drag"},
+
+        {"group":"legocar_fendermount_FL"}, 
+  	["fendmtFL1r","fendmtFL1l","fendmtFL2l","fendmtFL2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_fendermount_FR": {
+    "information":{
+        "name":"Front Right Fender Mount",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fendermount_FR",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fender_FR","legocar_fender_FR_col2", "Front Right Fender"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_grey",["legocar_fendermount_FR"], [], {"pos":{"x":-0.375, "y":-1.000, "z":0.2},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],   
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//bleed generic values again in case they got overwriten by wheels
+	{"nodeMaterial":"|NM_PLASTIC"},
+        {"frictionCoef":0.75},
+	{"collision":true},
+        {"selfCollision":true},
+
+	{"group":"legocar_fendermount_FR"},
+
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["fendmtFR1r",-0.50, -1.22, 0.25],
+	["fendmtFR1l",-0.25, -1.22, 0.25],	
+	["fendmtFR2r",-0.50, -0.77, 0.25],
+	["fendmtFR2l",-0.25, -0.77, 0.25],	
+
+	//rigidifier
+	["fendmtFRrig",-0.375, -1.0, 0.45, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["fendmtFR1l", "fendmtFR1r"],
+	["fendmtFR2l", "fendmtFR2r"],
+	["fendmtFR1l", "fendmtFR2l"],
+	["fendmtFR1r", "fendmtFR2r"],
+	["fendmtFR1l", "fendmtFR2r"],
+	["fendmtFR2l", "fendmtFR1r"],
+
+	//rigidifier
+	["fendmtFR1l", "fendmtFRrig"],
+	["fendmtFR1r", "fendmtFRrig"],
+	["fendmtFR2l", "fendmtFRrig"],
+	["fendmtFR2r", "fendmtFRrig"],
+
+	//--ATTACH TO FENDER--
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"fender_FR_break"},
+	{"optional":true},
+	
+	["fendFR3l", "fendmtFR1l"],
+	["fendFR3l", "fendmtFR2l"],
+	["fendFR3l", "fendmtFR1r"],
+
+	["fendFR4l", "fendmtFR1l"],
+	["fendFR4l", "fendmtFR2l"],
+	["fendFR4l", "fendmtFR2r"],
+
+	["fendFR3r", "fendmtFR1l"],
+	["fendFR3r", "fendmtFR2l"],
+	["fendFR3r", "fendmtFR1r"],
+	["fendFR3r", "fendmtFR2r"],
+
+	["fendFR4r", "fendmtFR1l"],
+	["fendFR4r", "fendmtFR2l"],
+	["fendFR4r", "fendmtFR1r"],
+	["fendFR4r", "fendmtFR2r"],
+
+	
+	{"breakGroup":""},
+	{"optional":false},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	
+	//bleed generic values again in case they got overwriten by wheels
+	{"groundModel":"plastic"},
+        {"dragCoef":"$drag"},
+
+        {"group":"legocar_fendermount_FR"}, 
+  	["fendmtFR1r","fendmtFR1l","fendmtFR2l","fendmtFR2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_fendermounts_R": {
+    "information":{
+        "name":"Rear Fender Mounts",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fendermounts_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fenders_R","legocar_fenders_R_col3", "Rear Fenders"],
+	["legocar_fendermounts_R2","", "Test"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_grey",["legocar_fendermount_RL"], [], {"pos":{"x": 0.375, "y":1.000, "z":0.2},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_flat_grey",["legocar_fendermount_RR"], [], {"pos":{"x":-0.375, "y":1.000, "z":0.2},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],   
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//bleed generic values again in case they got overwriten by wheels
+	{"nodeMaterial":"|NM_PLASTIC"},
+        {"frictionCoef":0.75},
+	{"collision":true},
+        {"selfCollision":true},
+
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	//left
+	{"group":"legocar_fendermount_RL"},
+	["fendmtRL1l", 0.50, 1.22, 0.25],
+	["fendmtRL1r", 0.25, 1.22, 0.25],	
+	["fendmtRL2l", 0.50, 0.77, 0.25],
+	["fendmtRL2r", 0.25, 0.77, 0.25],	
+	//rigidifier
+	["fendmtRLrig", 0.375, 1.0, 0.45, {"collision":false, "selfCollision":false, "group":""}],
+
+	//right
+	{"group":"legocar_fendermount_RR"},
+	["fendmtRR1r",-0.50, 1.22, 0.25],
+	["fendmtRR1l",-0.25, 1.22, 0.25],	
+	["fendmtRR2r",-0.50, 0.77, 0.25],
+	["fendmtRR2l",-0.25, 0.77, 0.25],	
+	//rigidifier
+	["fendmtRRrig",-0.375, 1.0, 0.45, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+
+	//--LEFT FENDER MOUNT
+
+	//uniform structure
+	["fendmtRL1l", "fendmtRL1r"],
+	["fendmtRL2l", "fendmtRL2r"],
+	["fendmtRL1l", "fendmtRL2l"],
+	["fendmtRL1r", "fendmtRL2r"],
+	["fendmtRL1l", "fendmtRL2r"],
+	["fendmtRL2l", "fendmtRL1r"],
+
+	//rigidifier
+	["fendmtRL1l", "fendmtRLrig"],
+	["fendmtRL1r", "fendmtRLrig"],
+	["fendmtRL2l", "fendmtRLrig"],
+	["fendmtRL2r", "fendmtRLrig"],
+
+	
+	//--RIGHT FENDER MOUNT--
+
+	//uniform structure
+	["fendmtRR1l", "fendmtRR1r"],
+	["fendmtRR2l", "fendmtRR2r"],
+	["fendmtRR1l", "fendmtRR2l"],
+	["fendmtRR1r", "fendmtRR2r"],
+	["fendmtRR1l", "fendmtRR2r"],
+	["fendmtRR2l", "fendmtRR1r"],
+
+	//rigidifier
+	["fendmtRR1l", "fendmtRRrig"],
+	["fendmtRR1r", "fendmtRRrig"],
+	["fendmtRR2l", "fendmtRRrig"],
+	["fendmtRR2r", "fendmtRRrig"],
+	
+	//--ATTACH TO FENDERS--
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"optional":true},
+
+	{"breakGroup":"fender_RL_break"},
+	
+	["fendRL3r", "fendmtRL1r"],
+	["fendRL3r", "fendmtRL2r"],
+	["fendRL3r", "fendmtRL1l"],
+
+	["fendRL4r", "fendmtRL1r"],
+	["fendRL4r", "fendmtRL2r"],
+	["fendRL4r", "fendmtRL2l"],
+
+	["fendRL3l", "fendmtRL1r"],
+	["fendRL3l", "fendmtRL2r"],
+	["fendRL3l", "fendmtRL1l"],
+	["fendRL3l", "fendmtRL2l"],
+
+	["fendRL4l", "fendmtRL1r"],
+	["fendRL4l", "fendmtRL2r"],
+	["fendRL4l", "fendmtRL1l"],
+	["fendRL4l", "fendmtRL2l"],
+
+
+	{"breakGroup":"fender_RR_break"},
+	
+	["fendRR3l", "fendmtRR1l"],
+	["fendRR3l", "fendmtRR2l"],
+	["fendRR3l", "fendmtRR1r"],
+
+	["fendRR4l", "fendmtRR1l"],
+	["fendRR4l", "fendmtRR2l"],
+	["fendRR4l", "fendmtRR2r"],
+
+	["fendRR3r", "fendmtRR1l"],
+	["fendRR3r", "fendmtRR2l"],
+	["fendRR3r", "fendmtRR1r"],
+	["fendRR3r", "fendmtRR2r"],
+
+	["fendRR4r", "fendmtRR1l"],
+	["fendRR4r", "fendmtRR2l"],
+	["fendRR4r", "fendmtRR1r"],
+	["fendRR4r", "fendmtRR2r"],
+
+
+	{"breakGroup":""},
+	{"optional":false},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	//bleed generic values again in case they got overwriten by wheels
+	{"groundModel":"plastic"},
+        {"dragCoef":"$drag"},
+
+        {"group":"legocar_fendermount_RL"}, 
+  	["fendmtRL1l","fendmtRL1r","fendmtRL2r","fendmtRL2l"],
+
+	{"group":"legocar_fendermount_RR"}, 
+  	["fendmtRR1l","fendmtRR1r","fendmtRR2r","fendmtRR2l"],
+
+        {"group":""},
+    ],
+},
+
+}

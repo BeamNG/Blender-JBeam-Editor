@@ -1,0 +1,417 @@
+{
+"legocar_lightbar_LED_R_red": {
+    "information":{
+        "name":"Standard Red Right Flashers",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_LED_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"policeled_R1_break", "deformMaterialBase":"legocar_policeled_R1_red", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_policeled_R1_red", ["legocar_policeled_R1"],[], {"pos":{"x": -0.125, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"policeled_R2_break", "deformMaterialBase":"legocar_policeled_R2", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_policeled_R2",     ["legocar_policeled_R2"],[], {"pos":{"x": -0.375, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"policeled_R3_break", "deformMaterialBase":"legocar_policeled_R1_red", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_policeled_R3_red", ["legocar_policeled_R3"],[], {"pos":{"x": -0.625, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":100,
+            "lightBrightness":0.6,
+            "lightRange":15,
+            "lightColor":{"r":201, "g":26, "b":9, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.04,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_led_R3", "SPOTLIGHT", "lbarledR31l", "lbarledR31r", "lbarledR32l", {"x":40, "y":-90, "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":1.0, "y":0.5, "z":0},"deformGroup":"policeled_R3_break"}],
+	["cop_led_R3", "SPOTLIGHT", "lbarledR31l", "lbarledR31r", "lbarledR32l", {"x":70, "y":180, "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.0, "z":0},"deformGroup":"policeled_R3_break"}],
+	["cop_led_R3", "SPOTLIGHT", "lbarledR31l", "lbarledR31r", "lbarledR32l", {"x":70, "y": 0 , "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":1.0, "z":0},"deformGroup":"policeled_R3_break"}],
+	["cop_led_R1", "SPOTLIGHT", "lbarledR11l", "lbarledR11r", "lbarledR12l", {"x":70, "y":180, "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.0, "z":0},"deformGroup":"policeled_R1_break"}],
+	["cop_led_R1", "SPOTLIGHT", "lbarledR11l", "lbarledR11r", "lbarledR12l", {"x":70, "y": 0 , "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":1.0, "z":0},"deformGroup":"policeled_R1_break"}],
+	{"lightColor":{"r":252, "g":252, "b":252, "a":255}},
+	["cop_led_R2", "SPOTLIGHT", "lbarledR21l", "lbarledR21r", "lbarledR22l", {"x":70, "y":180, "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.0, "z":0},"deformGroup":"policeled_R2_break"}],
+	["cop_led_R2", "SPOTLIGHT", "lbarledR21l", "lbarledR21r", "lbarledR22l", {"x":70, "y": 0 , "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":1.0, "z":0},"deformGroup":"policeled_R2_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//lightbar flashers
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_policeled_R3"},
+	["lbarledR31r",  -0.73, 0.500, 1.65],
+	["lbarledR31l",  -0.52, 0.500, 1.65],
+	["lbarledR32r",  -0.73, 0.750, 1.65],
+	["lbarledR32l",  -0.52, 0.750, 1.65],
+	//rigidifier
+	["lbarledR3rig", -0.625, 0.625, 1.55, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":"legocar_policeled_R2"},
+	["lbarledR21r",  -0.48, 0.500, 1.65],
+	["lbarledR21l",  -0.27, 0.500, 1.65],
+	["lbarledR22r",  -0.48, 0.750, 1.65],
+	["lbarledR22l",  -0.27, 0.750, 1.65],
+	//rigidifier
+	["lbarledR2rig", -0.375, 0.625, 1.55, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":"legocar_policeled_R1"},
+	["lbarledR11r",  -0.23, 0.500, 1.65],
+	["lbarledR11l",  -0.02, 0.500, 1.65],
+	["lbarledR12r",  -0.23, 0.750, 1.65],
+	["lbarledR12l",  -0.02, 0.750, 1.65],
+	//rigidifier
+	["lbarledR1rig", -0.125, 0.625, 1.55, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LIGHTBAR LEFT FLASHERS--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//l3 uniform structure
+	["lbarledR31l", "lbarledR31r"],
+	["lbarledR32l", "lbarledR32r"],
+	["lbarledR31l", "lbarledR32l"],
+	["lbarledR31r", "lbarledR32r"],
+	["lbarledR31l", "lbarledR32r"],
+	["lbarledR32l", "lbarledR31r"],
+
+	//l3 rigidifier
+	["lbarledR31l", "lbarledR3rig"],
+	["lbarledR31r", "lbarledR3rig"],
+	["lbarledR32l", "lbarledR3rig"],
+	["lbarledR32r", "lbarledR3rig"],
+
+	//l2 uniform structure
+	["lbarledR21l", "lbarledR21r"],
+	["lbarledR22l", "lbarledR22r"],
+	["lbarledR21l", "lbarledR22l"],
+	["lbarledR21r", "lbarledR22r"],
+	["lbarledR21l", "lbarledR22r"],
+	["lbarledR22l", "lbarledR21r"],
+
+	//l2 rigidifier
+	["lbarledR21l", "lbarledR2rig"],
+	["lbarledR21r", "lbarledR2rig"],
+	["lbarledR22l", "lbarledR2rig"],
+	["lbarledR22r", "lbarledR2rig"],
+
+	//l1 uniform structure
+	["lbarledR11l", "lbarledR11r"],
+	["lbarledR12l", "lbarledR12r"],
+	["lbarledR11l", "lbarledR12l"],
+	["lbarledR11r", "lbarledR12r"],
+	["lbarledR11l", "lbarledR12r"],
+	["lbarledR12l", "lbarledR11r"],
+
+	//l1 rigidifier
+	["lbarledR11l", "lbarledR1rig"],
+	["lbarledR11r", "lbarledR1rig"],
+	["lbarledR12l", "lbarledR1rig"],
+	["lbarledR12r", "lbarledR1rig"],
+	
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_policeled_R3"},
+	["lbarledR32l","lbarledR32r","lbarledR31r","lbarledR31l"],
+	{"group":"legocar_policeled_R2"},
+	["lbarledR22l","lbarledR22r","lbarledR21r","lbarledR21l"],
+	{"group":"legocar_policeled_R1"},
+	["lbarledR12l","lbarledR12r","lbarledR11r","lbarledR11l"],
+        {"group":""},
+    ],
+},
+
+"legocar_lightbar_LED_R_blue": {
+    "information":{
+        "name":"Standard Blue Right Flashers",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_LED_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"policeled_R1_break", "deformMaterialBase":"legocar_policeled_R1_blue", "deformMaterialDamaged":"lego_transcol_blue"},
+	["legocar_policeled_R1_blue", ["legocar_policeled_R1"],[], {"pos":{"x": -0.125, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"policeled_R2_break", "deformMaterialBase":"legocar_policeled_R2", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_policeled_R2",     ["legocar_policeled_R2"],[], {"pos":{"x": -0.375, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"policeled_R3_break", "deformMaterialBase":"legocar_policeled_R1_blue", "deformMaterialDamaged":"lego_transcol_blue"},
+	["legocar_policeled_R3_blue", ["legocar_policeled_R3"],[], {"pos":{"x": -0.625, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":100,
+            "lightBrightness":0.6,
+            "lightRange":15,
+            "lightColor":{"r":0, "g":32, "b":160, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.04,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_led_R3", "SPOTLIGHT", "lbarledR31l", "lbarledR31r", "lbarledR32l", {"x":40, "y":-90, "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":1.0, "y":0.5, "z":0},"deformGroup":"policeled_R3_break"}],
+	["cop_led_R3", "SPOTLIGHT", "lbarledR31l", "lbarledR31r", "lbarledR32l", {"x":70, "y":180, "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.0, "z":0},"deformGroup":"policeled_R3_break"}],
+	["cop_led_R3", "SPOTLIGHT", "lbarledR31l", "lbarledR31r", "lbarledR32l", {"x":70, "y": 0 , "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":1.0, "z":0},"deformGroup":"policeled_R3_break"}],
+	["cop_led_R1", "SPOTLIGHT", "lbarledR11l", "lbarledR11r", "lbarledR12l", {"x":70, "y":180, "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.0, "z":0},"deformGroup":"policeled_R1_break"}],
+	["cop_led_R1", "SPOTLIGHT", "lbarledR11l", "lbarledR11r", "lbarledR12l", {"x":70, "y": 0 , "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":1.0, "z":0},"deformGroup":"policeled_R1_break"}],
+	{"lightColor":{"r":252, "g":252, "b":252, "a":255}},
+	["cop_led_R2", "SPOTLIGHT", "lbarledR21l", "lbarledR21r", "lbarledR22l", {"x":70, "y":180, "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.0, "z":0},"deformGroup":"policeled_R2_break"}],
+	["cop_led_R2", "SPOTLIGHT", "lbarledR21l", "lbarledR21r", "lbarledR22l", {"x":70, "y": 0 , "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":1.0, "z":0},"deformGroup":"policeled_R2_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//lightbar flashers
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_policeled_R3"},
+	["lbarledR31r",  -0.73, 0.500, 1.65],
+	["lbarledR31l",  -0.52, 0.500, 1.65],
+	["lbarledR32r",  -0.73, 0.750, 1.65],
+	["lbarledR32l",  -0.52, 0.750, 1.65],
+	//rigidifier
+	["lbarledR3rig", -0.625, 0.625, 1.55, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":"legocar_policeled_R2"},
+	["lbarledR21r",  -0.48, 0.500, 1.65],
+	["lbarledR21l",  -0.27, 0.500, 1.65],
+	["lbarledR22r",  -0.48, 0.750, 1.65],
+	["lbarledR22l",  -0.27, 0.750, 1.65],
+	//rigidifier
+	["lbarledR2rig", -0.375, 0.625, 1.55, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":"legocar_policeled_R1"},
+	["lbarledR11r",  -0.23, 0.500, 1.65],
+	["lbarledR11l",  -0.02, 0.500, 1.65],
+	["lbarledR12r",  -0.23, 0.750, 1.65],
+	["lbarledR12l",  -0.02, 0.750, 1.65],
+	//rigidifier
+	["lbarledR1rig", -0.125, 0.625, 1.55, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LIGHTBAR LEFT FLASHERS--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//l3 uniform structure
+	["lbarledR31l", "lbarledR31r"],
+	["lbarledR32l", "lbarledR32r"],
+	["lbarledR31l", "lbarledR32l"],
+	["lbarledR31r", "lbarledR32r"],
+	["lbarledR31l", "lbarledR32r"],
+	["lbarledR32l", "lbarledR31r"],
+
+	//l3 rigidifier
+	["lbarledR31l", "lbarledR3rig"],
+	["lbarledR31r", "lbarledR3rig"],
+	["lbarledR32l", "lbarledR3rig"],
+	["lbarledR32r", "lbarledR3rig"],
+
+	//l2 uniform structure
+	["lbarledR21l", "lbarledR21r"],
+	["lbarledR22l", "lbarledR22r"],
+	["lbarledR21l", "lbarledR22l"],
+	["lbarledR21r", "lbarledR22r"],
+	["lbarledR21l", "lbarledR22r"],
+	["lbarledR22l", "lbarledR21r"],
+
+	//l2 rigidifier
+	["lbarledR21l", "lbarledR2rig"],
+	["lbarledR21r", "lbarledR2rig"],
+	["lbarledR22l", "lbarledR2rig"],
+	["lbarledR22r", "lbarledR2rig"],
+
+	//l1 uniform structure
+	["lbarledR11l", "lbarledR11r"],
+	["lbarledR12l", "lbarledR12r"],
+	["lbarledR11l", "lbarledR12l"],
+	["lbarledR11r", "lbarledR12r"],
+	["lbarledR11l", "lbarledR12r"],
+	["lbarledR12l", "lbarledR11r"],
+
+	//l1 rigidifier
+	["lbarledR11l", "lbarledR1rig"],
+	["lbarledR11r", "lbarledR1rig"],
+	["lbarledR12l", "lbarledR1rig"],
+	["lbarledR12r", "lbarledR1rig"],
+	
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_policeled_R3"},
+	["lbarledR32l","lbarledR32r","lbarledR31r","lbarledR31l"],
+	{"group":"legocar_policeled_R2"},
+	["lbarledR22l","lbarledR22r","lbarledR21r","lbarledR21l"],
+	{"group":"legocar_policeled_R1"},
+	["lbarledR12l","lbarledR12r","lbarledR11r","lbarledR11l"],
+        {"group":""},
+    ],
+},
+
+
+"legocar_lightbar_LED_R_orange": {
+    "information":{
+        "name":"Standard Orange Right Flashers",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_LED_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"policeled_R1_break", "deformMaterialBase":"legocar_policeled_R1_orange", "deformMaterialDamaged":"lego_transcol_orange"},
+	["legocar_policeled_R1_orange", ["legocar_policeled_R1"],[], {"pos":{"x": -0.125, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"policeled_R2_break", "deformMaterialBase":"legocar_policeled_R2", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_policeled_R2",     ["legocar_policeled_R2"],[], {"pos":{"x": -0.375, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"policeled_R3_break", "deformMaterialBase":"legocar_policeled_R1_orange", "deformMaterialDamaged":"lego_transcol_orange"},
+	["legocar_policeled_R3_orange", ["legocar_policeled_R3"],[], {"pos":{"x": -0.625, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":100,
+            "lightBrightness":0.6,
+            "lightRange":15,
+            "lightColor":{"r":240, "g":143, "b":28, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.04,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_led_R3", "SPOTLIGHT", "lbarledR31l", "lbarledR31r", "lbarledR32l", {"x":40, "y":-90, "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":1.0, "y":0.5, "z":0},"deformGroup":"policeled_R3_break"}],
+	["cop_led_R3", "SPOTLIGHT", "lbarledR31l", "lbarledR31r", "lbarledR32l", {"x":70, "y":180, "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.0, "z":0},"deformGroup":"policeled_R3_break"}],
+	["cop_led_R3", "SPOTLIGHT", "lbarledR31l", "lbarledR31r", "lbarledR32l", {"x":70, "y": 0 , "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":1.0, "z":0},"deformGroup":"policeled_R3_break"}],
+	["cop_led_R1", "SPOTLIGHT", "lbarledR11l", "lbarledR11r", "lbarledR12l", {"x":70, "y":180, "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.0, "z":0},"deformGroup":"policeled_R1_break"}],
+	["cop_led_R1", "SPOTLIGHT", "lbarledR11l", "lbarledR11r", "lbarledR12l", {"x":70, "y": 0 , "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":1.0, "z":0},"deformGroup":"policeled_R1_break"}],
+	{"lightColor":{"r":252, "g":252, "b":252, "a":255}},
+	["cop_led_R2", "SPOTLIGHT", "lbarledR21l", "lbarledR21r", "lbarledR22l", {"x":70, "y":180, "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.0, "z":0},"deformGroup":"policeled_R2_break"}],
+	["cop_led_R2", "SPOTLIGHT", "lbarledR21l", "lbarledR21r", "lbarledR22l", {"x":70, "y": 0 , "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":1.0, "z":0},"deformGroup":"policeled_R2_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//lightbar flashers
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_policeled_R3"},
+	["lbarledR31r",  -0.73, 0.500, 1.65],
+	["lbarledR31l",  -0.52, 0.500, 1.65],
+	["lbarledR32r",  -0.73, 0.750, 1.65],
+	["lbarledR32l",  -0.52, 0.750, 1.65],
+	//rigidifier
+	["lbarledR3rig", -0.625, 0.625, 1.55, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":"legocar_policeled_R2"},
+	["lbarledR21r",  -0.48, 0.500, 1.65],
+	["lbarledR21l",  -0.27, 0.500, 1.65],
+	["lbarledR22r",  -0.48, 0.750, 1.65],
+	["lbarledR22l",  -0.27, 0.750, 1.65],
+	//rigidifier
+	["lbarledR2rig", -0.375, 0.625, 1.55, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":"legocar_policeled_R1"},
+	["lbarledR11r",  -0.23, 0.500, 1.65],
+	["lbarledR11l",  -0.02, 0.500, 1.65],
+	["lbarledR12r",  -0.23, 0.750, 1.65],
+	["lbarledR12l",  -0.02, 0.750, 1.65],
+	//rigidifier
+	["lbarledR1rig", -0.125, 0.625, 1.55, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LIGHTBAR LEFT FLASHERS--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//l3 uniform structure
+	["lbarledR31l", "lbarledR31r"],
+	["lbarledR32l", "lbarledR32r"],
+	["lbarledR31l", "lbarledR32l"],
+	["lbarledR31r", "lbarledR32r"],
+	["lbarledR31l", "lbarledR32r"],
+	["lbarledR32l", "lbarledR31r"],
+
+	//l3 rigidifier
+	["lbarledR31l", "lbarledR3rig"],
+	["lbarledR31r", "lbarledR3rig"],
+	["lbarledR32l", "lbarledR3rig"],
+	["lbarledR32r", "lbarledR3rig"],
+
+	//l2 uniform structure
+	["lbarledR21l", "lbarledR21r"],
+	["lbarledR22l", "lbarledR22r"],
+	["lbarledR21l", "lbarledR22l"],
+	["lbarledR21r", "lbarledR22r"],
+	["lbarledR21l", "lbarledR22r"],
+	["lbarledR22l", "lbarledR21r"],
+
+	//l2 rigidifier
+	["lbarledR21l", "lbarledR2rig"],
+	["lbarledR21r", "lbarledR2rig"],
+	["lbarledR22l", "lbarledR2rig"],
+	["lbarledR22r", "lbarledR2rig"],
+
+	//l1 uniform structure
+	["lbarledR11l", "lbarledR11r"],
+	["lbarledR12l", "lbarledR12r"],
+	["lbarledR11l", "lbarledR12l"],
+	["lbarledR11r", "lbarledR12r"],
+	["lbarledR11l", "lbarledR12r"],
+	["lbarledR12l", "lbarledR11r"],
+
+	//l1 rigidifier
+	["lbarledR11l", "lbarledR1rig"],
+	["lbarledR11r", "lbarledR1rig"],
+	["lbarledR12l", "lbarledR1rig"],
+	["lbarledR12r", "lbarledR1rig"],
+	
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_policeled_R3"},
+	["lbarledR32l","lbarledR32r","lbarledR31r","lbarledR31l"],
+	{"group":"legocar_policeled_R2"},
+	["lbarledR22l","lbarledR22r","lbarledR21r","lbarledR21l"],
+	{"group":"legocar_policeled_R1"},
+	["lbarledR12l","lbarledR12r","lbarledR11r","lbarledR11l"],
+        {"group":""},
+    ],
+},
+
+}

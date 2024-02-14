@@ -1,0 +1,146 @@
+{
+"legocar_seat_cushion_F": {
+    "information":{
+        "name":"Driver Seat Cushion",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_seat_cushion_F",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_seat_back_F", "legocar_seat_back_F", "Driver Seat Back"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_3x2_flat_seat",["legocar_chassis"], [], {"pos":{"x": 0, "y":-0.125, "z":0.2},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":""},
+
+	//add weight to chassis
+
+	//+4 kg/node - 4kg total
+	{"nodeWeight": "$=$weight*4"},
+	["chassis4", 0,-0.25, 0.75, {"collision":false, "selfCollision":false}],
+	//+2 kg/node - 4kg total
+	{"nodeWeight": "$=$weight*4"},
+	["chassis5", 0, 0.25, 0.75, {"collision":false, "selfCollision":false}],
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_chassis"},     
+	//add collision to middle chassis
+	["chassis2r","chassis2l","chassis7l","chassis7r"],
+        {"group":""},
+    ],
+},
+
+"legocar_seat_back_F_chopped": {
+    "information":{
+        "name":"Seat Back Only",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_seat_cushion_F",
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$sit_height", "range", "m", "Driver", -0.1, -0.1, 0.0, "Sit Height Offset", "Offset the height of the driver sitting position", {"stepDis":0.025}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_seat",     ["legocar_seat_back_F"], [], {"pos":{"x": 0, "y":0.125, "z":0.2},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_seat_back_top_F",["legocar_seat_back_F"], [], {"pos":{"x": 0, "y":0.125, "z":0.3},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_seat_back_F"},
+
+	//4 pieces, 2 half pieces, 6 nodes - 0.83 kg/node
+	{"nodeWeight": "$=$weight*0.83"},
+
+	["FseatB1l",  0.22, 0.00, 0.23],
+	["FseatB1r", -0.22, 0.00, 0.23],
+	["FseatB2l",  0.22, 0.25, 0.23],
+	["FseatB2r", -0.22, 0.25, 0.23],
+	["FseatB3l",  0.22, 0.20, 0.65],
+	["FseatB3r", -0.22, 0.20, 0.65],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--SEAT BACK--	
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*831000", "beamDamp":"$=$weight*83"},
+
+	//uniform structure
+	["FseatB1l", "FseatB1r"],
+	["FseatB2l", "FseatB2r"],
+	["FseatB3l", "FseatB3r"],
+
+	["FseatB2l", "FseatB1l"],
+	["FseatB2r", "FseatB1r"],
+	["FseatB2l", "FseatB3l"],
+	["FseatB2r", "FseatB3r"],
+	["FseatB3l", "FseatB1l"],
+	["FseatB3r", "FseatB1r"],
+
+	["FseatB1l", "FseatB2r"],
+	["FseatB2l", "FseatB1r"],
+	["FseatB2l", "FseatB3r"],
+	["FseatB3l", "FseatB2r"],
+	["FseatB3l", "FseatB1r"],
+	["FseatB1l", "FseatB3r"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*421000", "beamDamp":"$=$weight*42"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"seat_back_F_break"},
+
+	["FseatB1r", "chassis3r"],
+	["FseatB1r", "chassis6r"],
+	["FseatB1r", "chassis2r"],
+	["FseatB1r", "chassis2rr"],
+	["FseatB1r", "chassis7rr"],
+	["FseatB1r", "chassis0"],
+
+	["FseatB1l", "chassis3l"],
+	["FseatB1l", "chassis6l"],
+	["FseatB1l", "chassis2l"],
+	["FseatB1l", "chassis2ll"],
+	["FseatB1l", "chassis7ll"],
+	["FseatB1l", "chassis0"],
+
+	["FseatB3r", "chassis6r"],
+	["FseatB3r", "chassis7r"],
+	["FseatB3r", "chassis7rr"],
+	["FseatB3r", "chassis0"],
+
+	["FseatB3l", "chassis6l"],
+	["FseatB3l", "chassis7l"],
+	["FseatB3l", "chassis7ll"],
+	["FseatB3l", "chassis0"],
+
+	{"breakGroup":""},	
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_seat_back_F"},
+	["FseatB1l","FseatB2l","FseatB3l"],
+	["FseatB1r","FseatB3r","FseatB2r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_seat_back_F"},
+	["FseatB1l","FseatB1r","FseatB2r","FseatB2l"],
+	["FseatB2l","FseatB2r","FseatB3r","FseatB3l"],
+	["FseatB3l","FseatB3r","FseatB1r","FseatB1l"],
+        {"group":""},
+    ],
+},
+
+}

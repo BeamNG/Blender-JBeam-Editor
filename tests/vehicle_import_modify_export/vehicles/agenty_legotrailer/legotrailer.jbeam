@@ -1,0 +1,70 @@
+{
+"legotrailer": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Toy Building Block Trailer"
+    },
+    "slotType" : "main",
+    "slots": [
+        ["type", "default", "description"],
+	["legotrailer_frame","legotrailer_frame", "Trailer Frame", {"coreSlot":true}],
+        ["licenseplate_design_2_1","","License Plate Design"],
+        ["legotrailer_mod","", "Additional Modification"],
+    ],
+    "controller": [
+        ["fileName"],
+        ["vehicleController", {}]
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+	["$weight",       "range", "x", "Physics", 2,     1,     5,      "Weight Scale",                             "Weight in kg per single 1x1 flat piece, default is 1 kg, irl 0.2g", {"stepDis":0.1}],
+	["$strength",     "range", "x", "Physics", 40000, 10000, 400000, "Connection Strength Scale",                "Scale of the force it takes to separate 2 pieces",                  {"minDis":0.25, "maxDis":10, "stepDis":0.01}],
+	["$drag",     	  "range", "x", "Physics", 2,     0,     10,     "Air Drag",                		     "Adjusts the aerodynamics scale",                  		  {"stepDis":0.01}],
+    ],
+    "glowMap":{
+	"legocar_taillight_L_stock":	{"simpleFunction":{"wigwag_signal_L":0.49,"lowhighbeam":0.49,"brake":0.49},	"off":"lego_transcol_red",	"on":"lego_transcol_red_on",		"on_intense":"lego_transcol_red_on_intense"},	
+	"legocar_taillight_R_stock":	{"simpleFunction":{"wigwag_signal_R":0.49,"lowhighbeam":0.49,"brake":0.49},	"off":"lego_transcol_red",	"on":"lego_transcol_red_on",		"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_signal_L_orange_EU":	{"simpleFunction":{"wigwag_signal_L":0.89}, 			"off":"lego_transcol_orange",	"on":"lego_transcol_orange_on",		"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_signal_R_orange_EU":	{"simpleFunction":{"wigwag_signal_R":0.89}, 			"off":"lego_transcol_orange",	"on":"lego_transcol_orange_on",		"on_intense":"lego_transcol_orange_on_intense"},
+    },
+    "refNodes":[
+        ["ref:", "back:", "left:", "up:", "leftCorner:", "rightCorner:"],
+        ["trailer_f4r", "trailer_f5r", "trailer_f4l", "trailer_f14r", "trailer_f1l", "trailer_f1r"],
+    ],
+    "cameraExternal":{
+       "distance":5.5,
+       "distanceMin":2,
+       "offset":{"x":0.25, "y":-0.40, "z":0.38},
+       "fov":65,
+    },
+    "cameraChase":{
+       "distance":5.5,
+       "distanceMin":2,
+       "defaultRotation":{"x":0,"y":-12,"z":0},
+       "offset":{"x":0.25, "y":-0.40, "z":1.15},
+       "fov":65,
+    },
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+        {"nodeMaterial":"|NM_PLASTIC"},
+        {"frictionCoef":0.75},
+        {"collision":true},
+        {"selfCollision":true},
+
+	{"nodeWeight": "$=$weight*0.5"},
+	{"group":"legotrailer_drawbar"},
+	["trailer_d3", 0, 1.80, -0.025, {"selfCollision":false, "tag":"tow_hitch","couplerStrength":"$=$strength*10","importElectrics": ["lowhighbeam", "signal_L", "signal_R", "wigwag"]}],
+   ],
+   "triangles": [
+        ["id1:","id2:","id3:"],
+        {"groundModel":"plastic"},
+        {"dragCoef":"$drag"},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"groundModel":"plastic"},
+        {"dragCoef":"$drag"},
+    ],
+},
+    
+}

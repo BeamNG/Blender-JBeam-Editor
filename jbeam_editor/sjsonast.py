@@ -18,220 +18,291 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import sys
-import re
+from _json import scanstring
 
-parse_num_re = re.compile(r'^[+-]?\d+\.?\d*[eE]?[+-]?\d*')
+from re import compile as re_compile, match as re_match
+from typing import Callable
+
+parse_num_re = re_compile(r'^[+-]?\d+\.?\d*[eE]?[+-]?\d*')
+
+_str: str
+_len_str: int
+_pos: int
+_nodes: list
+_nodes_append: Callable
+
+_peek_table: dict
 
 class ASTNode:
-    def __init__(self, data_type, value=None, *, precision=None, prefixPlus=False, addPostfixDot=False):
+    def __init__(self, data_type, value=None, *, precision=None, prefix_plus=False, add_post_fix_dot=False):
         self.data_type = data_type
         self.value = value
         self.precision = precision
-        self.prefixPlus = prefixPlus
-        self.addPostfixDot = addPostfixDot
+        self.prefix_plus = prefix_plus
+        self.add_post_fix_dot = add_post_fix_dot
+        self.start_pos = -1
+        self.end_pos = -1
 
-def parse(s):
-    ctx = {
-        'ast': {
-            'nodes': [],
-        },
-        'transient': {},
-        'str': s,
-        'pos': 0
-    }
+    def __str__(self) -> str:
+        return str(self.value) if self.value is not None else self.data_type
 
-    _parse(ctx)
 
-    return ctx
+def _add_node(c):
+    global _pos
+    _nodes_append(ASTNode(c))
+    _pos += len(c)
 
-def _addNode(ctx, node):
-    ctx['ast']['nodes'].append(node)
 
-def _consume_same(ctx, char):
-    ctx['pos'] += 1
-    start_pos = ctx['pos']
-    while ctx['pos'] < len(ctx['str']):
-        c = ctx['str'][ctx['pos']]
-        if c != char:
-            break
-        ctx['pos'] += 1
-    return ctx['pos'] - start_pos + 1
+def _parse_comment(wscs):
+    global _pos
+    c = _str[_pos]
+    if c == '/':
+        _pos += 1
+        wscs += c
+        newline = None
+        while _pos < _len_str:
+            c = _str[_pos]
+            _pos += 1
+            next_char = _str[_pos] if _pos < _len_str else None
+            if c == '\n':
+                newline = '\n'
+                break
+            if c == '\r' and next_char == '\n':
+                _pos += 1
+                newline = '\r\n'
+                break
+            wscs += c
+        if newline is not None:
+            wscs += newline
+    elif c == '*':
+        _pos += 1
+        wscs += c
+        while _pos < _len_str:
+            c = _str[_pos]
+            _pos += 1
+            if _pos >= _len_str:
+                break
+            if c == '*' and _str[_pos] == '/':
+                _pos += 1
+                break
+            wscs += c
+        wscs += '*/'
 
-def _parse_string(ctx, delimiter):
-    ctx['pos'] += 1
-    res = ''
-    while ctx['pos'] < len(ctx['str']):
-        c = ctx['str'][ctx['pos']]
-        ctx['pos'] += 1
-        if c == delimiter:
-            break
-        res += c
-    return res
+    return wscs
 
-def _parse_number(ctx, delimiter):
-    re_match = re.match(parse_num_re, ctx['str'][ctx['pos']:])
+
+def _add_wsc_comment_node(c):
+    global _pos
+    wscs = c
+    _pos += 1
+    while _pos < _len_str:
+        c = _str[_pos]
+        if c in (' ', '\t', '\n', '\r', ','):
+            wscs += c
+            _pos += 1
+        else:
+            if c == '/':
+                wscs += c
+                _pos += 1
+                wscs = _parse_comment(wscs)
+            else:
+                break
+
+    _nodes_append(ASTNode('wsc', wscs))
+
+
+def _add_comment_wsc_node(c):
+    global _pos
+    wscs = c
+    _pos += 1
+    wscs = _parse_comment(wscs)
+
+    while _pos < _len_str:
+        c = _str[_pos]
+        if c in (' ', '\t', '\n', '\r', ','):
+            wscs += c
+            _pos += 1
+        else:
+            if c == '/':
+                wscs += c
+                _pos += 1
+                wscs = _parse_comment(wscs)
+            else:
+                break
+
+    _nodes_append(ASTNode('wsc', wscs))
+
+
+def _add_true_node(c):
+    global _pos
+    if _str[_pos+1] == 'r' and _str[_pos+2] == 'u' and _str[_pos+3] == 'e':
+        _nodes_append(ASTNode('bool', True))
+        _pos += 4
+
+
+def _add_false_node(c):
+    global _pos
+    if _str[_pos+1] == 'a' and _str[_pos+2] == 'l' and _str[_pos+3] == 's' and _str[_pos+4] == 'e':
+        _nodes_append(ASTNode('bool', False))
+        _pos += 5
+
+
+def _parse_string(c):
+    global _pos
+    # scanstring implemented as a C function for fast string parsing
+    res, _pos = scanstring(_str, _pos + 1, False)
+    _nodes_append(ASTNode(c, res))
+
+
+def _parse_number(c):
+    global _pos
+    m = re_match(parse_num_re, _str[_pos:])
     num_str = None
     num = None
 
-    if re_match:
-        num_str = re_match.group()
+    if m:
+        num_str = m.group()
         try:
             num = float(num_str)
         except ValueError:
             pass
 
-    if num == None:
-        print('failed to parse string ' + str(num_str) + ' as number at position ' + str(ctx['pos']), file=sys.stderr)
+    if num is None:
+        print('failed to parse string ' + str(num_str) + ' as number at position ' + str(_pos))
         return
     num_len = len(num_str)
-    ctx['pos'] += num_len
+    _pos += num_len
     dot_pos = num_str.find('.')
     precision = 0
     if dot_pos != -1:
         precision = max(0, num_len - dot_pos - 1)
     node = ASTNode('number', num, precision=precision)
     if num_str[0] == '+':
-        node.prefixPlus = True
-    node.addPostfixDot = num_str[-1] == '.'
-    _addNode(ctx, node)
+        node.prefix_plus = True
+    node.add_post_fix_dot = num_str[-1] == '.'
+    _nodes_append(node)
 
-def _parse_comment(ctx):
-    ctx['pos'] += 2
-    res = '//'
-    newline = None
-    while ctx['pos'] < len(ctx['str']):
-        c = ctx['str'][ctx['pos']]
-        ctx['pos'] += 1
-        nextChar = ctx['str'][ctx['pos']] if ctx['pos'] < len(ctx['str']) else None
-        if c == '\n':
-            newline = '\n'
-            break
-        elif c == '\r' and nextChar == '\n':
-            ctx['pos'] += 1
-            newline = '\r\n'
-            break
-        res += c
-    _addWSCNode(ctx, res)
-    if newline != None:
-        _addWSCNode(ctx, newline)
 
-def _parse_comment_multiline(ctx):
-    ctx['pos'] += 2
-    res = '/*'
-    while ctx['pos'] < len(ctx['str']):
-        c = ctx['str'][ctx['pos']]
-        ctx['pos'] += 1
-        if ctx['pos'] >= len(ctx['str']):
-            break
-        if c == '*' and ctx['str'][ctx['pos']] == '/':
-            ctx['pos'] += 1
-            break
-        res += c
-    res += '*/'
-    _addWSCNode(ctx, res)
+def _parse_literal(c):
+    global _pos
+    print('using fallback literal: ' + c + ' at position ' + str(_pos))
+    _nodes_append(ASTNode('literal', c))
+    _pos += 1
 
-# Adds whitespace characters (WSC, e.g. comma, space, comment) to list of AST nodes
-def _addWSCNode(ctx, wscs):
-    astNodes = ctx['ast']['nodes']
 
-    # If last node in AST nodes is a WSC node, append wscs to it
-    # Else create new WSC AST node
-    if astNodes[-1].data_type == 'wsc' if astNodes else False:
-        astNodes[-1].value += wscs
-    else:
-        _addNode(ctx, ASTNode('wsc', wscs))
-
-def _parse(ctx):
-    astNodes = ctx['ast']['nodes']
+def _parse():
     while True:
-        if ctx['pos'] >= len(ctx['str']):
+        if _pos >= _len_str:
             return
+        c = _str[_pos]
+        _peek_table.get(c, _parse_literal)(c)
 
-        char = ctx['str'][ctx['pos']]
-        posSaved = ctx['pos']
 
-        if char == '{':
-            _addNode(ctx, ASTNode('object_begin'))
-            ctx['pos'] += 1
-        elif char == '}':
-            _addNode(ctx, ASTNode('object_end'))
-            ctx['pos'] += 1
-        elif char == '[':
-            _addNode(ctx, ASTNode('list_begin'))
-            ctx['pos'] += 1
-        elif char == ']':
-            _addNode(ctx, ASTNode('list_end'))
-            ctx['pos'] += 1
-        elif char == ',':
-            _addWSCNode(ctx, ',')
-            ctx['pos'] += 1
-        elif char == 't' and ctx['str'][ctx['pos']:ctx['pos'] + 4] == 'true':
-            _addNode(ctx, ASTNode('bool', True))
-            ctx['pos'] += 4
-        elif char == 'f' and ctx['str'][ctx['pos']:ctx['pos'] + 5] == 'false':
-            _addNode(ctx, ASTNode('bool', False))
-            ctx['pos'] += 5
-        elif char == '\n':
-            _addWSCNode(ctx, '\n')
-            ctx['pos'] += 1
-        elif char == '\r' and ctx['str'][ctx['pos'] + 1] == '\n':
-            _addWSCNode(ctx, '\r\n')
-            ctx['pos'] += 2
-        elif char == ':':
-            _addNode(ctx, ASTNode('key_delimiter'))
-            ctx['pos'] += 1
-        elif char == '/' and ctx['str'][ctx['pos'] + 1] == '/':
-            _parse_comment(ctx)
-        elif char == '/' and ctx['str'][ctx['pos'] + 1] == '*':
-            _parse_comment_multiline(ctx)
-        elif char == ' ':
-            _addWSCNode(ctx, ' ' * _consume_same(ctx, ' '))
-        elif char == '\t':
-            _addWSCNode(ctx, '\t' * _consume_same(ctx, '\t'))
-        elif char == '"':
-            _addNode(ctx, ASTNode('string', _parse_string(ctx, '"')))
-        elif char == "'":
-            _addNode(ctx, ASTNode('string_single', _parse_string(ctx, "'")))
-        elif char == '-' or char == '+' or char.isdigit():
-            _parse_number(ctx, None)
+def parse(s):
+    global _str
+    global _len_str
+    global _pos
+    global _nodes
+    global _nodes_append
 
-        # nothing consumed? use fallback
-        if posSaved == ctx['pos']:
-            print('using fallback literal: ' + char + ' at position ' + str(ctx['pos']), file=sys.stderr)
-            _addNode(ctx, ASTNode('literal', char))
-            ctx['pos'] += 1
+    _str = s
+    _len_str = len(s)
+    _pos = 0
+    _nodes = []
+    _nodes_append = _nodes.append
 
-def stringifyNodes(nodes):
-    res = ''
-    for i, node in enumerate(nodes):
-        nodeType = node.data_type
-        if nodeType == 'object_begin':
-            res += '{'
-        elif nodeType == 'object_end':
-            res += '}'
-        elif nodeType == 'list_begin':
-            res += '['
-        elif nodeType == 'list_end':
-            res += ']'
-        elif nodeType == 'wsc':
-            res += node.value
-        elif nodeType == 'bool':
-            res += str(node.value).lower()
-        elif nodeType == 'key_delimiter':
-            res += ':'
-        elif nodeType == 'string':
-            res += '"' + node.value + '"'
-        elif nodeType == 'string_single':
-            res += "'" + node.value + "'"
-        elif nodeType == 'number':
+    _parse()
+
+    return {
+        'ast': {
+            'nodes': _nodes,
+        },
+        'transient': {},
+        'str': s,
+        'pos': _pos
+    }
+
+
+def calculate_char_positions(nodes):
+    pos = 0
+    for node in nodes:
+        node_type = node.data_type
+        chars_len = 0
+
+        if node_type in ('wsc', 'literal'):
+            chars_len += len(node.value)
+        elif node_type == 'bool':
+            chars_len += len(node.value and 'true' or 'false')
+        elif node_type == '"':
+            chars_len += len('"' + node.value + '"')
+        elif node_type == 'number':
             num = node.value
             precision = node.precision
-            if node.prefixPlus:
-                res += '+'
-            res += f'%.{precision}f' % num
-            if node.addPostfixDot:
-               res += '.'
-        elif nodeType == 'literal':
-            res += node.value
-    return res
+            if node.prefix_plus:
+                chars_len += 1
+            chars_len += len(f'%.{precision}f' % num)
+            if node.add_post_fix_dot:
+                chars_len += 1
+        else:
+            chars_len += len(node_type)
+
+        node.start_pos = pos
+        pos += chars_len
+        node.end_pos = pos - 1
+
+
+def _stringify_node(node):
+    node_type = node.data_type
+
+    if node_type in ('wsc', 'literal'):
+        return node.value
+    if node_type == 'bool':
+        return 'true' if node.value else 'false'
+    if node_type == '"':
+        return '"' + node.value + '"'
+    if node_type == 'number':
+        res = ''
+        num = node.value
+        precision = node.precision
+        if node.prefix_plus:
+            res += '+'
+        res += f'%.{precision}f' % num
+        if node.add_post_fix_dot:
+            res += '.'
+        return res
+
+    return node_type
+
+
+def stringify_nodes(nodes):
+    return ''.join(_stringify_node(node) for node in nodes)
+
+
+_peek_table = {
+    '{': _add_node,
+    '}': _add_node,
+    '[': _add_node,
+    ']': _add_node,
+    ':': _add_node,
+    't': _add_true_node,
+    'f': _add_false_node,
+    ',': _add_wsc_comment_node,
+    '\n': _add_wsc_comment_node,
+    '\r': _add_wsc_comment_node,
+    '\t': _add_wsc_comment_node,
+    ' ': _add_wsc_comment_node,
+    '/': _add_comment_wsc_node,
+    '"': _parse_string,
+    '0': _parse_number,
+    '1': _parse_number,
+    '2': _parse_number,
+    '3': _parse_number,
+    '4': _parse_number,
+    '5': _parse_number,
+    '6': _parse_number,
+    '7': _parse_number,
+    '8': _parse_number,
+    '9': _parse_number,
+    '+': _parse_number,
+    '-': _parse_number
+}

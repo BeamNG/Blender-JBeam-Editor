@@ -1,0 +1,341 @@
+{
+"legocar_backlight_yellowtint": {
+    "information":{
+        "name":"Yellow Tinted Backlight",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_backlight",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_roofbase_R", "legocar_roofbase_R", "Rear Roof Base"],
+    ],
+    "sounds": {
+        "$+cabinFilterCoef": 0.03,
+    },
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_backlight_yellow", ["legocar_backlight"], [], {"pos":{"x": 0.000, "y":1.000, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_backlight"},
+	//14 pieces, 8 half-pieces, 9 nodes - 2.0 kg/node
+	{"nodeWeight": "$=$weight*2.0"},
+
+	["backl1l", 0.75, 0.78, 0.80],
+	["backl1r",-0.75, 0.78, 0.80],
+	["backl2l", 0.75, 1.25, 0.80],
+	["backl2r",-0.75, 1.25, 0.80],
+	["backl3l", 0.75, 0.78, 1.40],
+	["backl3r",-0.75, 0.78, 1.40],
+	["backl4l", 0.75, 1.00, 1.40],
+	["backl4r",-0.75, 1.00, 1.40],
+
+	//collision helper middle node
+	["backl0", 0, 1.125, 1.1],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--MAIN SHAPE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//widthwise
+	["backl1l", "backl1r"],
+	["backl2l", "backl2r"],
+	["backl3l", "backl3r"],
+	["backl4l", "backl4r"],
+	
+	//lengthwise
+	["backl1l", "backl2l"],
+	["backl1r", "backl2r"],
+	["backl3l", "backl4l"],
+	["backl3r", "backl4r"],
+
+	//vertical
+	["backl1l", "backl3l"],
+	["backl1r", "backl3r"],
+	["backl2l", "backl4l"],
+	["backl2r", "backl4r"],
+
+
+	//--SURFICIAL CROSSING--
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//lengthwise
+	["backl1l", "backl4l"],
+	["backl1r", "backl4r"],
+	["backl3l", "backl2l"],
+	["backl3r", "backl2r"],
+
+	//widthwise
+	["backl1l", "backl2r"],
+	["backl1r", "backl2l"],
+	["backl3l", "backl4r"],
+	["backl3r", "backl4l"],
+
+	//vertical
+	["backl1l", "backl3r"],
+	["backl1r", "backl3l"],
+	["backl2l", "backl4r"],
+	["backl2r", "backl4l"],
+	
+	
+	//--MIDDLE NODE--
+	//lower spring to avoid stressing the structure
+	{"beamSpring":"$=$weight*1901000", "beamDamp":"$=$weight*190"},
+	
+	["backl1l", "backl0"],
+	["backl1r", "backl0"],
+	["backl2l", "backl0"],
+	["backl2r", "backl0"],
+	["backl3l", "backl0"],
+	["backl3r", "backl0"],
+	["backl4l", "backl0"],
+	["backl4r", "backl0"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to shelf panel
+	{"beamSpring":"$=$weight*651000", "beamDamp":"$=$weight*65"},
+	{"breakGroup":"backlight_shelfpanel_break"},
+
+	["shelfpan1l", "backl1l"],
+	["shelfpan1l", "backl1r"],
+	["shelfpan1l", "backl2l"],
+	["shelfpan1l", "backl3l"],
+	["shelfpan1l", "backl0"],
+
+	["shelfpan1r", "backl1r"],
+	["shelfpan1r", "backl1l"],
+	["shelfpan1r", "backl2r"],
+	["shelfpan1r", "backl3r"],
+	["shelfpan1r", "backl0"],
+
+	["shelfpan2l", "backl2l"],
+	["shelfpan2l", "backl2r"],
+	["shelfpan2l", "backl1l"],
+	["shelfpan2l", "backl4l"],
+	["shelfpan2l", "backl0"],
+
+	["shelfpan2r", "backl2r"],
+	["shelfpan2r", "backl2l"],
+	["shelfpan2r", "backl1r"],
+	["shelfpan2r", "backl4r"],
+	["shelfpan2r", "backl0"],
+
+	["shelfpanrig", "backl1l"],
+	["shelfpanrig", "backl1r"],
+	["shelfpanrig", "backl2l"],
+	["shelfpanrig", "backl2r"],
+	["shelfpanrig", "backl0"],
+
+	{"optional":true},
+
+	
+	//to squab panel
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"backlight_squabpanel_break"},
+
+	["sqpantop1l", "backl1l"],
+	["sqpantop1l", "backl1r"],
+	["sqpantop1l", "backl2l"],
+	["sqpantop1l", "backl3l"],
+	["sqpantop1l", "backl0"],
+
+	["sqpantop1r", "backl1r"],
+	["sqpantop1r", "backl1l"],
+	["sqpantop1r", "backl2r"],
+	["sqpantop1r", "backl3r"],
+	["sqpantop1r", "backl0"],
+
+	["sqpantop2l", "backl2l"],
+	["sqpantop2l", "backl2r"],
+	["sqpantop2l", "backl1l"],
+	["sqpantop2l", "backl4l"],
+	["sqpantop2l", "backl0"],
+
+	["sqpantop2r", "backl2r"],
+	["sqpantop2r", "backl2l"],
+	["sqpantop2r", "backl1r"],
+	["sqpantop2r", "backl4r"],
+	["sqpantop2r", "backl0"],
+
+	["sqpantoprig", "backl1l"],
+	["sqpantoprig", "backl1r"],
+	["sqpantoprig", "backl2l"],
+	["sqpantoprig", "backl2r"],
+	["sqpantoprig", "backl0"],
+
+	
+	//to trunk left side
+	{"beamSpring":"$=$weight*901000", "beamDamp":"$=$weight*90"},
+	{"breakGroup":"backlight_trunk_L_break"},
+
+	["trunkL1l", "backl1l"],
+	["trunkL1l", "backl2l"],
+	["trunkL1l", "backl1r"],
+	["trunkL1l", "backl2r"],
+	["trunkL1l", "backl4l"],
+
+	["trunkL1r", "backl1l"],
+	["trunkL1r", "backl2l"],
+	["trunkL1r", "backl1r"],
+	["trunkL1r", "backl2r"],
+	["trunkL1r", "backl4l"],
+
+	["trunkL2l", "backl1l"],
+	["trunkL2l", "backl2l"],
+	["trunkL2l", "backl1r"],
+	["trunkL2l", "backl2r"],
+	["trunkL2l", "backl4l"],
+
+	["trunkL2r", "backl1l"],
+	["trunkL2r", "backl2l"],
+	["trunkL2r", "backl1r"],
+	["trunkL2r", "backl2r"],
+	["trunkL2r", "backl4l"],
+
+	["trunkLrig", "backl1l"],
+	["trunkLrig", "backl1r"],
+	["trunkLrig", "backl4l"],
+	["trunkLrig", "backl4r"],
+	["trunkLrig", "backl0"],
+
+
+	//to trunk right side
+	{"beamSpring":"$=$weight*901000", "beamDamp":"$=$weight*90"},
+	{"breakGroup":"backlight_trunk_R_break"},
+
+	["trunkR1l", "backl1l"],
+	["trunkR1l", "backl2l"],
+	["trunkR1l", "backl1r"],
+	["trunkR1l", "backl2r"],
+	["trunkR1l", "backl4r"],
+
+	["trunkR1r", "backl1l"],
+	["trunkR1r", "backl2l"],
+	["trunkR1r", "backl1r"],
+	["trunkR1r", "backl2r"],
+	["trunkR1r", "backl4r"],
+
+	["trunkR2l", "backl1l"],
+	["trunkR2l", "backl2l"],
+	["trunkR2l", "backl1r"],
+	["trunkR2l", "backl2r"],
+	["trunkR2l", "backl4r"],
+
+	["trunkR2r", "backl1l"],
+	["trunkR2r", "backl2l"],
+	["trunkR2r", "backl1r"],
+	["trunkR2r", "backl2r"],
+	["trunkR2r", "backl4r"],
+
+	["trunkRrig", "backl1l"],
+	["trunkRrig", "backl1r"],
+	["trunkRrig", "backl4l"],
+	["trunkRrig", "backl4r"],
+	["trunkRrig", "backl0"],
+
+
+	//to chmsl
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"chmsl_roof_break"},
+	{"deformGroup":"chmsl_roof_break"},
+
+	["roofCHMSL1l", "backl3l"],
+	["roofCHMSL1l", "backl3r"],
+	["roofCHMSL1l", "backl1l"],
+	["roofCHMSL1l", "backl4l"],
+	["roofCHMSL1l", "backl0"],
+
+	["roofCHMSL1r", "backl3l"],
+	["roofCHMSL1r", "backl3r"],
+	["roofCHMSL1r", "backl1r"],
+	["roofCHMSL1r", "backl4r"],
+	["roofCHMSL1r", "backl0"],
+
+	["roofCHMSL2l", "backl4l"],
+	["roofCHMSL2l", "backl4r"],
+	["roofCHMSL2l", "backl2l"],
+	["roofCHMSL2l", "backl3l"],
+	["roofCHMSL2l", "backl0"],
+
+	["roofCHMSL2r", "backl4l"],
+	["roofCHMSL2r", "backl4r"],
+	["roofCHMSL2r", "backl2r"],
+	["roofCHMSL2r", "backl3r"],
+	["roofCHMSL2r", "backl0"],
+
+	["roofCHMSLrig", "backl1l"],
+	["roofCHMSLrig", "backl1r"],
+	["roofCHMSLrig", "backl2l"],
+	["roofCHMSLrig", "backl2r"],
+	["roofCHMSLrig", "backl0"],
+
+	{"optional":false},
+	{"breakGroup":""},
+	{"deformGroup":""},
+	
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//shelf panel
+	{"beamSpring":"$=$weight*651000", "beamDamp":"$=$weight*65"},
+
+	["shelfpan1l", "backl1l"],
+	["shelfpan1l", "backl1r"],
+	["shelfpan1l", "backl2l"],
+	["shelfpan1l", "backl3l"],
+	["shelfpan1l", "backl0"],
+
+	["shelfpan1r", "backl1r"],
+	["shelfpan1r", "backl1l"],
+	["shelfpan1r", "backl2r"],
+	["shelfpan1r", "backl3r"],
+	["shelfpan1r", "backl0"],
+
+	["shelfpan2l", "backl2l"],
+	["shelfpan2l", "backl2r"],
+	["shelfpan2l", "backl1l"],
+	["shelfpan2l", "backl4l"],
+	["shelfpan2l", "backl0"],
+
+	["shelfpan2r", "backl2r"],
+	["shelfpan2r", "backl2l"],
+	["shelfpan2r", "backl1r"],
+	["shelfpan2r", "backl4r"],
+	["shelfpan2r", "backl0"],
+	
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_backlight"},
+	["backl0","backl2l","backl2r"],
+	["backl0","backl4l","backl2l"],
+	["backl0","backl4r","backl4l"],
+	["backl0","backl2r","backl4r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_backlight"},
+	["backl1l","backl2l","backl4l","backl3l"],
+	["backl1r","backl3r","backl4r","backl2r"],
+	["backl3l","backl4l","backl4r","backl3r"],
+	["backl1r","backl2r","backl2l","backl1l"],
+        {"group":""},
+    ],
+},
+
+}

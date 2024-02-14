@@ -1,0 +1,817 @@
+{
+"legocar_fascia_R_side_L_exhaust_col1": {
+    "information":{
+        "name":"Left Rear Fascia Side with Exhaust (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_R_side_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_side_RL","legocar_afterfire_side_RL", "Afterfire Effect"],
+	["legocar_nitrofire_side_RL","", "Nitrous Flames"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_col1", ["legocar_fascia_R_side_L"], [], {"pos":{"x": 0.625, "y":1.650, "z":0.35},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_2x1_flat_col1", ["legocar_fascia_R_side_L"], [], {"pos":{"x": 0.625, "y":1.550, "z":0.35},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//4 pieces, 8 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+	{"group":"legocar_fascia_R_side_L"},
+
+	["RLfasc1l",  0.75, 1.55, 0.1],
+	["RLfasc1r",  0.53, 1.55, 0.1],
+	["RLfasc2l",  0.75, 1.75, 0.1],
+	["RLfasc2r",  0.53, 1.75, 0.1],
+	["RLfasc3l",  0.75, 1.55, 0.6, {"afterFireAudioCoef":1,"afterFireVisualCoef":1, "afterFireVolumeCoef":0.7, "afterFireMufflingCoef": 0.6, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-1}],
+	["RLfasc3r",  0.53, 1.55, 0.6],
+	["RLfasc4l",  0.75, 1.75, 0.6],
+	["RLfasc4r",  0.53, 1.75, 0.6],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT FRONT FASCIA SIDE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["RLfasc1l", "RLfasc1r"],
+	["RLfasc2l", "RLfasc2r"],
+	["RLfasc3l", "RLfasc3r"],
+	["RLfasc4l", "RLfasc4r"],
+
+	["RLfasc1l", "RLfasc2r"],
+	["RLfasc2l", "RLfasc3r"],
+	["RLfasc3l", "RLfasc4r"],
+	["RLfasc4l", "RLfasc1r"],
+
+	["RLfasc1l", "RLfasc3r"],
+	["RLfasc2l", "RLfasc4r"],
+	["RLfasc3l", "RLfasc1r", {"isExhaust":"mainEngine"}],
+	["RLfasc4l", "RLfasc2r"],
+
+	["RLfasc1l", "RLfasc4r"],
+	["RLfasc2l", "RLfasc1r"],
+	["RLfasc3l", "RLfasc2r"],
+	["RLfasc4l", "RLfasc3r"],
+
+	["RLfasc1l", "RLfasc2l"],
+	["RLfasc2l", "RLfasc3l"],
+	["RLfasc3l", "RLfasc4l"],
+	["RLfasc4l", "RLfasc1l"],
+
+	["RLfasc1l", "RLfasc3l"],
+	["RLfasc2l", "RLfasc4l"],
+
+	["RLfasc1r", "RLfasc2r"],
+	["RLfasc2r", "RLfasc3r"],
+	["RLfasc3r", "RLfasc4r"],
+	["RLfasc4r", "RLfasc1r"],
+
+	["RLfasc1r", "RLfasc3r"],
+	["RLfasc2r", "RLfasc4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	{"breakGroup":"fascia_RL_break"},
+
+	["RLfasc1l", "Rfasc1l"],
+	["RLfasc1l", "Rfasc1r"],
+	["RLfasc1l", "Rfasc2l"],
+	["RLfasc1l", "Rfasc2r"],
+
+	["RLfasc1r", "Rfasc1l"],
+	["RLfasc1r", "Rfasc1r"],
+	["RLfasc1r", "Rfasc2l"],
+	["RLfasc1r", "Rfasc2r"],
+
+	["RLfasc3l", "Rfasc1l"],
+	["RLfasc3l", "Rfasc1r"],
+	["RLfasc3l", "Rfasc2l"],
+	["RLfasc3l", "Rfasc2r"],
+
+	["RLfasc3r", "Rfasc1l"],
+	["RLfasc3r", "Rfasc1r"],
+	["RLfasc3r", "Rfasc2l"],
+	["RLfasc3r", "Rfasc2r"],
+
+	//anti wobble
+	["RLfasc2l", "Rfasc1l"],
+	["RLfasc2l", "Rfasc1r"],
+	["RLfasc2l", "Rfasc2l"],
+	["RLfasc2l", "Rfasc2r"],
+
+	["RLfasc2r", "Rfasc1l"],
+	["RLfasc2r", "Rfasc1r"],
+	["RLfasc2r", "Rfasc2l"],
+	["RLfasc2r", "Rfasc2r"],
+
+	["RLfasc4l", "Rfasc1l"],
+	["RLfasc4l", "Rfasc1r"],
+	["RLfasc4l", "Rfasc2l"],
+	["RLfasc4l", "Rfasc2r"],
+
+	["RLfasc4r", "Rfasc1l"],
+	["RLfasc4r", "Rfasc1r"],
+	["RLfasc4r", "Rfasc2l"],
+	["RLfasc4r", "Rfasc2r"],
+
+	{"optional":false},
+	{"breakGroup":""},
+
+
+	//--EXHAUST CONNECTORS--
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	["eng1l","RLfasc1r", {"isExhaust":"mainEngine", "optional":true}],
+
+	//--AFTERFIRE DISABLE TRIGGER--
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+
+	{"deformGroup":"afterfire_RL_disable","deformationTriggerRatio":0.25},
+	["eng3l", "RLfasc3l", {"deformLimit":"","deformLimitExpansion":"", "optional":true}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_fascia_R_side_L"},   
+	["RLfasc2r","RLfasc2l","RLfasc1l","RLfasc1r"],
+	["RLfasc4l","RLfasc4r","RLfasc3r","RLfasc3l"],
+	["RLfasc3r","RLfasc4r","RLfasc2r","RLfasc1r"],
+	["RLfasc4l","RLfasc3l","RLfasc1l","RLfasc2l"],
+	["RLfasc4r","RLfasc4l","RLfasc2l","RLfasc2r"],
+	["RLfasc3l","RLfasc3r","RLfasc1r","RLfasc1l"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_fascia_R_side_L_exhaust_col2": {
+    "information":{
+        "name":"Left Rear Fascia Side with Exhaust (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_R_side_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_side_RL","legocar_afterfire_side_RL", "Afterfire Effect"],
+	["legocar_nitrofire_side_RL","", "Nitrous Flames"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_col2", ["legocar_fascia_R_side_L"], [], {"pos":{"x": 0.625, "y":1.650, "z":0.35},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_2x1_flat_col2", ["legocar_fascia_R_side_L"], [], {"pos":{"x": 0.625, "y":1.550, "z":0.35},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//4 pieces, 8 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+	{"group":"legocar_fascia_R_side_L"},
+
+	["RLfasc1l",  0.75, 1.55, 0.1],
+	["RLfasc1r",  0.53, 1.55, 0.1],
+	["RLfasc2l",  0.75, 1.75, 0.1],
+	["RLfasc2r",  0.53, 1.75, 0.1],
+	["RLfasc3l",  0.75, 1.55, 0.6, {"afterFireAudioCoef":1,"afterFireVisualCoef":1, "afterFireVolumeCoef":0.7, "afterFireMufflingCoef": 0.6, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-1}],
+	["RLfasc3r",  0.53, 1.55, 0.6],
+	["RLfasc4l",  0.75, 1.75, 0.6],
+	["RLfasc4r",  0.53, 1.75, 0.6],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT FRONT FASCIA SIDE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["RLfasc1l", "RLfasc1r"],
+	["RLfasc2l", "RLfasc2r"],
+	["RLfasc3l", "RLfasc3r"],
+	["RLfasc4l", "RLfasc4r"],
+
+	["RLfasc1l", "RLfasc2r"],
+	["RLfasc2l", "RLfasc3r"],
+	["RLfasc3l", "RLfasc4r"],
+	["RLfasc4l", "RLfasc1r"],
+
+	["RLfasc1l", "RLfasc3r"],
+	["RLfasc2l", "RLfasc4r"],
+	["RLfasc3l", "RLfasc1r", {"isExhaust":"mainEngine"}],
+	["RLfasc4l", "RLfasc2r"],
+
+	["RLfasc1l", "RLfasc4r"],
+	["RLfasc2l", "RLfasc1r"],
+	["RLfasc3l", "RLfasc2r"],
+	["RLfasc4l", "RLfasc3r"],
+
+	["RLfasc1l", "RLfasc2l"],
+	["RLfasc2l", "RLfasc3l"],
+	["RLfasc3l", "RLfasc4l"],
+	["RLfasc4l", "RLfasc1l"],
+
+	["RLfasc1l", "RLfasc3l"],
+	["RLfasc2l", "RLfasc4l"],
+
+	["RLfasc1r", "RLfasc2r"],
+	["RLfasc2r", "RLfasc3r"],
+	["RLfasc3r", "RLfasc4r"],
+	["RLfasc4r", "RLfasc1r"],
+
+	["RLfasc1r", "RLfasc3r"],
+	["RLfasc2r", "RLfasc4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	{"breakGroup":"fascia_RL_break"},
+
+		["RLfasc1l", "Rfasc1l"],
+	["RLfasc1l", "Rfasc1r"],
+	["RLfasc1l", "Rfasc2l"],
+	["RLfasc1l", "Rfasc2r"],
+
+	["RLfasc1r", "Rfasc1l"],
+	["RLfasc1r", "Rfasc1r"],
+	["RLfasc1r", "Rfasc2l"],
+	["RLfasc1r", "Rfasc2r"],
+
+	["RLfasc3l", "Rfasc1l"],
+	["RLfasc3l", "Rfasc1r"],
+	["RLfasc3l", "Rfasc2l"],
+	["RLfasc3l", "Rfasc2r"],
+
+	["RLfasc3r", "Rfasc1l"],
+	["RLfasc3r", "Rfasc1r"],
+	["RLfasc3r", "Rfasc2l"],
+	["RLfasc3r", "Rfasc2r"],
+
+	//anti wobble
+	["RLfasc2l", "Rfasc1l"],
+	["RLfasc2l", "Rfasc1r"],
+	["RLfasc2l", "Rfasc2l"],
+	["RLfasc2l", "Rfasc2r"],
+
+	["RLfasc2r", "Rfasc1l"],
+	["RLfasc2r", "Rfasc1r"],
+	["RLfasc2r", "Rfasc2l"],
+	["RLfasc2r", "Rfasc2r"],
+
+	["RLfasc4l", "Rfasc1l"],
+	["RLfasc4l", "Rfasc1r"],
+	["RLfasc4l", "Rfasc2l"],
+	["RLfasc4l", "Rfasc2r"],
+
+	["RLfasc4r", "Rfasc1l"],
+	["RLfasc4r", "Rfasc1r"],
+	["RLfasc4r", "Rfasc2l"],
+	["RLfasc4r", "Rfasc2r"],
+
+	{"optional":false},
+	{"breakGroup":""},
+
+
+	//--EXHAUST CONNECTORS--
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	["eng1l","RLfasc1r", {"isExhaust":"mainEngine", "optional":true}],
+
+	//--AFTERFIRE DISABLE TRIGGER--
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+
+	{"deformGroup":"afterfire_RL_disable","deformationTriggerRatio":0.25},
+	["eng3l", "RLfasc3l", {"deformLimit":"","deformLimitExpansion":"", "optional":true}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_fascia_R_side_L"},   
+	["RLfasc2r","RLfasc2l","RLfasc1l","RLfasc1r"],
+	["RLfasc4l","RLfasc4r","RLfasc3r","RLfasc3l"],
+	["RLfasc3r","RLfasc4r","RLfasc2r","RLfasc1r"],
+	["RLfasc4l","RLfasc3l","RLfasc1l","RLfasc2l"],
+	["RLfasc4r","RLfasc4l","RLfasc2l","RLfasc2r"],
+	["RLfasc3l","RLfasc3r","RLfasc1r","RLfasc1l"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_fascia_R_side_L_exhaust_col3": {
+    "information":{
+        "name":"Left Rear Fascia Side with Exhaust (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_R_side_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_side_RL","legocar_afterfire_side_RL", "Afterfire Effect"],
+	["legocar_nitrofire_side_RL","", "Nitrous Flames"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_col3", ["legocar_fascia_R_side_L"], [], {"pos":{"x": 0.625, "y":1.650, "z":0.35},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_2x1_flat_col3", ["legocar_fascia_R_side_L"], [], {"pos":{"x": 0.625, "y":1.550, "z":0.35},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//4 pieces, 8 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+	{"group":"legocar_fascia_R_side_L"},
+
+	["RLfasc1l",  0.75, 1.55, 0.1],
+	["RLfasc1r",  0.53, 1.55, 0.1],
+	["RLfasc2l",  0.75, 1.75, 0.1],
+	["RLfasc2r",  0.53, 1.75, 0.1],
+	["RLfasc3l",  0.75, 1.55, 0.6, {"afterFireAudioCoef":1,"afterFireVisualCoef":1, "afterFireVolumeCoef":0.7, "afterFireMufflingCoef": 0.6, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-1}],
+	["RLfasc3r",  0.53, 1.55, 0.6],
+	["RLfasc4l",  0.75, 1.75, 0.6],
+	["RLfasc4r",  0.53, 1.75, 0.6],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT FRONT FASCIA SIDE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["RLfasc1l", "RLfasc1r"],
+	["RLfasc2l", "RLfasc2r"],
+	["RLfasc3l", "RLfasc3r"],
+	["RLfasc4l", "RLfasc4r"],
+
+	["RLfasc1l", "RLfasc2r"],
+	["RLfasc2l", "RLfasc3r"],
+	["RLfasc3l", "RLfasc4r"],
+	["RLfasc4l", "RLfasc1r"],
+
+	["RLfasc1l", "RLfasc3r"],
+	["RLfasc2l", "RLfasc4r"],
+	["RLfasc3l", "RLfasc1r", {"isExhaust":"mainEngine"}],
+	["RLfasc4l", "RLfasc2r"],
+
+	["RLfasc1l", "RLfasc4r"],
+	["RLfasc2l", "RLfasc1r"],
+	["RLfasc3l", "RLfasc2r"],
+	["RLfasc4l", "RLfasc3r"],
+
+	["RLfasc1l", "RLfasc2l"],
+	["RLfasc2l", "RLfasc3l"],
+	["RLfasc3l", "RLfasc4l"],
+	["RLfasc4l", "RLfasc1l"],
+
+	["RLfasc1l", "RLfasc3l"],
+	["RLfasc2l", "RLfasc4l"],
+
+	["RLfasc1r", "RLfasc2r"],
+	["RLfasc2r", "RLfasc3r"],
+	["RLfasc3r", "RLfasc4r"],
+	["RLfasc4r", "RLfasc1r"],
+
+	["RLfasc1r", "RLfasc3r"],
+	["RLfasc2r", "RLfasc4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	{"breakGroup":"fascia_RL_break"},
+
+		["RLfasc1l", "Rfasc1l"],
+	["RLfasc1l", "Rfasc1r"],
+	["RLfasc1l", "Rfasc2l"],
+	["RLfasc1l", "Rfasc2r"],
+
+	["RLfasc1r", "Rfasc1l"],
+	["RLfasc1r", "Rfasc1r"],
+	["RLfasc1r", "Rfasc2l"],
+	["RLfasc1r", "Rfasc2r"],
+
+	["RLfasc3l", "Rfasc1l"],
+	["RLfasc3l", "Rfasc1r"],
+	["RLfasc3l", "Rfasc2l"],
+	["RLfasc3l", "Rfasc2r"],
+
+	["RLfasc3r", "Rfasc1l"],
+	["RLfasc3r", "Rfasc1r"],
+	["RLfasc3r", "Rfasc2l"],
+	["RLfasc3r", "Rfasc2r"],
+
+	//anti wobble
+	["RLfasc2l", "Rfasc1l"],
+	["RLfasc2l", "Rfasc1r"],
+	["RLfasc2l", "Rfasc2l"],
+	["RLfasc2l", "Rfasc2r"],
+
+	["RLfasc2r", "Rfasc1l"],
+	["RLfasc2r", "Rfasc1r"],
+	["RLfasc2r", "Rfasc2l"],
+	["RLfasc2r", "Rfasc2r"],
+
+	["RLfasc4l", "Rfasc1l"],
+	["RLfasc4l", "Rfasc1r"],
+	["RLfasc4l", "Rfasc2l"],
+	["RLfasc4l", "Rfasc2r"],
+
+	["RLfasc4r", "Rfasc1l"],
+	["RLfasc4r", "Rfasc1r"],
+	["RLfasc4r", "Rfasc2l"],
+	["RLfasc4r", "Rfasc2r"],
+
+	{"optional":false},
+	{"breakGroup":""},
+
+
+	//--EXHAUST CONNECTORS--
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	["eng1l","RLfasc1r", {"isExhaust":"mainEngine", "optional":true}],
+
+	//--AFTERFIRE DISABLE TRIGGER--
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+
+	{"deformGroup":"afterfire_RL_disable","deformationTriggerRatio":0.25},
+	["eng3l", "RLfasc3l", {"deformLimit":"","deformLimitExpansion":"", "optional":true}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_fascia_R_side_L"},   
+	["RLfasc2r","RLfasc2l","RLfasc1l","RLfasc1r"],
+	["RLfasc4l","RLfasc4r","RLfasc3r","RLfasc3l"],
+	["RLfasc3r","RLfasc4r","RLfasc2r","RLfasc1r"],
+	["RLfasc4l","RLfasc3l","RLfasc1l","RLfasc2l"],
+	["RLfasc4r","RLfasc4l","RLfasc2l","RLfasc2r"],
+	["RLfasc3l","RLfasc3r","RLfasc1r","RLfasc1l"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_fascia_R_side_L_exhaust_grey": {
+    "information":{
+        "name":"Left Rear Fascia Side with Exhaust (Light Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_R_side_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_side_RL","legocar_afterfire_side_RL", "Afterfire Effect"],
+	["legocar_nitrofire_side_RL","", "Nitrous Flames"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_grey", ["legocar_fascia_R_side_L"], [], {"pos":{"x": 0.625, "y":1.650, "z":0.35},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_2x1_flat_grey", ["legocar_fascia_R_side_L"], [], {"pos":{"x": 0.625, "y":1.550, "z":0.35},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//4 pieces, 8 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+	{"group":"legocar_fascia_R_side_L"},
+
+	["RLfasc1l",  0.75, 1.55, 0.1],
+	["RLfasc1r",  0.53, 1.55, 0.1],
+	["RLfasc2l",  0.75, 1.75, 0.1],
+	["RLfasc2r",  0.53, 1.75, 0.1],
+	["RLfasc3l",  0.75, 1.55, 0.6, {"afterFireAudioCoef":1,"afterFireVisualCoef":1, "afterFireVolumeCoef":0.7, "afterFireMufflingCoef": 0.6, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-1}],
+	["RLfasc3r",  0.53, 1.55, 0.6],
+	["RLfasc4l",  0.75, 1.75, 0.6],
+	["RLfasc4r",  0.53, 1.75, 0.6],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT FRONT FASCIA SIDE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["RLfasc1l", "RLfasc1r"],
+	["RLfasc2l", "RLfasc2r"],
+	["RLfasc3l", "RLfasc3r"],
+	["RLfasc4l", "RLfasc4r"],
+
+	["RLfasc1l", "RLfasc2r"],
+	["RLfasc2l", "RLfasc3r"],
+	["RLfasc3l", "RLfasc4r"],
+	["RLfasc4l", "RLfasc1r"],
+
+	["RLfasc1l", "RLfasc3r"],
+	["RLfasc2l", "RLfasc4r"],
+	["RLfasc3l", "RLfasc1r", {"isExhaust":"mainEngine"}],
+	["RLfasc4l", "RLfasc2r"],
+
+	["RLfasc1l", "RLfasc4r"],
+	["RLfasc2l", "RLfasc1r"],
+	["RLfasc3l", "RLfasc2r"],
+	["RLfasc4l", "RLfasc3r"],
+
+	["RLfasc1l", "RLfasc2l"],
+	["RLfasc2l", "RLfasc3l"],
+	["RLfasc3l", "RLfasc4l"],
+	["RLfasc4l", "RLfasc1l"],
+
+	["RLfasc1l", "RLfasc3l"],
+	["RLfasc2l", "RLfasc4l"],
+
+	["RLfasc1r", "RLfasc2r"],
+	["RLfasc2r", "RLfasc3r"],
+	["RLfasc3r", "RLfasc4r"],
+	["RLfasc4r", "RLfasc1r"],
+
+	["RLfasc1r", "RLfasc3r"],
+	["RLfasc2r", "RLfasc4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	{"breakGroup":"fascia_RL_break"},
+
+		["RLfasc1l", "Rfasc1l"],
+	["RLfasc1l", "Rfasc1r"],
+	["RLfasc1l", "Rfasc2l"],
+	["RLfasc1l", "Rfasc2r"],
+
+	["RLfasc1r", "Rfasc1l"],
+	["RLfasc1r", "Rfasc1r"],
+	["RLfasc1r", "Rfasc2l"],
+	["RLfasc1r", "Rfasc2r"],
+
+	["RLfasc3l", "Rfasc1l"],
+	["RLfasc3l", "Rfasc1r"],
+	["RLfasc3l", "Rfasc2l"],
+	["RLfasc3l", "Rfasc2r"],
+
+	["RLfasc3r", "Rfasc1l"],
+	["RLfasc3r", "Rfasc1r"],
+	["RLfasc3r", "Rfasc2l"],
+	["RLfasc3r", "Rfasc2r"],
+
+	//anti wobble
+	["RLfasc2l", "Rfasc1l"],
+	["RLfasc2l", "Rfasc1r"],
+	["RLfasc2l", "Rfasc2l"],
+	["RLfasc2l", "Rfasc2r"],
+
+	["RLfasc2r", "Rfasc1l"],
+	["RLfasc2r", "Rfasc1r"],
+	["RLfasc2r", "Rfasc2l"],
+	["RLfasc2r", "Rfasc2r"],
+
+	["RLfasc4l", "Rfasc1l"],
+	["RLfasc4l", "Rfasc1r"],
+	["RLfasc4l", "Rfasc2l"],
+	["RLfasc4l", "Rfasc2r"],
+
+	["RLfasc4r", "Rfasc1l"],
+	["RLfasc4r", "Rfasc1r"],
+	["RLfasc4r", "Rfasc2l"],
+	["RLfasc4r", "Rfasc2r"],
+
+	{"optional":false},
+	{"breakGroup":""},
+
+
+	//--EXHAUST CONNECTORS--
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	["eng1l","RLfasc1r", {"isExhaust":"mainEngine", "optional":true}],
+
+	//--AFTERFIRE DISABLE TRIGGER--
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+
+	{"deformGroup":"afterfire_RL_disable","deformationTriggerRatio":0.25},
+	["eng3l", "RLfasc3l", {"deformLimit":"","deformLimitExpansion":"", "optional":true}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_fascia_R_side_L"},   
+	["RLfasc2r","RLfasc2l","RLfasc1l","RLfasc1r"],
+	["RLfasc4l","RLfasc4r","RLfasc3r","RLfasc3l"],
+	["RLfasc3r","RLfasc4r","RLfasc2r","RLfasc1r"],
+	["RLfasc4l","RLfasc3l","RLfasc1l","RLfasc2l"],
+	["RLfasc4r","RLfasc4l","RLfasc2l","RLfasc2r"],
+	["RLfasc3l","RLfasc3r","RLfasc1r","RLfasc1l"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_fascia_R_side_L_exhaust_dgrey": {
+    "information":{
+        "name":"Left Rear Fascia Side with Exhaust (Dark Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_R_side_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_afterfire_side_RL","legocar_afterfire_side_RL", "Afterfire Effect"],
+	["legocar_nitrofire_side_RL","", "Nitrous Flames"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_dgrey", ["legocar_fascia_R_side_L"], [], {"pos":{"x": 0.625, "y":1.650, "z":0.35},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_2x1_flat_dgrey", ["legocar_fascia_R_side_L"], [], {"pos":{"x": 0.625, "y":1.550, "z":0.35},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//4 pieces, 8 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+	{"group":"legocar_fascia_R_side_L"},
+
+	["RLfasc1l",  0.75, 1.55, 0.1],
+	["RLfasc1r",  0.53, 1.55, 0.1],
+	["RLfasc2l",  0.75, 1.75, 0.1],
+	["RLfasc2r",  0.53, 1.75, 0.1],
+	["RLfasc3l",  0.75, 1.55, 0.6, {"afterFireAudioCoef":1,"afterFireVisualCoef":1, "afterFireVolumeCoef":0.7, "afterFireMufflingCoef": 0.6, "exhaustAudioMufflingCoef": 0.6, "exhaustAudioGainChange":-1}],
+	["RLfasc3r",  0.53, 1.55, 0.6],
+	["RLfasc4l",  0.75, 1.75, 0.6],
+	["RLfasc4r",  0.53, 1.75, 0.6],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT FRONT FASCIA SIDE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["RLfasc1l", "RLfasc1r"],
+	["RLfasc2l", "RLfasc2r"],
+	["RLfasc3l", "RLfasc3r"],
+	["RLfasc4l", "RLfasc4r"],
+
+	["RLfasc1l", "RLfasc2r"],
+	["RLfasc2l", "RLfasc3r"],
+	["RLfasc3l", "RLfasc4r"],
+	["RLfasc4l", "RLfasc1r"],
+
+	["RLfasc1l", "RLfasc3r"],
+	["RLfasc2l", "RLfasc4r"],
+	["RLfasc3l", "RLfasc1r", {"isExhaust":"mainEngine"}],
+	["RLfasc4l", "RLfasc2r"],
+
+	["RLfasc1l", "RLfasc4r"],
+	["RLfasc2l", "RLfasc1r"],
+	["RLfasc3l", "RLfasc2r"],
+	["RLfasc4l", "RLfasc3r"],
+
+	["RLfasc1l", "RLfasc2l"],
+	["RLfasc2l", "RLfasc3l"],
+	["RLfasc3l", "RLfasc4l"],
+	["RLfasc4l", "RLfasc1l"],
+
+	["RLfasc1l", "RLfasc3l"],
+	["RLfasc2l", "RLfasc4l"],
+
+	["RLfasc1r", "RLfasc2r"],
+	["RLfasc2r", "RLfasc3r"],
+	["RLfasc3r", "RLfasc4r"],
+	["RLfasc4r", "RLfasc1r"],
+
+	["RLfasc1r", "RLfasc3r"],
+	["RLfasc2r", "RLfasc4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	{"breakGroup":"fascia_RL_break"},
+
+		["RLfasc1l", "Rfasc1l"],
+	["RLfasc1l", "Rfasc1r"],
+	["RLfasc1l", "Rfasc2l"],
+	["RLfasc1l", "Rfasc2r"],
+
+	["RLfasc1r", "Rfasc1l"],
+	["RLfasc1r", "Rfasc1r"],
+	["RLfasc1r", "Rfasc2l"],
+	["RLfasc1r", "Rfasc2r"],
+
+	["RLfasc3l", "Rfasc1l"],
+	["RLfasc3l", "Rfasc1r"],
+	["RLfasc3l", "Rfasc2l"],
+	["RLfasc3l", "Rfasc2r"],
+
+	["RLfasc3r", "Rfasc1l"],
+	["RLfasc3r", "Rfasc1r"],
+	["RLfasc3r", "Rfasc2l"],
+	["RLfasc3r", "Rfasc2r"],
+
+	//anti wobble
+	["RLfasc2l", "Rfasc1l"],
+	["RLfasc2l", "Rfasc1r"],
+	["RLfasc2l", "Rfasc2l"],
+	["RLfasc2l", "Rfasc2r"],
+
+	["RLfasc2r", "Rfasc1l"],
+	["RLfasc2r", "Rfasc1r"],
+	["RLfasc2r", "Rfasc2l"],
+	["RLfasc2r", "Rfasc2r"],
+
+	["RLfasc4l", "Rfasc1l"],
+	["RLfasc4l", "Rfasc1r"],
+	["RLfasc4l", "Rfasc2l"],
+	["RLfasc4l", "Rfasc2r"],
+
+	["RLfasc4r", "Rfasc1l"],
+	["RLfasc4r", "Rfasc1r"],
+	["RLfasc4r", "Rfasc2l"],
+	["RLfasc4r", "Rfasc2r"],
+
+	{"optional":false},
+	{"breakGroup":""},
+
+
+	//--EXHAUST CONNECTORS--
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	["eng1l","RLfasc1r", {"isExhaust":"mainEngine", "optional":true}],
+
+	//--AFTERFIRE DISABLE TRIGGER--
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+
+	{"deformGroup":"afterfire_RL_disable","deformationTriggerRatio":0.25},
+	["eng3l", "RLfasc3l", {"deformLimit":"","deformLimitExpansion":"", "optional":true}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_fascia_R_side_L"},   
+	["RLfasc2r","RLfasc2l","RLfasc1l","RLfasc1r"],
+	["RLfasc4l","RLfasc4r","RLfasc3r","RLfasc3l"],
+	["RLfasc3r","RLfasc4r","RLfasc2r","RLfasc1r"],
+	["RLfasc4l","RLfasc3l","RLfasc1l","RLfasc2l"],
+	["RLfasc4r","RLfasc4l","RLfasc2l","RLfasc2r"],
+	["RLfasc3l","RLfasc3r","RLfasc1r","RLfasc1l"],
+
+        {"group":""},
+    ],
+},
+
+}

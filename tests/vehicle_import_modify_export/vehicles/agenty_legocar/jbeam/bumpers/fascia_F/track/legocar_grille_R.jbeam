@@ -1,0 +1,569 @@
+{
+"legocar_grille_R_col1": {
+    "information":{
+        "name":"Grille (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grille_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_grille_col1", ["legocar_grille_R_F"], [], {"pos":{"x":-0.5, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//2 half-pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_grille_R_F"},
+	["FRgrille1l", -0.25, -2.00, 0.38],
+	["FRgrille1r", -0.75, -2.00, 0.38],
+	["FRgrille2l", -0.25, -2.00, 0.60],
+	["FRgrille2r", -0.75, -2.00, 0.60],
+	//rigidifier
+	["FRgrillerig",-0.5, -1.85, 0.475, {"collision":false, "selfCollision":false, "group":""}],	
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FRONT GRILLE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//uniform structure
+	["FRgrille1l", "FRgrille1r"],
+	["FRgrille2l", "FRgrille2r"],
+	["FRgrille1l", "FRgrille2l"],
+	["FRgrille1r", "FRgrille2r"],
+	["FRgrille1l", "FRgrille2r"],
+	["FRgrille2l", "FRgrille1r"],
+
+	//rigidifier
+	["FRgrille1l", "FRgrillerig"],
+	["FRgrille1r", "FRgrillerig"],
+	["FRgrille2l", "FRgrillerig"],
+	["FRgrille2r", "FRgrillerig"],
+	
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"grille_FR_break"},
+
+	["FRgrille1l", "hdlightrig"],
+	["FRgrille1l", "hdlight1r"],
+	["FRgrille1l", "hdlight2l"],
+
+	["FRgrille2l", "hdlightrig"],
+	["FRgrille2l", "hdlight2r"],
+	["FRgrille2l", "hdlight1l"],
+
+	["FRgrille1r", "hdlightrig"],
+	["FRgrille1r", "hdlight1l"],
+	["FRgrille1r", "hdlight2r"],
+
+	["FRgrille2r", "hdlightrig"],
+	["FRgrille2r", "hdlight1r"],
+	["FRgrille2r", "hdlight2l"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_grille_R_F"},
+	["FRgrille2l","FRgrille2r","FRgrille1r","FRgrille1l", {"dragCoef":"$=$drag*0.1"}],
+        {"group":""},
+    ],
+},
+
+"legocar_grille_R_col2": {
+    "information":{
+        "name":"Grille (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grille_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_grille_col2", ["legocar_grille_R_F"], [], {"pos":{"x":-0.5, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//2 half-pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_grille_R_F"},
+	["FRgrille1l", -0.25, -2.00, 0.38],
+	["FRgrille1r", -0.75, -2.00, 0.38],
+	["FRgrille2l", -0.25, -2.00, 0.60],
+	["FRgrille2r", -0.75, -2.00, 0.60],
+	//rigidifier
+	["FRgrillerig",-0.5, -1.85, 0.475, {"collision":false, "selfCollision":false, "group":""}],	
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FRONT GRILLE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//uniform structure
+	["FRgrille1l", "FRgrille1r"],
+	["FRgrille2l", "FRgrille2r"],
+	["FRgrille1l", "FRgrille2l"],
+	["FRgrille1r", "FRgrille2r"],
+	["FRgrille1l", "FRgrille2r"],
+	["FRgrille2l", "FRgrille1r"],
+
+	//rigidifier
+	["FRgrille1l", "FRgrillerig"],
+	["FRgrille1r", "FRgrillerig"],
+	["FRgrille2l", "FRgrillerig"],
+	["FRgrille2r", "FRgrillerig"],
+	
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"grille_FR_break"},
+
+	["FRgrille1l", "hdlightrig"],
+	["FRgrille1l", "hdlight1r"],
+	["FRgrille1l", "hdlight2l"],
+
+	["FRgrille2l", "hdlightrig"],
+	["FRgrille2l", "hdlight2r"],
+	["FRgrille2l", "hdlight1l"],
+
+	["FRgrille1r", "hdlightrig"],
+	["FRgrille1r", "hdlight1l"],
+	["FRgrille1r", "hdlight2r"],
+
+	["FRgrille2r", "hdlightrig"],
+	["FRgrille2r", "hdlight1r"],
+	["FRgrille2r", "hdlight2l"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_grille_R_F"},
+	["FRgrille2l","FRgrille2r","FRgrille1r","FRgrille1l", {"dragCoef":"$=$drag*0.1"}],
+        {"group":""},
+    ],
+},
+
+"legocar_grille_R_col3": {
+    "information":{
+        "name":"Grille (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grille_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_grille_col3", ["legocar_grille_R_F"], [], {"pos":{"x":-0.5, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//2 half-pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_grille_R_F"},
+	["FRgrille1l", -0.25, -2.00, 0.38],
+	["FRgrille1r", -0.75, -2.00, 0.38],
+	["FRgrille2l", -0.25, -2.00, 0.60],
+	["FRgrille2r", -0.75, -2.00, 0.60],
+	//rigidifier
+	["FRgrillerig",-0.5, -1.85, 0.475, {"collision":false, "selfCollision":false, "group":""}],	
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FRONT GRILLE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//uniform structure
+	["FRgrille1l", "FRgrille1r"],
+	["FRgrille2l", "FRgrille2r"],
+	["FRgrille1l", "FRgrille2l"],
+	["FRgrille1r", "FRgrille2r"],
+	["FRgrille1l", "FRgrille2r"],
+	["FRgrille2l", "FRgrille1r"],
+
+	//rigidifier
+	["FRgrille1l", "FRgrillerig"],
+	["FRgrille1r", "FRgrillerig"],
+	["FRgrille2l", "FRgrillerig"],
+	["FRgrille2r", "FRgrillerig"],
+	
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"grille_FR_break"},
+
+	["FRgrille1l", "hdlightrig"],
+	["FRgrille1l", "hdlight1r"],
+	["FRgrille1l", "hdlight2l"],
+
+	["FRgrille2l", "hdlightrig"],
+	["FRgrille2l", "hdlight2r"],
+	["FRgrille2l", "hdlight1l"],
+
+	["FRgrille1r", "hdlightrig"],
+	["FRgrille1r", "hdlight1l"],
+	["FRgrille1r", "hdlight2r"],
+
+	["FRgrille2r", "hdlightrig"],
+	["FRgrille2r", "hdlight1r"],
+	["FRgrille2r", "hdlight2l"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_grille_R_F"},
+	["FRgrille2l","FRgrille2r","FRgrille1r","FRgrille1l", {"dragCoef":"$=$drag*0.1"}],
+        {"group":""},
+    ],
+},
+
+"legocar_grille_R_grey": {
+    "information":{
+        "name":"Grille (Light Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grille_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_grille_grey", ["legocar_grille_R_F"], [], {"pos":{"x":-0.5, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//2 half-pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_grille_R_F"},
+	["FRgrille1l", -0.25, -2.00, 0.38],
+	["FRgrille1r", -0.75, -2.00, 0.38],
+	["FRgrille2l", -0.25, -2.00, 0.60],
+	["FRgrille2r", -0.75, -2.00, 0.60],
+	//rigidifier
+	["FRgrillerig",-0.5, -1.85, 0.475, {"collision":false, "selfCollision":false, "group":""}],	
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FRONT GRILLE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//uniform structure
+	["FRgrille1l", "FRgrille1r"],
+	["FRgrille2l", "FRgrille2r"],
+	["FRgrille1l", "FRgrille2l"],
+	["FRgrille1r", "FRgrille2r"],
+	["FRgrille1l", "FRgrille2r"],
+	["FRgrille2l", "FRgrille1r"],
+
+	//rigidifier
+	["FRgrille1l", "FRgrillerig"],
+	["FRgrille1r", "FRgrillerig"],
+	["FRgrille2l", "FRgrillerig"],
+	["FRgrille2r", "FRgrillerig"],
+	
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"grille_FR_break"},
+
+	["FRgrille1l", "hdlightrig"],
+	["FRgrille1l", "hdlight1r"],
+	["FRgrille1l", "hdlight2l"],
+
+	["FRgrille2l", "hdlightrig"],
+	["FRgrille2l", "hdlight2r"],
+	["FRgrille2l", "hdlight1l"],
+
+	["FRgrille1r", "hdlightrig"],
+	["FRgrille1r", "hdlight1l"],
+	["FRgrille1r", "hdlight2r"],
+
+	["FRgrille2r", "hdlightrig"],
+	["FRgrille2r", "hdlight1r"],
+	["FRgrille2r", "hdlight2l"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_grille_R_F"},
+	["FRgrille2l","FRgrille2r","FRgrille1r","FRgrille1l", {"dragCoef":"$=$drag*0.1"}],
+        {"group":""},
+    ],
+},
+
+"legocar_grille_R_dgrey": {
+    "information":{
+        "name":"Grille (Dark Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grille_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_grille_dgrey", ["legocar_grille_R_F"], [], {"pos":{"x":-0.5, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//2 half-pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_grille_R_F"},
+	["FRgrille1l", -0.25, -2.00, 0.38],
+	["FRgrille1r", -0.75, -2.00, 0.38],
+	["FRgrille2l", -0.25, -2.00, 0.60],
+	["FRgrille2r", -0.75, -2.00, 0.60],
+	//rigidifier
+	["FRgrillerig",-0.5, -1.85, 0.475, {"collision":false, "selfCollision":false, "group":""}],	
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FRONT GRILLE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//uniform structure
+	["FRgrille1l", "FRgrille1r"],
+	["FRgrille2l", "FRgrille2r"],
+	["FRgrille1l", "FRgrille2l"],
+	["FRgrille1r", "FRgrille2r"],
+	["FRgrille1l", "FRgrille2r"],
+	["FRgrille2l", "FRgrille1r"],
+
+	//rigidifier
+	["FRgrille1l", "FRgrillerig"],
+	["FRgrille1r", "FRgrillerig"],
+	["FRgrille2l", "FRgrillerig"],
+	["FRgrille2r", "FRgrillerig"],
+	
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"grille_FR_break"},
+
+	["FRgrille1l", "hdlightrig"],
+	["FRgrille1l", "hdlight1r"],
+	["FRgrille1l", "hdlight2l"],
+
+	["FRgrille2l", "hdlightrig"],
+	["FRgrille2l", "hdlight2r"],
+	["FRgrille2l", "hdlight1l"],
+
+	["FRgrille1r", "hdlightrig"],
+	["FRgrille1r", "hdlight1l"],
+	["FRgrille1r", "hdlight2r"],
+
+	["FRgrille2r", "hdlightrig"],
+	["FRgrille2r", "hdlight1r"],
+	["FRgrille2r", "hdlight2l"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_grille_R_F"},
+	["FRgrille2l","FRgrille2r","FRgrille1r","FRgrille1l", {"dragCoef":"$=$drag*0.1"}],
+        {"group":""},
+    ],
+},
+
+"legocar_grille_R_chrome": {
+    "information":{
+        "name":"Grille (Chrome)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grille_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_grille_chrome", ["legocar_grille_R_F"], [], {"pos":{"x":-0.5, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//2 half-pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_grille_R_F"},
+	["FRgrille1l", -0.25, -2.00, 0.38],
+	["FRgrille1r", -0.75, -2.00, 0.38],
+	["FRgrille2l", -0.25, -2.00, 0.60],
+	["FRgrille2r", -0.75, -2.00, 0.60],
+	//rigidifier
+	["FRgrillerig",-0.5, -1.85, 0.475, {"collision":false, "selfCollision":false, "group":""}],	
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FRONT GRILLE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//uniform structure
+	["FRgrille1l", "FRgrille1r"],
+	["FRgrille2l", "FRgrille2r"],
+	["FRgrille1l", "FRgrille2l"],
+	["FRgrille1r", "FRgrille2r"],
+	["FRgrille1l", "FRgrille2r"],
+	["FRgrille2l", "FRgrille1r"],
+
+	//rigidifier
+	["FRgrille1l", "FRgrillerig"],
+	["FRgrille1r", "FRgrillerig"],
+	["FRgrille2l", "FRgrillerig"],
+	["FRgrille2r", "FRgrillerig"],
+	
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"grille_FR_break"},
+
+	["FRgrille1l", "hdlightrig"],
+	["FRgrille1l", "hdlight1r"],
+	["FRgrille1l", "hdlight2l"],
+
+	["FRgrille2l", "hdlightrig"],
+	["FRgrille2l", "hdlight2r"],
+	["FRgrille2l", "hdlight1l"],
+
+	["FRgrille1r", "hdlightrig"],
+	["FRgrille1r", "hdlight1l"],
+	["FRgrille1r", "hdlight2r"],
+
+	["FRgrille2r", "hdlightrig"],
+	["FRgrille2r", "hdlight1r"],
+	["FRgrille2r", "hdlight2l"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_grille_R_F"},
+	["FRgrille2l","FRgrille2r","FRgrille1r","FRgrille1l", {"dragCoef":"$=$drag*0.1"}],
+        {"group":""},
+    ],
+},
+
+"legocar_grille_R_black": {
+    "information":{
+        "name":"Grille (Black)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grille_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_grille_black", ["legocar_grille_R_F"], [], {"pos":{"x":-0.5, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//2 half-pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_grille_R_F"},
+	["FRgrille1l", -0.25, -2.00, 0.38],
+	["FRgrille1r", -0.75, -2.00, 0.38],
+	["FRgrille2l", -0.25, -2.00, 0.60],
+	["FRgrille2r", -0.75, -2.00, 0.60],
+	//rigidifier
+	["FRgrillerig",-0.5, -1.85, 0.475, {"collision":false, "selfCollision":false, "group":""}],	
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FRONT GRILLE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//uniform structure
+	["FRgrille1l", "FRgrille1r"],
+	["FRgrille2l", "FRgrille2r"],
+	["FRgrille1l", "FRgrille2l"],
+	["FRgrille1r", "FRgrille2r"],
+	["FRgrille1l", "FRgrille2r"],
+	["FRgrille2l", "FRgrille1r"],
+
+	//rigidifier
+	["FRgrille1l", "FRgrillerig"],
+	["FRgrille1r", "FRgrillerig"],
+	["FRgrille2l", "FRgrillerig"],
+	["FRgrille2r", "FRgrillerig"],
+	
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"grille_FR_break"},
+
+	["FRgrille1l", "hdlightrig"],
+	["FRgrille1l", "hdlight1r"],
+	["FRgrille1l", "hdlight2l"],
+
+	["FRgrille2l", "hdlightrig"],
+	["FRgrille2l", "hdlight2r"],
+	["FRgrille2l", "hdlight1l"],
+
+	["FRgrille1r", "hdlightrig"],
+	["FRgrille1r", "hdlight1l"],
+	["FRgrille1r", "hdlight2r"],
+
+	["FRgrille2r", "hdlightrig"],
+	["FRgrille2r", "hdlight1r"],
+	["FRgrille2r", "hdlight2l"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_grille_R_F"},
+	["FRgrille2l","FRgrille2r","FRgrille1r","FRgrille1l", {"dragCoef":"$=$drag*0.1"}],
+        {"group":""},
+    ],
+},
+
+}

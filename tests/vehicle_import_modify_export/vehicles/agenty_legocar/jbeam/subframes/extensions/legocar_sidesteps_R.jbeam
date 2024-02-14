@@ -1,0 +1,169 @@
+{
+"legocar_sidesteps_R": {
+    "information":{
+        "name":" Right Side Steps",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_underglow_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_rail_alt_grey", ["legocar_sidestep_FR"], [], {"pos":{"x":-0.625, "y":-0.250, "z":0},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_2x1_flat_rail_alt_grey", ["legocar_sidestep_RR"], [], {"pos":{"x":-0.625, "y": 0.250, "z":0},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//3 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	//front half
+	{"group":"legocar_sidestep_FR"},
+	["FRsidestep1l", -0.53, -0.50, 0.05],
+	["FRsidestep1r", -0.90, -0.50, 0.05],
+	["FRsidestep2l", -0.53, -0.02, 0.05],
+	["FRsidestep2r", -0.90, -0.02, 0.05],
+	//rigidifier
+	["FRsidesteprig", -0.675, -0.25, 0.2, {"collision":false, "selfCollision":false, "group":""}],
+
+	//rear half
+	{"group":"legocar_sidestep_RR"},
+	["RRsidestep1l", -0.53, 0.50, 0.05],
+	["RRsidestep1r", -0.90, 0.50, 0.05],
+	["RRsidestep2l", -0.53, 0.02, 0.05],
+	["RRsidestep2r", -0.90, 0.02, 0.05],
+	//rigidifier
+	["RRsidesteprig", -0.675, 0.25, 0.2, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+
+	//--FRONT--
+
+	//uniform structure
+	["FRsidestep1l", "FRsidestep1r"],
+	["FRsidestep2l", "FRsidestep2r"],
+	["FRsidestep1l", "FRsidestep2l"],
+	["FRsidestep1r", "FRsidestep2r"],
+	["FRsidestep1l", "FRsidestep2r"],
+	["FRsidestep2l", "FRsidestep1r"],
+
+	//rigidifier
+	["FRsidestep1l", "FRsidesteprig"],
+	["FRsidestep1r", "FRsidesteprig"],
+	["FRsidestep2l", "FRsidesteprig"],
+	["FRsidestep2r", "FRsidesteprig"],
+
+	
+	//--REAR--
+
+	//uniform structure
+	["RRsidestep1l", "RRsidestep1r"],
+	["RRsidestep2l", "RRsidestep2r"],
+	["RRsidestep1l", "RRsidestep2l"],
+	["RRsidestep1r", "RRsidestep2r"],
+	["RRsidestep1l", "RRsidestep2r"],
+	["RRsidestep2l", "RRsidestep1r"],
+
+	//rigidifier
+	["RRsidestep1l", "RRsidesteprig"],
+	["RRsidestep1r", "RRsidesteprig"],
+	["RRsidestep2l", "RRsidesteprig"],
+	["RRsidestep2r", "RRsidesteprig"],
+
+	
+	//--ATTACH TO SUBFRAME--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	//both break at the same time for better triangle collision break triggers
+	{"breakGroup":"sidestep_subframe_R_break"},
+
+	
+	//left
+
+	["FRsidestep1l", "Rsubf1l"],
+	["FRsidestep1l", "Rsubf1r"],
+	["FRsidestep1l", "Rsubf2l"],
+	["FRsidestep1l", "Rsubf2r"],
+
+	["FRsidestep1r", "Rsubf1l"],
+	["FRsidestep1r", "Rsubf1r"],
+	["FRsidestep1r", "Rsubf2l"],
+	["FRsidestep1r", "Rsubf2r"],
+	
+	["FRsidestep2l", "Rsubf1l"],
+	["FRsidestep2l", "Rsubf1r"],
+	["FRsidestep2l", "Rsubf2l"],
+	["FRsidestep2l", "Rsubf2r"],
+
+	["FRsidestep2r", "Rsubf1l"],
+	["FRsidestep2r", "Rsubf1r"],
+	["FRsidestep2r", "Rsubf2l"],
+	["FRsidestep2r", "Rsubf2r"],
+
+
+	//right
+
+	["RRsidestep1l", "Rsubf1l"],
+	["RRsidestep1l", "Rsubf1r"],
+	["RRsidestep1l", "Rsubf2l"],
+	["RRsidestep1l", "Rsubf2r"],
+
+	["RRsidestep1r", "Rsubf1l"],
+	["RRsidestep1r", "Rsubf1r"],
+	["RRsidestep1r", "Rsubf2l"],
+	["RRsidestep1r", "Rsubf2r"],
+	
+	["RRsidestep2l", "Rsubf1l"],
+	["RRsidestep2l", "Rsubf1r"],
+	["RRsidestep2l", "Rsubf2l"],
+	["RRsidestep2l", "Rsubf2r"],
+
+	["RRsidestep2r", "Rsubf1l"],
+	["RRsidestep2r", "Rsubf1r"],
+	["RRsidestep2r", "Rsubf2l"],
+	["RRsidestep2r", "Rsubf2r"],
+
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	//breakable side collision triangles
+
+        {"group":"sidestep_subframe_R_break"},
+	{"breakGroup":"sidestep_subframe_R_break"},
+	["Rsubf1r","FRsidestep2r","FRsidestep1r"],
+	["Rsubf2r","RRsidestep1r","RRsidestep2r"],
+
+        {"breakGroup":""},
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_sidestep_FL"}, 
+  	["FRsidestep1l","FRsidestep1r","FRsidestep2r","FRsidestep2l"],
+	{"group":"legocar_sidestep_RL"}, 
+  	["RRsidestep2l","RRsidestep2r","RRsidestep1r","RRsidestep1l"],
+
+	//breakable side collision quads
+
+	{"group":"sidestep_subframe_R_break"},
+	{"breakGroup":"sidestep_subframe_R_break"},
+	["FRsidestep2r","RRsidestep2r","Rsubf2r","Rsubf1r"],
+
+	{"breakGroup":""},
+        {"group":""},
+    ],
+},
+
+}

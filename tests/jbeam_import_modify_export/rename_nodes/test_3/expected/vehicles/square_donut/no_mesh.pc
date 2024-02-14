@@ -1,0 +1,7 @@
+{
+"model":"square_donut",
+"format":2,
+"parts":{
+    "square_donut_meshes":"square_donut_no_mesh"
+},
+}

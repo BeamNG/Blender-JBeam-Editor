@@ -1,0 +1,911 @@
+{
+"legocar_wheeliebar_support_mount_col1": {
+    "information":{
+        "name":"Wheelie Bar Support Mount (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhaust",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_wheeliebar_support", "legocar_wheeliebar_support", "Wheelie Bar Support Bars"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_col1", ["legocar_bumpermount_R"], [], {"pos":{"x":0.000, "y":1.750, "z":0.225},"rot":{"x":-90, "y":0, "z":90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+	["legocar_wheeliebar_support_mount_L", ["wheeliebar_support_mount_L"]],
+	["legocar_wheeliebar_support_mount_R", ["wheeliebar_support_mount_R"]],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//bumper mount
+	{"group":"legocar_bumpermount_R"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Rbumpmt1l",  0.75, 1.80, 0.10],
+	["Rbumpmt1r", -0.75, 1.80, 0.10],
+	["Rbumpmt2l",  0.75, 1.80, 0.35],
+	["Rbumpmt2r", -0.75, 1.80, 0.35],
+	//rigidifier
+	["Rbumpmtrig", 0.00, 1.35, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+
+	//wheelie bar support mounts
+	//2 pieces, 2 half pieces, 6 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+
+	{"group":"wheeliebar_support_mount_L"},
+	["whbarsuppmtL1l", 0.50, 1.85, 0.10],
+	["whbarsuppmtL1r", 0.02, 1.85, 0.10],
+	["whbarsuppmtL2l", 0.50, 1.85, 0.35],
+	["whbarsuppmtL2r", 0.02, 1.85, 0.35],
+	["whbarsuppmtL3l", 0.50, 2.20, 0.15],
+	["whbarsuppmtL3r", 0.02, 2.20, 0.15],
+	
+	{"group":"wheeliebar_support_mount_R"},
+	["whbarsuppmtR1r", -0.50, 1.85, 0.10],
+	["whbarsuppmtR1l", -0.02, 1.85, 0.10],
+	["whbarsuppmtR2r", -0.50, 1.85, 0.35],
+	["whbarsuppmtR2l", -0.02, 1.85, 0.35],
+	["whbarsuppmtR3r", -0.50, 2.20, 0.15],
+	["whbarsuppmtR3l", -0.02, 2.20, 0.15],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Rbumpmt1l", "Rbumpmt1r"],
+	["Rbumpmt2l", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2l"],
+	["Rbumpmt1r", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2r"],
+	["Rbumpmt2l", "Rbumpmt1r"],
+
+	//rigidifier
+	["Rbumpmt1l", "Rbumpmtrig"],
+	["Rbumpmt1r", "Rbumpmtrig"],
+	["Rbumpmt2l", "Rbumpmtrig"],
+	["Rbumpmt2r", "Rbumpmtrig"],
+
+
+	//--WHEELIE BAR SUPPORT MOUNTS--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//left uniform structure
+	["whbarsuppmtL1l", "whbarsuppmtL1r"],
+	["whbarsuppmtL2l", "whbarsuppmtL2r"],
+	["whbarsuppmtL3l", "whbarsuppmtL3r", {"breakGroup":"wheeliebar_support_L_hinge_break", "disableMeshBreaking":true,"disableTriangleBreaking":true}],
+
+	["whbarsuppmtL2l", "whbarsuppmtL1l"],
+	["whbarsuppmtL2r", "whbarsuppmtL1r"],
+	["whbarsuppmtL2l", "whbarsuppmtL3l"],
+	["whbarsuppmtL2r", "whbarsuppmtL3r"],
+	["whbarsuppmtL3l", "whbarsuppmtL1l"],
+	["whbarsuppmtL3r", "whbarsuppmtL1r"],
+
+	["whbarsuppmtL1l", "whbarsuppmtL2r"],
+	["whbarsuppmtL2l", "whbarsuppmtL1r"],
+	["whbarsuppmtL2l", "whbarsuppmtL3r"],
+	["whbarsuppmtL3l", "whbarsuppmtL2r"],
+	["whbarsuppmtL3l", "whbarsuppmtL1r"],
+	["whbarsuppmtL1l", "whbarsuppmtL3r"],
+	
+	//right uniform structure
+	["whbarsuppmtR1l", "whbarsuppmtR1r"],
+	["whbarsuppmtR2l", "whbarsuppmtR2r"],
+	["whbarsuppmtR3l", "whbarsuppmtR3r", {"breakGroup":"wheeliebar_support_R_hinge_break", "disableMeshBreaking":true,"disableTriangleBreaking":true}],
+
+	["whbarsuppmtR2l", "whbarsuppmtR1l"],
+	["whbarsuppmtR2r", "whbarsuppmtR1r"],
+	["whbarsuppmtR2l", "whbarsuppmtR3l"],
+	["whbarsuppmtR2r", "whbarsuppmtR3r"],
+	["whbarsuppmtR3l", "whbarsuppmtR1l"],
+	["whbarsuppmtR3r", "whbarsuppmtR1r"],
+
+	["whbarsuppmtR1l", "whbarsuppmtR2r"],
+	["whbarsuppmtR2l", "whbarsuppmtR1r"],
+	["whbarsuppmtR2l", "whbarsuppmtR3r"],
+	["whbarsuppmtR3l", "whbarsuppmtR2r"],
+	["whbarsuppmtR3l", "whbarsuppmtR1r"],
+	["whbarsuppmtR1l", "whbarsuppmtR3r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"optional":true},
+
+
+	//left
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_L_break"},
+	
+	["Rbumpmt1l", "RLfasc1l"],
+	["Rbumpmt1l", "RLfasc2r"],
+	["Rbumpmt1l", "RLfasc4l"],
+
+	["Rbumpmt1r", "RLfasc1r"],
+	["Rbumpmt1r", "RLfasc2l"],
+	["Rbumpmt1r", "RLfasc4r"],
+
+	["Rbumpmt2l", "RLfasc3l"],
+	["Rbumpmt2l", "RLfasc4r"],
+	["Rbumpmt2l", "RLfasc2l"],
+
+	["Rbumpmt2r", "RLfasc3r"],
+	["Rbumpmt2r", "RLfasc4l"],
+	["Rbumpmt2r", "RLfasc2r"],
+
+	["Rbumpmtrig", "RLfasc2l"],
+	["Rbumpmtrig", "RLfasc1r"],
+	["Rbumpmtrig", "RLfasc4l"],
+	["Rbumpmtrig", "RLfasc3r"],
+
+
+	//right
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_R_break"},
+	
+	["Rbumpmt1l", "RRfasc1l"],
+	["Rbumpmt1l", "RRfasc2r"],
+	["Rbumpmt1l", "RRfasc4l"],
+
+	["Rbumpmt1r", "RRfasc1r"],
+	["Rbumpmt1r", "RRfasc2l"],
+	["Rbumpmt1r", "RRfasc4r"],
+
+	["Rbumpmt2l", "RRfasc3l"],
+	["Rbumpmt2l", "RRfasc4r"],
+	["Rbumpmt2l", "RRfasc2l"],
+
+	["Rbumpmt2r", "RRfasc3r"],
+	["Rbumpmt2r", "RRfasc4l"],
+	["Rbumpmt2r", "RRfasc2r"],
+
+	["Rbumpmtrig", "RRfasc2l"],
+	["Rbumpmtrig", "RRfasc1r"],
+	["Rbumpmtrig", "RRfasc4l"],
+	["Rbumpmtrig", "RRfasc3r"],
+
+	
+	//support to left
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+	{"breakGroup":"wheeliebar_support_mount_L_break"},
+
+	["whbarsuppmtL1l", "Rbumpmt1l"],
+	["whbarsuppmtL1l", "Rbumpmt1r"],
+	["whbarsuppmtL1l", "Rbumpmt2l"],
+	["whbarsuppmtL1l", "Rbumpmtrig"],
+
+	["whbarsuppmtL1r", "Rbumpmt1l"],
+	["whbarsuppmtL1r", "Rbumpmt1r"],
+	["whbarsuppmtL1r", "Rbumpmt2l"],
+	["whbarsuppmtL1r", "Rbumpmtrig"],
+
+	["whbarsuppmtL2l", "Rbumpmt1l"],
+	["whbarsuppmtL2l", "Rbumpmt2r"],
+	["whbarsuppmtL2l", "Rbumpmt2l"],
+	["whbarsuppmtL2l", "Rbumpmtrig"],
+
+	["whbarsuppmtL2r", "Rbumpmt1l"],
+	["whbarsuppmtL2r", "Rbumpmt2r"],
+	["whbarsuppmtL2r", "Rbumpmt2l"],
+	["whbarsuppmtL2r", "Rbumpmtrig"],
+
+	["whbarsuppmtL3l", "Rbumpmt1l"],
+	["whbarsuppmtL3l", "Rbumpmt1r"],
+	["whbarsuppmtL3l", "Rbumpmt2l"],
+	["whbarsuppmtL3l", "Rbumpmtrig"],
+
+	["whbarsuppmtL3r", "Rbumpmt1l"],
+	["whbarsuppmtL3r", "Rbumpmt1r"],
+	["whbarsuppmtL3r", "Rbumpmt2l"],
+	["whbarsuppmtL3r", "Rbumpmtrig"],
+	
+	
+	//support to right
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+	{"breakGroup":"wheeliebar_support_mount_R_break"},
+
+	["whbarsuppmtR1l", "Rbumpmt1l"],
+	["whbarsuppmtR1l", "Rbumpmt1r"],
+	["whbarsuppmtR1l", "Rbumpmt2r"],
+	["whbarsuppmtR1l", "Rbumpmtrig"],
+
+	["whbarsuppmtR1r", "Rbumpmt1l"],
+	["whbarsuppmtR1r", "Rbumpmt1r"],
+	["whbarsuppmtR1r", "Rbumpmt2r"],
+	["whbarsuppmtR1r", "Rbumpmtrig"],
+
+	["whbarsuppmtR2l", "Rbumpmt1r"],
+	["whbarsuppmtR2l", "Rbumpmt2r"],
+	["whbarsuppmtR2l", "Rbumpmt2l"],
+	["whbarsuppmtR2l", "Rbumpmtrig"],
+
+	["whbarsuppmtR2r", "Rbumpmt1r"],
+	["whbarsuppmtR2r", "Rbumpmt2r"],
+	["whbarsuppmtR2r", "Rbumpmt2l"],
+	["whbarsuppmtR2r", "Rbumpmtrig"],
+
+	["whbarsuppmtR3l", "Rbumpmt1l"],
+	["whbarsuppmtR3l", "Rbumpmt1r"],
+	["whbarsuppmtR3l", "Rbumpmt2r"],
+	["whbarsuppmtR3l", "Rbumpmtrig"],
+
+	["whbarsuppmtR3r", "Rbumpmt1l"],
+	["whbarsuppmtR3r", "Rbumpmt1r"],
+	["whbarsuppmtR3r", "Rbumpmt2r"],
+	["whbarsuppmtR3r", "Rbumpmtrig"],
+
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-WOBBLE--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["sptpan1l", "Rbumpmt1l"],
+	["sptpan1r", "Rbumpmt1l"],
+	["sptpan3l", "Rbumpmt1l"],
+	["sptpan3r", "Rbumpmt1l"],
+
+	["sptpan1l", "Rbumpmt2l"],
+	["sptpan1r", "Rbumpmt2l"],
+	["sptpan3l", "Rbumpmt2l"],
+	["sptpan3r", "Rbumpmt2l"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+		
+        {"group":"legocar_wheeliebar_support_mount_L"},
+	["whbarsuppmtL1r","whbarsuppmtL2r","whbarsuppmtL3r"],
+	["whbarsuppmtL1l","whbarsuppmtL3l","whbarsuppmtL2l"],
+	
+	{"group":"legocar_wheeliebar_support_mount_R"},
+	["whbarsuppmtR1r","whbarsuppmtR2r","whbarsuppmtR3r"],
+	["whbarsuppmtR1l","whbarsuppmtR3l","whbarsuppmtR2l"],
+	
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_bumpermount_R"},
+	["Rbumpmt1l","Rbumpmt1r","Rbumpmt2r","Rbumpmt2l"],
+
+	{"group":"legocar_wheeliebar_support_mount_L"},
+	["whbarsuppmtL1r","whbarsuppmtL1l","whbarsuppmtL2l","whbarsuppmtL2r"],
+	["whbarsuppmtL2r","whbarsuppmtL2l","whbarsuppmtL3l","whbarsuppmtL3r"],
+	["whbarsuppmtL3r","whbarsuppmtL3l","whbarsuppmtL1l","whbarsuppmtL1r"],
+	
+	{"group":"legocar_wheeliebar_support_mount_R"},
+	["whbarsuppmtR1r","whbarsuppmtR1l","whbarsuppmtR2l","whbarsuppmtR2r"],
+	["whbarsuppmtR2r","whbarsuppmtR2l","whbarsuppmtR3l","whbarsuppmtR3r"],
+	["whbarsuppmtR3r","whbarsuppmtR3l","whbarsuppmtR1l","whbarsuppmtR1r"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_wheeliebar_support_mount_col2": {
+    "information":{
+        "name":"Wheelie Bar Support Mount (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhaust",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_wheeliebar_support", "legocar_wheeliebar_support", "Wheelie Bar Support Bars"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_col2", ["legocar_bumpermount_R"], [], {"pos":{"x":0.000, "y":1.750, "z":0.225},"rot":{"x":-90, "y":0, "z":90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+	["legocar_wheeliebar_support_mount_L", ["wheeliebar_support_mount_L"]],
+	["legocar_wheeliebar_support_mount_R", ["wheeliebar_support_mount_R"]],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//bumper mount
+	{"group":"legocar_bumpermount_R"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Rbumpmt1l",  0.75, 1.80, 0.10],
+	["Rbumpmt1r", -0.75, 1.80, 0.10],
+	["Rbumpmt2l",  0.75, 1.80, 0.35],
+	["Rbumpmt2r", -0.75, 1.80, 0.35],
+	//rigidifier
+	["Rbumpmtrig", 0.00, 1.35, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+
+	//wheelie bar support mounts
+	//2 pieces, 2 half pieces, 6 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+
+	{"group":"wheeliebar_support_mount_L"},
+	["whbarsuppmtL1l", 0.50, 1.85, 0.10],
+	["whbarsuppmtL1r", 0.02, 1.85, 0.10],
+	["whbarsuppmtL2l", 0.50, 1.85, 0.35],
+	["whbarsuppmtL2r", 0.02, 1.85, 0.35],
+	["whbarsuppmtL3l", 0.50, 2.20, 0.15],
+	["whbarsuppmtL3r", 0.02, 2.20, 0.15],
+	
+	{"group":"wheeliebar_support_mount_R"},
+	["whbarsuppmtR1r", -0.50, 1.85, 0.10],
+	["whbarsuppmtR1l", -0.02, 1.85, 0.10],
+	["whbarsuppmtR2r", -0.50, 1.85, 0.35],
+	["whbarsuppmtR2l", -0.02, 1.85, 0.35],
+	["whbarsuppmtR3r", -0.50, 2.20, 0.15],
+	["whbarsuppmtR3l", -0.02, 2.20, 0.15],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Rbumpmt1l", "Rbumpmt1r"],
+	["Rbumpmt2l", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2l"],
+	["Rbumpmt1r", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2r"],
+	["Rbumpmt2l", "Rbumpmt1r"],
+
+	//rigidifier
+	["Rbumpmt1l", "Rbumpmtrig"],
+	["Rbumpmt1r", "Rbumpmtrig"],
+	["Rbumpmt2l", "Rbumpmtrig"],
+	["Rbumpmt2r", "Rbumpmtrig"],
+
+
+	//--WHEELIE BAR SUPPORT MOUNTS--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//left uniform structure
+	["whbarsuppmtL1l", "whbarsuppmtL1r"],
+	["whbarsuppmtL2l", "whbarsuppmtL2r"],
+	["whbarsuppmtL3l", "whbarsuppmtL3r", {"breakGroup":"wheeliebar_support_L_hinge_break", "disableMeshBreaking":true,"disableTriangleBreaking":true}],
+
+	["whbarsuppmtL2l", "whbarsuppmtL1l"],
+	["whbarsuppmtL2r", "whbarsuppmtL1r"],
+	["whbarsuppmtL2l", "whbarsuppmtL3l"],
+	["whbarsuppmtL2r", "whbarsuppmtL3r"],
+	["whbarsuppmtL3l", "whbarsuppmtL1l"],
+	["whbarsuppmtL3r", "whbarsuppmtL1r"],
+
+	["whbarsuppmtL1l", "whbarsuppmtL2r"],
+	["whbarsuppmtL2l", "whbarsuppmtL1r"],
+	["whbarsuppmtL2l", "whbarsuppmtL3r"],
+	["whbarsuppmtL3l", "whbarsuppmtL2r"],
+	["whbarsuppmtL3l", "whbarsuppmtL1r"],
+	["whbarsuppmtL1l", "whbarsuppmtL3r"],
+	
+	//right uniform structure
+	["whbarsuppmtR1l", "whbarsuppmtR1r"],
+	["whbarsuppmtR2l", "whbarsuppmtR2r"],
+	["whbarsuppmtR3l", "whbarsuppmtR3r", {"breakGroup":"wheeliebar_support_R_hinge_break", "disableMeshBreaking":true,"disableTriangleBreaking":true}],
+
+	["whbarsuppmtR2l", "whbarsuppmtR1l"],
+	["whbarsuppmtR2r", "whbarsuppmtR1r"],
+	["whbarsuppmtR2l", "whbarsuppmtR3l"],
+	["whbarsuppmtR2r", "whbarsuppmtR3r"],
+	["whbarsuppmtR3l", "whbarsuppmtR1l"],
+	["whbarsuppmtR3r", "whbarsuppmtR1r"],
+
+	["whbarsuppmtR1l", "whbarsuppmtR2r"],
+	["whbarsuppmtR2l", "whbarsuppmtR1r"],
+	["whbarsuppmtR2l", "whbarsuppmtR3r"],
+	["whbarsuppmtR3l", "whbarsuppmtR2r"],
+	["whbarsuppmtR3l", "whbarsuppmtR1r"],
+	["whbarsuppmtR1l", "whbarsuppmtR3r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"optional":true},
+
+
+	//left
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_L_break"},
+	
+	["Rbumpmt1l", "RLfasc1l"],
+	["Rbumpmt1l", "RLfasc2r"],
+	["Rbumpmt1l", "RLfasc4l"],
+
+	["Rbumpmt1r", "RLfasc1r"],
+	["Rbumpmt1r", "RLfasc2l"],
+	["Rbumpmt1r", "RLfasc4r"],
+
+	["Rbumpmt2l", "RLfasc3l"],
+	["Rbumpmt2l", "RLfasc4r"],
+	["Rbumpmt2l", "RLfasc2l"],
+
+	["Rbumpmt2r", "RLfasc3r"],
+	["Rbumpmt2r", "RLfasc4l"],
+	["Rbumpmt2r", "RLfasc2r"],
+
+	["Rbumpmtrig", "RLfasc2l"],
+	["Rbumpmtrig", "RLfasc1r"],
+	["Rbumpmtrig", "RLfasc4l"],
+	["Rbumpmtrig", "RLfasc3r"],
+
+
+	//right
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_R_break"},
+	
+	["Rbumpmt1l", "RRfasc1l"],
+	["Rbumpmt1l", "RRfasc2r"],
+	["Rbumpmt1l", "RRfasc4l"],
+
+	["Rbumpmt1r", "RRfasc1r"],
+	["Rbumpmt1r", "RRfasc2l"],
+	["Rbumpmt1r", "RRfasc4r"],
+
+	["Rbumpmt2l", "RRfasc3l"],
+	["Rbumpmt2l", "RRfasc4r"],
+	["Rbumpmt2l", "RRfasc2l"],
+
+	["Rbumpmt2r", "RRfasc3r"],
+	["Rbumpmt2r", "RRfasc4l"],
+	["Rbumpmt2r", "RRfasc2r"],
+
+	["Rbumpmtrig", "RRfasc2l"],
+	["Rbumpmtrig", "RRfasc1r"],
+	["Rbumpmtrig", "RRfasc4l"],
+	["Rbumpmtrig", "RRfasc3r"],
+
+	
+	//support to left
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+	{"breakGroup":"wheeliebar_support_mount_L_break"},
+
+	["whbarsuppmtL1l", "Rbumpmt1l"],
+	["whbarsuppmtL1l", "Rbumpmt1r"],
+	["whbarsuppmtL1l", "Rbumpmt2l"],
+	["whbarsuppmtL1l", "Rbumpmtrig"],
+
+	["whbarsuppmtL1r", "Rbumpmt1l"],
+	["whbarsuppmtL1r", "Rbumpmt1r"],
+	["whbarsuppmtL1r", "Rbumpmt2l"],
+	["whbarsuppmtL1r", "Rbumpmtrig"],
+
+	["whbarsuppmtL2l", "Rbumpmt1l"],
+	["whbarsuppmtL2l", "Rbumpmt2r"],
+	["whbarsuppmtL2l", "Rbumpmt2l"],
+	["whbarsuppmtL2l", "Rbumpmtrig"],
+
+	["whbarsuppmtL2r", "Rbumpmt1l"],
+	["whbarsuppmtL2r", "Rbumpmt2r"],
+	["whbarsuppmtL2r", "Rbumpmt2l"],
+	["whbarsuppmtL2r", "Rbumpmtrig"],
+
+	["whbarsuppmtL3l", "Rbumpmt1l"],
+	["whbarsuppmtL3l", "Rbumpmt1r"],
+	["whbarsuppmtL3l", "Rbumpmt2l"],
+	["whbarsuppmtL3l", "Rbumpmtrig"],
+
+	["whbarsuppmtL3r", "Rbumpmt1l"],
+	["whbarsuppmtL3r", "Rbumpmt1r"],
+	["whbarsuppmtL3r", "Rbumpmt2l"],
+	["whbarsuppmtL3r", "Rbumpmtrig"],
+	
+	
+	//support to right
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+	{"breakGroup":"wheeliebar_support_mount_R_break"},
+
+	["whbarsuppmtR1l", "Rbumpmt1l"],
+	["whbarsuppmtR1l", "Rbumpmt1r"],
+	["whbarsuppmtR1l", "Rbumpmt2r"],
+	["whbarsuppmtR1l", "Rbumpmtrig"],
+
+	["whbarsuppmtR1r", "Rbumpmt1l"],
+	["whbarsuppmtR1r", "Rbumpmt1r"],
+	["whbarsuppmtR1r", "Rbumpmt2r"],
+	["whbarsuppmtR1r", "Rbumpmtrig"],
+
+	["whbarsuppmtR2l", "Rbumpmt1r"],
+	["whbarsuppmtR2l", "Rbumpmt2r"],
+	["whbarsuppmtR2l", "Rbumpmt2l"],
+	["whbarsuppmtR2l", "Rbumpmtrig"],
+
+	["whbarsuppmtR2r", "Rbumpmt1r"],
+	["whbarsuppmtR2r", "Rbumpmt2r"],
+	["whbarsuppmtR2r", "Rbumpmt2l"],
+	["whbarsuppmtR2r", "Rbumpmtrig"],
+
+	["whbarsuppmtR3l", "Rbumpmt1l"],
+	["whbarsuppmtR3l", "Rbumpmt1r"],
+	["whbarsuppmtR3l", "Rbumpmt2r"],
+	["whbarsuppmtR3l", "Rbumpmtrig"],
+
+	["whbarsuppmtR3r", "Rbumpmt1l"],
+	["whbarsuppmtR3r", "Rbumpmt1r"],
+	["whbarsuppmtR3r", "Rbumpmt2r"],
+	["whbarsuppmtR3r", "Rbumpmtrig"],
+
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-WOBBLE--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["sptpan1l", "Rbumpmt1l"],
+	["sptpan1r", "Rbumpmt1l"],
+	["sptpan3l", "Rbumpmt1l"],
+	["sptpan3r", "Rbumpmt1l"],
+
+	["sptpan1l", "Rbumpmt2l"],
+	["sptpan1r", "Rbumpmt2l"],
+	["sptpan3l", "Rbumpmt2l"],
+	["sptpan3r", "Rbumpmt2l"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+		
+        {"group":"legocar_wheeliebar_support_mount_L"},
+	["whbarsuppmtL1r","whbarsuppmtL2r","whbarsuppmtL3r"],
+	["whbarsuppmtL1l","whbarsuppmtL3l","whbarsuppmtL2l"],
+	
+	{"group":"legocar_wheeliebar_support_mount_R"},
+	["whbarsuppmtR1r","whbarsuppmtR2r","whbarsuppmtR3r"],
+	["whbarsuppmtR1l","whbarsuppmtR3l","whbarsuppmtR2l"],
+	
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_bumpermount_R"},
+	["Rbumpmt1l","Rbumpmt1r","Rbumpmt2r","Rbumpmt2l"],
+
+	{"group":"legocar_wheeliebar_support_mount_L"},
+	["whbarsuppmtL1r","whbarsuppmtL1l","whbarsuppmtL2l","whbarsuppmtL2r"],
+	["whbarsuppmtL2r","whbarsuppmtL2l","whbarsuppmtL3l","whbarsuppmtL3r"],
+	["whbarsuppmtL3r","whbarsuppmtL3l","whbarsuppmtL1l","whbarsuppmtL1r"],
+	
+	{"group":"legocar_wheeliebar_support_mount_R"},
+	["whbarsuppmtR1r","whbarsuppmtR1l","whbarsuppmtR2l","whbarsuppmtR2r"],
+	["whbarsuppmtR2r","whbarsuppmtR2l","whbarsuppmtR3l","whbarsuppmtR3r"],
+	["whbarsuppmtR3r","whbarsuppmtR3l","whbarsuppmtR1l","whbarsuppmtR1r"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_wheeliebar_support_mount_col3": {
+    "information":{
+        "name":"Wheelie Bar Support Mount (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_exhaust",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_wheeliebar_support", "legocar_wheeliebar_support", "Wheelie Bar Support Bars"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_col3", ["legocar_bumpermount_R"], [], {"pos":{"x":0.000, "y":1.750, "z":0.225},"rot":{"x":-90, "y":0, "z":90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+	["legocar_wheeliebar_support_mount_L", ["wheeliebar_support_mount_L"]],
+	["legocar_wheeliebar_support_mount_R", ["wheeliebar_support_mount_R"]],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//bumper mount
+	{"group":"legocar_bumpermount_R"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Rbumpmt1l",  0.75, 1.80, 0.10],
+	["Rbumpmt1r", -0.75, 1.80, 0.10],
+	["Rbumpmt2l",  0.75, 1.80, 0.35],
+	["Rbumpmt2r", -0.75, 1.80, 0.35],
+	//rigidifier
+	["Rbumpmtrig", 0.00, 1.35, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+
+
+	//wheelie bar support mounts
+	//2 pieces, 2 half pieces, 6 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+
+	{"group":"wheeliebar_support_mount_L"},
+	["whbarsuppmtL1l", 0.50, 1.85, 0.10],
+	["whbarsuppmtL1r", 0.02, 1.85, 0.10],
+	["whbarsuppmtL2l", 0.50, 1.85, 0.35],
+	["whbarsuppmtL2r", 0.02, 1.85, 0.35],
+	["whbarsuppmtL3l", 0.50, 2.20, 0.15],
+	["whbarsuppmtL3r", 0.02, 2.20, 0.15],
+	
+	{"group":"wheeliebar_support_mount_R"},
+	["whbarsuppmtR1r", -0.50, 1.85, 0.10],
+	["whbarsuppmtR1l", -0.02, 1.85, 0.10],
+	["whbarsuppmtR2r", -0.50, 1.85, 0.35],
+	["whbarsuppmtR2l", -0.02, 1.85, 0.35],
+	["whbarsuppmtR3r", -0.50, 2.20, 0.15],
+	["whbarsuppmtR3l", -0.02, 2.20, 0.15],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--REAR BUMPER MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Rbumpmt1l", "Rbumpmt1r"],
+	["Rbumpmt2l", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2l"],
+	["Rbumpmt1r", "Rbumpmt2r"],
+	["Rbumpmt1l", "Rbumpmt2r"],
+	["Rbumpmt2l", "Rbumpmt1r"],
+
+	//rigidifier
+	["Rbumpmt1l", "Rbumpmtrig"],
+	["Rbumpmt1r", "Rbumpmtrig"],
+	["Rbumpmt2l", "Rbumpmtrig"],
+	["Rbumpmt2r", "Rbumpmtrig"],
+
+
+	//--WHEELIE BAR SUPPORT MOUNTS--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//left uniform structure
+	["whbarsuppmtL1l", "whbarsuppmtL1r"],
+	["whbarsuppmtL2l", "whbarsuppmtL2r"],
+	["whbarsuppmtL3l", "whbarsuppmtL3r", {"breakGroup":"wheeliebar_support_L_hinge_break", "disableMeshBreaking":true,"disableTriangleBreaking":true}],
+
+	["whbarsuppmtL2l", "whbarsuppmtL1l"],
+	["whbarsuppmtL2r", "whbarsuppmtL1r"],
+	["whbarsuppmtL2l", "whbarsuppmtL3l"],
+	["whbarsuppmtL2r", "whbarsuppmtL3r"],
+	["whbarsuppmtL3l", "whbarsuppmtL1l"],
+	["whbarsuppmtL3r", "whbarsuppmtL1r"],
+
+	["whbarsuppmtL1l", "whbarsuppmtL2r"],
+	["whbarsuppmtL2l", "whbarsuppmtL1r"],
+	["whbarsuppmtL2l", "whbarsuppmtL3r"],
+	["whbarsuppmtL3l", "whbarsuppmtL2r"],
+	["whbarsuppmtL3l", "whbarsuppmtL1r"],
+	["whbarsuppmtL1l", "whbarsuppmtL3r"],
+	
+	//right uniform structure
+	["whbarsuppmtR1l", "whbarsuppmtR1r"],
+	["whbarsuppmtR2l", "whbarsuppmtR2r"],
+	["whbarsuppmtR3l", "whbarsuppmtR3r", {"breakGroup":"wheeliebar_support_R_hinge_break", "disableMeshBreaking":true,"disableTriangleBreaking":true}],
+
+	["whbarsuppmtR2l", "whbarsuppmtR1l"],
+	["whbarsuppmtR2r", "whbarsuppmtR1r"],
+	["whbarsuppmtR2l", "whbarsuppmtR3l"],
+	["whbarsuppmtR2r", "whbarsuppmtR3r"],
+	["whbarsuppmtR3l", "whbarsuppmtR1l"],
+	["whbarsuppmtR3r", "whbarsuppmtR1r"],
+
+	["whbarsuppmtR1l", "whbarsuppmtR2r"],
+	["whbarsuppmtR2l", "whbarsuppmtR1r"],
+	["whbarsuppmtR2l", "whbarsuppmtR3r"],
+	["whbarsuppmtR3l", "whbarsuppmtR2r"],
+	["whbarsuppmtR3l", "whbarsuppmtR1r"],
+	["whbarsuppmtR1l", "whbarsuppmtR3r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"optional":true},
+
+
+	//left
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_L_break"},
+	
+	["Rbumpmt1l", "RLfasc1l"],
+	["Rbumpmt1l", "RLfasc2r"],
+	["Rbumpmt1l", "RLfasc4l"],
+
+	["Rbumpmt1r", "RLfasc1r"],
+	["Rbumpmt1r", "RLfasc2l"],
+	["Rbumpmt1r", "RLfasc4r"],
+
+	["Rbumpmt2l", "RLfasc3l"],
+	["Rbumpmt2l", "RLfasc4r"],
+	["Rbumpmt2l", "RLfasc2l"],
+
+	["Rbumpmt2r", "RLfasc3r"],
+	["Rbumpmt2r", "RLfasc4l"],
+	["Rbumpmt2r", "RLfasc2r"],
+
+	["Rbumpmtrig", "RLfasc2l"],
+	["Rbumpmtrig", "RLfasc1r"],
+	["Rbumpmtrig", "RLfasc4l"],
+	["Rbumpmtrig", "RLfasc3r"],
+
+
+	//right
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"bumpermount_R_R_break"},
+	
+	["Rbumpmt1l", "RRfasc1l"],
+	["Rbumpmt1l", "RRfasc2r"],
+	["Rbumpmt1l", "RRfasc4l"],
+
+	["Rbumpmt1r", "RRfasc1r"],
+	["Rbumpmt1r", "RRfasc2l"],
+	["Rbumpmt1r", "RRfasc4r"],
+
+	["Rbumpmt2l", "RRfasc3l"],
+	["Rbumpmt2l", "RRfasc4r"],
+	["Rbumpmt2l", "RRfasc2l"],
+
+	["Rbumpmt2r", "RRfasc3r"],
+	["Rbumpmt2r", "RRfasc4l"],
+	["Rbumpmt2r", "RRfasc2r"],
+
+	["Rbumpmtrig", "RRfasc2l"],
+	["Rbumpmtrig", "RRfasc1r"],
+	["Rbumpmtrig", "RRfasc4l"],
+	["Rbumpmtrig", "RRfasc3r"],
+
+	
+	//support to left
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+	{"breakGroup":"wheeliebar_support_mount_L_break"},
+
+	["whbarsuppmtL1l", "Rbumpmt1l"],
+	["whbarsuppmtL1l", "Rbumpmt1r"],
+	["whbarsuppmtL1l", "Rbumpmt2l"],
+	["whbarsuppmtL1l", "Rbumpmtrig"],
+
+	["whbarsuppmtL1r", "Rbumpmt1l"],
+	["whbarsuppmtL1r", "Rbumpmt1r"],
+	["whbarsuppmtL1r", "Rbumpmt2l"],
+	["whbarsuppmtL1r", "Rbumpmtrig"],
+
+	["whbarsuppmtL2l", "Rbumpmt1l"],
+	["whbarsuppmtL2l", "Rbumpmt2r"],
+	["whbarsuppmtL2l", "Rbumpmt2l"],
+	["whbarsuppmtL2l", "Rbumpmtrig"],
+
+	["whbarsuppmtL2r", "Rbumpmt1l"],
+	["whbarsuppmtL2r", "Rbumpmt2r"],
+	["whbarsuppmtL2r", "Rbumpmt2l"],
+	["whbarsuppmtL2r", "Rbumpmtrig"],
+
+	["whbarsuppmtL3l", "Rbumpmt1l"],
+	["whbarsuppmtL3l", "Rbumpmt1r"],
+	["whbarsuppmtL3l", "Rbumpmt2l"],
+	["whbarsuppmtL3l", "Rbumpmtrig"],
+
+	["whbarsuppmtL3r", "Rbumpmt1l"],
+	["whbarsuppmtL3r", "Rbumpmt1r"],
+	["whbarsuppmtL3r", "Rbumpmt2l"],
+	["whbarsuppmtL3r", "Rbumpmtrig"],
+	
+	
+	//support to right
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+	{"breakGroup":"wheeliebar_support_mount_R_break"},
+
+	["whbarsuppmtR1l", "Rbumpmt1l"],
+	["whbarsuppmtR1l", "Rbumpmt1r"],
+	["whbarsuppmtR1l", "Rbumpmt2r"],
+	["whbarsuppmtR1l", "Rbumpmtrig"],
+
+	["whbarsuppmtR1r", "Rbumpmt1l"],
+	["whbarsuppmtR1r", "Rbumpmt1r"],
+	["whbarsuppmtR1r", "Rbumpmt2r"],
+	["whbarsuppmtR1r", "Rbumpmtrig"],
+
+	["whbarsuppmtR2l", "Rbumpmt1r"],
+	["whbarsuppmtR2l", "Rbumpmt2r"],
+	["whbarsuppmtR2l", "Rbumpmt2l"],
+	["whbarsuppmtR2l", "Rbumpmtrig"],
+
+	["whbarsuppmtR2r", "Rbumpmt1r"],
+	["whbarsuppmtR2r", "Rbumpmt2r"],
+	["whbarsuppmtR2r", "Rbumpmt2l"],
+	["whbarsuppmtR2r", "Rbumpmtrig"],
+
+	["whbarsuppmtR3l", "Rbumpmt1l"],
+	["whbarsuppmtR3l", "Rbumpmt1r"],
+	["whbarsuppmtR3l", "Rbumpmt2r"],
+	["whbarsuppmtR3l", "Rbumpmtrig"],
+
+	["whbarsuppmtR3r", "Rbumpmt1l"],
+	["whbarsuppmtR3r", "Rbumpmt1r"],
+	["whbarsuppmtR3r", "Rbumpmt2r"],
+	["whbarsuppmtR3r", "Rbumpmtrig"],
+
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-WOBBLE--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	["sptpan1l", "Rbumpmt1l"],
+	["sptpan1r", "Rbumpmt1l"],
+	["sptpan3l", "Rbumpmt1l"],
+	["sptpan3r", "Rbumpmt1l"],
+
+	["sptpan1l", "Rbumpmt2l"],
+	["sptpan1r", "Rbumpmt2l"],
+	["sptpan3l", "Rbumpmt2l"],
+	["sptpan3r", "Rbumpmt2l"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+		
+        {"group":"legocar_wheeliebar_support_mount_L"},
+	["whbarsuppmtL1r","whbarsuppmtL2r","whbarsuppmtL3r"],
+	["whbarsuppmtL1l","whbarsuppmtL3l","whbarsuppmtL2l"],
+	
+	{"group":"legocar_wheeliebar_support_mount_R"},
+	["whbarsuppmtR1r","whbarsuppmtR2r","whbarsuppmtR3r"],
+	["whbarsuppmtR1l","whbarsuppmtR3l","whbarsuppmtR2l"],
+	
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_bumpermount_R"},
+	["Rbumpmt1l","Rbumpmt1r","Rbumpmt2r","Rbumpmt2l"],
+
+	{"group":"legocar_wheeliebar_support_mount_L"},
+	["whbarsuppmtL1r","whbarsuppmtL1l","whbarsuppmtL2l","whbarsuppmtL2r"],
+	["whbarsuppmtL2r","whbarsuppmtL2l","whbarsuppmtL3l","whbarsuppmtL3r"],
+	["whbarsuppmtL3r","whbarsuppmtL3l","whbarsuppmtL1l","whbarsuppmtL1r"],
+	
+	{"group":"legocar_wheeliebar_support_mount_R"},
+	["whbarsuppmtR1r","whbarsuppmtR1l","whbarsuppmtR2l","whbarsuppmtR2r"],
+	["whbarsuppmtR2r","whbarsuppmtR2l","whbarsuppmtR3l","whbarsuppmtR3r"],
+	["whbarsuppmtR3r","whbarsuppmtR3l","whbarsuppmtR1l","whbarsuppmtR1r"],
+
+        {"group":""},
+    ],
+},
+
+}

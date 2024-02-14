@@ -1,0 +1,84 @@
+{
+"legocar_wheeliebar_wheels": {
+    "information":{
+        "name":"Wheelie Bar Wheels",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_wheeliebar_wheels",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_wheeliebar_wheel_L",["legocar_wheeliebar_wheel_L"]],
+	["legocar_wheeliebar_wheel_R",["legocar_wheeliebar_wheel_R"]],
+    ],
+    "powertrain" : [
+        ["type", "name", "inputName", "inputIndex"],
+        ["shaft", "wheeliebar_wheel_L", "", 1, {"connectedWheel":"wheeliebar_L", "breakTriggerBeam":"wheeliebar_wheel_L", "friction":0.01}],
+	["shaft", "wheeliebar_wheel_R", "", 1, {"connectedWheel":"wheeliebar_R", "breakTriggerBeam":"wheeliebar_wheel_R", "friction":0.01}],
+    ],
+    "pressureWheels": [
+            ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+
+	    //cancel out brake properties
+            {"brakeTorque":0},
+            {"parkingTorque":0},
+	    {"brakeSpring":0},
+            {"enableBrakeThermals":false},
+            {"brakeDiameter":false},
+            {"brakeMass":false},
+            {"brakeType":false},
+            {"rotorMaterial":false},
+            {"brakeVentingCoef":false},
+	    {"useDefaultBrakeInput":false},
+
+            //general settings
+            {"hubRadius":0.125},
+            {"wheelOffset":0.55},
+            {"hubWidth":0.05},
+            {"numRays":10},
+            {"hasTire":false},
+
+            //hub options
+            {"hubBeamSpring":"$=$weight*101000", "hubBeamDamp":"$=$weight*10"},
+            {"hubBeamDeform":"FLT_MAX", "hubBeamStrength":"FLT_MAX"},
+            {"hubNodeWeight":"$=$weight*0.1"},
+            {"hubNodeMaterial":"|NM_PLASTIC"},
+            {"hubFrictionCoef":0.8},
+
+            //wheelie bar wheels
+            {"propulsed":0},
+            {"brakeTorque":0},
+            {"parkingTorque":0},
+            {"selfCollision":true},
+            {"collision":true},
+
+	    //wheels
+            ["wheeliebar_L", "legocar_wheeliebar_wheel_L", "legocar_wheeliebar_wheel_L", "whbarBr", "whbarBl", 9999, "whbarB", 1, {"speedo":false}],
+	    ["wheeliebar_R", "legocar_wheeliebar_wheel_R", "legocar_wheeliebar_wheel_R", "whbarBl", "whbarBr", 9999, "whbarB", 1, {"speedo":false}],
+            
+	{"selfCollision":true},
+        {"axleBeams":[]},{"disableMeshBreaking":false,"disableTriangleBreaking":false},
+        {"hubcapBreakGroup":""},
+        {"hubcapGroup":""},
+        {"enableHubcaps":false},
+        {"enableTireLbeams":false},
+        {"enableTreadReinfBeams":false},
+        {"enableTireReinfBeams":false},
+        {"enableTreadReinfBeams":false},
+        {"enableTirePeripheryReinfBeams":false},
+        {"loadSensitivitySlope":""},
+        {"noLoadCoef":""},
+        {"fullLoadCoef":""},
+        {"frictionCoef":""},
+        {"slidingFrictionCoef":""},
+        {"softnessCoef":0.5},
+        {"treadCoef":1.0},
+	{"speedo":true},
+	{"useDefaultBrakeInput":true},
+
+	    {"propulsed":0},
+            {"hasTire":true},
+	    {"useDefaultBrakeInput":true},
+    ],
+},
+
+}

@@ -1,0 +1,536 @@
+{
+"legocar_rocker_L": {
+    "information":{
+        "name":"Left Rocker (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_rocker_L",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_door_L", "legocar_door_L", "Left Door"],
+	["legocar_bpillar_L", "legocar_bpillar_L", "Left B-Pillar"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_upextender_col1",["legocar_rocker_L_upper"], [], {"pos":{"x":0.625, "y":0.0, "z":0.3},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":1.00, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--UPPER ROCKER--
+	{"group":"legocar_rocker_L_upper"},
+	//8 pieces, 12 nodes - 0.67 kg/node
+	{"nodeWeight": "$=$weight*0.67"},
+
+	["LrockT1l",  0.75, -0.50, 0.35],
+	["LrockT1r",  0.53, -0.50, 0.35],
+	["LrockT2l",  0.75,  0.50, 0.35],
+	["LrockT2r",  0.53,  0.50, 0.35],
+
+	["LrockT3l",  0.75, -0.50, 0.6],
+	["LrockT3r",  0.53, -0.50, 0.6],
+	["LrockT4l",  0.75,  0.50, 0.6],
+	["LrockT4r",  0.53,  0.50, 0.6],
+
+	["LrockT5l",  0.75, -0.75, 0.6],
+	["LrockT5r",  0.53, -0.75, 0.6],
+	["LrockT6l",  0.75,  0.75, 0.6],
+	["LrockT6r",  0.53,  0.75, 0.6],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--UPPER ROCKER--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*671000", "beamDamp":"$=$weight*67"},
+
+	//lower part
+	["LrockT1l", "LrockT1r"],
+	["LrockT2l", "LrockT2r"],
+	["LrockT1l", "LrockT2l"],
+	["LrockT1r", "LrockT2r"],
+	["LrockT1l", "LrockT2r"],
+	["LrockT2l", "LrockT1r"],
+
+	//upper part inside structure stiffening
+	["LrockT3l", "LrockT3r"],
+	["LrockT4l", "LrockT4r"],
+	["LrockT3l", "LrockT4l"],
+	["LrockT3r", "LrockT4r"],
+	["LrockT3l", "LrockT4r"],
+	["LrockT4l", "LrockT3r"],
+
+	//upper part inside to lower part
+	["LrockT3l", "LrockT1l"],
+	["LrockT3l", "LrockT1r"],
+	["LrockT3l", "LrockT2l"],
+	["LrockT3l", "LrockT2r"],
+
+	["LrockT3r", "LrockT1l"],
+	["LrockT3r", "LrockT1r"],
+	["LrockT3r", "LrockT2l"],
+	["LrockT3r", "LrockT2r"],
+
+	["LrockT4l", "LrockT1l"],
+	["LrockT4l", "LrockT1r"],
+	["LrockT4l", "LrockT2l"],
+	["LrockT4l", "LrockT2r"],
+
+	["LrockT4r", "LrockT1l"],
+	["LrockT4r", "LrockT1r"],
+	["LrockT4r", "LrockT2l"],
+	["LrockT4r", "LrockT2r"],
+
+	//upper part outside to inside
+	["LrockT5l", "LrockT5r"],
+	["LrockT6l", "LrockT6r"],
+	
+	["LrockT5l", "LrockT3l"],
+	["LrockT5r", "LrockT3r"],
+	["LrockT5l", "LrockT3r"],
+	["LrockT5r", "LrockT3l"],
+
+	["LrockT6l", "LrockT4l"],
+	["LrockT6r", "LrockT4r"],
+	["LrockT6l", "LrockT4r"],
+	["LrockT6r", "LrockT4l"],
+
+	//upper part outside to lower part
+	["LrockT5l", "LrockT1l"],
+	["LrockT5l", "LrockT1r"],
+	["LrockT5l", "LrockT2l"],
+	["LrockT5l", "LrockT2r"],
+
+	["LrockT5r", "LrockT1l"],
+	["LrockT5r", "LrockT1r"],
+	["LrockT5r", "LrockT2l"],
+	["LrockT5r", "LrockT2r"],
+
+	["LrockT6l", "LrockT1l"],
+	["LrockT6l", "LrockT1r"],
+	["LrockT6l", "LrockT2l"],
+	["LrockT6l", "LrockT2r"],
+
+	["LrockT6r", "LrockT1l"],
+	["LrockT6r", "LrockT1r"],
+	["LrockT6r", "LrockT2l"],
+	["LrockT6r", "LrockT2r"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"Lrocker_break"},
+
+	["LrockT3l", "LrockB1l"],
+	["LrockT3l", "LrockB1r"],
+	["LrockT3l", "LrockB2l"],
+
+	["LrockT3r", "LrockB1r"],
+	["LrockT3r", "LrockB1l"],
+	["LrockT3r", "LrockB2r"],
+
+	["LrockT4l", "LrockB2l"],
+	["LrockT4l", "LrockB2r"],
+	["LrockT4l", "LrockB1l"],
+
+	["LrockT4r", "LrockB2r"],
+	["LrockT4r", "LrockB2l"],
+	["LrockT4r", "LrockB1r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+        {"group":"legocar_rocker_L_upper"},
+	["LrockT1l","LrockT3l","LrockT5l"],
+	["LrockT1r","LrockT5r","LrockT3r"],
+	["LrockT2l","LrockT6l","LrockT4l"],
+	["LrockT2r","LrockT4r","LrockT6r"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_rocker_L_upper"},
+	["LrockT2l","LrockT2r","LrockT1r","LrockT1l"],
+	["LrockT3l","LrockT3r","LrockT5r","LrockT5l"],
+	["LrockT6l","LrockT6r","LrockT4r","LrockT4l"],
+	["LrockT1l","LrockT1r","LrockT3r","LrockT3l"],
+	["LrockT4l","LrockT4r","LrockT2r","LrockT2l"],
+	["LrockT5l","LrockT5r","LrockT1r","LrockT1l"],
+	["LrockT2l","LrockT2r","LrockT6r","LrockT6l"],
+
+	//breakable side collision quad
+	{"group":"Lrocker_break"},
+	{"breakGroup":"Lrocker_break"},
+	["LrockB1l","LrockB2l","LrockT2l","LrockT1l"],
+	{"breakGroup":""},
+        {"group":""},
+    ],
+},
+
+"legocar_rocker_L_col2": {
+    "information":{
+        "name":"Left Rocker (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_rocker_L",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_door_L", "legocar_door_L", "Left Door"],
+	["legocar_bpillar_L", "legocar_bpillar_L", "Left B-Pillar"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_upextender_col2",["legocar_rocker_L_upper"], [], {"pos":{"x":0.625, "y":0.0, "z":0.3},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":1.00, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--UPPER ROCKER--
+	{"group":"legocar_rocker_L_upper"},
+	//8 pieces, 12 nodes - 0.67 kg/node
+	{"nodeWeight": "$=$weight*0.67"},
+
+	["LrockT1l",  0.75, -0.50, 0.35],
+	["LrockT1r",  0.53, -0.50, 0.35],
+	["LrockT2l",  0.75,  0.50, 0.35],
+	["LrockT2r",  0.53,  0.50, 0.35],
+
+	["LrockT3l",  0.75, -0.50, 0.6],
+	["LrockT3r",  0.53, -0.50, 0.6],
+	["LrockT4l",  0.75,  0.50, 0.6],
+	["LrockT4r",  0.53,  0.50, 0.6],
+
+	["LrockT5l",  0.75, -0.75, 0.6],
+	["LrockT5r",  0.53, -0.75, 0.6],
+	["LrockT6l",  0.75,  0.75, 0.6],
+	["LrockT6r",  0.53,  0.75, 0.6],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--UPPER ROCKER--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*671000", "beamDamp":"$=$weight*67"},
+
+	//lower part
+	["LrockT1l", "LrockT1r"],
+	["LrockT2l", "LrockT2r"],
+	["LrockT1l", "LrockT2l"],
+	["LrockT1r", "LrockT2r"],
+	["LrockT1l", "LrockT2r"],
+	["LrockT2l", "LrockT1r"],
+
+	//upper part inside structure stiffening
+	["LrockT3l", "LrockT3r"],
+	["LrockT4l", "LrockT4r"],
+	["LrockT3l", "LrockT4l"],
+	["LrockT3r", "LrockT4r"],
+	["LrockT3l", "LrockT4r"],
+	["LrockT4l", "LrockT3r"],
+
+	//upper part inside to lower part
+	["LrockT3l", "LrockT1l"],
+	["LrockT3l", "LrockT1r"],
+	["LrockT3l", "LrockT2l"],
+	["LrockT3l", "LrockT2r"],
+
+	["LrockT3r", "LrockT1l"],
+	["LrockT3r", "LrockT1r"],
+	["LrockT3r", "LrockT2l"],
+	["LrockT3r", "LrockT2r"],
+
+	["LrockT4l", "LrockT1l"],
+	["LrockT4l", "LrockT1r"],
+	["LrockT4l", "LrockT2l"],
+	["LrockT4l", "LrockT2r"],
+
+	["LrockT4r", "LrockT1l"],
+	["LrockT4r", "LrockT1r"],
+	["LrockT4r", "LrockT2l"],
+	["LrockT4r", "LrockT2r"],
+
+	//upper part outside to inside
+	["LrockT5l", "LrockT5r"],
+	["LrockT6l", "LrockT6r"],
+	
+	["LrockT5l", "LrockT3l"],
+	["LrockT5r", "LrockT3r"],
+	["LrockT5l", "LrockT3r"],
+	["LrockT5r", "LrockT3l"],
+
+	["LrockT6l", "LrockT4l"],
+	["LrockT6r", "LrockT4r"],
+	["LrockT6l", "LrockT4r"],
+	["LrockT6r", "LrockT4l"],
+
+	//upper part outside to lower part
+	["LrockT5l", "LrockT1l"],
+	["LrockT5l", "LrockT1r"],
+	["LrockT5l", "LrockT2l"],
+	["LrockT5l", "LrockT2r"],
+
+	["LrockT5r", "LrockT1l"],
+	["LrockT5r", "LrockT1r"],
+	["LrockT5r", "LrockT2l"],
+	["LrockT5r", "LrockT2r"],
+
+	["LrockT6l", "LrockT1l"],
+	["LrockT6l", "LrockT1r"],
+	["LrockT6l", "LrockT2l"],
+	["LrockT6l", "LrockT2r"],
+
+	["LrockT6r", "LrockT1l"],
+	["LrockT6r", "LrockT1r"],
+	["LrockT6r", "LrockT2l"],
+	["LrockT6r", "LrockT2r"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"Lrocker_break"},
+
+	["LrockT3l", "LrockB1l"],
+	["LrockT3l", "LrockB1r"],
+	["LrockT3l", "LrockB2l"],
+
+	["LrockT3r", "LrockB1r"],
+	["LrockT3r", "LrockB1l"],
+	["LrockT3r", "LrockB2r"],
+
+	["LrockT4l", "LrockB2l"],
+	["LrockT4l", "LrockB2r"],
+	["LrockT4l", "LrockB1l"],
+
+	["LrockT4r", "LrockB2r"],
+	["LrockT4r", "LrockB2l"],
+	["LrockT4r", "LrockB1r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+        {"group":"legocar_rocker_L_upper"},
+	["LrockT1l","LrockT3l","LrockT5l"],
+	["LrockT1r","LrockT5r","LrockT3r"],
+	["LrockT2l","LrockT6l","LrockT4l"],
+	["LrockT2r","LrockT4r","LrockT6r"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_rocker_L_upper"},
+	["LrockT2l","LrockT2r","LrockT1r","LrockT1l"],
+	["LrockT3l","LrockT3r","LrockT5r","LrockT5l"],
+	["LrockT6l","LrockT6r","LrockT4r","LrockT4l"],
+	["LrockT1l","LrockT1r","LrockT3r","LrockT3l"],
+	["LrockT4l","LrockT4r","LrockT2r","LrockT2l"],
+	["LrockT5l","LrockT5r","LrockT1r","LrockT1l"],
+	["LrockT2l","LrockT2r","LrockT6r","LrockT6l"],
+
+	//breakable side collision quad
+	{"group":"Lrocker_break"},
+	{"breakGroup":"Lrocker_break"},
+	["LrockB1l","LrockB2l","LrockT2l","LrockT1l"],
+	{"breakGroup":""},
+        {"group":""},
+    ],
+},
+
+"legocar_rocker_L_col3": {
+    "information":{
+        "name":"Left Rocker (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_rocker_L",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_door_L", "legocar_door_L", "Left Door"],
+	["legocar_bpillar_L", "legocar_bpillar_L", "Left B-Pillar"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_upextender_col3",["legocar_rocker_L_upper"], [], {"pos":{"x":0.625, "y":0.0, "z":0.3},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":1.00, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--UPPER ROCKER--
+	{"group":"legocar_rocker_L_upper"},
+	//8 pieces, 12 nodes - 0.67 kg/node
+	{"nodeWeight": "$=$weight*0.67"},
+
+	["LrockT1l",  0.75, -0.50, 0.35],
+	["LrockT1r",  0.53, -0.50, 0.35],
+	["LrockT2l",  0.75,  0.50, 0.35],
+	["LrockT2r",  0.53,  0.50, 0.35],
+
+	["LrockT3l",  0.75, -0.50, 0.6],
+	["LrockT3r",  0.53, -0.50, 0.6],
+	["LrockT4l",  0.75,  0.50, 0.6],
+	["LrockT4r",  0.53,  0.50, 0.6],
+
+	["LrockT5l",  0.75, -0.75, 0.6],
+	["LrockT5r",  0.53, -0.75, 0.6],
+	["LrockT6l",  0.75,  0.75, 0.6],
+	["LrockT6r",  0.53,  0.75, 0.6],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--UPPER ROCKER--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*671000", "beamDamp":"$=$weight*67"},
+
+	//lower part
+	["LrockT1l", "LrockT1r"],
+	["LrockT2l", "LrockT2r"],
+	["LrockT1l", "LrockT2l"],
+	["LrockT1r", "LrockT2r"],
+	["LrockT1l", "LrockT2r"],
+	["LrockT2l", "LrockT1r"],
+
+	//upper part inside structure stiffening
+	["LrockT3l", "LrockT3r"],
+	["LrockT4l", "LrockT4r"],
+	["LrockT3l", "LrockT4l"],
+	["LrockT3r", "LrockT4r"],
+	["LrockT3l", "LrockT4r"],
+	["LrockT4l", "LrockT3r"],
+
+	//upper part inside to lower part
+	["LrockT3l", "LrockT1l"],
+	["LrockT3l", "LrockT1r"],
+	["LrockT3l", "LrockT2l"],
+	["LrockT3l", "LrockT2r"],
+
+	["LrockT3r", "LrockT1l"],
+	["LrockT3r", "LrockT1r"],
+	["LrockT3r", "LrockT2l"],
+	["LrockT3r", "LrockT2r"],
+
+	["LrockT4l", "LrockT1l"],
+	["LrockT4l", "LrockT1r"],
+	["LrockT4l", "LrockT2l"],
+	["LrockT4l", "LrockT2r"],
+
+	["LrockT4r", "LrockT1l"],
+	["LrockT4r", "LrockT1r"],
+	["LrockT4r", "LrockT2l"],
+	["LrockT4r", "LrockT2r"],
+
+	//upper part outside to inside
+	["LrockT5l", "LrockT5r"],
+	["LrockT6l", "LrockT6r"],
+	
+	["LrockT5l", "LrockT3l"],
+	["LrockT5r", "LrockT3r"],
+	["LrockT5l", "LrockT3r"],
+	["LrockT5r", "LrockT3l"],
+
+	["LrockT6l", "LrockT4l"],
+	["LrockT6r", "LrockT4r"],
+	["LrockT6l", "LrockT4r"],
+	["LrockT6r", "LrockT4l"],
+
+	//upper part outside to lower part
+	["LrockT5l", "LrockT1l"],
+	["LrockT5l", "LrockT1r"],
+	["LrockT5l", "LrockT2l"],
+	["LrockT5l", "LrockT2r"],
+
+	["LrockT5r", "LrockT1l"],
+	["LrockT5r", "LrockT1r"],
+	["LrockT5r", "LrockT2l"],
+	["LrockT5r", "LrockT2r"],
+
+	["LrockT6l", "LrockT1l"],
+	["LrockT6l", "LrockT1r"],
+	["LrockT6l", "LrockT2l"],
+	["LrockT6l", "LrockT2r"],
+
+	["LrockT6r", "LrockT1l"],
+	["LrockT6r", "LrockT1r"],
+	["LrockT6r", "LrockT2l"],
+	["LrockT6r", "LrockT2r"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"Lrocker_break"},
+
+	["LrockT3l", "LrockB1l"],
+	["LrockT3l", "LrockB1r"],
+	["LrockT3l", "LrockB2l"],
+
+	["LrockT3r", "LrockB1r"],
+	["LrockT3r", "LrockB1l"],
+	["LrockT3r", "LrockB2r"],
+
+	["LrockT4l", "LrockB2l"],
+	["LrockT4l", "LrockB2r"],
+	["LrockT4l", "LrockB1l"],
+
+	["LrockT4r", "LrockB2r"],
+	["LrockT4r", "LrockB2l"],
+	["LrockT4r", "LrockB1r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+        {"group":"legocar_rocker_L_upper"},
+	["LrockT1l","LrockT3l","LrockT5l"],
+	["LrockT1r","LrockT5r","LrockT3r"],
+	["LrockT2l","LrockT6l","LrockT4l"],
+	["LrockT2r","LrockT4r","LrockT6r"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_rocker_L_upper"},
+	["LrockT2l","LrockT2r","LrockT1r","LrockT1l"],
+	["LrockT3l","LrockT3r","LrockT5r","LrockT5l"],
+	["LrockT6l","LrockT6r","LrockT4r","LrockT4l"],
+	["LrockT1l","LrockT1r","LrockT3r","LrockT3l"],
+	["LrockT4l","LrockT4r","LrockT2r","LrockT2l"],
+	["LrockT5l","LrockT5r","LrockT1r","LrockT1l"],
+	["LrockT2l","LrockT2r","LrockT6r","LrockT6l"],
+
+	//breakable side collision quad
+	{"group":"Lrocker_break"},
+	{"breakGroup":"Lrocker_break"},
+	["LrockB1l","LrockB2l","LrockT2l","LrockT1l"],
+	{"breakGroup":""},
+        {"group":""},
+    ],
+},
+
+}

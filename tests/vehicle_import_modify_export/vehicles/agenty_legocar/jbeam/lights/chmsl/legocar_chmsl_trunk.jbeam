@@ -1,0 +1,679 @@
+{
+"legocar_trunk_chmsl": {
+    "information":{
+        "name":"Stock CHMSL",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_trunk_chmsl",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"chmsl_trunk_break", "deformMaterialBase":"legocar_chmsl_stock", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_chmsl_stock",["legocar_chmsl_trunk"],[], {"pos":{"x": 0.000, "y":1.875, "z":0.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightRange":8,
+            "lightColor":{"r":201, "g":26, "b":9, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleBrakeLightFlare",
+        },
+        ["brake",      "SPOTLIGHT", "trunkCHMSL1r", "trunkCHMSL2r", "trunkCHMSL1l",{"x":90, "y":-90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":1.1, "y":0.5, "z":0}, "flareScale":0.012,"lightBrightness":0.08, "deformGroup":"chmsl_trunk_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_chmsl_trunk"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["trunkCHMSL1l",  0.22, 1.75, 0.75],
+	["trunkCHMSL1r", -0.22, 1.75, 0.75],
+	["trunkCHMSL2l",  0.22, 1.97, 0.75],
+	["trunkCHMSL2r", -0.22, 1.97, 0.75],
+
+	//rigidifier
+	["trunkCHMSLrig", 0, 1.875, 0.5, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["trunkCHMSL1l", "trunkCHMSL1r"],
+	["trunkCHMSL2l", "trunkCHMSL2r"],
+	["trunkCHMSL1l", "trunkCHMSL2l"],
+	["trunkCHMSL1r", "trunkCHMSL2r"],
+	["trunkCHMSL1l", "trunkCHMSL2r"],
+	["trunkCHMSL2l", "trunkCHMSL1r"],
+
+	//rigidifier
+	["trunkCHMSL1l", "trunkCHMSLrig"],
+	["trunkCHMSL1r", "trunkCHMSLrig"],
+	["trunkCHMSL2l", "trunkCHMSLrig"],
+	["trunkCHMSL2r", "trunkCHMSLrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"chmsl_trunk_break"},
+	{"deformGroup":"chmsl_trunk_break"},
+
+	["trunkCHMSL1l", "trunkB1l"],
+	["trunkCHMSL1l", "trunkB2l"],
+	["trunkCHMSL1l", "trunkB1r"],
+	["trunkCHMSL1l", "trunkBrig"],
+
+	["trunkCHMSL1r", "trunkB1r"],
+	["trunkCHMSL1r", "trunkB2r"],
+	["trunkCHMSL1r", "trunkB1l"],
+	["trunkCHMSL1r", "trunkBrig"],
+
+	["trunkCHMSL2l", "trunkB2l"],
+	["trunkCHMSL2l", "trunkB1l"],
+	["trunkCHMSL2l", "trunkB2r"],
+	["trunkCHMSL2l", "trunkBrig"],
+
+	["trunkCHMSL2r", "trunkB2r"],
+	["trunkCHMSL2r", "trunkB1r"],
+	["trunkCHMSL2r", "trunkB2l"],
+	["trunkCHMSL2r", "trunkBrig"],
+
+	["trunkCHMSLrig", "trunkB1l"],
+	["trunkCHMSLrig", "trunkB2l"],
+	["trunkCHMSLrig", "trunkB1r"],
+	["trunkCHMSLrig", "trunkB2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_chmsl_trunk"},   
+	["trunkCHMSL1r","trunkCHMSL1l","trunkCHMSL2l","trunkCHMSL2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_trunk_chmsl_smoked": {
+    "information":{
+        "name":"Smoked CHMSL",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_trunk_chmsl",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"chmsl_trunk_break", "deformMaterialBase":"legocar_chmsl_smoked", "deformMaterialDamaged":"lego_transcol_dred"},
+	["legocar_chmsl_smoked",["legocar_chmsl_trunk"],[], {"pos":{"x": 0.000, "y":1.875, "z":0.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightRange":8,
+            "lightColor":{"r":100, "g":13, "b":5, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleBrakeLightFlare",
+        },
+        ["brake",      "SPOTLIGHT", "trunkCHMSL1r", "trunkCHMSL2r", "trunkCHMSL1l",{"x":90, "y":-90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":1.1, "y":0.5, "z":0}, "flareScale":0.012,"lightBrightness":0.04, "deformGroup":"chmsl_trunk_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_chmsl_trunk"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["trunkCHMSL1l",  0.22, 1.75, 0.75],
+	["trunkCHMSL1r", -0.22, 1.75, 0.75],
+	["trunkCHMSL2l",  0.22, 1.97, 0.75],
+	["trunkCHMSL2r", -0.22, 1.97, 0.75],
+
+	//rigidifier
+	["trunkCHMSLrig", 0, 1.875, 0.5, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["trunkCHMSL1l", "trunkCHMSL1r"],
+	["trunkCHMSL2l", "trunkCHMSL2r"],
+	["trunkCHMSL1l", "trunkCHMSL2l"],
+	["trunkCHMSL1r", "trunkCHMSL2r"],
+	["trunkCHMSL1l", "trunkCHMSL2r"],
+	["trunkCHMSL2l", "trunkCHMSL1r"],
+
+	//rigidifier
+	["trunkCHMSL1l", "trunkCHMSLrig"],
+	["trunkCHMSL1r", "trunkCHMSLrig"],
+	["trunkCHMSL2l", "trunkCHMSLrig"],
+	["trunkCHMSL2r", "trunkCHMSLrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"chmsl_trunk_break"},
+	{"deformGroup":"chmsl_trunk_break"},
+
+	["trunkCHMSL1l", "trunkB1l"],
+	["trunkCHMSL1l", "trunkB2l"],
+	["trunkCHMSL1l", "trunkB1r"],
+	["trunkCHMSL1l", "trunkBrig"],
+
+	["trunkCHMSL1r", "trunkB1r"],
+	["trunkCHMSL1r", "trunkB2r"],
+	["trunkCHMSL1r", "trunkB1l"],
+	["trunkCHMSL1r", "trunkBrig"],
+
+	["trunkCHMSL2l", "trunkB2l"],
+	["trunkCHMSL2l", "trunkB1l"],
+	["trunkCHMSL2l", "trunkB2r"],
+	["trunkCHMSL2l", "trunkBrig"],
+
+	["trunkCHMSL2r", "trunkB2r"],
+	["trunkCHMSL2r", "trunkB1r"],
+	["trunkCHMSL2r", "trunkB2l"],
+	["trunkCHMSL2r", "trunkBrig"],
+
+	["trunkCHMSLrig", "trunkB1l"],
+	["trunkCHMSLrig", "trunkB2l"],
+	["trunkCHMSLrig", "trunkB1r"],
+	["trunkCHMSLrig", "trunkB2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_chmsl_trunk"},   
+	["trunkCHMSL1r","trunkCHMSL1l","trunkCHMSL2l","trunkCHMSL2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_trunk_chmsl_clear": {
+    "information":{
+        "name":"Clear CHMSL",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_trunk_chmsl",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"chmsl_trunk_break", "deformMaterialBase":"legocar_chmsl_clear", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_chmsl_clear",["legocar_chmsl_trunk"],[], {"pos":{"x": 0.000, "y":1.875, "z":0.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightRange":8,
+            "lightColor":{"r":201, "g":26, "b":9, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleBrakeLightFlare",
+        },
+        ["brake",      "SPOTLIGHT", "trunkCHMSL1r", "trunkCHMSL2r", "trunkCHMSL1l",{"x":90, "y":-90, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":1.1, "y":0.5, "z":0}, "flareScale":0.012,"lightBrightness":0.08, "deformGroup":"chmsl_trunk_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_chmsl_trunk"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["trunkCHMSL1l",  0.22, 1.75, 0.75],
+	["trunkCHMSL1r", -0.22, 1.75, 0.75],
+	["trunkCHMSL2l",  0.22, 1.97, 0.75],
+	["trunkCHMSL2r", -0.22, 1.97, 0.75],
+
+	//rigidifier
+	["trunkCHMSLrig", 0, 1.875, 0.5, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["trunkCHMSL1l", "trunkCHMSL1r"],
+	["trunkCHMSL2l", "trunkCHMSL2r"],
+	["trunkCHMSL1l", "trunkCHMSL2l"],
+	["trunkCHMSL1r", "trunkCHMSL2r"],
+	["trunkCHMSL1l", "trunkCHMSL2r"],
+	["trunkCHMSL2l", "trunkCHMSL1r"],
+
+	//rigidifier
+	["trunkCHMSL1l", "trunkCHMSLrig"],
+	["trunkCHMSL1r", "trunkCHMSLrig"],
+	["trunkCHMSL2l", "trunkCHMSLrig"],
+	["trunkCHMSL2r", "trunkCHMSLrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"chmsl_trunk_break"},
+	{"deformGroup":"chmsl_trunk_break"},
+
+	["trunkCHMSL1l", "trunkB1l"],
+	["trunkCHMSL1l", "trunkB2l"],
+	["trunkCHMSL1l", "trunkB1r"],
+	["trunkCHMSL1l", "trunkBrig"],
+
+	["trunkCHMSL1r", "trunkB1r"],
+	["trunkCHMSL1r", "trunkB2r"],
+	["trunkCHMSL1r", "trunkB1l"],
+	["trunkCHMSL1r", "trunkBrig"],
+
+	["trunkCHMSL2l", "trunkB2l"],
+	["trunkCHMSL2l", "trunkB1l"],
+	["trunkCHMSL2l", "trunkB2r"],
+	["trunkCHMSL2l", "trunkBrig"],
+
+	["trunkCHMSL2r", "trunkB2r"],
+	["trunkCHMSL2r", "trunkB1r"],
+	["trunkCHMSL2r", "trunkB2l"],
+	["trunkCHMSL2r", "trunkBrig"],
+
+	["trunkCHMSLrig", "trunkB1l"],
+	["trunkCHMSLrig", "trunkB2l"],
+	["trunkCHMSLrig", "trunkB1r"],
+	["trunkCHMSLrig", "trunkB2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_chmsl_trunk"},   
+	["trunkCHMSL1r","trunkCHMSL1l","trunkCHMSL2l","trunkCHMSL2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_trunk_chmsl_filler": {
+    "information":{
+        "name":"Filler Panel",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_trunk_chmsl",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_trunk_B",["legocar_chmsl_trunk"],[], {"pos":{"x": 0.000, "y":1.875, "z":0.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_chmsl_trunk"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["trunkCHMSL1l",  0.22, 1.75, 0.75],
+	["trunkCHMSL1r", -0.22, 1.75, 0.75],
+	["trunkCHMSL2l",  0.22, 1.97, 0.75],
+	["trunkCHMSL2r", -0.22, 1.97, 0.75],
+
+	//rigidifier
+	["trunkCHMSLrig", 0, 1.875, 0.5, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["trunkCHMSL1l", "trunkCHMSL1r"],
+	["trunkCHMSL2l", "trunkCHMSL2r"],
+	["trunkCHMSL1l", "trunkCHMSL2l"],
+	["trunkCHMSL1r", "trunkCHMSL2r"],
+	["trunkCHMSL1l", "trunkCHMSL2r"],
+	["trunkCHMSL2l", "trunkCHMSL1r"],
+
+	//rigidifier
+	["trunkCHMSL1l", "trunkCHMSLrig"],
+	["trunkCHMSL1r", "trunkCHMSLrig"],
+	["trunkCHMSL2l", "trunkCHMSLrig"],
+	["trunkCHMSL2r", "trunkCHMSLrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to trunk
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"chmsl_trunk_break"},
+
+	["trunkCHMSL1l", "trunkB1l"],
+	["trunkCHMSL1l", "trunkB2l"],
+	["trunkCHMSL1l", "trunkB1r"],
+	["trunkCHMSL1l", "trunkBrig"],
+
+	["trunkCHMSL1r", "trunkB1r"],
+	["trunkCHMSL1r", "trunkB2r"],
+	["trunkCHMSL1r", "trunkB1l"],
+	["trunkCHMSL1r", "trunkBrig"],
+
+	["trunkCHMSL2l", "trunkB2l"],
+	["trunkCHMSL2l", "trunkB1l"],
+	["trunkCHMSL2l", "trunkB2r"],
+	["trunkCHMSL2l", "trunkBrig"],
+
+	["trunkCHMSL2r", "trunkB2r"],
+	["trunkCHMSL2r", "trunkB1r"],
+	["trunkCHMSL2r", "trunkB2l"],
+	["trunkCHMSL2r", "trunkBrig"],
+
+	["trunkCHMSLrig", "trunkB1l"],
+	["trunkCHMSLrig", "trunkB2l"],
+	["trunkCHMSLrig", "trunkB1r"],
+	["trunkCHMSLrig", "trunkB2r"],
+
+
+	//to spoiler
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"chmsl_spoiler_break"},
+	{"optional":true},
+
+	["spoilB1l", "trunkCHMSL1l"],
+	["spoilB1l", "trunkCHMSL1r"],
+	["spoilB1l", "trunkCHMSL2l"],
+	["spoilB1l", "trunkCHMSL2r"],
+	["spoilB1l", "trunkCHMSLrig"],
+
+	["spoilB1r", "trunkCHMSL1l"],
+	["spoilB1r", "trunkCHMSL1r"],
+	["spoilB1r", "trunkCHMSL2l"],
+	["spoilB1r", "trunkCHMSL2r"],
+	["spoilB1r", "trunkCHMSLrig"],
+
+	["spoilB2l", "trunkCHMSL1l"],
+	["spoilB2l", "trunkCHMSL1r"],
+	["spoilB2l", "trunkCHMSL2l"],
+	["spoilB2l", "trunkCHMSL2r"],
+	["spoilB2l", "trunkCHMSLrig"],
+
+	["spoilB2r", "trunkCHMSL1l"],
+	["spoilB2r", "trunkCHMSL1r"],
+	["spoilB2r", "trunkCHMSL2l"],
+	["spoilB2r", "trunkCHMSL2r"],
+	["spoilB2r", "trunkCHMSLrig"],
+
+	["spoilBrig", "trunkCHMSL1l"],
+	["spoilBrig", "trunkCHMSL1r"],
+	["spoilBrig", "trunkCHMSL2l"],
+	["spoilBrig", "trunkCHMSL2r"],
+
+
+	{"optional":false},
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_chmsl_trunk"},   
+	["trunkCHMSL1r","trunkCHMSL1l","trunkCHMSL2l","trunkCHMSL2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_trunk_chmsl_filler_smooth": {
+    "information":{
+        "name":"Smooth Filler Panel",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_trunk_chmsl",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_trunk_B_alt",["legocar_chmsl_trunk"],[], {"pos":{"x": 0.000, "y":1.875, "z":0.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_chmsl_trunk"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["trunkCHMSL1l",  0.22, 1.75, 0.75],
+	["trunkCHMSL1r", -0.22, 1.75, 0.75],
+	["trunkCHMSL2l",  0.22, 1.97, 0.75],
+	["trunkCHMSL2r", -0.22, 1.97, 0.75],
+
+	//rigidifier
+	["trunkCHMSLrig", 0, 1.875, 0.5, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["trunkCHMSL1l", "trunkCHMSL1r"],
+	["trunkCHMSL2l", "trunkCHMSL2r"],
+	["trunkCHMSL1l", "trunkCHMSL2l"],
+	["trunkCHMSL1r", "trunkCHMSL2r"],
+	["trunkCHMSL1l", "trunkCHMSL2r"],
+	["trunkCHMSL2l", "trunkCHMSL1r"],
+
+	//rigidifier
+	["trunkCHMSL1l", "trunkCHMSLrig"],
+	["trunkCHMSL1r", "trunkCHMSLrig"],
+	["trunkCHMSL2l", "trunkCHMSLrig"],
+	["trunkCHMSL2r", "trunkCHMSLrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to trunk
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"chmsl_trunk_break"},
+
+	["trunkCHMSL1l", "trunkB1l"],
+	["trunkCHMSL1l", "trunkB2l"],
+	["trunkCHMSL1l", "trunkB1r"],
+	["trunkCHMSL1l", "trunkBrig"],
+
+	["trunkCHMSL1r", "trunkB1r"],
+	["trunkCHMSL1r", "trunkB2r"],
+	["trunkCHMSL1r", "trunkB1l"],
+	["trunkCHMSL1r", "trunkBrig"],
+
+	["trunkCHMSL2l", "trunkB2l"],
+	["trunkCHMSL2l", "trunkB1l"],
+	["trunkCHMSL2l", "trunkB2r"],
+	["trunkCHMSL2l", "trunkBrig"],
+
+	["trunkCHMSL2r", "trunkB2r"],
+	["trunkCHMSL2r", "trunkB1r"],
+	["trunkCHMSL2r", "trunkB2l"],
+	["trunkCHMSL2r", "trunkBrig"],
+
+	["trunkCHMSLrig", "trunkB1l"],
+	["trunkCHMSLrig", "trunkB2l"],
+	["trunkCHMSLrig", "trunkB1r"],
+	["trunkCHMSLrig", "trunkB2r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_chmsl_trunk"},   
+	["trunkCHMSL1r","trunkCHMSL1l","trunkCHMSL2l","trunkCHMSL2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_trunk_chmsl_filler_alt": {
+    "information":{
+        "name":"Filler Panel (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_trunk_chmsl",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_col3",["legocar_chmsl_trunk"],[], {"pos":{"x": 0.000, "y":1.875, "z":0.7},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_chmsl_trunk"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["trunkCHMSL1l",  0.22, 1.75, 0.75],
+	["trunkCHMSL1r", -0.22, 1.75, 0.75],
+	["trunkCHMSL2l",  0.22, 1.97, 0.75],
+	["trunkCHMSL2r", -0.22, 1.97, 0.75],
+
+	//rigidifier
+	["trunkCHMSLrig", 0, 1.875, 0.5, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["trunkCHMSL1l", "trunkCHMSL1r"],
+	["trunkCHMSL2l", "trunkCHMSL2r"],
+	["trunkCHMSL1l", "trunkCHMSL2l"],
+	["trunkCHMSL1r", "trunkCHMSL2r"],
+	["trunkCHMSL1l", "trunkCHMSL2r"],
+	["trunkCHMSL2l", "trunkCHMSL1r"],
+
+	//rigidifier
+	["trunkCHMSL1l", "trunkCHMSLrig"],
+	["trunkCHMSL1r", "trunkCHMSLrig"],
+	["trunkCHMSL2l", "trunkCHMSLrig"],
+	["trunkCHMSL2r", "trunkCHMSLrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to trunk
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"chmsl_trunk_break"},
+
+	["trunkCHMSL1l", "trunkB1l"],
+	["trunkCHMSL1l", "trunkB2l"],
+	["trunkCHMSL1l", "trunkB1r"],
+	["trunkCHMSL1l", "trunkBrig"],
+
+	["trunkCHMSL1r", "trunkB1r"],
+	["trunkCHMSL1r", "trunkB2r"],
+	["trunkCHMSL1r", "trunkB1l"],
+	["trunkCHMSL1r", "trunkBrig"],
+
+	["trunkCHMSL2l", "trunkB2l"],
+	["trunkCHMSL2l", "trunkB1l"],
+	["trunkCHMSL2l", "trunkB2r"],
+	["trunkCHMSL2l", "trunkBrig"],
+
+	["trunkCHMSL2r", "trunkB2r"],
+	["trunkCHMSL2r", "trunkB1r"],
+	["trunkCHMSL2r", "trunkB2l"],
+	["trunkCHMSL2r", "trunkBrig"],
+
+	["trunkCHMSLrig", "trunkB1l"],
+	["trunkCHMSLrig", "trunkB2l"],
+	["trunkCHMSLrig", "trunkB1r"],
+	["trunkCHMSLrig", "trunkB2r"],
+
+
+	//to spoiler
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"chmsl_spoiler_break"},
+	{"optional":true},
+
+	["spoilB1l", "trunkCHMSL1l"],
+	["spoilB1l", "trunkCHMSL1r"],
+	["spoilB1l", "trunkCHMSL2l"],
+	["spoilB1l", "trunkCHMSL2r"],
+	["spoilB1l", "trunkCHMSLrig"],
+
+	["spoilB1r", "trunkCHMSL1l"],
+	["spoilB1r", "trunkCHMSL1r"],
+	["spoilB1r", "trunkCHMSL2l"],
+	["spoilB1r", "trunkCHMSL2r"],
+	["spoilB1r", "trunkCHMSLrig"],
+
+	["spoilB2l", "trunkCHMSL1l"],
+	["spoilB2l", "trunkCHMSL1r"],
+	["spoilB2l", "trunkCHMSL2l"],
+	["spoilB2l", "trunkCHMSL2r"],
+	["spoilB2l", "trunkCHMSLrig"],
+
+	["spoilB2r", "trunkCHMSL1l"],
+	["spoilB2r", "trunkCHMSL1r"],
+	["spoilB2r", "trunkCHMSL2l"],
+	["spoilB2r", "trunkCHMSL2r"],
+	["spoilB2r", "trunkCHMSLrig"],
+
+	["spoilBrig", "trunkCHMSL1l"],
+	["spoilBrig", "trunkCHMSL1r"],
+	["spoilBrig", "trunkCHMSL2l"],
+	["spoilBrig", "trunkCHMSL2r"],
+
+
+	{"optional":false},
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_chmsl_trunk"},   
+	["trunkCHMSL1r","trunkCHMSL1l","trunkCHMSL2l","trunkCHMSL2r"],
+        {"group":""},
+    ],
+},
+
+}

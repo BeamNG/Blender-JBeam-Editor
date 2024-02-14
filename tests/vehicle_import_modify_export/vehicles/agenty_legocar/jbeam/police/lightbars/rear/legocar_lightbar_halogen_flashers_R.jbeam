@@ -1,0 +1,982 @@
+{
+"legocar_lightbar_halogen_flashers_R_police": {
+    "information":{
+        "name":"Blue & Red Right Flashers",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_halogen_flashers_R",
+     "slots": [
+        ["type", "default", "description"],
+	["legocar_lightbar_halogen_R","legocar_lightbar_halogen_R_blue", "Right Beacons"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"lightbar_halogen_flasher_RR_break", "deformMaterialBase":"legocar_policelight_halogen_RR_blue", "deformMaterialDamaged":"lego_transcol_blue"},
+	["legocar_policelight_halogen_RR_blue", ["legocar_policelight_halogen_RR"],[], {"pos":{"x":-0.625, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z":0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_halogen_flasher_R_break", "deformMaterialBase":"legocar_policelight_halogen_R_red", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_policelight_halogen_R_red", ["legocar_policelight_halogen_R"],[], {"pos":{"x":-0.375, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z":0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightBrightness":0.6,
+            "lightRange":10,
+	    "lightColor":{"r":0, "g":32, "b":160, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.04,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_halogen_RR", "SPOTLIGHT", "lbarhalogenFR1r", "lbarhalogenFR1l", "lbarhalogenFR2r", {"x":40, "y": 90, "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.0, "y":0.5, "z":0},"deformGroup":"lightbar_halogen_flasher_RR_break"}],
+	["cop_halogen_RR", "SPOTLIGHT", "lbarhalogenFR1r", "lbarhalogenFR1l", "lbarhalogenFR2r", {"x":70, "y":180, "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.0, "z":0},"deformGroup":"lightbar_halogen_flasher_RR_break"}],
+	["cop_halogen_RR", "SPOTLIGHT", "lbarhalogenFR1r", "lbarhalogenFR1l", "lbarhalogenFR2r", {"x":70, "y": 0 , "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":1.0, "z":0},"deformGroup":"lightbar_halogen_flasher_RR_break"}],
+	{"lightColor":{"r":201, "g":26, "b":9, "a":255}},
+	["cop_halogen_R", "SPOTLIGHT", "lbarhalogenBR1r", "lbarhalogenBR1l", "lbarhalogenBR2r", {"x":70, "y":180, "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.0, "z":0},"deformGroup":"lightbar_halogen_flasher_R_break"}],
+	["cop_halogen_R", "SPOTLIGHT", "lbarhalogenBR1r", "lbarhalogenBR1l", "lbarhalogenBR2r", {"x":70, "y": 0 , "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":1.0, "z":0},"deformGroup":"lightbar_halogen_flasher_R_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//lightbar flashers
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_policelight_halogen_RR"},
+	["lbarhalogenFR1r", -0.75, 0.500, 1.65],
+	["lbarhalogenFR1l", -0.50, 0.500, 1.65],
+	["lbarhalogenFR2r", -0.75, 0.750, 1.65],
+	["lbarhalogenFR2l", -0.50, 0.750, 1.65],
+	//rigidifier
+	["lbarhalogenFRrig",-0.625, 0.625, 1.55, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":"legocar_policelight_halogen_R"},
+	["lbarhalogenBR1r", -0.47, 0.500, 1.65],
+	["lbarhalogenBR1l", -0.28, 0.500, 1.65],
+	["lbarhalogenBR2r", -0.47, 0.750, 1.65],
+	["lbarhalogenBR2l", -0.28, 0.750, 1.65],
+	//rigidifier
+	["lbarhalogenBRrig",-0.375, 0.625, 1.55, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LIGHTBAR RIGHT FLASHERS--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//rr uniform structure
+	["lbarhalogenFR1l", "lbarhalogenFR1r"],
+	["lbarhalogenFR2l", "lbarhalogenFR2r"],
+	["lbarhalogenFR1l", "lbarhalogenFR2l"],
+	["lbarhalogenFR1r", "lbarhalogenFR2r"],
+	["lbarhalogenFR1l", "lbarhalogenFR2r"],
+	["lbarhalogenFR2l", "lbarhalogenFR1r"],
+
+	//rr rigidifier
+	["lbarhalogenFR1l", "lbarhalogenFRrig"],
+	["lbarhalogenFR1r", "lbarhalogenFRrig"],
+	["lbarhalogenFR2l", "lbarhalogenFRrig"],
+	["lbarhalogenFR2r", "lbarhalogenFRrig"],
+
+	//r uniform structure
+	["lbarhalogenBR1l", "lbarhalogenBR1r"],
+	["lbarhalogenBR2l", "lbarhalogenBR2r"],
+	["lbarhalogenBR1l", "lbarhalogenBR2l"],
+	["lbarhalogenBR1r", "lbarhalogenBR2r"],
+	["lbarhalogenBR1l", "lbarhalogenBR2r"],
+	["lbarhalogenBR2l", "lbarhalogenBR1r"],
+
+	//r rigidifier
+	["lbarhalogenBR1l", "lbarhalogenBRrig"],
+	["lbarhalogenBR1r", "lbarhalogenBRrig"],
+	["lbarhalogenBR2l", "lbarhalogenBRrig"],
+	["lbarhalogenBR2r", "lbarhalogenBRrig"],
+
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//rr
+	{"breakGroup":"lightbar_halogen_flasher_RR_break"},
+	{"deformGroup":"lightbar_halogen_flasher_RR_break"},
+
+	["lbarhalogenFR1l", "roofM1l"],
+	["lbarhalogenFR1l", "roofM1r"],
+	["lbarhalogenFR1l", "roofM2l"],
+	["lbarhalogenFR1l", "roofMrig"],
+
+	["lbarhalogenFR1r", "roofM1l"],
+	["lbarhalogenFR1r", "roofM1r"],
+	["lbarhalogenFR1r", "roofM2r"],
+	["lbarhalogenFR1r", "roofMrig"],
+
+	["lbarhalogenFR2l", "roofM1l"],
+	["lbarhalogenFR2l", "roofM2r"],
+	["lbarhalogenFR2l", "roofM2l"],
+	["lbarhalogenFR2l", "roofMrig"],
+
+	["lbarhalogenFR2r", "roofM2l"],
+	["lbarhalogenFR2r", "roofM1r"],
+	["lbarhalogenFR2r", "roofM2r"],
+	["lbarhalogenFR2r", "roofMrig"],
+
+	["lbarhalogenFRrig", "roofM1l"],
+	["lbarhalogenFRrig", "roofM1r"],
+	["lbarhalogenFRrig", "roofM2l"],
+	["lbarhalogenFRrig", "roofM2r"],
+
+
+	//r
+	{"breakGroup":"lightbar_halogen_flasher_R_break"},
+	{"deformGroup":"lightbar_halogen_flasher_R_break"},
+
+	["lbarhalogenBR1l", "roofM1l"],
+	["lbarhalogenBR1l", "roofM1r"],
+	["lbarhalogenBR1l", "roofM2l"],
+	["lbarhalogenBR1l", "roofMrig"],
+
+	["lbarhalogenBR1r", "roofM1l"],
+	["lbarhalogenBR1r", "roofM1r"],
+	["lbarhalogenBR1r", "roofM2r"],
+	["lbarhalogenBR1r", "roofMrig"],
+
+	["lbarhalogenBR2l", "roofM1l"],
+	["lbarhalogenBR2l", "roofM2r"],
+	["lbarhalogenBR2l", "roofM2l"],
+	["lbarhalogenBR2l", "roofMrig"],
+
+	["lbarhalogenBR2r", "roofM2l"],
+	["lbarhalogenBR2r", "roofM1r"],
+	["lbarhalogenBR2r", "roofM2r"],
+	["lbarhalogenBR2r", "roofMrig"],
+
+	["lbarhalogenBRrig", "roofM1l"],
+	["lbarhalogenBRrig", "roofM1r"],
+	["lbarhalogenBRrig", "roofM2l"],
+	["lbarhalogenBRrig", "roofM2r"],
+
+	
+	{"deformGroup":"lightbar_halogen_R_break"},
+	{"optional":true},
+
+
+	//rr to top
+	{"breakGroup":"lightbar_halogen_flasher_RR_top_break"},
+
+	["lbarhalogenR1l", "lbarhalogenFR1l"],
+	["lbarhalogenR1l", "lbarhalogenFR1r"],
+	["lbarhalogenR1l", "lbarhalogenFR2l"],
+	["lbarhalogenR1l", "lbarhalogenFRrig"],
+
+	["lbarhalogenR1r", "lbarhalogenFR1l"],
+	["lbarhalogenR1r", "lbarhalogenFR1r"],
+	["lbarhalogenR1r", "lbarhalogenFR2r"],
+	["lbarhalogenR1r", "lbarhalogenFRrig"],
+
+	["lbarhalogenR2l", "lbarhalogenFR1l"],
+	["lbarhalogenR2l", "lbarhalogenFR2r"],
+	["lbarhalogenR2l", "lbarhalogenFR2l"],
+	["lbarhalogenR2l", "lbarhalogenFRrig"],
+
+	["lbarhalogenR2r", "lbarhalogenFR2l"],
+	["lbarhalogenR2r", "lbarhalogenFR1r"],
+	["lbarhalogenR2r", "lbarhalogenFR2r"],
+	["lbarhalogenR2r", "lbarhalogenFRrig"],
+
+	["lbarhalogenRrig", "lbarhalogenFR1l"],
+	["lbarhalogenRrig", "lbarhalogenFR1r"],
+	["lbarhalogenRrig", "lbarhalogenFR2l"],
+	["lbarhalogenRrig", "lbarhalogenFR2r"],
+
+
+	//r to top
+	{"breakGroup":"lightbar_halogen_flasher_R_top_break"},
+
+	["lbarhalogenR1l", "lbarhalogenBR1l"],
+	["lbarhalogenR1l", "lbarhalogenBR1r"],
+	["lbarhalogenR1l", "lbarhalogenBR2l"],
+	["lbarhalogenR1l", "lbarhalogenBRrig"],
+
+	["lbarhalogenR1r", "lbarhalogenBR1l"],
+	["lbarhalogenR1r", "lbarhalogenBR1r"],
+	["lbarhalogenR1r", "lbarhalogenBR2r"],
+	["lbarhalogenR1r", "lbarhalogenBRrig"],
+
+	["lbarhalogenR2l", "lbarhalogenBR1l"],
+	["lbarhalogenR2l", "lbarhalogenBR2r"],
+	["lbarhalogenR2l", "lbarhalogenBR2l"],
+	["lbarhalogenR2l", "lbarhalogenBRrig"],
+
+	["lbarhalogenR2r", "lbarhalogenBR2l"],
+	["lbarhalogenR2r", "lbarhalogenBR1r"],
+	["lbarhalogenR2r", "lbarhalogenBR2r"],
+	["lbarhalogenR2r", "lbarhalogenBRrig"],
+
+	["lbarhalogenRrig", "lbarhalogenBR1l"],
+	["lbarhalogenRrig", "lbarhalogenBR1r"],
+	["lbarhalogenRrig", "lbarhalogenBR2l"],
+	["lbarhalogenRrig", "lbarhalogenBR2r"],
+
+	
+	{"optional":false},
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_lightbar_halogen_flasher_RR"},
+	["lbarhalogenFR2l","lbarhalogenFR2r","lbarhalogenFR1r","lbarhalogenFR1l"],
+	{"group":"legocar_lightbar_halogen_flasher_R"},
+	["lbarhalogenBR2l","lbarhalogenBR2r","lbarhalogenBR1r","lbarhalogenBR1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_lightbar_halogen_flashers_R_red": {
+    "information":{
+        "name":"Red Right Flashers",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_halogen_flashers_R",
+     "slots": [
+        ["type", "default", "description"],
+	["legocar_lightbar_halogen_R","legocar_lightbar_halogen_R_red", "Right Beacons"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"lightbar_halogen_flasher_RR_break", "deformMaterialBase":"legocar_policelight_halogen_RR_red", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_policelight_halogen_RR_red", ["legocar_policelight_halogen_RR"],[], {"pos":{"x":-0.625, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z":0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_halogen_flasher_R_break", "deformMaterialBase":"legocar_policelight_halogen_R_red", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_policelight_halogen_R_red", ["legocar_policelight_halogen_R"],[], {"pos":{"x":-0.375, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z":0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightBrightness":0.6,
+            "lightRange":10,
+	    "lightColor":{"r":201, "g":26, "b":9, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.04,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_halogen_RR", "SPOTLIGHT", "lbarhalogenFR1r", "lbarhalogenFR1l", "lbarhalogenFR2r", {"x":40, "y": 90, "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.0, "y":0.5, "z":0},"deformGroup":"lightbar_halogen_flasher_RR_break"}],
+	["cop_halogen_RR", "SPOTLIGHT", "lbarhalogenFR1r", "lbarhalogenFR1l", "lbarhalogenFR2r", {"x":70, "y":180, "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.0, "z":0},"deformGroup":"lightbar_halogen_flasher_RR_break"}],
+	["cop_halogen_RR", "SPOTLIGHT", "lbarhalogenFR1r", "lbarhalogenFR1l", "lbarhalogenFR2r", {"x":70, "y": 0 , "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":1.0, "z":0},"deformGroup":"lightbar_halogen_flasher_RR_break"}],
+	{"lightColor":{"r":201, "g":26, "b":9, "a":255}},
+	["cop_halogen_R", "SPOTLIGHT", "lbarhalogenBR1r", "lbarhalogenBR1l", "lbarhalogenBR2r", {"x":70, "y":180, "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.0, "z":0},"deformGroup":"lightbar_halogen_flasher_R_break"}],
+	["cop_halogen_R", "SPOTLIGHT", "lbarhalogenBR1r", "lbarhalogenBR1l", "lbarhalogenBR2r", {"x":70, "y": 0 , "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":1.0, "z":0},"deformGroup":"lightbar_halogen_flasher_R_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//lightbar flashers
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_policelight_halogen_RR"},
+	["lbarhalogenFR1r", -0.75, 0.500, 1.65],
+	["lbarhalogenFR1l", -0.50, 0.500, 1.65],
+	["lbarhalogenFR2r", -0.75, 0.750, 1.65],
+	["lbarhalogenFR2l", -0.50, 0.750, 1.65],
+	//rigidifier
+	["lbarhalogenFRrig",-0.625, 0.625, 1.55, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":"legocar_policelight_halogen_R"},
+	["lbarhalogenBR1r", -0.47, 0.500, 1.65],
+	["lbarhalogenBR1l", -0.28, 0.500, 1.65],
+	["lbarhalogenBR2r", -0.47, 0.750, 1.65],
+	["lbarhalogenBR2l", -0.28, 0.750, 1.65],
+	//rigidifier
+	["lbarhalogenBRrig",-0.375, 0.625, 1.55, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LIGHTBAR RIGHT FLASHERS--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//rr uniform structure
+	["lbarhalogenFR1l", "lbarhalogenFR1r"],
+	["lbarhalogenFR2l", "lbarhalogenFR2r"],
+	["lbarhalogenFR1l", "lbarhalogenFR2l"],
+	["lbarhalogenFR1r", "lbarhalogenFR2r"],
+	["lbarhalogenFR1l", "lbarhalogenFR2r"],
+	["lbarhalogenFR2l", "lbarhalogenFR1r"],
+
+	//rr rigidifier
+	["lbarhalogenFR1l", "lbarhalogenFRrig"],
+	["lbarhalogenFR1r", "lbarhalogenFRrig"],
+	["lbarhalogenFR2l", "lbarhalogenFRrig"],
+	["lbarhalogenFR2r", "lbarhalogenFRrig"],
+
+	//r uniform structure
+	["lbarhalogenBR1l", "lbarhalogenBR1r"],
+	["lbarhalogenBR2l", "lbarhalogenBR2r"],
+	["lbarhalogenBR1l", "lbarhalogenBR2l"],
+	["lbarhalogenBR1r", "lbarhalogenBR2r"],
+	["lbarhalogenBR1l", "lbarhalogenBR2r"],
+	["lbarhalogenBR2l", "lbarhalogenBR1r"],
+
+	//r rigidifier
+	["lbarhalogenBR1l", "lbarhalogenBRrig"],
+	["lbarhalogenBR1r", "lbarhalogenBRrig"],
+	["lbarhalogenBR2l", "lbarhalogenBRrig"],
+	["lbarhalogenBR2r", "lbarhalogenBRrig"],
+
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//rr
+	{"breakGroup":"lightbar_halogen_flasher_RR_break"},
+	{"deformGroup":"lightbar_halogen_flasher_RR_break"},
+
+	["lbarhalogenFR1l", "roofM1l"],
+	["lbarhalogenFR1l", "roofM1r"],
+	["lbarhalogenFR1l", "roofM2l"],
+	["lbarhalogenFR1l", "roofMrig"],
+
+	["lbarhalogenFR1r", "roofM1l"],
+	["lbarhalogenFR1r", "roofM1r"],
+	["lbarhalogenFR1r", "roofM2r"],
+	["lbarhalogenFR1r", "roofMrig"],
+
+	["lbarhalogenFR2l", "roofM1l"],
+	["lbarhalogenFR2l", "roofM2r"],
+	["lbarhalogenFR2l", "roofM2l"],
+	["lbarhalogenFR2l", "roofMrig"],
+
+	["lbarhalogenFR2r", "roofM2l"],
+	["lbarhalogenFR2r", "roofM1r"],
+	["lbarhalogenFR2r", "roofM2r"],
+	["lbarhalogenFR2r", "roofMrig"],
+
+	["lbarhalogenFRrig", "roofM1l"],
+	["lbarhalogenFRrig", "roofM1r"],
+	["lbarhalogenFRrig", "roofM2l"],
+	["lbarhalogenFRrig", "roofM2r"],
+
+
+	//r
+	{"breakGroup":"lightbar_halogen_flasher_R_break"},
+	{"deformGroup":"lightbar_halogen_flasher_R_break"},
+
+	["lbarhalogenBR1l", "roofM1l"],
+	["lbarhalogenBR1l", "roofM1r"],
+	["lbarhalogenBR1l", "roofM2l"],
+	["lbarhalogenBR1l", "roofMrig"],
+
+	["lbarhalogenBR1r", "roofM1l"],
+	["lbarhalogenBR1r", "roofM1r"],
+	["lbarhalogenBR1r", "roofM2r"],
+	["lbarhalogenBR1r", "roofMrig"],
+
+	["lbarhalogenBR2l", "roofM1l"],
+	["lbarhalogenBR2l", "roofM2r"],
+	["lbarhalogenBR2l", "roofM2l"],
+	["lbarhalogenBR2l", "roofMrig"],
+
+	["lbarhalogenBR2r", "roofM2l"],
+	["lbarhalogenBR2r", "roofM1r"],
+	["lbarhalogenBR2r", "roofM2r"],
+	["lbarhalogenBR2r", "roofMrig"],
+
+	["lbarhalogenBRrig", "roofM1l"],
+	["lbarhalogenBRrig", "roofM1r"],
+	["lbarhalogenBRrig", "roofM2l"],
+	["lbarhalogenBRrig", "roofM2r"],
+
+	
+	{"deformGroup":"lightbar_halogen_R_break"},
+	{"optional":true},
+
+
+	//rr to top
+	{"breakGroup":"lightbar_halogen_flasher_RR_top_break"},
+
+	["lbarhalogenR1l", "lbarhalogenFR1l"],
+	["lbarhalogenR1l", "lbarhalogenFR1r"],
+	["lbarhalogenR1l", "lbarhalogenFR2l"],
+	["lbarhalogenR1l", "lbarhalogenFRrig"],
+
+	["lbarhalogenR1r", "lbarhalogenFR1l"],
+	["lbarhalogenR1r", "lbarhalogenFR1r"],
+	["lbarhalogenR1r", "lbarhalogenFR2r"],
+	["lbarhalogenR1r", "lbarhalogenFRrig"],
+
+	["lbarhalogenR2l", "lbarhalogenFR1l"],
+	["lbarhalogenR2l", "lbarhalogenFR2r"],
+	["lbarhalogenR2l", "lbarhalogenFR2l"],
+	["lbarhalogenR2l", "lbarhalogenFRrig"],
+
+	["lbarhalogenR2r", "lbarhalogenFR2l"],
+	["lbarhalogenR2r", "lbarhalogenFR1r"],
+	["lbarhalogenR2r", "lbarhalogenFR2r"],
+	["lbarhalogenR2r", "lbarhalogenFRrig"],
+
+	["lbarhalogenRrig", "lbarhalogenFR1l"],
+	["lbarhalogenRrig", "lbarhalogenFR1r"],
+	["lbarhalogenRrig", "lbarhalogenFR2l"],
+	["lbarhalogenRrig", "lbarhalogenFR2r"],
+
+
+	//r to top
+	{"breakGroup":"lightbar_halogen_flasher_R_top_break"},
+
+	["lbarhalogenR1l", "lbarhalogenBR1l"],
+	["lbarhalogenR1l", "lbarhalogenBR1r"],
+	["lbarhalogenR1l", "lbarhalogenBR2l"],
+	["lbarhalogenR1l", "lbarhalogenBRrig"],
+
+	["lbarhalogenR1r", "lbarhalogenBR1l"],
+	["lbarhalogenR1r", "lbarhalogenBR1r"],
+	["lbarhalogenR1r", "lbarhalogenBR2r"],
+	["lbarhalogenR1r", "lbarhalogenBRrig"],
+
+	["lbarhalogenR2l", "lbarhalogenBR1l"],
+	["lbarhalogenR2l", "lbarhalogenBR2r"],
+	["lbarhalogenR2l", "lbarhalogenBR2l"],
+	["lbarhalogenR2l", "lbarhalogenBRrig"],
+
+	["lbarhalogenR2r", "lbarhalogenBR2l"],
+	["lbarhalogenR2r", "lbarhalogenBR1r"],
+	["lbarhalogenR2r", "lbarhalogenBR2r"],
+	["lbarhalogenR2r", "lbarhalogenBRrig"],
+
+	["lbarhalogenRrig", "lbarhalogenBR1l"],
+	["lbarhalogenRrig", "lbarhalogenBR1r"],
+	["lbarhalogenRrig", "lbarhalogenBR2l"],
+	["lbarhalogenRrig", "lbarhalogenBR2r"],
+
+	
+	{"optional":false},
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_lightbar_halogen_flasher_RR"},
+	["lbarhalogenFR2l","lbarhalogenFR2r","lbarhalogenFR1r","lbarhalogenFR1l"],
+	{"group":"legocar_lightbar_halogen_flasher_R"},
+	["lbarhalogenBR2l","lbarhalogenBR2r","lbarhalogenBR1r","lbarhalogenBR1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_lightbar_halogen_flashers_R_blue": {
+    "information":{
+        "name":"Blue Right Flashers",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_halogen_flashers_R",
+     "slots": [
+        ["type", "default", "description"],
+	["legocar_lightbar_halogen_R","legocar_lightbar_halogen_R_blue", "Right Beacons"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"lightbar_halogen_flasher_RR_break", "deformMaterialBase":"legocar_policelight_halogen_RR_blue", "deformMaterialDamaged":"lego_transcol_blue"},
+	["legocar_policelight_halogen_RR_blue", ["legocar_policelight_halogen_RR"],[], {"pos":{"x":-0.625, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z":0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_halogen_flasher_R_break", "deformMaterialBase":"legocar_policelight_halogen_R_blue", "deformMaterialDamaged":"lego_transcol_blue"},
+	["legocar_policelight_halogen_R_blue", ["legocar_policelight_halogen_R"],[], {"pos":{"x":-0.375, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z":0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightBrightness":0.6,
+            "lightRange":10,
+	    "lightColor":{"r":0, "g":32, "b":160, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.04,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_halogen_RR", "SPOTLIGHT", "lbarhalogenFR1r", "lbarhalogenFR1l", "lbarhalogenFR2r", {"x":40, "y": 90, "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.0, "y":0.5, "z":0},"deformGroup":"lightbar_halogen_flasher_RR_break"}],
+	["cop_halogen_RR", "SPOTLIGHT", "lbarhalogenFR1r", "lbarhalogenFR1l", "lbarhalogenFR2r", {"x":70, "y":180, "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.0, "z":0},"deformGroup":"lightbar_halogen_flasher_RR_break"}],
+	["cop_halogen_RR", "SPOTLIGHT", "lbarhalogenFR1r", "lbarhalogenFR1l", "lbarhalogenFR2r", {"x":70, "y": 0 , "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":1.0, "z":0},"deformGroup":"lightbar_halogen_flasher_RR_break"}],
+	{"lightColor":{"r":0, "g":32, "b":160, "a":255}},
+	["cop_halogen_R", "SPOTLIGHT", "lbarhalogenBR1r", "lbarhalogenBR1l", "lbarhalogenBR2r", {"x":70, "y":180, "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.0, "z":0},"deformGroup":"lightbar_halogen_flasher_R_break"}],
+	["cop_halogen_R", "SPOTLIGHT", "lbarhalogenBR1r", "lbarhalogenBR1l", "lbarhalogenBR2r", {"x":70, "y": 0 , "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":1.0, "z":0},"deformGroup":"lightbar_halogen_flasher_R_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//lightbar flashers
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_policelight_halogen_RR"},
+	["lbarhalogenFR1r", -0.75, 0.500, 1.65],
+	["lbarhalogenFR1l", -0.50, 0.500, 1.65],
+	["lbarhalogenFR2r", -0.75, 0.750, 1.65],
+	["lbarhalogenFR2l", -0.50, 0.750, 1.65],
+	//rigidifier
+	["lbarhalogenFRrig",-0.625, 0.625, 1.55, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":"legocar_policelight_halogen_R"},
+	["lbarhalogenBR1r", -0.47, 0.500, 1.65],
+	["lbarhalogenBR1l", -0.28, 0.500, 1.65],
+	["lbarhalogenBR2r", -0.47, 0.750, 1.65],
+	["lbarhalogenBR2l", -0.28, 0.750, 1.65],
+	//rigidifier
+	["lbarhalogenBRrig",-0.375, 0.625, 1.55, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LIGHTBAR RIGHT FLASHERS--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//rr uniform structure
+	["lbarhalogenFR1l", "lbarhalogenFR1r"],
+	["lbarhalogenFR2l", "lbarhalogenFR2r"],
+	["lbarhalogenFR1l", "lbarhalogenFR2l"],
+	["lbarhalogenFR1r", "lbarhalogenFR2r"],
+	["lbarhalogenFR1l", "lbarhalogenFR2r"],
+	["lbarhalogenFR2l", "lbarhalogenFR1r"],
+
+	//rr rigidifier
+	["lbarhalogenFR1l", "lbarhalogenFRrig"],
+	["lbarhalogenFR1r", "lbarhalogenFRrig"],
+	["lbarhalogenFR2l", "lbarhalogenFRrig"],
+	["lbarhalogenFR2r", "lbarhalogenFRrig"],
+
+	//r uniform structure
+	["lbarhalogenBR1l", "lbarhalogenBR1r"],
+	["lbarhalogenBR2l", "lbarhalogenBR2r"],
+	["lbarhalogenBR1l", "lbarhalogenBR2l"],
+	["lbarhalogenBR1r", "lbarhalogenBR2r"],
+	["lbarhalogenBR1l", "lbarhalogenBR2r"],
+	["lbarhalogenBR2l", "lbarhalogenBR1r"],
+
+	//r rigidifier
+	["lbarhalogenBR1l", "lbarhalogenBRrig"],
+	["lbarhalogenBR1r", "lbarhalogenBRrig"],
+	["lbarhalogenBR2l", "lbarhalogenBRrig"],
+	["lbarhalogenBR2r", "lbarhalogenBRrig"],
+
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//rr
+	{"breakGroup":"lightbar_halogen_flasher_RR_break"},
+	{"deformGroup":"lightbar_halogen_flasher_RR_break"},
+
+	["lbarhalogenFR1l", "roofM1l"],
+	["lbarhalogenFR1l", "roofM1r"],
+	["lbarhalogenFR1l", "roofM2l"],
+	["lbarhalogenFR1l", "roofMrig"],
+
+	["lbarhalogenFR1r", "roofM1l"],
+	["lbarhalogenFR1r", "roofM1r"],
+	["lbarhalogenFR1r", "roofM2r"],
+	["lbarhalogenFR1r", "roofMrig"],
+
+	["lbarhalogenFR2l", "roofM1l"],
+	["lbarhalogenFR2l", "roofM2r"],
+	["lbarhalogenFR2l", "roofM2l"],
+	["lbarhalogenFR2l", "roofMrig"],
+
+	["lbarhalogenFR2r", "roofM2l"],
+	["lbarhalogenFR2r", "roofM1r"],
+	["lbarhalogenFR2r", "roofM2r"],
+	["lbarhalogenFR2r", "roofMrig"],
+
+	["lbarhalogenFRrig", "roofM1l"],
+	["lbarhalogenFRrig", "roofM1r"],
+	["lbarhalogenFRrig", "roofM2l"],
+	["lbarhalogenFRrig", "roofM2r"],
+
+
+	//r
+	{"breakGroup":"lightbar_halogen_flasher_R_break"},
+	{"deformGroup":"lightbar_halogen_flasher_R_break"},
+
+	["lbarhalogenBR1l", "roofM1l"],
+	["lbarhalogenBR1l", "roofM1r"],
+	["lbarhalogenBR1l", "roofM2l"],
+	["lbarhalogenBR1l", "roofMrig"],
+
+	["lbarhalogenBR1r", "roofM1l"],
+	["lbarhalogenBR1r", "roofM1r"],
+	["lbarhalogenBR1r", "roofM2r"],
+	["lbarhalogenBR1r", "roofMrig"],
+
+	["lbarhalogenBR2l", "roofM1l"],
+	["lbarhalogenBR2l", "roofM2r"],
+	["lbarhalogenBR2l", "roofM2l"],
+	["lbarhalogenBR2l", "roofMrig"],
+
+	["lbarhalogenBR2r", "roofM2l"],
+	["lbarhalogenBR2r", "roofM1r"],
+	["lbarhalogenBR2r", "roofM2r"],
+	["lbarhalogenBR2r", "roofMrig"],
+
+	["lbarhalogenBRrig", "roofM1l"],
+	["lbarhalogenBRrig", "roofM1r"],
+	["lbarhalogenBRrig", "roofM2l"],
+	["lbarhalogenBRrig", "roofM2r"],
+
+	
+	{"deformGroup":"lightbar_halogen_R_break"},
+	{"optional":true},
+
+
+	//rr to top
+	{"breakGroup":"lightbar_halogen_flasher_RR_top_break"},
+
+	["lbarhalogenR1l", "lbarhalogenFR1l"],
+	["lbarhalogenR1l", "lbarhalogenFR1r"],
+	["lbarhalogenR1l", "lbarhalogenFR2l"],
+	["lbarhalogenR1l", "lbarhalogenFRrig"],
+
+	["lbarhalogenR1r", "lbarhalogenFR1l"],
+	["lbarhalogenR1r", "lbarhalogenFR1r"],
+	["lbarhalogenR1r", "lbarhalogenFR2r"],
+	["lbarhalogenR1r", "lbarhalogenFRrig"],
+
+	["lbarhalogenR2l", "lbarhalogenFR1l"],
+	["lbarhalogenR2l", "lbarhalogenFR2r"],
+	["lbarhalogenR2l", "lbarhalogenFR2l"],
+	["lbarhalogenR2l", "lbarhalogenFRrig"],
+
+	["lbarhalogenR2r", "lbarhalogenFR2l"],
+	["lbarhalogenR2r", "lbarhalogenFR1r"],
+	["lbarhalogenR2r", "lbarhalogenFR2r"],
+	["lbarhalogenR2r", "lbarhalogenFRrig"],
+
+	["lbarhalogenRrig", "lbarhalogenFR1l"],
+	["lbarhalogenRrig", "lbarhalogenFR1r"],
+	["lbarhalogenRrig", "lbarhalogenFR2l"],
+	["lbarhalogenRrig", "lbarhalogenFR2r"],
+
+
+	//r to top
+	{"breakGroup":"lightbar_halogen_flasher_R_top_break"},
+
+	["lbarhalogenR1l", "lbarhalogenBR1l"],
+	["lbarhalogenR1l", "lbarhalogenBR1r"],
+	["lbarhalogenR1l", "lbarhalogenBR2l"],
+	["lbarhalogenR1l", "lbarhalogenBRrig"],
+
+	["lbarhalogenR1r", "lbarhalogenBR1l"],
+	["lbarhalogenR1r", "lbarhalogenBR1r"],
+	["lbarhalogenR1r", "lbarhalogenBR2r"],
+	["lbarhalogenR1r", "lbarhalogenBRrig"],
+
+	["lbarhalogenR2l", "lbarhalogenBR1l"],
+	["lbarhalogenR2l", "lbarhalogenBR2r"],
+	["lbarhalogenR2l", "lbarhalogenBR2l"],
+	["lbarhalogenR2l", "lbarhalogenBRrig"],
+
+	["lbarhalogenR2r", "lbarhalogenBR2l"],
+	["lbarhalogenR2r", "lbarhalogenBR1r"],
+	["lbarhalogenR2r", "lbarhalogenBR2r"],
+	["lbarhalogenR2r", "lbarhalogenBRrig"],
+
+	["lbarhalogenRrig", "lbarhalogenBR1l"],
+	["lbarhalogenRrig", "lbarhalogenBR1r"],
+	["lbarhalogenRrig", "lbarhalogenBR2l"],
+	["lbarhalogenRrig", "lbarhalogenBR2r"],
+
+	
+	{"optional":false},
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_lightbar_halogen_flasher_RR"},
+	["lbarhalogenFR2l","lbarhalogenFR2r","lbarhalogenFR1r","lbarhalogenFR1l"],
+	{"group":"legocar_lightbar_halogen_flasher_R"},
+	["lbarhalogenBR2l","lbarhalogenBR2r","lbarhalogenBR1r","lbarhalogenBR1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_lightbar_halogen_flashers_R_orange": {
+    "information":{
+        "name":"Orange Right Flashers",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_halogen_flashers_R",
+     "slots": [
+        ["type", "default", "description"],
+	["legocar_lightbar_halogen_R","legocar_lightbar_halogen_R_orange", "Right Beacons"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"lightbar_halogen_flasher_RR_break", "deformMaterialBase":"legocar_policelight_halogen_RR_orange", "deformMaterialDamaged":"lego_transcol_orange"},
+	["legocar_policelight_halogen_RR_orange", ["legocar_policelight_halogen_RR"],[], {"pos":{"x":-0.625, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z":0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_halogen_flasher_R_break", "deformMaterialBase":"legocar_policelight_halogen_R_orange", "deformMaterialDamaged":"lego_transcol_orange"},
+	["legocar_policelight_halogen_R_orange", ["legocar_policelight_halogen_R"],[], {"pos":{"x":-0.375, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z":0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightBrightness":0.6,
+            "lightRange":10,
+	    "lightColor":{"r":240, "g":143, "b":28, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.04,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_halogen_RR", "SPOTLIGHT", "lbarhalogenFR1r", "lbarhalogenFR1l", "lbarhalogenFR2r", {"x":40, "y": 90, "z": 0 } , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.0, "y":0.5, "z":0},"deformGroup":"lightbar_halogen_flasher_RR_break"}],
+	["cop_halogen_RR", "SPOTLIGHT", "lbarhalogenFR1r", "lbarhalogenFR1l", "lbarhalogenFR2r", {"x":70, "y":180, "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.0, "z":0},"deformGroup":"lightbar_halogen_flasher_RR_break"}],
+	["cop_halogen_RR", "SPOTLIGHT", "lbarhalogenFR1r", "lbarhalogenFR1l", "lbarhalogenFR2r", {"x":70, "y": 0 , "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":1.0, "z":0},"deformGroup":"lightbar_halogen_flasher_RR_break"}],
+	{"lightColor":{"r":240, "g":143, "b":28, "a":255}},
+	["cop_halogen_R", "SPOTLIGHT", "lbarhalogenBR1r", "lbarhalogenBR1l", "lbarhalogenBR2r", {"x":70, "y":180, "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.0, "z":0},"deformGroup":"lightbar_halogen_flasher_R_break"}],
+	["cop_halogen_R", "SPOTLIGHT", "lbarhalogenBR1r", "lbarhalogenBR1l", "lbarhalogenBR2r", {"x":70, "y": 0 , "z":180} , {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":1.0, "z":0},"deformGroup":"lightbar_halogen_flasher_R_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//lightbar flashers
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_policelight_halogen_RR"},
+	["lbarhalogenFR1r", -0.75, 0.500, 1.65],
+	["lbarhalogenFR1l", -0.50, 0.500, 1.65],
+	["lbarhalogenFR2r", -0.75, 0.750, 1.65],
+	["lbarhalogenFR2l", -0.50, 0.750, 1.65],
+	//rigidifier
+	["lbarhalogenFRrig",-0.625, 0.625, 1.55, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"group":"legocar_policelight_halogen_R"},
+	["lbarhalogenBR1r", -0.47, 0.500, 1.65],
+	["lbarhalogenBR1l", -0.28, 0.500, 1.65],
+	["lbarhalogenBR2r", -0.47, 0.750, 1.65],
+	["lbarhalogenBR2l", -0.28, 0.750, 1.65],
+	//rigidifier
+	["lbarhalogenBRrig",-0.375, 0.625, 1.55, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LIGHTBAR RIGHT FLASHERS--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//rr uniform structure
+	["lbarhalogenFR1l", "lbarhalogenFR1r"],
+	["lbarhalogenFR2l", "lbarhalogenFR2r"],
+	["lbarhalogenFR1l", "lbarhalogenFR2l"],
+	["lbarhalogenFR1r", "lbarhalogenFR2r"],
+	["lbarhalogenFR1l", "lbarhalogenFR2r"],
+	["lbarhalogenFR2l", "lbarhalogenFR1r"],
+
+	//ll rigidifier
+	["lbarhalogenFR1l", "lbarhalogenFRrig"],
+	["lbarhalogenFR1r", "lbarhalogenFRrig"],
+	["lbarhalogenFR2l", "lbarhalogenFRrig"],
+	["lbarhalogenFR2r", "lbarhalogenFRrig"],
+
+	//l uniform structure
+	["lbarhalogenBR1l", "lbarhalogenBR1r"],
+	["lbarhalogenBR2l", "lbarhalogenBR2r"],
+	["lbarhalogenBR1l", "lbarhalogenBR2l"],
+	["lbarhalogenBR1r", "lbarhalogenBR2r"],
+	["lbarhalogenBR1l", "lbarhalogenBR2r"],
+	["lbarhalogenBR2l", "lbarhalogenBR1r"],
+
+	//l rigidifier
+	["lbarhalogenBR1l", "lbarhalogenBRrig"],
+	["lbarhalogenBR1r", "lbarhalogenBRrig"],
+	["lbarhalogenBR2l", "lbarhalogenBRrig"],
+	["lbarhalogenBR2r", "lbarhalogenBRrig"],
+
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//ll
+	{"breakGroup":"lightbar_halogen_flasher_RR_break"},
+	{"deformGroup":"lightbar_halogen_flasher_RR_break"},
+
+	["lbarhalogenFR1l", "roofM1l"],
+	["lbarhalogenFR1l", "roofM1r"],
+	["lbarhalogenFR1l", "roofM2l"],
+	["lbarhalogenFR1l", "roofMrig"],
+
+	["lbarhalogenFR1r", "roofM1l"],
+	["lbarhalogenFR1r", "roofM1r"],
+	["lbarhalogenFR1r", "roofM2r"],
+	["lbarhalogenFR1r", "roofMrig"],
+
+	["lbarhalogenFR2l", "roofM1l"],
+	["lbarhalogenFR2l", "roofM2r"],
+	["lbarhalogenFR2l", "roofM2l"],
+	["lbarhalogenFR2l", "roofMrig"],
+
+	["lbarhalogenFR2r", "roofM2l"],
+	["lbarhalogenFR2r", "roofM1r"],
+	["lbarhalogenFR2r", "roofM2r"],
+	["lbarhalogenFR2r", "roofMrig"],
+
+	["lbarhalogenFRrig", "roofM1l"],
+	["lbarhalogenFRrig", "roofM1r"],
+	["lbarhalogenFRrig", "roofM2l"],
+	["lbarhalogenFRrig", "roofM2r"],
+
+
+	//r
+	{"breakGroup":"lightbar_halogen_flasher_R_break"},
+	{"deformGroup":"lightbar_halogen_flasher_R_break"},
+
+	["lbarhalogenBR1l", "roofM1l"],
+	["lbarhalogenBR1l", "roofM1r"],
+	["lbarhalogenBR1l", "roofM2l"],
+	["lbarhalogenBR1l", "roofMrig"],
+
+	["lbarhalogenBR1r", "roofM1l"],
+	["lbarhalogenBR1r", "roofM1r"],
+	["lbarhalogenBR1r", "roofM2r"],
+	["lbarhalogenBR1r", "roofMrig"],
+
+	["lbarhalogenBR2l", "roofM1l"],
+	["lbarhalogenBR2l", "roofM2r"],
+	["lbarhalogenBR2l", "roofM2l"],
+	["lbarhalogenBR2l", "roofMrig"],
+
+	["lbarhalogenBR2r", "roofM2l"],
+	["lbarhalogenBR2r", "roofM1r"],
+	["lbarhalogenBR2r", "roofM2r"],
+	["lbarhalogenBR2r", "roofMrig"],
+
+	["lbarhalogenBRrig", "roofM1l"],
+	["lbarhalogenBRrig", "roofM1r"],
+	["lbarhalogenBRrig", "roofM2l"],
+	["lbarhalogenBRrig", "roofM2r"],
+
+	
+	{"deformGroup":"lightbar_halogen_R_break"},
+	{"optional":true},
+
+
+	//rr to top
+	{"breakGroup":"lightbar_halogen_flasher_RR_top_break"},
+
+	["lbarhalogenR1l", "lbarhalogenFR1l"],
+	["lbarhalogenR1l", "lbarhalogenFR1r"],
+	["lbarhalogenR1l", "lbarhalogenFR2l"],
+	["lbarhalogenR1l", "lbarhalogenFRrig"],
+
+	["lbarhalogenR1r", "lbarhalogenFR1l"],
+	["lbarhalogenR1r", "lbarhalogenFR1r"],
+	["lbarhalogenR1r", "lbarhalogenFR2r"],
+	["lbarhalogenR1r", "lbarhalogenFRrig"],
+
+	["lbarhalogenR2l", "lbarhalogenFR1l"],
+	["lbarhalogenR2l", "lbarhalogenFR2r"],
+	["lbarhalogenR2l", "lbarhalogenFR2l"],
+	["lbarhalogenR2l", "lbarhalogenFRrig"],
+
+	["lbarhalogenR2r", "lbarhalogenFR2l"],
+	["lbarhalogenR2r", "lbarhalogenFR1r"],
+	["lbarhalogenR2r", "lbarhalogenFR2r"],
+	["lbarhalogenR2r", "lbarhalogenFRrig"],
+
+	["lbarhalogenRrig", "lbarhalogenFR1l"],
+	["lbarhalogenRrig", "lbarhalogenFR1r"],
+	["lbarhalogenRrig", "lbarhalogenFR2l"],
+	["lbarhalogenRrig", "lbarhalogenFR2r"],
+
+
+	//r to top
+	{"breakGroup":"lightbar_halogen_flasher_R_top_break"},
+
+	["lbarhalogenR1l", "lbarhalogenBR1l"],
+	["lbarhalogenR1l", "lbarhalogenBR1r"],
+	["lbarhalogenR1l", "lbarhalogenBR2l"],
+	["lbarhalogenR1l", "lbarhalogenBRrig"],
+
+	["lbarhalogenR1r", "lbarhalogenBR1l"],
+	["lbarhalogenR1r", "lbarhalogenBR1r"],
+	["lbarhalogenR1r", "lbarhalogenBR2r"],
+	["lbarhalogenR1r", "lbarhalogenBRrig"],
+
+	["lbarhalogenR2l", "lbarhalogenBR1l"],
+	["lbarhalogenR2l", "lbarhalogenBR2r"],
+	["lbarhalogenR2l", "lbarhalogenBR2l"],
+	["lbarhalogenR2l", "lbarhalogenBRrig"],
+
+	["lbarhalogenR2r", "lbarhalogenBR2l"],
+	["lbarhalogenR2r", "lbarhalogenBR1r"],
+	["lbarhalogenR2r", "lbarhalogenBR2r"],
+	["lbarhalogenR2r", "lbarhalogenBRrig"],
+
+	["lbarhalogenRrig", "lbarhalogenBR1l"],
+	["lbarhalogenRrig", "lbarhalogenBR1r"],
+	["lbarhalogenRrig", "lbarhalogenBR2l"],
+	["lbarhalogenRrig", "lbarhalogenBR2r"],
+
+	
+	{"optional":false},
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_lightbar_halogen_flasher_RR"},
+	["lbarhalogenFR2l","lbarhalogenFR2r","lbarhalogenFR1r","lbarhalogenFR1l"],
+	{"group":"legocar_lightbar_halogen_flasher_R"},
+	["lbarhalogenBR2l","lbarhalogenBR2r","lbarhalogenBR1r","lbarhalogenBR1l"],
+        {"group":""},
+    ],
+},
+
+}

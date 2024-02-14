@@ -1,0 +1,51 @@
+{
+"legocar_fence_bumper_lights_e": {
+    "information":{
+        "name":"Emergency Lights",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fence_bumper_lights_e",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"bumper_FL_break", "deformMaterialBase":"legocar_policelight_bulb_L_orange", "deformMaterialDamaged":"lego_transcol_orange"},
+	["legocar_emergencylight_L", ["legocar_bumper_F"], [], {"pos":{"x": 0.375, "y":-2.150, "z":0.275},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"bumper_FR_break", "deformMaterialBase":"legocar_policelight_bulb_R_orange", "deformMaterialDamaged":"lego_transcol_orange"},
+	["legocar_emergencylight_R", ["legocar_bumper_F"], [], {"pos":{"x":-0.375, "y":-2.150, "z":0.275},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightRange":15,
+            "lightBrightness": 1,
+            "lightColor":{"r":240, "g":143, "b":28, "a":555},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.0,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_bulb_L", "POINTLIGHT",  "Fbump2r","Fbump2l","Fbump1r", {"x":90,"y": 0,"z": 0 }, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.5, "z":-0.10},"deformGroup":"bumper_FL_break"}],
+	["cop_bulb_R", "POINTLIGHT",  "Fbump2r","Fbump2l","Fbump1r", {"x":90,"y": 0,"z": 0 }, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.25, "y":0.5, "z":-0.10},"deformGroup":"bumper_FR_break"}],
+	["cop_bulb_L", "POINTLIGHT",  "Fbump2r","Fbump2l","Fbump1r", {"x":90,"y": 0,"z":-60}, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.75, "y":0.5, "z":-0.10},"deformGroup":"bumper_FL_break"}],
+	["cop_bulb_R", "POINTLIGHT",  "Fbump2r","Fbump2l","Fbump1r", {"x":90,"y": 0,"z": 60}, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.25, "y":0.5, "z":-0.10},"deformGroup":"bumper_FR_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//add weight
+	{"group":"legocar_bumper_F"},
+	//12 pieces, 5 nodes - 2.4 kg/node
+	{"nodeWeight": "$=$weight*2.4"},
+
+	["Fbump1l",  0.625, -2.15, 0.00],
+	["Fbump1r", -0.625, -2.15, 0.00],
+	["Fbump2l",  0.625, -2.15, 0.60],
+	["Fbump2r", -0.625, -2.15, 0.60],
+	//rigidifier
+	["Fbumprig", 0, -1.75, 0.3, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+},
+
+}

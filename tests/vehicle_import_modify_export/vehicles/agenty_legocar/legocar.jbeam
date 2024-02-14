@@ -1,0 +1,498 @@
+//piece scale: 0.25m to 7.8mm = 1 to 31.2/1000 = 32.0512820:1
+
+{
+"legocar": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Toy Building Block Car"
+    },
+    "slotType" : "main",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_ABS","legocar_ABS", "Anti-Lock Braking System"],
+	["legocar_ESC","legocar_ESC", "Modern Electronics"],
+	["linelock","", "Brake Line Lock"],
+        ["legocar_chassis","legocar_chassis", "Chassis", {"coreSlot":true}],
+	["legocar_soundscape","legocar_soundscape", "Soundscape"],
+	["legocar_driver","legocar_driver_camera", "Driver"],
+        ["legocar_modular_skins", "legocar_skin_template_twotone", "Paint Design (Modular)"],
+	["skin_interior", "legocar_skin_interior_col2", "Interior Color", {"coreSlot":true}],
+	["skin_seat", "legocar_skin_seat_grey", "Seat Color", {"coreSlot":true}],
+	["skin_mechanical", "", "Replace Material"],
+	["legocar_randomcolors","", "Random Colors"],
+	["legocar_police_controller","", "Police Lights Controller"],
+        ["licenseplate_design_2_1","","License Plate Design"],
+        ["legocar_mod", "", "Additional Modification"],
+    ],
+    "controller": [
+        ["fileName"],
+        ["vehicleController", {}]
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$brakestrength","range", "",  "Brakes",            1,     0.6,   1.0,    "Brake Force",                              "Scales the overall brake torque for this car",            {"minDis":60, "maxDis":100}],
+        ["$ffbstrength",  "range", "",  "Chassis",           1,     0.5,   1.5,    "Setup-Specific Force Feedback Multiplier", "Scales the force feedback strength for THIS SETUP ONLY",  {"minDis":50, "maxDis":150}]
+
+	["$weight",       "range", "x", "Physics", 2,     1,     5,      "Weight Scale",                             "Weight in kg per single 1x1 flat piece, default is 1 kg, irl 0.2g", {"stepDis":0.1}],
+	["$strength",     "range", "x", "Physics", 40000, 10000, 400000, "Connection Strength Scale",                "Scale of the force it takes to separate 2 pieces",                  {"minDis":0.25, "maxDis":10, "stepDis":0.01}],
+	["$drag",     	  "range", "x", "Physics", 2,     0,     10,     "Air Drag",                		     "Adjusts the aerodynamics scale",                  		  {"stepDis":0.01}],
+    ],
+    "glowMap":{
+
+	//headlights
+	"legocar_headlight_L_stock":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_L":1}, "off":"lego_transcol_white",	"on":"lego_transcol_white_on",	"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_headlight_L_smoked":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_L":1}, "off":"lego_transcol_black",	"on":"lego_transcol_black_on",	"on_intense":"lego_transcol_black_on_intense"},
+	"legocar_headlight_L_red":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_L":1}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_headlight_L_yellow":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_L":1}, "off":"lego_transcol_yellow",	"on":"lego_transcol_yellow_on",	"on_intense":"lego_transcol_yellow_on_intense"},
+	"legocar_headlight_L_green":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_L":1}, "off":"lego_transcol_bgreen",	"on":"lego_transcol_bgreen_on",	"on_intense":"lego_transcol_bgreen_on_intense"},
+	"legocar_headlight_L_blue":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_L":1}, "off":"lego_transcol_lblue",	"on":"lego_transcol_lblue_on",	"on_intense":"lego_transcol_lblue_on_intense"},
+	"legocar_headlight_R_stock":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_R":1}, "off":"lego_transcol_white",	"on":"lego_transcol_white_on",	"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_headlight_R_smoked":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_R":1}, "off":"lego_transcol_black",	"on":"lego_transcol_black_on",	"on_intense":"lego_transcol_black_on_intense"},
+	"legocar_headlight_R_red":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_R":1}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_headlight_R_yellow":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_R":1}, "off":"lego_transcol_yellow",	"on":"lego_transcol_yellow_on",	"on_intense":"lego_transcol_yellow_on_intense"},
+	"legocar_headlight_R_green":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_R":1}, "off":"lego_transcol_bgreen",	"on":"lego_transcol_bgreen_on",	"on_intense":"lego_transcol_bgreen_on_intense"},
+	"legocar_headlight_R_blue":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_R":1}, "off":"lego_transcol_lblue",	"on":"lego_transcol_lblue_on",	"on_intense":"lego_transcol_lblue_on_intense"},
+
+	//low beams
+	"legocar_lowbeam_L_stock":	{"simpleFunction":{"lowbeam_wigwag_L":0.49,"highbeam":1}, "off":"lego_transcol_white",	"on":"lego_transcol_white_on",	"on_intense":"lego_transcol_white"},
+	"legocar_lowbeam_L_smoked":	{"simpleFunction":{"lowbeam_wigwag_L":0.49,"highbeam":1}, "off":"lego_transcol_black",	"on":"lego_transcol_black_on",	"on_intense":"lego_transcol_black"},
+	"legocar_lowbeam_L_red":	{"simpleFunction":{"lowbeam_wigwag_L":0.49,"highbeam":1}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on",	"on_intense":"lego_transcol_red"},
+	"legocar_lowbeam_L_yellow":	{"simpleFunction":{"lowbeam_wigwag_L":0.49,"highbeam":1}, "off":"lego_transcol_yellow",	"on":"lego_transcol_yellow_on",	"on_intense":"lego_transcol_yellow"},
+	"legocar_lowbeam_L_green":	{"simpleFunction":{"lowbeam_wigwag_L":0.49,"highbeam":1}, "off":"lego_transcol_bgreen",	"on":"lego_transcol_bgreen_on",	"on_intense":"lego_transcol_bgreen"},
+	"legocar_lowbeam_L_blue":	{"simpleFunction":{"lowbeam_wigwag_L":0.49,"highbeam":1}, "off":"lego_transcol_lblue",	"on":"lego_transcol_lblue_on",	"on_intense":"lego_transcol_lblue"},
+	"legocar_lowbeam_R_stock":	{"simpleFunction":{"lowbeam_wigwag_R":0.49,"highbeam":1}, "off":"lego_transcol_white",	"on":"lego_transcol_white_on",	"on_intense":"lego_transcol_white"},
+	"legocar_lowbeam_R_smoked":	{"simpleFunction":{"lowbeam_wigwag_R":0.49,"highbeam":1}, "off":"lego_transcol_black",	"on":"lego_transcol_black_on",	"on_intense":"lego_transcol_black"},
+	"legocar_lowbeam_R_red":	{"simpleFunction":{"lowbeam_wigwag_R":0.49,"highbeam":1}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on",	"on_intense":"lego_transcol_red"},
+	"legocar_lowbeam_R_yellow":	{"simpleFunction":{"lowbeam_wigwag_R":0.49,"highbeam":1}, "off":"lego_transcol_yellow",	"on":"lego_transcol_yellow_on",	"on_intense":"lego_transcol_yellow"},
+	"legocar_lowbeam_R_green":	{"simpleFunction":{"lowbeam_wigwag_R":0.49,"highbeam":1}, "off":"lego_transcol_bgreen",	"on":"lego_transcol_bgreen_on",	"on_intense":"lego_transcol_bgreen"},
+	"legocar_lowbeam_R_blue":	{"simpleFunction":{"lowbeam_wigwag_R":0.49,"highbeam":1}, "off":"lego_transcol_lblue",	"on":"lego_transcol_lblue_on",	"on_intense":"lego_transcol_lblue"},
+
+	//high beams
+	"legocar_highbeam_L_stock":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_L":1}, "off":"lego_transcol_white",	"on":"lego_transcol_white",	"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_highbeam_L_smoked":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_L":1}, "off":"lego_transcol_black",	"on":"lego_transcol_black",	"on_intense":"lego_transcol_black_on_intense"},
+	"legocar_highbeam_L_red":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_L":1}, "off":"lego_transcol_red",	"on":"lego_transcol_red",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_highbeam_L_yellow":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_L":1}, "off":"lego_transcol_yellow",	"on":"lego_transcol_yellow",	"on_intense":"lego_transcol_yellow_on_intense"},
+	"legocar_highbeam_L_green":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_L":1}, "off":"lego_transcol_bgreen",	"on":"lego_transcol_bgreen",	"on_intense":"lego_transcol_bgreen_on_intense"},
+	"legocar_highbeam_L_blue":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_L":1}, "off":"lego_transcol_lblue",	"on":"lego_transcol_lblue",	"on_intense":"lego_transcol_lblue_on_intense"},
+	"legocar_highbeam_R_stock":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_R":1}, "off":"lego_transcol_white",	"on":"lego_transcol_white",	"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_highbeam_R_smoked":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_R":1}, "off":"lego_transcol_black",	"on":"lego_transcol_black",	"on_intense":"lego_transcol_black_on_intense"},
+	"legocar_highbeam_R_red":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_R":1}, "off":"lego_transcol_red",	"on":"lego_transcol_red",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_highbeam_R_yellow":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_R":1}, "off":"lego_transcol_yellow",	"on":"lego_transcol_yellow",	"on_intense":"lego_transcol_yellow_on_intense"},
+	"legocar_highbeam_R_green":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_R":1}, "off":"lego_transcol_bgreen",	"on":"lego_transcol_bgreen",	"on_intense":"lego_transcol_bgreen_on_intense"},
+	"legocar_highbeam_R_blue":	{"simpleFunction":{"lowbeam":0.49,"highbeam_wigwag_R":1}, "off":"lego_transcol_lblue",	"on":"lego_transcol_lblue",	"on_intense":"lego_transcol_lblue_on_intense"},
+
+	//generic high beam
+	"legocar_highbeam_generic_nobloom":	{"simpleFunction":{"lowbeam":0.49,"highbeam":1}, "off":"lego_transcol_white",	"on":"lego_transcol_white",	"on_intense":"lego_transcol_white_on_intense_nobloom"},
+	"legocar_highbeam_generic":		{"simpleFunction":{"lowbeam":0.49,"highbeam":1}, "off":"lego_transcol_white",	"on":"lego_transcol_white",	"on_intense":"lego_transcol_white_on_intense"},
+
+	//fog lights
+	"legocar_foglight_stock":	{"simpleFunction":{"fog":1}, "off":"lego_transcol_white",	"on":"lego_transcol_white_on",		"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_foglight_smoked":	{"simpleFunction":{"fog":1}, "off":"lego_transcol_black",	"on":"lego_transcol_black_on",		"on_intense":"lego_transcol_black_on_intense"},
+	"legocar_foglight_yellow":	{"simpleFunction":{"fog":1}, "off":"lego_transcol_yellow",	"on":"lego_transcol_yellow_on",		"on_intense":"lego_transcol_yellow_on_intense"},
+
+	//prefacelift taillights
+	"legocar_taillight_L_stock":	{"simpleFunction":{"wigwag_signal_L":0.49,"lowhighbeam":0.49,"brake":0.49},	"off":"lego_transcol_red",	"on":"lego_transcol_red_on",		"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_taillight_L_smoked":	{"simpleFunction":{"wigwag_signal_L":0.49,"lowhighbeam":0.49,"brake":0.49},	"off":"lego_transcol_dred",	"on":"lego_transcol_dred_on",		"on_intense":"lego_transcol_dred_on_intense"},
+	"legocar_taillight_L_clear":	{"simpleFunction":{"wigwag_signal_L":0.49,"lowhighbeam":0.49,"brake":0.49},	"off":"lego_transcol_white",	"on":"lego_transcol_whitered_on",	"on_intense":"lego_transcol_whitered_on_intense"},
+	"legocar_taillight_R_stock":	{"simpleFunction":{"wigwag_signal_R":0.49,"lowhighbeam":0.49,"brake":0.49},	"off":"lego_transcol_red",	"on":"lego_transcol_red_on",		"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_taillight_R_smoked":	{"simpleFunction":{"wigwag_signal_R":0.49,"lowhighbeam":0.49,"brake":0.49},	"off":"lego_transcol_dred",	"on":"lego_transcol_dred_on",		"on_intense":"lego_transcol_dred_on_intense"},
+	"legocar_taillight_R_clear":	{"simpleFunction":{"wigwag_signal_R":0.49,"lowhighbeam":0.49,"brake":0.49},	"off":"lego_transcol_white",	"on":"lego_transcol_whitered_on",	"on_intense":"lego_transcol_whitered_on_intense"},
+
+	//facelift taillights
+	"legocar_taillight_lowhighbeam_L_stock":	{"simpleFunction":{"lowhighbeam_wigwag_L":0.49},	"off":"lego_transcol_red",	"on":"lego_transcol_red_on",		"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_taillight_lowhighbeam_L_smoked":	{"simpleFunction":{"lowhighbeam_wigwag_L":0.49},	"off":"lego_transcol_dred",	"on":"lego_transcol_dred_on",		"on_intense":"lego_transcol_dred_on_intense"},
+	"legocar_taillight_lowhighbeam_L_clear":	{"simpleFunction":{"lowhighbeam_wigwag_L":0.49},	"off":"lego_transcol_white",	"on":"lego_transcol_whitered_on",	"on_intense":"lego_transcol_whitered_on_intense"},
+	"legocar_taillight_lowhighbeam_R_stock":	{"simpleFunction":{"lowhighbeam_wigwag_R":0.49},	"off":"lego_transcol_red",	"on":"lego_transcol_red_on",		"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_taillight_lowhighbeam_R_smoked":	{"simpleFunction":{"lowhighbeam_wigwag_R":0.49},	"off":"lego_transcol_dred",	"on":"lego_transcol_dred_on",		"on_intense":"lego_transcol_dred_on_intense"},
+	"legocar_taillight_lowhighbeam_R_clear":	{"simpleFunction":{"lowhighbeam_wigwag_R":0.49},	"off":"lego_transcol_white",	"on":"lego_transcol_whitered_on",	"on_intense":"lego_transcol_whitered_on_intense"},
+	
+	//facelift brakelights
+	"legocar_taillight_brake_L_stock":	{"simpleFunction":{"brake_wigwag_L":0.49},	"off":"lego_transcol_red",	"on":"lego_transcol_red_on",		"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_taillight_brake_L_smoked":	{"simpleFunction":{"brake_wigwag_L":0.49},	"off":"lego_transcol_dred",	"on":"lego_transcol_dred_on",		"on_intense":"lego_transcol_dred_on_intense"},
+	"legocar_taillight_brake_L_clear":	{"simpleFunction":{"brake_wigwag_L":0.49},	"off":"lego_transcol_white",	"on":"lego_transcol_whitered_on",	"on_intense":"lego_transcol_whitered_on_intense"},
+	"legocar_taillight_brake_R_stock":	{"simpleFunction":{"brake_wigwag_R":0.49},	"off":"lego_transcol_red",	"on":"lego_transcol_red_on",		"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_taillight_brake_R_smoked":	{"simpleFunction":{"brake_wigwag_R":0.49},	"off":"lego_transcol_dred",	"on":"lego_transcol_dred_on",		"on_intense":"lego_transcol_dred_on_intense"},
+	"legocar_taillight_brake_R_clear":	{"simpleFunction":{"brake_wigwag_R":0.49},	"off":"lego_transcol_white",	"on":"lego_transcol_whitered_on",	"on_intense":"lego_transcol_whitered_on_intense"},
+
+	//common taillights
+	"legocar_taillight_fog_stock":		{"simpleFunction":{"fog_wigwag_L":0.49}, 	"off":"lego_transcol_red",	"on":"lego_transcol_red_on",		"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_taillight_fog_smoked":		{"simpleFunction":{"fog_wigwag_L":0.49}, 	"off":"lego_transcol_dred",	"on":"lego_transcol_dred_on",		"on_intense":"lego_transcol_dred_on_intense"},
+	"legocar_taillight_reverse_L_stock":	{"simpleFunction":{"reverse_wigwag_L":0.49}, 	"off":"lego_transcol_white",	"on":"lego_transcol_white_on",		"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_taillight_reverse_L_smoked":	{"simpleFunction":{"reverse_wigwag_L":0.49}, 	"off":"lego_transcol_black",	"on":"lego_transcol_black_on",		"on_intense":"lego_transcol_black_on_intense"},
+	"legocar_taillight_reverse_R_stock":	{"simpleFunction":{"reverse_wigwag_R":0.49}, 	"off":"lego_transcol_white",	"on":"lego_transcol_white_on",		"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_taillight_reverse_R_smoked":	{"simpleFunction":{"reverse_wigwag_R":0.49}, 	"off":"lego_transcol_black",	"on":"lego_transcol_black_on",		"on_intense":"lego_transcol_black_on_intense"},
+	
+	//chmsl
+	"legocar_chmsl_stock":	{"simpleFunction":{"brake":100}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on",		"on_intense":"lego_transcol_red_on_intense_nobloom"},
+	"legocar_chmsl_smoked":	{"simpleFunction":{"brake":100}, "off":"lego_transcol_dred",	"on":"lego_transcol_dred_on",		"on_intense":"lego_transcol_dred_on_intense"},
+	"legocar_chmsl_clear":	{"simpleFunction":{"brake":100}, "off":"lego_transcol_white",	"on":"lego_transcol_whitered_on",	"on_intense":"lego_transcol_whitered_on_intense_nobloom"},
+
+	//turn signals
+	"legocar_signal_L_orange_US":	{"simpleFunction":{"lowhighbeam":0.49,"wigwag_signal_L":0.49},	"off":"lego_transcol_orange",	"on":"lego_transcol_orange_on",		"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_signal_R_orange_US":	{"simpleFunction":{"lowhighbeam":0.49,"wigwag_signal_R":0.49},	"off":"lego_transcol_orange",	"on":"lego_transcol_orange_on",		"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_signal_L_orange_EU":	{"simpleFunction":{"wigwag_signal_L":0.89}, 			"off":"lego_transcol_orange",	"on":"lego_transcol_orange_on",		"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_signal_R_orange_EU":	{"simpleFunction":{"wigwag_signal_R":0.89}, 			"off":"lego_transcol_orange",	"on":"lego_transcol_orange_on",		"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_signal_L_white":	{"simpleFunction":{"wigwag_signal_L":0.89}, 			"off":"lego_transcol_white",	"on":"lego_transcol_whiteorange_on",	"on_intense":"lego_transcol_whiteorange_on_intense"},
+	"legocar_signal_R_white":	{"simpleFunction":{"wigwag_signal_R":0.89}, 			"off":"lego_transcol_white",	"on":"lego_transcol_whiteorange_on",	"on_intense":"lego_transcol_whiteorange_on_intense"},
+	"legocar_signal_L_red":		{"simpleFunction":{"lowhighbeam":0.49,"wigwag_signal_L":0.49},	"off":"lego_transcol_red",	"on":"lego_transcol_red_on",		"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_signal_R_red":		{"simpleFunction":{"lowhighbeam":0.49,"wigwag_signal_R":0.49},	"off":"lego_transcol_red",	"on":"lego_transcol_red_on",		"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_signal_L_red_smoked":	{"simpleFunction":{"lowhighbeam":0.49,"wigwag_signal_L":0.49},	"off":"lego_transcol_dred",	"on":"lego_transcol_dred_on",		"on_intense":"lego_transcol_dred_on_intense"},
+	"legocar_signal_R_red_smoked":	{"simpleFunction":{"lowhighbeam":0.49,"wigwag_signal_R":0.49},	"off":"lego_transcol_dred",	"on":"lego_transcol_dred_on",		"on_intense":"lego_transcol_dred_on_intense"},
+
+	//under glow lights
+	"legocar_underglow_white":	{"simpleFunction":{"underglow":1}, "off":"lego_transcol_white",	"on":"lego_transcol_white_on_intense",	"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_underglow_red":	{"simpleFunction":{"underglow":1}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_underglow_orange":	{"simpleFunction":{"underglow":1}, "off":"lego_transcol_orange","on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_underglow_yellow":	{"simpleFunction":{"underglow":1}, "off":"lego_transcol_yellow","on":"lego_transcol_yellow_on_intense",	"on_intense":"lego_transcol_yellow_on_intense"},
+	"legocar_underglow_bgreen":	{"simpleFunction":{"underglow":1}, "off":"lego_transcol_bgreen","on":"lego_transcol_bgreen_on_intense",	"on_intense":"lego_transcol_bgreen_on_intense"},
+	"legocar_underglow_green":	{"simpleFunction":{"underglow":1}, "off":"lego_transcol_green",	"on":"lego_transcol_green_on_intense",	"on_intense":"lego_transcol_green_on_intense"},
+	"legocar_underglow_lblue":	{"simpleFunction":{"underglow":1}, "off":"lego_transcol_lblue",	"on":"lego_transcol_lblue_on_intense",	"on_intense":"lego_transcol_lblue_on_intense"},
+	"legocar_underglow_blue":	{"simpleFunction":{"underglow":1}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_underglow_pink":	{"simpleFunction":{"underglow":1}, "off":"lego_transcol_pink",	"on":"lego_transcol_pink_on_intense",	"on_intense":"lego_transcol_pink_on_intense"},
+
+	//guns
+	"lego_gun_laser_red":	{"simpleFunction":{"lowbeam":0.49,"highbeam":1.00}, 	"off":"invis", "on":"lego_transcol_red_on_intense",		"on_intense":"invis"},
+	"lego_gun_laser_green":	{"simpleFunction":{"lowbeam":0.49,"highbeam":1.00}, 	"off":"invis", "on":"invis",					"on_intense":"lego_transcol_bgreen_on_intense"},
+	"lego_fire_gun_L":  	{"simpleFunction":{"gun_L":1},				"off":"invis", "on":"lego_transcol_flyorange_on_intense",	"on_intense":"lego_transcol_flyorange_on_intense"},
+	"lego_fire_gun_R":  	{"simpleFunction":{"gun_R":1},				"off":"invis", "on":"lego_transcol_flyorange_on_intense",	"on_intense":"lego_transcol_flyorange_on_intense"},
+
+        //fire effects
+	"lego_fire":  		{"simpleFunction":{"afterFireDetector":1},"off":"invis", "on":"lego_transcol_flyorange_on_intense", 	"on_intense":"invis"},
+	"lego_fire_a":		{"simpleFunction":{"fire_a":1},		  "off":"invis", "on":"lego_transcol_orange_on_intense", 	"on_intense":"lego_transcol_orange_on_intense"},
+	"lego_fire_b":		{"simpleFunction":{"fire_b":1},		  "off":"invis", "on":"lego_transcol_orange_on_intense",    	"on_intense":"lego_transcol_orange_on_intense"},
+	"lego_fire_a_fuelcell": {"simpleFunction":{"fire_a_fuelcell":1},  "off":"invis", "on":"lego_transcol_orange_on_intense", 	"on_intense":"lego_transcol_orange_on_intense"},
+	"lego_fire_b_fuelcell": {"simpleFunction":{"fire_b_fuelcell":1},  "off":"invis", "on":"lego_transcol_orange_on_intense",    	"on_intense":"lego_transcol_orange_on_intense"},
+
+	//firing order for exposed headers
+	"legocar_firingorder_1":  {"simpleFunction":{"firingorder1":1},"off":"invis", "on":"lego_transcol_flyorange_on_intense", "on_intense":"lego_transcol_flyorange_on_intense"},
+	"legocar_firingorder_2":  {"simpleFunction":{"firingorder2":1},"off":"invis", "on":"lego_transcol_flyorange_on_intense", "on_intense":"lego_transcol_flyorange_on_intense"},
+	"legocar_firingorder_3":  {"simpleFunction":{"firingorder3":1},"off":"invis", "on":"lego_transcol_flyorange_on_intense", "on_intense":"lego_transcol_flyorange_on_intense"},
+	"legocar_firingorder_4":  {"simpleFunction":{"firingorder4":1},"off":"invis", "on":"lego_transcol_flyorange_on_intense", "on_intense":"lego_transcol_flyorange_on_intense"},
+	"legocar_firingorder_5":  {"simpleFunction":{"firingorder5":1},"off":"invis", "on":"lego_transcol_flyorange_on_intense", "on_intense":"lego_transcol_flyorange_on_intense"},
+	"legocar_firingorder_6":  {"simpleFunction":{"firingorder6":1},"off":"invis", "on":"lego_transcol_flyorange_on_intense", "on_intense":"lego_transcol_flyorange_on_intense"},
+	"legocar_firingorder_7":  {"simpleFunction":{"firingorder7":1},"off":"invis", "on":"lego_transcol_flyorange_on_intense", "on_intense":"lego_transcol_flyorange_on_intense"},
+	"legocar_firingorder_8":  {"simpleFunction":{"firingorder8":1},"off":"invis", "on":"lego_transcol_flyorange_on_intense", "on_intense":"lego_transcol_flyorange_on_intense"},
+	
+	//primary nitrous fire effect colors
+	"legocar_nitrofire_white":	{"simpleFunction":{"nitrofire_primary":1}, "off":"invis", "on":"lego_transcol_white_on_intense",	"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_nitrofire_red":	{"simpleFunction":{"nitrofire_primary":1}, "off":"invis", "on":"lego_transcol_red_on_intense",		"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_nitrofire_orange":	{"simpleFunction":{"nitrofire_primary":1}, "off":"invis", "on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_nitrofire_yellow":	{"simpleFunction":{"nitrofire_primary":1}, "off":"invis", "on":"lego_transcol_yellow_on_intense",	"on_intense":"lego_transcol_yellow_on_intense"},
+	"legocar_nitrofire_bgreen":	{"simpleFunction":{"nitrofire_primary":1}, "off":"invis", "on":"lego_transcol_bgreen_on_intense",	"on_intense":"lego_transcol_bgreen_on_intense"},
+	"legocar_nitrofire_green":	{"simpleFunction":{"nitrofire_primary":1}, "off":"invis", "on":"lego_transcol_green_on_intense",	"on_intense":"lego_transcol_green_on_intense"},
+	"legocar_nitrofire_lblue":	{"simpleFunction":{"nitrofire_primary":1}, "off":"invis", "on":"lego_transcol_lblue_on_intense",	"on_intense":"lego_transcol_lblue_on_intense"},
+	"legocar_nitrofire_blue":	{"simpleFunction":{"nitrofire_primary":1}, "off":"invis", "on":"lego_transcol_blue_on_intense",		"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_nitrofire_pink":	{"simpleFunction":{"nitrofire_primary":1}, "off":"invis", "on":"lego_transcol_pink_on_intense",		"on_intense":"lego_transcol_pink_on_intense"},
+
+	//secondary nitrous fire effect colors
+	"legocar_nitrofire_white2":	{"simpleFunction":{"nitrofire_secondary":1}, "off":"invis", "on":"lego_transcol_white_on_intense",	"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_nitrofire_red2":	{"simpleFunction":{"nitrofire_secondary":1}, "off":"invis", "on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_nitrofire_orange2":	{"simpleFunction":{"nitrofire_secondary":1}, "off":"invis", "on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_nitrofire_yellow2":	{"simpleFunction":{"nitrofire_secondary":1}, "off":"invis", "on":"lego_transcol_yellow_on_intense",	"on_intense":"lego_transcol_yellow_on_intense"},
+	"legocar_nitrofire_bgreen2":	{"simpleFunction":{"nitrofire_secondary":1}, "off":"invis", "on":"lego_transcol_bgreen_on_intense",	"on_intense":"lego_transcol_bgreen_on_intense"},
+	"legocar_nitrofire_green2":	{"simpleFunction":{"nitrofire_secondary":1}, "off":"invis", "on":"lego_transcol_green_on_intense",	"on_intense":"lego_transcol_green_on_intense"},
+	"legocar_nitrofire_lblue2":	{"simpleFunction":{"nitrofire_secondary":1}, "off":"invis", "on":"lego_transcol_lblue_on_intense",	"on_intense":"lego_transcol_lblue_on_intense"},
+	"legocar_nitrofire_blue2":	{"simpleFunction":{"nitrofire_secondary":1}, "off":"invis", "on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_nitrofire_pink2":	{"simpleFunction":{"nitrofire_secondary":1}, "off":"invis", "on":"lego_transcol_pink_on_intense",	"on_intense":"lego_transcol_pink_on_intense"},
+
+	//extinguisher water effect
+	"lego_water_1a": {"simpleFunction":{"water_1a":1}, "off":"invis", "on":"lego_transcol_lblue", "on_intense":"lego_transcol_lblue"},
+	"lego_water_1b": {"simpleFunction":{"water_1b":1}, "off":"invis", "on":"lego_transcol_lblue", "on_intense":"lego_transcol_lblue"},
+	"lego_water_2a": {"simpleFunction":{"water_2a":1}, "off":"invis", "on":"lego_transcol_lblue", "on_intense":"lego_transcol_lblue"},
+	"lego_water_2b": {"simpleFunction":{"water_2b":1}, "off":"invis", "on":"lego_transcol_lblue", "on_intense":"lego_transcol_lblue"},
+
+	//spotlights
+	"legocar_spotlight_L_yellow":		{"simpleFunction":{"spotlight_L_light":1,"signal_L":0.49}, 	"off":"lego_transcol_yellow", 	"on":"lego_transcol_yellow_on",		"on_intense":"lego_transcol_yellow_on_intense"},
+	"legocar_spotlight_R_yellow":		{"simpleFunction":{"spotlight_R_light":1,"signal_R":0.49}, 	"off":"lego_transcol_yellow", 	"on":"lego_transcol_yellow_on",		"on_intense":"lego_transcol_yellow_on_intense"},
+	"legocar_spotlight_L_white_base":	{"simpleFunction":{"spotlight_L_light":1,"signal_L":0.49}, 	"off":"lego_transcol_white", 	"on":"invis",				"on_intense":"invis"},
+	"legocar_spotlight_R_white_base":	{"simpleFunction":{"spotlight_R_light":1,"signal_R":0.49}, 	"off":"lego_transcol_white", 	"on":"invis",				"on_intense":"invis"},
+	"legocar_spotlight_L_white_signal":	{"simpleFunction":{"signal_L":0.49}, 				"off":"invis", 			"on":"lego_transcol_orange_on",		"on_intense":"lego_transcol_orange_on"},
+	"legocar_spotlight_R_white_signal":	{"simpleFunction":{"signal_R":0.49}, 				"off":"invis", 			"on":"lego_transcol_orange_on",		"on_intense":"lego_transcol_orange_on"},
+	"legocar_spotlight_L_white_highbeam":	{"simpleFunction":{"spotlight_L_light":1}, 			"off":"invis", 			"on":"lego_transcol_white_on_intense",	"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_spotlight_R_white_highbeam":	{"simpleFunction":{"spotlight_R_light":1}, 			"off":"invis", 			"on":"lego_transcol_white_on_intense",	"on_intense":"lego_transcol_white_on_intense"},
+
+	//beacon light glow bulbs
+	"legocar_bulb_red":	{"simpleFunction":{"lightbar":1}, "off":"invis", "on":"lego_transcol_red_on_intense_lowopacity",	"on_intense":"lego_transcol_red_on_intense_lowopacity"},
+	"legocar_bulb_blue":	{"simpleFunction":{"lightbar":1}, "off":"invis", "on":"lego_transcol_blue_on_intense_lowopacity",	"on_intense":"lego_transcol_blue_on_intense_lowopacity"},
+	"legocar_bulb_orange":	{"simpleFunction":{"lightbar":1}, "off":"invis", "on":"lego_transcol_orange_on_intense_lowopacity",	"on_intense":"lego_transcol_orange_on_intense_lowopacity"},
+
+	//fullsize lightbar red
+	"legocar_beacon_olds_L1_red":	{"simpleFunction":{"cop_olds_L1":1, "cop_olds_L1_dim":0.49}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on_intense_nobloom",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_beacon_olds_L2_red":	{"simpleFunction":{"cop_olds_L2":1, "cop_olds_L2_dim":0.49}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on_intense_nobloom",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_beacon_olds_L3_red":	{"simpleFunction":{"cop_olds_L3":1, "cop_olds_L3_dim":0.49}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on_intense_nobloom",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_beacon_olds_L4_red":	{"simpleFunction":{"cop_olds_L4":1, "cop_olds_L4_dim":0.49}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on_intense_nobloom",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_beacon_olds_L5_red":	{"simpleFunction":{"cop_olds_L5":1, "cop_olds_L5_dim":0.49}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on_intense_nobloom",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_beacon_olds_R1_red":	{"simpleFunction":{"cop_olds_R1":1, "cop_olds_R1_dim":0.49}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on_intense_nobloom",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_beacon_olds_R2_red":	{"simpleFunction":{"cop_olds_R2":1, "cop_olds_R2_dim":0.49}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on_intense_nobloom",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_beacon_olds_R3_red":	{"simpleFunction":{"cop_olds_R3":1, "cop_olds_R3_dim":0.49}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on_intense_nobloom",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_beacon_olds_R4_red":	{"simpleFunction":{"cop_olds_R4":1, "cop_olds_R4_dim":0.49}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on_intense_nobloom",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_beacon_olds_R5_red":	{"simpleFunction":{"cop_olds_R5":1, "cop_olds_R5_dim":0.49}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on_intense_nobloom",	"on_intense":"lego_transcol_red_on_intense"},
+	
+	//fullsize lightbar blue
+	"legocar_beacon_olds_L1_blue":	{"simpleFunction":{"cop_olds_L1":1, "cop_olds_L1_dim":0.49}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on_intense_nobloom",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_beacon_olds_L2_blue":	{"simpleFunction":{"cop_olds_L2":1, "cop_olds_L2_dim":0.49}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on_intense_nobloom",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_beacon_olds_L3_blue":	{"simpleFunction":{"cop_olds_L3":1, "cop_olds_L3_dim":0.49}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on_intense_nobloom",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_beacon_olds_L4_blue":	{"simpleFunction":{"cop_olds_L4":1, "cop_olds_L4_dim":0.49}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on_intense_nobloom",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_beacon_olds_L5_blue":	{"simpleFunction":{"cop_olds_L5":1, "cop_olds_L5_dim":0.49}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on_intense_nobloom",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_beacon_olds_R1_blue":	{"simpleFunction":{"cop_olds_R1":1, "cop_olds_R1_dim":0.49}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on_intense_nobloom",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_beacon_olds_R2_blue":	{"simpleFunction":{"cop_olds_R2":1, "cop_olds_R2_dim":0.49}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on_intense_nobloom",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_beacon_olds_R3_blue":	{"simpleFunction":{"cop_olds_R3":1, "cop_olds_R3_dim":0.49}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on_intense_nobloom",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_beacon_olds_R4_blue":	{"simpleFunction":{"cop_olds_R4":1, "cop_olds_R4_dim":0.49}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on_intense_nobloom",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_beacon_olds_R5_blue":	{"simpleFunction":{"cop_olds_R5":1, "cop_olds_R5_dim":0.49}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on_intense_nobloom",	"on_intense":"lego_transcol_blue_on_intense"},
+	
+	//fullsize lightbar orange
+	"legocar_beacon_olds_L1_orange":{"simpleFunction":{"cop_olds_L1":1, "cop_olds_L1_dim":0.49}, "off":"lego_transcol_orange",	"on":"lego_transcol_orange_on_intense_nobloom",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_beacon_olds_L2_orange":{"simpleFunction":{"cop_olds_L2":1, "cop_olds_L2_dim":0.49}, "off":"lego_transcol_orange",	"on":"lego_transcol_orange_on_intense_nobloom",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_beacon_olds_L3_orange":{"simpleFunction":{"cop_olds_L3":1, "cop_olds_L3_dim":0.49}, "off":"lego_transcol_orange",	"on":"lego_transcol_orange_on_intense_nobloom",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_beacon_olds_L4_orange":{"simpleFunction":{"cop_olds_L4":1, "cop_olds_L4_dim":0.49}, "off":"lego_transcol_orange",	"on":"lego_transcol_orange_on_intense_nobloom",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_beacon_olds_L5_orange":{"simpleFunction":{"cop_olds_L5":1, "cop_olds_L5_dim":0.49}, "off":"lego_transcol_orange",	"on":"lego_transcol_orange_on_intense_nobloom",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_beacon_olds_R1_orange":{"simpleFunction":{"cop_olds_R1":1, "cop_olds_R1_dim":0.49}, "off":"lego_transcol_orange",	"on":"lego_transcol_orange_on_intense_nobloom",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_beacon_olds_R2_orange":{"simpleFunction":{"cop_olds_R2":1, "cop_olds_R2_dim":0.49}, "off":"lego_transcol_orange",	"on":"lego_transcol_orange_on_intense_nobloom",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_beacon_olds_R3_orange":{"simpleFunction":{"cop_olds_R3":1, "cop_olds_R3_dim":0.49}, "off":"lego_transcol_orange",	"on":"lego_transcol_orange_on_intense_nobloom",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_beacon_olds_R4_orange":{"simpleFunction":{"cop_olds_R4":1, "cop_olds_R4_dim":0.49}, "off":"lego_transcol_orange",	"on":"lego_transcol_orange_on_intense_nobloom",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_beacon_olds_R5_orange":{"simpleFunction":{"cop_olds_R5":1, "cop_olds_R5_dim":0.49}, "off":"lego_transcol_orange",	"on":"lego_transcol_orange_on_intense_nobloom",	"on_intense":"lego_transcol_orange_on_intense"},
+
+	//roof flashers
+	"legocar_beacon_flasher_F_red":		{"simpleFunction":{"cop_EU_M":1}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_beacon_flasher_F_blue":	{"simpleFunction":{"cop_EU_M":1}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_beacon_flasher_F_orange":	{"simpleFunction":{"cop_EU_M":1}, "off":"lego_transcol_orange",	"on":"lego_transcol_orange_on",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_beacon_flasher_FL_red":	{"simpleFunction":{"cop_EU_L":1}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_beacon_flasher_FL_blue":	{"simpleFunction":{"cop_EU_L":1}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_beacon_flasher_FL_orange":	{"simpleFunction":{"cop_EU_L":1}, "off":"lego_transcol_orange",	"on":"lego_transcol_orange_on",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_beacon_flasher_FR_red":	{"simpleFunction":{"cop_EU_R":1}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_beacon_flasher_FR_blue":	{"simpleFunction":{"cop_EU_R":1}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_beacon_flasher_FR_orange":	{"simpleFunction":{"cop_EU_R":1}, "off":"lego_transcol_orange",	"on":"lego_transcol_orange_on",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_beacon_flasher_RL_red":	{"simpleFunction":{"cop_EU_L":1}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_beacon_flasher_RL_blue":	{"simpleFunction":{"cop_EU_L":1}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_beacon_flasher_RL_orange":	{"simpleFunction":{"cop_EU_L":1}, "off":"lego_transcol_orange",	"on":"lego_transcol_orange_on",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_beacon_flasher_RR_red":	{"simpleFunction":{"cop_EU_R":1}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_beacon_flasher_RR_blue":	{"simpleFunction":{"cop_EU_R":1}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_beacon_flasher_RR_orange":	{"simpleFunction":{"cop_EU_R":1}, "off":"lego_transcol_orange",	"on":"lego_transcol_orange_on",	"on_intense":"lego_transcol_orange_on_intense"},
+
+	//rack flashers
+	"legocar_beacon_flasher_rack_L_red":	{"simpleFunction":{"cop_EU_L":1}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_beacon_flasher_rack_L_blue":	{"simpleFunction":{"cop_EU_L":1}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_beacon_flasher_rack_L_orange":	{"simpleFunction":{"cop_EU_L":1}, "off":"lego_transcol_orange",	"on":"lego_transcol_orange_on",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_beacon_flasher_rack_M_red":	{"simpleFunction":{"cop_EU_M":1}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_beacon_flasher_rack_M_blue":	{"simpleFunction":{"cop_EU_M":1}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_beacon_flasher_rack_M_orange":	{"simpleFunction":{"cop_EU_M":1}, "off":"lego_transcol_orange",	"on":"lego_transcol_orange_on",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_beacon_flasher_rack_R_red":	{"simpleFunction":{"cop_EU_R":1}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_beacon_flasher_rack_R_blue":	{"simpleFunction":{"cop_EU_R":1}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_beacon_flasher_rack_R_orange":	{"simpleFunction":{"cop_EU_R":1}, "off":"lego_transcol_orange",	"on":"lego_transcol_orange_on",	"on_intense":"lego_transcol_orange_on_intense"},
+
+	//EU light bar
+	"legocar_lightbar_EU_L_red":	{"simpleFunction":{"cop_EU_L":1, "cop_EU_L_dim":0.49},	"off":"lego_transcol_red",	"on":"lego_transcol_red_on",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_lightbar_EU_L_blue":	{"simpleFunction":{"cop_EU_L":1, "cop_EU_L_dim":0.49},	"off":"lego_transcol_blue",	"on":"lego_transcol_blue_on",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_lightbar_EU_L_orange":	{"simpleFunction":{"cop_EU_L":1, "cop_EU_L_dim":0.49},	"off":"lego_transcol_orange",	"on":"lego_transcol_orange_on",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_lightbar_EU_R_red":	{"simpleFunction":{"cop_EU_R":1, "cop_EU_R_dim":0.49},	"off":"lego_transcol_red",	"on":"lego_transcol_red_on",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_lightbar_EU_R_blue":	{"simpleFunction":{"cop_EU_R":1, "cop_EU_R_dim":0.49},	"off":"lego_transcol_blue",	"on":"lego_transcol_blue_on",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_lightbar_EU_R_orange":	{"simpleFunction":{"cop_EU_R":1, "cop_EU_R_dim":0.49},	"off":"lego_transcol_orange",	"on":"lego_transcol_orange_on",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_lightbar_EU_BL_red":	{"simpleFunction":{"cop_EU_BL":1},			"off":"lego_transcol_red",	"on":"lego_transcol_red_on",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_lightbar_EU_BL_blue":	{"simpleFunction":{"cop_EU_BL":1},			"off":"lego_transcol_blue",	"on":"lego_transcol_blue_on",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_lightbar_EU_BL_orange":{"simpleFunction":{"cop_EU_BL":1},			"off":"lego_transcol_orange",	"on":"lego_transcol_orange_on",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_lightbar_EU_BR_red":	{"simpleFunction":{"cop_EU_BR":1},			"off":"lego_transcol_red",	"on":"lego_transcol_red_on",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_lightbar_EU_BR_blue":	{"simpleFunction":{"cop_EU_BR":1},			"off":"lego_transcol_blue",	"on":"lego_transcol_blue_on",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_lightbar_EU_BR_orange":{"simpleFunction":{"cop_EU_BR":1},			"off":"lego_transcol_orange",	"on":"lego_transcol_orange_on",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_lightbar_EU_L2_blue":	{"simpleFunction":{"cop_EU_L2":1},			"off":"lego_transcol_black",	"on":"lego_transcol_blue_on",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_lightbar_EU_L2_red":	{"simpleFunction":{"cop_EU_L2":1},			"off":"lego_transcol_black",	"on":"lego_transcol_red_on",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_lightbar_EU_L2_orange":{"simpleFunction":{"cop_EU_L2":1},			"off":"lego_transcol_black",	"on":"lego_transcol_orange_on",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_lightbar_EU_T":	{"simpleFunction":{"cop_EU_T":1}, 			"off":"lego_transcol_black",	"on":"lego_transcol_orange_on",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_lightbar_EU_spotlight":{"simpleFunction":{"cop_EU_S":1}, 			"off":"lego_transcol_black",	"on":"lego_transcol_white_on",	"on_intense":"lego_transcol_white_on_intense"},
+
+	//halogen bulb lightbar
+	"legocar_policelight_bulb_L_red":	{"simpleFunction":{"cop_bulb_L":1}, "off":"lego_transcol_red",		"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policelight_bulb_L_blue":	{"simpleFunction":{"cop_bulb_L":1}, "off":"lego_transcol_blue",		"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policelight_bulb_L_orange":	{"simpleFunction":{"cop_bulb_L":1}, "off":"lego_transcol_orange",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_policelight_bulb_R_red":	{"simpleFunction":{"cop_bulb_R":1}, "off":"lego_transcol_red",		"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policelight_bulb_R_blue":	{"simpleFunction":{"cop_bulb_R":1}, "off":"lego_transcol_blue",		"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policelight_bulb_R_orange":	{"simpleFunction":{"cop_bulb_R":1}, "off":"lego_transcol_orange",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+
+	//halogen beacon lightbar
+	"legocar_policelight_halogen_floodlight_M":	{"simpleFunction":{"cop_halogen_flood_M":1},	"off":"lego_transcol_white",	"on":"lego_transcol_white_on_intense",	"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_policelight_halogen_floodlight_L":	{"simpleFunction":{"cop_halogen_flood_L":1},	"off":"lego_transcol_white",	"on":"lego_transcol_white_on_intense",	"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_policelight_halogen_floodlight_R":	{"simpleFunction":{"cop_halogen_flood_R":1},	"off":"lego_transcol_white",	"on":"lego_transcol_white_on_intense",	"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_policelight_halogen_LL_blue":		{"simpleFunction":{"cop_halogen_LL":1}, 	"off":"lego_transcol_blue",	"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policelight_halogen_LL_red":		{"simpleFunction":{"cop_halogen_LL":1}, 	"off":"lego_transcol_red",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policelight_halogen_LL_orange":	{"simpleFunction":{"cop_halogen_LL":1}, 	"off":"lego_transcol_orange",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_policelight_halogen_L_blue":		{"simpleFunction":{"cop_halogen_L":1}, 		"off":"lego_transcol_blue",	"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policelight_halogen_L_red":		{"simpleFunction":{"cop_halogen_L":1}, 		"off":"lego_transcol_red",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policelight_halogen_L_orange":		{"simpleFunction":{"cop_halogen_L":1}, 		"off":"lego_transcol_orange",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_policelight_halogen_R_blue":		{"simpleFunction":{"cop_halogen_R":1}, 		"off":"lego_transcol_blue",	"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policelight_halogen_R_red":		{"simpleFunction":{"cop_halogen_R":1}, 		"off":"lego_transcol_red",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policelight_halogen_R_orange":		{"simpleFunction":{"cop_halogen_R":1}, 		"off":"lego_transcol_orange",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_policelight_halogen_RR_blue":		{"simpleFunction":{"cop_halogen_RR":1}, 	"off":"lego_transcol_blue",	"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policelight_halogen_RR_red":		{"simpleFunction":{"cop_halogen_RR":1}, 	"off":"lego_transcol_red",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policelight_halogen_RR_orange":	{"simpleFunction":{"cop_halogen_RR":1}, 	"off":"lego_transcol_orange",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+
+	//basic LED light bar
+	"legocar_policeled_L1_red":	{"simpleFunction":{"cop_led_L1":1},	"off":"lego_transcol_red",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policeled_L1_blue":	{"simpleFunction":{"cop_led_L1":1},	"off":"lego_transcol_blue",	"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policeled_L1_orange":	{"simpleFunction":{"cop_led_L1":1},	"off":"lego_transcol_orange",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_policeled_L2":		{"simpleFunction":{"cop_led_L2":1},	"off":"lego_transcol_white",	"on":"lego_transcol_white_on_intense",	"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_policeled_L3_red":	{"simpleFunction":{"cop_led_L3":1},	"off":"lego_transcol_red",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policeled_L3_blue":	{"simpleFunction":{"cop_led_L3":1},	"off":"lego_transcol_blue",	"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policeled_L3_orange":	{"simpleFunction":{"cop_led_L3":1},	"off":"lego_transcol_orange",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_policeled_R1_red":	{"simpleFunction":{"cop_led_R1":1},	"off":"lego_transcol_red",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policeled_R1_blue":	{"simpleFunction":{"cop_led_R1":1},	"off":"lego_transcol_blue",	"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policeled_R1_orange":	{"simpleFunction":{"cop_led_R1":1},	"off":"lego_transcol_orange",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_policeled_R2":		{"simpleFunction":{"cop_led_R2":1},	"off":"lego_transcol_white",	"on":"lego_transcol_white_on_intense",	"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_policeled_R3_red":	{"simpleFunction":{"cop_led_R3":1},	"off":"lego_transcol_red",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policeled_R3_blue":	{"simpleFunction":{"cop_led_R3":1},	"off":"lego_transcol_blue",	"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policeled_R3_orange":	{"simpleFunction":{"cop_led_R3":1},	"off":"lego_transcol_orange",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+
+	//modern LED light bar
+	"legocar_policeled_new_L1_red":		{"simpleFunction":{"cop_led_new_L1_r":1, "cop_led_new_L1_b":1, "cop_led_new_L1_o":1, "cop_led_new_L1_w":1},	"off":"lego_transcol_white",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policeled_new_L1_blue":	{"simpleFunction":{"cop_led_new_L1_r":1, "cop_led_new_L1_b":1, "cop_led_new_L1_o":1, "cop_led_new_L1_w":1},	"off":"lego_transcol_white",	"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policeled_new_L1_orange":	{"simpleFunction":{"cop_led_new_L1_r":1, "cop_led_new_L1_b":1, "cop_led_new_L1_o":1, "cop_led_new_L1_w":1},	"off":"lego_transcol_white",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_policeled_new_L2_red":		{"simpleFunction":{"cop_led_new_L2_r":1, "cop_led_new_L2_b":1, "cop_led_new_L2_o":1, "cop_led_new_L2_w":1},	"off":"lego_transcol_white",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policeled_new_L2_blue":	{"simpleFunction":{"cop_led_new_L2_r":1, "cop_led_new_L2_b":1, "cop_led_new_L2_o":1, "cop_led_new_L2_w":1},	"off":"lego_transcol_white",	"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policeled_new_L2_orange":	{"simpleFunction":{"cop_led_new_L2_r":1, "cop_led_new_L2_b":1, "cop_led_new_L2_o":1, "cop_led_new_L2_w":1},	"off":"lego_transcol_white",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_policeled_new_L3_red":		{"simpleFunction":{"cop_led_new_L3_r":1, "cop_led_new_L3_b":1, "cop_led_new_L3_o":1, "cop_led_new_L3_w":1},	"off":"lego_transcol_white",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policeled_new_L3_blue":	{"simpleFunction":{"cop_led_new_L3_r":1, "cop_led_new_L3_b":1, "cop_led_new_L3_o":1, "cop_led_new_L3_w":1},	"off":"lego_transcol_white",	"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policeled_new_L3_orange":	{"simpleFunction":{"cop_led_new_L3_r":1, "cop_led_new_L3_b":1, "cop_led_new_L3_o":1, "cop_led_new_L3_w":1},	"off":"lego_transcol_white",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_policeled_new_R1_red":		{"simpleFunction":{"cop_led_new_R1_r":1, "cop_led_new_R1_b":1, "cop_led_new_R1_o":1, "cop_led_new_R1_w":1},	"off":"lego_transcol_white",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policeled_new_R1_blue":	{"simpleFunction":{"cop_led_new_R1_r":1, "cop_led_new_R1_b":1, "cop_led_new_R1_o":1, "cop_led_new_R1_w":1},	"off":"lego_transcol_white",	"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policeled_new_R1_orange":	{"simpleFunction":{"cop_led_new_R1_r":1, "cop_led_new_R1_b":1, "cop_led_new_R1_o":1, "cop_led_new_R1_w":1},	"off":"lego_transcol_white",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_policeled_new_R2_red":		{"simpleFunction":{"cop_led_new_R2_r":1, "cop_led_new_R2_b":1, "cop_led_new_R2_o":1, "cop_led_new_R2_w":1},	"off":"lego_transcol_white",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policeled_new_R2_blue":	{"simpleFunction":{"cop_led_new_R2_r":1, "cop_led_new_R2_b":1, "cop_led_new_R2_o":1, "cop_led_new_R2_w":1},	"off":"lego_transcol_white",	"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policeled_new_R2_orange":	{"simpleFunction":{"cop_led_new_R2_r":1, "cop_led_new_R2_b":1, "cop_led_new_R2_o":1, "cop_led_new_R2_w":1},	"off":"lego_transcol_white",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_policeled_new_R3_red":		{"simpleFunction":{"cop_led_new_R3_r":1, "cop_led_new_R3_b":1, "cop_led_new_R3_o":1, "cop_led_new_R3_w":1},	"off":"lego_transcol_white",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policeled_new_R3_blue":	{"simpleFunction":{"cop_led_new_R3_r":1, "cop_led_new_R3_b":1, "cop_led_new_R3_o":1, "cop_led_new_R3_w":1},	"off":"lego_transcol_white",	"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policeled_new_R3_orange":	{"simpleFunction":{"cop_led_new_R3_r":1, "cop_led_new_R3_b":1, "cop_led_new_R3_o":1, "cop_led_new_R3_w":1},	"off":"lego_transcol_white",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+
+	//multicolor version - base
+	"legocar_policeled_new_L1_multicolor_base":	{"simpleFunction":{"cop_led_new_L1_r":1, "cop_led_new_L1_b":1, "cop_led_new_L1_o":1, "cop_led_new_L1_w":1},	"off":"lego_transcol_white",	"on":"invis",	"on_intense":"invis"},
+	"legocar_policeled_new_L2_multicolor_base":	{"simpleFunction":{"cop_led_new_L2_r":1, "cop_led_new_L2_b":1, "cop_led_new_L2_o":1, "cop_led_new_L2_w":1},	"off":"lego_transcol_white",	"on":"invis",	"on_intense":"invis"},
+	"legocar_policeled_new_L3_multicolor_base":	{"simpleFunction":{"cop_led_new_L3_r":1, "cop_led_new_L3_b":1, "cop_led_new_L3_o":1, "cop_led_new_L3_w":1},	"off":"lego_transcol_white",	"on":"invis",	"on_intense":"invis"},
+	"legocar_policeled_new_R1_multicolor_base":	{"simpleFunction":{"cop_led_new_R1_r":1, "cop_led_new_R1_b":1, "cop_led_new_R1_o":1, "cop_led_new_R1_w":1},	"off":"lego_transcol_white",	"on":"invis",	"on_intense":"invis"},
+	"legocar_policeled_new_R2_multicolor_base":	{"simpleFunction":{"cop_led_new_R2_r":1, "cop_led_new_R2_b":1, "cop_led_new_R2_o":1, "cop_led_new_R2_w":1},	"off":"lego_transcol_white",	"on":"invis",	"on_intense":"invis"},
+	"legocar_policeled_new_R3_multicolor_base":	{"simpleFunction":{"cop_led_new_R3_r":1, "cop_led_new_R3_b":1, "cop_led_new_R3_o":1, "cop_led_new_R3_w":1},	"off":"lego_transcol_white",	"on":"invis",	"on_intense":"invis"},
+
+	//multicolor version - flashers
+	"legocar_policeled_new_L1_multicolor_red":	{"simpleFunction":{"cop_led_new_L1_r":1},	"off":"invis",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policeled_new_L2_multicolor_red":	{"simpleFunction":{"cop_led_new_L2_r":1},	"off":"invis",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policeled_new_L3_multicolor_red":	{"simpleFunction":{"cop_led_new_L3_r":1},	"off":"invis",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policeled_new_R1_multicolor_red":	{"simpleFunction":{"cop_led_new_R1_r":1},	"off":"invis",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policeled_new_R2_multicolor_red":	{"simpleFunction":{"cop_led_new_R2_r":1},	"off":"invis",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policeled_new_R3_multicolor_red":	{"simpleFunction":{"cop_led_new_R3_r":1},	"off":"invis",	"on":"lego_transcol_red_on_intense",	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_policeled_new_L1_multicolor_blue":	{"simpleFunction":{"cop_led_new_L1_b":1},	"off":"invis",	"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policeled_new_L2_multicolor_blue":	{"simpleFunction":{"cop_led_new_L2_b":1},	"off":"invis",	"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policeled_new_L3_multicolor_blue":	{"simpleFunction":{"cop_led_new_L3_b":1},	"off":"invis",	"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policeled_new_R1_multicolor_blue":	{"simpleFunction":{"cop_led_new_R1_b":1},	"off":"invis",	"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policeled_new_R2_multicolor_blue":	{"simpleFunction":{"cop_led_new_R2_b":1},	"off":"invis",	"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policeled_new_R3_multicolor_blue":	{"simpleFunction":{"cop_led_new_R3_b":1},	"off":"invis",	"on":"lego_transcol_blue_on_intense",	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_policeled_new_L1_multicolor_white":	{"simpleFunction":{"cop_led_new_L1_w":1},	"off":"invis",	"on":"lego_transcol_white_on_intense",	"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_policeled_new_L2_multicolor_white":	{"simpleFunction":{"cop_led_new_L2_w":1},	"off":"invis",	"on":"lego_transcol_white_on_intense",	"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_policeled_new_L3_multicolor_white":	{"simpleFunction":{"cop_led_new_L3_w":1},	"off":"invis",	"on":"lego_transcol_white_on_intense",	"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_policeled_new_R1_multicolor_white":	{"simpleFunction":{"cop_led_new_R1_w":1},	"off":"invis",	"on":"lego_transcol_white_on_intense",	"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_policeled_new_R2_multicolor_white":	{"simpleFunction":{"cop_led_new_R2_w":1},	"off":"invis",	"on":"lego_transcol_white_on_intense",	"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_policeled_new_R3_multicolor_white":	{"simpleFunction":{"cop_led_new_R3_w":1},	"off":"invis",	"on":"lego_transcol_white_on_intense",	"on_intense":"lego_transcol_white_on_intense"},
+	"legocar_policeled_new_L1_multicolor_orange":	{"simpleFunction":{"cop_led_new_L1_o":1},	"off":"invis",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_policeled_new_L2_multicolor_orange":	{"simpleFunction":{"cop_led_new_L2_o":1},	"off":"invis",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_policeled_new_L3_multicolor_orange":	{"simpleFunction":{"cop_led_new_L3_o":1},	"off":"invis",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_policeled_new_R1_multicolor_orange":	{"simpleFunction":{"cop_led_new_R1_o":1},	"off":"invis",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_policeled_new_R2_multicolor_orange":	{"simpleFunction":{"cop_led_new_R2_o":1},	"off":"invis",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_policeled_new_R3_multicolor_orange":	{"simpleFunction":{"cop_led_new_R3_o":1},	"off":"invis",	"on":"lego_transcol_orange_on_intense",	"on_intense":"lego_transcol_orange_on_intense"},
+
+	//police display
+	"legocar_display_police":	{"simpleFunction":{"cop_sign":1}, 		"off":"invis",			"on":"legocar_police_display_on", 	"on_intense":"invis"},
+	"legocar_display_stop":		{"simpleFunction":{"cop_sign":1}, 		"off":"invis",			"on":"invis", 				"on_intense":"legocar_police_display_on"},
+	"legocar_flasher_sign_L_red":	{"simpleFunction":{"cop_flasher_sign_L":1}, 	"off":"lego_transcol_black",	"on":"lego_transcol_red_on_intense", 	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_flasher_sign_L_blue":	{"simpleFunction":{"cop_flasher_sign_L":1}, 	"off":"lego_transcol_black",	"on":"lego_transcol_blue_on_intense", 	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_flasher_sign_L_orange":{"simpleFunction":{"cop_flasher_sign_L":1}, 	"off":"lego_transcol_black",	"on":"lego_transcol_orange_on_intense", "on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_flasher_sign_R_red":	{"simpleFunction":{"cop_flasher_sign_R":1}, 	"off":"lego_transcol_black",	"on":"lego_transcol_red_on_intense", 	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_flasher_sign_R_blue":	{"simpleFunction":{"cop_flasher_sign_R":1}, 	"off":"lego_transcol_black",	"on":"lego_transcol_blue_on_intense", 	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_flasher_sign_R_orange":{"simpleFunction":{"cop_flasher_sign_R":1}, 	"off":"lego_transcol_black",	"on":"lego_transcol_orange_on_intense", "on_intense":"lego_transcol_orange_on_intense"},
+
+	//front flashers
+	"legocar_flasher_FL_red":		{"simpleFunction":{"cop_flasher_FL":1, "cop_flasher_FL_dim":0.49}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on", 	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_flasher_FL_blue":		{"simpleFunction":{"cop_flasher_FL":1, "cop_flasher_FL_dim":0.49}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on", 	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_flasher_FL_orange":		{"simpleFunction":{"cop_flasher_FL":1, "cop_flasher_FL_dim":0.49}, "off":"lego_transcol_orange","on":"lego_transcol_orange_on", "on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_flasher_FR_red":		{"simpleFunction":{"cop_flasher_FR":1, "cop_flasher_FR_dim":0.49}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on", 	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_flasher_FR_blue":		{"simpleFunction":{"cop_flasher_FR":1, "cop_flasher_FR_dim":0.49}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on", 	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_flasher_FR_orange":		{"simpleFunction":{"cop_flasher_FR":1, "cop_flasher_FR_dim":0.49}, "off":"lego_transcol_orange","on":"lego_transcol_orange_on", "on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_flasher_FL_red_undercover":	{"simpleFunction":{"cop_flasher_FL":1, "cop_flasher_FL_dim":0.49}, "off":"lego_transcol_black",	"on":"lego_transcol_red_on", 	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_flasher_FL_blue_undercover":	{"simpleFunction":{"cop_flasher_FL":1, "cop_flasher_FL_dim":0.49}, "off":"lego_transcol_black",	"on":"lego_transcol_blue_on", 	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_flasher_FL_orange_undercover":	{"simpleFunction":{"cop_flasher_FL":1, "cop_flasher_FL_dim":0.49}, "off":"lego_transcol_black",	"on":"lego_transcol_orange_on", "on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_flasher_FR_red_undercover":	{"simpleFunction":{"cop_flasher_FR":1, "cop_flasher_FR_dim":0.49}, "off":"lego_transcol_black",	"on":"lego_transcol_red_on", 	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_flasher_FR_blue_undercover":	{"simpleFunction":{"cop_flasher_FR":1, "cop_flasher_FR_dim":0.49}, "off":"lego_transcol_black",	"on":"lego_transcol_blue_on", 	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_flasher_FR_orange_undercover":	{"simpleFunction":{"cop_flasher_FR":1, "cop_flasher_FR_dim":0.49}, "off":"lego_transcol_black",	"on":"lego_transcol_orange_on", "on_intense":"lego_transcol_orange_on_intense"},
+
+	//rear flashers
+	"legocar_flasher_RL_red":		{"simpleFunction":{"cop_flasher_RL":1, "cop_flasher_RL_dim":0.49}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on", 	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_flasher_RL_blue":		{"simpleFunction":{"cop_flasher_RL":1, "cop_flasher_RL_dim":0.49}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on", 	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_flasher_RL_orange":		{"simpleFunction":{"cop_flasher_RL":1, "cop_flasher_RL_dim":0.49}, "off":"lego_transcol_orange","on":"lego_transcol_orange_on", "on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_flasher_RR_red":		{"simpleFunction":{"cop_flasher_RR":1, "cop_flasher_RR_dim":0.49}, "off":"lego_transcol_red",	"on":"lego_transcol_red_on", 	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_flasher_RR_blue":		{"simpleFunction":{"cop_flasher_RR":1, "cop_flasher_RR_dim":0.49}, "off":"lego_transcol_blue",	"on":"lego_transcol_blue_on", 	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_flasher_RR_orange":		{"simpleFunction":{"cop_flasher_RR":1, "cop_flasher_RR_dim":0.49}, "off":"lego_transcol_orange","on":"lego_transcol_orange_on", "on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_flasher_RL_red_undercover":	{"simpleFunction":{"cop_flasher_RL":1, "cop_flasher_RL_dim":0.49}, "off":"lego_transcol_black",	"on":"lego_transcol_red_on", 	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_flasher_RL_blue_undercover":	{"simpleFunction":{"cop_flasher_RL":1, "cop_flasher_RL_dim":0.49}, "off":"lego_transcol_black",	"on":"lego_transcol_blue_on", 	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_flasher_RL_orange_undercover":	{"simpleFunction":{"cop_flasher_RL":1, "cop_flasher_RL_dim":0.49}, "off":"lego_transcol_black",	"on":"lego_transcol_orange_on", "on_intense":"lego_transcol_orange_on_intense"},
+	"legocar_flasher_RR_red_undercover":	{"simpleFunction":{"cop_flasher_RR":1, "cop_flasher_RR_dim":0.49}, "off":"lego_transcol_black",	"on":"lego_transcol_red_on", 	"on_intense":"lego_transcol_red_on_intense"},
+	"legocar_flasher_RR_blue_undercover":	{"simpleFunction":{"cop_flasher_RR":1, "cop_flasher_RR_dim":0.49}, "off":"lego_transcol_black",	"on":"lego_transcol_blue_on", 	"on_intense":"lego_transcol_blue_on_intense"},
+	"legocar_flasher_RR_orange_undercover":	{"simpleFunction":{"cop_flasher_RR":1, "cop_flasher_RR_dim":0.49}, "off":"lego_transcol_black",	"on":"lego_transcol_orange_on", "on_intense":"lego_transcol_orange_on_intense"},
+
+	//rocket exhaust shock diamonds
+	"legocar_jato_1": {"simpleFunction":{"jato":1}, "off":"invis",	"on":"legocar_jato_1_on", "on_intense":"legocar_jato_1_on"},
+	"legocar_jato_2": {"simpleFunction":{"jato":1}, "off":"invis",	"on":"legocar_jato_2_on", "on_intense":"legocar_jato_2_on"},
+	"legocar_jato_3": {"simpleFunction":{"jato":1}, "off":"invis",	"on":"legocar_jato_3_on", "on_intense":"legocar_jato_3_on"},
+	"legocar_jato_4": {"simpleFunction":{"jato":1}, "off":"invis",	"on":"legocar_jato_4_on", "on_intense":"legocar_jato_4_on"},
+	"legocar_jato_5": {"simpleFunction":{"jato":1}, "off":"invis",	"on":"legocar_jato_5_on", "on_intense":"legocar_jato_5_on"},
+	"legocar_jato_6": {"simpleFunction":{"jato":1}, "off":"invis",	"on":"legocar_jato_6_on", "on_intense":"legocar_jato_6_on"},
+    },
+
+    //no sound deadening because the whole car is plastic
+    "sounds": {
+        "cabinFilterCoef": 0.0
+    },
+
+    //--BLEED GENERIC PHYSICS VALUES TO ALL PARTS--
+
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+        {"nodeMaterial":"|NM_PLASTIC"},
+        {"frictionCoef":0.75},
+        {"collision":true},
+        {"selfCollision":true},
+   ],
+   "triangles": [
+        ["id1:","id2:","id3:"],
+        {"groundModel":"plastic"},
+        {"dragCoef":"$drag"},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"groundModel":"plastic"},
+        {"dragCoef":"$drag"},
+    ],
+},
+    
+"legocar_soundscape": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Adjustable Soundscape"
+    },
+    "slotType" : "legocar_soundscape",
+    "slots": [
+        ["type", "default", "description"],
+	["soundscape_horn", "soundscape_horn_1", "Horn Sound (5 - truck, 11&12 - bus, the rest are generic)"],
+	["soundscape_handbrake", "soundscape_ratchet_handbrake_1", "Handbrake Sound (2 - electric, the rest are generic)"],
+	["soundscape_indicator", "soundscape_indicator1", "Indicator Sound"],
+	["soundscape_lights", "soundscape_lights1", "Lights Sound"],
+	["soundscape_gear", "soundscape_gear1", "Shifter Sound"],
+    ],
+},
+
+"legocar_randomcolors": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Random Colors",
+    },
+    "slotType" : "legocar_randomcolors",
+    "controller": [
+        ["fileName"],
+        ["randomColors", {}],
+    ],
+},
+
+}

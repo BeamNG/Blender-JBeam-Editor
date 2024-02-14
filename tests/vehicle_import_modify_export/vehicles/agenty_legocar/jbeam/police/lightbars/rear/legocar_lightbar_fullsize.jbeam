@@ -1,0 +1,391 @@
+{
+"legocar_lightbar_fullsize": {
+    "information":{
+        "name":"Old Fullsize Light Bar",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_lightbar_fullsize_L","legocar_lightbar_fullsize_L_red", "Left Bulbs"],
+	["legocar_lightbar_fullsize_R","legocar_lightbar_fullsize_R_blue","Right Bulbs"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_tall_corner_inset_grey", ["legocar_lightbar_fullsize_base_L"],  [], {"pos":{"x": 0.125, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_tall_corner_inset_grey", ["legocar_lightbar_fullsize_base_R"],  [], {"pos":{"x":-0.125, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z": 90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_lightbar_fullsize_holder",["legocar_lightbar_fullsize_holder_L"],[], {"pos":{"x": 0.625, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_lightbar_fullsize_holder",["legocar_lightbar_fullsize_holder_R"],[], {"pos":{"x":-0.625, "y":0.625, "z":1.6},"rot":{"x":0, "y":0, "z": 90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//bases
+	//3 pieces, 8 nodes - 0.375 kg/node
+	{"nodeWeight": "$=$weight*0.375"},
+
+	{"group":"legocar_lightbar_fullsize_base_L"},
+	["lbaroldsBL1l", 0.20, 0.50, 1.63],
+	["lbaroldsBL1r", 0.02, 0.50, 1.63],
+	["lbaroldsBL2l", 0.20, 0.75, 1.63],
+	["lbaroldsBL2r", 0.02, 0.75, 1.63],
+	["lbaroldsBL3l", 0.20, 0.50, 1.90],
+	["lbaroldsBL3r", 0.02, 0.50, 1.90],
+	["lbaroldsBL4l", 0.20, 0.75, 1.90],
+	["lbaroldsBL4r", 0.02, 0.75, 1.90],
+
+	{"group":"legocar_lightbar_fullsize_base_R"},
+	["lbaroldsBR1r",-0.20, 0.50, 1.63],
+	["lbaroldsBR1l",-0.02, 0.50, 1.63],
+	["lbaroldsBR2r",-0.20, 0.75, 1.63],
+	["lbaroldsBR2l",-0.02, 0.75, 1.63],
+	["lbaroldsBR3r",-0.20, 0.50, 1.90],
+	["lbaroldsBR3l",-0.02, 0.50, 1.90],
+	["lbaroldsBR4r",-0.20, 0.75, 1.90],
+	["lbaroldsBR4l",-0.02, 0.75, 1.90],
+
+
+	//holders
+	//2 pieces, 6 nodes - 0.33 kg/node
+	{"nodeWeight": "$=$weight*0.33"},
+
+	{"group":"legocar_lightbar_fullsize_holder_L"},
+	["lbaroldsH1l", 0.50, 0.50, 1.63],
+	["lbaroldsH2l", 0.50, 0.75, 1.63],
+	["lbaroldsH3l", 0.75, 0.50, 1.63],
+	["lbaroldsH4l", 0.75, 0.75, 1.63],
+	["lbaroldsH5l", 0.75, 0.50, 1.90],
+	["lbaroldsH6l", 0.75, 0.75, 1.90],
+
+	{"group":"legocar_lightbar_fullsize_holder_R"},
+	["lbaroldsH1r",-0.50, 0.50, 1.63],
+	["lbaroldsH2r",-0.50, 0.75, 1.63],
+	["lbaroldsH3r",-0.75, 0.50, 1.63],
+	["lbaroldsH4r",-0.75, 0.75, 1.63],
+	["lbaroldsH5r",-0.75, 0.50, 1.90],
+	["lbaroldsH6r",-0.75, 0.75, 1.90],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LIGHT BAR BASES--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+
+	//left
+	["lbaroldsBL1l", "lbaroldsBL1r"],
+	["lbaroldsBL2l", "lbaroldsBL2r"],
+	["lbaroldsBL3l", "lbaroldsBL3r"],
+	["lbaroldsBL4l", "lbaroldsBL4r"],
+
+	["lbaroldsBL1l", "lbaroldsBL2r"],
+	["lbaroldsBL2l", "lbaroldsBL3r"],
+	["lbaroldsBL3l", "lbaroldsBL4r"],
+	["lbaroldsBL4l", "lbaroldsBL1r"],
+
+	["lbaroldsBL1l", "lbaroldsBL3r"],
+	["lbaroldsBL2l", "lbaroldsBL4r"],
+	["lbaroldsBL3l", "lbaroldsBL1r"],
+	["lbaroldsBL4l", "lbaroldsBL2r"],
+
+	["lbaroldsBL1l", "lbaroldsBL4r"],
+	["lbaroldsBL2l", "lbaroldsBL1r"],
+	["lbaroldsBL3l", "lbaroldsBL2r"],
+	["lbaroldsBL4l", "lbaroldsBL3r"],
+
+	["lbaroldsBL1l", "lbaroldsBL2l"],
+	["lbaroldsBL2l", "lbaroldsBL3l"],
+	["lbaroldsBL3l", "lbaroldsBL4l"],
+	["lbaroldsBL4l", "lbaroldsBL1l"],
+
+	["lbaroldsBL1l", "lbaroldsBL3l"],
+	["lbaroldsBL2l", "lbaroldsBL4l"],
+
+	["lbaroldsBL1r", "lbaroldsBL2r"],
+	["lbaroldsBL2r", "lbaroldsBL3r"],
+	["lbaroldsBL3r", "lbaroldsBL4r"],
+	["lbaroldsBL4r", "lbaroldsBL1r"],
+
+	["lbaroldsBL1r", "lbaroldsBL3r"],
+	["lbaroldsBL2r", "lbaroldsBL4r"],
+
+
+	//right
+	["lbaroldsBR1l", "lbaroldsBR1r"],
+	["lbaroldsBR2l", "lbaroldsBR2r"],
+	["lbaroldsBR3l", "lbaroldsBR3r"],
+	["lbaroldsBR4l", "lbaroldsBR4r"],
+
+	["lbaroldsBR1l", "lbaroldsBR2r"],
+	["lbaroldsBR2l", "lbaroldsBR3r"],
+	["lbaroldsBR3l", "lbaroldsBR4r"],
+	["lbaroldsBR4l", "lbaroldsBR1r"],
+
+	["lbaroldsBR1l", "lbaroldsBR3r"],
+	["lbaroldsBR2l", "lbaroldsBR4r"],
+	["lbaroldsBR3l", "lbaroldsBR1r"],
+	["lbaroldsBR4l", "lbaroldsBR2r"],
+
+	["lbaroldsBR1l", "lbaroldsBR4r"],
+	["lbaroldsBR2l", "lbaroldsBR1r"],
+	["lbaroldsBR3l", "lbaroldsBR2r"],
+	["lbaroldsBR4l", "lbaroldsBR3r"],
+
+	["lbaroldsBR1l", "lbaroldsBR2l"],
+	["lbaroldsBR2l", "lbaroldsBR3l"],
+	["lbaroldsBR3l", "lbaroldsBR4l"],
+	["lbaroldsBR4l", "lbaroldsBR1l"],
+
+	["lbaroldsBR1l", "lbaroldsBR3l"],
+	["lbaroldsBR2l", "lbaroldsBR4l"],
+
+	["lbaroldsBR1r", "lbaroldsBR2r"],
+	["lbaroldsBR2r", "lbaroldsBR3r"],
+	["lbaroldsBR3r", "lbaroldsBR4r"],
+	["lbaroldsBR4r", "lbaroldsBR1r"],
+
+	["lbaroldsBR1r", "lbaroldsBR3r"],
+	["lbaroldsBR2r", "lbaroldsBR4r"],
+
+
+	//--LIGHT BAR HOLDERS--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+
+	//left
+	["lbaroldsH1l", "lbaroldsH2l"],
+	["lbaroldsH1l", "lbaroldsH3l"],
+	["lbaroldsH1l", "lbaroldsH4l"],
+	["lbaroldsH1l", "lbaroldsH5l"],
+	["lbaroldsH1l", "lbaroldsH6l"],
+	["lbaroldsH2l", "lbaroldsH3l"],
+	["lbaroldsH2l", "lbaroldsH4l"],
+	["lbaroldsH2l", "lbaroldsH5l"],
+	["lbaroldsH2l", "lbaroldsH6l"],
+	["lbaroldsH3l", "lbaroldsH4l"],
+	["lbaroldsH3l", "lbaroldsH5l"],
+	["lbaroldsH3l", "lbaroldsH6l"],
+	["lbaroldsH4l", "lbaroldsH5l"],
+	["lbaroldsH4l", "lbaroldsH6l"],
+	["lbaroldsH5l", "lbaroldsH6l"],
+
+	//right
+	["lbaroldsH1r", "lbaroldsH2r"],
+	["lbaroldsH1r", "lbaroldsH3r"],
+	["lbaroldsH1r", "lbaroldsH4r"],
+	["lbaroldsH1r", "lbaroldsH5r"],
+	["lbaroldsH1r", "lbaroldsH6r"],
+	["lbaroldsH2r", "lbaroldsH3r"],
+	["lbaroldsH2r", "lbaroldsH4r"],
+	["lbaroldsH2r", "lbaroldsH5r"],
+	["lbaroldsH2r", "lbaroldsH6r"],
+	["lbaroldsH3r", "lbaroldsH4r"],
+	["lbaroldsH3r", "lbaroldsH5r"],
+	["lbaroldsH3r", "lbaroldsH6r"],
+	["lbaroldsH4r", "lbaroldsH5r"],
+	["lbaroldsH4r", "lbaroldsH6r"],
+	["lbaroldsH5r", "lbaroldsH6r"],
+		
+
+	//--ATTACH BASES--
+	{"beamSpring":"$=$weight*185000", "beamDamp":"$=$weight*18.5"},
+	{"beamDeform":"$=$strength", "beamStrength":"$=$strength"},
+
+	//left
+	{"breakGroup":"lightbar_fullsize_base_L_break"},
+
+	["lbaroldsBL1l", "roofM1l"],
+	["lbaroldsBL1l", "roofM1r"],
+	["lbaroldsBL1l", "roofM2l"],
+	["lbaroldsBL1l", "roofMrig"],
+
+	["lbaroldsBL1r", "roofM1l"],
+	["lbaroldsBL1r", "roofM1r"],
+	["lbaroldsBL1r", "roofM2l"],
+	["lbaroldsBL1r", "roofMrig"],
+	
+	["lbaroldsBL2l", "roofM1l"],
+	["lbaroldsBL2l", "roofM2r"],
+	["lbaroldsBL2l", "roofM2l"],
+	["lbaroldsBL2l", "roofMrig"],
+
+	["lbaroldsBL2r", "roofM1l"],
+	["lbaroldsBL2r", "roofM2r"],
+	["lbaroldsBL2r", "roofM2l"],
+	["lbaroldsBL2r", "roofMrig"],
+
+	["lbaroldsBL3l", "roofM1l"],
+	["lbaroldsBL3l", "roofM1r"],
+	["lbaroldsBL3l", "roofM2l"],
+	["lbaroldsBL3l", "roofMrig"],
+
+	["lbaroldsBL3r", "roofM1l"],
+	["lbaroldsBL3r", "roofM1r"],
+	["lbaroldsBL3r", "roofM2l"],
+	["lbaroldsBL3r", "roofMrig"],
+	
+	["lbaroldsBL4l", "roofM1l"],
+	["lbaroldsBL4l", "roofM2r"],
+	["lbaroldsBL4l", "roofM2l"],
+	["lbaroldsBL4l", "roofMrig"],
+
+	["lbaroldsBL4r", "roofM1l"],
+	["lbaroldsBL4r", "roofM2r"],
+	["lbaroldsBL4r", "roofM2l"],
+	["lbaroldsBL4r", "roofMrig"],
+
+
+	//right
+	{"breakGroup":"lightbar_fullsize_base_R_break"},
+
+	["lbaroldsBR1l", "roofM1l"],
+	["lbaroldsBR1l", "roofM1r"],
+	["lbaroldsBR1l", "roofM2r"],
+	["lbaroldsBR1l", "roofMrig"],
+
+	["lbaroldsBR1r", "roofM1l"],
+	["lbaroldsBR1r", "roofM1r"],
+	["lbaroldsBR1r", "roofM2r"],
+	["lbaroldsBR1r", "roofMrig"],
+	
+	["lbaroldsBR2l", "roofM1r"],
+	["lbaroldsBR2l", "roofM2r"],
+	["lbaroldsBR2l", "roofM2l"],
+	["lbaroldsBR2l", "roofMrig"],
+
+	["lbaroldsBR2r", "roofM1r"],
+	["lbaroldsBR2r", "roofM2r"],
+	["lbaroldsBR2r", "roofM2l"],
+	["lbaroldsBR2r", "roofMrig"],
+
+	["lbaroldsBR3l", "roofM1l"],
+	["lbaroldsBR3l", "roofM1r"],
+	["lbaroldsBR3l", "roofM2r"],
+	["lbaroldsBR3l", "roofMrig"],
+
+	["lbaroldsBR3r", "roofM1l"],
+	["lbaroldsBR3r", "roofM1r"],
+	["lbaroldsBR3r", "roofM2r"],
+	["lbaroldsBR3r", "roofMrig"],
+	
+	["lbaroldsBR4l", "roofM1r"],
+	["lbaroldsBR4l", "roofM2r"],
+	["lbaroldsBR4l", "roofM2l"],
+	["lbaroldsBR4l", "roofMrig"],
+
+	["lbaroldsBR4r", "roofM1r"],
+	["lbaroldsBR4r", "roofM2r"],
+	["lbaroldsBR4r", "roofM2l"],
+	["lbaroldsBR4r", "roofMrig"],
+	
+
+	//--ATTACH HOLDERS--
+	{"beamSpring":"$=$weight*167000", "beamDamp":"$=$weight*16.7"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left
+	{"breakGroup":"lightbar_fullsize_holder_L_break"},
+
+	["lbaroldsH1l", "roofM1l"],
+	["lbaroldsH1l", "roofM1r"],
+	["lbaroldsH1l", "roofM2l"],
+	["lbaroldsH1l", "roofMrig"],
+
+	["lbaroldsH2l", "roofM1l"],
+	["lbaroldsH2l", "roofM1r"],
+	["lbaroldsH2l", "roofM2r"],
+	["lbaroldsH2l", "roofMrig"],
+
+	["lbaroldsH3l", "roofM1l"],
+	["lbaroldsH3l", "roofM1r"],
+	["lbaroldsH3l", "roofM2l"],
+	["lbaroldsH3l", "roofMrig"],
+
+	["lbaroldsH4l", "roofM1l"],
+	["lbaroldsH4l", "roofM1r"],
+	["lbaroldsH4l", "roofM2r"],
+	["lbaroldsH4l", "roofMrig"],
+
+	["lbaroldsH5l", "roofM1l"],
+	["lbaroldsH5l", "roofM1r"],
+	["lbaroldsH5l", "roofM2l"],
+	["lbaroldsH5l", "roofMrig"],
+
+	["lbaroldsH6l", "roofM1l"],
+	["lbaroldsH6l", "roofM1r"],
+	["lbaroldsH6l", "roofM2r"],
+	["lbaroldsH6l", "roofMrig"],
+
+
+	//right
+	{"breakGroup":"lightbar_fullsize_holder_R_break"},
+
+	["lbaroldsH1r", "roofM1l"],
+	["lbaroldsH1r", "roofM2r"],
+	["lbaroldsH1r", "roofM2l"],
+	["lbaroldsH1r", "roofMrig"],
+
+	["lbaroldsH2r", "roofM2l"],
+	["lbaroldsH2r", "roofM1r"],
+	["lbaroldsH2r", "roofM2r"],
+	["lbaroldsH2r", "roofMrig"],
+
+	["lbaroldsH3r", "roofM1l"],
+	["lbaroldsH3r", "roofM2r"],
+	["lbaroldsH3r", "roofM2l"],
+	["lbaroldsH3r", "roofMrig"],
+
+	["lbaroldsH4r", "roofM2l"],
+	["lbaroldsH4r", "roofM1r"],
+	["lbaroldsH4r", "roofM2r"],
+	["lbaroldsH4r", "roofMrig"],
+
+	["lbaroldsH5r", "roofM1l"],
+	["lbaroldsH5r", "roofM2r"],
+	["lbaroldsH5r", "roofM2l"],
+	["lbaroldsH5r", "roofMrig"],
+
+	["lbaroldsH6r", "roofM2l"],
+	["lbaroldsH6r", "roofM1r"],
+	["lbaroldsH6r", "roofM2r"],
+	["lbaroldsH6r", "roofMrig"],
+
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_lightbar_fullsize_base_L"},   
+	["lbaroldsBL2r","lbaroldsBL2l","lbaroldsBL1l","lbaroldsBL1r"],
+	["lbaroldsBL4l","lbaroldsBL4r","lbaroldsBL3r","lbaroldsBL3l"],
+	["lbaroldsBL3r","lbaroldsBL4r","lbaroldsBL2r","lbaroldsBL1r"],
+	["lbaroldsBL4l","lbaroldsBL3l","lbaroldsBL1l","lbaroldsBL2l"],
+	["lbaroldsBL4r","lbaroldsBL4l","lbaroldsBL2l","lbaroldsBL2r"],
+	["lbaroldsBL3l","lbaroldsBL3r","lbaroldsBL1r","lbaroldsBL1l"],
+
+	{"group":"legocar_lightbar_fullsize_base_R"},   
+	["lbaroldsBR2r","lbaroldsBR2l","lbaroldsBR1l","lbaroldsBR1r"],
+	["lbaroldsBR4l","lbaroldsBR4r","lbaroldsBR3r","lbaroldsBR3l"],
+	["lbaroldsBR3r","lbaroldsBR4r","lbaroldsBR2r","lbaroldsBR1r"],
+	["lbaroldsBR4l","lbaroldsBR3l","lbaroldsBR1l","lbaroldsBR2l"],
+	["lbaroldsBR4r","lbaroldsBR4l","lbaroldsBR2l","lbaroldsBR2r"],
+	["lbaroldsBR3l","lbaroldsBR3r","lbaroldsBR1r","lbaroldsBR1l"],
+
+	{"group":"legocar_lightbar_fullsize_holder_L"},   
+	["lbaroldsH1l","lbaroldsH2l","lbaroldsH4l","lbaroldsH3l"],
+	["lbaroldsH3l","lbaroldsH4l","lbaroldsH6l","lbaroldsH5l"],
+
+	{"group":"legocar_lightbar_fullsize_holder_R"},   
+	["lbaroldsH1r","lbaroldsH3r","lbaroldsH4r","lbaroldsH2r"],
+	["lbaroldsH3r","lbaroldsH5r","lbaroldsH6r","lbaroldsH4r"],
+
+        {"group":""},
+    ],
+},
+
+}

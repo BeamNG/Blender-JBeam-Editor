@@ -1,0 +1,144 @@
+{
+"legocar_engmount": {
+    "information":{
+        "name":"Engine Mount",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_engmount",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_engine", "legocar_engine_V6", "Engine"],
+	["legocar_cowlpanel", "legocar_cowlpanel_col2", "Cowl Panel"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_3x2_flat_black",["legocar_engmount"], [], {"pos":{"x": 0.000, "y":-1.125, "z":0.3},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],   
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_engmount"},
+
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["engmount1l",  0.25, -0.75, 0.35],
+	["engmount1r", -0.25, -0.75, 0.35],
+	["engmount2l",  0.25, -1.50, 0.35],
+	["engmount2r", -0.25, -1.50, 0.35],
+
+	//rigidifier
+	["engmountrig", 0, -1.125, 0.55, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["engmount1l", "engmount1r"],
+	["engmount2l", "engmount2r"],
+	["engmount1l", "engmount2l"],
+	["engmount1r", "engmount2r"],
+	["engmount1l", "engmount2r"],
+	["engmount2l", "engmount1r"],
+
+	//rigidifier
+	["engmount1l", "engmountrig"],
+	["engmount1r", "engmountrig"],
+	["engmount2l", "engmountrig"],
+	["engmount2r", "engmountrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to chassis
+	{"breakGroup":"engmount_chassis_break"},
+	{"beamSpring":"$=$weight*901000", "beamDamp":"$=$weight*90"},
+
+	["engmount1r", "chassis3r"],
+	["engmount1r", "chassis2rr"],
+	["engmount1r", "chassis1r"],
+
+	["engmount2r", "chassis3r"],
+	["engmount2r", "chassis2rr"],
+	["engmount2r", "chassis1r"],
+
+	["engmount1l", "chassis3l"],
+	["engmount1l", "chassis2ll"],
+	["engmount1l", "chassis1l"],
+
+	["engmount2l", "chassis3l"],
+	["engmount2l", "chassis2ll"],
+	["engmount2l", "chassis1l"],
+
+	["engmountrig", "chassis2rr"],
+	["engmountrig", "chassis1r"],
+	["engmountrig", "chassis2ll"],
+	["engmountrig", "chassis1l"],
+
+
+	//anti wobble
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	["engmount1r", "chassis0"],
+	["engmount1l", "chassis0"],
+	["engmount2r", "chassis0"],
+	["engmount2l", "chassis0"],
+	["engmountrig", "chassis0"],
+
+	["engmount1r", "chassis4",{"optional":true}],
+	["engmount1l", "chassis4",{"optional":true}],
+	["engmount2r", "chassis4",{"optional":true}],
+	["engmount2l", "chassis4",{"optional":true}],
+	["engmountrig", "chassis4",{"optional":true}],
+
+
+	//to bulkhead
+	{"optional":true},
+	{"breakGroup":"engmount_bulkhead_break"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	["engmount2r", "bulk1r"],
+	["engmount2r", "bulk2r"],
+	["engmount2r", "bulk3r"],
+	["engmount2r", "bulk4r"],
+
+	["engmount1r", "bulk1r"],
+	["engmount1r", "bulk3r"],
+	["engmount1r", "bulk4r"],
+
+	["engmount2l", "bulk1l"],
+	["engmount2l", "bulk2l"],
+	["engmount2l", "bulk3l"],
+	["engmount2l", "bulk4l"],
+
+	["engmount1l", "bulk1l"],
+	["engmount1l", "bulk3l"],
+	["engmount1l", "bulk4l"],
+	
+	//anti wobble
+	["engmountrig", "bulk3r"],
+	["engmountrig", "bulk4r"],
+	["engmountrig", "bulk3l"],
+	["engmountrig", "bulk4l"],
+	
+
+	{"breakGroup":""},
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_engmount"},   
+	["engmount1l","engmount1r","engmount2r","engmount2l"],
+        {"group":""},
+    ],
+},
+
+}

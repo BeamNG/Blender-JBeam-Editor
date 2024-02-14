@@ -1,0 +1,278 @@
+{
+"legocar_lip_F_sport_long_col1": {
+    "information":{
+        "name":"Extended Sport Lip (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lip_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_notip_col1", ["legocar_lip_F"], [], {"pos":{"x": 0.000, "y":-1.975, "z":0.050},"rot":{"x":0, "y":180, "z":90},"scale":{"x":1.00, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_lip_F"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Flip1l",  0.75, -1.85, 0.00],
+	["Flip1r", -0.75, -1.85, 0.00],
+	["Flip2l",  0.75, -2.10, 0.00],
+	["Flip2r", -0.75, -2.10, 0.00],
+	//rigidifier
+	["Fliprig", 0, -1.975, 0.45, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT LIP--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Flip1l", "Flip1r"],
+	["Flip2l", "Flip2r"],
+	["Flip1l", "Flip2l"],
+	["Flip1r", "Flip2r"],
+	["Flip1l", "Flip2r"],
+	["Flip2l", "Flip1r"],
+
+	//rigidifier
+	["Flip1l", "Fliprig"],
+	["Flip1r", "Fliprig"],
+	["Flip2l", "Fliprig"],
+	["Flip2r", "Fliprig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"lip_F_break"},
+	
+	["Flip1l", "Fbump1l"],
+	["Flip1l", "Fbump1r"],
+	["Flip1l", "Fbump2l"],
+	["Flip1l", "Fbump3l"],
+
+	["Flip1r", "Fbump1l"],
+	["Flip1r", "Fbump1r"],
+	["Flip1r", "Fbump2r"],
+	["Flip1r", "Fbump3r"],
+
+	["Flip2l", "Fbump1l"],
+	["Flip2l", "Fbump2r"],
+	["Flip2l", "Fbump2l"],
+	["Flip2l", "Fbump3l"],
+
+	["Flip2r", "Fbump2l"],
+	["Flip2r", "Fbump1r"],
+	["Flip2r", "Fbump2r"],
+	["Flip2r", "Fbump3r"],
+
+	["Fliprig", "Fbump1l"],
+	["Fliprig", "Fbump1r"],
+	["Fliprig", "Fbump2l"],
+	["Fliprig", "Fbump2r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_lip_F"},
+	["Flip2l","Flip2r","Flip1r","Flip1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_lip_F_sport_long_col2": {
+    "information":{
+        "name":"Extended Sport Lip (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lip_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_notip_col2", ["legocar_lip_F"], [], {"pos":{"x": 0.000, "y":-1.975, "z":0.050},"rot":{"x":0, "y":180, "z":90},"scale":{"x":1.00, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_lip_F"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Flip1l",  0.75, -1.85, 0.00],
+	["Flip1r", -0.75, -1.85, 0.00],
+	["Flip2l",  0.75, -2.10, 0.00],
+	["Flip2r", -0.75, -2.10, 0.00],
+	//rigidifier
+	["Fliprig", 0, -1.975, 0.45, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT LIP--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Flip1l", "Flip1r"],
+	["Flip2l", "Flip2r"],
+	["Flip1l", "Flip2l"],
+	["Flip1r", "Flip2r"],
+	["Flip1l", "Flip2r"],
+	["Flip2l", "Flip1r"],
+
+	//rigidifier
+	["Flip1l", "Fliprig"],
+	["Flip1r", "Fliprig"],
+	["Flip2l", "Fliprig"],
+	["Flip2r", "Fliprig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"lip_F_break"},
+	
+	["Flip1l", "Fbump1l"],
+	["Flip1l", "Fbump1r"],
+	["Flip1l", "Fbump2l"],
+	["Flip1l", "Fbump3l"],
+
+	["Flip1r", "Fbump1l"],
+	["Flip1r", "Fbump1r"],
+	["Flip1r", "Fbump2r"],
+	["Flip1r", "Fbump3r"],
+
+	["Flip2l", "Fbump1l"],
+	["Flip2l", "Fbump2r"],
+	["Flip2l", "Fbump2l"],
+	["Flip2l", "Fbump3l"],
+
+	["Flip2r", "Fbump2l"],
+	["Flip2r", "Fbump1r"],
+	["Flip2r", "Fbump2r"],
+	["Flip2r", "Fbump3r"],
+
+	["Fliprig", "Fbump1l"],
+	["Fliprig", "Fbump1r"],
+	["Fliprig", "Fbump2l"],
+	["Fliprig", "Fbump2r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_lip_F"},
+	["Flip2l","Flip2r","Flip1r","Flip1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_lip_F_sport_long_col3": {
+    "information":{
+        "name":"Extended Sport Lip (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lip_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_6x1_flat_notip_col3", ["legocar_lip_F"], [], {"pos":{"x": 0.000, "y":-1.975, "z":0.050},"rot":{"x":0, "y":180, "z":90},"scale":{"x":1.00, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_lip_F"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Flip1l",  0.75, -1.85, 0.00],
+	["Flip1r", -0.75, -1.85, 0.00],
+	["Flip2l",  0.75, -2.10, 0.00],
+	["Flip2r", -0.75, -2.10, 0.00],
+	//rigidifier
+	["Fliprig", 0, -1.975, 0.45, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT LIP--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Flip1l", "Flip1r"],
+	["Flip2l", "Flip2r"],
+	["Flip1l", "Flip2l"],
+	["Flip1r", "Flip2r"],
+	["Flip1l", "Flip2r"],
+	["Flip2l", "Flip1r"],
+
+	//rigidifier
+	["Flip1l", "Fliprig"],
+	["Flip1r", "Fliprig"],
+	["Flip2l", "Fliprig"],
+	["Flip2r", "Fliprig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"lip_F_break"},
+	
+	["Flip1l", "Fbump1l"],
+	["Flip1l", "Fbump1r"],
+	["Flip1l", "Fbump2l"],
+	["Flip1l", "Fbump3l"],
+
+	["Flip1r", "Fbump1l"],
+	["Flip1r", "Fbump1r"],
+	["Flip1r", "Fbump2r"],
+	["Flip1r", "Fbump3r"],
+
+	["Flip2l", "Fbump1l"],
+	["Flip2l", "Fbump2r"],
+	["Flip2l", "Fbump2l"],
+	["Flip2l", "Fbump3l"],
+
+	["Flip2r", "Fbump2l"],
+	["Flip2r", "Fbump1r"],
+	["Flip2r", "Fbump2r"],
+	["Flip2r", "Fbump3r"],
+
+	["Fliprig", "Fbump1l"],
+	["Fliprig", "Fbump1r"],
+	["Fliprig", "Fbump2l"],
+	["Fliprig", "Fbump2r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_lip_F"},
+	["Flip2l","Flip2r","Flip1r","Flip1l"],
+        {"group":""},
+    ],
+},
+
+}

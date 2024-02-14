@@ -1,0 +1,388 @@
+{
+"legocar_engine_V8": {
+    "information":{
+        "name":"Customizable V8 Engine",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_engine",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fuelsystem","legocar_fuelsystem_magic", "Fuel Type", {"coreSlot":true}],
+	["legocar_engine_damage","", "Engine Damage"],
+        ["legocar_intake_v8","legocar_intake_v8", "Intake", {"coreSlot":true}],
+	["legocar_oilpan","legocar_oilpan_arcade", "Oil Pan", {"coreSlot":true}],
+	["legocar_engine_ecu","legocar_rev_limiter", "Engine Management"],
+	["legocar_transmission","legocar_transmission_5A", "Transmission"],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+	["$inertia",      "range", "kg*m^2", "Engine",  0.05, 0.01, 1.00, "Inertia",              "How fast the engine builds up RPM",            {"stepDis":0.01} ],
+        ["$maxRPM",       "range", "RPM",    "Engine",  8000, 2000, 10000,"Redline",              "Max RPM at which engine can operate",          {"stepDis":100}  ],
+	["$maxRPMTorque", "range", "Nm",     "Engine",  200,  10,   1000, "Torque at Redline",    "How much torque the engine makes at max RPM",  {"stepDis":10}   ],
+	["$peakTorqueRPM","range", "RPM",    "Engine",  6000, 2000, 10000,"Peak Torque RPM Point","At which RPM the engine makes its peak torque",{"stepDis":100}  ],
+	["$peakTorque",   "range", "Nm",     "Engine",  300,  10,   1000, "Peak Torque",          "Peak torque the engine can achieve",           {"stepDis":10}   ],
+	["$particles",    "range", " ",      "Engine",  0.05, 0,    0.50, "Exhaust Smoke",        "Amount of smoke emited from the exhaust",      {"stepDis":0.001}],
+    ],
+    "powertrain": [
+        ["type", "name", "inputName", "inputIndex"],
+        ["combustionEngine", "mainEngine", "dummy", 0],
+    ],
+    "mainEngine":{
+        "torque":[
+            ["rpm", "torque"],
+            [0, 0],
+	    ["$=$peakTorqueRPM*0.25", "$=$peakTorque*0.75"],
+            ["$peakTorqueRPM", "$peakTorque"],
+            ["$maxRPM", "$maxRPMTorque"],
+	    ["$=$maxRPM+2000", "$=$maxRPMTorque*0.75"],
+        ],
+
+        "idleRPM":1000,
+        "maxRPM":"$maxRPM",
+	"hasRevLimiter":false,
+        "inertia":"$inertia",
+        "friction":0,
+        "dynamicFriction":0,
+        "burnEfficiency":0.33,
+        "engineBrakeTorque":"$=$peakTorque*0.15",
+	"starterTorque":"$=$peakTorque*0.5",
+
+        //exhaust
+        "instantAfterFireSound": "event:>Vehicle>Afterfire>v8_crossflow_02>muffled>stock_single",
+        "sustainedAfterFireSound": "event:>Vehicle>Afterfire>v8_crossflow_02>muffled>stock_multi",
+        "shiftAfterFireSound": "event:>Vehicle>Afterfire>v8_crossflow_02>muffled>stock_shift",
+        "particulates":"$particles",
+        "afterFireAudibleThresholdInstant": 500000,
+        "instantAfterFireCoef": 0.5,
+        "instantAfterFireVolumeCoef": 0.75,
+        "afterFireAudibleThresholdShift": 150000,
+        "shiftAfterFireVolumeCoef": 0.75,
+        "afterFireAudibleThresholdSustained": 50000,
+        "sustainedAfterFireCoef": 0.5,
+        "sustainedAfterFireTime": 0.75,
+        "sustainedAfterFireVolumeCoef": 0.5,
+
+        //cooling and oil system
+        "thermalsEnabled":true,
+        "engineBlockMaterial":"aluminum",
+	"oilVolume":5,
+	"engineBlockAirCoolingEfficiency":50,
+
+        //engine durability
+        "cylinderWallTemperatureDamageThreshold":200,
+        "headGasketDamageThreshold":2000000,
+        "pistonRingDamageThreshold":2000000,
+        "connectingRodDamageThreshold":2500000,
+        "maxTorqueRating": 1000000,
+        "maxOverTorqueDamage": 1000000,
+
+        //node beam interface
+        "torqueReactionNodes:":["eng1l","eng1l","eng1l"],
+        "waterDamage": {"[engineGroup]:":["engine_intake"]},
+        "radiator": {"[engineGroup]:":["radiator"]},
+        "engineBlock": {"[engineGroup]:":["engine_block"]},
+        "breakTriggerBeam":"engine",
+        "uiName":"Engine",
+        "soundConfig": "soundConfig",
+        "soundConfigExhaust": "soundConfigExhaust",
+
+        //starter motor
+        "starterSample":"event:>Engine>Starter>v8_19xy_eng",
+        "starterSampleExhaust":"event:>Engine>Starter>v8_19xy_exh",
+        "shutOffSampleEngine":"event:>Engine>Shutoff>v8_19xy_eng",
+        "shutOffSampleExhaust":"event:>Engine>Shutoff>v8_19xy_exh",
+        "starterVolume":0.75,
+        "starterVolumeExhaust":0.5,
+        "shutOffVolumeEngine":0.5,
+        "shutOffVolumeExhaust":0.5,
+        "starterThrottleKillTime":1,
+        "idleRPMStartRate":1.25,
+        "idleRPMStartCoef":1,
+
+	"deformGroups":["mainEngine_intake", "mainEngine_accessories"]
+    },
+    "vehicleController": {
+        "highShiftUpRPM":"$=$maxRPM - 200",
+    },
+    "soundConfig": {
+        "sampleName": "V8_cross_engine",
+        "mainGain":-20,
+        "intakeMuffling": 0.5,
+    },
+    "soundConfigExhaust": {
+        "sampleName": "legocar_V6",
+  	"eqFundamentalGain":10,
+        "eqHighFreq":10000,
+        "eqHighGain":20,
+        "eqHighWidth":0.45,
+        "eqLowFreq":6000,
+        "eqLowGain":20,
+        "eqLowWidth":0.75,
+        "fundamentalFrequencyCylinderCount":8,
+        "highShelfFreq":7000,
+        "highShelfGain":20,
+        "lowShelfFreq":20,
+        "lowShelfGain":20,
+        "mainGain":20,
+        "muffling":0.8500000,
+        "offLoadGain":0.5,
+        "onLoadGain":1
+    },
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x2_flat_grey",  ["legocar_engine"], [], {"pos":{"x": 0.000, "y":-1.250, "z":0.4},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_enginetip_V8",["legocar_engine"], [], {"pos":{"x": 0.000, "y":-1.250, "z":0.5},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],   
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_engine"},
+	{"engineGroup":["engine_block","engine_intake"]},
+
+	//8 pieces, 8 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+	
+	["eng1l",  0.25, -1.00, 0.40],
+	["eng1r", -0.25, -1.00, 0.40],
+	["eng2l",  0.25, -1.50, 0.40, {"isExhaust":"mainEngine"}],
+	["eng2r", -0.25, -1.50, 0.40, {"isExhaust":"mainEngine"}],
+	["eng3l",  0.25, -1.00, 0.60],
+	["eng3r", -0.25, -1.00, 0.60],
+	["eng4l",  0.25, -1.50, 0.60],
+	["eng4r", -0.25, -1.50, 0.60],
+
+	{"group":""},
+	{"engineGroup":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+
+	["eng1l", "eng1r"],
+	["eng2l", "eng2r"],
+	["eng3l", "eng3r"],
+	["eng4l", "eng4r"],
+
+	["eng1l", "eng2r"],
+	["eng2l", "eng3r"],
+	["eng3l", "eng4r"],
+	["eng4l", "eng1r"],
+
+	["eng1l", "eng3r"],
+	["eng2l", "eng4r"],
+	["eng3l", "eng1r"],
+	["eng4l", "eng2r"],
+
+	["eng1l", "eng4r"],
+	["eng2l", "eng1r"],
+	["eng3l", "eng2r"],
+	["eng4l", "eng3r"],
+
+	["eng2l", "eng1l", {"isExhaust":"mainEngine"}],
+	["eng2l", "eng3l"],
+	["eng3l", "eng4l"],
+	["eng4l", "eng1l"],
+
+	["eng1l", "eng3l"],
+	["eng2l", "eng4l"],
+
+	["eng2r", "eng1r", {"isExhaust":"mainEngine"}],
+	["eng2r", "eng3r"],
+	["eng3r", "eng4r"],
+	["eng4r", "eng1r"],
+
+	["eng1r", "eng3r"],
+	["eng2r", "eng4r"],
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"engine_break"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	
+	["eng3l", "engmount1l", {"name":"engine"}],
+	["eng3l", "engmount1r"],
+	["eng3l", "engmount2l"],
+	["eng3l", "engmount2r"],
+
+	["eng3r", "engmount1l"],
+	["eng3r", "engmount1r"],
+	["eng3r", "engmount2l"],
+	["eng3r", "engmount2r"],
+
+	["eng2l", "engmount1l"],
+	["eng2l", "engmount2l"],
+	["eng2l", "engmount2r"],
+
+	["eng2r", "engmount1r"],
+	["eng2r", "engmount2l"],
+	["eng2r", "engmount2r"],
+	
+	{"breakGroup":""},
+
+
+	//--DRIVESHAFT BREAK TRIGGER BEAMS--
+	//activate driveshaft breaking when engine gets too far away from wheel axle mounts on chassis, don't affect physics
+	{"beamPrecompression":1, "beamType":"|SUPPORT", "beamLongBound":0.2, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":0},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	{"breakGroup":"driveshaft_F"},
+	["eng3r","chassis2r", {"name":"driveshaft_F"}],
+	["eng3l","chassis2l", {"name":"driveshaft_F"}],
+	{"breakGroup":"driveshaft_R"},
+	["eng3r","chassis7r", {"name":"driveshaft_R"}],
+	["eng3l","chassis7l", {"name":"driveshaft_R"}],
+	{"breakGroup":""},
+
+
+	//--OIL PAN DAMAGE TRIGGERS--
+	//activate when front subframe gets far away from the engine, causing an oil leak
+
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+	{"deformGroup":"oilpan_damage","deformationTriggerRatio":0.25},
+	{"optional":true},
+
+	["Fsubfrig", "eng3r", {"deformLimit":"","deformLimitExpansion":""}],
+	["Fsubfrig", "eng3l", {"deformLimit":"","deformLimitExpansion":""}],
+
+	{"optional":false},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	//bleed generic values again in case they got overwriten by wheels
+	{"groundModel":"plastic"},
+        {"dragCoef":"$drag"},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_engine"},   
+	["eng1r","eng1l","eng2l","eng2r"],
+	["eng3l","eng3r","eng4r","eng4l"],
+	["eng1r","eng2r","eng4r","eng3r"],
+	["eng2l","eng1l","eng3l","eng4l"],
+	["eng2r","eng2l","eng4l","eng4r"],
+	["eng1l","eng1r","eng3r","eng3l"],
+        {"group":""},
+    ],
+},
+
+"legocar_intake_v8": {
+    "information":{
+        "name":"Stock Intake",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_intake_v8",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_enginebay_NA","legocar_enginebay_NA_stock_col1", "Exhaust Headers & Engine Bay"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_intake_alt",["legocar_intake"], [], {"pos":{"x": 0.000, "y":-1.250, "z":0.6},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ], 
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_intake"},
+	{"engineGroup":"engine_intake"},
+
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["intake1l",  0.225, -1.025, 0.65],
+	["intake1r", -0.225, -1.025, 0.65],
+	["intake2l",  0.225, -1.475, 0.65],
+	["intake2r", -0.225, -1.475, 0.65],
+
+	//rigidifier
+	["intakerig", 0, -1.25, 0.45, {"collision":false, "selfCollision":false, "group":""}],
+
+	{"engineGroup":""},
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["intake1l", "intake1r"],
+	["intake2l", "intake2r"],
+	["intake1l", "intake2l"],
+	["intake1r", "intake2r"],
+	["intake1l", "intake2r"],
+	["intake2l", "intake1r"],
+
+	//rigidifier
+	["intake1l", "intakerig"],
+	["intake1r", "intakerig"],
+	["intake2l", "intakerig"],
+	["intake2r", "intakerig"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	{"breakGroup":"intake_break"},
+
+	["intake1l", "eng1l"],
+	["intake1l", "eng4l"],
+	["intake1l", "eng3r"],
+
+	["intake1r", "eng1r"],
+	["intake1r", "eng4r"],
+	["intake1r", "eng3l"],
+
+	["intake2l", "eng2l"],
+	["intake2l", "eng3l"],
+	["intake2l", "eng4r"],
+
+	["intake2r", "eng2r"],
+	["intake2r", "eng3r"],
+	["intake2r", "eng4l"],
+
+	{"breakGroup":""},
+
+
+	//--INTAKE DAMAGE TRIGGERS--
+	//activate when engine gets far away from intake
+
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+	{"deformGroup":"mainEngine_intake","deformationTriggerRatio":0.25},
+
+	["intakerig", "eng1l", {"deformLimit":"","deformLimitExpansion":""}],
+	["intakerig", "eng2l", {"deformLimit":"","deformLimitExpansion":""}],
+	["intakerig", "eng1r", {"deformLimit":"","deformLimitExpansion":""}],
+	["intakerig", "eng2r", {"deformLimit":"","deformLimitExpansion":""}],
+
+	{"deformGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_intake"},   
+	["intake1l","intake1r","intake2r","intake2l"],
+        {"group":""},
+    ], 
+},
+
+}

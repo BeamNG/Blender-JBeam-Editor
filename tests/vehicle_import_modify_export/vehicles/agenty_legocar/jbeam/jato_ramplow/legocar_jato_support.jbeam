@@ -1,0 +1,125 @@
+{
+"legocar_jato_support": {
+    "information":{
+        "name":"Jet Thruster Support",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_trunk_spoiler",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x2_flat_grey",["legocar_jato_support"],[], {"pos":{"x": 0.000, "y":1.75, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1.00, "y":1.00, "z":0.99}}],
+	["lego_2x2_flat_grey",["legocar_jato_support"],[], {"pos":{"x": 0.000, "y":1.75, "z":0.9},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1.00, "y":1.00, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//8 pieces, 8 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+
+	{"group":"legocar_jato_support"},
+	["spoilB1l",  0.25, 1.53, 0.80],
+	["spoilB1r", -0.25, 1.53, 0.80],
+	["spoilB2l",  0.25, 2.00, 0.80],
+	["spoilB2r", -0.25, 2.00, 0.80],
+	["spoilB3l",  0.25, 1.53, 1.00],
+	["spoilB3r", -0.25, 1.53, 1.00],
+	["spoilB4l",  0.25, 2.00, 1.00],
+	["spoilB4r", -0.25, 2.00, 1.00],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--JATO SUPPORT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["spoilB1l", "spoilB1r"],
+	["spoilB2l", "spoilB2r"],
+	["spoilB3l", "spoilB3r"],
+	["spoilB4l", "spoilB4r"],
+
+	["spoilB1l", "spoilB2r"],
+	["spoilB2l", "spoilB3r"],
+	["spoilB3l", "spoilB4r"],
+	["spoilB4l", "spoilB1r"],
+
+	["spoilB1l", "spoilB3r"],
+	["spoilB2l", "spoilB4r"],
+	["spoilB3l", "spoilB1r"],
+	["spoilB4l", "spoilB2r"],
+
+	["spoilB1l", "spoilB4r"],
+	["spoilB2l", "spoilB1r"],
+	["spoilB3l", "spoilB2r"],
+	["spoilB4l", "spoilB3r"],
+
+	["spoilB1l", "spoilB2l"],
+	["spoilB2l", "spoilB3l"],
+	["spoilB3l", "spoilB4l"],
+	["spoilB4l", "spoilB1l"],
+
+	["spoilB1l", "spoilB3l"],
+	["spoilB2l", "spoilB4l"],
+
+	["spoilB1r", "spoilB2r"],
+	["spoilB2r", "spoilB3r"],
+	["spoilB3r", "spoilB4r"],
+	["spoilB4r", "spoilB1r"],
+
+	["spoilB1r", "spoilB3r"],
+	["spoilB2r", "spoilB4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"jatosupport_break"},
+
+	["trunkM1l", "spoilB1l"],
+	["trunkM1l", "spoilB1r"],
+	["trunkM1l", "spoilB2l"],
+	["trunkM1l", "spoilB3l"],
+
+	["trunkM1r", "spoilB1l"],
+	["trunkM1r", "spoilB1r"],
+	["trunkM1r", "spoilB2r"],
+	["trunkM1r", "spoilB3r"],
+
+	["trunkM2l", "spoilB2l"],
+	["trunkM2l", "spoilB2r"],
+	["trunkM2l", "spoilB1l"],
+	["trunkM2l", "spoilB4l"],
+
+	["trunkM2r", "spoilB2l"],
+	["trunkM2r", "spoilB2r"],
+	["trunkM2r", "spoilB1r"],
+	["trunkM2r", "spoilB4r"],
+
+	["trunkMrig", "spoilB1l"],
+	["trunkMrig", "spoilB1r"],
+	["trunkMrig", "spoilB2l"],
+	["trunkMrig", "spoilB2r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_jato_support"},   
+	["spoilB2r","spoilB2l","spoilB1l","spoilB1r"],
+	["spoilB4l","spoilB4r","spoilB3r","spoilB3l"],
+	["spoilB3r","spoilB4r","spoilB2r","spoilB1r"],
+	["spoilB4l","spoilB3l","spoilB1l","spoilB2l"],
+	["spoilB4r","spoilB4l","spoilB2l","spoilB2r"],
+	["spoilB3l","spoilB3r","spoilB1r","spoilB1l"],
+	
+        {"group":""},
+    ],
+},
+
+}

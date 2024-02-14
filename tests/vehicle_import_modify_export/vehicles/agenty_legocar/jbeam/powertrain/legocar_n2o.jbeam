@@ -1,0 +1,402 @@
+{
+"n2o_system": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Nitrous Oxide Injection",
+    },
+    "slotType" : "legocar_interior_load",
+    "slots": [
+        ["type", "default", "description"],
+        ["n2o_bottle","n2o_bottle_10lb", "Nitrous Oxide Bottle"],
+        ["n2o_shot","n2o_shot_variable", "Nitrous Oxide Shot Size"],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$n2o_rpm", "range", "RPM", "Nitrous Oxide", 2500, 2000, 6000, "Minimum RPM", "Minimum RPM where nitrous oxide can spray", {"stepDis":50}],
+        ["$n2o_gear", "range", "Gear", "Nitrous Oxide", 2, 1, 5, "Minimum Gear", "Minimum gear where nitrous oxide can spray", {"minDis":1, "maxDis":6, "stepDis":1}],
+    ],
+    "mainEngine": {
+        "nitrousOxideInjection": "n2o",
+    },
+    "n2o": {
+        "cutInRPM": "$n2o_rpm",
+        "minimumGear": "$n2o_gear",
+    },
+    "controller": [
+        ["fileName"],
+        ["nitrousOxideInjection", {}],
+    ],
+},
+
+"n2o_bottle_10lb": {
+    "information":{
+        "authors":"AgentY",
+        "name":"1x 10lb Nitrous Oxide Bottle",
+    },
+    "slotType" : "n2o_bottle",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+        ["lego_1x1_tall_circle_drblue_metallic",["legocar_n2o_bottle_L"],[],{"pos":{"x":0.125, "y":0.375, "z":0.3},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_circle_black",          ["legocar_n2o_bottle_L"],[],{"pos":{"x":0.125, "y":0.375, "z":0.6},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "energyStorage": [
+        ["type", "name"],
+        ["n2oTank", "mainBottle"],
+    ],
+    "mainBottle": {
+        "capacity": 4.54,
+        "startingCapacity": 4.54,
+	"breakTriggerBeam": "n2o_leak",
+    },
+    "mainEngine": {
+        "energyStorage": ["mainTank", "raceCell", "mainBottle"], //omit fuel cell because they can't be installed at the same time
+    },
+    "n2o": {
+        "purgeValves:": ["eng3r","eng1r"],
+    },
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--LEFT BOTTLE--
+	{"group":"legocar_n2o_bottle_L"},
+	//4 pieces, 8 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+	["n2oL1l", 0.22, 0.28, 0.33],
+	["n2oL1r", 0.02, 0.28, 0.33],
+	["n2oL2l", 0.22, 0.47, 0.33],
+	["n2oL2r", 0.02, 0.47, 0.33],
+	["n2oL3l", 0.22, 0.28, 0.70],
+	["n2oL3r", 0.02, 0.28, 0.70],
+	["n2oL4l", 0.22, 0.47, 0.70],
+	["n2oL4r", 0.02, 0.47, 0.70],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT BOTTLE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+
+	//uniform structure
+	["n2oL1l", "n2oL1r"],
+	["n2oL2l", "n2oL2r"],
+	["n2oL3l", "n2oL3r"],
+	["n2oL4l", "n2oL4r"],
+
+	["n2oL1l", "n2oL2r"],
+	["n2oL2l", "n2oL3r"],
+	["n2oL3l", "n2oL4r"],
+	["n2oL4l", "n2oL1r"],
+
+	["n2oL1l", "n2oL3r"],
+	["n2oL2l", "n2oL4r"],
+	["n2oL3l", "n2oL1r"],
+	["n2oL4l", "n2oL2r"],
+
+	["n2oL1l", "n2oL4r"],
+	["n2oL2l", "n2oL1r"],
+	["n2oL3l", "n2oL2r"],
+	["n2oL4l", "n2oL3r"],
+
+	["n2oL1l", "n2oL2l"],
+	["n2oL2l", "n2oL3l"],
+	["n2oL3l", "n2oL4l"],
+	["n2oL4l", "n2oL1l"],
+
+	["n2oL1l", "n2oL3l"],
+	["n2oL2l", "n2oL4l"],
+
+	["n2oL1r", "n2oL2r"],
+	["n2oL2r", "n2oL3r"],
+	["n2oL3r", "n2oL4r"],
+	["n2oL4r", "n2oL1r"],
+
+	["n2oL1r", "n2oL3r"],
+	["n2oL2r", "n2oL4r"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+	//needs lower strength, normal is too high
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"n2o_chassis_break"},
+
+	["n2oL3l", "chassis6l", {"name":"n2o_leak"}],
+	["n2oL3l", "chassis2l"],
+	["n2oL3l", "chassis7rr"],
+
+	["n2oL4l", "chassis6l"],
+	["n2oL4l", "chassis2l"],
+	["n2oL4l", "chassis7rr"],
+
+	["n2oL3r", "chassis6l"],
+	["n2oL3r", "chassis2l"],
+	["n2oL3r", "chassis2r"],
+	["n2oL3r", "chassis7rr"],
+
+	["n2oL4r", "chassis6l"],
+	["n2oL4r", "chassis2l"],
+	["n2oL4r", "chassis2r"],
+	["n2oL4r", "chassis7rr"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_n2o_L"},   
+	["n2oL2r","n2oL2l","n2oL1l","n2oL1r"],
+	["n2oL4l","n2oL4r","n2oL3r","n2oL3l"],
+	["n2oL3r","n2oL4r","n2oL2r","n2oL1r"],
+	["n2oL4l","n2oL3l","n2oL1l","n2oL2l"],
+	["n2oL4r","n2oL4l","n2oL2l","n2oL2r"],
+	["n2oL3l","n2oL3r","n2oL1r","n2oL1l"],
+
+        {"group":""},
+    ],
+},
+"n2o_bottle_10lb_dual": {
+    "information":{
+        "authors":"AgentY",
+        "name":"2x 10lb Nitrous Oxide Bottle",
+    },
+    "slotType" : "n2o_bottle",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+        ["lego_1x1_tall_circle_drblue_metallic",["legocar_n2o_bottle_L"],[],{"pos":{"x": 0.125, "y":0.375, "z":0.3},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_circle_black",          ["legocar_n2o_bottle_L"],[],{"pos":{"x": 0.125, "y":0.375, "z":0.6},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_tall_circle_drblue_metallic",["legocar_n2o_bottle_R"],[],{"pos":{"x":-0.125, "y":0.375, "z":0.3},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_circle_black",          ["legocar_n2o_bottle_R"],[],{"pos":{"x":-0.125, "y":0.375, "z":0.6},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "energyStorage": [
+        ["type", "name"],
+        ["n2oTank", "mainBottleL"],
+	["n2oTank", "mainBottleR"],
+    ],
+    "mainBottleL": {
+        "capacity": 4.54,
+        "startingCapacity": 4.54,
+	"breakTriggerBeam": "n2o_leak_L",
+    },
+    "mainBottleR": {
+        "capacity": 4.54,
+        "startingCapacity": 4.54,
+	"breakTriggerBeam": "n2o_leak_R",
+    },
+    "mainEngine": {
+        "energyStorage": ["mainTank", "raceCell", "mainBottleL", "mainBottleR"], //omit fuel cell because they can't be installed at the same time
+    },
+    "n2o": {
+        "purgeValves:": ["eng3r","eng1r","eng3l","eng1l"],
+    },
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//4 pieces, 8 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+
+	//--LEFT BOTTLE--
+	{"group":"legocar_n2o_bottle_L"},
+	["n2oL1l", 0.22, 0.28, 0.33],
+	["n2oL1r", 0.02, 0.28, 0.33],
+	["n2oL2l", 0.22, 0.47, 0.33],
+	["n2oL2r", 0.02, 0.47, 0.33],
+	["n2oL3l", 0.22, 0.28, 0.70],
+	["n2oL3r", 0.02, 0.28, 0.70],
+	["n2oL4l", 0.22, 0.47, 0.70],
+	["n2oL4r", 0.02, 0.47, 0.70],
+
+	//--RIGHT BOTTLE--
+	{"group":"legocar_n2o_bottle_R"},
+	["n2oR1r",-0.22, 0.28, 0.33],
+	["n2oR1l",-0.02, 0.28, 0.33],
+	["n2oR2r",-0.22, 0.47, 0.33],
+	["n2oR2l",-0.02, 0.47, 0.33],
+	["n2oR3r",-0.22, 0.28, 0.70],
+	["n2oR3l",-0.02, 0.28, 0.70],
+	["n2oR4r",-0.22, 0.47, 0.70],
+	["n2oR4l",-0.02, 0.47, 0.70],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT BOTTLE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+
+	//uniform structure
+	["n2oL1l", "n2oL1r"],
+	["n2oL2l", "n2oL2r"],
+	["n2oL3l", "n2oL3r"],
+	["n2oL4l", "n2oL4r"],
+
+	["n2oL1l", "n2oL2r"],
+	["n2oL2l", "n2oL3r"],
+	["n2oL3l", "n2oL4r"],
+	["n2oL4l", "n2oL1r"],
+
+	["n2oL1l", "n2oL3r"],
+	["n2oL2l", "n2oL4r"],
+	["n2oL3l", "n2oL1r"],
+	["n2oL4l", "n2oL2r"],
+
+	["n2oL1l", "n2oL4r"],
+	["n2oL2l", "n2oL1r"],
+	["n2oL3l", "n2oL2r"],
+	["n2oL4l", "n2oL3r"],
+
+	["n2oL1l", "n2oL2l"],
+	["n2oL2l", "n2oL3l"],
+	["n2oL3l", "n2oL4l"],
+	["n2oL4l", "n2oL1l"],
+
+	["n2oL1l", "n2oL3l"],
+	["n2oL2l", "n2oL4l"],
+
+	["n2oL1r", "n2oL2r"],
+	["n2oL2r", "n2oL3r"],
+	["n2oL3r", "n2oL4r"],
+	["n2oL4r", "n2oL1r"],
+
+	["n2oL1r", "n2oL3r"],
+	["n2oL2r", "n2oL4r"],
+
+
+	//--RIGHT BOTTLE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+
+	//uniform structure
+	["n2oR1l", "n2oR1r"],
+	["n2oR2l", "n2oR2r"],
+	["n2oR3l", "n2oR3r"],
+	["n2oR4l", "n2oR4r"],
+
+	["n2oR1l", "n2oR2r"],
+	["n2oR2l", "n2oR3r"],
+	["n2oR3l", "n2oR4r"],
+	["n2oR4l", "n2oR1r"],
+
+	["n2oR1l", "n2oR3r"],
+	["n2oR2l", "n2oR4r"],
+	["n2oR3l", "n2oR1r"],
+	["n2oR4l", "n2oR2r"],
+
+	["n2oR1l", "n2oR4r"],
+	["n2oR2l", "n2oR1r"],
+	["n2oR3l", "n2oR2r"],
+	["n2oR4l", "n2oR3r"],
+
+	["n2oR1l", "n2oR2l"],
+	["n2oR2l", "n2oR3l"],
+	["n2oR3l", "n2oR4l"],
+	["n2oR4l", "n2oR1l"],
+
+	["n2oR1l", "n2oR3l"],
+	["n2oR2l", "n2oR4l"],
+
+	["n2oR1r", "n2oR2r"],
+	["n2oR2r", "n2oR3r"],
+	["n2oR3r", "n2oR4r"],
+	["n2oR4r", "n2oR1r"],
+
+	["n2oR1r", "n2oR3r"],
+	["n2oR2r", "n2oR4r"],
+
+
+	//--ATTACH--
+	//2 bottles, half spring and damp
+	{"beamSpring":"$=$weight*186000", "beamDamp":"$=$weight*18.6"},
+	//needs lower strength, normal is too high
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left
+	{"breakGroup":"n2o_L_chassis_break"},
+
+	["n2oL3l", "chassis6l", {"name":"n2o_leak_L"}],
+	["n2oL3l", "chassis2l"],
+	["n2oL3l", "chassis7rr"],
+
+	["n2oL4l", "chassis6l"],
+	["n2oL4l", "chassis2l"],
+	["n2oL4l", "chassis7rr"],
+
+	["n2oL3r", "chassis6l"],
+	["n2oL3r", "chassis2l"],
+	["n2oL3r", "chassis2r"],
+	["n2oL3r", "chassis7rr"],
+
+	["n2oL4r", "chassis6l"],
+	["n2oL4r", "chassis2l"],
+	["n2oL4r", "chassis2r"],
+	["n2oL4r", "chassis7rr"],
+
+
+	//right
+	{"breakGroup":"n2o_R_chassis_break"},
+
+	["n2oR3r", "chassis6r", {"name":"n2o_leak_R"}],
+	["n2oR3r", "chassis2r"],
+	["n2oR3r", "chassis7ll"],
+
+	["n2oR4r", "chassis6r"],
+	["n2oR4r", "chassis2r"],
+	["n2oR4r", "chassis7ll"],
+
+	["n2oR3l", "chassis6r"],
+	["n2oR3l", "chassis2r"],
+	["n2oR3l", "chassis2l"],
+	["n2oR3l", "chassis7ll"],
+
+	["n2oR4l", "chassis6r"],
+	["n2oR4l", "chassis2r"],
+	["n2oR4l", "chassis2l"],
+	["n2oR4l", "chassis7ll"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_n2o_L"},   
+	["n2oL2r","n2oL2l","n2oL1l","n2oL1r"],
+	["n2oL4l","n2oL4r","n2oL3r","n2oL3l"],
+	["n2oL3r","n2oL4r","n2oL2r","n2oL1r"],
+	["n2oL4l","n2oL3l","n2oL1l","n2oL2l"],
+	["n2oL4r","n2oL4l","n2oL2l","n2oL2r"],
+	["n2oL3l","n2oL3r","n2oL1r","n2oL1l"],
+
+	{"group":"legocar_n2o_R"},   
+    ["n2oR2r","n2oR2l","n2oR1l","n2oR1r"],
+	["n2oR4l","n2oR4r","n2oR3r","n2oR3l"],
+	["n2oR3r","n2oR4r","n2oR2r","n2oR1r"],
+	["n2oR4l","n2oR3l","n2oR1l","n2oR2l"],
+	["n2oR4r","n2oR4l","n2oR2l","n2oR2r"],
+	["n2oR3l","n2oR3r","n2oR1r","n2oR1l"],
+
+        {"group":""},
+    ],
+},
+
+"n2o_shot_variable": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Adjustable Shot Size",
+    },
+    "slotType" : "n2o_shot",
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$n2o_power", "range", "kW", "Nitrous Oxide", 50, 5, 1000, "Added Power", "Power increase the N2O injection grants", {"stepDis":5}],
+    ],
+    "n2o": {
+        "addedPower": "$n2o_power",
+    },
+},
+
+}

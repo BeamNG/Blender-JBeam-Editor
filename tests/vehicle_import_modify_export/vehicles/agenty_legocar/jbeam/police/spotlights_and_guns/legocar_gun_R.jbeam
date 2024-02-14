@@ -1,0 +1,123 @@
+{
+"legocar_spotlight_gun_R": {
+    "information":{
+        "name":"Right Machine Gun",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_spotlight_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_gun_R_ammo","legocar_gun_R_ammo_500", "Right Gun Ammo", {"nodeMove":{"x":-1,"y":-0.875,"z":1.010}}],
+    ],
+    "variables": [
+        ["name",                       "type",  "unit",      "category",     "default", "min", "max", "title",                           "description"],
+        ["$gun_fire_rate_R",           "range", "bullets/s", "Guns",  		10,       1,    100,  "Fire Rate",                       "Amount of bullets fired per second"                                                        , {"stepDis":1.0,"subCategory":"Right"}],
+	["$gun_bulletExtraEnergy_R",   "range", "x",         "Guns", 		5.0,     0.1,   100,  "Additional Energy Multiplier",    "Extra energy for each bullet. Higher energy will need more sprning precompression to shoot", {"stepDis":0.1,"subCategory":"Right"}],
+	["$gun_springPrecompression_R","range", "x",         "Guns", 		3.0,     1.1,   5.0,  "Launching Spring Precompression", "Affects the gun shoot strength. Low = good for close targets, high = good for far away"    , {"stepDis":0.1,"subCategory":"Right"}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_gun",["legocar_gun_R"],[], {"pos":{"x":-1.000, "y":-0.625, "z":0.775},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+	{"deformGroup":"gun_R_break", "deformMaterialBase":"lego_gun_laser_green", "deformMaterialDamaged":"invis"},
+	["lego_gun_laser_green",["legocar_gun_R"],[], {"pos":{"x":-1.000, "y":-0.625, "z":0.775},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+	{"deformGroup":"gun_R_break", "deformMaterialBase":"lego_gun_laser_red", "deformMaterialDamaged":"invis"},
+	["lego_gun_laser_red",["legocar_gun_R"],[], {"pos":{"x":-1.000, "y":-0.625, "z":0.775},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+	{"deformGroup":"gun_R_break", "deformMaterialBase":"lego_fire_gun_R", "deformMaterialDamaged":"invis"},
+	["lego_fire_gun_R",["legocar_gun_R"],[], {"pos":{"x":-1.000, "y":-1.150, "z":1.010},"rot":{"x":90, "y":180, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+	{"deformGroup":""},
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//right gun
+        {"nodeWeight":"$=$weight"},
+	{"group":"legocar_gun_R"},
+        ["gun1r",-1,-1.350, 1.010, {"nodeWeight":"$weight", "collision":false, "selfCollision":false}],
+        ["gun2r",-1,-1.150, 1.010, {"group":""}],
+        ["gun3r",-1,-0.625, 1.010, {"nodeWeight":"$weight", "nodeMaterial":"|NM_METAL"}],  
+	["gun4r",-1,-0.625, 0.660],   
+	{"group":""},    
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$weight*12500", "damp":"$=$weight*2.5", "deform":5000, "strength":"FLT_MAX"},
+        ["gun1r","gun3r","gun4r","signal1r"],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--RIGHT GUN--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["gun1r", "gun2r"],
+	["gun1r", "gun3r"],
+	["gun1r", "gun4r"],
+	["gun2r", "gun3r"],
+	["gun2r", "gun4r"],
+	["gun3r", "gun4r"],
+	
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*1", "beamStrength":"$=$strength*1"},
+	{"breakGroup":"gun_R_break"},
+	
+	["gun1r", "signal0r"],
+	["gun2r", "signal0r"],
+	["gun3r", "signal0r"],
+	["gun4r", "signal0r"],
+
+	["gun3r", "signal1r"],
+	["gun3r", "signal2r"],
+	["gun3r", "signal3r"],
+	["gun3r", "signal4r"],
+
+	["gun4r", "signal1r"],
+	["gun4r", "signal2r"],
+	["gun4r", "signal3r"],
+	["gun4r", "signal4r"],
+
+	//dampers
+	{"beamSpring":0, "beamDamp":"$=$weight*50"},
+	["gun1r", "signal1r"],
+	["gun1r", "signal2r"],
+	["gun1r", "signal3r"],
+	["gun1r", "signal4r"],
+
+	["gun2r", "signal1r"],
+	["gun2r", "signal2r"],
+	["gun2r", "signal3r"],
+	["gun2r", "signal4r"],
+
+
+	//--SUPPORT DAMPERS--
+	{"beamPrecompression":1,"beamType":"|SUPPORT", "beamLongBound":0.5},
+	{"beamSpring":0, "beamDamp":"$=$weight*500"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"deformGroup":"gun_R_break"},
+
+	//these also double as break triggers for lua because convenient
+	["chassis0", "gun1r", {"breakGroupType":1, "name":"gun_R"}],
+	["chassis4", "gun1r", {"breakGroupType":1, "name":"gun_R"}],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "rails": {
+        "rail_fire_R":{"links:":["gun1r", "gun3r"], "looped":false, "capped":false},
+    },
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_gun_R"},
+	["gun2r","gun3r","gun4r"],
+        {"group":""},
+    ],
+},
+
+}

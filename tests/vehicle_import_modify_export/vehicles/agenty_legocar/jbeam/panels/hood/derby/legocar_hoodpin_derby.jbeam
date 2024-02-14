@@ -1,0 +1,111 @@
+{
+"legocar_hoodpin_derby": {
+    "information":{
+        "name":"Hood Pin",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hoodpin_derby",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_circle_grey",["legocar_hoodpin_R"],[], {"pos":{"x":-0.375, "y":-1.125, "z":0.8},"rot":{"x": 0 , "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_hoodpin_R"},
+	["Rhoodpin1r", -0.50, -1.03, 0.83],
+	["Rhoodpin1l", -0.28, -1.03, 0.83],
+	["Rhoodpin2r", -0.50, -1.25, 0.83],
+	["Rhoodpin2l", -0.28, -1.25, 0.83],
+	//rigidifier
+	["Rhoodpinrig", -0.375, -1.125, 1],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--HOOD PINS--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//right uniform structure
+	["Rhoodpin1l", "Rhoodpin1r"],
+	["Rhoodpin2l", "Rhoodpin2r"],
+	["Rhoodpin1l", "Rhoodpin2l"],
+	["Rhoodpin1r", "Rhoodpin2r"],
+	["Rhoodpin1l", "Rhoodpin2r"],
+	["Rhoodpin2l", "Rhoodpin1r"],
+
+	//right rigidifier
+	["Rhoodpin1l", "Rhoodpinrig"],
+	["Rhoodpin1r", "Rhoodpinrig"],
+	["Rhoodpin2l", "Rhoodpinrig"],
+	["Rhoodpin2r", "Rhoodpinrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//right to hood
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"hoodpin_R_break"},
+
+	["Rhoodpin1l", "hood1r"],
+	["Rhoodpin1l", "hood1rr"],
+	["Rhoodpin1l", "hood1rrr"],
+	["Rhoodpin1l", "hood2r"],
+	["Rhoodpin1l", "hoodrig"],
+
+	["Rhoodpin1r", "hood1r"],
+	["Rhoodpin1r", "hood1rr"],
+	["Rhoodpin1r", "hood1rrr"],
+	["Rhoodpin1r", "hood2r"],
+	["Rhoodpin1r", "hoodrig"],
+
+	["Rhoodpin2l", "hood2r"],
+	["Rhoodpin2l", "hood2rr"],
+	["Rhoodpin2l", "hood2rrr"],
+	["Rhoodpin2l", "hood1r"],
+	["Rhoodpin2l", "hoodrig"],
+
+	["Rhoodpin2r", "hood2r"],
+	["Rhoodpin2r", "hood2rr"],
+	["Rhoodpin2r", "hood2rrr"],
+	["Rhoodpin2r", "hood1r"],
+	["Rhoodpin2r", "hoodrig"],
+
+	["Rhoodpinrig", "hood1rr"],
+	["Rhoodpinrig", "hood1r"],
+	["Rhoodpinrig", "hood2rr"],
+	["Rhoodpinrig", "hood2r"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_hoodpin_R"},
+	["Rhoodpinrig","Rhoodpin1r","Rhoodpin2r"],
+	["Rhoodpinrig","Rhoodpin2r","Rhoodpin2l"],
+	["Rhoodpinrig","Rhoodpin2l","Rhoodpin1l"],
+	["Rhoodpinrig","Rhoodpin1l","Rhoodpin1r"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_hoodpin_R"},
+	["Rhoodpin1r","Rhoodpin1l","Rhoodpin2l","Rhoodpin2r"],
+        {"group":""},
+    ],
+},
+
+}

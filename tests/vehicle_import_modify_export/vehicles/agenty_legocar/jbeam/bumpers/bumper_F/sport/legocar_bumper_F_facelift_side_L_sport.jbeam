@@ -1,0 +1,477 @@
+{
+"legocar_bumper_F_side_L_sport_col1": {
+    "information":{
+        "name":"Left Bumper Side (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_F_side_L_sport",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_slope_vent_col1", ["legocar_bumper_FL"],[], {"pos":{"x": 0.500, "y":-1.850, "z":0.225},"rot":{"x":90, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumper_FL"},
+	//3 half-pieces, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["Fbump1ll",  0.28, -1.85, 0.10],
+	["Fbump2ll",  0.28, -1.85, 0.35],
+	["Fbump3ll",  0.28, -2.05, 0.10],
+	["Fbump4ll",  0.28, -2.05, 0.35],
+	["Fbump1lll", 0.75, -1.85, 0.10],
+	["Fbump2lll", 0.75, -1.85, 0.35],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform horizontal
+	["Fbump1ll", "Fbump1lll"],
+	["Fbump2ll", "Fbump2lll"],
+	["Fbump1ll", "Fbump2lll"],
+	["Fbump2ll", "Fbump1lll"],
+	["Fbump3ll", "Fbump1lll"],
+	["Fbump4ll", "Fbump2lll"],
+	["Fbump3ll", "Fbump2lll"],
+	["Fbump4ll", "Fbump1lll"],
+
+	//uniform vertical
+	["Fbump1ll", "Fbump2ll"],
+	["Fbump3ll", "Fbump4ll"],
+	["Fbump1ll", "Fbump3ll"],
+	["Fbump2ll", "Fbump4ll"],
+	["Fbump1ll", "Fbump4ll"],
+	["Fbump2ll", "Fbump3ll"],
+	["Fbump1lll", "Fbump2lll"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"bumper_FL_break"},
+	
+	["Fbump1lll", "Ffasc1l"],
+	["Fbump1lll", "Ffasc1r"],
+	["Fbump1lll", "Ffasc2l"],
+
+	["Fbump2lll", "Ffasc1l"],
+	["Fbump2lll", "Ffasc2r"],
+	["Fbump2lll", "Ffasc2l"],
+
+	["Fbump3ll", "Ffasc1l"],
+	["Fbump3ll", "Ffasc1r"],
+	["Fbump3ll", "Ffasc2l"],
+
+	["Fbump4ll", "Ffasc1l"],
+	["Fbump4ll", "Ffasc2r"],
+	["Fbump4ll", "Ffasc2l"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_bumper_FL"},
+	["Fbump1ll","Fbump1lll","Fbump3ll"],
+  	["Fbump2ll","Fbump4ll","Fbump2lll"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumper_FL"},   
+	["Fbump1ll","Fbump2ll","Fbump2lll","Fbump1lll", {"dragCoef":"$=$drag*0.1"}],
+	["Fbump1ll","Fbump3ll","Fbump4ll","Fbump2ll", {"dragCoef":"$=$drag*0.1"}],
+	["Fbump1lll","Fbump2lll","Fbump4ll","Fbump3ll", {"dragCoef":"$=$drag*0.1"}],
+        {"group":""},
+    ],
+},
+
+"legocar_bumper_F_side_L_sport_col2": {
+    "information":{
+        "name":"Left Bumper Side (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_F_side_L_sport",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_slope_vent_col2", ["legocar_bumper_FL"],[], {"pos":{"x": 0.500, "y":-1.850, "z":0.225},"rot":{"x":90, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumper_FL"},
+	//3 half-pieces, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["Fbump1ll",  0.28, -1.85, 0.10],
+	["Fbump2ll",  0.28, -1.85, 0.35],
+	["Fbump3ll",  0.28, -2.05, 0.10],
+	["Fbump4ll",  0.28, -2.05, 0.35],
+	["Fbump1lll", 0.75, -1.85, 0.10],
+	["Fbump2lll", 0.75, -1.85, 0.35],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform horizontal
+	["Fbump1ll", "Fbump1lll"],
+	["Fbump2ll", "Fbump2lll"],
+	["Fbump1ll", "Fbump2lll"],
+	["Fbump2ll", "Fbump1lll"],
+	["Fbump3ll", "Fbump1lll"],
+	["Fbump4ll", "Fbump2lll"],
+	["Fbump3ll", "Fbump2lll"],
+	["Fbump4ll", "Fbump1lll"],
+
+	//uniform vertical
+	["Fbump1ll", "Fbump2ll"],
+	["Fbump3ll", "Fbump4ll"],
+	["Fbump1ll", "Fbump3ll"],
+	["Fbump2ll", "Fbump4ll"],
+	["Fbump1ll", "Fbump4ll"],
+	["Fbump2ll", "Fbump3ll"],
+	["Fbump1lll", "Fbump2lll"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"bumper_FL_break"},
+	
+	["Fbump1lll", "Ffasc1l"],
+	["Fbump1lll", "Ffasc1r"],
+	["Fbump1lll", "Ffasc2l"],
+
+	["Fbump2lll", "Ffasc1l"],
+	["Fbump2lll", "Ffasc2r"],
+	["Fbump2lll", "Ffasc2l"],
+
+	["Fbump3ll", "Ffasc1l"],
+	["Fbump3ll", "Ffasc1r"],
+	["Fbump3ll", "Ffasc2l"],
+
+	["Fbump4ll", "Ffasc1l"],
+	["Fbump4ll", "Ffasc2r"],
+	["Fbump4ll", "Ffasc2l"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_bumper_FL"},
+	["Fbump1ll","Fbump1lll","Fbump3ll"],
+  	["Fbump2ll","Fbump4ll","Fbump2lll"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumper_FL"},   
+	["Fbump1ll","Fbump2ll","Fbump2lll","Fbump1lll", {"dragCoef":"$=$drag*0.1"}],
+	["Fbump1ll","Fbump3ll","Fbump4ll","Fbump2ll", {"dragCoef":"$=$drag*0.1"}],
+	["Fbump1lll","Fbump2lll","Fbump4ll","Fbump3ll", {"dragCoef":"$=$drag*0.1"}],
+        {"group":""},
+    ],
+},
+
+"legocar_bumper_F_side_L_sport_col3": {
+    "information":{
+        "name":"Left Bumper Side (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_F_side_L_sport",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_slope_vent_col3", ["legocar_bumper_FL"],[], {"pos":{"x": 0.500, "y":-1.850, "z":0.225},"rot":{"x":90, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumper_FL"},
+	//3 half-pieces, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["Fbump1ll",  0.28, -1.85, 0.10],
+	["Fbump2ll",  0.28, -1.85, 0.35],
+	["Fbump3ll",  0.28, -2.05, 0.10],
+	["Fbump4ll",  0.28, -2.05, 0.35],
+	["Fbump1lll", 0.75, -1.85, 0.10],
+	["Fbump2lll", 0.75, -1.85, 0.35],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform horizontal
+	["Fbump1ll", "Fbump1lll"],
+	["Fbump2ll", "Fbump2lll"],
+	["Fbump1ll", "Fbump2lll"],
+	["Fbump2ll", "Fbump1lll"],
+	["Fbump3ll", "Fbump1lll"],
+	["Fbump4ll", "Fbump2lll"],
+	["Fbump3ll", "Fbump2lll"],
+	["Fbump4ll", "Fbump1lll"],
+
+	//uniform vertical
+	["Fbump1ll", "Fbump2ll"],
+	["Fbump3ll", "Fbump4ll"],
+	["Fbump1ll", "Fbump3ll"],
+	["Fbump2ll", "Fbump4ll"],
+	["Fbump1ll", "Fbump4ll"],
+	["Fbump2ll", "Fbump3ll"],
+	["Fbump1lll", "Fbump2lll"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"bumper_FL_break"},
+	
+	["Fbump1lll", "Ffasc1l"],
+	["Fbump1lll", "Ffasc1r"],
+	["Fbump1lll", "Ffasc2l"],
+
+	["Fbump2lll", "Ffasc1l"],
+	["Fbump2lll", "Ffasc2r"],
+	["Fbump2lll", "Ffasc2l"],
+
+	["Fbump3ll", "Ffasc1l"],
+	["Fbump3ll", "Ffasc1r"],
+	["Fbump3ll", "Ffasc2l"],
+
+	["Fbump4ll", "Ffasc1l"],
+	["Fbump4ll", "Ffasc2r"],
+	["Fbump4ll", "Ffasc2l"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_bumper_FL"},
+	["Fbump1ll","Fbump1lll","Fbump3ll"],
+  	["Fbump2ll","Fbump4ll","Fbump2lll"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumper_FL"},   
+	["Fbump1ll","Fbump2ll","Fbump2lll","Fbump1lll", {"dragCoef":"$=$drag*0.1"}],
+	["Fbump1ll","Fbump3ll","Fbump4ll","Fbump2ll", {"dragCoef":"$=$drag*0.1"}],
+	["Fbump1lll","Fbump2lll","Fbump4ll","Fbump3ll", {"dragCoef":"$=$drag*0.1"}],
+        {"group":""},
+    ],
+},
+
+"legocar_bumper_F_side_L_sport_grey": {
+    "information":{
+        "name":"Left Bumper Side (Light Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_F_side_L_sport",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_slope_vent_grey", ["legocar_bumper_FL"],[], {"pos":{"x": 0.500, "y":-1.850, "z":0.225},"rot":{"x":90, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumper_FL"},
+	//3 half-pieces, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["Fbump1ll",  0.28, -1.85, 0.10],
+	["Fbump2ll",  0.28, -1.85, 0.35],
+	["Fbump3ll",  0.28, -2.05, 0.10],
+	["Fbump4ll",  0.28, -2.05, 0.35],
+	["Fbump1lll", 0.75, -1.85, 0.10],
+	["Fbump2lll", 0.75, -1.85, 0.35],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform horizontal
+	["Fbump1ll", "Fbump1lll"],
+	["Fbump2ll", "Fbump2lll"],
+	["Fbump1ll", "Fbump2lll"],
+	["Fbump2ll", "Fbump1lll"],
+	["Fbump3ll", "Fbump1lll"],
+	["Fbump4ll", "Fbump2lll"],
+	["Fbump3ll", "Fbump2lll"],
+	["Fbump4ll", "Fbump1lll"],
+
+	//uniform vertical
+	["Fbump1ll", "Fbump2ll"],
+	["Fbump3ll", "Fbump4ll"],
+	["Fbump1ll", "Fbump3ll"],
+	["Fbump2ll", "Fbump4ll"],
+	["Fbump1ll", "Fbump4ll"],
+	["Fbump2ll", "Fbump3ll"],
+	["Fbump1lll", "Fbump2lll"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"bumper_FL_break"},
+	
+	["Fbump1lll", "Ffasc1l"],
+	["Fbump1lll", "Ffasc1r"],
+	["Fbump1lll", "Ffasc2l"],
+
+	["Fbump2lll", "Ffasc1l"],
+	["Fbump2lll", "Ffasc2r"],
+	["Fbump2lll", "Ffasc2l"],
+
+	["Fbump3ll", "Ffasc1l"],
+	["Fbump3ll", "Ffasc1r"],
+	["Fbump3ll", "Ffasc2l"],
+
+	["Fbump4ll", "Ffasc1l"],
+	["Fbump4ll", "Ffasc2r"],
+	["Fbump4ll", "Ffasc2l"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_bumper_FL"},
+	["Fbump1ll","Fbump1lll","Fbump3ll"],
+  	["Fbump2ll","Fbump4ll","Fbump2lll"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumper_FL"},   
+	["Fbump1ll","Fbump2ll","Fbump2lll","Fbump1lll", {"dragCoef":"$=$drag*0.1"}],
+	["Fbump1ll","Fbump3ll","Fbump4ll","Fbump2ll", {"dragCoef":"$=$drag*0.1"}],
+	["Fbump1lll","Fbump2lll","Fbump4ll","Fbump3ll", {"dragCoef":"$=$drag*0.1"}],
+        {"group":""},
+    ],
+},
+
+"legocar_bumper_F_side_L_sport_dgrey": {
+    "information":{
+        "name":"Left Bumper Side (Dark Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_F_side_L_sport",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_slope_vent_dgrey", ["legocar_bumper_FL"],[], {"pos":{"x": 0.500, "y":-1.850, "z":0.225},"rot":{"x":90, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumper_FL"},
+	//3 half-pieces, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["Fbump1ll",  0.28, -1.85, 0.10],
+	["Fbump2ll",  0.28, -1.85, 0.35],
+	["Fbump3ll",  0.28, -2.05, 0.10],
+	["Fbump4ll",  0.28, -2.05, 0.35],
+	["Fbump1lll", 0.75, -1.85, 0.10],
+	["Fbump2lll", 0.75, -1.85, 0.35],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform horizontal
+	["Fbump1ll", "Fbump1lll"],
+	["Fbump2ll", "Fbump2lll"],
+	["Fbump1ll", "Fbump2lll"],
+	["Fbump2ll", "Fbump1lll"],
+	["Fbump3ll", "Fbump1lll"],
+	["Fbump4ll", "Fbump2lll"],
+	["Fbump3ll", "Fbump2lll"],
+	["Fbump4ll", "Fbump1lll"],
+
+	//uniform vertical
+	["Fbump1ll", "Fbump2ll"],
+	["Fbump3ll", "Fbump4ll"],
+	["Fbump1ll", "Fbump3ll"],
+	["Fbump2ll", "Fbump4ll"],
+	["Fbump1ll", "Fbump4ll"],
+	["Fbump2ll", "Fbump3ll"],
+	["Fbump1lll", "Fbump2lll"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"bumper_FL_break"},
+	
+	["Fbump1lll", "Ffasc1l"],
+	["Fbump1lll", "Ffasc1r"],
+	["Fbump1lll", "Ffasc2l"],
+
+	["Fbump2lll", "Ffasc1l"],
+	["Fbump2lll", "Ffasc2r"],
+	["Fbump2lll", "Ffasc2l"],
+
+	["Fbump3ll", "Ffasc1l"],
+	["Fbump3ll", "Ffasc1r"],
+	["Fbump3ll", "Ffasc2l"],
+
+	["Fbump4ll", "Ffasc1l"],
+	["Fbump4ll", "Ffasc2r"],
+	["Fbump4ll", "Ffasc2l"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_bumper_FL"},
+	["Fbump1ll","Fbump1lll","Fbump3ll"],
+  	["Fbump2ll","Fbump4ll","Fbump2lll"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumper_FL"},   
+	["Fbump1ll","Fbump2ll","Fbump2lll","Fbump1lll", {"dragCoef":"$=$drag*0.1"}],
+	["Fbump1ll","Fbump3ll","Fbump4ll","Fbump2ll", {"dragCoef":"$=$drag*0.1"}],
+	["Fbump1lll","Fbump2lll","Fbump4ll","Fbump3ll", {"dragCoef":"$=$drag*0.1"}],
+        {"group":""},
+    ],
+},
+
+}

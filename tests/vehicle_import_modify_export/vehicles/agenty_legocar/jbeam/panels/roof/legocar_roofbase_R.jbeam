@@ -1,0 +1,180 @@
+{
+"legocar_roofbase_R": {
+    "information":{
+        "name":"Rear Roof Base",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_roofbase_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_roof_chmsl","legocar_roof_chmsl_filler", "Facelift Center High Mounted Stop Light"],
+	["legocar_roof_R","legocar_roof_R", "Rear Roof"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x2_flat_corner_roof",["legocar_roofbase_RL"], [], {"pos":{"x": 0.500, "y":0.750, "z":1.4},"rot":{"x":0, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_2x2_flat_corner_roof",["legocar_roofbase_RR"], [], {"pos":{"x":-0.500, "y":0.750, "z":1.4},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//3 pieces, 3 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+
+	{"group":"legocar_roofbase_RL"},
+	["roofbaseRL1", 0.75, 0.50, 1.45],
+	["roofbaseRL2", 0.75, 1.00, 1.45],
+	["roofbaseRL3", 0.28, 1.00, 1.45],
+
+	{"group":"legocar_roofbase_RR"},
+	["roofbaseRR1",-0.75, 0.50, 1.45],
+	["roofbaseRR2",-0.75, 1.00, 1.45],
+	["roofbaseRR3",-0.28, 1.00, 1.45],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["roofbaseRL1", "roofbaseRL2"],
+	["roofbaseRL2", "roofbaseRL3"],
+	["roofbaseRL3", "roofbaseRL1"],
+	
+	["roofbaseRR1", "roofbaseRR2"],
+	["roofbaseRR2", "roofbaseRR3"],
+	["roofbaseRR3", "roofbaseRR1"],
+
+	
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+
+	//left to backlight
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"roofbaseRL_backlight_break"},
+	
+	["roofbaseRL1", "backl3l"],
+	["roofbaseRL1", "backl3r"],
+	["roofbaseRL1", "backl1l"],
+	["roofbaseRL1", "backl4l"],
+
+	["roofbaseRL2", "backl4l"],
+	["roofbaseRL2", "backl4r"],
+	["roofbaseRL2", "backl2l"],
+	["roofbaseRL2", "backl3l"],
+
+	["roofbaseRL3", "backl4l"],
+	["roofbaseRL3", "backl4r"],
+	["roofbaseRL3", "backl0"],
+	["roofbaseRL3", "backl3l"],
+
+
+	//right to backlight
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"roofbaseRR_backlight_break"},
+	
+	["roofbaseRR1", "backl3l"],
+	["roofbaseRR1", "backl3r"],
+	["roofbaseRR1", "backl1r"],
+	["roofbaseRR1", "backl4r"],
+
+	["roofbaseRR2", "backl4l"],
+	["roofbaseRR2", "backl4r"],
+	["roofbaseRR2", "backl2r"],
+	["roofbaseRR2", "backl3r"],
+
+	["roofbaseRR3", "backl4l"],
+	["roofbaseRR3", "backl4r"],
+	["roofbaseRR3", "backl0"],
+	["roofbaseRR3", "backl3r"],
+	
+	{"optional":true},
+
+
+	//left to quarter glass
+	{"beamSpring":"$=$weight*301000", "beamDamp":"$=$weight*30"},
+	{"breakGroup":"roofbaseRL_quarterglass_break"},
+
+	["roofbaseRL1", "Lqglass3l"],
+	["roofbaseRL1", "Lqglass3r"],
+	["roofbaseRL1", "Lqglass4l"],
+	["roofbaseRL1", "Lqglass1l"],
+
+	["roofbaseRL2", "Lqglass4l"],
+	["roofbaseRL2", "Lqglass4r"],
+	["roofbaseRL2", "Lqglass3l"],
+	["roofbaseRL2", "Lqglass2l"],
+
+	["roofbaseRL3", "Lqglass4l"],
+	["roofbaseRL3", "Lqglass4r"],
+	["roofbaseRL3", "Lqglass3r"],
+	["roofbaseRL3", "Lqglass2r"],
+
+
+	//right to quarter glass
+	{"beamSpring":"$=$weight*301000", "beamDamp":"$=$weight*30"},
+	{"breakGroup":"roofbaseRR_quarterglass_break"},
+
+	["roofbaseRR1", "Rqglass3l"],
+	["roofbaseRR1", "Rqglass3r"],
+	["roofbaseRR1", "Rqglass4r"],
+	["roofbaseRR1", "Rqglass1r"],
+
+	["roofbaseRR2", "Rqglass4l"],
+	["roofbaseRR2", "Rqglass4r"],
+	["roofbaseRR2", "Rqglass3r"],
+	["roofbaseRR2", "Rqglass2r"],
+
+	["roofbaseRR3", "Rqglass4l"],
+	["roofbaseRR3", "Rqglass4r"],
+	["roofbaseRR3", "Rqglass3l"],
+	["roofbaseRR3", "Rqglass2l"],
+
+
+	{"optional":false},
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//to backlight
+	["roofbaseRL1", "backl3l"],
+	["roofbaseRL1", "backl3r"],
+	["roofbaseRL1", "backl1l"],
+	["roofbaseRL1", "backl4l"],
+
+	["roofbaseRR1", "backl3l"],
+	["roofbaseRR1", "backl3r"],
+	["roofbaseRR1", "backl1r"],
+	["roofbaseRR1", "backl4r"],
+
+	["roofbaseRL2", "backl3l"],
+	["roofbaseRL2", "backl3r"],
+	["roofbaseRL2", "backl1l"],
+	["roofbaseRL2", "backl4l"],
+
+	["roofbaseRR2", "backl3l"],
+	["roofbaseRR2", "backl3r"],
+	["roofbaseRR2", "backl1r"],
+	["roofbaseRR2", "backl4r"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_roofbase_RL"}, 
+	["roofbaseRL1","roofbaseRL2","roofbaseRL3"],
+	{"group":"legocar_roofbase_RR"}, 
+	["roofbaseRR1","roofbaseRR3","roofbaseRR2"],
+        {"group":""},
+    ],
+},
+
+}

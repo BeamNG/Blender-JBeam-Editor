@@ -1,0 +1,313 @@
+{
+"legocar_rollcage_derby_L_alt": {
+    "information":{
+        "name":" Derby Roll Cage Left Part (Alternative)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_quarterglass_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_tall_col2",["legocar_derbycage_L3"], [], {"pos":{"x": 0.625, "y": 0.375, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_tall_col2",["legocar_derbycage_L4"], [], {"pos":{"x": 0.625, "y": 0.375, "z":1.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//l3
+	{"group":"legocar_derbycage_L3"},
+	//3 pieces, 8 nodes - 0.375 kg/node
+	{"nodeWeight": "$=$weight*0.375"},
+
+	["L3derbycage1l", 0.75, 0.25, 0.80],
+	["L3derbycage1r", 0.50, 0.25, 0.80],
+	["L3derbycage2l", 0.75, 0.50, 0.80],
+	["L3derbycage2r", 0.50, 0.50, 0.80],
+	["L3derbycage3l", 0.75, 0.25, 1.07],
+	["L3derbycage3r", 0.50, 0.25, 1.07],
+	["L3derbycage4l", 0.75, 0.50, 1.07],
+	["L3derbycage4r", 0.50, 0.50, 1.07],
+
+	//l4
+	{"group":"legocar_derbycage_L4"},
+	//3 pieces, 8 nodes - 0.375 kg/node
+	{"nodeWeight": "$=$weight*0.375"},
+
+	["L4derbycage1l", 0.75, 0.25, 1.10],
+	["L4derbycage1r", 0.50, 0.25, 1.10],
+	["L4derbycage2l", 0.75, 0.50, 1.10],
+	["L4derbycage2r", 0.50, 0.50, 1.10],
+	["L4derbycage3l", 0.75, 0.25, 1.40],
+	["L4derbycage3r", 0.50, 0.25, 1.40],
+	["L4derbycage4l", 0.75, 0.50, 1.40],
+	["L4derbycage4r", 0.50, 0.50, 1.40],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--DERBY CAGE LEFT SIDE--
+	
+	//l3
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+
+	["L3derbycage1l", "L3derbycage1r"],
+	["L3derbycage2l", "L3derbycage2r"],
+	["L3derbycage3l", "L3derbycage3r"],
+	["L3derbycage4l", "L3derbycage4r"],
+
+	["L3derbycage1l", "L3derbycage2r"],
+	["L3derbycage2l", "L3derbycage3r"],
+	["L3derbycage3l", "L3derbycage4r"],
+	["L3derbycage4l", "L3derbycage1r"],
+
+	["L3derbycage1l", "L3derbycage3r"],
+	["L3derbycage2l", "L3derbycage4r"],
+	["L3derbycage3l", "L3derbycage1r"],
+	["L3derbycage4l", "L3derbycage2r"],
+
+	["L3derbycage1l", "L3derbycage4r"],
+	["L3derbycage2l", "L3derbycage1r"],
+	["L3derbycage3l", "L3derbycage2r"],
+	["L3derbycage4l", "L3derbycage3r"],
+
+	["L3derbycage1l", "L3derbycage2l"],
+	["L3derbycage2l", "L3derbycage3l"],
+	["L3derbycage3l", "L3derbycage4l"],
+	["L3derbycage4l", "L3derbycage1l"],
+
+	["L3derbycage1l", "L3derbycage3l"],
+	["L3derbycage2l", "L3derbycage4l"],
+
+	["L3derbycage1r", "L3derbycage2r"],
+	["L3derbycage2r", "L3derbycage3r"],
+	["L3derbycage3r", "L3derbycage4r"],
+	["L3derbycage4r", "L3derbycage1r"],
+
+	["L3derbycage1r", "L3derbycage3r"],
+	["L3derbycage2r", "L3derbycage4r"],
+	
+	
+	//l4
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+
+	["L4derbycage1l", "L4derbycage1r"],
+	["L4derbycage2l", "L4derbycage2r"],
+	["L4derbycage3l", "L4derbycage3r"],
+	["L4derbycage4l", "L4derbycage4r"],
+
+	["L4derbycage1l", "L4derbycage2r"],
+	["L4derbycage2l", "L4derbycage3r"],
+	["L4derbycage3l", "L4derbycage4r"],
+	["L4derbycage4l", "L4derbycage1r"],
+
+	["L4derbycage1l", "L4derbycage3r"],
+	["L4derbycage2l", "L4derbycage4r"],
+	["L4derbycage3l", "L4derbycage1r"],
+	["L4derbycage4l", "L4derbycage2r"],
+
+	["L4derbycage1l", "L4derbycage4r"],
+	["L4derbycage2l", "L4derbycage1r"],
+	["L4derbycage3l", "L4derbycage2r"],
+	["L4derbycage4l", "L4derbycage3r"],
+
+	["L4derbycage1l", "L4derbycage2l"],
+	["L4derbycage2l", "L4derbycage3l"],
+	["L4derbycage3l", "L4derbycage4l"],
+	["L4derbycage4l", "L4derbycage1l"],
+
+	["L4derbycage1l", "L4derbycage3l"],
+	["L4derbycage2l", "L4derbycage4l"],
+
+	["L4derbycage1r", "L4derbycage2r"],
+	["L4derbycage2r", "L4derbycage3r"],
+	["L4derbycage3r", "L4derbycage4r"],
+	["L4derbycage4r", "L4derbycage1r"],
+
+	["L4derbycage1r", "L4derbycage3r"],
+	["L4derbycage2r", "L4derbycage4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	
+
+	//l3 to l4
+	{"beamSpring":"$=$weight*125000", "beamDamp":"$=$weight*12.5"},
+	{"breakGroup":"derbycage_L3_break"},
+
+	["L4derbycage1l", "L3derbycage1l"],
+	["L4derbycage1l", "L3derbycage1r"],
+	["L4derbycage1l", "L3derbycage2l"],
+	["L4derbycage1l", "L3derbycage3l"],
+
+	["L4derbycage1r", "L3derbycage1l"],
+	["L4derbycage1r", "L3derbycage1r"],
+	["L4derbycage1r", "L3derbycage2r"],
+	["L4derbycage1r", "L3derbycage3r"],
+
+	["L4derbycage2l", "L3derbycage2l"],
+	["L4derbycage2l", "L3derbycage2r"],
+	["L4derbycage2l", "L3derbycage1l"],
+	["L4derbycage2l", "L3derbycage4l"],
+
+	["L4derbycage2r", "L3derbycage2l"],
+	["L4derbycage2r", "L3derbycage2r"],
+	["L4derbycage2r", "L3derbycage1r"],
+	["L4derbycage2r", "L3derbycage4r"],
+	
+	["L4derbycage3l", "L3derbycage1l"],
+	["L4derbycage3l", "L3derbycage1r"],
+	["L4derbycage3l", "L3derbycage2l"],
+	["L4derbycage3l", "L3derbycage3l"],
+
+	["L4derbycage3r", "L3derbycage1l"],
+	["L4derbycage3r", "L3derbycage1r"],
+	["L4derbycage3r", "L3derbycage2r"],
+	["L4derbycage3r", "L3derbycage3r"],
+
+	["L4derbycage4l", "L3derbycage2l"],
+	["L4derbycage4l", "L3derbycage2r"],
+	["L4derbycage4l", "L3derbycage1l"],
+	["L4derbycage4l", "L3derbycage4l"],
+
+	["L4derbycage4r", "L3derbycage2l"],
+	["L4derbycage4r", "L3derbycage2r"],
+	["L4derbycage4r", "L3derbycage1r"],
+	["L4derbycage4r", "L3derbycage4r"],
+
+	
+	//to quarter glass mount
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"derbycage_L_quarterglass_mount_break"},
+
+	["Lqglassmt1l", "L3derbycage1l"],
+	["Lqglassmt1l", "L3derbycage1r"],
+	["Lqglassmt1l", "L3derbycage2l"],
+
+	["Lqglassmt1r", "L3derbycage1l"],
+	["Lqglassmt1r", "L3derbycage1r"],
+	["Lqglassmt1r", "L3derbycage2r"],
+
+	["Lqglassmt2l", "L3derbycage1l"],
+	["Lqglassmt2l", "L3derbycage2r"],
+	["Lqglassmt2l", "L3derbycage2l"],
+
+	["Lqglassmt2r", "L3derbycage2l"],
+	["Lqglassmt2r", "L3derbycage1r"],
+	["Lqglassmt2r", "L3derbycage2r"],
+
+	["Lqglassmtrig", "L3derbycage1l"],
+	["Lqglassmtrig", "L3derbycage1r"],
+	["Lqglassmtrig", "L3derbycage2l"],
+	["Lqglassmtrig", "L3derbycage2r"],
+
+
+	{"optional":true},
+
+
+	//to roof stock outer nodes only
+	{"beamSpring":"$=$weight*125000", "beamDamp":"$=$weight*12.5"},
+	{"breakGroup":"derbycage_L_roof_break"},
+
+	["L4derbycage1l", "roof1lll"],
+	["L4derbycage1l", "roof1ll"],
+	["L4derbycage1l", "roof1rr"],
+	["L4derbycage1l", "roof1rrr"],
+
+	["L4derbycage1r", "roof1lll"],
+	["L4derbycage1r", "roof1ll"],
+	["L4derbycage1r", "roof1rr"],
+	["L4derbycage1r", "roof1rrr"],
+
+	["L4derbycage2l", "roof1lll"],
+	["L4derbycage2l", "roof1ll"],
+	["L4derbycage2l", "roof1rr"],
+	["L4derbycage2l", "roof1rrr"],
+
+	["L4derbycage2r", "roof1lll"],
+	["L4derbycage2r", "roof1ll"],
+	["L4derbycage2r", "roof1rr"],
+	["L4derbycage2r", "roof1rrr"],
+
+	["L4derbycage3l", "roof1lll"],
+	["L4derbycage3l", "roof1ll"],
+	["L4derbycage3l", "roof1rr"],
+	["L4derbycage3l", "roof1rrr"],
+
+	["L4derbycage3r", "roof1lll"],
+	["L4derbycage3r", "roof1ll"],
+	["L4derbycage3r", "roof1rr"],
+	["L4derbycage3r", "roof1rrr"],
+
+	["L4derbycage4l", "roof1lll"],
+	["L4derbycage4l", "roof1ll"],
+	["L4derbycage4l", "roof1rr"],
+	["L4derbycage4l", "roof1rrr"],
+
+	["L4derbycage4r", "roof1lll"],
+	["L4derbycage4r", "roof1ll"],
+	["L4derbycage4r", "roof1rr"],
+	["L4derbycage4r", "roof1rrr"],
+
+
+	//to top part
+	{"beamSpring":"$=$weight*125000", "beamDamp":"$=$weight*12.5"},
+	{"breakGroup":"derbycage_L_top_break"},
+
+	["T1derbycage1l", "L4derbycage3l"],
+	["T1derbycage1l", "L4derbycage3r"],
+	["T1derbycage1l", "L4derbycage4l"],
+	["T1derbycage1l", "L4derbycage1l"],
+
+	["T1derbycage1r", "L4derbycage3l"],
+	["T1derbycage1r", "L4derbycage3r"],
+	["T1derbycage1r", "L4derbycage4r"],
+	["T1derbycage1r", "L4derbycage1r"],
+
+	["T1derbycage2l", "L4derbycage4l"],
+	["T1derbycage2l", "L4derbycage4r"],
+	["T1derbycage2l", "L4derbycage3l"],
+	["T1derbycage2l", "L4derbycage2l"],
+
+	["T1derbycage2r", "L4derbycage4l"],
+	["T1derbycage2r", "L4derbycage4r"],
+	["T1derbycage2r", "L4derbycage3r"],
+	["T1derbycage2r", "L4derbycage2r"],
+
+	["T1derbycagerig", "L4derbycage1l"],
+	["T1derbycagerig", "L4derbycage2l"],
+	["T1derbycagerig", "L4derbycage3l"],
+	["T1derbycagerig", "L4derbycage4l"],
+
+
+	{"breakGroup":""},
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_derbycage_L3"},   
+	["L3derbycage2r","L3derbycage2l","L3derbycage1l","L3derbycage1r"],
+	["L3derbycage4l","L3derbycage4r","L3derbycage3r","L3derbycage3l"],
+	["L3derbycage3r","L3derbycage4r","L3derbycage2r","L3derbycage1r"],
+	["L3derbycage4l","L3derbycage3l","L3derbycage1l","L3derbycage2l"],
+	["L3derbycage4r","L3derbycage4l","L3derbycage2l","L3derbycage2r"],
+	["L3derbycage3l","L3derbycage3r","L3derbycage1r","L3derbycage1l"],
+	
+	{"group":"legocar_derbycage_L4"},   
+	["L4derbycage2r","L4derbycage2l","L4derbycage1l","L4derbycage1r"],
+	["L4derbycage4l","L4derbycage4r","L4derbycage3r","L4derbycage3l"],
+	["L4derbycage3r","L4derbycage4r","L4derbycage2r","L4derbycage1r"],
+	["L4derbycage4l","L4derbycage3l","L4derbycage1l","L4derbycage2l"],
+	["L4derbycage4r","L4derbycage4l","L4derbycage2l","L4derbycage2r"],
+	["L4derbycage3l","L4derbycage3r","L4derbycage1r","L4derbycage1l"],
+
+        {"group":""},
+    ],
+},
+
+}

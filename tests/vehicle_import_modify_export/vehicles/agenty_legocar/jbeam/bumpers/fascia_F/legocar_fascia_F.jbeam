@@ -1,0 +1,404 @@
+{
+"legocar_fascia_F_col1": {
+    "information":{
+        "name":"Front Fascia (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fascia_F_side_L", "legocar_fascia_F_side_L_col1", "Left Front Fascia Side"],
+	["legocar_fascia_F_side_R", "legocar_fascia_F_side_R_col1", "Right Front Fascia Side"],
+	["legocar_bumper_F", "legocar_bumper_F_facelift_col1", "Front Bumper"],
+	["legocar_headlight_housing", "legocar_headlight_housing_facelift_col1", "Headlight Housing"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x6_flat_col1", ["legocar_fascia_F"], [], {"pos":{"x": 0.000, "y":-1.750, "z":0.35},"rot":{"x":90, "y":0, "z":0},"scale":{"x":1, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_fascia_F"},
+	//12 pieces, 5 nodes - 2.4 kg/node
+	{"nodeWeight": "$=$weight*2.4"},
+
+	["Ffasc1l",  0.75, -1.80, 0.10],
+	["Ffasc1r", -0.75, -1.80, 0.10],
+	["Ffasc2l",  0.75, -1.80, 0.60],
+	["Ffasc2r", -0.75, -1.80, 0.60],
+	//rigidifier
+	["Ffascrig", 0, -1.4, 0.35, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT FASCIA--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*3001000", "beamDamp":"$=$weight*300"},
+
+	//uniform structure
+	["Ffasc1l", "Ffasc1r"],
+	["Ffasc2l", "Ffasc2r"],
+	["Ffasc1l", "Ffasc2l"],
+	["Ffasc1r", "Ffasc2r"],
+	["Ffasc1l", "Ffasc2r"],
+	["Ffasc2l", "Ffasc1r"],
+
+	//rigidifier
+	["Ffasc1l", "Ffascrig"],
+	["Ffasc1r", "Ffascrig"],
+	["Ffasc2l", "Ffascrig"],
+	["Ffasc2r", "Ffascrig"],
+
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_fascia_F"},
+	["Ffasc2l","Ffasc2r","Ffasc1r","Ffasc1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_fascia_F_col2": {
+    "information":{
+        "name":"Front Fascia (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fascia_F_side_L", "legocar_fascia_F_side_L_col2", "Left Front Fascia Side"],
+	["legocar_fascia_F_side_R", "legocar_fascia_F_side_R_col2", "Right Front Fascia Side"],
+	["legocar_bumper_F", "legocar_bumper_F_facelift_col2", "Front Bumper"],
+	["legocar_headlight_housing", "legocar_headlight_housing_facelift_col2", "Headlight Housing"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x6_flat_col2", ["legocar_fascia_F"], [], {"pos":{"x": 0.000, "y":-1.750, "z":0.35},"rot":{"x":90, "y":0, "z":0},"scale":{"x":1, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_fascia_F"},
+	//12 pieces, 5 nodes - 2.4 kg/node
+	{"nodeWeight": "$=$weight*2.4"},
+
+	["Ffasc1l",  0.75, -1.80, 0.10],
+	["Ffasc1r", -0.75, -1.80, 0.10],
+	["Ffasc2l",  0.75, -1.80, 0.60],
+	["Ffasc2r", -0.75, -1.80, 0.60],
+	//rigidifier
+	["Ffascrig", 0, -1.4, 0.35, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT FASCIA--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*3001000", "beamDamp":"$=$weight*300"},
+
+	//uniform structure
+	["Ffasc1l", "Ffasc1r"],
+	["Ffasc2l", "Ffasc2r"],
+	["Ffasc1l", "Ffasc2l"],
+	["Ffasc1r", "Ffasc2r"],
+	["Ffasc1l", "Ffasc2r"],
+	["Ffasc2l", "Ffasc1r"],
+
+	//rigidifier
+	["Ffasc1l", "Ffascrig"],
+	["Ffasc1r", "Ffascrig"],
+	["Ffasc2l", "Ffascrig"],
+	["Ffasc2r", "Ffascrig"],
+
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_fascia_F"},
+	["Ffasc2l","Ffasc2r","Ffasc1r","Ffasc1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_fascia_F_col3": {
+    "information":{
+        "name":"Front Fascia (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fascia_F_side_L", "legocar_fascia_F_side_L_col3", "Left Front Fascia Side"],
+	["legocar_fascia_F_side_R", "legocar_fascia_F_side_R_col3", "Right Front Fascia Side"],
+	["legocar_bumper_F", "legocar_bumper_F_facelift_col3", "Front Bumper"],
+	["legocar_headlight_housing", "legocar_headlight_housing_facelift_col3", "Headlight Housing"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x6_flat_col3", ["legocar_fascia_F"], [], {"pos":{"x": 0.000, "y":-1.750, "z":0.35},"rot":{"x":90, "y":0, "z":0},"scale":{"x":1, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_fascia_F"},
+	//12 pieces, 5 nodes - 2.4 kg/node
+	{"nodeWeight": "$=$weight*2.4"},
+
+	["Ffasc1l",  0.75, -1.80, 0.10],
+	["Ffasc1r", -0.75, -1.80, 0.10],
+	["Ffasc2l",  0.75, -1.80, 0.60],
+	["Ffasc2r", -0.75, -1.80, 0.60],
+	//rigidifier
+	["Ffascrig", 0, -1.4, 0.35, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT FASCIA--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*3001000", "beamDamp":"$=$weight*300"},
+
+	//uniform structure
+	["Ffasc1l", "Ffasc1r"],
+	["Ffasc2l", "Ffasc2r"],
+	["Ffasc1l", "Ffasc2l"],
+	["Ffasc1r", "Ffasc2r"],
+	["Ffasc1l", "Ffasc2r"],
+	["Ffasc2l", "Ffasc1r"],
+
+	//rigidifier
+	["Ffasc1l", "Ffascrig"],
+	["Ffasc1r", "Ffascrig"],
+	["Ffasc2l", "Ffascrig"],
+	["Ffasc2r", "Ffascrig"],
+
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_fascia_F"},
+	["Ffasc2l","Ffasc2r","Ffasc1r","Ffasc1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_fascia_F_grey": {
+    "information":{
+        "name":"Front Fascia (Light Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fascia_F_side_L", "legocar_fascia_F_side_L_grey", "Left Front Fascia Side"],
+	["legocar_fascia_F_side_R", "legocar_fascia_F_side_R_grey", "Right Front Fascia Side"],
+	["legocar_bumper_F", "legocar_bumper_F_facelift_grey", "Front Bumper"],
+	["legocar_headlight_housing", "legocar_headlight_housing_facelift_grey", "Headlight Housing"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x6_flat_grey", ["legocar_fascia_F"], [], {"pos":{"x": 0.000, "y":-1.750, "z":0.35},"rot":{"x":90, "y":0, "z":0},"scale":{"x":1, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_fascia_F"},
+	//12 pieces, 5 nodes - 2.4 kg/node
+	{"nodeWeight": "$=$weight*2.4"},
+
+	["Ffasc1l",  0.75, -1.80, 0.10],
+	["Ffasc1r", -0.75, -1.80, 0.10],
+	["Ffasc2l",  0.75, -1.80, 0.60],
+	["Ffasc2r", -0.75, -1.80, 0.60],
+	//rigidifier
+	["Ffascrig", 0, -1.4, 0.35, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT FASCIA--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*3001000", "beamDamp":"$=$weight*300"},
+
+	//uniform structure
+	["Ffasc1l", "Ffasc1r"],
+	["Ffasc2l", "Ffasc2r"],
+	["Ffasc1l", "Ffasc2l"],
+	["Ffasc1r", "Ffasc2r"],
+	["Ffasc1l", "Ffasc2r"],
+	["Ffasc2l", "Ffasc1r"],
+
+	//rigidifier
+	["Ffasc1l", "Ffascrig"],
+	["Ffasc1r", "Ffascrig"],
+	["Ffasc2l", "Ffascrig"],
+	["Ffasc2r", "Ffascrig"],
+
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_fascia_F"},
+	["Ffasc2l","Ffasc2r","Ffasc1r","Ffasc1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_fascia_F_dgrey": {
+    "information":{
+        "name":"Front Fascia (Dark Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fascia_F_side_L", "legocar_fascia_F_side_L_grey", "Left Front Fascia Side"],
+	["legocar_fascia_F_side_R", "legocar_fascia_F_side_R_grey", "Right Front Fascia Side"],
+	["legocar_bumper_F", "legocar_bumper_F_facelift_dgrey", "Front Bumper"],
+	["legocar_headlight_housing", "legocar_headlight_housing_facelift_dgrey", "Headlight Housing"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x6_flat_dgrey", ["legocar_fascia_F"], [], {"pos":{"x": 0.000, "y":-1.750, "z":0.35},"rot":{"x":90, "y":0, "z":0},"scale":{"x":1, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_fascia_F"},
+	//12 pieces, 5 nodes - 2.4 kg/node
+	{"nodeWeight": "$=$weight*2.4"},
+
+	["Ffasc1l",  0.75, -1.80, 0.10],
+	["Ffasc1r", -0.75, -1.80, 0.10],
+	["Ffasc2l",  0.75, -1.80, 0.60],
+	["Ffasc2r", -0.75, -1.80, 0.60],
+	//rigidifier
+	["Ffascrig", 0, -1.4, 0.35, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT FASCIA--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*3001000", "beamDamp":"$=$weight*300"},
+
+	//uniform structure
+	["Ffasc1l", "Ffasc1r"],
+	["Ffasc2l", "Ffasc2r"],
+	["Ffasc1l", "Ffasc2l"],
+	["Ffasc1r", "Ffasc2r"],
+	["Ffasc1l", "Ffasc2r"],
+	["Ffasc2l", "Ffasc1r"],
+
+	//rigidifier
+	["Ffasc1l", "Ffascrig"],
+	["Ffasc1r", "Ffascrig"],
+	["Ffasc2l", "Ffascrig"],
+	["Ffasc2r", "Ffascrig"],
+
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_fascia_F"},
+	["Ffasc2l","Ffasc2r","Ffasc1r","Ffasc1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_fascia_F_black": {
+    "information":{
+        "name":"Front Fascia (Black)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fascia_F_side_L", "legocar_fascia_F_side_L_grey", "Left Front Fascia Side"],
+	["legocar_fascia_F_side_R", "legocar_fascia_F_side_R_grey", "Right Front Fascia Side"],
+	["legocar_bumper_F", "legocar_bumper_F_facelift_dgrey", "Front Bumper"],
+	["legocar_headlight_housing", "legocar_headlight_housing_facelift_dgrey", "Headlight Housing"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x6_flat_black", ["legocar_fascia_F"], [], {"pos":{"x": 0.000, "y":-1.750, "z":0.35},"rot":{"x":90, "y":0, "z":0},"scale":{"x":1, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_fascia_F"},
+	//12 pieces, 5 nodes - 2.4 kg/node
+	{"nodeWeight": "$=$weight*2.4"},
+
+	["Ffasc1l",  0.75, -1.80, 0.10],
+	["Ffasc1r", -0.75, -1.80, 0.10],
+	["Ffasc2l",  0.75, -1.80, 0.60],
+	["Ffasc2r", -0.75, -1.80, 0.60],
+	//rigidifier
+	["Ffascrig", 0, -1.4, 0.35, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT FASCIA--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*3001000", "beamDamp":"$=$weight*300"},
+
+	//uniform structure
+	["Ffasc1l", "Ffasc1r"],
+	["Ffasc2l", "Ffasc2r"],
+	["Ffasc1l", "Ffasc2l"],
+	["Ffasc1r", "Ffasc2r"],
+	["Ffasc1l", "Ffasc2r"],
+	["Ffasc2l", "Ffasc1r"],
+
+	//rigidifier
+	["Ffasc1l", "Ffascrig"],
+	["Ffasc1r", "Ffascrig"],
+	["Ffasc2l", "Ffascrig"],
+	["Ffasc2r", "Ffascrig"],
+
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_fascia_F"},
+	["Ffasc2l","Ffasc2r","Ffasc1r","Ffasc1l"],
+        {"group":""},
+    ],
+},
+
+}

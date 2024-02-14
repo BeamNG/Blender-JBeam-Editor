@@ -1,0 +1,42 @@
+{
+"legodummy_face_skin_neutral": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Neutral",
+    },
+    "slotType" : "skin_legodummy_face",
+},
+"legodummy_face_skin_happy": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Happy",
+    },
+    "slotType" : "skin_legodummy_face",
+    "skinName" : "happy",
+},
+"legodummy_face_skin_scared": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Scared",
+    },
+    "slotType" : "skin_legodummy_face",
+    "skinName" : "scared",
+},
+"legodummy_face_skin_angry": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Angry",
+    },
+    "slotType" : "skin_legodummy_face",
+    "skinName" : "angry",
+},
+"legodummy_face_skin_evil": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Evil",
+    },
+    "slotType" : "skin_legodummy_face",
+    "skinName" : "evil",
+},
+
+}

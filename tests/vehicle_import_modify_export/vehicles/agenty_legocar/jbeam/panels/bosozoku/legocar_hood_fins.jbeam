@@ -1,0 +1,542 @@
+{
+"legocar_hood_fins_col1": {
+    "information":{
+        "name":"Hood Fins (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hood_fins",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x3_flat_panel_tall_col1",["legocar_hood_fin_L"],[], {"pos":{"x": 0.625, "y":-1.375, "z":0.795},"rot":{"x":0, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x3_flat_panel_tall_col1",["legocar_hood_fin_R"],[], {"pos":{"x":-0.625, "y":-1.375, "z":0.795},"rot":{"x":0, "y":0, "z": 90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//3 pieces, 3 half pieces, 6 nodes - 0.75 kg/node
+	{"nodeWeight": "$=$weight*0.75"},
+
+	//left
+	{"group":"legocar_hood_fin_L"},
+	["Lfin1l", 0.75,-1.03, 0.83],
+	["Lfin1r", 0.50,-1.03, 0.83],
+	["Lfin2l", 0.75,-1.75, 0.83],
+	["Lfin2r", 0.50,-1.75, 0.83],
+	["Lfin3l", 0.50,-1.75, 1.10],
+	["Lfin3r", 0.50,-1.03, 1.10],
+
+	//right
+	{"group":"legocar_hood_fin_R"},
+	["Rfin1r", -0.75,-1.03, 0.83],
+	["Rfin1l", -0.50,-1.03, 0.83],
+	["Rfin2r", -0.75,-1.75, 0.83],
+	["Rfin2l", -0.50,-1.75, 0.83],
+	["Rfin3r", -0.50,-1.03, 1.10],
+	["Rfin3l", -0.50,-1.75, 1.10],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//L uniform horizontal
+	["Lfin1l", "Lfin1r"],
+	["Lfin2l", "Lfin2r"],
+	["Lfin1l", "Lfin2r"],
+	["Lfin2l", "Lfin1r"],
+	["Lfin1l", "Lfin2l"],
+	["Lfin1r", "Lfin2r"],
+
+	//L uniform vertical
+	["Lfin1l", "Lfin3l"],
+	["Lfin2l", "Lfin3l"],
+	["Lfin1r", "Lfin3r"],
+	["Lfin2r", "Lfin3r"],
+	["Lfin1l", "Lfin3r"],
+	["Lfin2l", "Lfin3r"],
+	["Lfin1r", "Lfin3l"],
+	["Lfin2r", "Lfin3l"],
+	
+	//R uniform horizontal
+	["Rfin1l", "Rfin1r"],
+	["Rfin2l", "Rfin2r"],
+	["Rfin1l", "Rfin2r"],
+	["Rfin2l", "Rfin1r"],
+	["Rfin1l", "Rfin2l"],
+	["Rfin1r", "Rfin2r"],
+
+	//R uniform vertical
+	["Rfin1l", "Rfin3l"],
+	["Rfin2l", "Rfin3l"],
+	["Rfin1r", "Rfin3r"],
+	["Rfin2r", "Rfin3r"],
+	["Rfin1l", "Rfin3r"],
+	["Rfin2l", "Rfin3r"],
+	["Rfin1r", "Rfin3l"],
+	["Rfin2r", "Rfin3l"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	
+	//l
+	{"breakGroup":"hood_fin_L_break"},
+	
+	["Lfin1l", "Thoodback1l"],
+	["Lfin1l", "Thoodback1r"],
+	["Lfin1l", "Thoodback2l"],
+	["Lfin1l", "Thoodbackrig"],
+
+	["Lfin1r", "Thoodback1l"],
+	["Lfin1r", "Thoodback1r"],
+	["Lfin1r", "Thoodback2l"],
+	["Lfin1r", "Thoodbackrig"],
+
+	["Lfin3r", "Thoodback1l"],
+	["Lfin3r", "Thoodback1r"],
+	["Lfin3r", "Thoodback2l"],
+	["Lfin3r", "Thoodbackrig"],
+
+	["Lfin2l", "Thoodback2l"],
+	["Lfin2l", "Thoodback2r"],
+	["Lfin2l", "Thoodbackrig"],
+
+	["Lfin2r", "Thoodback2l"],
+	["Lfin2r", "Thoodback2r"],
+	["Lfin2r", "Thoodbackrig"],
+
+	["Lfin3l", "Thoodback2l"],
+	["Lfin3l", "Thoodback2r"],
+	["Lfin3l", "Thoodbackrig"],
+
+
+	//r
+	{"breakGroup":"hood_fin_R_break"},
+	
+	["Rfin1l", "Thoodback1l"],
+	["Rfin1l", "Thoodback1r"],
+	["Rfin1l", "Thoodback2r"],
+	["Rfin1l", "Thoodbackrig"],
+
+	["Rfin1r", "Thoodback1l"],
+	["Rfin1r", "Thoodback1r"],
+	["Rfin1r", "Thoodback2r"],
+	["Rfin1r", "Thoodbackrig"],
+
+	["Rfin3r", "Thoodback1l"],
+	["Rfin3r", "Thoodback1r"],
+	["Rfin3r", "Thoodback2r"],
+	["Rfin3r", "Thoodbackrig"],
+
+	["Rfin2l", "Thoodback2l"],
+	["Rfin2l", "Thoodback2r"],
+	["Rfin2l", "Thoodbackrig"],
+
+	["Rfin2r", "Thoodback2l"],
+	["Rfin2r", "Thoodback2r"],
+	["Rfin2r", "Thoodbackrig"],
+
+	["Rfin3l", "Thoodback2l"],
+	["Rfin3l", "Thoodback2r"],
+	["Rfin3l", "Thoodbackrig"],
+	
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+		
+	{"group":"legocar_hood_fin_L"},
+	["Lfin1r","Lfin2r","Lfin3r"],
+  	["Lfin1l","Lfin3l","Lfin2l"],
+	
+	{"group":"legocar_hood_fin_R"},
+	["Rfin1r","Rfin2r","Rfin3r"],
+  	["Rfin1l","Rfin3l","Rfin2l"],
+	
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+		
+        {"group":"legocar_hood_fin_L"},   
+	["Lfin1r","Lfin1l","Lfin2l","Lfin2r"],
+	["Lfin1l","Lfin1r","Lfin3r","Lfin3l"],
+	["Lfin2r","Lfin2l","Lfin3l","Lfin3r"],
+	
+	{"group":"legocar_hood_fin_R"},   
+	["Rfin1r","Rfin1l","Rfin2l","Rfin2r"],
+	["Rfin1l","Rfin1r","Rfin3r","Rfin3l"],
+	["Rfin2r","Rfin2l","Rfin3l","Rfin3r"],
+	
+        {"group":""},
+    ],
+},
+
+"legocar_hood_fins_col2": {
+    "information":{
+        "name":"Hood Fins (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hood_fins",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x3_flat_panel_tall_col2",["legocar_hood_fin_L"],[], {"pos":{"x": 0.625, "y":-1.375, "z":0.795},"rot":{"x":0, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x3_flat_panel_tall_col2",["legocar_hood_fin_R"],[], {"pos":{"x":-0.625, "y":-1.375, "z":0.795},"rot":{"x":0, "y":0, "z": 90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//3 pieces, 3 half pieces, 6 nodes - 0.75 kg/node
+	{"nodeWeight": "$=$weight*0.75"},
+
+	//left
+	{"group":"legocar_hood_fin_L"},
+	["Lfin1l", 0.75,-1.03, 0.83],
+	["Lfin1r", 0.50,-1.03, 0.83],
+	["Lfin2l", 0.75,-1.75, 0.83],
+	["Lfin2r", 0.50,-1.75, 0.83],
+	["Lfin3l", 0.50,-1.75, 1.10],
+	["Lfin3r", 0.50,-1.03, 1.10],
+
+	//right
+	{"group":"legocar_hood_fin_R"},
+	["Rfin1r", -0.75,-1.03, 0.83],
+	["Rfin1l", -0.50,-1.03, 0.83],
+	["Rfin2r", -0.75,-1.75, 0.83],
+	["Rfin2l", -0.50,-1.75, 0.83],
+	["Rfin3r", -0.50,-1.03, 1.10],
+	["Rfin3l", -0.50,-1.75, 1.10],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//L uniform horizontal
+	["Lfin1l", "Lfin1r"],
+	["Lfin2l", "Lfin2r"],
+	["Lfin1l", "Lfin2r"],
+	["Lfin2l", "Lfin1r"],
+	["Lfin1l", "Lfin2l"],
+	["Lfin1r", "Lfin2r"],
+
+	//L uniform vertical
+	["Lfin1l", "Lfin3l"],
+	["Lfin2l", "Lfin3l"],
+	["Lfin1r", "Lfin3r"],
+	["Lfin2r", "Lfin3r"],
+	["Lfin1l", "Lfin3r"],
+	["Lfin2l", "Lfin3r"],
+	["Lfin1r", "Lfin3l"],
+	["Lfin2r", "Lfin3l"],
+	
+	//R uniform horizontal
+	["Rfin1l", "Rfin1r"],
+	["Rfin2l", "Rfin2r"],
+	["Rfin1l", "Rfin2r"],
+	["Rfin2l", "Rfin1r"],
+	["Rfin1l", "Rfin2l"],
+	["Rfin1r", "Rfin2r"],
+
+	//R uniform vertical
+	["Rfin1l", "Rfin3l"],
+	["Rfin2l", "Rfin3l"],
+	["Rfin1r", "Rfin3r"],
+	["Rfin2r", "Rfin3r"],
+	["Rfin1l", "Rfin3r"],
+	["Rfin2l", "Rfin3r"],
+	["Rfin1r", "Rfin3l"],
+	["Rfin2r", "Rfin3l"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	
+	//l
+	{"breakGroup":"hood_fin_L_break"},
+	
+	["Lfin1l", "Thoodback1l"],
+	["Lfin1l", "Thoodback1r"],
+	["Lfin1l", "Thoodback2l"],
+	["Lfin1l", "Thoodbackrig"],
+
+	["Lfin1r", "Thoodback1l"],
+	["Lfin1r", "Thoodback1r"],
+	["Lfin1r", "Thoodback2l"],
+	["Lfin1r", "Thoodbackrig"],
+
+	["Lfin3r", "Thoodback1l"],
+	["Lfin3r", "Thoodback1r"],
+	["Lfin3r", "Thoodback2l"],
+	["Lfin3r", "Thoodbackrig"],
+
+	["Lfin2l", "Thoodback2l"],
+	["Lfin2l", "Thoodback2r"],
+	["Lfin2l", "Thoodbackrig"],
+
+	["Lfin2r", "Thoodback2l"],
+	["Lfin2r", "Thoodback2r"],
+	["Lfin2r", "Thoodbackrig"],
+
+	["Lfin3l", "Thoodback2l"],
+	["Lfin3l", "Thoodback2r"],
+	["Lfin3l", "Thoodbackrig"],
+
+
+	//r
+	{"breakGroup":"hood_fin_R_break"},
+	
+	["Rfin1l", "Thoodback1l"],
+	["Rfin1l", "Thoodback1r"],
+	["Rfin1l", "Thoodback2r"],
+	["Rfin1l", "Thoodbackrig"],
+
+	["Rfin1r", "Thoodback1l"],
+	["Rfin1r", "Thoodback1r"],
+	["Rfin1r", "Thoodback2r"],
+	["Rfin1r", "Thoodbackrig"],
+
+	["Rfin3r", "Thoodback1l"],
+	["Rfin3r", "Thoodback1r"],
+	["Rfin3r", "Thoodback2r"],
+	["Rfin3r", "Thoodbackrig"],
+
+	["Rfin2l", "Thoodback2l"],
+	["Rfin2l", "Thoodback2r"],
+	["Rfin2l", "Thoodbackrig"],
+
+	["Rfin2r", "Thoodback2l"],
+	["Rfin2r", "Thoodback2r"],
+	["Rfin2r", "Thoodbackrig"],
+
+	["Rfin3l", "Thoodback2l"],
+	["Rfin3l", "Thoodback2r"],
+	["Rfin3l", "Thoodbackrig"],
+	
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+		
+	{"group":"legocar_hood_fin_L"},
+	["Lfin1r","Lfin2r","Lfin3r"],
+  	["Lfin1l","Lfin3l","Lfin2l"],
+	
+	{"group":"legocar_hood_fin_R"},
+	["Rfin1r","Rfin2r","Rfin3r"],
+  	["Rfin1l","Rfin3l","Rfin2l"],
+	
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+		
+        {"group":"legocar_hood_fin_L"},   
+	["Lfin1r","Lfin1l","Lfin2l","Lfin2r"],
+	["Lfin1l","Lfin1r","Lfin3r","Lfin3l"],
+	["Lfin2r","Lfin2l","Lfin3l","Lfin3r"],
+	
+	{"group":"legocar_hood_fin_R"},   
+	["Rfin1r","Rfin1l","Rfin2l","Rfin2r"],
+	["Rfin1l","Rfin1r","Rfin3r","Rfin3l"],
+	["Rfin2r","Rfin2l","Rfin3l","Rfin3r"],
+	
+        {"group":""},
+    ],
+},
+
+"legocar_hood_fins_col3": {
+    "information":{
+        "name":"Hood Fins (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hood_fins",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x3_flat_panel_tall_col3",["legocar_hood_fin_L"],[], {"pos":{"x": 0.625, "y":-1.375, "z":0.795},"rot":{"x":0, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x3_flat_panel_tall_col3",["legocar_hood_fin_R"],[], {"pos":{"x":-0.625, "y":-1.375, "z":0.795},"rot":{"x":0, "y":0, "z": 90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//3 pieces, 3 half pieces, 6 nodes - 0.75 kg/node
+	{"nodeWeight": "$=$weight*0.75"},
+
+	//left
+	{"group":"legocar_hood_fin_L"},
+	["Lfin1l", 0.75,-1.03, 0.83],
+	["Lfin1r", 0.50,-1.03, 0.83],
+	["Lfin2l", 0.75,-1.75, 0.83],
+	["Lfin2r", 0.50,-1.75, 0.83],
+	["Lfin3l", 0.50,-1.75, 1.10],
+	["Lfin3r", 0.50,-1.03, 1.10],
+
+	//right
+	{"group":"legocar_hood_fin_R"},
+	["Rfin1r", -0.75,-1.03, 0.83],
+	["Rfin1l", -0.50,-1.03, 0.83],
+	["Rfin2r", -0.75,-1.75, 0.83],
+	["Rfin2l", -0.50,-1.75, 0.83],
+	["Rfin3r", -0.50,-1.03, 1.10],
+	["Rfin3l", -0.50,-1.75, 1.10],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//L uniform horizontal
+	["Lfin1l", "Lfin1r"],
+	["Lfin2l", "Lfin2r"],
+	["Lfin1l", "Lfin2r"],
+	["Lfin2l", "Lfin1r"],
+	["Lfin1l", "Lfin2l"],
+	["Lfin1r", "Lfin2r"],
+
+	//L uniform vertical
+	["Lfin1l", "Lfin3l"],
+	["Lfin2l", "Lfin3l"],
+	["Lfin1r", "Lfin3r"],
+	["Lfin2r", "Lfin3r"],
+	["Lfin1l", "Lfin3r"],
+	["Lfin2l", "Lfin3r"],
+	["Lfin1r", "Lfin3l"],
+	["Lfin2r", "Lfin3l"],
+	
+	//R uniform horizontal
+	["Rfin1l", "Rfin1r"],
+	["Rfin2l", "Rfin2r"],
+	["Rfin1l", "Rfin2r"],
+	["Rfin2l", "Rfin1r"],
+	["Rfin1l", "Rfin2l"],
+	["Rfin1r", "Rfin2r"],
+
+	//R uniform vertical
+	["Rfin1l", "Rfin3l"],
+	["Rfin2l", "Rfin3l"],
+	["Rfin1r", "Rfin3r"],
+	["Rfin2r", "Rfin3r"],
+	["Rfin1l", "Rfin3r"],
+	["Rfin2l", "Rfin3r"],
+	["Rfin1r", "Rfin3l"],
+	["Rfin2r", "Rfin3l"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	
+	//l
+	{"breakGroup":"hood_fin_L_break"},
+	
+	["Lfin1l", "Thoodback1l"],
+	["Lfin1l", "Thoodback1r"],
+	["Lfin1l", "Thoodback2l"],
+	["Lfin1l", "Thoodbackrig"],
+
+	["Lfin1r", "Thoodback1l"],
+	["Lfin1r", "Thoodback1r"],
+	["Lfin1r", "Thoodback2l"],
+	["Lfin1r", "Thoodbackrig"],
+
+	["Lfin3r", "Thoodback1l"],
+	["Lfin3r", "Thoodback1r"],
+	["Lfin3r", "Thoodback2l"],
+	["Lfin3r", "Thoodbackrig"],
+
+	["Lfin2l", "Thoodback2l"],
+	["Lfin2l", "Thoodback2r"],
+	["Lfin2l", "Thoodbackrig"],
+
+	["Lfin2r", "Thoodback2l"],
+	["Lfin2r", "Thoodback2r"],
+	["Lfin2r", "Thoodbackrig"],
+
+	["Lfin3l", "Thoodback2l"],
+	["Lfin3l", "Thoodback2r"],
+	["Lfin3l", "Thoodbackrig"],
+
+
+	//r
+	{"breakGroup":"hood_fin_R_break"},
+	
+	["Rfin1l", "Thoodback1l"],
+	["Rfin1l", "Thoodback1r"],
+	["Rfin1l", "Thoodback2r"],
+	["Rfin1l", "Thoodbackrig"],
+
+	["Rfin1r", "Thoodback1l"],
+	["Rfin1r", "Thoodback1r"],
+	["Rfin1r", "Thoodback2r"],
+	["Rfin1r", "Thoodbackrig"],
+
+	["Rfin3r", "Thoodback1l"],
+	["Rfin3r", "Thoodback1r"],
+	["Rfin3r", "Thoodback2r"],
+	["Rfin3r", "Thoodbackrig"],
+
+	["Rfin2l", "Thoodback2l"],
+	["Rfin2l", "Thoodback2r"],
+	["Rfin2l", "Thoodbackrig"],
+
+	["Rfin2r", "Thoodback2l"],
+	["Rfin2r", "Thoodback2r"],
+	["Rfin2r", "Thoodbackrig"],
+
+	["Rfin3l", "Thoodback2l"],
+	["Rfin3l", "Thoodback2r"],
+	["Rfin3l", "Thoodbackrig"],
+	
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+		
+	{"group":"legocar_hood_fin_L"},
+	["Lfin1r","Lfin2r","Lfin3r"],
+  	["Lfin1l","Lfin3l","Lfin2l"],
+	
+	{"group":"legocar_hood_fin_R"},
+	["Rfin1r","Rfin2r","Rfin3r"],
+  	["Rfin1l","Rfin3l","Rfin2l"],
+	
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+		
+        {"group":"legocar_hood_fin_L"},   
+	["Lfin1r","Lfin1l","Lfin2l","Lfin2r"],
+	["Lfin1l","Lfin1r","Lfin3r","Lfin3l"],
+	["Lfin2r","Lfin2l","Lfin3l","Lfin3r"],
+	
+	{"group":"legocar_hood_fin_R"},   
+	["Rfin1r","Rfin1l","Rfin2l","Rfin2r"],
+	["Rfin1l","Rfin1r","Rfin3r","Rfin3l"],
+	["Rfin2r","Rfin2l","Rfin3l","Rfin3r"],
+	
+        {"group":""},
+    ],
+},
+
+}

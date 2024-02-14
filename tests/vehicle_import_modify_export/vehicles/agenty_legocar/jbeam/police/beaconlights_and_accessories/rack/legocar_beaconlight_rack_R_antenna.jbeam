@@ -1,0 +1,138 @@
+{
+"legocar_beaconlight_rack_R_antenna": {
+    "information":{
+        "name":"Antenna",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_beaconlight_rack_R_bulb",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_shifterbase_grey",["legocar_antenna_rack_R_base"],[], {"pos":{"x":0.000, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_shifter_M",       ["legocar_antenna_rack_R"],     [], {"pos":{"x":0.000, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ANTENNA--
+	//1 piece, 4 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	//base
+	{"group":"legocar_antenna_rack_R_base"},
+	["Rrackant1", 0, 0.500, 1.825],
+	["Rrackant2", 0, 0.250, 1.825],
+
+	//rotation axis
+	{"group":["legocar_antenna_rack_R_base", "legocar_antenna_rack_R"]},
+	["Rrackant3",-0.125, 0.375, 1.825],
+	["Rrackant4", 0.125, 0.375, 1.825],
+
+	//antenna
+	{"group":"legocar_antenna_rack_R"},
+	{"nodeWeight": "$=$weight*0.4"},
+	["Rrackant5", 0, 0.375, 2.245],	
+
+	//rigidifier
+	["Rrackantrig", 0, 0.375, 1.7, {"selfCollision":false, "group":""}],	
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$weight*10", "damp":"$=$weight*0.1", "deform":"$=$strength*0.1", "strength":"FLT_MAX"},
+        ["Rrackant5","Rrackant3","Rrackant4","Rrackantrig"],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//base uniform structure
+	["Rrackant1", "Rrackant2"],
+	["Rrackant1", "Rrackant3"],
+	["Rrackant1", "Rrackant4"],
+	["Rrackant2", "Rrackant3"],
+	["Rrackant2", "Rrackant4"],
+	["Rrackant3", "Rrackant4"],
+
+	//rigidifier
+	["Rrackant1", "Rrackantrig"],
+	["Rrackant2", "Rrackantrig"],
+	["Rrackant3", "Rrackantrig"],
+	["Rrackant4", "Rrackantrig"],
+	
+	//antenna
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	["Rrackant5", "Rrackant3"],
+	["Rrackant5", "Rrackant4"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.75", "beamStrength":"$=$strength*0.75"},
+	{"breakGroup":"antenna_rack_R_break"},
+
+	["Rrackant1", "lbarrack1l"],
+	["Rrackant1", "lbarrack2l"],
+	["Rrackant1", "lbarrack3l"],
+	["Rrackant1", "lbarrack1r"],
+	["Rrackant1", "lbarrack2r"],
+	["Rrackant1", "lbarrack3r"],
+
+	["Rrackant2", "lbarrack1l"],
+	["Rrackant2", "lbarrack2l"],
+	["Rrackant2", "lbarrack1r"],
+	["Rrackant2", "lbarrack2r"],
+	["Rrackant2", "lbarrack3l"],
+	["Rrackant2", "lbarrack3r"],
+
+	["Rrackant3", "lbarrack1l"],
+	["Rrackant3", "lbarrack2l"],
+	["Rrackant3", "lbarrack3l"],
+	["Rrackant3", "lbarrack3r"],
+
+	["Rrackant4", "lbarrack1l"],
+	["Rrackant4", "lbarrack2l"],
+	["Rrackant4", "lbarrack3l"],
+	["Rrackant4", "lbarrack3r"],
+
+	["Rrackantrig", "lbarrack1l"],
+	["Rrackantrig", "lbarrack2l"],
+	["Rrackantrig", "lbarrack1r"],
+	["Rrackantrig", "lbarrack2r"],
+	["Rrackantrig", "lbarrack3l"],
+	["Rrackantrig", "lbarrack3r"],
+
+	{"breakGroup":""},
+
+
+	//--LIMITERS--
+	{"beamPrecompression":1,"beamType":"|SUPPORT", "beamLongBound":100},
+	{"beamSpring":"$=$weight*21000", "beamDamp":"$=$weight*200"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//antenna limiter
+	["Rrackant5", "Rrackantrig", {"beamPrecompression":0.8}],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_antenna_rack_R"},
+	["Rrackant5","Rrackant1","Rrackant3"],
+	["Rrackant5","Rrackant3","Rrackant2"],
+	["Rrackant5","Rrackant2","Rrackant4"],
+	["Rrackant5","Rrackant4","Rrackant1"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_antenna_rack_R"},   
+	["Rrackant1","Rrackant3","Rrackant2","Rrackant4"],	
+        {"group":""},
+    ],
+},
+
+}

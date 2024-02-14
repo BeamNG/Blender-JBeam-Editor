@@ -1,0 +1,284 @@
+{
+"legocar_rollcage": {
+    "information":{
+        "name":"Roll Cage",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_parcelshelf",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_rollcage",["legocar_rollcage"], [], {"pos":{"x": 0.000, "y":0.000, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ROLL CAGE--
+	{"group":"legocar_rollcage"},
+	//40 pieces, 8 nodes - 5 kg/node
+	{"nodeWeight": "$=$weight*5"},
+
+	["cage1l",  0.47, 0.35, 0.83],
+	["cage1r", -0.47, 0.35, 0.83],
+	["cage2l",  0.47, 1.00, 0.83],
+	["cage2r", -0.47, 1.00, 0.83],
+	["cage3l",  0.47, 0.35, 1.47],
+	["cage3r", -0.47, 0.35, 1.47],
+	["cage4l",  0.47,-0.15, 1.47],
+	["cage4r", -0.47,-0.15, 1.47],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--ROLL CAGE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*5001000", "beamDamp":"$=$weight*500"},
+
+	//uniform structure
+	["cage1l", "cage1r"],
+	["cage2l", "cage2r"],
+	["cage3l", "cage3r"],
+	["cage4l", "cage4r"],
+
+	["cage1l", "cage2r"],
+	["cage2l", "cage3r"],
+	["cage3l", "cage4r"],
+	["cage4l", "cage1r"],
+
+	["cage1l", "cage3r"],
+	["cage2l", "cage4r"],
+	["cage3l", "cage1r"],
+	["cage4l", "cage2r"],
+
+	["cage1l", "cage4r"],
+	["cage2l", "cage1r"],
+	["cage3l", "cage2r"],
+	["cage4l", "cage3r"],
+
+	["cage1l", "cage2l"],
+	["cage2l", "cage3l"],
+	["cage3l", "cage4l"],
+	["cage4l", "cage1l"],
+
+	["cage1l", "cage3l"],
+	["cage2l", "cage4l"],
+
+	["cage1r", "cage2r"],
+	["cage2r", "cage3r"],
+	["cage3r", "cage4r"],
+	["cage4r", "cage1r"],
+
+	["cage1r", "cage3r"],
+	["cage2r", "cage4r"],
+
+	
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	
+	//to shelf panel
+	{"beamSpring":"$=$weight*651000", "beamDamp":"$=$weight*65"},
+	{"breakGroup":"rollcage_shelfpanel_break"},
+
+	["shelfpan1l", "cage2l"],
+	["shelfpan1l", "cage2r"],
+	["shelfpan1l", "cage1l"],
+	["shelfpan1l", "cage3l"],
+
+	["shelfpan1r", "cage2l"],
+	["shelfpan1r", "cage2r"],
+	["shelfpan1r", "cage1r"],
+	["shelfpan1r", "cage3r"],
+
+	["shelfpan2l", "cage2l"],
+	["shelfpan2l", "cage2r"],
+	["shelfpan2l", "cage1l"],
+	["shelfpan2l", "cage3l"],
+
+	["shelfpan2r", "cage2l"],
+	["shelfpan2r", "cage2r"],
+	["shelfpan2r", "cage1r"],
+	["shelfpan2r", "cage3r"],
+
+	["shelfpanrig", "cage2l"],
+	["shelfpanrig", "cage2r"],
+	["shelfpanrig", "cage1l"],
+	["shelfpanrig", "cage1r"],
+
+	{"optional":true},
+
+
+	//to left quarter glass mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"rollcage_quarterglass_mount_L_break"},
+
+	["Lqglassmt1l", "cage1l"],
+	["Lqglassmt1l", "cage1r"],
+	["Lqglassmt1l", "cage2l"],
+	["Lqglassmt1l", "cage4l"],
+	
+	["Lqglassmt1r", "cage1l"],
+	["Lqglassmt1r", "cage1r"],
+	["Lqglassmt1r", "cage2l"],
+	["Lqglassmt1r", "cage4l"],
+
+	["Lqglassmt2l", "cage1l"],
+	["Lqglassmt2l", "cage2r"],
+	["Lqglassmt2l", "cage2l"],
+	["Lqglassmt2l", "cage3l"],
+	
+	["Lqglassmt2r", "cage1l"],
+	["Lqglassmt2r", "cage2r"],
+	["Lqglassmt2r", "cage2l"],
+	["Lqglassmt2r", "cage3l"],
+
+	["Lqglassmtrig", "cage1l"],
+	["Lqglassmtrig", "cage2l"],
+	["Lqglassmtrig", "cage3l"],
+	["Lqglassmtrig", "cage4l"],
+
+	
+	//to right quarter glass mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"rollcage_quarterglass_mount_R_break"},
+
+	["Rqglassmt1l", "cage1l"],
+	["Rqglassmt1l", "cage1r"],
+	["Rqglassmt1l", "cage2r"],
+	["Rqglassmt1l", "cage4r"],
+	
+	["Rqglassmt1r", "cage1l"],
+	["Rqglassmt1r", "cage1r"],
+	["Rqglassmt1r", "cage2r"],
+	["Rqglassmt1r", "cage4r"],
+
+	["Rqglassmt2l", "cage1r"],
+	["Rqglassmt2l", "cage2r"],
+	["Rqglassmt2l", "cage2l"],
+	["Rqglassmt2l", "cage3r"],
+	
+	["Rqglassmt2r", "cage1r"],
+	["Rqglassmt2r", "cage2r"],
+	["Rqglassmt2r", "cage2l"],
+	["Rqglassmt2r", "cage3r"],
+
+	["Rqglassmtrig", "cage1r"],
+	["Rqglassmtrig", "cage2r"],
+	["Rqglassmtrig", "cage3r"],
+	["Rqglassmtrig", "cage4r"],
+
+
+	//to roof
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"rollcage_roof_break"},
+
+	["cage1l", "roof2lll"],
+	["cage1l", "roof2ll"],
+	["cage1l", "roof2l"],
+	["cage1l", "roof3ll"],
+	["cage1l", "roofrig"],
+
+	["cage1r", "roof2rrr"],
+	["cage1r", "roof2rr"],
+	["cage1r", "roof2r"],
+	["cage1r", "roof3rr"],
+	["cage1r", "roofrig"],
+
+	["cage2l", "roof1lll"],
+	["cage2l", "roof1ll"],
+	["cage2l", "roof1l"],
+	["cage2l", "roof2ll"],
+	["cage2l", "roofrig"],
+
+	["cage2r", "roof1rrr"],
+	["cage2r", "roof1rr"],
+	["cage2r", "roof1r"],
+	["cage2r", "roof2rr"],
+	["cage2r", "roofrig"],
+
+	["cage3l", "roof2lll"],
+	["cage3l", "roof2ll"],
+	["cage3l", "roof2l"],
+	["cage3l", "roof3ll"],
+	["cage3l", "roofrig"],
+
+	["cage3r", "roof2rrr"],
+	["cage3r", "roof2rr"],
+	["cage3r", "roof2r"],
+	["cage3r", "roof3rr"],
+	["cage3r", "roofrig"],
+
+	["cage4l", "roof3lll"],
+	["cage4l", "roof3ll"],
+	["cage4l", "roof3l"],
+	["cage4l", "roof4ll"],
+	["cage4l", "roofrig"],
+
+	["cage4r", "roof3rrr"],
+	["cage4r", "roof3rr"],
+	["cage4r", "roof3r"],
+	["cage4r", "roof4rr"],
+	["cage4r", "roofrig"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//to roof
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	["cage3l", "roof1l"],
+	["cage3l", "roof1ll"],
+	["cage3l", "roof1lll"],
+	["cage3l", "roof2l"],
+	["cage3l", "roof2ll"],
+	["cage3l", "roof2lll"],
+
+	["cage3r", "roof1r"],
+	["cage3r", "roof1rr"],
+	["cage3r", "roof1rrr"],
+	["cage3r", "roof2r"],
+	["cage3r", "roof2rr"],
+	["cage3r", "roof2rrr"],
+	
+	["cage4l", "roof3l"],
+	["cage4l", "roof3ll"],
+	["cage4l", "roof3lll"],
+	["cage4l", "roof4l"],
+	["cage4l", "roof4ll"],
+	["cage4l", "roof4lll"],
+
+	["cage4r", "roof3r"],
+	["cage4r", "roof3rr"],
+	["cage4r", "roof3rrr"],
+	["cage4r", "roof4r"],
+	["cage4r", "roof4rr"],
+	["cage4r", "roof4rrr"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_rollcage"},
+	["cage1r","cage3r","cage2r", {"dragCoef":"$=$drag*0.1"}],
+	["cage1l","cage2l","cage3l", {"dragCoef":"$=$drag*0.1"}],
+	["cage1r","cage1l","cage3r", {"dragCoef":"$=$drag*0.1"}],
+	["cage1r","cage1l","cage3l", {"dragCoef":"$=$drag*0.1"}],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_rollcage"},   
+	["cage1l","cage1r","cage2r","cage2l", {"dragCoef":"$=$drag*0.1"}],
+	["cage2l","cage2r","cage3r","cage3l", {"dragCoef":"$=$drag*0.1"}],
+	["cage3l","cage3r","cage4r","cage4l", {"dragCoef":"$=$drag*0.1"}],
+        {"group":""},
+    ],
+},
+
+}

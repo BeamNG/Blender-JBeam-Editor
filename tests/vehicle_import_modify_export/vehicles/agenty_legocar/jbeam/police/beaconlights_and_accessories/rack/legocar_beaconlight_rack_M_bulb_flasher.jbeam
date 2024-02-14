@@ -1,0 +1,341 @@
+{
+"legocar_beaconlight_rack_M_bulb_red_rack_flasher": {
+    "information":{
+        "name":"Flat Red LED Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_beaconlight_rack_M_bulb",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"beaconlight_rack_M_break", "deformMaterialBase":"legocar_beacon_flasher_rack_M_red", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_beacon_flasher_rack_M_red",["legocar_beaconlight_rack_M"],[], {"pos":{"x": 0.000, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+	{
+            "lightRange":15,
+            "lightBrightness": 1,
+            "lightColor":{"r":201, "g":26, "b":9, "a":555},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.0,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_EU_M", "POINTLIGHT",  "Mrackbeacon2r","Mrackbeacon2l","Mrackbeacon1r", {"x": 60,"y":90,"z": 2.50}, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.10},"deformGroup":"beaconlight_rack_M_break"}],
+        ["cop_EU_M", "POINTLIGHT",  "Mrackbeacon2l","Mrackbeacon2r","Mrackbeacon1l", {"x":-60,"y":90,"z":-2.50}, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z": 0.10},"deformGroup":"beaconlight_rack_M_break"}],
+	{"lightRange":0},
+	["cop_EU_M", "POINTLIGHT",  "Mrackbeacon2l","Mrackbeacon2r","Mrackbeacon1l", {"x": 0, "y":0, "z": 0.00}, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z": 0.05},"deformGroup":"beaconlight_rack_M_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//beacon light
+	{"group":"legocar_beaconlight_rack_M"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["Mrackbeacon1l",  0.095, 0.280, 1.75],
+	["Mrackbeacon1r", -0.095, 0.280, 1.75],
+	["Mrackbeacon2l",  0.095, 0.470, 1.75],
+	["Mrackbeacon2r", -0.095, 0.470, 1.75],
+	//rigidifier
+	["Mrackbeacon0",   0.000, 0.375, 1.60, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["Mrackbeacon1l", "Mrackbeacon1r"],
+	["Mrackbeacon2l", "Mrackbeacon2r"],
+	["Mrackbeacon1l", "Mrackbeacon2r"],
+	["Mrackbeacon2l", "Mrackbeacon1r"],
+	["Mrackbeacon1l", "Mrackbeacon2l"],
+	["Mrackbeacon1r", "Mrackbeacon2r"],
+
+	//tip
+	["Mrackbeacon1l", "Mrackbeacon0"],
+	["Mrackbeacon1r", "Mrackbeacon0"],
+	["Mrackbeacon2l", "Mrackbeacon0"],
+	["Mrackbeacon2r", "Mrackbeacon0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"beaconlight_rack_M_break"},
+	{"deformGroup":"beaconlight_rack_M_break"},
+	
+	["Mrackbeacon1l", "lbarrackT1l"],
+	["Mrackbeacon1l", "lbarrackT1r"],
+	["Mrackbeacon1l", "lbarrackT2l"],
+	["Mrackbeacon1l", "lbarrackTrig"],
+
+	["Mrackbeacon2l", "lbarrackT1l"],
+	["Mrackbeacon2l", "lbarrackT2r"],
+	["Mrackbeacon2l", "lbarrackT2l"],
+	["Mrackbeacon2l", "lbarrackTrig"],
+
+	["Mrackbeacon1r", "lbarrackT1l"],
+	["Mrackbeacon1r", "lbarrackT1r"],
+	["Mrackbeacon1r", "lbarrackT2r"],
+	["Mrackbeacon1r", "lbarrackTrig"],
+
+	["Mrackbeacon2r", "lbarrackT1r"],
+	["Mrackbeacon2r", "lbarrackT2r"],
+	["Mrackbeacon2r", "lbarrackT2l"],
+	["Mrackbeacon2r", "lbarrackTrig"],
+
+	["Mrackbeacon0", "lbarrackT1l"],
+	["Mrackbeacon0", "lbarrackT1r"],
+	["Mrackbeacon0", "lbarrackT2l"],
+	["Mrackbeacon0", "lbarrackT2r"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_beaconlight_rack_M"},   
+	["Mrackbeacon1r","Mrackbeacon1l","Mrackbeacon2l","Mrackbeacon2r"],	
+        {"group":""},
+    ],
+},
+
+"legocar_beaconlight_rack_M_bulb_blue_rack_flasher": {
+    "information":{
+        "name":"Flat Blue LED Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_beaconlight_rack_M_bulb",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"beaconlight_rack_M_break", "deformMaterialBase":"legocar_beacon_flasher_rack_M_blue", "deformMaterialDamaged":"lego_transcol_blue"},
+	["legocar_beacon_flasher_rack_M_blue",["legocar_beaconlight_rack_M"],[], {"pos":{"x": 0.000, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+	{
+            "lightRange":15,
+            "lightBrightness": 1,
+            "lightColor":{"r":0, "g":32, "b":160, "a":555},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.0,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_EU_M", "POINTLIGHT",  "Mrackbeacon2r","Mrackbeacon2l","Mrackbeacon1r", {"x": 60,"y":90,"z": 2.50}, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.10},"deformGroup":"beaconlight_rack_M_break"}],
+        ["cop_EU_M", "POINTLIGHT",  "Mrackbeacon2l","Mrackbeacon2r","Mrackbeacon1l", {"x":-60,"y":90,"z":-2.50}, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z": 0.10},"deformGroup":"beaconlight_rack_M_break"}],
+	{"lightRange":0},
+	["cop_EU_M", "POINTLIGHT",  "Mrackbeacon2l","Mrackbeacon2r","Mrackbeacon1l", {"x": 0, "y":0, "z": 0.00}, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z": 0.05},"deformGroup":"beaconlight_rack_M_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//beacon light
+	{"group":"legocar_beaconlight_rack_M"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["Mrackbeacon1l",  0.095, 0.280, 1.75],
+	["Mrackbeacon1r", -0.095, 0.280, 1.75],
+	["Mrackbeacon2l",  0.095, 0.470, 1.75],
+	["Mrackbeacon2r", -0.095, 0.470, 1.75],
+	//rigidifier
+	["Mrackbeacon0",   0.000, 0.375, 1.60, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["Mrackbeacon1l", "Mrackbeacon1r"],
+	["Mrackbeacon2l", "Mrackbeacon2r"],
+	["Mrackbeacon1l", "Mrackbeacon2r"],
+	["Mrackbeacon2l", "Mrackbeacon1r"],
+	["Mrackbeacon1l", "Mrackbeacon2l"],
+	["Mrackbeacon1r", "Mrackbeacon2r"],
+
+	//tip
+	["Mrackbeacon1l", "Mrackbeacon0"],
+	["Mrackbeacon1r", "Mrackbeacon0"],
+	["Mrackbeacon2l", "Mrackbeacon0"],
+	["Mrackbeacon2r", "Mrackbeacon0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"beaconlight_rack_M_break"},
+	{"deformGroup":"beaconlight_rack_M_break"},
+	
+	["Mrackbeacon1l", "lbarrackT1l"],
+	["Mrackbeacon1l", "lbarrackT1r"],
+	["Mrackbeacon1l", "lbarrackT2l"],
+	["Mrackbeacon1l", "lbarrackTrig"],
+
+	["Mrackbeacon2l", "lbarrackT1l"],
+	["Mrackbeacon2l", "lbarrackT2r"],
+	["Mrackbeacon2l", "lbarrackT2l"],
+	["Mrackbeacon2l", "lbarrackTrig"],
+
+	["Mrackbeacon1r", "lbarrackT1l"],
+	["Mrackbeacon1r", "lbarrackT1r"],
+	["Mrackbeacon1r", "lbarrackT2r"],
+	["Mrackbeacon1r", "lbarrackTrig"],
+
+	["Mrackbeacon2r", "lbarrackT1r"],
+	["Mrackbeacon2r", "lbarrackT2r"],
+	["Mrackbeacon2r", "lbarrackT2l"],
+	["Mrackbeacon2r", "lbarrackTrig"],
+
+	["Mrackbeacon0", "lbarrackT1l"],
+	["Mrackbeacon0", "lbarrackT1r"],
+	["Mrackbeacon0", "lbarrackT2l"],
+	["Mrackbeacon0", "lbarrackT2r"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_beaconlight_rack_M"},   
+	["Mrackbeacon1r","Mrackbeacon1l","Mrackbeacon2l","Mrackbeacon2r"],	
+        {"group":""},
+    ],
+},
+
+"legocar_beaconlight_rack_M_bulb_orange_rack_flasher": {
+    "information":{
+        "name":"Flat Orange LED Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_beaconlight_rack_M_bulb",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"beaconlight_rack_M_break", "deformMaterialBase":"legocar_beacon_flasher_rack_M_orange", "deformMaterialDamaged":"lego_transcol_orange"},
+	["legocar_beacon_flasher_rack_M_orange",["legocar_beaconlight_rack_M"],[], {"pos":{"x": 0.000, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightRange":15,
+            "lightBrightness": 1,
+            "lightColor":{"r":240, "g":143, "b":28, "a":555},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":64,
+            "shadowSoftness":1,
+            "flareScale":0.0,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_EU_M", "POINTLIGHT",  "Mrackbeacon2r","Mrackbeacon2l","Mrackbeacon1r", {"x": 60,"y":90,"z": 2.50}, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.10},"deformGroup":"beaconlight_rack_M_break"}],
+        ["cop_EU_M", "POINTLIGHT",  "Mrackbeacon2l","Mrackbeacon2r","Mrackbeacon1l", {"x":-60,"y":90,"z":-2.50}, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z": 0.10},"deformGroup":"beaconlight_rack_M_break"}],
+	{"lightRange":0},
+	["cop_EU_M", "POINTLIGHT",  "Mrackbeacon2l","Mrackbeacon2r","Mrackbeacon1l", {"x": 0, "y":0, "z": 0.00}, {"x":0, "y":0, "z":0}, {"x":0, "y":0.0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z": 0.05},"deformGroup":"beaconlight_rack_M_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//beacon light
+	{"group":"legocar_beaconlight_rack_M"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["Mrackbeacon1l",  0.095, 0.280, 1.75],
+	["Mrackbeacon1r", -0.095, 0.280, 1.75],
+	["Mrackbeacon2l",  0.095, 0.470, 1.75],
+	["Mrackbeacon2r", -0.095, 0.470, 1.75],
+	//rigidifier
+	["Mrackbeacon0",   0.000, 0.375, 1.60, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["Mrackbeacon1l", "Mrackbeacon1r"],
+	["Mrackbeacon2l", "Mrackbeacon2r"],
+	["Mrackbeacon1l", "Mrackbeacon2r"],
+	["Mrackbeacon2l", "Mrackbeacon1r"],
+	["Mrackbeacon1l", "Mrackbeacon2l"],
+	["Mrackbeacon1r", "Mrackbeacon2r"],
+
+	//tip
+	["Mrackbeacon1l", "Mrackbeacon0"],
+	["Mrackbeacon1r", "Mrackbeacon0"],
+	["Mrackbeacon2l", "Mrackbeacon0"],
+	["Mrackbeacon2r", "Mrackbeacon0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"beaconlight_rack_M_break"},
+	{"deformGroup":"beaconlight_rack_M_break"},
+	
+	["Mrackbeacon1l", "lbarrackT1l"],
+	["Mrackbeacon1l", "lbarrackT1r"],
+	["Mrackbeacon1l", "lbarrackT2l"],
+	["Mrackbeacon1l", "lbarrackTrig"],
+
+	["Mrackbeacon2l", "lbarrackT1l"],
+	["Mrackbeacon2l", "lbarrackT2r"],
+	["Mrackbeacon2l", "lbarrackT2l"],
+	["Mrackbeacon2l", "lbarrackTrig"],
+
+	["Mrackbeacon1r", "lbarrackT1l"],
+	["Mrackbeacon1r", "lbarrackT1r"],
+	["Mrackbeacon1r", "lbarrackT2r"],
+	["Mrackbeacon1r", "lbarrackTrig"],
+
+	["Mrackbeacon2r", "lbarrackT1r"],
+	["Mrackbeacon2r", "lbarrackT2r"],
+	["Mrackbeacon2r", "lbarrackT2l"],
+	["Mrackbeacon2r", "lbarrackTrig"],
+
+	["Mrackbeacon0", "lbarrackT1l"],
+	["Mrackbeacon0", "lbarrackT1r"],
+	["Mrackbeacon0", "lbarrackT2l"],
+	["Mrackbeacon0", "lbarrackT2r"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_beaconlight_rack_M"},   
+	["Mrackbeacon1r","Mrackbeacon1l","Mrackbeacon2l","Mrackbeacon2r"],	
+        {"group":""},
+    ],
+},
+
+}

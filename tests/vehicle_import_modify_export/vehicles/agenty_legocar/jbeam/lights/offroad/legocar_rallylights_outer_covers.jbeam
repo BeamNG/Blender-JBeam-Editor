@@ -1,0 +1,794 @@
+{
+"legocar_rallylights_outer_covers_blank": {
+    "information":{
+        "name":"Rally Light Covers (Blank)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grillelights_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_circle_notip_white", ["legocar_grillelight_L"],[], {"pos":{"x": 0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_circle_notip_white", ["legocar_grillelight_R"],[], {"pos":{"x":-0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	//left
+	{"group":"legocar_grillelight_L"},
+	["Lgrlight1r", 0.280, -2.00, 0.380],
+	["Lgrlight2r", 0.280, -2.00, 0.570],
+	["Lgrlight1l", 0.470, -2.00, 0.380],
+	["Lgrlight2l", 0.470, -2.00, 0.570],
+	["Lgrlight0",  0.375, -1.85, 0.475, {"collision":false,"selfCollision":false,"group":""}],
+
+	//right
+	{"group":"legocar_grillelight_R"},
+	["Rgrlight1l",-0.280, -2.00, 0.380],
+	["Rgrlight2l",-0.280, -2.00, 0.570],
+	["Rgrlight1r",-0.470, -2.00, 0.380],
+	["Rgrlight2r",-0.470, -2.00, 0.570],
+	["Rgrlight0", -0.375, -1.85, 0.475, {"collision":false,"selfCollision":false,"group":""}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//left square
+	["Lgrlight1l", "Lgrlight1r"],
+	["Lgrlight2l", "Lgrlight2r"],
+	["Lgrlight1l", "Lgrlight2r"],
+	["Lgrlight2l", "Lgrlight1r"],
+	["Lgrlight1l", "Lgrlight2l"],
+	["Lgrlight1r", "Lgrlight2r"],
+
+	//left tip
+	["Lgrlight1l", "Lgrlight0"],
+	["Lgrlight1r", "Lgrlight0"],
+	["Lgrlight2l", "Lgrlight0"],
+	["Lgrlight2r", "Lgrlight0"],
+
+	//right square
+	["Rgrlight1l", "Rgrlight1r"],
+	["Rgrlight2l", "Rgrlight2r"],
+	["Rgrlight1l", "Rgrlight2r"],
+	["Rgrlight2l", "Rgrlight1r"],
+	["Rgrlight1l", "Rgrlight2l"],
+	["Rgrlight1r", "Rgrlight2r"],
+
+	//right tip
+	["Rgrlight1l", "Rgrlight0"],
+	["Rgrlight1r", "Rgrlight0"],
+	["Rgrlight2l", "Rgrlight0"],
+	["Rgrlight2r", "Rgrlight0"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left
+	{"breakGroup":"grillelight_L_break"},
+	
+	["Lgrlight1l", "hdlight1l"],
+	["Lgrlight1l", "hdlight1r"],
+	["Lgrlight1l", "hdlight2l"],
+
+	["Lgrlight2l", "hdlight1l"],
+	["Lgrlight2l", "hdlight2r"],
+	["Lgrlight2l", "hdlight2l"],
+
+	["Lgrlight1r", "hdlight1l"],
+	["Lgrlight1r", "hdlight1r"],
+	["Lgrlight1r", "hdlight2l"],
+
+	["Lgrlight2r", "hdlight1l"],
+	["Lgrlight2r", "hdlight2r"],
+	["Lgrlight2r", "hdlight2l"],
+
+	["Lgrlight0", "hdlight1l"],
+	["Lgrlight0", "hdlight1r"],
+	["Lgrlight0", "hdlight2l"],
+	
+	//right
+	{"breakGroup":"grillelight_R_break"},
+	
+	["Rgrlight1r", "hdlight1r"],
+	["Rgrlight1r", "hdlight1l"],
+	["Rgrlight1r", "hdlight2r"],
+
+	["Rgrlight2r", "hdlight1r"],
+	["Rgrlight2r", "hdlight2l"],
+	["Rgrlight2r", "hdlight2r"],
+
+	["Rgrlight1l", "hdlight1r"],
+	["Rgrlight1l", "hdlight1l"],
+	["Rgrlight1l", "hdlight2r"],
+
+	["Rgrlight2l", "hdlight1r"],
+	["Rgrlight2l", "hdlight2l"],
+	["Rgrlight2l", "hdlight2r"],
+
+	["Rgrlight0", "hdlight1r"],
+	["Rgrlight0", "hdlight1l"],
+	["Rgrlight0", "hdlight2r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_grillelight_L"},   
+	["Lgrlight1r","Lgrlight1l","Lgrlight2l","Lgrlight2r"],
+	{"group":"legocar_grillelight_R"},   
+	["Rgrlight1r","Rgrlight1l","Rgrlight2l","Rgrlight2r"],	
+        {"group":""},
+    ],
+},
+
+"legocar_rallylights_outer_covers_tims": {
+    "information":{
+        "name":"Rally Light Covers (TIMS)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grillelights_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_rallylight_cover_S", ["legocar_grillelight_L"],[], {"pos":{"x": 0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_rallylight_cover_T", ["legocar_grillelight_R"],[], {"pos":{"x":-0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	//left
+	{"group":"legocar_grillelight_L"},
+	["Lgrlight1r", 0.280, -2.00, 0.380],
+	["Lgrlight2r", 0.280, -2.00, 0.570],
+	["Lgrlight1l", 0.470, -2.00, 0.380],
+	["Lgrlight2l", 0.470, -2.00, 0.570],
+	["Lgrlight0",  0.375, -1.85, 0.475, {"collision":false,"selfCollision":false,"group":""}],
+
+	//right
+	{"group":"legocar_grillelight_R"},
+	["Rgrlight1l",-0.280, -2.00, 0.380],
+	["Rgrlight2l",-0.280, -2.00, 0.570],
+	["Rgrlight1r",-0.470, -2.00, 0.380],
+	["Rgrlight2r",-0.470, -2.00, 0.570],
+	["Rgrlight0", -0.375, -1.85, 0.475, {"collision":false,"selfCollision":false,"group":""}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//left square
+	["Lgrlight1l", "Lgrlight1r"],
+	["Lgrlight2l", "Lgrlight2r"],
+	["Lgrlight1l", "Lgrlight2r"],
+	["Lgrlight2l", "Lgrlight1r"],
+	["Lgrlight1l", "Lgrlight2l"],
+	["Lgrlight1r", "Lgrlight2r"],
+
+	//left tip
+	["Lgrlight1l", "Lgrlight0"],
+	["Lgrlight1r", "Lgrlight0"],
+	["Lgrlight2l", "Lgrlight0"],
+	["Lgrlight2r", "Lgrlight0"],
+
+	//right square
+	["Rgrlight1l", "Rgrlight1r"],
+	["Rgrlight2l", "Rgrlight2r"],
+	["Rgrlight1l", "Rgrlight2r"],
+	["Rgrlight2l", "Rgrlight1r"],
+	["Rgrlight1l", "Rgrlight2l"],
+	["Rgrlight1r", "Rgrlight2r"],
+
+	//right tip
+	["Rgrlight1l", "Rgrlight0"],
+	["Rgrlight1r", "Rgrlight0"],
+	["Rgrlight2l", "Rgrlight0"],
+	["Rgrlight2r", "Rgrlight0"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left
+	{"breakGroup":"grillelight_L_break"},
+	
+	["Lgrlight1l", "hdlight1l"],
+	["Lgrlight1l", "hdlight1r"],
+	["Lgrlight1l", "hdlight2l"],
+
+	["Lgrlight2l", "hdlight1l"],
+	["Lgrlight2l", "hdlight2r"],
+	["Lgrlight2l", "hdlight2l"],
+
+	["Lgrlight1r", "hdlight1l"],
+	["Lgrlight1r", "hdlight1r"],
+	["Lgrlight1r", "hdlight2l"],
+
+	["Lgrlight2r", "hdlight1l"],
+	["Lgrlight2r", "hdlight2r"],
+	["Lgrlight2r", "hdlight2l"],
+
+	["Lgrlight0", "hdlight1l"],
+	["Lgrlight0", "hdlight1r"],
+	["Lgrlight0", "hdlight2l"],
+	
+	//right
+	{"breakGroup":"grillelight_R_break"},
+	
+	["Rgrlight1r", "hdlight1r"],
+	["Rgrlight1r", "hdlight1l"],
+	["Rgrlight1r", "hdlight2r"],
+
+	["Rgrlight2r", "hdlight1r"],
+	["Rgrlight2r", "hdlight2l"],
+	["Rgrlight2r", "hdlight2r"],
+
+	["Rgrlight1l", "hdlight1r"],
+	["Rgrlight1l", "hdlight1l"],
+	["Rgrlight1l", "hdlight2r"],
+
+	["Rgrlight2l", "hdlight1r"],
+	["Rgrlight2l", "hdlight2l"],
+	["Rgrlight2l", "hdlight2r"],
+
+	["Rgrlight0", "hdlight1r"],
+	["Rgrlight0", "hdlight1l"],
+	["Rgrlight0", "hdlight2r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_grillelight_L"},   
+	["Lgrlight1r","Lgrlight1l","Lgrlight2l","Lgrlight2r"],
+	{"group":"legocar_grillelight_R"},   
+	["Rgrlight1r","Rgrlight1l","Rgrlight2l","Rgrlight2r"],	
+        {"group":""},
+    ],
+},
+
+"legocar_rallylights_outer_covers_eye": {
+    "information":{
+        "name":"Rally Light Covers (Eye)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grillelights_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_rallylight_cover_eye", ["legocar_grillelight_L"],[], {"pos":{"x": 0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_rallylight_cover_eye", ["legocar_grillelight_R"],[], {"pos":{"x":-0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	//left
+	{"group":"legocar_grillelight_L"},
+	["Lgrlight1r", 0.280, -2.00, 0.380],
+	["Lgrlight2r", 0.280, -2.00, 0.570],
+	["Lgrlight1l", 0.470, -2.00, 0.380],
+	["Lgrlight2l", 0.470, -2.00, 0.570],
+	["Lgrlight0",  0.375, -1.85, 0.475, {"collision":false,"selfCollision":false,"group":""}],
+
+	//right
+	{"group":"legocar_grillelight_R"},
+	["Rgrlight1l",-0.280, -2.00, 0.380],
+	["Rgrlight2l",-0.280, -2.00, 0.570],
+	["Rgrlight1r",-0.470, -2.00, 0.380],
+	["Rgrlight2r",-0.470, -2.00, 0.570],
+	["Rgrlight0", -0.375, -1.85, 0.475, {"collision":false,"selfCollision":false,"group":""}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//left square
+	["Lgrlight1l", "Lgrlight1r"],
+	["Lgrlight2l", "Lgrlight2r"],
+	["Lgrlight1l", "Lgrlight2r"],
+	["Lgrlight2l", "Lgrlight1r"],
+	["Lgrlight1l", "Lgrlight2l"],
+	["Lgrlight1r", "Lgrlight2r"],
+
+	//left tip
+	["Lgrlight1l", "Lgrlight0"],
+	["Lgrlight1r", "Lgrlight0"],
+	["Lgrlight2l", "Lgrlight0"],
+	["Lgrlight2r", "Lgrlight0"],
+
+	//right square
+	["Rgrlight1l", "Rgrlight1r"],
+	["Rgrlight2l", "Rgrlight2r"],
+	["Rgrlight1l", "Rgrlight2r"],
+	["Rgrlight2l", "Rgrlight1r"],
+	["Rgrlight1l", "Rgrlight2l"],
+	["Rgrlight1r", "Rgrlight2r"],
+
+	//right tip
+	["Rgrlight1l", "Rgrlight0"],
+	["Rgrlight1r", "Rgrlight0"],
+	["Rgrlight2l", "Rgrlight0"],
+	["Rgrlight2r", "Rgrlight0"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left
+	{"breakGroup":"grillelight_L_break"},
+	
+	["Lgrlight1l", "hdlight1l"],
+	["Lgrlight1l", "hdlight1r"],
+	["Lgrlight1l", "hdlight2l"],
+
+	["Lgrlight2l", "hdlight1l"],
+	["Lgrlight2l", "hdlight2r"],
+	["Lgrlight2l", "hdlight2l"],
+
+	["Lgrlight1r", "hdlight1l"],
+	["Lgrlight1r", "hdlight1r"],
+	["Lgrlight1r", "hdlight2l"],
+
+	["Lgrlight2r", "hdlight1l"],
+	["Lgrlight2r", "hdlight2r"],
+	["Lgrlight2r", "hdlight2l"],
+
+	["Lgrlight0", "hdlight1l"],
+	["Lgrlight0", "hdlight1r"],
+	["Lgrlight0", "hdlight2l"],
+	
+	//right
+	{"breakGroup":"grillelight_R_break"},
+	
+	["Rgrlight1r", "hdlight1r"],
+	["Rgrlight1r", "hdlight1l"],
+	["Rgrlight1r", "hdlight2r"],
+
+	["Rgrlight2r", "hdlight1r"],
+	["Rgrlight2r", "hdlight2l"],
+	["Rgrlight2r", "hdlight2r"],
+
+	["Rgrlight1l", "hdlight1r"],
+	["Rgrlight1l", "hdlight1l"],
+	["Rgrlight1l", "hdlight2r"],
+
+	["Rgrlight2l", "hdlight1r"],
+	["Rgrlight2l", "hdlight2l"],
+	["Rgrlight2l", "hdlight2r"],
+
+	["Rgrlight0", "hdlight1r"],
+	["Rgrlight0", "hdlight1l"],
+	["Rgrlight0", "hdlight2r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_grillelight_L"},   
+	["Lgrlight1r","Lgrlight1l","Lgrlight2l","Lgrlight2r"],
+	{"group":"legocar_grillelight_R"},   
+	["Rgrlight1r","Rgrlight1l","Rgrlight2l","Rgrlight2r"],	
+        {"group":""},
+    ],
+},
+
+"legocar_rallylights_outer_covers_smile": {
+    "information":{
+        "name":"Rally Light Covers (Smile)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grillelights_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_rallylight_cover_smile", ["legocar_grillelight_L"],[], {"pos":{"x": 0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_rallylight_cover_smile", ["legocar_grillelight_R"],[], {"pos":{"x":-0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	//left
+	{"group":"legocar_grillelight_L"},
+	["Lgrlight1r", 0.280, -2.00, 0.380],
+	["Lgrlight2r", 0.280, -2.00, 0.570],
+	["Lgrlight1l", 0.470, -2.00, 0.380],
+	["Lgrlight2l", 0.470, -2.00, 0.570],
+	["Lgrlight0",  0.375, -1.85, 0.475, {"collision":false,"selfCollision":false,"group":""}],
+
+	//right
+	{"group":"legocar_grillelight_R"},
+	["Rgrlight1l",-0.280, -2.00, 0.380],
+	["Rgrlight2l",-0.280, -2.00, 0.570],
+	["Rgrlight1r",-0.470, -2.00, 0.380],
+	["Rgrlight2r",-0.470, -2.00, 0.570],
+	["Rgrlight0", -0.375, -1.85, 0.475, {"collision":false,"selfCollision":false,"group":""}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//left square
+	["Lgrlight1l", "Lgrlight1r"],
+	["Lgrlight2l", "Lgrlight2r"],
+	["Lgrlight1l", "Lgrlight2r"],
+	["Lgrlight2l", "Lgrlight1r"],
+	["Lgrlight1l", "Lgrlight2l"],
+	["Lgrlight1r", "Lgrlight2r"],
+
+	//left tip
+	["Lgrlight1l", "Lgrlight0"],
+	["Lgrlight1r", "Lgrlight0"],
+	["Lgrlight2l", "Lgrlight0"],
+	["Lgrlight2r", "Lgrlight0"],
+
+	//right square
+	["Rgrlight1l", "Rgrlight1r"],
+	["Rgrlight2l", "Rgrlight2r"],
+	["Rgrlight1l", "Rgrlight2r"],
+	["Rgrlight2l", "Rgrlight1r"],
+	["Rgrlight1l", "Rgrlight2l"],
+	["Rgrlight1r", "Rgrlight2r"],
+
+	//right tip
+	["Rgrlight1l", "Rgrlight0"],
+	["Rgrlight1r", "Rgrlight0"],
+	["Rgrlight2l", "Rgrlight0"],
+	["Rgrlight2r", "Rgrlight0"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left
+	{"breakGroup":"grillelight_L_break"},
+	
+	["Lgrlight1l", "hdlight1l"],
+	["Lgrlight1l", "hdlight1r"],
+	["Lgrlight1l", "hdlight2l"],
+
+	["Lgrlight2l", "hdlight1l"],
+	["Lgrlight2l", "hdlight2r"],
+	["Lgrlight2l", "hdlight2l"],
+
+	["Lgrlight1r", "hdlight1l"],
+	["Lgrlight1r", "hdlight1r"],
+	["Lgrlight1r", "hdlight2l"],
+
+	["Lgrlight2r", "hdlight1l"],
+	["Lgrlight2r", "hdlight2r"],
+	["Lgrlight2r", "hdlight2l"],
+
+	["Lgrlight0", "hdlight1l"],
+	["Lgrlight0", "hdlight1r"],
+	["Lgrlight0", "hdlight2l"],
+	
+	//right
+	{"breakGroup":"grillelight_R_break"},
+	
+	["Rgrlight1r", "hdlight1r"],
+	["Rgrlight1r", "hdlight1l"],
+	["Rgrlight1r", "hdlight2r"],
+
+	["Rgrlight2r", "hdlight1r"],
+	["Rgrlight2r", "hdlight2l"],
+	["Rgrlight2r", "hdlight2r"],
+
+	["Rgrlight1l", "hdlight1r"],
+	["Rgrlight1l", "hdlight1l"],
+	["Rgrlight1l", "hdlight2r"],
+
+	["Rgrlight2l", "hdlight1r"],
+	["Rgrlight2l", "hdlight2l"],
+	["Rgrlight2l", "hdlight2r"],
+
+	["Rgrlight0", "hdlight1r"],
+	["Rgrlight0", "hdlight1l"],
+	["Rgrlight0", "hdlight2r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_grillelight_L"},   
+	["Lgrlight1r","Lgrlight1l","Lgrlight2l","Lgrlight2r"],
+	{"group":"legocar_grillelight_R"},   
+	["Rgrlight1r","Rgrlight1l","Rgrlight2l","Rgrlight2r"],	
+        {"group":""},
+    ],
+},
+
+"legocar_rallylights_outer_covers_bng": {
+    "information":{
+        "name":"Rally Light Covers (BeamNG)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grillelights_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_rallylight_cover_bng", ["legocar_grillelight_L"],[], {"pos":{"x": 0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_rallylight_cover_bng", ["legocar_grillelight_R"],[], {"pos":{"x":-0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	//left
+	{"group":"legocar_grillelight_L"},
+	["Lgrlight1r", 0.280, -2.00, 0.380],
+	["Lgrlight2r", 0.280, -2.00, 0.570],
+	["Lgrlight1l", 0.470, -2.00, 0.380],
+	["Lgrlight2l", 0.470, -2.00, 0.570],
+	["Lgrlight0",  0.375, -1.85, 0.475, {"collision":false,"selfCollision":false,"group":""}],
+
+	//right
+	{"group":"legocar_grillelight_R"},
+	["Rgrlight1l",-0.280, -2.00, 0.380],
+	["Rgrlight2l",-0.280, -2.00, 0.570],
+	["Rgrlight1r",-0.470, -2.00, 0.380],
+	["Rgrlight2r",-0.470, -2.00, 0.570],
+	["Rgrlight0", -0.375, -1.85, 0.475, {"collision":false,"selfCollision":false,"group":""}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//left square
+	["Lgrlight1l", "Lgrlight1r"],
+	["Lgrlight2l", "Lgrlight2r"],
+	["Lgrlight1l", "Lgrlight2r"],
+	["Lgrlight2l", "Lgrlight1r"],
+	["Lgrlight1l", "Lgrlight2l"],
+	["Lgrlight1r", "Lgrlight2r"],
+
+	//left tip
+	["Lgrlight1l", "Lgrlight0"],
+	["Lgrlight1r", "Lgrlight0"],
+	["Lgrlight2l", "Lgrlight0"],
+	["Lgrlight2r", "Lgrlight0"],
+
+	//right square
+	["Rgrlight1l", "Rgrlight1r"],
+	["Rgrlight2l", "Rgrlight2r"],
+	["Rgrlight1l", "Rgrlight2r"],
+	["Rgrlight2l", "Rgrlight1r"],
+	["Rgrlight1l", "Rgrlight2l"],
+	["Rgrlight1r", "Rgrlight2r"],
+
+	//right tip
+	["Rgrlight1l", "Rgrlight0"],
+	["Rgrlight1r", "Rgrlight0"],
+	["Rgrlight2l", "Rgrlight0"],
+	["Rgrlight2r", "Rgrlight0"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left
+	{"breakGroup":"grillelight_L_break"},
+	
+	["Lgrlight1l", "hdlight1l"],
+	["Lgrlight1l", "hdlight1r"],
+	["Lgrlight1l", "hdlight2l"],
+
+	["Lgrlight2l", "hdlight1l"],
+	["Lgrlight2l", "hdlight2r"],
+	["Lgrlight2l", "hdlight2l"],
+
+	["Lgrlight1r", "hdlight1l"],
+	["Lgrlight1r", "hdlight1r"],
+	["Lgrlight1r", "hdlight2l"],
+
+	["Lgrlight2r", "hdlight1l"],
+	["Lgrlight2r", "hdlight2r"],
+	["Lgrlight2r", "hdlight2l"],
+
+	["Lgrlight0", "hdlight1l"],
+	["Lgrlight0", "hdlight1r"],
+	["Lgrlight0", "hdlight2l"],
+	
+	//right
+	{"breakGroup":"grillelight_R_break"},
+	
+	["Rgrlight1r", "hdlight1r"],
+	["Rgrlight1r", "hdlight1l"],
+	["Rgrlight1r", "hdlight2r"],
+
+	["Rgrlight2r", "hdlight1r"],
+	["Rgrlight2r", "hdlight2l"],
+	["Rgrlight2r", "hdlight2r"],
+
+	["Rgrlight1l", "hdlight1r"],
+	["Rgrlight1l", "hdlight1l"],
+	["Rgrlight1l", "hdlight2r"],
+
+	["Rgrlight2l", "hdlight1r"],
+	["Rgrlight2l", "hdlight2l"],
+	["Rgrlight2l", "hdlight2r"],
+
+	["Rgrlight0", "hdlight1r"],
+	["Rgrlight0", "hdlight1l"],
+	["Rgrlight0", "hdlight2r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_grillelight_L"},   
+	["Lgrlight1r","Lgrlight1l","Lgrlight2l","Lgrlight2r"],
+	{"group":"legocar_grillelight_R"},   
+	["Rgrlight1r","Rgrlight1l","Rgrlight2l","Rgrlight2r"],	
+        {"group":""},
+    ],
+},
+
+"legocar_rallylights_outer_covers_bngmono": {
+    "information":{
+        "name":"Rally Light Covers (BeamNG Mono)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_grillelights_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_rallylight_cover_bngmono", ["legocar_grillelight_L"],[], {"pos":{"x": 0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_rallylight_cover_bngmono", ["legocar_grillelight_R"],[], {"pos":{"x":-0.375, "y":-1.950, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	//left
+	{"group":"legocar_grillelight_L"},
+	["Lgrlight1r", 0.280, -2.00, 0.380],
+	["Lgrlight2r", 0.280, -2.00, 0.570],
+	["Lgrlight1l", 0.470, -2.00, 0.380],
+	["Lgrlight2l", 0.470, -2.00, 0.570],
+	["Lgrlight0",  0.375, -1.85, 0.475, {"collision":false,"selfCollision":false,"group":""}],
+
+	//right
+	{"group":"legocar_grillelight_R"},
+	["Rgrlight1l",-0.280, -2.00, 0.380],
+	["Rgrlight2l",-0.280, -2.00, 0.570],
+	["Rgrlight1r",-0.470, -2.00, 0.380],
+	["Rgrlight2r",-0.470, -2.00, 0.570],
+	["Rgrlight0", -0.375, -1.85, 0.475, {"collision":false,"selfCollision":false,"group":""}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//left square
+	["Lgrlight1l", "Lgrlight1r"],
+	["Lgrlight2l", "Lgrlight2r"],
+	["Lgrlight1l", "Lgrlight2r"],
+	["Lgrlight2l", "Lgrlight1r"],
+	["Lgrlight1l", "Lgrlight2l"],
+	["Lgrlight1r", "Lgrlight2r"],
+
+	//left tip
+	["Lgrlight1l", "Lgrlight0"],
+	["Lgrlight1r", "Lgrlight0"],
+	["Lgrlight2l", "Lgrlight0"],
+	["Lgrlight2r", "Lgrlight0"],
+
+	//right square
+	["Rgrlight1l", "Rgrlight1r"],
+	["Rgrlight2l", "Rgrlight2r"],
+	["Rgrlight1l", "Rgrlight2r"],
+	["Rgrlight2l", "Rgrlight1r"],
+	["Rgrlight1l", "Rgrlight2l"],
+	["Rgrlight1r", "Rgrlight2r"],
+
+	//right tip
+	["Rgrlight1l", "Rgrlight0"],
+	["Rgrlight1r", "Rgrlight0"],
+	["Rgrlight2l", "Rgrlight0"],
+	["Rgrlight2r", "Rgrlight0"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left
+	{"breakGroup":"grillelight_L_break"},
+	
+	["Lgrlight1l", "hdlight1l"],
+	["Lgrlight1l", "hdlight1r"],
+	["Lgrlight1l", "hdlight2l"],
+
+	["Lgrlight2l", "hdlight1l"],
+	["Lgrlight2l", "hdlight2r"],
+	["Lgrlight2l", "hdlight2l"],
+
+	["Lgrlight1r", "hdlight1l"],
+	["Lgrlight1r", "hdlight1r"],
+	["Lgrlight1r", "hdlight2l"],
+
+	["Lgrlight2r", "hdlight1l"],
+	["Lgrlight2r", "hdlight2r"],
+	["Lgrlight2r", "hdlight2l"],
+
+	["Lgrlight0", "hdlight1l"],
+	["Lgrlight0", "hdlight1r"],
+	["Lgrlight0", "hdlight2l"],
+	
+	//right
+	{"breakGroup":"grillelight_R_break"},
+	
+	["Rgrlight1r", "hdlight1r"],
+	["Rgrlight1r", "hdlight1l"],
+	["Rgrlight1r", "hdlight2r"],
+
+	["Rgrlight2r", "hdlight1r"],
+	["Rgrlight2r", "hdlight2l"],
+	["Rgrlight2r", "hdlight2r"],
+
+	["Rgrlight1l", "hdlight1r"],
+	["Rgrlight1l", "hdlight1l"],
+	["Rgrlight1l", "hdlight2r"],
+
+	["Rgrlight2l", "hdlight1r"],
+	["Rgrlight2l", "hdlight2l"],
+	["Rgrlight2l", "hdlight2r"],
+
+	["Rgrlight0", "hdlight1r"],
+	["Rgrlight0", "hdlight1l"],
+	["Rgrlight0", "hdlight2r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_grillelight_L"},   
+	["Lgrlight1r","Lgrlight1l","Lgrlight2l","Lgrlight2r"],
+	{"group":"legocar_grillelight_R"},   
+	["Rgrlight1r","Rgrlight1l","Rgrlight2l","Rgrlight2r"],	
+        {"group":""},
+    ],
+},
+
+}

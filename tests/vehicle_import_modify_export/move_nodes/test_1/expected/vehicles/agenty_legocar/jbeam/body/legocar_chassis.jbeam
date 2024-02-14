@@ -1,0 +1,243 @@
+{
+"legocar_chassis": {
+    "information":{
+        "name":"Standard Chassis",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_chassis",
+    "slots": [
+        ["type", "default", "description"],
+
+	//chassis color
+        ["skin_chassis","legocar_skin_chassis_bred", "Chassis Color", {"coreSlot":true}],
+
+	//interior
+	["legocar_intfloor", "legocar_intfloor", "Interior Floor"],
+	["legocar_intcarpet", "legocar_intcarpet", "Interior Carpet"],
+	["legocar_dashpanel", "legocar_dashpanel", "Dash Panel"],
+	["legocar_handbrake", "legocar_handbrake", "Handbrake"],
+
+	//body parts
+	["legocar_subframe_L","legocar_subframe_L_sport_col2", "Left Subframe"],
+	["legocar_subframe_R","legocar_subframe_R_sport_col2", "Right Subframe"],
+	["legocar_squabpanel","legocar_squabpanel", "Squab Panel"],
+
+	//running gear
+	["legocar_engmount", "legocar_engmount", "Engine Mount"],
+	["legocar_wheelaxles_F","legocar_wheelaxles_F", "Front Wheel Axles"],
+	["legocar_wheelaxles_R","legocar_wheelaxles_R", "Rear Wheel Axles"],
+    ],
+    "refNodes":[
+        ["ref:", "back:", "left:", "up:", "leftCorner:", "rightCorner:"],
+        ["chassis3r", "chassis6r", "chassis3l", "chassis2r", "chassis2ll", "chassis2rr"],
+    ],
+    "cameraExternal":{
+        "distance":5.0,
+        "distanceMin":3,
+        "offset":{"x":0.25, "y":0.75, "z":0.5},
+        "fov":65,
+    },
+    "cameraChase":{
+        "distance":5.0,
+        "distanceMin":3,
+	"defaultRotation":{"x":0, "y":-11.2, "z":0},
+        "offset":{"x":0.25, "y":0.75, "z":0.5},
+        "fov":65,
+    },
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_chassis", ["legocar_chassis"], [], {"pos":{"x":0, "y":0, "z":0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+     ],
+     "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_chassis"},
+
+	//28 pieces, 8 half pieces, 17 nodes - about 2 kg/node
+	{"nodeWeight": "$=$weight*2"},
+
+	//top nodes need to be as high as top of the subframe for faster damping
+
+	//front piece
+	["chassis1l",  0.25,-1.22, 0.3],
+	["chassis1r", -0.25,-1.22, 0.3],
+	["chassis2l",  0.25,-0.74, 0.3],
+	["chassis2r", -0.25,-0.74, 0.3],
+	
+	//bottom piece
+	["chassis3l",  0.25,-0.74, 0.09],
+	["chassis3r", -0.25,-0.74, 0.09],
+	["chassis6l",  0.25, 0.74, 0.09],
+	["chassis6r", -0.25, 0.74, 0.09],
+
+	//rear piece
+	["chassis7l",  -0.84, 0.99, 10],
+	["chassis7r", -0.25, 0.74, 0.3],
+	["chassis8l",  0.25, 1.22, 0.3],
+	["chassis8r", -0.25, 1.22, 0.3],
+
+	//side pieces
+	["chassis2ll", 0.50,-0.74, 0.3],
+	["chassis2rr",-0.50,-0.74, 0.3],
+	["chassis7ll", 0.50, 0.74, 0.3],
+	["chassis7rr",-0.50, 0.74, 0.3],
+
+	//rigidifier
+	{"group":""},
+	["chassis0", 0, 0, 1, {"collision":false, "selfCollision":false}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+	
+
+	//--MAIN SHAPE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1901000", "beamDamp":"$=$weight*190"},
+
+	//front square piece
+	["chassis1l", "chassis1r"],
+	["chassis1r", "chassis2r"],
+	["chassis2r", "chassis2l"],
+	["chassis2l", "chassis1l"],
+	["chassis1l", "chassis2r"],
+	["chassis1r", "chassis2l"],
+	
+        //rear square piece
+	["chassis7l", "chassis7r"],
+	["chassis7r", "chassis8r"],
+	["chassis8r", "chassis8l"],
+	["chassis8l", "chassis7l"],
+	["chassis7l", "chassis8r"],
+	["chassis7r", "chassis8l"],
+
+	//bottom piece
+	["chassis3l", "chassis3r"],
+	["chassis3r", "chassis6r"],
+	["chassis6r", "chassis6l"],
+	["chassis6l", "chassis3l"],
+	["chassis3l", "chassis6r"],
+	["chassis3r", "chassis6l"],
+
+	//front square to middle piece
+	["chassis1l", "chassis3l"],
+	["chassis1r", "chassis3r"],
+	["chassis1l", "chassis3r"],
+	["chassis1r", "chassis3l"],
+	["chassis2l", "chassis3l"],
+	["chassis2r", "chassis3r"],
+	["chassis2l", "chassis3r"],
+	["chassis2r", "chassis3l"],
+
+	//rear square to middle piece
+	["chassis8l", "chassis6l"],
+	["chassis8r", "chassis6r"],
+	["chassis8l", "chassis6r"],
+	["chassis8r", "chassis6l"],
+	["chassis7l", "chassis6l"],
+	["chassis7r", "chassis6r"],
+	["chassis7l", "chassis6r"],
+	["chassis7r", "chassis6l"],
+	
+	//left side piece
+	["chassis2l", "chassis2ll"],
+	["chassis7l", "chassis7ll"],
+	["chassis2l", "chassis7l"],
+	["chassis2ll", "chassis7ll"],
+	["chassis2l", "chassis7ll"],
+	["chassis2ll", "chassis7l"],
+
+	//right side piece
+	["chassis2r", "chassis2rr"],
+	["chassis7r", "chassis7rr"],
+	["chassis2r", "chassis7r"],
+	["chassis2rr", "chassis7rr"],
+	["chassis2r", "chassis7rr"],
+	["chassis2rr", "chassis7r"],
+
+	//side pieces to bottom piece
+	["chassis2ll", "chassis3l"],
+	["chassis7ll", "chassis6l"],
+	["chassis2rr", "chassis3r"],
+	["chassis7rr", "chassis6r"],
+
+
+	//--RIGIDS--
+	//IMPORTANT!! Need lower spring and damp to prevent node shake
+	{"beamSpring":"$=$weight*801000", "beamDamp":"$=$weight*80"},
+
+	//side piece rigids
+	["chassis2ll", "chassis2rr"],
+	["chassis7ll", "chassis7rr"],
+	["chassis2ll", "chassis7rr"],
+	["chassis7ll", "chassis2rr"],
+
+	//front piece rigids
+	["chassis1l", "chassis6l"],
+	["chassis1r", "chassis6r"],
+	["chassis1l", "chassis6r"],
+	["chassis1r", "chassis6l"],
+	["chassis2l", "chassis6l"],
+	["chassis2r", "chassis6r"],
+	["chassis2l", "chassis6r"],
+	["chassis2r", "chassis6l"],
+
+	//rear piece rigids
+	["chassis8l", "chassis3l"],
+	["chassis8r", "chassis3r"],
+	["chassis8l", "chassis3r"],
+	["chassis8r", "chassis3l"],
+	["chassis7l", "chassis3l"],
+	["chassis7r", "chassis3r"],
+	["chassis7l", "chassis3r"],
+	["chassis7r", "chassis3l"],
+
+
+	//--RIGIDIFIER--
+	//lower spring to avoid stressing the structure, about 0.1x normal spring
+	{"beamSpring":"$=$weight*191000", "beamDamp":"$=$weight*190"},
+
+	["chassis0", "chassis1l"],
+	["chassis0", "chassis1r"],
+	["chassis0", "chassis2l"],
+	["chassis0", "chassis2r"],
+	["chassis0", "chassis2ll"],
+	["chassis0", "chassis2rr"],
+	["chassis0", "chassis3l"],
+	["chassis0", "chassis3r"],
+	["chassis0", "chassis6l"],
+	["chassis0", "chassis6r"],
+	["chassis0", "chassis7l"],
+	["chassis0", "chassis7r"],
+	["chassis0", "chassis7ll"],
+	["chassis0", "chassis7rr"],
+	["chassis0", "chassis8l"],
+	["chassis0", "chassis8r"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_chassis"},
+        
+	//front and back
+	["chassis1r","chassis1l","chassis2l","chassis2r"],
+	["chassis7r","chassis7l","chassis8l","chassis8r"],
+
+	//middle
+	["chassis6r","chassis6l","chassis3l","chassis3r"],
+
+	//front and back to middle
+	["chassis3r","chassis3l","chassis2l","chassis2r"],
+	["chassis7r","chassis7l","chassis6l","chassis6r"],
+
+	//sides
+	["chassis2rr","chassis2r","chassis7r","chassis7rr"],
+	["chassis2l","chassis2ll","chassis7ll","chassis7l"],
+
+        {"group":""},
+    ],
+},
+
+}

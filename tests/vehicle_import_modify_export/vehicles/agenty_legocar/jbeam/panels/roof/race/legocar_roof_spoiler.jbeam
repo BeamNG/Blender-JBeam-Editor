@@ -1,0 +1,377 @@
+{
+"legocar_roof_spoiler": {
+    "information":{
+        "name":"Roof Spoiler",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_roof_accessory",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_spoiler",      ["legocar_roofspoiler_L"],[], {"pos":{"x": 0.375, "y":0.375, "z":1.6},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1.00, "y":1.00, "z":0.99}}],
+	["lego_1x1_flat_spoiler",      ["legocar_roofspoiler_R"],[], {"pos":{"x":-0.375, "y":0.375, "z":1.6},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1.00, "y":1.00, "z":0.99}}],
+	["lego_1x1_flat_spoiler",      ["legocar_roofspoiler_L"],[], {"pos":{"x": 0.375, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1.00, "y":1.00, "z":0.99}}],
+	["lego_1x1_flat_spoiler",      ["legocar_roofspoiler_R"],[], {"pos":{"x":-0.375, "y":0.375, "z":1.7},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1.00, "y":1.00, "z":0.99}}],
+	["lego_6x1_flat_notip_spoiler",["legocar_roofspoiler_T"],[], {"pos":{"x": 0.000, "y":0.375, "z":1.8},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1.00, "y":1.00, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//spoiler left
+	{"group":"legocar_roofspoiler_L"},
+	//2 pieces, 8 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["rfspoilL1l",  0.50, 0.25, 1.63],
+	["rfspoilL1r",  0.25, 0.25, 1.63],
+	["rfspoilL2l",  0.50, 0.50, 1.63],
+	["rfspoilL2r",  0.25, 0.50, 1.63],
+	["rfspoilL3l",  0.50, 0.25, 1.8],
+	["rfspoilL3r",  0.25, 0.25, 1.8],
+	["rfspoilL4l",  0.50, 0.50, 1.8],
+	["rfspoilL4r",  0.25, 0.50, 1.8],
+
+
+	//spoiler right
+	{"group":"legocar_roofspoiler_R"},
+	//2 pieces, 8 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["rfspoilR1r", -0.50, 0.25, 1.63],
+	["rfspoilR1l", -0.25, 0.25, 1.63],
+	["rfspoilR2r", -0.50, 0.50, 1.63],
+	["rfspoilR2l", -0.25, 0.50, 1.63],
+	["rfspoilR3r", -0.50, 0.25, 1.8],
+	["rfspoilR3l", -0.25, 0.25, 1.8],
+	["rfspoilR4r", -0.50, 0.50, 1.8],
+	["rfspoilR4l", -0.25, 0.50, 1.8],
+
+
+	//spoiler top
+	{"group":"legocar_roofspoiler_T"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["rfspoilT1l",  0.75, 0.25, 1.85],
+	["rfspoilT1r", -0.75, 0.25, 1.85],
+	["rfspoilT2l",  0.75, 0.50, 1.85],
+	["rfspoilT2r", -0.75, 0.50, 1.85],
+	//rigidifier
+	["rfspoilTrig", 0, 0.375, 1.4, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLonground":1, "beamShortround":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--SPOILER LEFT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["rfspoilL1l", "rfspoilL1r"],
+	["rfspoilL2l", "rfspoilL2r"],
+	["rfspoilL3l", "rfspoilL3r"],
+	["rfspoilL4l", "rfspoilL4r"],
+
+	["rfspoilL1l", "rfspoilL2r"],
+	["rfspoilL2l", "rfspoilL3r"],
+	["rfspoilL3l", "rfspoilL4r"],
+	["rfspoilL4l", "rfspoilL1r"],
+
+	["rfspoilL1l", "rfspoilL3r"],
+	["rfspoilL2l", "rfspoilL4r"],
+	["rfspoilL3l", "rfspoilL1r"],
+	["rfspoilL4l", "rfspoilL2r"],
+
+	["rfspoilL1l", "rfspoilL4r"],
+	["rfspoilL2l", "rfspoilL1r"],
+	["rfspoilL3l", "rfspoilL2r"],
+	["rfspoilL4l", "rfspoilL3r"],
+
+	["rfspoilL1l", "rfspoilL2l"],
+	["rfspoilL2l", "rfspoilL3l"],
+	["rfspoilL3l", "rfspoilL4l"],
+	["rfspoilL4l", "rfspoilL1l"],
+
+	["rfspoilL1l", "rfspoilL3l"],
+	["rfspoilL2l", "rfspoilL4l"],
+
+	["rfspoilL1r", "rfspoilL2r"],
+	["rfspoilL2r", "rfspoilL3r"],
+	["rfspoilL3r", "rfspoilL4r"],
+	["rfspoilL4r", "rfspoilL1r"],
+
+	["rfspoilL1r", "rfspoilL3r"],
+	["rfspoilL2r", "rfspoilL4r"],
+
+
+	//--SPOILER RIGHT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["rfspoilR1l", "rfspoilR1r"],
+	["rfspoilR2l", "rfspoilR2r"],
+	["rfspoilR3l", "rfspoilR3r"],
+	["rfspoilR4l", "rfspoilR4r"],
+
+	["rfspoilR1l", "rfspoilR2r"],
+	["rfspoilR2l", "rfspoilR3r"],
+	["rfspoilR3l", "rfspoilR4r"],
+	["rfspoilR4l", "rfspoilR1r"],
+
+	["rfspoilR1l", "rfspoilR3r"],
+	["rfspoilR2l", "rfspoilR4r"],
+	["rfspoilR3l", "rfspoilR1r"],
+	["rfspoilR4l", "rfspoilR2r"],
+
+	["rfspoilR1l", "rfspoilR4r"],
+	["rfspoilR2l", "rfspoilR1r"],
+	["rfspoilR3l", "rfspoilR2r"],
+	["rfspoilR4l", "rfspoilR3r"],
+
+	["rfspoilR1l", "rfspoilR2l"],
+	["rfspoilR2l", "rfspoilR3l"],
+	["rfspoilR3l", "rfspoilR4l"],
+	["rfspoilR4l", "rfspoilR1l"],
+
+	["rfspoilR1l", "rfspoilR3l"],
+	["rfspoilR2l", "rfspoilR4l"],
+
+	["rfspoilR1r", "rfspoilR2r"],
+	["rfspoilR2r", "rfspoilR3r"],
+	["rfspoilR3r", "rfspoilR4r"],
+	["rfspoilR4r", "rfspoilR1r"],
+
+	["rfspoilR1r", "rfspoilR3r"],
+	["rfspoilR2r", "rfspoilR4r"],
+
+
+	//--SPOILER TOP--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1201000", "beamDamp":"$=$weight*120"},
+
+	//uniform structure
+	["rfspoilT1l", "rfspoilT1r"],
+	["rfspoilT2l", "rfspoilT2r"],
+	["rfspoilT1l", "rfspoilT2l"],
+	["rfspoilT1r", "rfspoilT2r"],
+	["rfspoilT1l", "rfspoilT2r"],
+	["rfspoilT2l", "rfspoilT1r"],
+
+	//rigidifier
+	["rfspoilT1l", "rfspoilTrig"],
+	["rfspoilT1r", "rfspoilTrig"],
+	["rfspoilT2l", "rfspoilTrig"],
+	["rfspoilT2r", "rfspoilTrig"],
+
+	
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//top to left
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"roofspoiler_L_break"},
+	
+	["rfspoilL1l", "rfspoilT1l"],
+	["rfspoilL1l", "rfspoilT1r"],
+	["rfspoilL1l", "rfspoilT2l"],
+	["rfspoilL1l", "rfspoilT2r"],
+	["rfspoilL1l", "rfspoilTrig"],
+
+	["rfspoilL1r", "rfspoilT1l"],
+	["rfspoilL1r", "rfspoilT1r"],
+	["rfspoilL1r", "rfspoilT2l"],
+	["rfspoilL1r", "rfspoilT2r"],
+	["rfspoilL1r", "rfspoilTrig"],
+
+	["rfspoilL2l", "rfspoilT1l"],
+	["rfspoilL2l", "rfspoilT1r"],
+	["rfspoilL2l", "rfspoilT2l"],
+	["rfspoilL2l", "rfspoilT2r"],
+	["rfspoilL2l", "rfspoilTrig"],
+
+	["rfspoilL2r", "rfspoilT1l"],
+	["rfspoilL2r", "rfspoilT1r"],
+	["rfspoilL2r", "rfspoilT2l"],
+	["rfspoilL2r", "rfspoilT2r"],
+	["rfspoilL2r", "rfspoilTrig"],
+
+	["rfspoilL3l", "rfspoilT1l"],
+	["rfspoilL3l", "rfspoilT1r"],
+	["rfspoilL3l", "rfspoilT2l"],
+	["rfspoilL3l", "rfspoilT2r"],
+	["rfspoilL3l", "rfspoilTrig"],
+
+	["rfspoilL3r", "rfspoilT1l"],
+	["rfspoilL3r", "rfspoilT1r"],
+	["rfspoilL3r", "rfspoilT2l"],
+	["rfspoilL3r", "rfspoilT2r"],
+	["rfspoilL3r", "rfspoilTrig"],
+
+	["rfspoilL4l", "rfspoilT1l"],
+	["rfspoilL4l", "rfspoilT1r"],
+	["rfspoilL4l", "rfspoilT2l"],
+	["rfspoilL4l", "rfspoilT2r"],
+	["rfspoilL4l", "rfspoilTrig"],
+
+	["rfspoilL4r", "rfspoilT1l"],
+	["rfspoilL4r", "rfspoilT1r"],
+	["rfspoilL4r", "rfspoilT2l"],
+	["rfspoilL4r", "rfspoilT2r"],
+	["rfspoilL4r", "rfspoilTrig"],
+
+	
+	//top to right
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"roofspoiler_R_break"},
+	
+	["rfspoilR1l", "rfspoilT1l"],
+	["rfspoilR1l", "rfspoilT1r"],
+	["rfspoilR1l", "rfspoilT2l"],
+	["rfspoilR1l", "rfspoilT2r"],
+	["rfspoilR1l", "rfspoilTrig"],
+
+	["rfspoilR1r", "rfspoilT1l"],
+	["rfspoilR1r", "rfspoilT1r"],
+	["rfspoilR1r", "rfspoilT2l"],
+	["rfspoilR1r", "rfspoilT2r"],
+	["rfspoilR1r", "rfspoilTrig"],
+
+	["rfspoilR2l", "rfspoilT1l"],
+	["rfspoilR2l", "rfspoilT1r"],
+	["rfspoilR2l", "rfspoilT2l"],
+	["rfspoilR2l", "rfspoilT2r"],
+	["rfspoilR2l", "rfspoilTrig"],
+
+	["rfspoilR2r", "rfspoilT1l"],
+	["rfspoilR2r", "rfspoilT1r"],
+	["rfspoilR2r", "rfspoilT2l"],
+	["rfspoilR2r", "rfspoilT2r"],
+	["rfspoilR2r", "rfspoilTrig"],
+
+	["rfspoilR3l", "rfspoilT1l"],
+	["rfspoilR3l", "rfspoilT1r"],
+	["rfspoilR3l", "rfspoilT2l"],
+	["rfspoilR3l", "rfspoilT2r"],
+	["rfspoilR3l", "rfspoilTrig"],
+
+	["rfspoilR3r", "rfspoilT1l"],
+	["rfspoilR3r", "rfspoilT1r"],
+	["rfspoilR3r", "rfspoilT2l"],
+	["rfspoilR3r", "rfspoilT2r"],
+	["rfspoilR3r", "rfspoilTrig"],
+
+	["rfspoilR4l", "rfspoilT1l"],
+	["rfspoilR4l", "rfspoilT1r"],
+	["rfspoilR4l", "rfspoilT2l"],
+	["rfspoilR4l", "rfspoilT2r"],
+	["rfspoilR4l", "rfspoilTrig"],
+
+	["rfspoilR4r", "rfspoilT1l"],
+	["rfspoilR4r", "rfspoilT1r"],
+	["rfspoilR4r", "rfspoilT2l"],
+	["rfspoilR4r", "rfspoilT2r"],
+	["rfspoilR4r", "rfspoilTrig"],
+
+
+	//bottom to roof left
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"roofspoiler_roof_L_break"},
+
+	["rfspoilL1l", "roof2l"],
+	["rfspoilL1l", "roof2ll"],
+	["rfspoilL1l", "roof2lll"],
+	["rfspoilL1l", "roof1ll"],
+	["rfspoilL1l", "roofrig"],
+
+	["rfspoilL1r", "roof2l"],
+	["rfspoilL1r", "roof2ll"],
+	["rfspoilL1r", "roof2lll"],
+	["rfspoilL1r", "roof1l"],
+	["rfspoilL1r", "roofrig"],
+
+	["rfspoilL2l", "roof1l"],
+	["rfspoilL2l", "roof1ll"],
+	["rfspoilL2l", "roof1lll"],
+	["rfspoilL2l", "roof2ll"],
+	["rfspoilL2l", "roofrig"],
+
+	["rfspoilL2r", "roof1l"],
+	["rfspoilL2r", "roof1ll"],
+	["rfspoilL2r", "roof1lll"],
+	["rfspoilL2r", "roof2l"],
+	["rfspoilL2r", "roofrig"],
+
+	["rfspoilL3l", "roof2ll"],
+	["rfspoilL3r", "roof2l"],
+	["rfspoilL4l", "roof1ll"],
+	["rfspoilL4r", "roof1l"],
+
+	
+	//bottom to roof right
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"roofspoiler_roof_R_break"},
+
+	["rfspoilR1l", "roof2r"],
+	["rfspoilR1l", "roof2rr"],
+	["rfspoilR1l", "roof2rrr"],
+	["rfspoilR1l", "roof1r"],
+	["rfspoilR1l", "roofrig"],
+
+	["rfspoilR1r", "roof2r"],
+	["rfspoilR1r", "roof2rr"],
+	["rfspoilR1r", "roof2rrr"],
+	["rfspoilR1r", "roof1rr"],
+	["rfspoilR1r", "roofrig"],
+
+	["rfspoilR2l", "roof1r"],
+	["rfspoilR2l", "roof1rr"],
+	["rfspoilR2l", "roof1rrr"],
+	["rfspoilR2l", "roof2r"],
+	["rfspoilR2l", "roofrig"],
+
+	["rfspoilR2r", "roof1r"],
+	["rfspoilR2r", "roof1rr"],
+	["rfspoilR2r", "roof1rrr"],
+	["rfspoilR2r", "roof2rr"],
+	["rfspoilR2r", "roofrig"],
+
+	["rfspoilR3l", "roof2r"],
+	["rfspoilR3r", "roof2rr"],
+	["rfspoilR4l", "roof1r"],
+	["rfspoilR4r", "roof1rr"],
+
+
+	{"breakGroup":""},
+	
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLonground":1, "beamShortround":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_roofspoiler_L"},
+	["rfspoilL1l","rfspoilL1r","rfspoilL2r","rfspoilL2l"],
+	["rfspoilL3r","rfspoilL3l","rfspoilL4l","rfspoilL4r"],
+	["rfspoilL1l","rfspoilL2l","rfspoilL4l","rfspoilL3l"],
+	["rfspoilL2r","rfspoilL1r","rfspoilL3r","rfspoilL4r"],
+	["rfspoilL2l","rfspoilL2r","rfspoilL4r","rfspoilL4l"],
+	["rfspoilL1r","rfspoilL1l","rfspoilL3l","rfspoilL3r"],
+
+	{"group":"legocar_roofspoiler_R"},
+	["rfspoilR1l","rfspoilR1r","rfspoilR2r","rfspoilR2l"],
+	["rfspoilR3r","rfspoilR3l","rfspoilR4l","rfspoilR4r"],
+	["rfspoilR1l","rfspoilR2l","rfspoilR4l","rfspoilR3l"],
+	["rfspoilR2r","rfspoilR1r","rfspoilR3r","rfspoilR4r"],
+	["rfspoilR2l","rfspoilR2r","rfspoilR4r","rfspoilR4l"],
+	["rfspoilR1r","rfspoilR1l","rfspoilR3l","rfspoilR3r"],
+
+	{"group":"legocar_roofspoiler_T"},
+	["rfspoilT2l","rfspoilT2r","rfspoilT1r","rfspoilT1l"],
+
+        {"group":""},
+    ],
+},
+
+}

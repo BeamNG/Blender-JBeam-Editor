@@ -1,0 +1,311 @@
+{
+"legocar_lightbar_rack_M_short": {
+    "information":{
+        "name":"Short Middle Holder",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_rack_M",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_beaconlight_rack_M_bulb","legocar_beaconlight_rack_M_loudspeaker_black", "Middle Attachment", {"nodeMove":{"x":0, "y":0.25, "z":0.3}}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_1tip_grey",["legocar_lightbar_rack_M"],[], {"pos":{"x": 0.000, "y":0.625, "z":1.9},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//beacon light base
+	{"group":"legocar_lightbar_rack_M"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["lbarrackT1l",  0.25, 0.50, 1.95],
+	["lbarrackT1r", -0.25, 0.50, 1.95],
+	["lbarrackT2l",  0.25, 0.75, 1.95],
+	["lbarrackT2r", -0.25, 0.75, 1.95],
+	//rigidifier
+	["lbarrackTrig", 0, 0.625, 1.80, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--BEACON LIGHT BASE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["lbarrackT1l", "lbarrackT1r"],
+	["lbarrackT2l", "lbarrackT2r"],
+	["lbarrackT1l", "lbarrackT2l"],
+	["lbarrackT1r", "lbarrackT2r"],
+	["lbarrackT1l", "lbarrackT2r"],
+	["lbarrackT2l", "lbarrackT1r"],
+
+	//rigidifier
+	["lbarrackT1l", "lbarrackTrig"],
+	["lbarrackT1r", "lbarrackTrig"],
+	["lbarrackT2l", "lbarrackTrig"],
+	["lbarrackT2r", "lbarrackTrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"lightbar_rack_T_break"},
+	
+	["lbarrackT1l", "lbarrack1l"],
+	["lbarrackT1l", "lbarrack1r"],
+	["lbarrackT1l", "lbarrack2l"],
+	["lbarrackT1l", "lbarrack3l"],
+
+	["lbarrackT1r", "lbarrack1l"],
+	["lbarrackT1r", "lbarrack1r"],
+	["lbarrackT1r", "lbarrack2r"],
+	["lbarrackT1r", "lbarrack3r"],
+
+	["lbarrackT2l", "lbarrack1l"],
+	["lbarrackT2l", "lbarrack2r"],
+	["lbarrackT2l", "lbarrack2l"],
+	["lbarrackT2l", "lbarrack3l"],
+
+	["lbarrackT2r", "lbarrack2l"],
+	["lbarrackT2r", "lbarrack1r"],
+	["lbarrackT2r", "lbarrack2r"],
+	["lbarrackT2r", "lbarrack3r"],
+	
+	["lbarrackTrig", "lbarrack1l"],
+	["lbarrackTrig", "lbarrack1r"],
+	["lbarrackTrig", "lbarrack2l"],
+	["lbarrackTrig", "lbarrack2r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_lightbar_rack_M"},
+	["lbarrackT2l","lbarrackT2r","lbarrackT1r","lbarrackT1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_lightbar_rack_M_tall": {
+    "information":{
+        "name":"Tall Middle Holder",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_rack_M",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_beaconlight_rack_M_bulb","legocar_beaconlight_rack_M_bulb_blue", "Middle Attachment", {"nodeMove":{"x":0, "y":0.25, "z":0.6}}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_tall_police",   ["legocar_lightbar_rack_M"],[], {"pos":{"x": 0.000, "y":0.625, "z":1.9},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_flat_1tip_grey",["legocar_lightbar_rack_T"],[], {"pos":{"x": 0.000, "y":0.625, "z":2.2},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//light bar middle
+	{"group":"legocar_lightbar_rack_M"},
+	//6 pieces, 8 nodes - 0.75 kg/node
+	{"nodeWeight": "$=$weight*0.75"},
+
+	["lbarrackM1l",  0.25, 0.50, 1.90],
+	["lbarrackM1r", -0.25, 0.50, 1.90],
+	["lbarrackM2l",  0.25, 0.75, 1.90],
+	["lbarrackM2r", -0.25, 0.75, 1.90],
+	["lbarrackM3l",  0.25, 0.50, 2.20],
+	["lbarrackM3r", -0.25, 0.50, 2.20],
+	["lbarrackM4l",  0.25, 0.75, 2.20],
+	["lbarrackM4r", -0.25, 0.75, 2.20],
+
+	//beacon light base
+	{"group":"legocar_lightbar_rack_T"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	["lbarrackT1l",  0.25, 0.50, 2.25],
+	["lbarrackT1r", -0.25, 0.50, 2.25],
+	["lbarrackT2l",  0.25, 0.75, 2.25],
+	["lbarrackT2r", -0.25, 0.75, 2.25],
+	//rigidifier
+	["lbarrackTrig", 0, 0.625, 2.10, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--LIGHT BAR MIDDLE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//uniform structure
+	["lbarrackM1l", "lbarrackM1r"],
+	["lbarrackM2l", "lbarrackM2r"],
+	["lbarrackM3l", "lbarrackM3r"],
+	["lbarrackM4l", "lbarrackM4r"],
+
+	["lbarrackM1l", "lbarrackM2r"],
+	["lbarrackM2l", "lbarrackM3r"],
+	["lbarrackM3l", "lbarrackM4r"],
+	["lbarrackM4l", "lbarrackM1r"],
+
+	["lbarrackM1l", "lbarrackM3r"],
+	["lbarrackM2l", "lbarrackM4r"],
+	["lbarrackM3l", "lbarrackM1r"],
+	["lbarrackM4l", "lbarrackM2r"],
+
+	["lbarrackM1l", "lbarrackM4r"],
+	["lbarrackM2l", "lbarrackM1r"],
+	["lbarrackM3l", "lbarrackM2r"],
+	["lbarrackM4l", "lbarrackM3r"],
+
+	["lbarrackM1l", "lbarrackM2l"],
+	["lbarrackM2l", "lbarrackM3l"],
+	["lbarrackM3l", "lbarrackM4l"],
+	["lbarrackM4l", "lbarrackM1l"],
+
+	["lbarrackM1l", "lbarrackM3l"],
+	["lbarrackM2l", "lbarrackM4l"],
+
+	["lbarrackM1r", "lbarrackM2r"],
+	["lbarrackM2r", "lbarrackM3r"],
+	["lbarrackM3r", "lbarrackM4r"],
+	["lbarrackM4r", "lbarrackM1r"],
+
+	["lbarrackM1r", "lbarrackM3r"],
+	["lbarrackM2r", "lbarrackM4r"],
+
+
+	//--BEACON LIGHT BASE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["lbarrackT1l", "lbarrackT1r"],
+	["lbarrackT2l", "lbarrackT2r"],
+	["lbarrackT1l", "lbarrackT2l"],
+	["lbarrackT1r", "lbarrackT2r"],
+	["lbarrackT1l", "lbarrackT2r"],
+	["lbarrackT2l", "lbarrackT1r"],
+
+	//rigidifier
+	["lbarrackT1l", "lbarrackTrig"],
+	["lbarrackT1r", "lbarrackTrig"],
+	["lbarrackT2l", "lbarrackTrig"],
+	["lbarrackT2r", "lbarrackTrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//top to middle
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"lightbar_rack_T_break"},
+	
+	["lbarrackT1l", "lbarrackM1l"],
+	["lbarrackT1l", "lbarrackM1r"],
+	["lbarrackT1l", "lbarrackM2l"],
+	["lbarrackT1l", "lbarrackM3l"],
+
+	["lbarrackT1r", "lbarrackM1l"],
+	["lbarrackT1r", "lbarrackM1r"],
+	["lbarrackT1r", "lbarrackM2r"],
+	["lbarrackT1r", "lbarrackM3r"],
+
+	["lbarrackT2l", "lbarrackM1l"],
+	["lbarrackT2l", "lbarrackM2r"],
+	["lbarrackT2l", "lbarrackM2l"],
+	["lbarrackT2l", "lbarrackM4l"],
+
+	["lbarrackT2r", "lbarrackM2l"],
+	["lbarrackT2r", "lbarrackM1r"],
+	["lbarrackT2r", "lbarrackM2r"],
+	["lbarrackT2r", "lbarrackM4r"],
+	
+	["lbarrackTrig", "lbarrackM1l"],
+	["lbarrackTrig", "lbarrackM1r"],
+	["lbarrackTrig", "lbarrackM2l"],
+	["lbarrackTrig", "lbarrackM2r"],
+
+
+	//middle to bottom
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+	{"breakGroup":"lightbar_rack_M_break"},
+	
+	["lbarrackM1l", "lbarrack1l"],
+	["lbarrackM1l", "lbarrack1r"],
+	["lbarrackM1l", "lbarrack2l"],
+	["lbarrackM1l", "lbarrack3l"],
+
+	["lbarrackM1r", "lbarrack1l"],
+	["lbarrackM1r", "lbarrack1r"],
+	["lbarrackM1r", "lbarrack2r"],
+	["lbarrackM1r", "lbarrack3r"],
+
+	["lbarrackM2l", "lbarrack1l"],
+	["lbarrackM2l", "lbarrack2r"],
+	["lbarrackM2l", "lbarrack2l"],
+	["lbarrackM2l", "lbarrack3l"],
+
+	["lbarrackM2r", "lbarrack2l"],
+	["lbarrackM2r", "lbarrack1r"],
+	["lbarrackM2r", "lbarrack2r"],
+	["lbarrackM2r", "lbarrack3r"],
+	
+	["lbarrackM3l", "lbarrack1l"],
+	["lbarrackM3l", "lbarrack1r"],
+	["lbarrackM3l", "lbarrack2l"],
+	["lbarrackM3l", "lbarrack3l"],
+
+	["lbarrackM3r", "lbarrack1l"],
+	["lbarrackM3r", "lbarrack1r"],
+	["lbarrackM3r", "lbarrack2r"],
+	["lbarrackM3r", "lbarrack3r"],
+
+	["lbarrackM4l", "lbarrack1l"],
+	["lbarrackM4l", "lbarrack2r"],
+	["lbarrackM4l", "lbarrack2l"],
+	["lbarrackM4l", "lbarrack3l"],
+
+	["lbarrackM4r", "lbarrack2l"],
+	["lbarrackM4r", "lbarrack1r"],
+	["lbarrackM4r", "lbarrack2r"],
+	["lbarrackM4r", "lbarrack3r"],
+
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_lightbar_rack_M"},   
+	["lbarrackM2r","lbarrackM2l","lbarrackM1l","lbarrackM1r"],
+	["lbarrackM4l","lbarrackM4r","lbarrackM3r","lbarrackM3l"],
+	["lbarrackM3r","lbarrackM4r","lbarrackM2r","lbarrackM1r"],
+	["lbarrackM4l","lbarrackM3l","lbarrackM1l","lbarrackM2l"],
+	["lbarrackM4r","lbarrackM4l","lbarrackM2l","lbarrackM2r"],
+	["lbarrackM3l","lbarrackM3r","lbarrackM1r","lbarrackM1l"],
+
+        {"group":"legocar_lightbar_rack_T"},
+	["lbarrackT2l","lbarrackT2r","lbarrackT1r","lbarrackT1l"],
+        {"group":""},
+    ],
+},
+
+}

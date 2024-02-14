@@ -1,0 +1,243 @@
+{
+"legocar_jato_reinforcement": {
+    "information":{
+        "name":"Jet Thruster Reinforcement",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_5x4_flat_grey", ["legocar_loudspeaker_frame_B"],[], {"pos":{"x":0.000, "y":0.625, "z":1.600},"rot":{"x": 0 , "y":0, "z":0 },"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+	["lego_2x6_flat_grey", ["legocar_loudspeaker_frame_T"],[], {"pos":{"x":0.000, "y":1.250, "z":1.700},"rot":{"x": 0 , "y":0, "z":90},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//jato reinf bottom
+	{"group":"legocar_loudspeaker_frame_B"},
+	//20 pieces, 5 nodes - 4 kg/node
+	{"nodeWeight": "$=$weight*4"},
+
+	["loudframeB1l",  0.50,-0.000, 1.65],
+	["loudframeB1r", -0.50,-0.000, 1.65],
+	["loudframeB2l",  0.50, 1.250, 1.65],
+	["loudframeB2r", -0.50, 1.250, 1.65],
+	//rigidifier
+	["loudframeBrig", 0, 0.625, 1.15, {"collision":false, "selfCollision":false, "group":""}],
+
+
+	//jato reinf top
+	{"group":"legocar_loudspeaker_frame_T"},
+	//12 pieces, 5 nodes - 2.4 kg/node
+	{"nodeWeight": "$=$weight*2.4"},
+
+	["loudframeT1l",  0.25, 0.500, 1.75],
+	["loudframeT1r", -0.25, 0.500, 1.75],
+	["loudframeT2l",  0.25, 2.000, 1.75],
+	["loudframeT2r", -0.25, 2.000, 1.75],
+	//rigidifier
+	["loudframeTrig", 0, 1.25, 1.45, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--JATO REINF--
+	//spring = weight * 1001000, damp = weight * 100
+
+	//bottom uniform structure
+	{"beamSpring":"$=$weight*5001000", "beamDamp":"$=$weight*500"},
+
+	["loudframeB1l", "loudframeB1r"],
+	["loudframeB2l", "loudframeB2r"],
+	["loudframeB1l", "loudframeB2l"],
+	["loudframeB1r", "loudframeB2r"],
+	["loudframeB1l", "loudframeB2r"],
+	["loudframeB2l", "loudframeB1r"],
+
+	//bottom rigidifier
+	["loudframeB1l", "loudframeBrig"],
+	["loudframeB1r", "loudframeBrig"],
+	["loudframeB2l", "loudframeBrig"],
+	["loudframeB2r", "loudframeBrig"],
+
+
+	//top uniform structure
+	{"beamSpring":"$=$weight*3001000", "beamDamp":"$=$weight*300"},
+
+	["loudframeT1l", "loudframeT1r"],
+	["loudframeT2l", "loudframeT2r"],
+	["loudframeT1l", "loudframeT2l"],
+	["loudframeT1r", "loudframeT2r"],
+	["loudframeT1l", "loudframeT2r"],
+	["loudframeT2l", "loudframeT1r"],
+
+	//bottom rigidifier
+	["loudframeT1l", "loudframeTrig"],
+	["loudframeT1r", "loudframeTrig"],
+	["loudframeT2l", "loudframeTrig"],
+	["loudframeT2r", "loudframeTrig"],
+
+
+	//--ATTACH--
+
+	//top to bottom
+	{"beamDeform":"$=$strength*2", "beamStrength":"$=$strength*2"},
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+	{"breakGroup":"loudspeaker_frame_T_break"},
+	
+	["loudframeT1l", "loudframeB1l"],
+	["loudframeT1l", "loudframeB1r"],
+	["loudframeT1l", "loudframeB2l"],
+	["loudframeT1l", "loudframeBrig"],
+
+	["loudframeT1r", "loudframeB1l"],
+	["loudframeT1r", "loudframeB1r"],
+	["loudframeT1r", "loudframeB2r"],
+	["loudframeT1r", "loudframeBrig"],
+
+	["loudframeT2l", "loudframeB1l"],
+	["loudframeT2l", "loudframeB2r"],
+	["loudframeT2l", "loudframeB2l"],
+	["loudframeT2l", "loudframeBrig"],
+
+	["loudframeT2r", "loudframeB2l"],
+	["loudframeT2r", "loudframeB1r"],
+	["loudframeT2r", "loudframeB2r"],
+	["loudframeT2r", "loudframeBrig"],
+
+	["loudframeTrig", "loudframeB1l"],
+	["loudframeTrig", "loudframeB1r"],
+	["loudframeTrig", "loudframeB2l"],
+	["loudframeTrig", "loudframeB2r"],
+	
+
+
+	//bottom to rear roof
+	{"beamDeform":"$=$strength*2", "beamStrength":"$=$strength*2"},
+	{"beamSpring":"$=$weight*301000", "beamDamp":"$=$weight*30"},
+	{"breakGroup":"loudspeaker_frame_roof_R_break"},
+
+	["loudframeB1l", "roofM1l"],
+	["loudframeB1l", "roofM1r"],
+	["loudframeB1l", "roofM2l"],
+	["loudframeB1l", "roofMrig"],
+
+	["loudframeB1r", "roofM1l"],
+	["loudframeB1r", "roofM1r"],
+	["loudframeB1r", "roofM2r"],
+	["loudframeB1r", "roofMrig"],
+
+	["loudframeB2l", "roofM1l"],
+	["loudframeB2l", "roofM2r"],
+	["loudframeB2l", "roofM2l"],
+	["loudframeB2l", "roofMrig"],
+
+	["loudframeB2r", "roofM2l"],
+	["loudframeB2r", "roofM1r"],
+	["loudframeB2r", "roofM2r"],
+	["loudframeB2r", "roofMrig"],
+
+	["loudframeBrig", "roofM1l"],
+	["loudframeBrig", "roofM1r"],
+	["loudframeBrig", "roofM2l"],
+	["loudframeBrig", "roofM2r"],
+
+
+	//bottom to front roof
+	{"beamDeform":"$=$strength*1", "beamStrength":"$=$strength*1"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"loudspeaker_frame_roof_F_break"},
+	{"optional":true},
+	
+	["loudframeB1l", "roof4l"],
+	["loudframeB1l", "roof4ll"],
+	["loudframeB1l", "roof4lll"],
+	["loudframeB1l", "roof3l"],
+	["loudframeB1l", "roof3ll"],
+	["loudframeB1l", "roofrig"],
+
+	["loudframeB1r", "roof4r"],
+	["loudframeB1r", "roof4rr"],
+	["loudframeB1r", "roof4rrr"],
+	["loudframeB1r", "roof3r"],
+	["loudframeB1r", "roof3rr"],
+	["loudframeB1r", "roofrig"],
+
+	["loudframeB2l", "roof2l"],
+	["loudframeB2l", "roof2ll"],
+	["loudframeB2l", "roof1lll"],
+	["loudframeB2l", "roof1l"],
+	["loudframeB2l", "roof1ll"],
+	["loudframeB2l", "roofrig"],
+
+	["loudframeB2r", "roof2r"],
+	["loudframeB2r", "roof2rr"],
+	["loudframeB2r", "roof1rrr"],
+	["loudframeB2r", "roof1r"],
+	["loudframeB2r", "roof1rr"],
+	["loudframeB2r", "roofrig"],
+
+	["loudframeBrig", "roof1l"],
+	["loudframeBrig", "roof1r"],
+	["loudframeBrig", "roof2l"],
+	["loudframeBrig", "roof2r"],
+
+
+	//top to jato
+	{"beamDeform":"$=$strength*2", "beamStrength":"$=$strength*2"},
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+	{"breakGroup":"jato_reinf_break"},
+	
+	["loudframeT1l", "jato2l"],
+	["loudframeT1l", "jato2r"],
+	["loudframeT1l", "jato1l"],
+	["loudframeT1l", "jato11l"],
+
+	["loudframeT1r", "jato2l"],
+	["loudframeT1r", "jato2r"],
+	["loudframeT1r", "jato1r"],
+	["loudframeT1r", "jato11r"],
+
+	["loudframeT2l", "jato1l"],
+	["loudframeT2l", "jato1r"],
+	["loudframeT2l", "jato2l"],
+	["loudframeT2l", "jato5l"],
+
+	["loudframeT2r", "jato1l"],
+	["loudframeT2r", "jato1r"],
+	["loudframeT2r", "jato2r"],
+	["loudframeT2r", "jato5r"],
+
+	["loudframeTrig", "jato1l"],
+	["loudframeTrig", "jato1r"],
+	["loudframeTrig", "jato3l"],
+	["loudframeTrig", "jato3r"],
+	["loudframeTrig", "jato5l"],
+	["loudframeTrig", "jato5r"],
+
+	["loudframeTrig", "jato2l"],
+	["loudframeTrig", "jato2r"],
+	["loudframeTrig", "jato4l"],
+	["loudframeTrig", "jato4r"],
+	["loudframeTrig", "jato6l"],
+	["loudframeTrig", "jato6r"],
+
+
+	{"optional":false},
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_loudspeaker_frame_B"},
+	["loudframeB2l","loudframeB2r","loudframeB1r","loudframeB1l"],
+        {"group":""},
+    ],
+},
+
+}

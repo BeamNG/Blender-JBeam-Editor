@@ -1,0 +1,248 @@
+{
+"legocar_subframe_L_reinf_col1": {
+    "information":{
+        "name":"Crash Cart Reinforcement (NO DOOR) (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_subframe_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	//extensions are part of the chassis, otherwise they bend visually and look weird
+	["lego_6x1_flat_col1", ["legocar_chassis"],   [], {"pos":{"x":0.375, "y":0.0, "z":0.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ADD WEIGHT TO CHASSIS--
+	{"group":"legocar_chassis"},
+
+	//+0.5kg/node to bottom and side pieces, default 2kg/node, updated 2.5kg/node
+	{"nodeWeight": "$=$weight*2.5"},
+
+	["chassis3l",  0.25,-0.74, 0.09],
+	["chassis6l",  0.25, 0.74, 0.09],
+	["chassis2ll", 0.50,-0.74, 0.3],
+	["chassis7ll", 0.50, 0.74, 0.3],
+
+
+	//--EXTEND CHASSIS COLLISION--
+	{"nodeWeight": "$=$weight*2"},
+	["chassis3ll",  0.50,-0.74, 0.09],
+	["chassis6ll",  0.50, 0.74, 0.09],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--CHASSIS EXTRA COLLISION--
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//to bottom piece
+	["chassis3ll", "chassis3l"],
+	["chassis6ll", "chassis6l"],
+	["chassis3ll", "chassis6l"],
+	["chassis6ll", "chassis3l"],
+
+	//to side piece
+	["chassis2l", "chassis3ll"],
+	["chassis7l", "chassis6ll"],
+	["chassis3ll", "chassis6ll"],
+	["chassis2l", "chassis6ll"],
+	["chassis3ll", "chassis7l"],
+	
+	//rigids
+	//IMPORTANT!! Need lower spring and damp to prevent node shake
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	["chassis3ll", "chassis3r"],
+	["chassis6ll", "chassis6r"],
+	["chassis3ll", "chassis6r"],
+	["chassis6ll", "chassis3r"],
+
+	//rigidifier
+	//lower spring to avoid stressing the structure, about 0.1x normal spring
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*200"},
+	["chassis0", "chassis3ll"],
+	["chassis0", "chassis6ll"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	//extend chassis collision
+	{"group":"legocar_chassis"},
+	["chassis6l","chassis6ll","chassis3ll","chassis3l"],
+	["chassis3ll","chassis6ll","chassis7ll","chassis2ll"],
+	["chassis7l","chassis7ll","chassis6ll","chassis6l"],
+	["chassis2l","chassis3l","chassis3ll","chassis2ll"],
+    ],
+},
+
+"legocar_subframe_L_reinf_col2": {
+    "information":{
+        "name":"Crash Cart Reinforcement (NO DOOR) (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_subframe_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	//extensions are part of the chassis, otherwise they bend visually and look weird
+	["lego_6x1_flat_col2", ["legocar_chassis"],   [], {"pos":{"x":0.375, "y":0.0, "z":0.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ADD WEIGHT TO CHASSIS--
+	{"group":"legocar_chassis"},
+
+	//+0.5kg/node to bottom and side pieces, default 2kg/node, updated 2.5kg/node
+	{"nodeWeight": "$=$weight*2.5"},
+
+	["chassis3l",  0.25,-0.74, 0.09],
+	["chassis6l",  0.25, 0.74, 0.09],
+	["chassis2ll", 0.50,-0.74, 0.3],
+	["chassis7ll", 0.50, 0.74, 0.3],
+
+
+	//--EXTEND CHASSIS COLLISION--
+	{"nodeWeight": "$=$weight*2"},
+	["chassis3ll",  0.50,-0.74, 0.09],
+	["chassis6ll",  0.50, 0.74, 0.09],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--CHASSIS EXTRA COLLISION--
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//to bottom piece
+	["chassis3ll", "chassis3l"],
+	["chassis6ll", "chassis6l"],
+	["chassis3ll", "chassis6l"],
+	["chassis6ll", "chassis3l"],
+
+	//to side piece
+	["chassis2l", "chassis3ll"],
+	["chassis7l", "chassis6ll"],
+	["chassis3ll", "chassis6ll"],
+	["chassis2l", "chassis6ll"],
+	["chassis3ll", "chassis7l"],
+	
+	//rigids
+	//IMPORTANT!! Need lower spring and damp to prevent node shake
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	["chassis3ll", "chassis3r"],
+	["chassis6ll", "chassis6r"],
+	["chassis3ll", "chassis6r"],
+	["chassis6ll", "chassis3r"],
+
+	//rigidifier
+	//lower spring to avoid stressing the structure, about 0.1x normal spring
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*200"},
+	["chassis0", "chassis3ll"],
+	["chassis0", "chassis6ll"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	//extend chassis collision
+	{"group":"legocar_chassis"},
+	["chassis6l","chassis6ll","chassis3ll","chassis3l"],
+	["chassis3ll","chassis6ll","chassis7ll","chassis2ll"],
+	["chassis7l","chassis7ll","chassis6ll","chassis6l"],
+	["chassis2l","chassis3l","chassis3ll","chassis2ll"],
+    ],
+},
+
+"legocar_subframe_L_reinf_col3": {
+    "information":{
+        "name":"Crash Cart Reinforcement (NO DOOR) (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_subframe_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	//extensions are part of the chassis, otherwise they bend visually and look weird
+	["lego_6x1_flat_col3", ["legocar_chassis"],   [], {"pos":{"x":0.375, "y":0.0, "z":0.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ADD WEIGHT TO CHASSIS--
+	{"group":"legocar_chassis"},
+
+	//+0.5kg/node to bottom and side pieces, default 2kg/node, updated 2.5kg/node
+	{"nodeWeight": "$=$weight*2.5"},
+
+	["chassis3l",  0.25,-0.74, 0.09],
+	["chassis6l",  0.25, 0.74, 0.09],
+	["chassis2ll", 0.50,-0.74, 0.3],
+	["chassis7ll", 0.50, 0.74, 0.3],
+
+
+	//--EXTEND CHASSIS COLLISION--
+	{"nodeWeight": "$=$weight*2"},
+	["chassis3ll",  0.50,-0.74, 0.09],
+	["chassis6ll",  0.50, 0.74, 0.09],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--CHASSIS EXTRA COLLISION--
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//to bottom piece
+	["chassis3ll", "chassis3l"],
+	["chassis6ll", "chassis6l"],
+	["chassis3ll", "chassis6l"],
+	["chassis6ll", "chassis3l"],
+
+	//to side piece
+	["chassis2l", "chassis3ll"],
+	["chassis7l", "chassis6ll"],
+	["chassis3ll", "chassis6ll"],
+	["chassis2l", "chassis6ll"],
+	["chassis3ll", "chassis7l"],
+	
+	//rigids
+	//IMPORTANT!! Need lower spring and damp to prevent node shake
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	["chassis3ll", "chassis3r"],
+	["chassis6ll", "chassis6r"],
+	["chassis3ll", "chassis6r"],
+	["chassis6ll", "chassis3r"],
+
+	//rigidifier
+	//lower spring to avoid stressing the structure, about 0.1x normal spring
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*200"},
+	["chassis0", "chassis3ll"],
+	["chassis0", "chassis6ll"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	//extend chassis collision
+	{"group":"legocar_chassis"},
+	["chassis6l","chassis6ll","chassis3ll","chassis3l"],
+	["chassis3ll","chassis6ll","chassis7ll","chassis2ll"],
+	["chassis7l","chassis7ll","chassis6ll","chassis6l"],
+	["chassis2l","chassis3l","chassis3ll","chassis2ll"],
+    ],
+},
+
+}

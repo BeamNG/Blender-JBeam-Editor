@@ -1,27 +1,25 @@
 ## Blender JBeam Editor User Documentation
 
 ### Introduction
-This Blender plugin allows you to create JBeam parts from scratch, import existing JBeam parts, modify them, and export them to a new or existing JBeam file, all within Blender, requiring **no** copying and pasting of JBeam code! This tutorial will teach you how to use it.
+This Blender plugin allows you to import existing JBeam parts or whole vehicles, modify them with Blender's advanced modelling tools, and export them! This tutorial will teach you how to use it.
 
 ---
 
-**Notice:**
-This plugin can currently only create and edit **nodes!** Full editing capabilities such as beams and triangles are still a work in progress.
-
 ### JBeam Editor Features
 
-* Create JBeam from scratch
 * Import JBeam files
-* Move nodes
-* Rename nodes
-* Add/delete nodes
+* Import Full Vehicle (.pc file)
+* Create JBeam from scratch (on hold)
+* Move/rename/add/delete nodes
+* Add/delete beams, triangles, and quads
 * Undo/redo changes
-* Export changes directly to JBeam file
+* Live updates reflected in Blender text editor
+* Export changes directly to disk
 
 ---
 
 ### Prerequisites
-* Blender 3.6
+* Blender 4.0
     * Download and install from the official site https://www.blender.org/
 * Blender JBeam Editor
     * Download from the *GitHub Releases* page https://github.com/BeamNG/Blender-JBeam-Editor/releases or build the plugin yourself from the source code
@@ -29,7 +27,7 @@ This plugin can currently only create and edit **nodes!** Full editing capabilit
 ---
 
 ### Plugin Installation
-1. Open Blender 3.6
+1. Open Blender 4.0
 2. On the upper left hand corner, click on *Edit* > *Preferences...*
 
     ![](installation_1.png)
@@ -54,70 +52,81 @@ The very first thing to do is import your JBeam part in order to actually edit i
 
     ![](usage_import.png)
 
-3. A *Choose JBeam* UI will popup which prompts you to select the part(s) you want to import into Blender. You can either choose a single part to import using the dropdown menu, or you can tick the *Import All Parts* checkbox to import all the parts. I chose to import a single part called *square_donut*. Press the *OK* button to import the part(s).
+2. A *Choose JBeam* UI will popup which prompts you to select the part(s) you want to import into Blender. You can either choose a single part to import using the dropdown menu, or you can tick the *Import All Parts* checkbox to import all the parts. I chose to import a single part called *square_donut*. Press the *OK* button to import the part(s).
 
     ![](usage_dropdown_parts.png)
 
-4. The JBeam parts should be imported now and you should see Blender meshes that look like JBeam structures. The JBeam parts are represented by a Blender mesh, where the vertices are the JBeam nodes, the edges are the JBeam beams, and the faces are the JBeam collision triangles. You should see node names next to the vertices (nodes). **From now on, I will only speak in JBeam terms (nodes, beams, collision triangles, etc.)**.
+3. Wait a second or two and the JBeam part(s) will be imported!
 
     ![](usage_imported.png)
 
-We are ready to start editing JBeam parts! For the most part, if you know how to use Blender, editing a JBeam part is just like editing a regular mesh. For example, moving a node is exactly the same as moving a regular vertex. The same applies for adding and deleting a node as well, although renaming a node is something unique to JBeam.
+<br>
+
+#### Importing a Vehicle to Edit
+Or you can import a full vehicle! Initially, this requires you need to extract the JBeam files and .pc files from BeamNG.drive's game installation folder so you can actually load in the vehicle.
+
+1. Run the jbeam_pc_files_extractor.bat script (make sure Python is installed) to extract the .jbeam files and .pc files from the BeamNG.drive's installation folder. You'll be prompted to choose the *\content\vehicles* folder located in the game installation folder (e.g. *C:\Program Files (x86)\Steam\steamapps\common\BeamNG.drive\content\vehicles*). Then choose the folder to export the files to, and you can pick any folder.
+    ![](usage_extractor_1.png)
+    ![](usage_extractor_2.png)
+
+    The resulting files should look like this, for example in the *bastion* folder:
+    ![](usage_extractor_3.png)
+
+2. Now in Blender, on the upper left hand corner, click on *File* > *Import* > *Part Config File (.pc)*, and select the .pc file to import from the exported JBeam/PC files folder.
+
+    ![](usage_import_vehicle.png)
+
+3. Wait a few seconds and the vehicle will be imported!
+
+    ![](usage_imported_vehicle.png)
 
 <br>
 
-#### Create Part From Scratch
-Another way to edit JBeam parts is to actually create them from scratch!
+#### After Importing
+With the JBeam imported, you should see Blender meshes that represent the JBeam structures. The vertices are the JBeam nodes, the **green** edges are the JBeam beams (black edges are just part of a triangle/quad and aren't JBeam beams), and the faces are the JBeam triangles/quads. When you click on a JBeam part, you should see node names appear next to the vertices/nodes (if Toggle Node IDs Text is on, on by default). **From now on, I will only speak in JBeam terms (nodes, beams, triangles, quads, etc.)**.
 
-1. Select a regular mesh you want to turn into a JBeam part in *Object Mode* (default mode) through the dropdown menu in the upper left hand corner.
+![](usage_vehicle_selected.png)
 
-    ![](scratch_1.png)
+One more step before moving on is to add a *Text Editor* view. The *Text Editor* allows you to view the changes to the JBeam file after modifying the Blender mesh in realtime and also allows you to modify it to view the changes to the Blender mesh in realtime as well!
 
-2. On the right hand side of the 3D Viewport right next to the 3D axes arrows, click on the little arrow pointing to the left.
+Open it by placing your cursor on the top right hand corner of the viewport until you see your cursor turn into a '+' symbol and then LMB drag to the left and you should see a 2nd viewport. And then click on the top left button in that viewport that looks like a "grid and a circle" and click on *Text Editor*. Afterwards the text editor may appear blank. Just click on the JBeam part and the text editor should open the JBeam file that the part originates from.
 
-    ![](scratch_2.png)
+![](opening_text_editor.gif)
 
-3. Several tabs will pop out such as *Item*, *Tool*, *View*, *JBeam*. Click on the *JBeam* tab and a UI will pop up showing you the JBeam part selected and allows you to convert the mesh into a "JBeam mesh/part". Click on the *Convert to JBeam Mesh* button.
+We are now ready to start editing the JBeam parts! For the most part, if you know how to use Blender, editing a JBeam part is just like editing a regular mesh. For example, moving a node is exactly the same as moving a regular vertex. The same applies for adding and deleting a node as well, although renaming a node is something unique to JBeam.
 
-    ![](scratch_3.png)
+The rest of the instructions below will be using the *Square Donut* JBeam part and please have the JBeam part selected and be in *Edit Mode*.
 
-4. The cube mesh is now a "JBeam mesh/part" which allows you to edit it as a JBeam part and export it to a JBeam file. To confirm, you should see node names displayed on top of the JBeam part.
+![](after_importing.png)
 
-    ![](scratch_4.png)
+<br>
 
-The rest of the tutorial uses the "Square Donut" JBeam part but can be followed along using this cube.
+#### Undoing/Redoing
+Please use **Ctrl + [ and Ctrl + ]** to undo and redo your changes. **DO NOT** use Ctrl + Z and Ctrl + Shift + Z as Blender's undo system doesn't work well with this plugin and can break things.
 
 <br>
 
 #### Moving a Node
 Moving a node is just like moving a regular mesh vertex. There are multiple ways to move a node, but I'll show you one way to do it using the *Move* tool.
 
-1. First, select the part, go into *Edit Mode* through the dropdown menu in the upper left hand corner, go into *Vertex selection mode* (selected by default), and select the *Select Box* tool.
-2. Next, click on a node you want to move.
-
-    ![](all_steps_begin.png)
-
-3. Then select the *Move* tool and move the node using the axes arrows.
+1. Click on a node you want to move.
+2. Then select the *Move* tool and move the node using the axes arrows.
 
     ![](move_node.png)
 
-That wasn't too bad right? ;) Also thanks to Blender, you can undo (and redo) your changes simply with *Ctrl + Z* (and *Shift + Ctrl + Z*) to follow along with the next tutorial.
+That wasn't too bad right? ;)
 
 <br>
 
 #### Renaming a Node
 Renaming a node is something unique to JBeam but is easy to do :)
 
-1. First, select the part, go into *Edit Mode* through the dropdown menu in the upper left hand corner, go into *Vertex selection mode* (selected by default), and select the *Select Box* tool.
-2. Next, click on the node you want to rename.
-
-    ![](all_steps_begin.png)
-
-3. Then, on the right hand side of the 3D Viewport right next to the 3D axes arrows, click on the little arrow pointing to the left.
+1. Click on the node you want to rename.
+2. Then, on the right hand side of the 3D Viewport right next to the 3D axes arrows, click on the little arrow pointing to the left.
 
     ![](rename_node_1.png)
 
-4. Several tabs will pop out such as *Item*, *Tool*, *View*, *JBeam*. Click on the *JBeam* tab and you will be greeted to a UI that shows you the JBeam part selected and allows you to rename the selected node. Rename the node to whatever you'd like and press enter. I renamed the node to "hey". You will see that the rename is also reflected in the node name labels on the part.
+3. Several tabs will pop out such as *Item*, *Tool*, *View*, *JBeam*. Click on the *JBeam* tab and you will be greeted to a UI that shows you the JBeam part selected and allows you to rename the selected node. Rename the node to whatever you'd like and press enter. I renamed the node to "hey". You will see that the rename is also reflected in the node name labels on the part.
 
     ![](rename_node_2.png)
 
@@ -126,12 +135,8 @@ Renaming a node is something unique to JBeam but is easy to do :)
 #### Adding a Node
 Adding a node is just like adding a regular mesh vertex. There are many ways to add a node, but one way you can add them is using the *Extrude to Cursor or Add* function with your mouse and *Ctrl + Right Mouse Button*.
 
-1. First, select the part, go into *Edit Mode* through the dropdown menu in the upper left hand corner, go into *Vertex selection mode* (selected by default), and select the *Select Box* tool.
-2. Next, click on a node you want to extrude a node from.
-
-    ![](all_steps_begin.png)
-
-4. Then, move your mouse to the place where you want to add a node and press *Ctrl + Right Mouse Button*. And a new node should appear under a new name of a long string of random characters. You can rename the node to whatever you like since you already know how to do that ;)
+1. Click on a node you want to extrude a node from.
+2. Then, move your mouse to the place where you want to add a node and press *Ctrl + Right Mouse Button*. And a new node should appear under a new name of a long string of random characters. You can rename the node to whatever you like since you already know how to do that ;)
 
     ![](add_node.png)
 
@@ -140,23 +145,71 @@ Adding a node is just like adding a regular mesh vertex. There are many ways to 
 #### Deleting a Node
 And again, deleting a node is just like deleting a regular mesh vertex. I'll show you how to delete them using the *del* key.
 
-1. First, select the part, go into *Edit Mode* through the dropdown menu in the upper left hand corner, go into *Vertex selection mode* (selected by default), and select the *Select Box* tool.
-2. Next, click on a node you want to delete.
+1. Click on a node you want to delete.
+2. Then simply press the *del* key and delete *Vertices*.
 
-   ![](all_steps_begin.png)
+<br>
 
-4. Then simply press the *del* key and delete *Vertices*.
+#### Adding a Beam
+There are two ways to add a beam.
 
-   ![](delete_node.png)
+The first way is:
+1. Click on two nodes
+2. Press *F*
+
+The second way allows you to add multiple beams per pair of nodes:
+1. Click on two nodes
+2. In the JBeam UI tab to the right of the viewport, click on *Add Beam*
+
+    ![](add_beam_2.png)
+
+<br>
+
+#### Deleting a Beam
+Deleting a beam is pretty straight forward.
+
+1. Switch into *Edge select* mode
+
+    ![](edge_select_mode.png)
+
+2. Click on the beam you want to delete (beams are highlighted in green)
+3. Press the *del* key and in the pop up click *Only Edges & Faces*
+
+<br>
+
+#### Adding a Triangle/Quad
+There are two ways to add a triangle/quad.
+
+The first way is:
+1. Click on three/four nodes
+2. Press *F*
+
+The second way allows you to add multiple triangles/quads per set of nodes:
+1. Click on three/four nodes
+2. In the JBeam UI tab to the right of the viewport, click on *Add Triangle* / *Add Quad*
+
+    ![](add_triangle_quad_2.png)
+
+<br>
+
+#### Deleting a Triangle/Quad
+And deleting a triangle/quad is also pretty straight forward.
+
+1. Switch into *Face select* mode
+
+    ![](face_select_mode.png)
+
+2. Click on the triangle/quad you want to delete
+3. Press the *del* key and in the pop up click *Only Edges & Faces*
 
 <br>
 
 #### Exporting a JBeam Part
-1. When you want to export, select the JBeam part in *Object Mode*, *File* > *Export* > *JBeam File* and export to a file (recommended to export back to imported JBeam file).
+1. When you want to export, select the JBeam part in *Object Mode*, and in the top menu bar *File* > *Export* > *Selected JBeam Parts(s)*.
 
    ![](export_1.png)
 
-3. The exported JBeam file should be updated with minimal changes and no copying and pasting required :)
+2. The JBeam file the part originated from will be exported to. And the file should be updated with minimal changes and no copying and pasting required :)
 
     ![](export_before_after.png)
     ![](export_diff.png)

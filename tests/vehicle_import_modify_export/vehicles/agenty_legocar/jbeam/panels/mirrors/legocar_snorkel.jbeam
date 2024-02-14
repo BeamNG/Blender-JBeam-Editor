@@ -1,0 +1,353 @@
+{
+"legocar_snorkel": {
+    "information":{
+        "name":"Snorkel",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_turnsignal_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_tall_corner_inset_black",["legocar_snorkel_B"], [], {"pos":{"x":-0.925, "y":-0.625, "z":0.65},"rot":{"x":0, "y": 0, "z": 90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_tall_circle_black",      ["legocar_snorkel_M"], [], {"pos":{"x":-0.925, "y":-0.625, "z":0.95},"rot":{"x":0, "y": 0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_slope_black",            ["legocar_snorkel_T"], [], {"pos":{"x":-0.925, "y":-0.625, "z":1.25},"rot":{"x":0, "y": 0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//snorkel
+	{"engineGroup":"engine_intake"},
+
+
+	//bottom part
+	{"group":"legocar_snorkel_B"},
+
+	//3 pieces, 8 nodes - 0.375 kg/node
+	{"nodeWeight": "$=$weight*0.375"},
+
+	["Bsnorkel1l", -0.83, -0.53, 0.65],
+	["Bsnorkel1r", -1.05, -0.53, 0.65],
+	["Bsnorkel2l", -0.83, -0.75, 0.65],
+	["Bsnorkel2r", -1.05, -0.75, 0.65],
+
+	["Bsnorkel3l", -0.83, -0.53, 0.95],
+	["Bsnorkel3r", -1.05, -0.53, 0.95],
+	["Bsnorkel4l", -0.83, -0.75, 0.95],
+	["Bsnorkel4r", -1.05, -0.75, 0.95],
+	
+	
+	//middle part
+	{"group":"legocar_snorkel_M"},
+
+	//3 pieces, 8 nodes - 0.375 kg/node
+	{"nodeWeight": "$=$weight*0.375"},
+
+	["Msnorkel1l", -0.825, -0.525, 0.98],
+	["Msnorkel1r", -1.025, -0.525, 0.98],
+	["Msnorkel2l", -0.825, -0.725, 0.98],
+	["Msnorkel2r", -1.025, -0.725, 0.98],
+
+	["Msnorkel3l", -0.825, -0.525, 1.22],
+	["Msnorkel3r", -1.025, -0.525, 1.22],
+	["Msnorkel4l", -0.825, -0.725, 1.22],
+	["Msnorkel4r", -1.025, -0.725, 1.22],
+
+
+	//top part
+	{"group":"legocar_snorkel_T"},
+
+	//1.5 piece, 6 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	["Tsnorkel1l", -0.80, -0.50, 1.25],
+	["Tsnorkel1r", -1.05, -0.50, 1.25],
+	["Tsnorkel2l", -0.80, -0.75, 1.25],
+	["Tsnorkel2r", -1.05, -0.75, 1.25],
+	["Tsnorkel3l", -0.80, -0.75, 1.45],
+	["Tsnorkel3r", -1.05, -0.75, 1.45],
+
+	{"engineGroup":""},
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--SNORKEL BOTTOM--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+
+	//uniform structure
+	["Bsnorkel1l", "Bsnorkel1r"],
+	["Bsnorkel2l", "Bsnorkel2r"],
+	["Bsnorkel3l", "Bsnorkel3r"],
+	["Bsnorkel4l", "Bsnorkel4r"],
+
+	["Bsnorkel1l", "Bsnorkel2r"],
+	["Bsnorkel2l", "Bsnorkel3r"],
+	["Bsnorkel3l", "Bsnorkel4r"],
+	["Bsnorkel4l", "Bsnorkel1r"],
+
+	["Bsnorkel1l", "Bsnorkel3r"],
+	["Bsnorkel2l", "Bsnorkel4r"],
+	["Bsnorkel3l", "Bsnorkel1r"],
+	["Bsnorkel4l", "Bsnorkel2r"],
+
+	["Bsnorkel1l", "Bsnorkel4r"],
+	["Bsnorkel2l", "Bsnorkel1r"],
+	["Bsnorkel3l", "Bsnorkel2r"],
+	["Bsnorkel4l", "Bsnorkel3r"],
+
+	["Bsnorkel1l", "Bsnorkel2l"],
+	["Bsnorkel2l", "Bsnorkel3l"],
+	["Bsnorkel3l", "Bsnorkel4l"],
+	["Bsnorkel4l", "Bsnorkel1l"],
+
+	["Bsnorkel1l", "Bsnorkel3l"],
+	["Bsnorkel2l", "Bsnorkel4l"],
+
+	["Bsnorkel1r", "Bsnorkel2r"],
+	["Bsnorkel2r", "Bsnorkel3r"],
+	["Bsnorkel3r", "Bsnorkel4r"],
+	["Bsnorkel4r", "Bsnorkel1r"],
+
+	["Bsnorkel1r", "Bsnorkel3r"],
+	["Bsnorkel2r", "Bsnorkel4r"],
+	
+	
+	//--SNORKEL MIDDLE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+
+	//uniform structure
+	["Msnorkel1l", "Msnorkel1r"],
+	["Msnorkel2l", "Msnorkel2r"],
+	["Msnorkel3l", "Msnorkel3r"],
+	["Msnorkel4l", "Msnorkel4r"],
+
+	["Msnorkel1l", "Msnorkel2r"],
+	["Msnorkel2l", "Msnorkel3r"],
+	["Msnorkel3l", "Msnorkel4r"],
+	["Msnorkel4l", "Msnorkel1r"],
+
+	["Msnorkel1l", "Msnorkel3r"],
+	["Msnorkel2l", "Msnorkel4r"],
+	["Msnorkel3l", "Msnorkel1r"],
+	["Msnorkel4l", "Msnorkel2r"],
+
+	["Msnorkel1l", "Msnorkel4r"],
+	["Msnorkel2l", "Msnorkel1r"],
+	["Msnorkel3l", "Msnorkel2r"],
+	["Msnorkel4l", "Msnorkel3r"],
+
+	["Msnorkel1l", "Msnorkel2l"],
+	["Msnorkel2l", "Msnorkel3l"],
+	["Msnorkel3l", "Msnorkel4l"],
+	["Msnorkel4l", "Msnorkel1l"],
+
+	["Msnorkel1l", "Msnorkel3l"],
+	["Msnorkel2l", "Msnorkel4l"],
+
+	["Msnorkel1r", "Msnorkel2r"],
+	["Msnorkel2r", "Msnorkel3r"],
+	["Msnorkel3r", "Msnorkel4r"],
+	["Msnorkel4r", "Msnorkel1r"],
+
+	["Msnorkel1r", "Msnorkel3r"],
+	["Msnorkel2r", "Msnorkel4r"],
+
+
+	//--SNORKEL TOP--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//uniform structure
+	["Tsnorkel1l", "Tsnorkel1r"],
+	["Tsnorkel2l", "Tsnorkel2r"],
+	["Tsnorkel3l", "Tsnorkel3r"],
+
+	["Tsnorkel2l", "Tsnorkel1l"],
+	["Tsnorkel2r", "Tsnorkel1r"],
+	["Tsnorkel2l", "Tsnorkel3l"],
+	["Tsnorkel2r", "Tsnorkel3r"],
+	["Tsnorkel3l", "Tsnorkel1l"],
+	["Tsnorkel3r", "Tsnorkel1r"],
+
+	["Tsnorkel1l", "Tsnorkel2r"],
+	["Tsnorkel2l", "Tsnorkel1r"],
+	["Tsnorkel2l", "Tsnorkel3r"],
+	["Tsnorkel3l", "Tsnorkel2r"],
+	["Tsnorkel3l", "Tsnorkel1r"],
+	["Tsnorkel1l", "Tsnorkel3r"],
+	
+	
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//top to middle
+	{"beamSpring":"$=$weight*125000", "beamDamp":"$=$weight*12.5"},
+	{"breakGroup":"snorkel_T_break"},
+
+	["Tsnorkel1l", "Msnorkel3l"],
+	["Tsnorkel1l", "Msnorkel3r"],
+	["Tsnorkel1l", "Msnorkel4l"],
+	["Tsnorkel1l", "Msnorkel1l"],
+
+	["Tsnorkel1r", "Msnorkel3l"],
+	["Tsnorkel1r", "Msnorkel3r"],
+	["Tsnorkel1r", "Msnorkel4r"],
+	["Tsnorkel1r", "Msnorkel1r"],
+
+	["Tsnorkel2l", "Msnorkel4l"],
+	["Tsnorkel2l", "Msnorkel4r"],
+	["Tsnorkel2l", "Msnorkel3l"],
+	["Tsnorkel2l", "Msnorkel2l"],
+
+	["Tsnorkel2r", "Msnorkel4l"],
+	["Tsnorkel2r", "Msnorkel4r"],
+	["Tsnorkel2r", "Msnorkel3r"],
+	["Tsnorkel2r", "Msnorkel2r"],
+
+	["Tsnorkel3l", "Msnorkel4l"],
+	["Tsnorkel3l", "Msnorkel4r"],
+	["Tsnorkel3l", "Msnorkel3l"],
+	["Tsnorkel3l", "Msnorkel2l"],
+
+	["Tsnorkel3r", "Msnorkel4l"],
+	["Tsnorkel3r", "Msnorkel4r"],
+	["Tsnorkel3r", "Msnorkel3r"],
+	["Tsnorkel3r", "Msnorkel2r"],
+
+
+	//middle to bottom
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+	{"breakGroup":"snorkel_B_break"},
+
+	["Msnorkel1l", "Bsnorkel3l"],
+	["Msnorkel1l", "Bsnorkel3r"],
+	["Msnorkel1l", "Bsnorkel4l"],
+	["Msnorkel1l", "Bsnorkel1l"],
+
+	["Msnorkel1r", "Bsnorkel3l"],
+	["Msnorkel1r", "Bsnorkel3r"],
+	["Msnorkel1r", "Bsnorkel4r"],
+	["Msnorkel1r", "Bsnorkel1r"],
+
+	["Msnorkel2l", "Bsnorkel4l"],
+	["Msnorkel2l", "Bsnorkel4r"],
+	["Msnorkel2l", "Bsnorkel3l"],
+	["Msnorkel2l", "Bsnorkel2l"],
+
+	["Msnorkel2r", "Bsnorkel4l"],
+	["Msnorkel2r", "Bsnorkel4r"],
+	["Msnorkel2r", "Bsnorkel3r"],
+	["Msnorkel2r", "Bsnorkel2r"],
+
+	["Msnorkel3l", "Bsnorkel3l"],
+	["Msnorkel3l", "Bsnorkel3r"],
+	["Msnorkel3l", "Bsnorkel4l"],
+	["Msnorkel3l", "Bsnorkel1l"],
+
+	["Msnorkel3r", "Bsnorkel3l"],
+	["Msnorkel3r", "Bsnorkel3r"],
+	["Msnorkel3r", "Bsnorkel4r"],
+	["Msnorkel3r", "Bsnorkel1r"],
+
+	["Msnorkel4l", "Bsnorkel4l"],
+	["Msnorkel4l", "Bsnorkel4r"],
+	["Msnorkel4l", "Bsnorkel3l"],
+	["Msnorkel4l", "Bsnorkel2l"],
+
+	["Msnorkel4r", "Bsnorkel4l"],
+	["Msnorkel4r", "Bsnorkel4r"],
+	["Msnorkel4r", "Bsnorkel3r"],
+	["Msnorkel4r", "Bsnorkel2r"],
+
+
+	//to mirror mount
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"breakGroup":"snorkel_break"},
+
+	["Bsnorkel1l", "mirrormt1r"],
+	["Bsnorkel1l", "mirrormt1rr"],
+	["Bsnorkel1l", "mirrormt2rr"],
+	["Bsnorkel1l", "mirrormt3rr"],
+
+	["Bsnorkel1r", "mirrormt1r"],
+	["Bsnorkel1r", "mirrormt1rr"],
+	["Bsnorkel1r", "mirrormt2rr"],
+	["Bsnorkel1r", "mirrormt3rr"],
+
+	["Bsnorkel2l", "mirrormt2r"],
+	["Bsnorkel2l", "mirrormt2rr"],
+	["Bsnorkel2l", "mirrormt1rr"],
+	["Bsnorkel2l", "mirrormt4rr"],
+
+	["Bsnorkel2r", "mirrormt2r"],
+	["Bsnorkel2r", "mirrormt2rr"],
+	["Bsnorkel2r", "mirrormt1rr"],
+	["Bsnorkel2r", "mirrormt4rr"],
+
+	["Bsnorkel3l", "mirrormt1r"],
+	["Bsnorkel3l", "mirrormt1rr"],
+	["Bsnorkel3l", "mirrormt4rr"],
+	["Bsnorkel3l", "mirrormt3rr"],
+
+	["Bsnorkel3r", "mirrormt1r"],
+	["Bsnorkel3r", "mirrormt1rr"],
+	["Bsnorkel3r", "mirrormt4rr"],
+	["Bsnorkel3r", "mirrormt3rr"],
+
+	["Bsnorkel4l", "mirrormt2r"],
+	["Bsnorkel4l", "mirrormt2rr"],
+	["Bsnorkel4l", "mirrormt3rr"],
+	["Bsnorkel4l", "mirrormt4rr"],
+
+	["Bsnorkel4r", "mirrormt2r"],
+	["Bsnorkel4r", "mirrormt2rr"],
+	["Bsnorkel4r", "mirrormt3rr"],
+	["Bsnorkel4r", "mirrormt4rr"],
+
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_snorkel_T"},
+	["Tsnorkel1r","Tsnorkel2r","Tsnorkel3r"],
+	["Tsnorkel2l","Tsnorkel1l","Tsnorkel3l"],    
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_snorkel_B"},
+	["Bsnorkel1r","Bsnorkel1l","Bsnorkel2l","Bsnorkel2r"],
+	["Bsnorkel3l","Bsnorkel3r","Bsnorkel4r","Bsnorkel4l"],
+	["Bsnorkel1r","Bsnorkel2r","Bsnorkel4r","Bsnorkel3r"],
+	["Bsnorkel2l","Bsnorkel1l","Bsnorkel3l","Bsnorkel4l"],
+	["Bsnorkel2r","Bsnorkel2l","Bsnorkel4l","Bsnorkel4r"],
+	["Bsnorkel1l","Bsnorkel1r","Bsnorkel3r","Bsnorkel3l"],
+	
+	{"group":"legocar_snorkel_M"},
+	["Msnorkel1r","Msnorkel1l","Msnorkel2l","Msnorkel2r"],
+	["Msnorkel3l","Msnorkel3r","Msnorkel4r","Msnorkel4l"],
+	["Msnorkel1r","Msnorkel2r","Msnorkel4r","Msnorkel3r"],
+	["Msnorkel2l","Msnorkel1l","Msnorkel3l","Msnorkel4l"],
+	["Msnorkel2r","Msnorkel2l","Msnorkel4l","Msnorkel4r"],
+	["Msnorkel1l","Msnorkel1r","Msnorkel3r","Msnorkel3l"],
+
+	{"group":"legocar_snorkel_T"},   
+	["Tsnorkel1r","Tsnorkel1l","Tsnorkel2l","Tsnorkel2r"],
+	["Tsnorkel1l","Tsnorkel1r","Tsnorkel3r","Tsnorkel3l"],
+	["Tsnorkel2r","Tsnorkel2l","Tsnorkel3l","Tsnorkel3r"],
+
+        {"group":""},
+    ],
+},
+
+}

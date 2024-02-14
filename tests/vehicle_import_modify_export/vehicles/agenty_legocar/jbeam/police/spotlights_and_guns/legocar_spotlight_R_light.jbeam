@@ -1,0 +1,615 @@
+{
+"legocar_spotlight_R_light_yellow": {
+    "information":{
+        "name":"Yellow Halogen Light",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_spotlight_R_light",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"spotlight_R_light_break", "deformMaterialBase":"legocar_spotlight_R_yellow", "deformMaterialDamaged":"lego_transcol_yellow"},
+	["legocar_spotlight_R_yellow", ["legocar_spotlight_R_light"],[], {"pos":{"x":-1.000, "y":-0.975, "z":0.955},"rot":{"x":-90, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+	    "lightBrightness":0.75,
+	    "lightRange":120,
+            "lightColor":{"r":245, "g":205, "b":47, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":true,
+            "flareName":"vehicleHeadLightFlare",
+	    "flareScale":0.09,
+            "cookieName":"art/special/BNG_light_cookie_headlight.dds",
+            "texSize":512,
+            "shadowSoftness":0.5
+        },
+        ["spotlight_R_light", "SPOTLIGHT", "Rspot1r", "Rspot2r", "Rspot1l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0.1},"deformGroup":"spotlight_R_light_break"}],
+	{
+	    "lightBrightness":0.25,
+            "lightRange":60,
+            "lightCastShadows":false,
+            "flareName":"vehicleBrakeLightFlare",
+	    "flareScale":0.03,
+        },
+	["signal_R", "SPOTLIGHT", "Rspot1r", "Rspot2r", "Rspot1l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0.1},"deformGroup":"spotlight_R_light_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_spotlight_R_light"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["Rspot2l",-0.905, -0.975, 0.860],
+	["Rspot1l",-0.905, -0.975, 1.050],
+	["Rspot2r",-1.095, -0.975, 0.860],
+	["Rspot1r",-1.095, -0.975, 1.050],
+	["Rspot0", -1.000, -0.825, 0.955, {"selfCollision":false}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["Rspot1l", "Rspot1r"],
+	["Rspot2l", "Rspot2r"],
+	["Rspot1l", "Rspot2r"],
+	["Rspot2l", "Rspot1r"],
+	["Rspot1l", "Rspot2l"],
+	["Rspot1r", "Rspot2r"],
+
+	//tip
+	["Rspot1l", "Rspot0"],
+	["Rspot1r", "Rspot0"],
+	["Rspot2l", "Rspot0"],
+	["Rspot2r", "Rspot0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"spotlight_R_light_break"},
+	{"deformGroup":"spotlight_R_light_break"},
+	
+	["Rspot1l", "spot1r"],
+	["Rspot1l", "spot2r"],
+	["Rspot1l", "spot3r"],
+	["Rspot1l", "spot4r"],
+
+	["Rspot1r", "spot1r"],
+	["Rspot1r", "spot2r"],
+	["Rspot1r", "spot3r"],
+	["Rspot1r", "spot4r"],
+
+	["Rspot2l", "spot1r"],
+	["Rspot2l", "spot2r"],
+	["Rspot2l", "spot3r"],
+	["Rspot2l", "spot4r"],
+
+	["Rspot2r", "spot1r"],
+	["Rspot2r", "spot2r"],
+	["Rspot2r", "spot3r"],
+	["Rspot2r", "spot4r"],
+
+	["Rspot0", "spot1r"],
+	["Rspot0", "spot2r"],
+	["Rspot0", "spot3r"],
+	["Rspot0", "spot4r"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_spotlight_R_light"},
+	["Rspot0","Rspot1l","Rspot2l"],
+	["Rspot0","Rspot2l","Rspot2r"],
+	["Rspot0","Rspot2r","Rspot1r"],
+	["Rspot0","Rspot1r","Rspot1l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_spotlight_R_light"},   
+	["Rspot1l","Rspot1r","Rspot2r","Rspot2l"],	
+        {"group":""},
+    ],
+},
+
+"legocar_spotlight_R_light_white": {
+    "information":{
+        "name":"White LED Light",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_spotlight_R_light",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"spotlight_R_light_break", "deformMaterialBase":"legocar_spotlight_R_white_base", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_spotlight_R_white_base", ["legocar_spotlight_R_light"],[], {"pos":{"x":-1.000, "y":-0.975, "z":0.955},"rot":{"x":-90, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"spotlight_R_light_break", "deformMaterialBase":"legocar_spotlight_R_white_signal", "deformMaterialDamaged":"invis"},
+	["legocar_spotlight_R_white_signal", ["legocar_spotlight_R_light"],[], {"pos":{"x":-1.000, "y":-0.975, "z":0.955},"rot":{"x":-90, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"spotlight_R_light_break", "deformMaterialBase":"legocar_spotlight_R_white_highbeam", "deformMaterialDamaged":"invis"},
+	["legocar_spotlight_R_white_highbeam", ["legocar_spotlight_R_light"],[], {"pos":{"x":-1.000, "y":-0.975, "z":0.955},"rot":{"x":-90, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+	    "lightBrightness":0.75,
+	    "lightRange":120,
+            "lightColor":{"r":252, "g":252, "b":252, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":true,
+            "flareName":"vehicleHeadLightFlare",
+	    "flareScale":0.09,
+            "cookieName":"art/special/BNG_light_cookie_headlight.dds",
+            "texSize":512,
+            "shadowSoftness":0.5
+        },
+        ["spotlight_R_light", "SPOTLIGHT", "Rspot1r", "Rspot2r", "Rspot1l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0.1},"deformGroup":"spotlight_R_light_break"}],
+	{
+	    "lightBrightness":0.03,
+            "lightRange":8,
+            "lightColor":{"r":240, "g":143, "b":28, "a":255},
+            "lightCastShadows":false,
+            "flareName":"vehicleBrakeLightFlare",
+	    "flareScale":0.03,
+        },
+	["signal_R", "SPOTLIGHT", "Rspot1r", "Rspot2r", "Rspot1l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0.1},"deformGroup":"spotlight_R_light_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_spotlight_R_light"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["Rspot2l",-0.905, -0.975, 0.860],
+	["Rspot1l",-0.905, -0.975, 1.050],
+	["Rspot2r",-1.095, -0.975, 0.860],
+	["Rspot1r",-1.095, -0.975, 1.050],
+	["Rspot0", -1.000, -0.825, 0.955, {"selfCollision":false}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["Rspot1l", "Rspot1r"],
+	["Rspot2l", "Rspot2r"],
+	["Rspot1l", "Rspot2r"],
+	["Rspot2l", "Rspot1r"],
+	["Rspot1l", "Rspot2l"],
+	["Rspot1r", "Rspot2r"],
+
+	//tip
+	["Rspot1l", "Rspot0"],
+	["Rspot1r", "Rspot0"],
+	["Rspot2l", "Rspot0"],
+	["Rspot2r", "Rspot0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"spotlight_R_light_break"},
+	{"deformGroup":"spotlight_R_light_break"},
+	
+	["Rspot1l", "spot1r"],
+	["Rspot1l", "spot2r"],
+	["Rspot1l", "spot3r"],
+	["Rspot1l", "spot4r"],
+
+	["Rspot1r", "spot1r"],
+	["Rspot1r", "spot2r"],
+	["Rspot1r", "spot3r"],
+	["Rspot1r", "spot4r"],
+
+	["Rspot2l", "spot1r"],
+	["Rspot2l", "spot2r"],
+	["Rspot2l", "spot3r"],
+	["Rspot2l", "spot4r"],
+
+	["Rspot2r", "spot1r"],
+	["Rspot2r", "spot2r"],
+	["Rspot2r", "spot3r"],
+	["Rspot2r", "spot4r"],
+
+	["Rspot0", "spot1r"],
+	["Rspot0", "spot2r"],
+	["Rspot0", "spot3r"],
+	["Rspot0", "spot4r"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_spotlight_R_light"},
+	["Rspot0","Rspot1l","Rspot2l"],
+	["Rspot0","Rspot2l","Rspot2r"],
+	["Rspot0","Rspot2r","Rspot1r"],
+	["Rspot0","Rspot1r","Rspot1l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_spotlight_R_light"},   
+	["Rspot1l","Rspot1r","Rspot2r","Rspot2l"],	
+        {"group":""},
+    ],
+},
+
+"legocar_spotlight_R_light_red": {
+    "information":{
+        "name":"Red Halogen Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_spotlight_R_light",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"spotlight_R_light_break", "deformMaterialBase":"legocar_legocar_policelight_bulb_R_red", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_spotlight_R_red", ["legocar_spotlight_R_light"],[], {"pos":{"x":-1.000, "y":-0.975, "z":0.955},"rot":{"x":-90, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":75,
+	    "lightBrightness":0.75,
+	    "lightRange":120,
+            "lightColor":{"r":201, "g":26, "b":9, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":512,
+            "shadowSoftness":0.5,
+            "flareScale":0.05,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_bulb_R", "SPOTLIGHT", "Rspot1r", "Rspot2r", "Rspot1l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0.1},"deformGroup":"spotlight_R_light_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_spotlight_R_light"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["Rspot2l",-0.905, -0.975, 0.860],
+	["Rspot1l",-0.905, -0.975, 1.050],
+	["Rspot2r",-1.095, -0.975, 0.860],
+	["Rspot1r",-1.095, -0.975, 1.050],
+	["Rspot0", -1.000, -0.825, 0.955, {"selfCollision":false}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["Rspot1l", "Rspot1r"],
+	["Rspot2l", "Rspot2r"],
+	["Rspot1l", "Rspot2r"],
+	["Rspot2l", "Rspot1r"],
+	["Rspot1l", "Rspot2l"],
+	["Rspot1r", "Rspot2r"],
+
+	//tip
+	["Rspot1l", "Rspot0"],
+	["Rspot1r", "Rspot0"],
+	["Rspot2l", "Rspot0"],
+	["Rspot2r", "Rspot0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"spotlight_R_light_break"},
+	{"deformGroup":"spotlight_R_light_break"},
+	
+	["Rspot1l", "spot1r"],
+	["Rspot1l", "spot2r"],
+	["Rspot1l", "spot3r"],
+	["Rspot1l", "spot4r"],
+
+	["Rspot1r", "spot1r"],
+	["Rspot1r", "spot2r"],
+	["Rspot1r", "spot3r"],
+	["Rspot1r", "spot4r"],
+
+	["Rspot2l", "spot1r"],
+	["Rspot2l", "spot2r"],
+	["Rspot2l", "spot3r"],
+	["Rspot2l", "spot4r"],
+
+	["Rspot2r", "spot1r"],
+	["Rspot2r", "spot2r"],
+	["Rspot2r", "spot3r"],
+	["Rspot2r", "spot4r"],
+
+	["Rspot0", "spot1r"],
+	["Rspot0", "spot2r"],
+	["Rspot0", "spot3r"],
+	["Rspot0", "spot4r"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_spotlight_R_light"},
+	["Rspot0","Rspot1l","Rspot2l"],
+	["Rspot0","Rspot2l","Rspot2r"],
+	["Rspot0","Rspot2r","Rspot1r"],
+	["Rspot0","Rspot1r","Rspot1l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_spotlight_R_light"},   
+	["Rspot1l","Rspot1r","Rspot2r","Rspot2l"],	
+        {"group":""},
+    ],
+},
+
+"legocar_spotlight_R_light_blue": {
+    "information":{
+        "name":"Blue Halogen Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_spotlight_R_light",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"spotlight_R_light_break", "deformMaterialBase":"legocar_legocar_policelight_bulb_R_blue", "deformMaterialDamaged":"lego_transcol_blue"},
+	["legocar_spotlight_R_blue", ["legocar_spotlight_R_light"],[], {"pos":{"x":-1.000, "y":-0.975, "z":0.955},"rot":{"x":-90, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":75,
+	    "lightBrightness":0.75,
+	    "lightRange":120,
+            "lightColor":{"r":0, "g":32, "b":160, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":512,
+            "shadowSoftness":0.5,
+            "flareScale":0.05,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_bulb_R", "SPOTLIGHT", "Rspot1r", "Rspot2r", "Rspot1l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0.1},"deformGroup":"spotlight_R_light_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_spotlight_R_light"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["Rspot2l",-0.905, -0.975, 0.860],
+	["Rspot1l",-0.905, -0.975, 1.050],
+	["Rspot2r",-1.095, -0.975, 0.860],
+	["Rspot1r",-1.095, -0.975, 1.050],
+	["Rspot0", -1.000, -0.825, 0.955, {"selfCollision":false}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["Rspot1l", "Rspot1r"],
+	["Rspot2l", "Rspot2r"],
+	["Rspot1l", "Rspot2r"],
+	["Rspot2l", "Rspot1r"],
+	["Rspot1l", "Rspot2l"],
+	["Rspot1r", "Rspot2r"],
+
+	//tip
+	["Rspot1l", "Rspot0"],
+	["Rspot1r", "Rspot0"],
+	["Rspot2l", "Rspot0"],
+	["Rspot2r", "Rspot0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"spotlight_R_light_break"},
+	{"deformGroup":"spotlight_R_light_break"},
+	
+	["Rspot1l", "spot1r"],
+	["Rspot1l", "spot2r"],
+	["Rspot1l", "spot3r"],
+	["Rspot1l", "spot4r"],
+
+	["Rspot1r", "spot1r"],
+	["Rspot1r", "spot2r"],
+	["Rspot1r", "spot3r"],
+	["Rspot1r", "spot4r"],
+
+	["Rspot2l", "spot1r"],
+	["Rspot2l", "spot2r"],
+	["Rspot2l", "spot3r"],
+	["Rspot2l", "spot4r"],
+
+	["Rspot2r", "spot1r"],
+	["Rspot2r", "spot2r"],
+	["Rspot2r", "spot3r"],
+	["Rspot2r", "spot4r"],
+
+	["Rspot0", "spot1r"],
+	["Rspot0", "spot2r"],
+	["Rspot0", "spot3r"],
+	["Rspot0", "spot4r"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_spotlight_R_light"},
+	["Rspot0","Rspot1l","Rspot2l"],
+	["Rspot0","Rspot2l","Rspot2r"],
+	["Rspot0","Rspot2r","Rspot1r"],
+	["Rspot0","Rspot1r","Rspot1l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_spotlight_R_light"},   
+	["Rspot1l","Rspot1r","Rspot2r","Rspot2l"],	
+        {"group":""},
+    ],
+},
+
+"legocar_spotlight_R_light_orange": {
+    "information":{
+        "name":"Orange Halogen Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_spotlight_R_light",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"spotlight_R_light_break", "deformMaterialBase":"legocar_legocar_policelight_bulb_R_orange", "deformMaterialDamaged":"lego_transcol_orange"},
+	["legocar_spotlight_R_orange", ["legocar_spotlight_R_light"],[], {"pos":{"x":-1.000, "y":-0.975, "z":0.955},"rot":{"x":-90, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":75,
+	    "lightBrightness":0.75,
+	    "lightRange":120,
+            "lightColor":{"r":240, "g":143, "b":28, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":512,
+            "shadowSoftness":0.5,
+            "flareScale":0.05,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_bulb_R", "SPOTLIGHT", "Rspot1r", "Rspot2r", "Rspot1l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0.1},"deformGroup":"spotlight_R_light_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_spotlight_R_light"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["Rspot2l",-0.905, -0.975, 0.860],
+	["Rspot1l",-0.905, -0.975, 1.050],
+	["Rspot2r",-1.095, -0.975, 0.860],
+	["Rspot1r",-1.095, -0.975, 1.050],
+	["Rspot0", -1.000, -0.825, 0.955, {"selfCollision":false}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["Rspot1l", "Rspot1r"],
+	["Rspot2l", "Rspot2r"],
+	["Rspot1l", "Rspot2r"],
+	["Rspot2l", "Rspot1r"],
+	["Rspot1l", "Rspot2l"],
+	["Rspot1r", "Rspot2r"],
+
+	//tip
+	["Rspot1l", "Rspot0"],
+	["Rspot1r", "Rspot0"],
+	["Rspot2l", "Rspot0"],
+	["Rspot2r", "Rspot0"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"spotlight_R_light_break"},
+	{"deformGroup":"spotlight_R_light_break"},
+	
+	["Rspot1l", "spot1r"],
+	["Rspot1l", "spot2r"],
+	["Rspot1l", "spot3r"],
+	["Rspot1l", "spot4r"],
+
+	["Rspot1r", "spot1r"],
+	["Rspot1r", "spot2r"],
+	["Rspot1r", "spot3r"],
+	["Rspot1r", "spot4r"],
+
+	["Rspot2l", "spot1r"],
+	["Rspot2l", "spot2r"],
+	["Rspot2l", "spot3r"],
+	["Rspot2l", "spot4r"],
+
+	["Rspot2r", "spot1r"],
+	["Rspot2r", "spot2r"],
+	["Rspot2r", "spot3r"],
+	["Rspot2r", "spot4r"],
+
+	["Rspot0", "spot1r"],
+	["Rspot0", "spot2r"],
+	["Rspot0", "spot3r"],
+	["Rspot0", "spot4r"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_spotlight_R_light"},
+	["Rspot0","Rspot1l","Rspot2l"],
+	["Rspot0","Rspot2l","Rspot2r"],
+	["Rspot0","Rspot2r","Rspot1r"],
+	["Rspot0","Rspot1r","Rspot1l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_spotlight_R_light"},   
+	["Rspot1l","Rspot1r","Rspot2r","Rspot2l"],	
+        {"group":""},
+    ],
+},
+
+}

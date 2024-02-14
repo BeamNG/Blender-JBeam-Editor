@@ -1,0 +1,199 @@
+{ 
+"legodummy_leg_R": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Right Leg"
+    },
+    "slotType" : "legodummy_leg_R",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legodummy_leg_R", ["legodummy_leg_R"], [], {"pos":{"x": 0, "y":0, "z":0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+	["legodummy_foot_R",["legodummy_foot_R"],[], {"pos":{"x": 0, "y":0, "z":0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],	
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--RIGHT LEG--
+	{"group":"legodummy_leg_R"},
+	//3kg / 5 nodes = 0.6 kg/node
+	{"nodeWeight": "$=$fig_weight*0.6"},
+
+	["leg1r",-0.020,-0.345, 0.000],
+	["leg2r",-0.220,-0.345, 0.000],
+	["leg3r",-0.075, 0.000, 0.000, {"selfCollision":false}],
+	["leg4r",-0.175, 0.000, 0.000, {"selfCollision":false}],
+	//rigidifier
+	{"group":""},
+	["leg0r",-0.125,-0.185, 0.150, {"collision":false, "selfCollision":false}],
+
+
+	//--RIGHT FOOT--
+	{"group":"legodummy_foot_R"},
+	{"nodeWeight": "$=$fig_weight*0.2"},
+
+	["foot1r",-0.020,-0.345,-0.075],
+	["foot2r",-0.220,-0.345,-0.075],
+	["foot3r",-0.020,-0.125,-0.075],
+	["foot4r",-0.220,-0.125,-0.075],
+	//rigidifier
+	{"group":""},
+	["foot0r",-0.125,-0.250, 0.075, {"collision":false, "selfCollision":false}],
+    ],
+    "torsionHydros": [
+        ["id1:","id2:","id3:","id4:"],
+	//spring = weight * 100000
+        {"spring":"$=$fig_weight*61000", "damp":"$=$fig_weight*0.5", "deform":1000, "strength":"FLT_MAX"},
+	//40 degrees rotation
+        ["leg1r","leg3r","hips4r","hips1r", {"factor":-0.7,"inRate":1,"outRate":1,"inputSource":"leg_L"}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--RIGHT LEG--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$fig_weight*601000", "beamDamp":"$=$fig_weight*60"},
+
+	//main shape
+	["leg1r", "leg2r"],
+	["leg2r", "leg3r"],
+	["leg3r", "leg4r"],
+	["leg4r", "leg1r"],
+	["leg1r", "leg3r", {"name":"leg_R", "disableMeshBreaking":true, "disableTriangleBreaking": true}],
+	["leg2r", "leg4r"],
+
+	//rigidifier
+	["leg1r", "leg0r"],
+	["leg2r", "leg0r"],
+	["leg3r", "leg0r"],
+	["leg4r", "leg0r"],
+
+
+	//--RIGHT FOOT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$fig_weight*201000", "beamDamp":"$=$fig_weight*20"},
+
+	//main shape
+	["foot1r", "foot2r"],
+	["foot2r", "foot3r"],
+	["foot3r", "foot4r"],
+	["foot4r", "foot1r"],
+	["foot1r", "foot3r"],
+	["foot2r", "foot4r"],
+
+	//rigidifier
+	["foot1r", "foot0r"],
+	["foot2r", "foot0r"],
+	["foot3r", "foot0r"],
+	["foot4r", "foot0r"],
+	
+
+	//--ATTACH--
+	{"beamDeform":"$=$fig_strength*0.5", "beamStrength":"$=$fig_strength*0.5"},
+
+	//foot to leg
+	{"beamSpring":"$=$fig_weight*101000", "beamDamp":"$=$fig_weight*10"},
+	{"breakGroup":"foot_R_break"},
+
+	["foot1r", "leg1r"],
+	["foot1r", "leg2r"],
+	["foot1r", "leg3r"],
+	["foot1r", "leg0r"],
+
+	["foot2r", "leg1r"],
+	["foot2r", "leg2r"],
+	["foot2r", "leg4r"],
+	["foot2r", "leg0r"],
+
+	["foot3r", "leg1r"],
+	["foot3r", "leg4r"],
+	["foot3r", "leg3r"],
+	["foot3r", "leg0r"],
+
+	["foot4r", "leg4r"],
+	["foot4r", "leg2r"],
+	["foot4r", "leg3r"],
+	["foot4r", "leg0r"],
+
+	["foot0r", "leg1r"],
+	["foot0r", "leg2r"],
+	["foot0r", "leg3r"],
+	["foot0r", "leg4r"],
+
+
+	//--SLIDING FRICTION--
+	{"beamDeform":"$=$fig_strength*0.005", "beamStrength":"$=$fig_strength*10"},
+	
+	//pelvis
+	{"beamSpring":"$=$fig_weight*301000", "beamDamp":"$=$fig_weight*30"},
+	{"breakGroup":"legs_break"},
+	["leg3r", "hips4l"],
+	["leg4r", "hips4l"],	
+	["leg3r", "hips4r"],
+	["leg4r", "hips4r"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT LIMITERS--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//outer slide limit
+	{"beamPrecompression":0.675, "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$fig_weight*301000", "beamDamp":"$=$fig_weight*30"},
+	["leg3r", "hips4r"],
+	["leg4r", "hips4r"],
+
+	//inner slide limit
+	{"beamPrecompression":0.875, "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$fig_weight*301000", "beamDamp":"$=$fig_weight*30"},
+	["leg3r", "hips4l"],
+	["leg4r", "hips4l"],
+
+	//inner rotation limit
+	{"beamSpring":"$=$fig_weight*301000", "beamDamp":"$=$fig_weight*30"},
+	{"beamPrecompression":0.850, "beamLongBound":2, "beamShortBound":1},
+	["leg1r", "hips1r"],
+	["leg2r", "hips1r"],
+	{"beamPrecompression":0.900, "beamLongBound":2, "beamShortBound":1},
+	["leg1r", "hips1l"],
+	["leg2r", "hips1l"],
+
+	//outer rotation limit
+	{"beamSpring":"$=$fig_weight*301000", "beamDamp":"$=$fig_weight*30"},
+	{"beamPrecompression":0.600, "beamLongBound":3, "beamShortBound":1},
+	["leg1r", "hips2r"],
+	["leg2r", "hips2r"],
+	{"beamPrecompression":0.550, "beamLongBound":3, "beamShortBound":1},
+	["leg1r", "hips2l"],
+	["leg2r", "hips2l"],
+
+	//foot anti clip
+	{"beamSpring":"$=$fig_weight*101000", "beamDamp":"$=$fig_weight*10"},
+	{"beamPrecompression":0.250, "beamLongBound":5, "beamShortBound":1},
+	["foot1r", "hips2r"],
+	["foot2r", "hips2r"],
+	["foot3r", "hips2r"],
+	["foot4r", "hips2r"],
+	{"beamPrecompression":0.200, "beamLongBound":5, "beamShortBound":1},
+	["foot1r", "hips2l"],
+	["foot2r", "hips2l"],
+	["foot3r", "hips2l"],
+	["foot4r", "hips2l"],
+	
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legodummy_leg_R"},   
+	["leg1r","leg3r","leg4r","leg2r"],
+	{"group":"legodummy_foot_R"},   
+	["foot1r","foot2r","foot4r","foot3r"],
+        {"group":""},
+    ],
+},
+
+}

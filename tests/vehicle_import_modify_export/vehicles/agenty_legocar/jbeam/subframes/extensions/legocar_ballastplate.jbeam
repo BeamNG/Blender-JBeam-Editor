@@ -1,0 +1,330 @@
+{
+"legocar_ballastplate": {
+    "information":{
+        "name":" Ballast Plate",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_underglow_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_black",["legocar_neon_FL"],[], {"pos":{"x": 0.375, "y":-1.500, "z":-0.0},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_flat_black",["legocar_neon_FR"],[], {"pos":{"x":-0.375, "y":-1.500, "z": 0.0},"rot":{"x":0, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_4x4_flat_grey", ["legocar_neon_F"], [], {"pos":{"x": 0.000, "y":-1.250, "z":-0.1},"rot":{"x":0, "y":0, "z":0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//main mount
+	{"group":"legocar_neon_F"},
+	//16 pieces, 5 nodes - 3.2 kg/node
+	{"nodeWeight": "$=$weight*3.2"},
+
+	["Fneon1l",  0.50, -0.75, -0.05],
+	["Fneon1r", -0.50, -0.75, -0.05],
+	["Fneon2l",  0.50, -1.75, -0.05],
+	["Fneon2r", -0.50, -1.75, -0.05],
+
+	//rigidifier
+	["Fneonrig", 0, -1.25, 0.5, {"collision":false, "selfCollision":false, "group":""}],
+
+
+	//side reinforcements
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+
+	//left
+	{"group":"legocar_neon_FL"},
+
+	["FneonL1l", 0.50, -1.28, 0.05],
+	["FneonL1r", 0.28, -1.28, 0.05],	
+	["FneonL2l", 0.50, -1.75, 0.05],
+	["FneonL2r", 0.28, -1.75, 0.05],	
+
+	//rigidifier
+	["FneonLrig", 0.375, -1.0, 0.25, {"collision":false, "selfCollision":false, "group":""}],
+
+	//right
+	{"group":"legocar_neon_FR"},
+
+	["FneonR1r",-0.50, -1.28, 0.05],
+	["FneonR1l",-0.28, -1.28, 0.05],	
+	["FneonR2r",-0.50, -1.75, 0.05],
+	["FneonR2l",-0.28, -1.75, 0.05],	
+
+	//rigidifier
+	["FneonRrig",-0.375, -1.0, 0.25, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FRONT LIP MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*3201000", "beamDamp":"$=$weight*320"},
+
+	//uniform structure
+	["Fneon1l", "Fneon1r"],
+	["Fneon2l", "Fneon2r"],
+	["Fneon1l", "Fneon2l"],
+	["Fneon1r", "Fneon2r"],
+	["Fneon1l", "Fneon2r"],
+	["Fneon2l", "Fneon1r"],
+
+	//rigidifier
+	["Fneon1l", "Fneonrig"],
+	["Fneon1r", "Fneonrig"],
+	["Fneon2l", "Fneonrig"],
+	["Fneon2r", "Fneonrig"],
+
+
+	//--REINFORCEMENTS--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+
+	//left uniform structure
+	["FneonL1l", "FneonL1r"],
+	["FneonL2l", "FneonL2r"],
+	["FneonL1l", "FneonL2l"],
+	["FneonL1r", "FneonL2r"],
+	["FneonL1l", "FneonL2r"],
+	["FneonL2l", "FneonL1r"],
+
+	//left rigidifier
+	["FneonL1l", "FneonLrig"],
+	["FneonL1r", "FneonLrig"],
+	["FneonL2l", "FneonLrig"],
+	["FneonL2r", "FneonLrig"],
+
+	//right uniform structure
+	["FneonR1l", "FneonR1r"],
+	["FneonR2l", "FneonR2r"],
+	["FneonR1l", "FneonR2l"],
+	["FneonR1r", "FneonR2r"],
+	["FneonR1l", "FneonR2r"],
+	["FneonR2l", "FneonR1r"],
+
+	//right rigidifier
+	["FneonR1l", "FneonRrig"],
+	["FneonR1r", "FneonRrig"],
+	["FneonR2l", "FneonRrig"],
+	["FneonR2r", "FneonRrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	
+	//to subframe
+	{"beamSpring":"$=$weight*1601000", "beamDamp":"$=$weight*160"},
+	{"breakGroup":"neon_F_break"},
+
+	["Fneon1l", "Fsubf2l"],
+	["Fneon1l", "Fsubf2r"],
+	["Fneon1l", "Fsubf1l"],
+	["Fneon1l", "Fsubfrig"],
+
+	["Fneon1r", "Fsubf2r"],
+	["Fneon1r", "Fsubf2l"],
+	["Fneon1r", "Fsubf1r"],
+	["Fneon1r", "Fsubfrig"],
+
+	["Fneon2l", "Fsubf2l"],
+	["Fneon2l", "Fsubf2r"],
+	["Fneon2l", "Fsubf1l"],
+	["Fneon2l", "Fsubfrig"],
+
+	["Fneon2r", "Fsubf2r"],
+	["Fneon2r", "Fsubf2l"],
+	["Fneon2r", "Fsubf1r"],
+	["Fneon2r", "Fsubfrig"],
+
+
+	//to left axle
+	{"beamSpring":"$=$weight*901000", "beamDamp":"$=$weight*90"},
+	{"breakGroup":"neon_FL_axle_break"},
+
+	["Fneon1l", "wheelaxle1fl"],
+	["Fneon1l", "wheelaxle1fll"],
+	["Fneon1l", "wheelaxle2fl"],
+	["Fneon1l", "wheelaxle2fll"],
+	["Fneon1l", "wheelaxle4fll"],
+	
+	["Fneon2l", "wheelaxle1fl"],
+	["Fneon2l", "wheelaxle1fll"],
+	["Fneon2l", "wheelaxle2fl"],
+	["Fneon2l", "wheelaxle2fll"],
+	["Fneon2l", "wheelaxle3fll"],
+
+	["Fneon1r", "wheelaxle1fl"],
+	["Fneon1r", "wheelaxle2fl"],
+	["Fneon1r", "wheelaxle4fll"],
+	
+	["Fneon2r", "wheelaxle1fl"],
+	["Fneon2r", "wheelaxle2fl"],
+	["Fneon2r", "wheelaxle3fll"],
+
+
+	//to right axle
+	{"beamSpring":"$=$weight*901000", "beamDamp":"$=$weight*90"},
+	{"breakGroup":"neon_FR_axle_break"},
+
+	["Fneon1r", "wheelaxle1fr"],
+	["Fneon1r", "wheelaxle1frr"],
+	["Fneon1r", "wheelaxle2fr"],
+	["Fneon1r", "wheelaxle2frr"],
+	["Fneon1r", "wheelaxle4frr"],
+	
+	["Fneon2r", "wheelaxle1fr"],
+	["Fneon2r", "wheelaxle1frr"],
+	["Fneon2r", "wheelaxle2fr"],
+	["Fneon2r", "wheelaxle2frr"],
+	["Fneon2r", "wheelaxle3frr"],
+
+	["Fneon1l", "wheelaxle1fr"],
+	["Fneon1l", "wheelaxle2fr"],
+	["Fneon1l", "wheelaxle4frr"],
+	
+	["Fneon2l", "wheelaxle1fr"],
+	["Fneon2l", "wheelaxle2fr"],
+	["Fneon2l", "wheelaxle3frr"],
+	
+
+	//left reinf to base
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"neon_FL_break"},
+
+	["FneonL1l", "Fneon1l"],
+	["FneonL1l", "Fneon1r"],
+	["FneonL1l", "Fneon2l"],
+	["FneonL1l", "Fneonrig"],
+
+	["FneonL1r", "Fneon1l"],
+	["FneonL1r", "Fneon1r"],
+	["FneonL1r", "Fneon2l"],
+	["FneonL1r", "Fneonrig"],
+
+	["FneonL2l", "Fneon1l"],
+	["FneonL2l", "Fneon2r"],
+	["FneonL2l", "Fneon2l"],
+	["FneonL2l", "Fneonrig"],
+
+	["FneonL2r", "Fneon1l"],
+	["FneonL2r", "Fneon2r"],
+	["FneonL2r", "Fneon2l"],
+	["FneonL2r", "Fneonrig"],
+
+	["FneonLrig", "Fneon1l"],
+	["FneonLrig", "Fneon1r"],
+	["FneonLrig", "Fneon2l"],
+	["FneonLrig", "Fneon2r"],
+
+
+	//right reinf to base
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"neon_FR_break"},
+
+	["FneonR1l", "Fneon1l"],
+	["FneonR1l", "Fneon1r"],
+	["FneonR1l", "Fneon2r"],
+	["FneonR1l", "Fneonrig"],
+
+	["FneonR1r", "Fneon1l"],
+	["FneonR1r", "Fneon1r"],
+	["FneonR1r", "Fneon2r"],
+	["FneonR1r", "Fneonrig"],
+
+	["FneonR2l", "Fneon1r"],
+	["FneonR2l", "Fneon2r"],
+	["FneonR2l", "Fneon2l"],
+	["FneonR2l", "Fneonrig"],
+
+	["FneonR2r", "Fneon1r"],
+	["FneonR2r", "Fneon2r"],
+	["FneonR2r", "Fneon2l"],
+	["FneonR2r", "Fneonrig"],
+
+	["FneonRrig", "Fneon1l"],
+	["FneonRrig", "Fneon1r"],
+	["FneonRrig", "Fneon2l"],
+	["FneonRrig", "Fneon2r"],
+
+
+	//left reinf to bulkhead
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"neon_FL_bulkhead_break"},
+
+	["FneonL1l", "bulk1l"],
+	["FneonL1l", "bulk1r"],
+	["FneonL1l", "bulk2l"],
+	["FneonL1l", "bulk3l"],
+
+	["FneonL1r", "bulk1l"],
+	["FneonL1r", "bulk1r"],
+	["FneonL1r", "bulk2l"],
+	["FneonL1r", "bulk3l"],
+
+	["FneonL2l", "bulk2l"],
+	["FneonL2l", "bulk2r"],
+	["FneonL2l", "bulk1l"],
+	["FneonL2l", "bulk4l"],
+
+	["FneonL2r", "bulk2l"],
+	["FneonL2r", "bulk2r"],
+	["FneonL2r", "bulk1l"],
+	["FneonL2r", "bulk4l"],
+
+	["FneonLrig", "bulk1l"],
+	["FneonLrig", "bulk2l"],
+	["FneonLrig", "bulk3l"],
+	["FneonLrig", "bulk4l"],
+
+
+	//right reinf to bulkhead
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"neon_FR_bulkhead_break"},
+
+	["FneonR1l", "bulk1l"],
+	["FneonR1l", "bulk1r"],
+	["FneonR1l", "bulk2r"],
+	["FneonR1l", "bulk3r"],
+
+	["FneonR1r", "bulk1l"],
+	["FneonR1r", "bulk1r"],
+	["FneonR1r", "bulk2r"],
+	["FneonR1r", "bulk3r"],
+
+	["FneonR2l", "bulk2l"],
+	["FneonR2l", "bulk2r"],
+	["FneonR2l", "bulk1r"],
+	["FneonR2l", "bulk4r"],
+
+	["FneonR2r", "bulk2l"],
+	["FneonR2r", "bulk2r"],
+	["FneonR2r", "bulk1r"],
+	["FneonR2r", "bulk4r"],
+
+	["FneonRrig", "bulk1r"],
+	["FneonRrig", "bulk2r"],
+	["FneonRrig", "bulk3r"],
+	["FneonRrig", "bulk4r"],
+	
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_neon_F"},
+	["Fneon1r","Fneon1l","Fneon2l","Fneon2r"],
+	{"group":"legocar_neon_FL"},
+	["FneonL1r","FneonL1l","FneonL2l","FneonL2r"],
+	{"group":"legocar_neon_FR"},
+	["FneonR1r","FneonR1l","FneonR2l","FneonR2r"],
+        {"group":""},
+    ],
+},
+
+}

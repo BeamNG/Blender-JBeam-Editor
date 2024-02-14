@@ -1,0 +1,161 @@
+{
+"legocar_backlight_barred_glass_black": {
+    "information":{
+        "name":"Black Tinted Glass",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_backlight_barred_glass",
+    "sounds": {
+        "$+cabinFilterCoef": 0.02,
+    },
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_backlight_barred_glass_black", ["legocar_backlight"], [], {"pos":{"x": 0.000, "y":1.000, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//add weight
+	{"group":"legocar_backlight"},
+	//8 pieces, 36 half-pieces, 9 nodes - 2.33 kg/node
+	{"nodeWeight": "$=$weight*2.33"},
+
+	["backl1l", 0.75, 0.78, 0.80],
+	["backl1r",-0.75, 0.78, 0.80],
+	["backl2l", 0.75, 1.25, 0.80],
+	["backl2r",-0.75, 1.25, 0.80],
+	["backl3l", 0.75, 0.78, 1.40],
+	["backl3r",-0.75, 0.78, 1.40],
+	["backl4l", 0.75, 1.00, 1.40],
+	["backl4r",-0.75, 1.00, 1.40],
+
+	//collision helper middle node
+	["backl0", 0, 1.125, 1.1],
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_backlight"},
+	["backl0","backl2l","backl2r"],
+	["backl0","backl4l","backl2l"],
+	["backl0","backl4r","backl4l"],
+	["backl0","backl2r","backl4r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_backlight"},
+	["backl1l","backl2l","backl4l","backl3l"],
+	["backl1r","backl3r","backl4r","backl2r"],
+	["backl3l","backl4l","backl4r","backl3r"],
+	["backl1r","backl2r","backl2l","backl1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_backlight_barred_glass_white": {
+    "information":{
+        "name":"Clear Glass",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_backlight_barred_glass",
+    "sounds": {
+        "$+cabinFilterCoef": 0.02,
+    },
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_backlight_barred_glass_white", ["legocar_backlight"], [], {"pos":{"x": 0.000, "y":1.000, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//add weight
+	{"group":"legocar_backlight"},
+	//8 pieces, 36 half-pieces, 9 nodes - 2.33 kg/node
+	{"nodeWeight": "$=$weight*2.33"},
+
+	["backl1l", 0.75, 0.78, 0.80],
+	["backl1r",-0.75, 0.78, 0.80],
+	["backl2l", 0.75, 1.25, 0.80],
+	["backl2r",-0.75, 1.25, 0.80],
+	["backl3l", 0.75, 0.78, 1.40],
+	["backl3r",-0.75, 0.78, 1.40],
+	["backl4l", 0.75, 1.00, 1.40],
+	["backl4r",-0.75, 1.00, 1.40],
+
+	//collision helper middle node
+	["backl0", 0, 1.125, 1.1],
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_backlight"},
+	["backl0","backl2l","backl2r"],
+	["backl0","backl4l","backl2l"],
+	["backl0","backl4r","backl4l"],
+	["backl0","backl2r","backl4r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_backlight"},
+	["backl1l","backl2l","backl4l","backl3l"],
+	["backl1r","backl3r","backl4r","backl2r"],
+	["backl3l","backl4l","backl4r","backl3r"],
+	["backl1r","backl2r","backl2l","backl1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_backlight_barred_glass_blue": {
+    "information":{
+        "name":"Blue Tinted Glass",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_backlight_barred_glass",
+    "sounds": {
+        "$+cabinFilterCoef": 0.02,
+    },
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_backlight_barred_glass_blue", ["legocar_backlight"], [], {"pos":{"x": 0.000, "y":1.000, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//add weight
+	{"group":"legocar_backlight"},
+	//8 pieces, 36 half-pieces, 9 nodes - 2.33 kg/node
+	{"nodeWeight": "$=$weight*2.33"},
+
+	["backl1l", 0.75, 0.78, 0.80],
+	["backl1r",-0.75, 0.78, 0.80],
+	["backl2l", 0.75, 1.25, 0.80],
+	["backl2r",-0.75, 1.25, 0.80],
+	["backl3l", 0.75, 0.78, 1.40],
+	["backl3r",-0.75, 0.78, 1.40],
+	["backl4l", 0.75, 1.00, 1.40],
+	["backl4r",-0.75, 1.00, 1.40],
+
+	//collision helper middle node
+	["backl0", 0, 1.125, 1.1],
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_backlight"},
+	["backl0","backl2l","backl2r"],
+	["backl0","backl4l","backl2l"],
+	["backl0","backl4r","backl4l"],
+	["backl0","backl2r","backl4r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_backlight"},
+	["backl1l","backl2l","backl4l","backl3l"],
+	["backl1r","backl3r","backl4r","backl2r"],
+	["backl3l","backl4l","backl4r","backl3r"],
+	["backl1r","backl2r","backl2l","backl1l"],
+        {"group":""},
+    ],
+},
+
+}

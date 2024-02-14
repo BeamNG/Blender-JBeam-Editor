@@ -1,0 +1,307 @@
+{
+"legocar_door_L_offroad_mount": {
+    "information":{
+        "name":"Off-Road Left Door Mount",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_door_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_door_L_offroad", "legocar_door_L_offroad", "Left Door"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_tall_clip_door_L",["legocar_door_L"], [], {"pos":{"x":0.625, "y":-0.375, "z":0.4},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_door_L"},
+	//4 pieces, 9 nodes - 0.45 kg/node
+	{"nodeWeight": "$=$weight*0.45"},
+
+	["Ldoor1l", 0.75, -0.47, 0.4],
+	["Ldoor1r", 0.53, -0.47, 0.4],
+	["Ldoor2l", 0.75, -0.25, 0.4],
+	["Ldoor2r", 0.53, -0.25, 0.4],
+	["Ldoor3l", 0.75, -0.47, 0.7],
+	["Ldoor3r", 0.53, -0.47, 0.7],
+	["Ldoor4l", 0.75, -0.25, 0.7],
+	["Ldoor4r", 0.53, -0.25, 0.7],
+	["Ldoor0",  0.9, -0.375, 0.55, {"selfCollision":false}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT DOOR--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*451000", "beamDamp":"$=$weight*45"},
+
+	//uniform structure
+	["Ldoor1l", "Ldoor1r"],
+	["Ldoor2l", "Ldoor2r"],
+	["Ldoor3l", "Ldoor3r"],
+	["Ldoor4l", "Ldoor4r"],
+
+	["Ldoor1l", "Ldoor2r"],
+	["Ldoor2l", "Ldoor3r"],
+	["Ldoor3l", "Ldoor4r"],
+	["Ldoor4l", "Ldoor1r"],
+
+	["Ldoor1l", "Ldoor3r"],
+	["Ldoor2l", "Ldoor4r"],
+	["Ldoor3l", "Ldoor1r"],
+	["Ldoor4l", "Ldoor2r"],
+
+	["Ldoor1l", "Ldoor4r"],
+	["Ldoor2l", "Ldoor1r"],
+	["Ldoor3l", "Ldoor2r"],
+	["Ldoor4l", "Ldoor3r"],
+
+	["Ldoor1l", "Ldoor2l"],
+	["Ldoor2l", "Ldoor3l"],
+	["Ldoor3l", "Ldoor4l"],
+	["Ldoor4l", "Ldoor1l"],
+
+	["Ldoor1l", "Ldoor3l"],
+	["Ldoor2l", "Ldoor4l"],
+
+	["Ldoor1r", "Ldoor2r"],
+	["Ldoor2r", "Ldoor3r"],
+	["Ldoor3r", "Ldoor4r"],
+	["Ldoor4r", "Ldoor1r"],
+
+	["Ldoor1r", "Ldoor3r"],
+	["Ldoor2r", "Ldoor4r"],
+
+	//tip
+	["Ldoor0", "Ldoor1l"],
+	["Ldoor0", "Ldoor2l"],
+	["Ldoor0", "Ldoor3l"],
+	["Ldoor0", "Ldoor4l"],
+	["Ldoor0", "Ldoor1r"],
+	["Ldoor0", "Ldoor2r"],
+	["Ldoor0", "Ldoor3r"],
+	["Ldoor0", "Ldoor4r"],
+
+	
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to rocker
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"Ldoor_break"},
+
+	["LrockT1l", "Ldoor1l"],
+	["LrockT1l", "Ldoor1r"],
+	["LrockT1l", "Ldoor2l"],
+	["LrockT1l", "Ldoor3l"],
+
+	["LrockT1r", "Ldoor1l"],
+	["LrockT1r", "Ldoor1r"],
+	["LrockT1r", "Ldoor2r"],
+	["LrockT1r", "Ldoor3r"],
+
+	["LrockT2l", "Ldoor2l"],
+	["LrockT2l", "Ldoor2r"],
+	["LrockT2l", "Ldoor1l"],
+	["LrockT2l", "Ldoor4l"],
+
+	["LrockT2r", "Ldoor2l"],
+	["LrockT2r", "Ldoor2r"],
+	["LrockT2r", "Ldoor1r"],
+	["LrockT2r", "Ldoor4r"],
+
+	
+	//to fender bar
+	{"beamSpring":"$=$weight*151000", "beamDamp":"$=$weight*15"},
+	{"breakGroup":"mirrormount_door_L_break"},
+	{"optional":true},
+
+	["mirrormt1l", "Ldoor4r"],
+	["mirrormt1l", "Ldoor4l"],
+	["mirrormt1l", "Ldoor2r"],
+	["mirrormt1l", "Ldoor3r"],
+	
+	["mirrormt1ll", "Ldoor4r"],
+	["mirrormt1ll", "Ldoor4l"],
+	["mirrormt1ll", "Ldoor2l"],
+	["mirrormt1ll", "Ldoor3l"],
+
+	["mirrormt2l", "Ldoor3r"],
+	["mirrormt2l", "Ldoor3l"],
+	["mirrormt2l", "Ldoor1r"],
+	["mirrormt2l", "Ldoor4r"],
+	
+	["mirrormt2ll", "Ldoor3r"],
+	["mirrormt2ll", "Ldoor3l"],
+	["mirrormt2ll", "Ldoor1l"],
+	["mirrormt2ll", "Ldoor4l"],
+
+	["mirrormt3ll", "Ldoor3r"],
+	["mirrormt3ll", "Ldoor3l"],
+	["mirrormt3ll", "Ldoor1l"],
+	["mirrormt3ll", "Ldoor4l"],
+	
+	{"breakGroup":""},
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_door_L"},   
+	["Ldoor2r","Ldoor2l","Ldoor1l","Ldoor1r"],
+	["Ldoor4l","Ldoor4r","Ldoor3r","Ldoor3l"],
+	["Ldoor3r","Ldoor4r","Ldoor2r","Ldoor1r"],
+	["Ldoor4l","Ldoor3l","Ldoor1l","Ldoor2l"],
+	["Ldoor4r","Ldoor4l","Ldoor2l","Ldoor2r"],
+	["Ldoor3l","Ldoor3r","Ldoor1r","Ldoor1l"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_door_L_offroad": {
+    "information":{
+        "name":"Left Tube Door",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_door_L_offroad",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_hinge_black",["legocar_door_L_offroad"], [], {"pos":{"x":0.825, "y":-0.025, "z":0.55},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+    ],
+    "triggers":[
+        ["id", "label", "idRef:", "idX:", "idY:", "type", "size", "baseRotation", "rotation", "translation", "baseTranslation"],
+        ["door_L", "", "offdoor1l","offdoor3l","offdoor2l", "box", {"x":0.1, "y":0.04, "z":0.1}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0.425, "y":0.075, "z":-0.05}],
+    ],
+    "triggerEventLinks":[
+        ["triggerId:triggers", "action", "targetEventId:events"],
+        ["door_L", "action0", "doorLatch_L"],
+    ],
+    "events":[
+        ["id", "title", "desc"],
+        ["doorLatch_L", "ui.inputActions.common.doorLatch_L.title", "ui.inputActions.common.doorLatch_L.description", {"onUp":"electrics.values.doorFL_input = 1-(electrics.values.doorFL_input or 0)"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_door_L_offroad"},
+	//3 pieces, 5 nodes - 0.6 kg/node
+	{"nodeWeight": "$=$weight*0.6"},
+
+	["offdoor1l",  0.900, -0.375, 0.425],
+	["offdoor2l",  0.900, -0.375, 0.675],
+	["offdoor3l",  0.900,  0.225, 0.425],
+	["offdoor4l",  0.900,  0.225, 0.675],
+
+	//rigidifier
+	["offdoorrigl", 0.65, -0.05, 0.55, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT DOOR--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//uniform structure
+	["offdoor1l", "offdoor3l"],
+	["offdoor1l", "offdoor4l"],
+	["offdoor2l", "offdoor3l"],
+	["offdoor2l", "offdoor4l"],
+	["offdoor3l", "offdoor4l"],
+	
+	//rigidifier
+	["offdoor1l", "offdoorrigl"],
+	["offdoor2l", "offdoorrigl"],
+	["offdoor3l", "offdoorrigl"],
+	["offdoor4l", "offdoorrigl"],
+
+	//this is the rotation axis, it triggers latch breakage
+	["offdoor1l", "offdoor2l", {"breakGroup":"door_latch_FL", "disableMeshBreaking":true}],
+
+
+	//limiters
+	{"beamPrecompression":0.825, "beamType":"|SUPPORT", "beamLongBound":5, "beamShortBound":1},
+	//lower spring and damp for more stability
+	{"beamSpring":"$=$weight*101000", "beamDamp":"$=$weight*10"},
+	["offdoor3l", "LrockT2r", {"breakGroup":"Ldoor_offroad_break", "breakGroupType":1}],
+	["offdoor4l", "LrockT4r", {"breakGroup":"Ldoor_offroad_break", "breakGroupType":1}],
+	["offdoor3l", "LrockT2l", {"breakGroup":"Ldoor_offroad_break", "breakGroupType":1}],
+	["offdoor4l", "LrockT4l", {"breakGroup":"Ldoor_offroad_break", "breakGroupType":1}],
+	["offdoor3l", "chassis0", {"breakGroup":"Ldoor_offroad_break", "breakGroupType":1}],
+	["offdoor4l", "chassis0", {"breakGroup":"Ldoor_offroad_break", "breakGroupType":1}],
+
+	//extra dampers
+	{"beamPrecompression":10, "beamType":"|SUPPORT", "beamLongBound":5, "beamShortBound":1},
+	{"beamSpring":0, "beamDamp":"$=$weight*10"},
+	["offdoor3l", "LrockT2r", {"breakGroup":"Ldoor_offroad_break", "breakGroupType":1}],
+	["offdoor4l", "LrockT4r", {"breakGroup":"Ldoor_offroad_break", "breakGroupType":1}],
+	["offdoor3l", "LrockT2l", {"breakGroup":"Ldoor_offroad_break", "breakGroupType":1}],
+	["offdoor4l", "LrockT4l", {"breakGroup":"Ldoor_offroad_break", "breakGroupType":1}],
+	["offdoor3l", "chassis0", {"breakGroup":"Ldoor_offroad_break", "breakGroupType":1}],
+	["offdoor4l", "chassis0", {"breakGroup":"Ldoor_offroad_break", "breakGroupType":1}],
+	
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*301000", "beamDamp":"$=$weight*30"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"Ldoor_offroad_break"},
+
+	["offdoor1l", "Ldoor1l"],
+	["offdoor1l", "Ldoor1r"],
+	["offdoor1l", "Ldoor2l"],
+	["offdoor1l", "Ldoor2r"],
+	["offdoor1l", "Ldoor3l"],
+	["offdoor1l", "Ldoor3r"],
+	["offdoor1l", "Ldoor4l"],
+	["offdoor1l", "Ldoor4r"],
+
+	["offdoor2l", "Ldoor1l"],
+	["offdoor2l", "Ldoor1r"],
+	["offdoor2l", "Ldoor2l"],
+	["offdoor2l", "Ldoor2r"],
+	["offdoor2l", "Ldoor3l"],
+	["offdoor2l", "Ldoor3r"],
+	["offdoor2l", "Ldoor4l"],
+	["offdoor2l", "Ldoor4r"],
+
+	["offdoor1l", "Ldoor0"],
+	["offdoor2l", "Ldoor0"],
+	["offdoor3l", "Ldoor0"],
+	["offdoor4l", "Ldoor0"],
+	["offdoorrigl", "Ldoor0"],
+
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "torsionHydros": [
+        ["id1:","id2:","id3:","id4:"],
+	//spring = weight * 50000, damp = weight * 5
+        {"spring":"$=$weight*31000", "damp":"$=$weight*3", "deform":1000, "strength":"FLT_MAX"},
+	//door opening
+	//factor: 0.75*pi
+        ["offdoor3l","offdoor1l","offdoor2l","Ldoor3l", {"factor":2.3561944,"inRate":2,"outRate":2,"inputSource":"doorFL"}],
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_door_L_offroad"},
+	["offdoor1l","offdoor3l","offdoor4l","offdoor2l"],
+        {"group":""},
+    ],
+},
+
+}

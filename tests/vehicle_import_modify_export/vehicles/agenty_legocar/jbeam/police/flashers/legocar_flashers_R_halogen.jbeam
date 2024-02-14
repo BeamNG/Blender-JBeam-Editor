@@ -1,0 +1,256 @@
+{
+"legocar_flasher_RL_halogen_red": {
+    "information":{
+        "name":"Red Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_flasher_RL_halogen",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"RLflasher_break", "deformMaterialBase":"legocar_flasher_RL_red", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_backlightflasher_L_red", ["legocar_flasher_RL"],[], {"pos":{"x": 0.375, "y":0.875, "z":1.175},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":75,
+	    "lightRange":10,
+            "lightColor":{"r":201, "g":26, "b":9, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":512,
+            "shadowSoftness":0.5,
+            "flareScale":0.05,
+	    "lightBrightness":0.2,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_flasher_RL","SPOTLIGHT", "RLflasher1l", "RLflasher1r", "RLflasher3l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.67, "z":0.1},"deformGroup":"RLflasher_break"}],
+	{"lightBrightness":0.1},
+	["cop_flasher_RL_dim","SPOTLIGHT", "RLflasher1l", "RLflasher1r", "RLflasher3l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.67, "z":0.1},"deformGroup":"RLflasher_break"}],
+    ],
+},
+"legocar_flasher_RL_halogen_blue": {
+    "information":{
+        "name":"Blue Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_flasher_RL_halogen",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"RLflasher_break", "deformMaterialBase":"legocar_flasher_RL_blue", "deformMaterialDamaged":"lego_transcol_blue"},
+	["legocar_backlightflasher_L_blue", ["legocar_flasher_RL"],[], {"pos":{"x": 0.375, "y":0.875, "z":1.175},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":75,
+	    "lightRange":10,
+            "lightColor":{"r":0, "g":32, "b":160, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":512,
+            "shadowSoftness":0.5,
+            "flareScale":0.05,
+	    "lightBrightness":0.2,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_flasher_RL","SPOTLIGHT", "RLflasher1l", "RLflasher1r", "RLflasher3l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.67, "z":0.1},"deformGroup":"RLflasher_break"}],
+	{"lightBrightness":0.1},
+	["cop_flasher_RL_dim","SPOTLIGHT", "RLflasher1l", "RLflasher1r", "RLflasher3l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.67, "z":0.1},"deformGroup":"RLflasher_break"}],
+    ],
+},
+"legocar_flasher_RL_halogen_orange": {
+    "information":{
+        "name":"Orange Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_flasher_RL_halogen",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"RLflasher_break", "deformMaterialBase":"legocar_flasher_RL_orange", "deformMaterialDamaged":"lego_transcol_orange"},
+	["legocar_backlightflasher_L_orange", ["legocar_flasher_RL"],[], {"pos":{"x": 0.375, "y":0.875, "z":1.175},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":75,
+	    "lightRange":10,
+            "lightColor":{"r":240, "g":143, "b":28, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":512,
+            "shadowSoftness":0.5,
+            "flareScale":0.05,
+	    "lightBrightness":0.2,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_flasher_RL","SPOTLIGHT", "RLflasher1l", "RLflasher1r", "RLflasher3l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.67, "z":0.1},"deformGroup":"RLflasher_break"}],
+	{"lightBrightness":0.1},
+	["cop_flasher_RL_dim","SPOTLIGHT", "RLflasher1l", "RLflasher1r", "RLflasher3l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.67, "z":0.1},"deformGroup":"RLflasher_break"}],
+    ],
+},
+"legocar_flasher_RL_halogen_brake": {
+    "information":{
+        "name":"Brake Light",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_flasher_RL_halogen",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"RLflasher_break", "deformMaterialBase":"legocar_chmsl_stock", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_backlightflasher_L_brake", ["legocar_flasher_RL"],[], {"pos":{"x": 0.375, "y":0.875, "z":1.175},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":75,
+	    "lightRange":10,
+            "lightColor":{"r":201, "g":26, "b":9, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":512,
+            "shadowSoftness":0.5,
+            "flareScale":0.05,
+	    "lightBrightness":0.2,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["brake","SPOTLIGHT", "RLflasher1l", "RLflasher1r", "RLflasher3l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.67, "z":0.1},"deformGroup":"RLflasher_break"}],
+    ],
+},
+
+"legocar_flasher_RR_halogen_red": {
+    "information":{
+        "name":"Red Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_flasher_RR_halogen",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"RRflasher_break", "deformMaterialBase":"legocar_flasher_RR_red", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_backlightflasher_R_red", ["legocar_flasher_RR"],[], {"pos":{"x": -0.375, "y":0.875, "z":1.175},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":75,
+	    "lightRange":10,
+            "lightColor":{"r":201, "g":26, "b":9, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":512,
+            "shadowSoftness":0.5,
+            "flareScale":0.05,
+	    "lightBrightness":0.2,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_flasher_RR","SPOTLIGHT", "RRflasher1l", "RRflasher1r", "RRflasher3l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.67, "z":0.1},"deformGroup":"RRflasher_break"}],
+	{"lightBrightness":0.1},
+	["cop_flasher_RR_dim","SPOTLIGHT", "RRflasher1l", "RRflasher1r", "RRflasher3l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.67, "z":0.1},"deformGroup":"RRflasher_break"}],
+    ],
+},
+"legocar_flasher_RR_halogen_blue": {
+    "information":{
+        "name":"Blue Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_flasher_RR_halogen",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"RRflasher_break", "deformMaterialBase":"legocar_flasher_RR_blue", "deformMaterialDamaged":"lego_transcol_blue"},
+	["legocar_backlightflasher_R_blue", ["legocar_flasher_RR"],[], {"pos":{"x": -0.375, "y":0.875, "z":1.175},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":75,
+	    "lightRange":10,
+            "lightColor":{"r":0, "g":32, "b":160, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":512,
+            "shadowSoftness":0.5,
+            "flareScale":0.05,
+	    "lightBrightness":0.2,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_flasher_RR","SPOTLIGHT", "RRflasher1l", "RRflasher1r", "RRflasher3l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.67, "z":0.1},"deformGroup":"RRflasher_break"}],
+	{"lightBrightness":0.1},
+	["cop_flasher_RR_dim","SPOTLIGHT", "RRflasher1l", "RRflasher1r", "RRflasher3l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.67, "z":0.1},"deformGroup":"RRflasher_break"}],
+    ],
+},
+"legocar_flasher_RR_halogen_orange": {
+    "information":{
+        "name":"Orange Flasher",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_flasher_RR_halogen",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"RRflasher_break", "deformMaterialBase":"legocar_flasher_RR_orange", "deformMaterialDamaged":"lego_transcol_orange"},
+	["legocar_backlightflasher_R_orange", ["legocar_flasher_RR"],[], {"pos":{"x": -0.375, "y":0.875, "z":1.175},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":75,
+	    "lightRange":10,
+            "lightColor":{"r":240, "g":143, "b":28, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":512,
+            "shadowSoftness":0.5,
+            "flareScale":0.05,
+	    "lightBrightness":0.2,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["cop_flasher_RR","SPOTLIGHT", "RRflasher1l", "RRflasher1r", "RRflasher3l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.67, "z":0.1},"deformGroup":"RRflasher_break"}],
+	{"lightBrightness":0.1},
+	["cop_flasher_RR_dim","SPOTLIGHT", "RRflasher1l", "RRflasher1r", "RRflasher3l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.67, "z":0.1},"deformGroup":"RRflasher_break"}],
+    ],
+},
+"legocar_flasher_RR_halogen_brake": {
+    "information":{
+        "name":"Brake Light",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_flasher_RR_halogen",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"RRflasher_break", "deformMaterialBase":"legocar_chmsl_stock", "deformMaterialDamaged":"lego_transcol_red"},
+	["legocar_backlightflasher_R_brake", ["legocar_flasher_RR"],[], {"pos":{"x": -0.375, "y":0.875, "z":1.175},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":75,
+	    "lightRange":10,
+            "lightColor":{"r":201, "g":26, "b":9, "a":255},
+            "flareName":"vehicleBrakeLightFlare",
+            "lightCastShadows":false,
+            "texSize":512,
+            "shadowSoftness":0.5,
+            "flareScale":0.05,
+	    "lightBrightness":0.2,
+            "cookieName":"/art/special/BNG_light_cookie_lightbar.dds"
+        },
+        ["brake","SPOTLIGHT", "RRflasher1l", "RRflasher1r", "RRflasher3l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.67, "z":0.1},"deformGroup":"RRflasher_break"}],
+    ],
+},
+
+}

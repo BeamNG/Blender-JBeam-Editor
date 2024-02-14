@@ -1,0 +1,173 @@
+{
+"legocar_roof_skin_col2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Color Palette 2",
+    },
+    "slotType" : "skin_roof",
+    "skinName" : "roof_col2",
+},
+"legocar_roof_skin_col3": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Color Palette 3",
+    },
+    "slotType" : "skin_roof",
+    "skinName" : "roof_col3",
+},
+
+"legocar_roof_skin_stripes": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Stripes Decals",
+    },
+    "slotType" : "skin_roof",
+    "skinName" : "roof_stripes",
+},
+"legocar_roof_skin_stripes_alt": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Two-Tone Stripes Decals",
+    },
+    "slotType" : "skin_roof",
+    "skinName" : "roof_stripes_alt",
+},
+
+"legocar_roof_skin_glass": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Panoramic",
+    },
+    "slotType" : "skin_roof",
+    "skinName" : "glassroof",
+},
+
+"legocar_roof_skin_black": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Black",
+    },
+    "slotType" : "skin_roof",
+    "skinName" : "blackroof",
+},
+
+"legocar_roof_skin_bcpd": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Belasco City Police Department Sticker",
+    },
+    "slotType" : "skin_roof",
+    "skinName" : "roof_bcpd",
+},
+"legocar_roof_skin_polizia": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Italian Police Decals",
+    },
+    "slotType" : "skin_roof",
+    "skinName" : "roof_polizia",
+},
+
+"legocar_roof_skin_crashtest": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Crash Test Stickers",
+    },
+    "slotType" : "skin_roof",
+    "skinName" : "roof_crashtest",
+},
+
+"legocar_roof_skin_derby": {
+    "information":{
+        "authors":"AgentY",
+        "name":"The Brick Wall Sticker",
+    },
+    "slotType" : "skin_roof",
+    "skinName" : "roof_derby",
+},
+
+"legocar_roof_skin_usa": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Low Budget USA Flag (On Police Roof Number)",
+    },
+    "slotType" : "skin_roof",
+    "skinName" : "usa",
+},
+
+"legocar_roof_skin_rusty": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty Old Paint (Color 1)",
+    },
+    "slotType" : "skin_roof",
+    "skinName" : "roof_rusty",
+},
+"legocar_roof_skin_rusty2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty Old Paint (Color 2)",
+    },
+    "slotType" : "skin_roof",
+    "skinName" : "roof_rusty2",
+},
+"legocar_roof_skin_rusty3": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty Old Paint (Color 3)",
+    },
+    "slotType" : "skin_roof",
+    "skinName" : "roof_rusty3",
+},
+"legocar_roof_skin_rusty_alt": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty (Color 1)",
+    },
+    "slotType" : "skin_roof",
+    "skinName" : "roof_rusty_alt",
+},
+"legocar_roof_skin_rusty2_alt": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty (Color 2)",
+    },
+    "slotType" : "skin_roof",
+    "skinName" : "roof_rusty2_alt",
+},
+"legocar_roof_skin_rusty3_alt": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty (Color 3)",
+    },
+    "slotType" : "skin_roof",
+    "skinName" : "roof_rusty3_alt",
+},
+
+"legocar_roof_skin_baja": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Baja Stickers",
+    },
+    "slotType" : "skin_roof",
+    "skinName" : "roof_baja",
+},
+"legocar_roof_skin_rally": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rally Decals",
+    },
+    "slotType" : "skin_roof",
+    "skinName" : "roof_rally",
+},
+
+"legocar_roof_skin_stockcar2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Modern Stock Car Decals",
+    },
+    "slotType" : "skin_roof",
+    "skinName" : "roof_stockcar2",
+},
+
+}

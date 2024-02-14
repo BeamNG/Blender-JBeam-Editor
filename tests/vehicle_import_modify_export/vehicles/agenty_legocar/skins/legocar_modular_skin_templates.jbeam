@@ -1,0 +1,630 @@
+{
+"legocar_modular_skins_custom": {
+    "information":{
+        "authors":"AgentY",
+        "name":" Modular Skin System, Choose Sub-Slots ",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","", "Hood Skin"],
+	["skin_roof","", "Roof Skin"],
+	["skin_door_L","", "Left Door Skin"],
+	["skin_door_R","", "Right Door Skin"],
+	["skin_trunk","", "Trunk Skin"],
+    ],
+},
+
+"legocar_skin_template_v8sport": {
+    "information":{
+        "authors":"AgentY",
+        "name":"V8 Sport Decals",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","", "Hood Skin"],
+	["skin_roof","", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_v8sport", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_v8sport", "Right Door Skin"],
+	["skin_trunk","", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_v8luxe": {
+    "information":{
+        "authors":"AgentY",
+        "name":"V8 Luxe Decals",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","", "Hood Skin"],
+	["skin_roof","", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_v8luxe", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_v8luxe", "Right Door Skin"],
+	["skin_trunk","", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_twinsport": {
+    "information":{
+        "authors":"AgentY",
+        "name":"V8 TwinSport Factory Graphics",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_stripes", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_v8sport", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_v8sport", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_stripes", "Trunk Skin"],
+    ],
+},
+
+"legocar_skin_template_stripes": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Stripes",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_stripes", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_stripes", "Roof Skin"],
+	["skin_door_L","", "Left Door Skin"],
+	["skin_door_R","", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_stripes", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_stripes2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Stripes (+ Sides)",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_stripes", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_stripes", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_triplestripe", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_triplestripe", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_stripes", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_stripes_alt": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Two-Tone Stripes",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_stripes_alt", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_stripes_alt", "Roof Skin"],
+	["skin_door_L","", "Left Door Skin"],
+	["skin_door_R","", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_stripes_alt", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_twotone": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Two-Tone",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_col2", "Hood Skin"],
+	["skin_roof","", "Roof Skin"],
+	["skin_door_L","", "Left Door Skin"],
+	["skin_door_R","", "Right Door Skin"],
+	["skin_trunk","", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_threetone": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Three-Tone",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_col2", "Hood Skin"],
+	["skin_roof","", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_triplestripe", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_triplestripe", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_col3", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_clown": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Clown Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_col2", "Hood Skin"],
+	["skin_roof","", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_col3", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_col2", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_col3", "Trunk Skin"],
+    ],
+},
+
+"legocar_skin_template_fpd": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Firwood Police Department Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_fpd", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_col2", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_fpd", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_fpd", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_fpd", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_fpd2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Firwood Police Department Modernized Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_fpd2", "Hood Skin"],
+	["skin_roof","", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_fpd2", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_fpd2", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_twotone", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_bcpd": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Belasco City Police Department Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_bcpd", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_bcpd", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_bcpd", "Right Door Skin"],
+	["skin_trunk","", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_polizei": {
+    "information":{
+        "authors":"AgentY",
+        "name":"German Police Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_polizei", "Hood Skin"],
+	["skin_roof","", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_polizei", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_polizei", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_polizei", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_police": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Generic Police Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_police", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_col2", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_police", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_police", "Right Door Skin"],
+	["skin_trunk","", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_polizia": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Italian Police Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_polizia", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_polizia", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_polizia", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_polizia", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_polizia", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_carabinieri": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Italian Interecptor Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_carabinieri", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_col2", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_carabinieri", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_carabinieri", "Right Door Skin"],
+	["skin_trunk","", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_gendarmerie": {
+    "information":{
+        "authors":"AgentY",
+        "name":"French Police Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_gendarmerie", "Hood Skin"],
+	["skin_roof","", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_gendarmerie", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_gendarmerie", "Right Door Skin"],
+	["skin_trunk","", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_highwaypatrol": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Highway Patrol Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_police", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_col2", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_highwaypatrol", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_highwaypatrol", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_fpd", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_sheriff": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Sheriff Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_sheriff", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_col2", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_sheriff", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_sheriff", "Right Door Skin"],
+	["skin_trunk","", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_retiredcop": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Retired Police Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_col2", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_retiredcop", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_retiredcop", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_retiredcop", "Trunk Skin"],
+    ],
+},
+
+"legocar_skin_template_firechief": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Fire Chief Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_firechief", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_col3", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_firechief", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_firechief", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_twotonealt", "Trunk Skin"],
+    ],
+},
+
+"legocar_skin_template_crashtest": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Crash Test Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_crashtest", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_crashtest", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_crashtest", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_crashtest", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_crashtest", "Trunk Skin"],
+    ],
+},
+
+"legocar_skin_template_flames": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Flames Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_flames", "Hood Skin"],
+	["skin_roof","", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_flames", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_flames", "Right Door Skin"],
+	["skin_trunk","", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_muscletuner2000": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Muscle Tuner 2000 Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_flames", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_usa", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_flames", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_flames", "Right Door Skin"],
+	["skin_trunk","", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_wee": {
+    "information":{
+        "authors":"AgentY",
+        "name":"General Leego Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_usa", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_racenumber", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_racenumber", "Right Door Skin"],
+	["skin_trunk","", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_jdm": {
+    "information":{
+        "authors":"AgentY",
+        "name":"JDM Tuner Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_glass", "Hood Skin"],
+	["skin_roof","", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_jdm", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_jdm", "Right Door Skin"],
+	["skin_trunk","", "Trunk Skin"],
+    ],
+},
+
+"legocar_skin_template_derby": {
+    "information":{
+        "authors":"AgentY",
+        "name":"The Brick Wall Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_derby", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_derby", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_derby", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_derby", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_derby", "Trunk Skin"],
+    ],
+},
+
+"legocar_skin_template_rusty": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty Old Paint",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_rusty", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_rusty", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_rusty", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_rusty", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_rusty", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_rusty_mismatched": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty (Mismatched Panel Colors)",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_rusty2", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_rusty", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_rusty", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_rusty2", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_rusty3", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_rusty_alt": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rusty",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_rusty_alt", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_rusty_alt", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_rusty_alt", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_rusty_alt", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_rusty_alt", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_beater": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Beater",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_col2", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_rusty_alt", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_rusty_alt", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_rusty_alt", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_rusty_alt", "Trunk Skin"],
+    ],
+},
+
+"legocar_skin_template_baja": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Baja Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_baja", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_baja", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_baja", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_baja", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_twotonealtb", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_rally": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Rally Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_rally", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_rally", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_rally", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_rally", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_rally", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_groupb": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Group B Rally Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_groupb", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_stripes_alt", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_racenumber", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_racenumber", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_stripes_alt", "Trunk Skin"],
+    ],
+},
+
+"legocar_skin_template_drift": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Drift Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_col2", "Hood Skin"],
+	["skin_roof","", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_japanese", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_japanese", "Right Door Skin"],
+	["skin_trunk","", "Trunk Skin"],
+    ],
+},
+
+"legocar_skin_template_pacecar": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Pace Car Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_pacecar", "Hood Skin"],
+	["skin_roof","", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_pacecar", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_pacecar", "Right Door Skin"],
+	["skin_trunk","", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_stockcar": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Stock Car Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_stockcar", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_stripes", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_racenumber", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_racenumber", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_twotonealt", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_stockcar2": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Modern Stock Car Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_stockcar2", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_stockcar2", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_stockcar2", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_stockcar2", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_stockcar2", "Trunk Skin"],
+    ],
+},
+"legocar_skin_template_drag": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Drag Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_stripes", "Hood Skin"],
+	["skin_roof","legocar_roof_skin_stripes", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_sus", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_sus", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_stripes", "Trunk Skin"],
+    ],
+},
+
+"legocar_skin_template_early2000tuner": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Early 2000s Tuner Livery",
+    },
+    "slotType" : "legocar_modular_skins",
+    "slots": [
+        ["type", "default", "description"],
+        ["skin_hood","legocar_hood_skin_tuning", "Hood Skin"],
+	["skin_roof","", "Roof Skin"],
+	["skin_door_L","legocar_door_L_skin_flames", "Left Door Skin"],
+	["skin_door_R","legocar_door_R_skin_flames", "Right Door Skin"],
+	["skin_trunk","legocar_trunk_skin_col2", "Trunk Skin"],
+    ],
+},
+
+}

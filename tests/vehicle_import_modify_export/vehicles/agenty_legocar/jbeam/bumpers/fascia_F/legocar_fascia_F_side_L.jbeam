@@ -1,0 +1,587 @@
+{
+"legocar_fascia_F_side_L_col1": {
+    "information":{
+        "name":"Left Front Fascia Side (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_F_side_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_col1", ["legocar_fascia_F_side_L"], [], {"pos":{"x": 0.625, "y":-1.650, "z":0.35},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_2x1_flat_col1", ["legocar_fascia_F_side_L"], [], {"pos":{"x": 0.625, "y":-1.550, "z":0.35},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//4 pieces, 8 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+	{"group":"legocar_fascia_F_side_L"},
+
+	["FLfasc1l",  0.75, -1.55, 0.1],
+	["FLfasc1r",  0.53, -1.55, 0.1],
+	["FLfasc2l",  0.75, -1.75, 0.1],
+	["FLfasc2r",  0.53, -1.75, 0.1],
+	["FLfasc3l",  0.75, -1.55, 0.6],
+	["FLfasc3r",  0.53, -1.55, 0.6],
+	["FLfasc4l",  0.75, -1.75, 0.6],
+	["FLfasc4r",  0.53, -1.75, 0.6],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT FRONT FASCIA SIDE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["FLfasc1l", "FLfasc1r"],
+	["FLfasc2l", "FLfasc2r"],
+	["FLfasc3l", "FLfasc3r"],
+	["FLfasc4l", "FLfasc4r"],
+
+	["FLfasc1l", "FLfasc2r"],
+	["FLfasc2l", "FLfasc3r"],
+	["FLfasc3l", "FLfasc4r"],
+	["FLfasc4l", "FLfasc1r"],
+
+	["FLfasc1l", "FLfasc3r"],
+	["FLfasc2l", "FLfasc4r"],
+	["FLfasc3l", "FLfasc1r"],
+	["FLfasc4l", "FLfasc2r"],
+
+	["FLfasc1l", "FLfasc4r"],
+	["FLfasc2l", "FLfasc1r"],
+	["FLfasc3l", "FLfasc2r"],
+	["FLfasc4l", "FLfasc3r"],
+
+	["FLfasc1l", "FLfasc2l"],
+	["FLfasc2l", "FLfasc3l"],
+	["FLfasc3l", "FLfasc4l"],
+	["FLfasc4l", "FLfasc1l"],
+
+	["FLfasc1l", "FLfasc3l"],
+	["FLfasc2l", "FLfasc4l"],
+
+	["FLfasc1r", "FLfasc2r"],
+	["FLfasc2r", "FLfasc3r"],
+	["FLfasc3r", "FLfasc4r"],
+	["FLfasc4r", "FLfasc1r"],
+
+	["FLfasc1r", "FLfasc3r"],
+	["FLfasc2r", "FLfasc4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	{"breakGroup":"fascia_FL_break"},
+
+	["FLfasc1l", "Ffasc1l"],
+	["FLfasc1l", "Ffasc1r"],
+	["FLfasc1l", "Ffasc2l"],
+
+	["FLfasc1r", "Ffasc1l"],
+	["FLfasc1r", "Ffasc1r"],
+	["FLfasc1r", "Ffasc2l"],
+
+	["FLfasc3l", "Ffasc1l"],
+	["FLfasc3l", "Ffasc2r"],
+	["FLfasc3l", "Ffasc2l"],
+
+	["FLfasc3r", "Ffasc1l"],
+	["FLfasc3r", "Ffasc2r"],
+	["FLfasc3r", "Ffasc2l"],
+
+	{"optional":false},
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_fascia_F_side_L"},   
+	["FLfasc1r","FLfasc1l","FLfasc2l","FLfasc2r"],
+	["FLfasc3l","FLfasc3r","FLfasc4r","FLfasc4l"],
+	["FLfasc1r","FLfasc2r","FLfasc4r","FLfasc3r"],
+	["FLfasc2l","FLfasc1l","FLfasc3l","FLfasc4l"],
+	["FLfasc2r","FLfasc2l","FLfasc4l","FLfasc4r"],
+	["FLfasc1l","FLfasc1r","FLfasc3r","FLfasc3l"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_fascia_F_side_L_col2": {
+    "information":{
+        "name":"Left Front Fascia Side (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_F_side_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_col2", ["legocar_fascia_F_side_L"], [], {"pos":{"x": 0.625, "y":-1.650, "z":0.35},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_2x1_flat_col2", ["legocar_fascia_F_side_L"], [], {"pos":{"x": 0.625, "y":-1.550, "z":0.35},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//4 pieces, 8 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+	{"group":"legocar_fascia_F_side_L"},
+
+	["FLfasc1l",  0.75, -1.55, 0.1],
+	["FLfasc1r",  0.53, -1.55, 0.1],
+	["FLfasc2l",  0.75, -1.75, 0.1],
+	["FLfasc2r",  0.53, -1.75, 0.1],
+	["FLfasc3l",  0.75, -1.55, 0.6],
+	["FLfasc3r",  0.53, -1.55, 0.6],
+	["FLfasc4l",  0.75, -1.75, 0.6],
+	["FLfasc4r",  0.53, -1.75, 0.6],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT FRONT FASCIA SIDE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["FLfasc1l", "FLfasc1r"],
+	["FLfasc2l", "FLfasc2r"],
+	["FLfasc3l", "FLfasc3r"],
+	["FLfasc4l", "FLfasc4r"],
+
+	["FLfasc1l", "FLfasc2r"],
+	["FLfasc2l", "FLfasc3r"],
+	["FLfasc3l", "FLfasc4r"],
+	["FLfasc4l", "FLfasc1r"],
+
+	["FLfasc1l", "FLfasc3r"],
+	["FLfasc2l", "FLfasc4r"],
+	["FLfasc3l", "FLfasc1r"],
+	["FLfasc4l", "FLfasc2r"],
+
+	["FLfasc1l", "FLfasc4r"],
+	["FLfasc2l", "FLfasc1r"],
+	["FLfasc3l", "FLfasc2r"],
+	["FLfasc4l", "FLfasc3r"],
+
+	["FLfasc1l", "FLfasc2l"],
+	["FLfasc2l", "FLfasc3l"],
+	["FLfasc3l", "FLfasc4l"],
+	["FLfasc4l", "FLfasc1l"],
+
+	["FLfasc1l", "FLfasc3l"],
+	["FLfasc2l", "FLfasc4l"],
+
+	["FLfasc1r", "FLfasc2r"],
+	["FLfasc2r", "FLfasc3r"],
+	["FLfasc3r", "FLfasc4r"],
+	["FLfasc4r", "FLfasc1r"],
+
+	["FLfasc1r", "FLfasc3r"],
+	["FLfasc2r", "FLfasc4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	{"breakGroup":"fascia_FL_break"},
+
+	["FLfasc1l", "Ffasc1l"],
+	["FLfasc1l", "Ffasc1r"],
+	["FLfasc1l", "Ffasc2l"],
+
+	["FLfasc1r", "Ffasc1l"],
+	["FLfasc1r", "Ffasc1r"],
+	["FLfasc1r", "Ffasc2l"],
+
+	["FLfasc3l", "Ffasc1l"],
+	["FLfasc3l", "Ffasc2r"],
+	["FLfasc3l", "Ffasc2l"],
+
+	["FLfasc3r", "Ffasc1l"],
+	["FLfasc3r", "Ffasc2r"],
+	["FLfasc3r", "Ffasc2l"],
+
+	{"optional":false},
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_fascia_F_side_L"},   
+	["FLfasc1r","FLfasc1l","FLfasc2l","FLfasc2r"],
+	["FLfasc3l","FLfasc3r","FLfasc4r","FLfasc4l"],
+	["FLfasc1r","FLfasc2r","FLfasc4r","FLfasc3r"],
+	["FLfasc2l","FLfasc1l","FLfasc3l","FLfasc4l"],
+	["FLfasc2r","FLfasc2l","FLfasc4l","FLfasc4r"],
+	["FLfasc1l","FLfasc1r","FLfasc3r","FLfasc3l"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_fascia_F_side_L_col3": {
+    "information":{
+        "name":"Left Front Fascia Side (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_F_side_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_col3", ["legocar_fascia_F_side_L"], [], {"pos":{"x": 0.625, "y":-1.650, "z":0.35},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_2x1_flat_col3", ["legocar_fascia_F_side_L"], [], {"pos":{"x": 0.625, "y":-1.550, "z":0.35},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//4 pieces, 8 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+	{"group":"legocar_fascia_F_side_L"},
+
+	["FLfasc1l",  0.75, -1.55, 0.1],
+	["FLfasc1r",  0.53, -1.55, 0.1],
+	["FLfasc2l",  0.75, -1.75, 0.1],
+	["FLfasc2r",  0.53, -1.75, 0.1],
+	["FLfasc3l",  0.75, -1.55, 0.6],
+	["FLfasc3r",  0.53, -1.55, 0.6],
+	["FLfasc4l",  0.75, -1.75, 0.6],
+	["FLfasc4r",  0.53, -1.75, 0.6],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT FRONT FASCIA SIDE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["FLfasc1l", "FLfasc1r"],
+	["FLfasc2l", "FLfasc2r"],
+	["FLfasc3l", "FLfasc3r"],
+	["FLfasc4l", "FLfasc4r"],
+
+	["FLfasc1l", "FLfasc2r"],
+	["FLfasc2l", "FLfasc3r"],
+	["FLfasc3l", "FLfasc4r"],
+	["FLfasc4l", "FLfasc1r"],
+
+	["FLfasc1l", "FLfasc3r"],
+	["FLfasc2l", "FLfasc4r"],
+	["FLfasc3l", "FLfasc1r"],
+	["FLfasc4l", "FLfasc2r"],
+
+	["FLfasc1l", "FLfasc4r"],
+	["FLfasc2l", "FLfasc1r"],
+	["FLfasc3l", "FLfasc2r"],
+	["FLfasc4l", "FLfasc3r"],
+
+	["FLfasc1l", "FLfasc2l"],
+	["FLfasc2l", "FLfasc3l"],
+	["FLfasc3l", "FLfasc4l"],
+	["FLfasc4l", "FLfasc1l"],
+
+	["FLfasc1l", "FLfasc3l"],
+	["FLfasc2l", "FLfasc4l"],
+
+	["FLfasc1r", "FLfasc2r"],
+	["FLfasc2r", "FLfasc3r"],
+	["FLfasc3r", "FLfasc4r"],
+	["FLfasc4r", "FLfasc1r"],
+
+	["FLfasc1r", "FLfasc3r"],
+	["FLfasc2r", "FLfasc4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	{"breakGroup":"fascia_FL_break"},
+
+	["FLfasc1l", "Ffasc1l"],
+	["FLfasc1l", "Ffasc1r"],
+	["FLfasc1l", "Ffasc2l"],
+
+	["FLfasc1r", "Ffasc1l"],
+	["FLfasc1r", "Ffasc1r"],
+	["FLfasc1r", "Ffasc2l"],
+
+	["FLfasc3l", "Ffasc1l"],
+	["FLfasc3l", "Ffasc2r"],
+	["FLfasc3l", "Ffasc2l"],
+
+	["FLfasc3r", "Ffasc1l"],
+	["FLfasc3r", "Ffasc2r"],
+	["FLfasc3r", "Ffasc2l"],
+
+	{"optional":false},
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_fascia_F_side_L"},   
+	["FLfasc1r","FLfasc1l","FLfasc2l","FLfasc2r"],
+	["FLfasc3l","FLfasc3r","FLfasc4r","FLfasc4l"],
+	["FLfasc1r","FLfasc2r","FLfasc4r","FLfasc3r"],
+	["FLfasc2l","FLfasc1l","FLfasc3l","FLfasc4l"],
+	["FLfasc2r","FLfasc2l","FLfasc4l","FLfasc4r"],
+	["FLfasc1l","FLfasc1r","FLfasc3r","FLfasc3l"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_fascia_F_side_L_grey": {
+    "information":{
+        "name":"Left Front Fascia Side (Light Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_F_side_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_grey", ["legocar_fascia_F_side_L"], [], {"pos":{"x": 0.625, "y":-1.650, "z":0.35},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_2x1_flat_grey", ["legocar_fascia_F_side_L"], [], {"pos":{"x": 0.625, "y":-1.550, "z":0.35},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//4 pieces, 8 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+	{"group":"legocar_fascia_F_side_L"},
+
+	["FLfasc1l",  0.75, -1.55, 0.1],
+	["FLfasc1r",  0.53, -1.55, 0.1],
+	["FLfasc2l",  0.75, -1.75, 0.1],
+	["FLfasc2r",  0.53, -1.75, 0.1],
+	["FLfasc3l",  0.75, -1.55, 0.6],
+	["FLfasc3r",  0.53, -1.55, 0.6],
+	["FLfasc4l",  0.75, -1.75, 0.6],
+	["FLfasc4r",  0.53, -1.75, 0.6],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT FRONT FASCIA SIDE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["FLfasc1l", "FLfasc1r"],
+	["FLfasc2l", "FLfasc2r"],
+	["FLfasc3l", "FLfasc3r"],
+	["FLfasc4l", "FLfasc4r"],
+
+	["FLfasc1l", "FLfasc2r"],
+	["FLfasc2l", "FLfasc3r"],
+	["FLfasc3l", "FLfasc4r"],
+	["FLfasc4l", "FLfasc1r"],
+
+	["FLfasc1l", "FLfasc3r"],
+	["FLfasc2l", "FLfasc4r"],
+	["FLfasc3l", "FLfasc1r"],
+	["FLfasc4l", "FLfasc2r"],
+
+	["FLfasc1l", "FLfasc4r"],
+	["FLfasc2l", "FLfasc1r"],
+	["FLfasc3l", "FLfasc2r"],
+	["FLfasc4l", "FLfasc3r"],
+
+	["FLfasc1l", "FLfasc2l"],
+	["FLfasc2l", "FLfasc3l"],
+	["FLfasc3l", "FLfasc4l"],
+	["FLfasc4l", "FLfasc1l"],
+
+	["FLfasc1l", "FLfasc3l"],
+	["FLfasc2l", "FLfasc4l"],
+
+	["FLfasc1r", "FLfasc2r"],
+	["FLfasc2r", "FLfasc3r"],
+	["FLfasc3r", "FLfasc4r"],
+	["FLfasc4r", "FLfasc1r"],
+
+	["FLfasc1r", "FLfasc3r"],
+	["FLfasc2r", "FLfasc4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	{"breakGroup":"fascia_FL_break"},
+
+	["FLfasc1l", "Ffasc1l"],
+	["FLfasc1l", "Ffasc1r"],
+	["FLfasc1l", "Ffasc2l"],
+
+	["FLfasc1r", "Ffasc1l"],
+	["FLfasc1r", "Ffasc1r"],
+	["FLfasc1r", "Ffasc2l"],
+
+	["FLfasc3l", "Ffasc1l"],
+	["FLfasc3l", "Ffasc2r"],
+	["FLfasc3l", "Ffasc2l"],
+
+	["FLfasc3r", "Ffasc1l"],
+	["FLfasc3r", "Ffasc2r"],
+	["FLfasc3r", "Ffasc2l"],
+
+	{"optional":false},
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_fascia_F_side_L"},   
+	["FLfasc1r","FLfasc1l","FLfasc2l","FLfasc2r"],
+	["FLfasc3l","FLfasc3r","FLfasc4r","FLfasc4l"],
+	["FLfasc1r","FLfasc2r","FLfasc4r","FLfasc3r"],
+	["FLfasc2l","FLfasc1l","FLfasc3l","FLfasc4l"],
+	["FLfasc2r","FLfasc2l","FLfasc4l","FLfasc4r"],
+	["FLfasc1l","FLfasc1r","FLfasc3r","FLfasc3l"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_fascia_F_side_L_dgrey": {
+    "information":{
+        "name":"Left Front Fascia Side (Dark Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_F_side_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x1_flat_dgrey", ["legocar_fascia_F_side_L"], [], {"pos":{"x": 0.625, "y":-1.650, "z":0.35},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_2x1_flat_dgrey", ["legocar_fascia_F_side_L"], [], {"pos":{"x": 0.625, "y":-1.550, "z":0.35},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//4 pieces, 8 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+	{"group":"legocar_fascia_F_side_L"},
+
+	["FLfasc1l",  0.75, -1.55, 0.1],
+	["FLfasc1r",  0.53, -1.55, 0.1],
+	["FLfasc2l",  0.75, -1.75, 0.1],
+	["FLfasc2r",  0.53, -1.75, 0.1],
+	["FLfasc3l",  0.75, -1.55, 0.6],
+	["FLfasc3r",  0.53, -1.55, 0.6],
+	["FLfasc4l",  0.75, -1.75, 0.6],
+	["FLfasc4r",  0.53, -1.75, 0.6],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT FRONT FASCIA SIDE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//uniform structure
+	["FLfasc1l", "FLfasc1r"],
+	["FLfasc2l", "FLfasc2r"],
+	["FLfasc3l", "FLfasc3r"],
+	["FLfasc4l", "FLfasc4r"],
+
+	["FLfasc1l", "FLfasc2r"],
+	["FLfasc2l", "FLfasc3r"],
+	["FLfasc3l", "FLfasc4r"],
+	["FLfasc4l", "FLfasc1r"],
+
+	["FLfasc1l", "FLfasc3r"],
+	["FLfasc2l", "FLfasc4r"],
+	["FLfasc3l", "FLfasc1r"],
+	["FLfasc4l", "FLfasc2r"],
+
+	["FLfasc1l", "FLfasc4r"],
+	["FLfasc2l", "FLfasc1r"],
+	["FLfasc3l", "FLfasc2r"],
+	["FLfasc4l", "FLfasc3r"],
+
+	["FLfasc1l", "FLfasc2l"],
+	["FLfasc2l", "FLfasc3l"],
+	["FLfasc3l", "FLfasc4l"],
+	["FLfasc4l", "FLfasc1l"],
+
+	["FLfasc1l", "FLfasc3l"],
+	["FLfasc2l", "FLfasc4l"],
+
+	["FLfasc1r", "FLfasc2r"],
+	["FLfasc2r", "FLfasc3r"],
+	["FLfasc3r", "FLfasc4r"],
+	["FLfasc4r", "FLfasc1r"],
+
+	["FLfasc1r", "FLfasc3r"],
+	["FLfasc2r", "FLfasc4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	{"breakGroup":"fascia_FL_break"},
+
+	["FLfasc1l", "Ffasc1l"],
+	["FLfasc1l", "Ffasc1r"],
+	["FLfasc1l", "Ffasc2l"],
+
+	["FLfasc1r", "Ffasc1l"],
+	["FLfasc1r", "Ffasc1r"],
+	["FLfasc1r", "Ffasc2l"],
+
+	["FLfasc3l", "Ffasc1l"],
+	["FLfasc3l", "Ffasc2r"],
+	["FLfasc3l", "Ffasc2l"],
+
+	["FLfasc3r", "Ffasc1l"],
+	["FLfasc3r", "Ffasc2r"],
+	["FLfasc3r", "Ffasc2l"],
+
+	{"optional":false},
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_fascia_F_side_L"},   
+	["FLfasc1r","FLfasc1l","FLfasc2l","FLfasc2r"],
+	["FLfasc3l","FLfasc3r","FLfasc4r","FLfasc4l"],
+	["FLfasc1r","FLfasc2r","FLfasc4r","FLfasc3r"],
+	["FLfasc2l","FLfasc1l","FLfasc3l","FLfasc4l"],
+	["FLfasc2r","FLfasc2l","FLfasc4l","FLfasc4r"],
+	["FLfasc1l","FLfasc1r","FLfasc3r","FLfasc3l"],
+
+        {"group":""},
+    ],
+},
+
+}

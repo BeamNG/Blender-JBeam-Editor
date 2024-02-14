@@ -1,0 +1,506 @@
+{
+"legocar_hood_vents_derby_col1": {
+    "information":{
+        "name":"Hood Vents (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hood_accessory_cut",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_grille_col1",["legocar_hood_vent_L"],[], {"pos":{"x": 0.250, "y":-1.125, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_flat_grille_col1",["legocar_hood_vent_R"],[], {"pos":{"x":-0.250, "y":-1.125, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//2 half-pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	//left
+	{"group":"legocar_hood_vent_L"},
+	["FLhoodvent2l",  0.50, -1.00, 0.85],
+	["FLhoodvent2r",  0.02, -1.00, 0.85],
+	["FLhoodvent1l",  0.50, -1.25, 0.85],
+	["FLhoodvent1r",  0.02, -1.25, 0.85],
+	//rigidifier
+	["FLhoodventrig", 0.25, -1.125, 0.6, {"collision":false, "selfCollision":false, "group":""}],
+	
+	//right
+	{"group":"legocar_hood_vent_R"},
+	["FRhoodvent2r", -0.50, -1.00, 0.85],
+	["FRhoodvent2l", -0.02, -1.00, 0.85],
+	["FRhoodvent1r", -0.50, -1.25, 0.85],
+	["FRhoodvent1l", -0.02, -1.25, 0.85],
+	//rigidifier
+	["FRhoodventrig",-0.25, -1.125, 0.6, {"collision":false, "selfCollision":false, "group":""}],	
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--HOOD VENTS--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//left uniform structure
+	["FLhoodvent1l", "FLhoodvent1r"],
+	["FLhoodvent2l", "FLhoodvent2r"],
+	["FLhoodvent1l", "FLhoodvent2l"],
+	["FLhoodvent1r", "FLhoodvent2r"],
+	["FLhoodvent1l", "FLhoodvent2r"],
+	["FLhoodvent2l", "FLhoodvent1r"],
+
+	//left rigidifier
+	["FLhoodvent1l", "FLhoodventrig"],
+	["FLhoodvent1r", "FLhoodventrig"],
+	["FLhoodvent2l", "FLhoodventrig"],
+	["FLhoodvent2r", "FLhoodventrig"],
+	
+	//right uniform structure
+	["FRhoodvent1l", "FRhoodvent1r"],
+	["FRhoodvent2l", "FRhoodvent2r"],
+	["FRhoodvent1l", "FRhoodvent2l"],
+	["FRhoodvent1r", "FRhoodvent2r"],
+	["FRhoodvent1l", "FRhoodvent2r"],
+	["FRhoodvent2l", "FRhoodvent1r"],
+
+	//right rigidifier
+	["FRhoodvent1l", "FRhoodventrig"],
+	["FRhoodvent1r", "FRhoodventrig"],
+	["FRhoodvent2l", "FRhoodventrig"],
+	["FRhoodvent2r", "FRhoodventrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//left
+	{"breakGroup":"hoodvent_L_break"},
+
+	["hood1lll", "FLhoodvent2r"],
+	["hood1lll", "FLhoodvent2l"],
+	["hood1lll", "FLhoodvent1r"],
+	["hood1lll", "FLhoodventrig"],
+
+	["hood1ll", "FLhoodvent2r"],
+	["hood1ll", "FLhoodvent2l"],
+	["hood1ll", "FLhoodvent1r"],
+	["hood1ll", "FLhoodventrig"],
+
+	["hood1l", "FLhoodvent2r"],
+	["hood1l", "FLhoodvent2l"],
+	["hood1l", "FLhoodvent1l"],
+	["hood1l", "FLhoodventrig"],
+
+	["hood2lll", "FLhoodvent1r"],
+	["hood2lll", "FLhoodvent1l"],
+	["hood2lll", "FLhoodvent2r"],
+	["hood2lll", "FLhoodventrig"],
+
+	["hood2ll", "FLhoodvent1r"],
+	["hood2ll", "FLhoodvent1l"],
+	["hood2ll", "FLhoodvent2r"],
+	["hood2ll", "FLhoodventrig"],
+
+	["hood2l", "FLhoodvent1r"],
+	["hood2l", "FLhoodvent1l"],
+	["hood2l", "FLhoodvent2l"],
+	["hood2l", "FLhoodventrig"],
+
+	["hoodrig", "FLhoodvent1l"],
+	["hoodrig", "FLhoodvent1r"],
+	["hoodrig", "FLhoodvent2l"],
+	["hoodrig", "FLhoodvent2r"],
+
+	//right
+	{"breakGroup":"hoodvent_R_break"},
+	
+	["hood1rrr", "FRhoodvent2r"],
+	["hood1rrr", "FRhoodvent2l"],
+	["hood1rrr", "FRhoodvent1r"],
+	["hood1rrr", "FRhoodventrig"],
+
+	["hood1rr", "FRhoodvent2r"],
+	["hood1rr", "FRhoodvent2l"],
+	["hood1rr", "FRhoodvent1r"],
+	["hood1rr", "FRhoodventrig"],
+
+	["hood1r", "FRhoodvent2r"],
+	["hood1r", "FRhoodvent2l"],
+	["hood1r", "FRhoodvent1l"],
+	["hood1r", "FRhoodventrig"],
+
+	["hood2rrr", "FRhoodvent1r"],
+	["hood2rrr", "FRhoodvent1l"],
+	["hood2rrr", "FRhoodvent2r"],
+	["hood2rrr", "FRhoodventrig"],
+
+	["hood2rr", "FRhoodvent1r"],
+	["hood2rr", "FRhoodvent1l"],
+	["hood2rr", "FRhoodvent2r"],
+	["hood2rr", "FRhoodventrig"],
+
+	["hood2r", "FRhoodvent1r"],
+	["hood2r", "FRhoodvent1l"],
+	["hood2r", "FRhoodvent2l"],
+	["hood2r", "FRhoodventrig"],
+
+	["hoodrig", "FRhoodvent1l"],
+	["hoodrig", "FRhoodvent1r"],
+	["hoodrig", "FRhoodvent2l"],
+	["hoodrig", "FRhoodvent2r"],
+	
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_hood_vent_L"},
+	["FLhoodvent2l","FLhoodvent2r","FLhoodvent1r","FLhoodvent1l", {"dragCoef":"$=$drag*0.1"}],
+	{"group":"legocar_hood_vent_R"},
+	["FRhoodvent2l","FRhoodvent2r","FRhoodvent1r","FRhoodvent1l", {"dragCoef":"$=$drag*0.1"}],
+        {"group":""},
+    ],
+},
+
+"legocar_hood_vents_derby_col2": {
+    "information":{
+        "name":"Hood Vents (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hood_accessory_cut",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_grille_col2",["legocar_hood_vent_L"],[], {"pos":{"x": 0.250, "y":-1.125, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_flat_grille_col2",["legocar_hood_vent_R"],[], {"pos":{"x":-0.250, "y":-1.125, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//2 half-pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	//left
+	{"group":"legocar_hood_vent_L"},
+	["FLhoodvent2l",  0.50, -1.00, 0.85],
+	["FLhoodvent2r",  0.02, -1.00, 0.85],
+	["FLhoodvent1l",  0.50, -1.25, 0.85],
+	["FLhoodvent1r",  0.02, -1.25, 0.85],
+	//rigidifier
+	["FLhoodventrig", 0.25, -1.125, 0.6, {"collision":false, "selfCollision":false, "group":""}],
+	
+	//right
+	{"group":"legocar_hood_vent_R"},
+	["FRhoodvent2r", -0.50, -1.00, 0.85],
+	["FRhoodvent2l", -0.02, -1.00, 0.85],
+	["FRhoodvent1r", -0.50, -1.25, 0.85],
+	["FRhoodvent1l", -0.02, -1.25, 0.85],
+	//rigidifier
+	["FRhoodventrig",-0.25, -1.125, 0.6, {"collision":false, "selfCollision":false, "group":""}],	
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--HOOD VENTS--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//left uniform structure
+	["FLhoodvent1l", "FLhoodvent1r"],
+	["FLhoodvent2l", "FLhoodvent2r"],
+	["FLhoodvent1l", "FLhoodvent2l"],
+	["FLhoodvent1r", "FLhoodvent2r"],
+	["FLhoodvent1l", "FLhoodvent2r"],
+	["FLhoodvent2l", "FLhoodvent1r"],
+
+	//left rigidifier
+	["FLhoodvent1l", "FLhoodventrig"],
+	["FLhoodvent1r", "FLhoodventrig"],
+	["FLhoodvent2l", "FLhoodventrig"],
+	["FLhoodvent2r", "FLhoodventrig"],
+	
+	//right uniform structure
+	["FRhoodvent1l", "FRhoodvent1r"],
+	["FRhoodvent2l", "FRhoodvent2r"],
+	["FRhoodvent1l", "FRhoodvent2l"],
+	["FRhoodvent1r", "FRhoodvent2r"],
+	["FRhoodvent1l", "FRhoodvent2r"],
+	["FRhoodvent2l", "FRhoodvent1r"],
+
+	//right rigidifier
+	["FRhoodvent1l", "FRhoodventrig"],
+	["FRhoodvent1r", "FRhoodventrig"],
+	["FRhoodvent2l", "FRhoodventrig"],
+	["FRhoodvent2r", "FRhoodventrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//left
+	{"breakGroup":"hoodvent_L_break"},
+
+	["hood1lll", "FLhoodvent2r"],
+	["hood1lll", "FLhoodvent2l"],
+	["hood1lll", "FLhoodvent1r"],
+	["hood1lll", "FLhoodventrig"],
+
+	["hood1ll", "FLhoodvent2r"],
+	["hood1ll", "FLhoodvent2l"],
+	["hood1ll", "FLhoodvent1r"],
+	["hood1ll", "FLhoodventrig"],
+
+	["hood1l", "FLhoodvent2r"],
+	["hood1l", "FLhoodvent2l"],
+	["hood1l", "FLhoodvent1l"],
+	["hood1l", "FLhoodventrig"],
+
+	["hood2lll", "FLhoodvent1r"],
+	["hood2lll", "FLhoodvent1l"],
+	["hood2lll", "FLhoodvent2r"],
+	["hood2lll", "FLhoodventrig"],
+
+	["hood2ll", "FLhoodvent1r"],
+	["hood2ll", "FLhoodvent1l"],
+	["hood2ll", "FLhoodvent2r"],
+	["hood2ll", "FLhoodventrig"],
+
+	["hood2l", "FLhoodvent1r"],
+	["hood2l", "FLhoodvent1l"],
+	["hood2l", "FLhoodvent2l"],
+	["hood2l", "FLhoodventrig"],
+
+	["hoodrig", "FLhoodvent1l"],
+	["hoodrig", "FLhoodvent1r"],
+	["hoodrig", "FLhoodvent2l"],
+	["hoodrig", "FLhoodvent2r"],
+
+	//right
+	{"breakGroup":"hoodvent_R_break"},
+	
+	["hood1rrr", "FRhoodvent2r"],
+	["hood1rrr", "FRhoodvent2l"],
+	["hood1rrr", "FRhoodvent1r"],
+	["hood1rrr", "FRhoodventrig"],
+
+	["hood1rr", "FRhoodvent2r"],
+	["hood1rr", "FRhoodvent2l"],
+	["hood1rr", "FRhoodvent1r"],
+	["hood1rr", "FRhoodventrig"],
+
+	["hood1r", "FRhoodvent2r"],
+	["hood1r", "FRhoodvent2l"],
+	["hood1r", "FRhoodvent1l"],
+	["hood1r", "FRhoodventrig"],
+
+	["hood2rrr", "FRhoodvent1r"],
+	["hood2rrr", "FRhoodvent1l"],
+	["hood2rrr", "FRhoodvent2r"],
+	["hood2rrr", "FRhoodventrig"],
+
+	["hood2rr", "FRhoodvent1r"],
+	["hood2rr", "FRhoodvent1l"],
+	["hood2rr", "FRhoodvent2r"],
+	["hood2rr", "FRhoodventrig"],
+
+	["hood2r", "FRhoodvent1r"],
+	["hood2r", "FRhoodvent1l"],
+	["hood2r", "FRhoodvent2l"],
+	["hood2r", "FRhoodventrig"],
+
+	["hoodrig", "FRhoodvent1l"],
+	["hoodrig", "FRhoodvent1r"],
+	["hoodrig", "FRhoodvent2l"],
+	["hoodrig", "FRhoodvent2r"],
+	
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_hood_vent_L"},
+	["FLhoodvent2l","FLhoodvent2r","FLhoodvent1r","FLhoodvent1l", {"dragCoef":"$=$drag*0.1"}],
+	{"group":"legocar_hood_vent_R"},
+	["FRhoodvent2l","FRhoodvent2r","FRhoodvent1r","FRhoodvent1l", {"dragCoef":"$=$drag*0.1"}],
+        {"group":""},
+    ],
+},
+
+"legocar_hood_vents_derby_col3": {
+    "information":{
+        "name":"Hood Vents (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hood_accessory_cut",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_grille_col3",["legocar_hood_vent_L"],[], {"pos":{"x": 0.250, "y":-1.125, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x2_flat_grille_col3",["legocar_hood_vent_R"],[], {"pos":{"x":-0.250, "y":-1.125, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//2 half-pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	//left
+	{"group":"legocar_hood_vent_L"},
+	["FLhoodvent2l",  0.50, -1.00, 0.85],
+	["FLhoodvent2r",  0.02, -1.00, 0.85],
+	["FLhoodvent1l",  0.50, -1.25, 0.85],
+	["FLhoodvent1r",  0.02, -1.25, 0.85],
+	//rigidifier
+	["FLhoodventrig", 0.25, -1.125, 0.6, {"collision":false, "selfCollision":false, "group":""}],
+	
+	//right
+	{"group":"legocar_hood_vent_R"},
+	["FRhoodvent2r", -0.50, -1.00, 0.85],
+	["FRhoodvent2l", -0.02, -1.00, 0.85],
+	["FRhoodvent1r", -0.50, -1.25, 0.85],
+	["FRhoodvent1l", -0.02, -1.25, 0.85],
+	//rigidifier
+	["FRhoodventrig",-0.25, -1.125, 0.6, {"collision":false, "selfCollision":false, "group":""}],	
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--HOOD VENTS--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//left uniform structure
+	["FLhoodvent1l", "FLhoodvent1r"],
+	["FLhoodvent2l", "FLhoodvent2r"],
+	["FLhoodvent1l", "FLhoodvent2l"],
+	["FLhoodvent1r", "FLhoodvent2r"],
+	["FLhoodvent1l", "FLhoodvent2r"],
+	["FLhoodvent2l", "FLhoodvent1r"],
+
+	//left rigidifier
+	["FLhoodvent1l", "FLhoodventrig"],
+	["FLhoodvent1r", "FLhoodventrig"],
+	["FLhoodvent2l", "FLhoodventrig"],
+	["FLhoodvent2r", "FLhoodventrig"],
+	
+	//right uniform structure
+	["FRhoodvent1l", "FRhoodvent1r"],
+	["FRhoodvent2l", "FRhoodvent2r"],
+	["FRhoodvent1l", "FRhoodvent2l"],
+	["FRhoodvent1r", "FRhoodvent2r"],
+	["FRhoodvent1l", "FRhoodvent2r"],
+	["FRhoodvent2l", "FRhoodvent1r"],
+
+	//right rigidifier
+	["FRhoodvent1l", "FRhoodventrig"],
+	["FRhoodvent1r", "FRhoodventrig"],
+	["FRhoodvent2l", "FRhoodventrig"],
+	["FRhoodvent2r", "FRhoodventrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//left
+	{"breakGroup":"hoodvent_L_break"},
+
+	["hood1lll", "FLhoodvent2r"],
+	["hood1lll", "FLhoodvent2l"],
+	["hood1lll", "FLhoodvent1r"],
+	["hood1lll", "FLhoodventrig"],
+
+	["hood1ll", "FLhoodvent2r"],
+	["hood1ll", "FLhoodvent2l"],
+	["hood1ll", "FLhoodvent1r"],
+	["hood1ll", "FLhoodventrig"],
+
+	["hood1l", "FLhoodvent2r"],
+	["hood1l", "FLhoodvent2l"],
+	["hood1l", "FLhoodvent1l"],
+	["hood1l", "FLhoodventrig"],
+
+	["hood2lll", "FLhoodvent1r"],
+	["hood2lll", "FLhoodvent1l"],
+	["hood2lll", "FLhoodvent2r"],
+	["hood2lll", "FLhoodventrig"],
+
+	["hood2ll", "FLhoodvent1r"],
+	["hood2ll", "FLhoodvent1l"],
+	["hood2ll", "FLhoodvent2r"],
+	["hood2ll", "FLhoodventrig"],
+
+	["hood2l", "FLhoodvent1r"],
+	["hood2l", "FLhoodvent1l"],
+	["hood2l", "FLhoodvent2l"],
+	["hood2l", "FLhoodventrig"],
+
+	["hoodrig", "FLhoodvent1l"],
+	["hoodrig", "FLhoodvent1r"],
+	["hoodrig", "FLhoodvent2l"],
+	["hoodrig", "FLhoodvent2r"],
+
+	//right
+	{"breakGroup":"hoodvent_R_break"},
+	
+	["hood1rrr", "FRhoodvent2r"],
+	["hood1rrr", "FRhoodvent2l"],
+	["hood1rrr", "FRhoodvent1r"],
+	["hood1rrr", "FRhoodventrig"],
+
+	["hood1rr", "FRhoodvent2r"],
+	["hood1rr", "FRhoodvent2l"],
+	["hood1rr", "FRhoodvent1r"],
+	["hood1rr", "FRhoodventrig"],
+
+	["hood1r", "FRhoodvent2r"],
+	["hood1r", "FRhoodvent2l"],
+	["hood1r", "FRhoodvent1l"],
+	["hood1r", "FRhoodventrig"],
+
+	["hood2rrr", "FRhoodvent1r"],
+	["hood2rrr", "FRhoodvent1l"],
+	["hood2rrr", "FRhoodvent2r"],
+	["hood2rrr", "FRhoodventrig"],
+
+	["hood2rr", "FRhoodvent1r"],
+	["hood2rr", "FRhoodvent1l"],
+	["hood2rr", "FRhoodvent2r"],
+	["hood2rr", "FRhoodventrig"],
+
+	["hood2r", "FRhoodvent1r"],
+	["hood2r", "FRhoodvent1l"],
+	["hood2r", "FRhoodvent2l"],
+	["hood2r", "FRhoodventrig"],
+
+	["hoodrig", "FRhoodvent1l"],
+	["hoodrig", "FRhoodvent1r"],
+	["hoodrig", "FRhoodvent2l"],
+	["hoodrig", "FRhoodvent2r"],
+	
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_hood_vent_L"},
+	["FLhoodvent2l","FLhoodvent2r","FLhoodvent1r","FLhoodvent1l", {"dragCoef":"$=$drag*0.1"}],
+	{"group":"legocar_hood_vent_R"},
+	["FRhoodvent2l","FRhoodvent2r","FRhoodvent1r","FRhoodvent1l", {"dragCoef":"$=$drag*0.1"}],
+        {"group":""},
+    ],
+},
+
+}

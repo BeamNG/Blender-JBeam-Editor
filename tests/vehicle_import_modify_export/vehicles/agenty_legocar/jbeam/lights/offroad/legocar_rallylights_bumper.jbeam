@@ -1,0 +1,159 @@
+{
+"legocar_bumperlights_rally": {
+    "information":{
+        "name":"Rally Fog Lights",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumperlights_rally",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"bumperlight_L_break", "deformMaterialBase":"legocar_foglight_stock", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_rallylight_fog", ["legocar_bumperlight_L"],[], {"pos":{"x": 0.250, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"bumperlight_R_break", "deformMaterialBase":"legocar_foglight_stock", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_rallylight_fog", ["legocar_bumperlight_R"],[], {"pos":{"x":-0.250, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z":-90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+	    "lightBrightness":0.75,
+            "lightRange":120,
+            "lightColor":{"r":252, "g":252, "b":252, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":true,
+            "flareName":"vehicleHeadLightFlare",
+	    "flareScale":0.09,
+            "cookieName":"art/special/BNG_light_cookie_headlight.dds",
+            "texSize":512,
+            "shadowSoftness":0.5
+        },
+        ["fog","SPOTLIGHT", "Lbumplight2r", "Lbumplight1r", "Lbumplight2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1}"deformGroup":"bumperlight_L_break"}],
+	["fog","SPOTLIGHT", "Rbumplight2r", "Rbumplight1r", "Rbumplight2l",{"x":180, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":-0.1}"deformGroup":"bumperlight_R_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	//left
+	{"group":"legocar_bumperlight_L"},
+	["Lbumplight1r", 0.140, -2.00, 0.130],
+	["Lbumplight2r", 0.140, -2.00, 0.320],
+	["Lbumplight1l", 0.365, -2.00, 0.130],
+	["Lbumplight2l", 0.365, -2.00, 0.320],
+	["Lbumplight0",  0.250, -1.85, 0.225, {"collision":false,"selfCollision":false,"group":""}],
+
+	//right
+	{"group":"legocar_bumperlight_R"},
+	["Rbumplight1l",-0.140, -2.00, 0.130],
+	["Rbumplight2l",-0.140, -2.00, 0.320],
+	["Rbumplight1r",-0.365, -2.00, 0.130],
+	["Rbumplight2r",-0.365, -2.00, 0.320],
+	["Rbumplight0", -0.250, -1.85, 0.225, {"collision":false,"selfCollision":false,"group":""}],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//left square
+	["Lbumplight1l", "Lbumplight1r"],
+	["Lbumplight2l", "Lbumplight2r"],
+	["Lbumplight1l", "Lbumplight2r"],
+	["Lbumplight2l", "Lbumplight1r"],
+	["Lbumplight1l", "Lbumplight2l"],
+	["Lbumplight1r", "Lbumplight2r"],
+
+	//left tip
+	["Lbumplight1l", "Lbumplight0"],
+	["Lbumplight1r", "Lbumplight0"],
+	["Lbumplight2l", "Lbumplight0"],
+	["Lbumplight2r", "Lbumplight0"],
+
+	//right square
+	["Rbumplight1l", "Rbumplight1r"],
+	["Rbumplight2l", "Rbumplight2r"],
+	["Rbumplight1l", "Rbumplight2r"],
+	["Rbumplight2l", "Rbumplight1r"],
+	["Rbumplight1l", "Rbumplight2l"],
+	["Rbumplight1r", "Rbumplight2r"],
+
+	//right tip
+	["Rbumplight1l", "Rbumplight0"],
+	["Rbumplight1r", "Rbumplight0"],
+	["Rbumplight2l", "Rbumplight0"],
+	["Rbumplight2r", "Rbumplight0"],
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*101000", "beamDamp":"$=$weight*10"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left
+	{"breakGroup":"bumperlight_L_break"},
+	{"deformGroup":"bumperlight_L_break"},
+	
+	["Lbumplight1l", "FLbump1l"],
+	["Lbumplight1l", "FLbump1r"],
+	["Lbumplight1l", "FLbump2l"],
+
+	["Lbumplight2l", "FLbump1l"],
+	["Lbumplight2l", "FLbump2r"],
+	["Lbumplight2l", "FLbump2l"],
+
+	["Lbumplight1r", "FLbump1l"],
+	["Lbumplight1r", "FLbump1r"],
+	["Lbumplight1r", "FLbump2l"],
+
+	["Lbumplight2r", "FLbump1l"],
+	["Lbumplight2r", "FLbump2r"],
+	["Lbumplight2r", "FLbump2l"],
+
+	["Lbumplight0", "FLbump1l"],
+	["Lbumplight0", "FLbump1r"],
+	["Lbumplight0", "FLbump2l"],
+	
+	//right
+	{"breakGroup":"bumperlight_R_break"},
+	{"deformGroup":"bumperlight_R_break"},
+	
+	["Rbumplight1r", "FRbump1r"],
+	["Rbumplight1r", "FRbump1l"],
+	["Rbumplight1r", "FRbump2r"],
+
+	["Rbumplight2r", "FRbump1r"],
+	["Rbumplight2r", "FRbump2l"],
+	["Rbumplight2r", "FRbump2r"],
+
+	["Rbumplight1l", "FRbump1r"],
+	["Rbumplight1l", "FRbump1l"],
+	["Rbumplight1l", "FRbump2r"],
+
+	["Rbumplight2l", "FRbump1r"],
+	["Rbumplight2l", "FRbump2l"],
+	["Rbumplight2l", "FRbump2r"],
+
+	["Rbumplight0", "FRbump1r"],
+	["Rbumplight0", "FRbump1l"],
+	["Rbumplight0", "FRbump2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_bumperlight_L"},   
+	["Lbumplight1r","Lbumplight1l","Lbumplight2l","Lbumplight2r"],
+	{"group":"legocar_bumperlight_R"},   
+	["Rbumplight1r","Rbumplight1l","Rbumplight2l","Rbumplight2r"],	
+        {"group":""},
+    ],
+},
+
+}

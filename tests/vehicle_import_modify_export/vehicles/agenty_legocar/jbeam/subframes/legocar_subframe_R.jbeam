@@ -1,0 +1,436 @@
+{
+"legocar_subframe_R_col1": {
+    "information":{
+        "name":"Right Subframe (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_subframe_R",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_rockertrim_R", "legocar_rockertrim_R", "Right Rocker Trim"],
+	["legocar_underglow_R", "", "Right Accessory"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x2_flat_col1", ["legocar_subframe_R"], [], {"pos":{"x":-0.500, "y":0.0, "z":0.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--RIGHT SUBFRAME--
+	{"group":"legocar_subframe_R"},
+	//8 pieces, 5 nodes - 1.6 kg/node
+	{"nodeWeight": "$=$weight*1.6"},
+
+	["Rsubf1r", -0.75, -0.50, 0.15],
+	["Rsubf1l", -0.28, -0.50, 0.15],
+	["Rsubf2r", -0.75,  0.50, 0.15],
+	["Rsubf2l", -0.28,  0.50, 0.15],
+
+	//rigidifier
+	["Rsubfrig",-0.5, 0, 0.5, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--RIGHT SUBFRAME--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//uniform structure
+	["Rsubf1l", "Rsubf1r"],
+	["Rsubf2l", "Rsubf2r"],
+	["Rsubf1l", "Rsubf2l"],
+	["Rsubf1r", "Rsubf2r"],
+	["Rsubf1l", "Rsubf2r"],
+	["Rsubf2l", "Rsubf1r"],
+
+	//rigidifier
+	["Rsubf1l", "Rsubfrig"],
+	["Rsubf1r", "Rsubfrig"],
+	["Rsubf2l", "Rsubfrig"],
+	["Rsubf2r", "Rsubfrig"],
+
+	
+	//--ATTACH TO CHASSIS--
+	{"beamSpring":"$=$weight*801000", "beamDamp":"$=$weight*80"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"Rsubf_chassis_break"},
+
+	["Rsubf1r", "chassis2r"],
+	["Rsubf1r", "chassis3r"],
+	["Rsubf1r", "chassis3l"],
+	["Rsubf1r", "chassis6r"],
+	["Rsubf1r", "chassis0"],
+
+	["Rsubf1l", "chassis2r"],
+	["Rsubf1l", "chassis3r"],
+	["Rsubf1l", "chassis3l"],
+	["Rsubf1l", "chassis6r"],
+	["Rsubf1l", "chassis0"],
+
+	["Rsubf2r", "chassis7r"],
+	["Rsubf2r", "chassis6r"],
+	["Rsubf2r", "chassis6l"],
+	["Rsubf2r", "chassis3r"],
+	["Rsubf2r", "chassis0"],
+
+	["Rsubf2l", "chassis7r"],
+	["Rsubf2l", "chassis6r"],
+	["Rsubf2l", "chassis6l"],
+	["Rsubf2l", "chassis3r"],
+	["Rsubf2l", "chassis0"],
+
+	["Rsubfrig", "chassis3l"],
+	["Rsubfrig", "chassis3r"],
+	["Rsubfrig", "chassis6l"],
+	["Rsubfrig", "chassis6r"],
+
+
+	//--ATTACH TO ROCKER--
+	{"beamSpring":"$=$weight*801000", "beamDamp":"$=$weight*80"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"Rsubf_rocker_break"},
+	{"optional":true},
+
+	["Rsubf1l", "RrockB1l"],
+	["Rsubf1l", "RrockB2l"],
+	["Rsubf1l", "RrockB1r"],
+	["Rsubf1l", "RrockB2r"],
+
+	["Rsubf1r", "RrockB1l"],
+	["Rsubf1r", "RrockB2l"],
+	["Rsubf1r", "RrockB1r"],
+	["Rsubf1r", "RrockB2r"],
+
+	["Rsubf2l", "RrockB1l"],
+	["Rsubf2l", "RrockB2l"],
+	["Rsubf2l", "RrockB1r"],
+	["Rsubf2l", "RrockB2r"],
+
+	["Rsubf2r", "RrockB1l"],
+	["Rsubf2r", "RrockB2l"],
+	["Rsubf2r", "RrockB1r"],
+	["Rsubf2r", "RrockB2r"],
+
+	["Rsubfrig", "RrockB1l"],
+	["Rsubfrig", "RrockB2l"],
+	["Rsubfrig", "RrockB1r"],
+	["Rsubfrig", "RrockB2r"],
+
+	{"optional":false},
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_subframe_L"},   
+	["Rsubf1l","Rsubf1r","Rsubf2r","Rsubf2l"],
+
+	//breakable side collision quad
+	{"group":"Rsubf_rocker_break"},
+	{"breakGroup":"Rsubf_rocker_break"},
+	{"optional":true},
+	["Rsubf2r","Rsubf1r","RrockB1r","RrockB2r"],
+	{"optional":false},
+        {"group":""},
+	{"breakGroup":""},
+    ],
+},
+
+"legocar_subframe_R_col2": {
+    "information":{
+        "name":"Right Subframe (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_subframe_R",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_rockertrim_R", "legocar_rockertrim_R", "Right Rocker Trim"],
+	["legocar_underglow_R", "", "Right Accessory"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x2_flat_col2", ["legocar_subframe_R"], [], {"pos":{"x":-0.500, "y":0.0, "z":0.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--RIGHT SUBFRAME--
+	{"group":"legocar_subframe_R"},
+	//8 pieces, 5 nodes - 1.6 kg/node
+	{"nodeWeight": "$=$weight*1.6"},
+
+	["Rsubf1r", -0.75, -0.50, 0.15],
+	["Rsubf1l", -0.28, -0.50, 0.15],
+	["Rsubf2r", -0.75,  0.50, 0.15],
+	["Rsubf2l", -0.28,  0.50, 0.15],
+
+	//rigidifier
+	["Rsubfrig",-0.5, 0, 0.5, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--RIGHT SUBFRAME--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//uniform structure
+	["Rsubf1l", "Rsubf1r"],
+	["Rsubf2l", "Rsubf2r"],
+	["Rsubf1l", "Rsubf2l"],
+	["Rsubf1r", "Rsubf2r"],
+	["Rsubf1l", "Rsubf2r"],
+	["Rsubf2l", "Rsubf1r"],
+
+	//rigidifier
+	["Rsubf1l", "Rsubfrig"],
+	["Rsubf1r", "Rsubfrig"],
+	["Rsubf2l", "Rsubfrig"],
+	["Rsubf2r", "Rsubfrig"],
+
+	
+	//--ATTACH TO CHASSIS--
+	{"beamSpring":"$=$weight*801000", "beamDamp":"$=$weight*80"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"Rsubf_chassis_break"},
+
+	["Rsubf1r", "chassis2r"],
+	["Rsubf1r", "chassis3r"],
+	["Rsubf1r", "chassis3l"],
+	["Rsubf1r", "chassis6r"],
+	["Rsubf1r", "chassis0"],
+
+	["Rsubf1l", "chassis2r"],
+	["Rsubf1l", "chassis3r"],
+	["Rsubf1l", "chassis3l"],
+	["Rsubf1l", "chassis6r"],
+	["Rsubf1l", "chassis0"],
+
+	["Rsubf2r", "chassis7r"],
+	["Rsubf2r", "chassis6r"],
+	["Rsubf2r", "chassis6l"],
+	["Rsubf2r", "chassis3r"],
+	["Rsubf2r", "chassis0"],
+
+	["Rsubf2l", "chassis7r"],
+	["Rsubf2l", "chassis6r"],
+	["Rsubf2l", "chassis6l"],
+	["Rsubf2l", "chassis3r"],
+	["Rsubf2l", "chassis0"],
+
+	["Rsubfrig", "chassis3l"],
+	["Rsubfrig", "chassis3r"],
+	["Rsubfrig", "chassis6l"],
+	["Rsubfrig", "chassis6r"],
+
+
+	//--ATTACH TO ROCKER--
+	{"beamSpring":"$=$weight*801000", "beamDamp":"$=$weight*80"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"Rsubf_rocker_break"},
+	{"optional":true},
+
+	["Rsubf1l", "RrockB1l"],
+	["Rsubf1l", "RrockB2l"],
+	["Rsubf1l", "RrockB1r"],
+	["Rsubf1l", "RrockB2r"],
+
+	["Rsubf1r", "RrockB1l"],
+	["Rsubf1r", "RrockB2l"],
+	["Rsubf1r", "RrockB1r"],
+	["Rsubf1r", "RrockB2r"],
+
+	["Rsubf2l", "RrockB1l"],
+	["Rsubf2l", "RrockB2l"],
+	["Rsubf2l", "RrockB1r"],
+	["Rsubf2l", "RrockB2r"],
+
+	["Rsubf2r", "RrockB1l"],
+	["Rsubf2r", "RrockB2l"],
+	["Rsubf2r", "RrockB1r"],
+	["Rsubf2r", "RrockB2r"],
+
+	["Rsubfrig", "RrockB1l"],
+	["Rsubfrig", "RrockB2l"],
+	["Rsubfrig", "RrockB1r"],
+	["Rsubfrig", "RrockB2r"],
+
+
+	{"optional":false},
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_subframe_L"},   
+	["Rsubf1l","Rsubf1r","Rsubf2r","Rsubf2l"],
+
+	//breakable side collision quad
+	{"group":"Rsubf_rocker_break"},
+	{"breakGroup":"Rsubf_rocker_break"},
+	{"optional":true},
+	["Rsubf2r","Rsubf1r","RrockB1r","RrockB2r"],
+	{"optional":false},
+        {"group":""},
+	{"breakGroup":""},
+    ],
+},
+
+"legocar_subframe_R_col3": {
+    "information":{
+        "name":"Right Subframe (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_subframe_R",
+    "slots": [
+        ["type", "default", "description"],
+        ["legocar_rockertrim_R", "legocar_rockertrim_R", "Right Rocker Trim"],
+	["legocar_underglow_R", "", "Right Accessory"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x2_flat_col3", ["legocar_subframe_R"], [], {"pos":{"x":-0.500, "y":0.0, "z":0.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--RIGHT SUBFRAME--
+	{"group":"legocar_subframe_R"},
+	//8 pieces, 5 nodes - 1.6 kg/node
+	{"nodeWeight": "$=$weight*1.6"},
+
+	["Rsubf1r", -0.75, -0.50, 0.15],
+	["Rsubf1l", -0.28, -0.50, 0.15],
+	["Rsubf2r", -0.75,  0.50, 0.15],
+	["Rsubf2l", -0.28,  0.50, 0.15],
+
+	//rigidifier
+	["Rsubfrig",-0.5, 0, 0.5, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--RIGHT SUBFRAME--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//uniform structure
+	["Rsubf1l", "Rsubf1r"],
+	["Rsubf2l", "Rsubf2r"],
+	["Rsubf1l", "Rsubf2l"],
+	["Rsubf1r", "Rsubf2r"],
+	["Rsubf1l", "Rsubf2r"],
+	["Rsubf2l", "Rsubf1r"],
+
+	//rigidifier
+	["Rsubf1l", "Rsubfrig"],
+	["Rsubf1r", "Rsubfrig"],
+	["Rsubf2l", "Rsubfrig"],
+	["Rsubf2r", "Rsubfrig"],
+
+	
+	//--ATTACH TO CHASSIS--
+	{"beamSpring":"$=$weight*801000", "beamDamp":"$=$weight*80"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"Rsubf_chassis_break"},
+
+	["Rsubf1r", "chassis2r"],
+	["Rsubf1r", "chassis3r"],
+	["Rsubf1r", "chassis3l"],
+	["Rsubf1r", "chassis6r"],
+	["Rsubf1r", "chassis0"],
+
+	["Rsubf1l", "chassis2r"],
+	["Rsubf1l", "chassis3r"],
+	["Rsubf1l", "chassis3l"],
+	["Rsubf1l", "chassis6r"],
+	["Rsubf1l", "chassis0"],
+
+	["Rsubf2r", "chassis7r"],
+	["Rsubf2r", "chassis6r"],
+	["Rsubf2r", "chassis6l"],
+	["Rsubf2r", "chassis3r"],
+	["Rsubf2r", "chassis0"],
+
+	["Rsubf2l", "chassis7r"],
+	["Rsubf2l", "chassis6r"],
+	["Rsubf2l", "chassis6l"],
+	["Rsubf2l", "chassis3r"],
+	["Rsubf2l", "chassis0"],
+
+	["Rsubfrig", "chassis3l"],
+	["Rsubfrig", "chassis3r"],
+	["Rsubfrig", "chassis6l"],
+	["Rsubfrig", "chassis6r"],
+
+
+	//--ATTACH TO ROCKER--
+	{"beamSpring":"$=$weight*801000", "beamDamp":"$=$weight*80"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"Rsubf_rocker_break"},
+	{"optional":true},
+
+	["Rsubf1l", "RrockB1l"],
+	["Rsubf1l", "RrockB2l"],
+	["Rsubf1l", "RrockB1r"],
+	["Rsubf1l", "RrockB2r"],
+
+	["Rsubf1r", "RrockB1l"],
+	["Rsubf1r", "RrockB2l"],
+	["Rsubf1r", "RrockB1r"],
+	["Rsubf1r", "RrockB2r"],
+
+	["Rsubf2l", "RrockB1l"],
+	["Rsubf2l", "RrockB2l"],
+	["Rsubf2l", "RrockB1r"],
+	["Rsubf2l", "RrockB2r"],
+
+	["Rsubf2r", "RrockB1l"],
+	["Rsubf2r", "RrockB2l"],
+	["Rsubf2r", "RrockB1r"],
+	["Rsubf2r", "RrockB2r"],
+
+	["Rsubfrig", "RrockB1l"],
+	["Rsubfrig", "RrockB2l"],
+	["Rsubfrig", "RrockB1r"],
+	["Rsubfrig", "RrockB2r"],
+
+
+	{"optional":false},
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_subframe_L"},   
+	["Rsubf1l","Rsubf1r","Rsubf2r","Rsubf2l"],
+
+	//breakable side collision quad
+	{"group":"Rsubf_rocker_break"},
+	{"breakGroup":"Rsubf_rocker_break"},
+	{"optional":true},
+	["Rsubf2r","Rsubf1r","RrockB1r","RrockB2r"],
+	{"optional":false},
+        {"group":""},
+	{"breakGroup":""},
+    ],
+},
+
+}

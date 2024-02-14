@@ -1,0 +1,365 @@
+{
+"legocar_intake_v8_twincharger_twin": {
+    "information":{
+        "name":"Customizable Twin Twincharger",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_intake_v8",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_enginebay_twintwin","legocar_enginebay_twintwin_stock", "Exhaust Headers"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_intake_lower",["legocar_intake"], [], {"pos":{"x": 0.000, "y":-1.250, "z":0.6},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_intake",      ["legocar_intake"], [], {"pos":{"x": 0.000, "y":-1.250, "z":0.7},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_tall_cone_grey",["legocar_turbo_L"], [], {"pos":{"x": 0.375, "y":-1.375,"z":0.3},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_tall_cone_grey",["legocar_turbo_R"], [], {"pos":{"x":-0.375, "y":-1.375,"z":0.3},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ], 
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$scGearRatio","range", ":1", "Engine", 3.0, 2.0, 4.0, "Supercharger Gear Ratio",         "Tunes the balance between the engine and supercharger power",{"stepDis":0.01}],
+	["$scPressure", "range", "PSI","Engine", 5.0, 4.0, 10.0,"Supercharger Pressure per 1kRPM", "How much pressure the supercharger generates per 1000 RPM",  {"stepDis":0.01}],
+	["$wastegateStart", "range", "psi", "Engine", 10, 10, 50, "Wastegate Pressure", "Pressure at which the wastegate begins to open", {"stepDis":0.5}],
+    ],
+    "supercharger": {
+        "whineLoopEvent": "event:>Vehicle>Forced_Induction>Supercharger_02>supercharger",
+        "whineVolumePerPSI": 0.018,
+        "whinePitchPer10kRPM": 0.74,
+        "gearRatio":"$scGearRatio",
+        "clutchEngageRPM":0,
+        "pressureRatePSI":500,
+        "pressurePSIPer1kRPM":"$scPressure",
+        "crankLossPer1kRPM":0,
+        "type":"roots",
+        "lobes":4,
+        "twistedLobes":false,
+        "boostController":[
+            //throttle in %, factor
+            [0,     0.2],
+            [100,     1],
+        ],
+    },
+    "turbocharger": {
+        "bovSoundFileName":"event:>Vehicle>Forced_Induction>Turbo_03>turbo_bov_race",
+        "hissLoopEvent":"event:>Vehicle>Forced_Induction>Turbo_03>turbo_hiss_race",
+        "whineLoopEvent":"event:>Vehicle>Forced_Induction>Turbo_03>turbo_spin_race",
+        "bovEnabled":true,
+        "turboSizeCoef": 1,
+        "bovSoundVolumeCoef": 1.00,
+        "hissVolumePerPSI": 0.025,
+        "whineVolumePer10kRPM": 0.05,
+        "whinePitchPer10kRPM": 0.05,
+	"wastegateStart":"$wastegateStart",
+        "wastegateLimit":"$=$wastegateStart+1",
+        "maxExhaustPower": 200000,
+        "backPressureCoef": 0,
+        "pressureRatePSI": 50,
+        "frictionCoef": 0,
+        "inertia":20,
+        "damageThresholdTemperature": 10000000,
+        "pressurePSI":[
+            //turbineRPM, pressure(PSI)
+            [0,         -2.5],
+            [30000,     -1.5],
+            [60000,     5],
+            [90000,     20],
+	    [150000,    30],
+            [200000,    40],
+            [250000,    45],
+        ],
+        "engineDef":[
+            //engineRPM, efficiency, exhaustFactor
+            [0, 0.0, 0.0],
+            ["$=$peakTorqueRPM*0.5", 0.5, 0.5]
+            ["$peakTorqueRPM",  1,    1],
+            ["$maxRPM",  1,    1],
+	    ["$=$maxRPM+2000",  1,    0.75],
+        ],
+    },
+    "mainEngine":{
+        "supercharger":"supercharger",
+	"deformGroups":["mainEngine_intake", "mainEngine_accessories", "mainEngine_supercharger"]
+	"turbocharger":"turbocharger",
+        "deformGroups_turbo":["mainEngine_turbo","mainEngine_piping"]
+    },
+    "vehicleController": {
+        "revMatchThrottle":0.5,
+    },
+    "soundConfig": {
+        "$+maxLoadMix": 0.4,
+        "$+intakeMuffling":-1,
+        "$+mainGain":2,
+        "$+eqHighGain":4,
+    },
+    "soundConfigExhaust": {
+        "$+maxLoadMix": 0.4,
+        "$+minLoadMix": 0.0,
+        "$+mainGain": 2,
+        "$+offLoadGain": 0.00,
+    },
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_intake"},
+	{"engineGroup":"engine_intake"},
+
+	//8 pieces, 8 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+
+	["intake1l",  0.225, -1.025, 0.63],
+	["intake1r", -0.225, -1.025, 0.63],
+	["intake2l",  0.225, -1.475, 0.63],
+	["intake2r", -0.225, -1.475, 0.63],
+
+	["intake3l",  0.125, -1.025, 0.80],
+	["intake3r", -0.125, -1.025, 0.80],
+	["intake4l",  0.225, -1.475, 0.80],
+	["intake4r", -0.225, -1.475, 0.80],
+
+	{"engineGroup":""},
+
+
+	//2.5 pieces, 5 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+	
+	{"group":"legocar_turbo_L"},
+	["turbo1l",  0.280, -1.250, 0.33],
+	["turbo2l",  0.280, -1.500, 0.33],
+	["turbo1ll", 0.500, -1.250, 0.33],
+	["turbo2ll", 0.500, -1.500, 0.33],
+	["turbo3l",  0.375, -1.375, 0.60],
+
+	{"group":"legocar_turbo_R"},
+	["turbo1r",  -0.280, -1.250, 0.33],
+	["turbo2r",  -0.280, -1.500, 0.33],
+	["turbo1rr", -0.500, -1.250, 0.33],
+	["turbo2rr", -0.500, -1.500, 0.33],
+	["turbo3r",  -0.375, -1.375, 0.60],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["intake1l", "intake1r"],
+	["intake2l", "intake2r"],
+	["intake3l", "intake3r"],
+	["intake4l", "intake4r"],
+
+	["intake1l", "intake2r"],
+	["intake2l", "intake3r"],
+	["intake3l", "intake4r"],
+	["intake4l", "intake1r"],
+
+	["intake1l", "intake3r"],
+	["intake2l", "intake4r"],
+	["intake3l", "intake1r"],
+	["intake4l", "intake2r"],
+
+	["intake1l", "intake4r"],
+	["intake2l", "intake1r"],
+	["intake3l", "intake2r"],
+	["intake4l", "intake3r"],
+
+	["intake1l", "intake2l"],
+	["intake2l", "intake3l"],
+	["intake3l", "intake4l"],
+	["intake4l", "intake1l"],
+
+	["intake1l", "intake3l"],
+	["intake2l", "intake4l"],
+
+	["intake1r", "intake2r"],
+	["intake2r", "intake3r"],
+	["intake3r", "intake4r"],
+	["intake4r", "intake1r"],
+
+	["intake1r", "intake3r"],
+	["intake2r", "intake4r"],
+	
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//--LEFT TURBO--
+
+	//bottom
+	["turbo1l", "turbo1ll"],
+	["turbo2l", "turbo2ll"],
+	["turbo1l", "turbo2ll"],
+	["turbo2l", "turbo1ll"],
+	["turbo1l", "turbo2l"],
+	["turbo1ll", "turbo2ll"],
+
+	//tip
+	["turbo1l", "turbo3l"],
+	["turbo1ll", "turbo3l"],
+	["turbo2l", "turbo3l"],
+	["turbo2ll", "turbo3l"],
+
+
+	//--RIGHT TURBO--
+
+	//bottom
+	["turbo1r", "turbo1rr"],
+	["turbo2r", "turbo2rr"],
+	["turbo1r", "turbo2rr"],
+	["turbo2r", "turbo1rr"],
+	["turbo1r", "turbo2r"],
+	["turbo1rr", "turbo2rr"],
+
+	//tip
+	["turbo1r", "turbo3r"],
+	["turbo1rr", "turbo3r"],
+	["turbo2r", "turbo3r"],
+	["turbo2rr", "turbo3r"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	{"breakGroup":"intake_break"},
+
+	["intake1l", "eng1l"],
+	["intake1l", "eng4l"],
+	["intake1l", "eng3r"],
+
+	["intake1r", "eng1r"],
+	["intake1r", "eng4r"],
+	["intake1r", "eng3l"],
+
+	["intake2l", "eng2l"],
+	["intake2l", "eng3l"],
+	["intake2l", "eng4r"],
+
+	["intake2r", "eng2r"],
+	["intake2r", "eng3r"],
+	["intake2r", "eng4l"],
+
+
+
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	{"breakGroup":"turbo_L_bulkhead_break"},
+
+	["turbo1l", "bulk1l"],
+	["turbo1l", "bulk2l"],
+	["turbo1l", "bulk1r"],
+
+	["turbo1ll", "bulk1l"],
+	["turbo1ll", "bulk2l"],
+	["turbo1ll", "bulk1r"],
+
+	["turbo2l", "bulk1l"],
+	["turbo2l", "bulk2l"],
+	["turbo2l", "bulk1r"],
+	["turbo2l", "bulk2r"],
+
+	["turbo2ll", "bulk1l"],
+	["turbo2ll", "bulk2l"],
+	["turbo2ll", "bulk1r"],
+	["turbo2ll", "bulk2r"],
+
+
+	{"breakGroup":"turbo_R_bulkhead_break"},
+
+	["turbo1r", "bulk1r"],
+	["turbo1r", "bulk2r"],
+	["turbo1r", "bulk1l"],
+
+	["turbo1rr", "bulk1r"],
+	["turbo1rr", "bulk2r"],
+	["turbo1rr", "bulk1l"],
+
+	["turbo2r", "bulk1l"],
+	["turbo2r", "bulk2l"],
+	["turbo2r", "bulk1r"],
+	["turbo2r", "bulk2r"],
+
+	["turbo2rr", "bulk1l"],
+	["turbo2rr", "bulk2l"],
+	["turbo2rr", "bulk1r"],
+	["turbo2rr", "bulk2r"],
+	
+	{"breakGroup":""},
+
+
+	//--INTAKE DAMAGE TRIGGERS--
+	//activate when engine gets far away from intake
+
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+	{"deformGroup":"mainEngine_supercharger","deformationTriggerRatio":0.25},
+
+	["intake3l", "eng1l", {"deformLimit":"","deformLimitExpansion":""}],
+	["intake4l", "eng2l", {"deformLimit":"","deformLimitExpansion":""}],
+	["intake3r", "eng1r", {"deformLimit":"","deformLimitExpansion":""}],
+	["intake4r", "eng2r", {"deformLimit":"","deformLimitExpansion":""}],
+
+
+	//--TURBO DAMAGE TRIGGERS--
+	//activate when engine gets far away from turbos
+
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+	{"deformGroup":"mainEngine_turbo","deformationTriggerRatio":0.25},
+
+	["turbo3l", "eng1l", {"deformLimit":"","deformLimitExpansion":""}],
+	["turbo3l", "eng2l", {"deformLimit":"","deformLimitExpansion":""}],
+	["turbo3r", "eng1r", {"deformLimit":"","deformLimitExpansion":""}],
+	["turbo3r", "eng2r", {"deformLimit":"","deformLimitExpansion":""}],
+
+	{"deformGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_turbo_L"},
+	["turbo3l","turbo1l","turbo2l"],
+	["turbo3l","turbo2l","turbo2ll"],
+	["turbo3l","turbo2ll","turbo1ll"],
+	["turbo3l","turbo1ll","turbo1l"], 
+
+	{"group":"legocar_turbo_R"},
+	["turbo3r","turbo2r","turbo1r"],
+	["turbo3r","turbo2rr","turbo2r"],
+	["turbo3r","turbo1rr","turbo2rr"],
+	["turbo3r","turbo1r","turbo1rr"], 
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_intake"},
+   
+	["intake1r","intake1l","intake2l","intake2r"],
+	["intake3l","intake3r","intake4r","intake4l"],
+	["intake1r","intake2r","intake4r","intake3r"],
+	["intake2l","intake1l","intake3l","intake4l"],
+	["intake2r","intake2l","intake4l","intake4r"],
+	["intake1l","intake1r","intake3r","intake3l"],
+
+	{"group":"legocar_turbo_L"}, 
+  	["turbo1l","turbo1ll","turbo2ll","turbo2l"],
+
+	{"group":"legocar_turbo_R"}, 
+  	["turbo1rr","turbo1r","turbo2rr","turbo2r"],
+
+        {"group":""},
+    ], 
+},
+
+}

@@ -18,124 +18,316 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import copy
-import os
+from pathlib import Path
+import pickle
+import traceback
 
 import bpy
-from bpy import ops
 import bmesh
+from mathutils import Vector
 
-
-# ImportHelper is a helper class, defines filename and
-# invoke() function which calls the file selector.
 from bpy_extras.io_utils import ImportHelper
-from bpy.props import StringProperty, BoolProperty, EnumProperty
+from bpy.props import StringProperty, BoolProperty
 from bpy.types import Operator
 
 from . import constants
-from . import sjson
-from . import export_jbeam
+from . import utils
+from . import text_editor
+
+from .jbeam import io as jbeam_io
+from .jbeam import table_schema as jbeam_table_schema
+from .jbeam import node_beam as jbeam_node_beam
+
+_jbeam_file_path = None
+_jbeam_file_data = None
+_jbeam_part_choices = None
 
 
-def import_jbeam_part(jbeam_file_path, jbeam_file_data_str, jbeam_file_data, chosen_part):
-    node_ids = []
+def get_vertices_edges_faces(vdata: dict):
+    node_index_to_id = []
     node_id_to_index = {}
-    vertices = []
 
+    vertices = []
     edges = []
     faces = []
 
+    node_index_to_id_append = node_index_to_id.append
+    vertices_append = vertices.append
+    edges_append = edges.append
+    faces_append = faces.append
+
     # Process nodes section
-    if 'nodes' in jbeam_file_data[chosen_part]:
-        nodes_section = jbeam_file_data[chosen_part]['nodes']
+    if 'nodes' in vdata:
+        nodes: dict[str, dict] = vdata['nodes']
 
-        curr_node_idx = 0
+        if 'triangles' in vdata:
+            for tri in vdata['triangles']:
+                ids = (tri['id1:'], tri['id2:'], tri['id3:'])
+                if len(set(ids)) == 3 and all(x in nodes for x in ids):
+                    n1, n2, n3 = nodes[ids[0]], nodes[ids[1]], nodes[ids[2]]
 
-        for i in range(len(nodes_section)):
-            if i == 0: continue  # Ignore header row
+                    n1_vert_idx = len(node_index_to_id)
+                    node_index_to_id_append(ids[0])
+                    vertices_append((n1['pos'], True))
 
-            row_data = nodes_section[i]
-            if isinstance(row_data, list):
-                node_id, node_x, node_y, node_z = row_data[0], row_data[1], row_data[2], row_data[3]
-                node_pos = (node_x, node_y, node_z)
+                    n2_vert_idx = len(node_index_to_id)
+                    node_index_to_id_append(ids[1])
+                    vertices_append((n2['pos'], True))
 
-                node_id_to_index[node_id] = curr_node_idx
-                curr_node_idx += 1
+                    n3_vert_idx = len(node_index_to_id)
+                    node_index_to_id_append(ids[2])
+                    vertices_append((n3['pos'], True))
 
-                node_ids.append(node_id)
-                vertices.append(node_pos)
+                    faces.append((3, (n1_vert_idx, n2_vert_idx, n3_vert_idx)))
+                else:
+                    faces.append((3, None))
 
-    # Process beams section
-    if 'beams' in jbeam_file_data[chosen_part]:
-        beams_section = jbeam_file_data[chosen_part]['beams']
+        # Translate quads to faces
+        if 'quads' in vdata:
+            for quad in vdata['quads']:
+                ids = (quad['id1:'], quad['id2:'], quad['id3:'], quad['id4:'])
+                if len(set(ids)) == 4 and all(x in nodes for x in ids):
+                    n1, n2, n3, n4 = nodes[ids[0]], nodes[ids[1]], nodes[ids[2]], nodes[ids[3]]
 
-        for i in range(len(beams_section)):
-            if i == 0: continue  # Ignore header row
+                    n1_vert_idx = len(node_index_to_id)
+                    node_index_to_id_append(ids[0])
+                    vertices_append((n1['pos'], True))
 
-            row_data = beams_section[i]
-            if isinstance(row_data, list):
-                node_1_id, node_2_id = row_data[0], row_data[1]
+                    n2_vert_idx = len(node_index_to_id)
+                    node_index_to_id_append(ids[1])
+                    vertices_append((n2['pos'], True))
 
-                if node_1_id in node_id_to_index and node_2_id in node_id_to_index:
-                    beam = (node_id_to_index[node_1_id], node_id_to_index[node_2_id])
-                    edges.append(beam)
+                    n3_vert_idx = len(node_index_to_id)
+                    node_index_to_id_append(ids[2])
+                    vertices_append((n3['pos'], True))
+
+                    n4_vert_idx = len(node_index_to_id)
+                    node_index_to_id_append(ids[3])
+                    vertices_append((n4['pos'], True))
+
+                    faces.append((4, (n1_vert_idx, n2_vert_idx, n3_vert_idx, n4_vert_idx)))
+                else:
+                    faces.append((4, None))
+
+        # Translate nodes to vertices
+        for i, (node_id, node) in enumerate(nodes.items()):
+            node_index_to_id_append(node_id)
+            node_id_to_index[node_id] = len(vertices)
+            vertices_append((node['pos'], False))
+
+        # Translate beams to edges
+        if 'beams' in vdata:
+            for beam in vdata['beams']:
+                ids = (beam['id1:'], beam['id2:'])
+                if len(set(ids)) == 2 and all(x in nodes for x in ids):
+                    edge_tup_sorted = tuple(sorted(ids))
+                    edges_append((node_id_to_index[edge_tup_sorted[0]], node_id_to_index[edge_tup_sorted[1]]))
+                else:
+                    edges_append(None)
+
+    return vertices, edges, faces, node_index_to_id
 
 
-    # Process triangles section
-    if 'triangles' in jbeam_file_data[chosen_part]:
-        tris_section = jbeam_file_data[chosen_part]['triangles']
-
-        for i in range(len(tris_section)):
-            if i == 0: continue  # Ignore header row
-
-            row_data = tris_section[i]
-            if isinstance(row_data, list):
-                node_1_id, node_2_id, nodeID3 = row_data[0], row_data[1], row_data[2]
-
-                if node_1_id in node_id_to_index and node_2_id in node_id_to_index and nodeID3 in node_id_to_index:
-                    tri = (node_id_to_index[node_1_id], node_id_to_index[node_2_id], node_id_to_index[nodeID3])
-                    faces.append(tri)
-
-    obj_data = bpy.data.meshes.new(chosen_part)
-    obj_data.from_pydata(vertices, edges, faces)
-    obj_data[constants.ATTRIBUTE_JBEAM_FILE_PATH] = jbeam_file_path
-    obj_data[constants.ATTRIBUTE_JBEAM_FILE_DATA_STR] = jbeam_file_data_str
-    obj_data[constants.ATTRIBUTE_JBEAM_PART] = chosen_part
-    obj_data[constants.ATTRIBUTE_JBEAM_INIT_NODE_IDS] = copy.deepcopy(node_ids)
-
-    export_jbeam.last_exported_jbeams[chosen_part] = {'in_filepath': jbeam_file_path}
-
-    #new_mesh.attributes.new(name=constants.ATTRIBUTE_JBEAM_FILE_PATH, type="STRING", domain=)
-
-    bm = bmesh.new()
-    bm.from_mesh(obj_data)
+def generate_part_mesh(obj: bpy.types.Object, obj_data: bpy.types.Mesh, bm: bmesh.types.BMesh, vdata: dict, part: str, jbeam_file_path: str, vertices: list, edges: list, faces: list, node_index_to_id: list):
+    bm_verts = bm.verts
+    bm_verts_new = bm_verts.new
+    bm_edges = bm.edges
+    bm_edges_new = bm_edges.new
+    bm_faces = bm.faces
+    bm_faces_new = bm_faces.new
 
     # Add node ID field to all vertices
-    init_node_id_layer = bm.verts.layers.string.new(constants.V_ATTRIBUTE_INIT_NODE_ID)
-    node_id_layer = bm.verts.layers.string.new(constants.V_ATTRIBUTE_NODE_ID)
+    init_node_id_layer = bm_verts.layers.string.new(constants.VLS_INIT_NODE_ID)
+    node_id_layer = bm_verts.layers.string.new(constants.VLS_NODE_ID)
+    node_origin_layer = bm_verts.layers.string.new(constants.VLS_NODE_PART_ORIGIN)
+    node_is_fake_layer = bm_verts.layers.int.new(constants.VLS_NODE_IS_FAKE)
 
-    # Update node IDs field from JBeam data to match JBeam nodes
-    bm.verts.ensure_lookup_table()
-    for i in range(len(bm.verts)):
-        v = bm.verts[i]
-        node_id = bytes(node_ids[i], 'utf-8')
-        v[init_node_id_layer] = node_id
-        v[node_id_layer] = node_id
+    beam_origin_layer = bm_edges.layers.string.new(constants.ELS_BEAM_PART_ORIGIN)
+    beam_indices_layer = bm_edges.layers.string.new(constants.ELS_BEAM_INDICES)
 
-    bm.to_mesh(obj_data)
+    face_origin_layer = bm_faces.layers.string.new(constants.FLS_FACE_PART_ORIGIN)
+    face_idx_layer = bm_faces.layers.int.new(constants.FLS_FACE_IDX)
 
-    obj_data.update()
+    inv_matrix_world = obj.matrix_world.inverted()
+    bytes_part = bytes(part, 'utf-8')
+    transformed_positions = {}
 
-    # make object from mesh
-    new_object = bpy.data.objects.new(chosen_part, obj_data)
-    # make collection
-    new_collection = bpy.data.collections.get('JBeam Objects')
-    if not new_collection:
-        new_collection = bpy.data.collections.new('JBeam Objects')
-        bpy.context.scene.collection.children.link(new_collection)
+    for i, (pos, is_fake) in enumerate(vertices):
+        node_id = node_index_to_id[i]
+        if node_id not in transformed_positions:
+            transformed_positions[node_id] = (inv_matrix_world @ Vector(pos)).to_tuple()
+        v = bm_verts_new(transformed_positions[node_id])
+        bytes_node_id = bytes(node_id, 'utf-8')
+        v[init_node_id_layer] = bytes_node_id
+        v[node_id_layer] = bytes_node_id
+        v[node_origin_layer] = bytes_part
+        v[node_is_fake_layer] = int(is_fake)
 
-    # add object to scene collection
-    new_collection.objects.link(new_object)
+    bm_verts.ensure_lookup_table()
+
+    added_edges = {}
+
+    for i, edge in enumerate(edges, 1):
+        if edge is not None:
+            if not edge in added_edges:
+                e = bm_edges_new((bm_verts[edge[0]], bm_verts[edge[1]]))
+                e[beam_indices_layer] = bytes(f'{i}', 'utf-8')
+                e[beam_origin_layer] = bytes_part
+                added_edges[edge] = e
+            else:
+                e = added_edges[edge]
+                last_indices = e[beam_indices_layer].decode('utf-8')
+                e[beam_indices_layer] = bytes(f'{last_indices},{i}', 'utf-8')
+
+    tri_idx_in_part, quad_idx_in_part = 1, 1
+    for (num_verts, face) in faces:
+        if num_verts == 3:
+            if face is not None:
+                f = bm_faces_new((bm_verts[face[0]], bm_verts[face[1]], bm_verts[face[2]]))
+                f[face_idx_layer] = tri_idx_in_part
+            tri_idx_in_part += 1
+        else:
+            if face is not None:
+                f = bm_faces_new((bm_verts[face[0]], bm_verts[face[1]], bm_verts[face[2]], bm_verts[face[3]]))
+                f[face_idx_layer] = quad_idx_in_part
+            quad_idx_in_part += 1
+
+    obj_data[constants.MESH_JBEAM_PART] = part
+    obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_file_path
+    obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(vdata)
+    obj_data[constants.MESH_VERTEX_COUNT] = len(bm_verts)
+    obj_data[constants.MESH_EDGE_COUNT] = len(bm_edges)
+    obj_data[constants.MESH_FACE_COUNT] = len(bm_faces)
+
+
+def import_jbeam_part(context: bpy.types.Context, jbeam_file_path: str, jbeam_file_data: dict, chosen_part: str):
+    try:
+        # Prevent overriding a jbeam part that already exists in scene!
+        jbeam_collection: bpy.types.Collection | None = bpy.data.collections.get('JBeam Objects')
+        if jbeam_collection is not None:
+            if jbeam_collection.all_objects.get(chosen_part) is not None:
+                raise Exception('JBeam part already exists in scene!')
+
+        part_data = jbeam_file_data[chosen_part]
+        if not jbeam_table_schema.process(part_data):
+            raise Exception('JBeam processing error.')
+        if not jbeam_table_schema.post_process(part_data):
+            raise Exception('JBeam processing error.')
+        jbeam_node_beam.process(part_data)
+
+        vertices, edges, faces, node_ids = get_vertices_edges_faces(part_data)
+
+        obj_data = bpy.data.meshes.new(chosen_part)
+        #export_jbeam.last_exported_jbeams[chosen_part] = {'in_filepath': jbeam_file_path}
+
+        # make object from mesh
+        obj = bpy.data.objects.new(chosen_part, obj_data)
+
+        bm = bmesh.new()
+        bm.from_mesh(obj_data)
+        generate_part_mesh(obj, obj_data, bm, part_data, chosen_part, jbeam_file_path, vertices, edges, faces, node_ids)
+        bm.to_mesh(obj_data)
+
+        obj_data.update()
+
+        # make collection
+        jbeam_collection = bpy.data.collections.get('JBeam Objects')
+        if jbeam_collection is None:
+            jbeam_collection = bpy.data.collections.new('JBeam Objects')
+            context.scene.collection.children.link(jbeam_collection)
+
+        # add object to scene collection
+        jbeam_collection.objects.link(obj)
+
+        print('Done importing JBeam.')
+        utils.show_message_box('INFO', 'Import JBeam', 'Done importing JBeam.')
+        return True
+    except:
+        traceback.print_exc()
+        utils.show_message_box('ERROR', 'Import JBeam', 'ERROR importing JBeam. Check the "System Console" for details.')
+        return False
+
+
+def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collection, obj: bpy.types.Object, jbeam_file_path: str):
+    try:
+        # Reimport object
+        jbeam_file_data, cached_changed = jbeam_io.get_jbeam(jbeam_file_path, True, True)
+        if jbeam_file_data is None:
+            raise Exception('Failed to load/parse JBeam file.')
+
+        context.scene['jbeam_editor_reimporting_jbeam'] = 1 # Prevents exporting jbeam
+
+        obj_data: bpy.types.Mesh = obj.data
+        chosen_part = obj_data[constants.MESH_JBEAM_PART]
+        part_data = jbeam_file_data[chosen_part]
+
+        if not jbeam_table_schema.process(part_data):
+            raise Exception('JBeam processing error.')
+        if not jbeam_table_schema.post_process(part_data):
+            raise Exception('JBeam processing error.')
+        jbeam_node_beam.process(part_data)
+
+        obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(part_data)
+
+        vertices, edges, faces, node_ids = get_vertices_edges_faces(part_data)
+
+        if obj.mode == 'EDIT':
+            bm = bmesh.from_edit_mesh(obj_data)
+            bm.clear()
+        else:
+            bm = bmesh.new()
+            bm.from_mesh(obj_data)
+            bm.clear()
+
+        generate_part_mesh(obj, obj_data, bm, part_data, chosen_part, jbeam_file_path, vertices, edges, faces, node_ids)
+        bm.normal_update()
+        #export_jbeam.last_exported_jbeams[chosen_part] = {'in_filepath': jbeam_file_path}
+
+        if obj.mode == 'EDIT':
+            bmesh.update_edit_mesh(obj_data)
+        else:
+            bm.to_mesh(obj_data)
+        bm.free()
+
+        obj_data.update()
+
+        print('Done reimporting JBeam.')
+        return True
+    except:
+        traceback.print_exc()
+        return False
+
+
+def on_file_change(context: bpy.types.Context, filename: str, filetext: str):
+    jbeam_objects: bpy.types.Collection | None = bpy.data.collections.get('JBeam Objects')
+    if jbeam_objects is None:
+        return
+
+    for obj in jbeam_objects.all_objects[:]:
+        if obj is None:
+            continue
+        obj_data = obj.data
+        if obj_data is None:
+            continue
+
+        jbeam_filepath = obj_data.get(constants.MESH_JBEAM_FILE_PATH)
+        if jbeam_filepath is None or jbeam_filepath != filename:
+            continue
+
+        # Check if jbeam file is parseable before reimporting jbeam part
+        data = utils.sjson_decode(filetext, filename)
+        if data is None:
+            continue
+
+        # import cProfile, pstats, io
+        # import pstats
+        # pr = cProfile.Profile()
+        # with cProfile.Profile() as pr:
+        #     import_vehicle.reimport_vehicle(veh_collection, filename)
+        #     stats = pstats.Stats(pr)
+        #     stats.strip_dirs().sort_stats('cumtime').print_stats()
+
+        reimport_jbeam(context, jbeam_objects, obj, filename)
 
 
 class JBEAM_EDITOR_OT_choose_jbeam(Operator):
@@ -147,7 +339,7 @@ class JBEAM_EDITOR_OT_choose_jbeam(Operator):
     def part_choices_for_enum_property(self, context):
         arr = []
 
-        for x in context.scene[constants.ATTRIBUTE_JBEAM_PART_CHOICES]:
+        for x in _jbeam_part_choices:
             arr.append((x,x,''))
 
         return arr
@@ -159,32 +351,34 @@ class JBEAM_EDITOR_OT_choose_jbeam(Operator):
     )
 
     dropdown_parts: bpy.props.EnumProperty(
-                                    name='Select a Part',
-                                    description='',
-                                    default=None,
-                                    items=part_choices_for_enum_property,
-
-
+        name='Select a Part',
+        description='',
+        default=None,
+        items=part_choices_for_enum_property,
     )
 
     # User clicked OK, JBeam part is chosen
     def execute(self, context):
-        jbeam_file_path = context.scene[constants.ATTRIBUTE_JBEAM_FILE_PATH]
-        jbeam_file_data_str = context.scene[constants.ATTRIBUTE_JBEAM_FILE_DATA_STR]
-        jbeam_file_data = sjson.loads(jbeam_file_data_str)
         chosen_part = self.dropdown_parts
 
         if self.import_all_parts:
-            for part in context.scene[constants.ATTRIBUTE_JBEAM_PART_CHOICES]:
-                import_jbeam_part(jbeam_file_path, jbeam_file_data_str, jbeam_file_data, part)
+            for part in _jbeam_part_choices:
+                res = import_jbeam_part(context, _jbeam_file_path, _jbeam_file_data, part)
+                if not res:
+                    return {'CANCELLED'}
         else:
-            import_jbeam_part(jbeam_file_path, jbeam_file_data_str, jbeam_file_data, chosen_part)
+            res = import_jbeam_part(context, _jbeam_file_path, _jbeam_file_data, chosen_part)
+            if not res:
+                return {'CANCELLED'}
+
+        text_editor.check_int_files_for_changes(context, [_jbeam_file_path], False, False)
 
         return {'FINISHED'}
 
     # Show dialog of JBeam parts to choose from after importing JBeam file
     def invoke(self, context, event):
         return context.window_manager.invoke_props_dialog(self)
+
 
 class JBEAM_EDITOR_OT_import_jbeam(Operator, ImportHelper):
     bl_idname = 'jbeam_editor.import_jbeam'
@@ -215,19 +409,28 @@ class JBEAM_EDITOR_OT_import_jbeam(Operator, ImportHelper):
     )'''
 
     def execute(self, context):
-        jbeam_file_path = self.filepath
-        f = open(jbeam_file_path)
-        str_data = f.read()
-        data = sjson.loads(str_data)
-        f.close()
+        global _jbeam_file_path
+        global _jbeam_file_data
+        global _jbeam_part_choices
 
-        # Set from unit tests
+        _jbeam_file_path = Path(self.filepath).as_posix()
+        _jbeam_file_data, cached_changed = jbeam_io.get_jbeam(_jbeam_file_path, False, True)
+
+        if _jbeam_file_data is None:
+            utils.show_message_box('ERROR', 'Import JBeam', 'ERROR importing JBeam. Check the "System Console" for details.')
+            return {'CANCELLED'}
+
+        # # Set from unit tests
         if self.set_chosen_part:
-            import_jbeam_part(jbeam_file_path, str_data, data, self.chosen_part)
+            res = import_jbeam_part(context, _jbeam_file_path, _jbeam_file_data, self.chosen_part)
+            if not res:
+                return {'CANCELLED'}
+
+            text_editor.check_int_files_for_changes(context, [_jbeam_file_path], False, False)
             return {'FINISHED'}
 
         part_choices = []
-        for k in data.keys():
+        for k in _jbeam_file_data.keys():
             part_choices.append(k)
 
         '''if self.import_all_parts:
@@ -235,9 +438,7 @@ class JBEAM_EDITOR_OT_import_jbeam(Operator, ImportHelper):
                 import_jbeam_part(jbeam_file_path, str_data, data, part)
             return {'FINISHED'}'''
 
-        context.scene[constants.ATTRIBUTE_JBEAM_FILE_PATH] = jbeam_file_path
-        context.scene[constants.ATTRIBUTE_JBEAM_FILE_DATA_STR] = str_data
-        context.scene[constants.ATTRIBUTE_JBEAM_PART_CHOICES] = part_choices
+        _jbeam_part_choices = part_choices
 
         bpy.ops.jbeam_editor.choose_jbeam('INVOKE_DEFAULT')
 

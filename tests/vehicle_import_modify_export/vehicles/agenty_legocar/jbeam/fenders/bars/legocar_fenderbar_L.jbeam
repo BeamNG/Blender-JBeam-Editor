@@ -1,0 +1,275 @@
+{
+"legocar_fenderbar_FL_col1": {
+    "information":{
+        "name":"Front Left Fender Bar (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fenderbar_FL",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_mirrormount_L","legocar_mirrormount_L_grey", "Left Mirror Mount"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x2_flat_corner_col1",["legocar_fenderbar_FL"], [], {"pos":{"x": 0.500, "y":-0.750, "z":0.6},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_fenderbar_FL"},
+
+	//3 pieces, 3 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+	["fendbarFL1", 0.75, -0.50, 0.65],
+	["fendbarFL2", 0.75, -1.00, 0.65],
+	["fendbarFL3", 0.28, -1.00, 0.65],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["fendbarFL1", "fendbarFL2"],
+	["fendbarFL2", "fendbarFL3"],
+	["fendbarFL3", "fendbarFL1"],
+
+	
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to fender
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"breakGroup":"fenderbarFL_fender_break"},
+	
+	["fendbarFL1", "fendFL3l"],
+	["fendbarFL1", "fendFL3r"],
+	["fendbarFL1", "fendFL4l"],
+	["fendbarFL1", "fendFL4r"],
+
+	["fendbarFL2", "fendFL3l"],
+	["fendbarFL2", "fendFL3r"],
+	["fendbarFL2", "fendFL4l"],
+	["fendbarFL2", "fendFL4r"],
+
+	["fendbarFL3", "fendFL3l"],
+	["fendbarFL3", "fendFL3r"],
+	["fendbarFL3", "fendFL4l"],
+	["fendbarFL3", "fendFL4r"],
+	
+	
+	//to rocker
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"breakGroup":"fenderbarFL_rocker_break"},
+	{"optional":true},
+
+	["fendbarFL1", "LrockT1l"],
+	["fendbarFL1", "LrockT3r"],
+	["fendbarFL1", "LrockT5l"],
+
+	["fendbarFL2", "LrockT1l"],
+	["fendbarFL2", "LrockT3r"],
+	["fendbarFL2", "LrockT5l"],
+
+	["fendbarFL3", "LrockT1l"],
+	["fendbarFL3", "LrockT3r"],
+	["fendbarFL3", "LrockT5l"],
+
+	{"optional":false},
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_fenderbar_FL"}, 
+	["fendbarFL1","fendbarFL3","fendbarFL2"],
+        {"group":""},
+    ],
+},
+
+"legocar_fenderbar_FL_col2": {
+    "information":{
+        "name":"Front Left Fender Bar (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fenderbar_FL",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_mirrormount_L","legocar_mirrormount_L_grey", "Left Mirror Mount"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x2_flat_corner_col2",["legocar_fenderbar_FL"], [], {"pos":{"x": 0.500, "y":-0.750, "z":0.6},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_fenderbar_FL"},
+
+	//3 pieces, 3 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+	["fendbarFL1", 0.75, -0.50, 0.65],
+	["fendbarFL2", 0.75, -1.00, 0.65],
+	["fendbarFL3", 0.28, -1.00, 0.65],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["fendbarFL1", "fendbarFL2"],
+	["fendbarFL2", "fendbarFL3"],
+	["fendbarFL3", "fendbarFL1"],
+
+	
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to fender
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"breakGroup":"fenderbarFL_fender_break"},
+	
+	["fendbarFL1", "fendFL3l"],
+	["fendbarFL1", "fendFL3r"],
+	["fendbarFL1", "fendFL4l"],
+	["fendbarFL1", "fendFL4r"],
+
+	["fendbarFL2", "fendFL3l"],
+	["fendbarFL2", "fendFL3r"],
+	["fendbarFL2", "fendFL4l"],
+	["fendbarFL2", "fendFL4r"],
+
+	["fendbarFL3", "fendFL3l"],
+	["fendbarFL3", "fendFL3r"],
+	["fendbarFL3", "fendFL4l"],
+	["fendbarFL3", "fendFL4r"],
+	
+	
+	//to rocker
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"breakGroup":"fenderbarFL_rocker_break"},
+	{"optional":true},
+
+	["fendbarFL1", "LrockT1l"],
+	["fendbarFL1", "LrockT3r"],
+	["fendbarFL1", "LrockT5l"],
+
+	["fendbarFL2", "LrockT1l"],
+	["fendbarFL2", "LrockT3r"],
+	["fendbarFL2", "LrockT5l"],
+
+	["fendbarFL3", "LrockT1l"],
+	["fendbarFL3", "LrockT3r"],
+	["fendbarFL3", "LrockT5l"],
+
+	{"optional":false},
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_fenderbar_FL"}, 
+	["fendbarFL1","fendbarFL3","fendbarFL2"],
+        {"group":""},
+    ],
+},
+
+"legocar_fenderbar_FL_col3": {
+    "information":{
+        "name":"Front Left Fender Bar (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fenderbar_FL",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_mirrormount_L","legocar_mirrormount_L_grey", "Left Mirror Mount"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x2_flat_corner_col3",["legocar_fenderbar_FL"], [], {"pos":{"x": 0.500, "y":-0.750, "z":0.6},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_fenderbar_FL"},
+
+	//3 pieces, 3 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+	["fendbarFL1", 0.75, -0.50, 0.65],
+	["fendbarFL2", 0.75, -1.00, 0.65],
+	["fendbarFL3", 0.28, -1.00, 0.65],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["fendbarFL1", "fendbarFL2"],
+	["fendbarFL2", "fendbarFL3"],
+	["fendbarFL3", "fendbarFL1"],
+
+	
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to fender
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"breakGroup":"fenderbarFL_fender_break"},
+	
+	["fendbarFL1", "fendFL3l"],
+	["fendbarFL1", "fendFL3r"],
+	["fendbarFL1", "fendFL4l"],
+	["fendbarFL1", "fendFL4r"],
+
+	["fendbarFL2", "fendFL3l"],
+	["fendbarFL2", "fendFL3r"],
+	["fendbarFL2", "fendFL4l"],
+	["fendbarFL2", "fendFL4r"],
+
+	["fendbarFL3", "fendFL3l"],
+	["fendbarFL3", "fendFL3r"],
+	["fendbarFL3", "fendFL4l"],
+	["fendbarFL3", "fendFL4r"],
+	
+	
+	//to rocker
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"breakGroup":"fenderbarFL_rocker_break"},
+	{"optional":true},
+
+	["fendbarFL1", "LrockT1l"],
+	["fendbarFL1", "LrockT3r"],
+	["fendbarFL1", "LrockT5l"],
+
+	["fendbarFL2", "LrockT1l"],
+	["fendbarFL2", "LrockT3r"],
+	["fendbarFL2", "LrockT5l"],
+
+	["fendbarFL3", "LrockT1l"],
+	["fendbarFL3", "LrockT3r"],
+	["fendbarFL3", "LrockT5l"],
+
+	{"optional":false},
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_fenderbar_FL"}, 
+	["fendbarFL1","fendbarFL3","fendbarFL2"],
+        {"group":""},
+    ],
+},
+
+}

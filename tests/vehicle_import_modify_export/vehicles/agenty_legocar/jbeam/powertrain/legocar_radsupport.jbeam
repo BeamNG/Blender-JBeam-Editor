@@ -1,0 +1,202 @@
+{
+"legocar_radsupport": {
+    "information":{
+        "name":"Radiator Support",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_radsupport",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_radiator", "legocar_radiator", "Radiator"],
+	["legocar_fascia_F", "legocar_fascia_F_col2", "Front Fascia"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x4_tall_corner_black", ["legocar_radsupport"], [], {"pos":{"x": 0.000, "y":-1.625, "z":0.3},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_radsupport"},
+
+	//12 pieces, 10 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["radsupp1l",  0.5, -1.53, 0.33],
+	["radsupp1r", -0.5, -1.53, 0.33],
+	["radsupp2l",  0.5, -1.75, 0.33],
+	["radsupp2r", -0.5, -1.75, 0.33],
+
+	["radsupp3l",  0.5, -1.53, 0.6],
+	["radsupp3r", -0.5, -1.53, 0.6],
+	["radsupp4l",  0.5, -1.75, 0.6],
+	["radsupp4r", -0.5, -1.75, 0.6],
+
+	{"engineGroup":"radiator"},
+	{"group":""},
+	["rad1",  0.0, -1.65, 0.35, {"collision":false, "selfCollision":false}],
+	["rad2",  0.0, -1.65, 0.55, {"collision":false, "selfCollision":false}],
+	{"engineGroup":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--RADIATOR SUPPORT--
+	//spring = weight * 1001000, damp = weight * 100
+	//ignore radiator nodes
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["radsupp1l", "radsupp1r"],
+	["radsupp2l", "radsupp2r"],
+	["radsupp3l", "radsupp3r"],
+	["radsupp4l", "radsupp4r"],
+
+	["radsupp1l", "radsupp2r"],
+	["radsupp2l", "radsupp3r"],
+	["radsupp3l", "radsupp4r"],
+	["radsupp4l", "radsupp1r"],
+
+	["radsupp1l", "radsupp3r"],
+	["radsupp2l", "radsupp4r"],
+	["radsupp3l", "radsupp1r"],
+	["radsupp4l", "radsupp2r"],
+
+	["radsupp1l", "radsupp4r"],
+	["radsupp2l", "radsupp1r"],
+	["radsupp3l", "radsupp2r"],
+	["radsupp4l", "radsupp3r"],
+
+	["radsupp1l", "radsupp2l"],
+	["radsupp2l", "radsupp3l"],
+	["radsupp3l", "radsupp4l"],
+	["radsupp4l", "radsupp1l"],
+
+	["radsupp1l", "radsupp3l"],
+	["radsupp2l", "radsupp4l"],
+
+	["radsupp1r", "radsupp2r"],
+	["radsupp2r", "radsupp3r"],
+	["radsupp3r", "radsupp4r"],
+	["radsupp4r", "radsupp1r"],
+
+	["radsupp1r", "radsupp3r"],
+	["radsupp2r", "radsupp4r"],
+
+	//radiator smoke nodes
+	["rad1", "radsupp1l"],
+	["rad1", "radsupp1r"],
+	["rad1", "radsupp2l"],
+	["rad1", "radsupp2r"],
+	["rad1", "radsupp3l"],
+	["rad1", "radsupp3r"],
+	["rad1", "radsupp4l"],
+	["rad1", "radsupp4r"],
+
+	["rad2", "radsupp1l"],
+	["rad2", "radsupp1r"],
+	["rad2", "radsupp2l"],
+	["rad2", "radsupp2r"],
+	["rad2", "radsupp3l"],
+	["rad2", "radsupp3r"],
+	["rad2", "radsupp4l"],
+	["rad2", "radsupp4r"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"radsupport_break"},
+	
+	["radsupp3r", "bulk3r"],
+	["radsupp3r", "bulk4r"],
+	["radsupp3r", "bulk3l"],
+	["radsupp3r", "bulk4l"],
+
+	["radsupp3l", "bulk3r"],
+	["radsupp3l", "bulk4r"],
+	["radsupp3l", "bulk3l"],
+	["radsupp3l", "bulk4l"],
+
+	["radsupp4r", "bulk3r"],
+	["radsupp4r", "bulk4r"],
+	["radsupp4r", "bulk4l"],
+
+	["radsupp4l", "bulk3l"],
+	["radsupp4l", "bulk4l"],
+	["radsupp4l", "bulk4r"],
+
+	//stiffeners
+	{"beamSpring":"$=$weight*301000", "beamDamp":"$=$weight*30"},
+	
+	["radsupp1r", "bulk1r"],
+	["radsupp1r", "bulk2r"],
+	["radsupp1r", "bulk1l"],
+	["radsupp1r", "bulk2l"],
+
+	["radsupp1l", "bulk1r"],
+	["radsupp1l", "bulk2r"],
+	["radsupp1l", "bulk1l"],
+	["radsupp1l", "bulk2l"],
+
+	["radsupp2r", "bulk1r"],
+	["radsupp2r", "bulk2r"],
+	["radsupp2r", "bulk2l"],
+
+	["radsupp2l", "bulk1l"],
+	["radsupp2l", "bulk2l"],
+	["radsupp2l", "bulk2r"],
+
+
+	//to fascia
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"fascia_F_break"},
+	{"optional":true},
+
+	["Ffasc1l", "radsupp1l"],
+	["Ffasc1l", "radsupp2r"],
+	["Ffasc1l", "radsupp4l"],
+
+	["Ffasc1r", "radsupp1r"],
+	["Ffasc1r", "radsupp2l"],
+	["Ffasc1r", "radsupp4r"],
+
+	["Ffasc2l", "radsupp3l"],
+	["Ffasc2l", "radsupp4r"],
+	["Ffasc2l", "radsupp2l"],
+	["Ffasc2l", "radsupp1l"],
+
+	["Ffasc2r", "radsupp3r"],
+	["Ffasc2r", "radsupp4l"],
+	["Ffasc2r", "radsupp2r"],
+	["Ffasc2r", "radsupp1r"],
+
+	["Ffascrig", "radsupp2r"],
+	["Ffascrig", "radsupp2l"],
+	["Ffascrig", "radsupp4r"],
+	["Ffascrig", "radsupp4l"],
+
+
+	{"optional":false},
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legocar_radsupport"},   
+	["radsupp1r","radsupp1l","radsupp2l","radsupp2r"],
+	["radsupp3l","radsupp3r","radsupp4r","radsupp4l"],
+	["radsupp1r","radsupp2r","radsupp4r","radsupp3r"],
+	["radsupp2l","radsupp1l","radsupp3l","radsupp4l"],
+	["radsupp2r","radsupp2l","radsupp4l","radsupp4r"],
+	["radsupp1l","radsupp1r","radsupp3r","radsupp3l"],
+
+        {"group":""},
+    ],
+},
+
+}

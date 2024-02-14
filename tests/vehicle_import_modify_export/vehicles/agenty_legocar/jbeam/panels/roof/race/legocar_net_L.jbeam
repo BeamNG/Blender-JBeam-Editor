@@ -1,0 +1,291 @@
+{
+"legocar_net_L_outer": {
+    "information":{
+        "name":"Left Outer Race Net",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_net_L",
+    "sounds": {
+        "$+cabinFilterCoef": 0.03,
+    },
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_sideglass_black", ["legocar_net_L"], [], {"pos":{"x": 0.625, "y":0.000, "z":0.8},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1, "y":1, "z":1}}],
+	["legocar_sticker_net",     ["legocar_net_L"], [], {"pos":{"x": 0.625, "y":0.000, "z":0.8},"rot":{"x":0, "y":0, "z":90},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_net_L"},
+
+	//2 pieces, 6 half pieces, 8 nodes - 0.625 kg/node
+	{"nodeWeight": "$=$weight*0.625"},
+
+	["Lnet1l",  0.75,-0.22, 0.80],
+	["Lnet1r",  0.50,-0.22, 0.80],
+	["Lnet2l",  0.75, 0.22, 0.80],
+	["Lnet2r",  0.50, 0.22, 0.80],
+	["Lnet3l",  0.75,-0.22, 1.40],
+	["Lnet3r",  0.50,-0.22, 1.40],
+	["Lnet4l",  0.75, 0.22, 1.40],
+	["Lnet4r",  0.50, 0.22, 1.40],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT NET--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*625000", "beamDamp":"$=$weight*62.5"},
+
+	//uniform structure
+	["Lnet1l", "Lnet1r"],
+	["Lnet2l", "Lnet2r"],
+	["Lnet3l", "Lnet3r"],
+	["Lnet4l", "Lnet4r"],
+
+	["Lnet1l", "Lnet2r"],
+	["Lnet2l", "Lnet3r"],
+	["Lnet3l", "Lnet4r"],
+	["Lnet4l", "Lnet1r"],
+
+	["Lnet1l", "Lnet3r"],
+	["Lnet2l", "Lnet4r"],
+	["Lnet3l", "Lnet1r"],
+	["Lnet4l", "Lnet2r"],
+
+	["Lnet1l", "Lnet4r"],
+	["Lnet2l", "Lnet1r"],
+	["Lnet3l", "Lnet2r"],
+	["Lnet4l", "Lnet3r"],
+
+	["Lnet1l", "Lnet2l"],
+	["Lnet2l", "Lnet3l"],
+	["Lnet3l", "Lnet4l"],
+	["Lnet4l", "Lnet1l"],
+
+	["Lnet1l", "Lnet3l"],
+	["Lnet2l", "Lnet4l"],
+
+	["Lnet1r", "Lnet2r"],
+	["Lnet2r", "Lnet3r"],
+	["Lnet3r", "Lnet4r"],
+	["Lnet4r", "Lnet1r"],
+
+	["Lnet1r", "Lnet3r"],
+	["Lnet2r", "Lnet4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*110000", "beamDamp":"$=$weight*10"},
+	{"breakGroup":"net_L_break"},
+
+	["Lnet1l", "roof3l"],
+	["Lnet1l", "roof3ll"],
+	["Lnet1l", "roof3lll"],
+	["Lnet1l", "roof2lll"],
+	["Lnet1l", "roofrig"],
+	
+	["Lnet1r", "roof3l"],
+	["Lnet1r", "roof3ll"],
+	["Lnet1r", "roof3lll"],
+	["Lnet1r", "roof2lll"],
+	["Lnet1r", "roofrig"],
+
+	["Lnet2l", "roof2l"],
+	["Lnet2l", "roof2ll"],
+	["Lnet2l", "roof2lll"],
+	["Lnet2l", "roof3lll"],
+	["Lnet2l", "roofrig"],
+	
+	["Lnet2r", "roof2l"],
+	["Lnet2r", "roof2ll"],
+	["Lnet2r", "roof2lll"],
+	["Lnet2r", "roof3lll"],
+	["Lnet2r", "roofrig"],
+
+	["Lnet3l", "roof3l"],
+	["Lnet3l", "roof3ll"],
+	["Lnet3l", "roof3lll"],
+	["Lnet3l", "roof2lll"],
+	["Lnet3l", "roofrig"],
+	
+	["Lnet3r", "roof3l"],
+	["Lnet3r", "roof3ll"],
+	["Lnet3r", "roof3lll"],
+	["Lnet3r", "roof2lll"],
+	["Lnet3r", "roofrig"],
+
+	["Lnet4l", "roof2l"],
+	["Lnet4l", "roof2ll"],
+	["Lnet4l", "roof2lll"],
+	["Lnet4l", "roof3lll"],
+	["Lnet4l", "roofrig"],
+	
+	["Lnet4r", "roof2l"],
+	["Lnet4r", "roof2ll"],
+	["Lnet4r", "roof2lll"],
+	["Lnet4r", "roof3lll"],
+	["Lnet4r", "roofrig"],
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_net_L"},   
+	["Lnet2r","Lnet2l","Lnet1l","Lnet1r"],
+	["Lnet4l","Lnet4r","Lnet3r","Lnet3l"],
+	["Lnet4l","Lnet3l","Lnet1l","Lnet2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_net_L_inner": {
+    "information":{
+        "name":"Left Inner Race Net",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_net_L",
+    "sounds": {
+        "$+cabinFilterCoef": 0.015,
+    },
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_sideglass_black", ["legocar_net_L"], [], {"pos":{"x": 0.625, "y":0.000, "z":0.8},"rot":{"x":0, "y":0, "z":-90},"scale":{"x":1, "y":1, "z":1}}],
+	["legocar_sticker_net",     ["legocar_net_L"], [], {"pos":{"x": 0.625, "y":0.000, "z":0.8},"rot":{"x":0, "y":0, "z":-90},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_net_L"},
+
+	//2 pieces, 6 half pieces, 8 nodes - 0.625 kg/node
+	{"nodeWeight": "$=$weight*0.625"},
+
+	["Lnet1l",  0.75,-0.22, 0.80],
+	["Lnet1r",  0.50,-0.22, 0.80],
+	["Lnet2l",  0.75, 0.22, 0.80],
+	["Lnet2r",  0.50, 0.22, 0.80],
+	["Lnet3l",  0.75,-0.22, 1.40],
+	["Lnet3r",  0.50,-0.22, 1.40],
+	["Lnet4l",  0.75, 0.22, 1.40],
+	["Lnet4r",  0.50, 0.22, 1.40],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT NET--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*625000", "beamDamp":"$=$weight*62.5"},
+
+	//uniform structure
+	["Lnet1l", "Lnet1r"],
+	["Lnet2l", "Lnet2r"],
+	["Lnet3l", "Lnet3r"],
+	["Lnet4l", "Lnet4r"],
+
+	["Lnet1l", "Lnet2r"],
+	["Lnet2l", "Lnet3r"],
+	["Lnet3l", "Lnet4r"],
+	["Lnet4l", "Lnet1r"],
+
+	["Lnet1l", "Lnet3r"],
+	["Lnet2l", "Lnet4r"],
+	["Lnet3l", "Lnet1r"],
+	["Lnet4l", "Lnet2r"],
+
+	["Lnet1l", "Lnet4r"],
+	["Lnet2l", "Lnet1r"],
+	["Lnet3l", "Lnet2r"],
+	["Lnet4l", "Lnet3r"],
+
+	["Lnet1l", "Lnet2l"],
+	["Lnet2l", "Lnet3l"],
+	["Lnet3l", "Lnet4l"],
+	["Lnet4l", "Lnet1l"],
+
+	["Lnet1l", "Lnet3l"],
+	["Lnet2l", "Lnet4l"],
+
+	["Lnet1r", "Lnet2r"],
+	["Lnet2r", "Lnet3r"],
+	["Lnet3r", "Lnet4r"],
+	["Lnet4r", "Lnet1r"],
+
+	["Lnet1r", "Lnet3r"],
+	["Lnet2r", "Lnet4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*110000", "beamDamp":"$=$weight*10"},
+	{"breakGroup":"net_L_break"},
+
+	["Lnet1l", "roof3l"],
+	["Lnet1l", "roof3ll"],
+	["Lnet1l", "roof3lll"],
+	["Lnet1l", "roof2lll"],
+	["Lnet1l", "roofrig"],
+	
+	["Lnet1r", "roof3l"],
+	["Lnet1r", "roof3ll"],
+	["Lnet1r", "roof3lll"],
+	["Lnet1r", "roof2lll"],
+	["Lnet1r", "roofrig"],
+
+	["Lnet2l", "roof2l"],
+	["Lnet2l", "roof2ll"],
+	["Lnet2l", "roof2lll"],
+	["Lnet2l", "roof3lll"],
+	["Lnet2l", "roofrig"],
+	
+	["Lnet2r", "roof2l"],
+	["Lnet2r", "roof2ll"],
+	["Lnet2r", "roof2lll"],
+	["Lnet2r", "roof3lll"],
+	["Lnet2r", "roofrig"],
+
+	["Lnet3l", "roof3l"],
+	["Lnet3l", "roof3ll"],
+	["Lnet3l", "roof3lll"],
+	["Lnet3l", "roof2lll"],
+	["Lnet3l", "roofrig"],
+	
+	["Lnet3r", "roof3l"],
+	["Lnet3r", "roof3ll"],
+	["Lnet3r", "roof3lll"],
+	["Lnet3r", "roof2lll"],
+	["Lnet3r", "roofrig"],
+
+	["Lnet4l", "roof2l"],
+	["Lnet4l", "roof2ll"],
+	["Lnet4l", "roof2lll"],
+	["Lnet4l", "roof3lll"],
+	["Lnet4l", "roofrig"],
+	
+	["Lnet4r", "roof2l"],
+	["Lnet4r", "roof2ll"],
+	["Lnet4r", "roof2lll"],
+	["Lnet4r", "roof3lll"],
+	["Lnet4r", "roofrig"],
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_net_L"},   
+	["Lnet2r","Lnet2l","Lnet1l","Lnet1r"],
+	["Lnet4l","Lnet4r","Lnet3r","Lnet3l"],
+	["Lnet4r","Lnet3r","Lnet1r","Lnet2r"],
+        {"group":""},
+    ],
+},
+
+
+}

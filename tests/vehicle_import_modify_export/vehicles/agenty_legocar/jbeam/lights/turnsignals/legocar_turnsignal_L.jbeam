@@ -1,0 +1,333 @@
+{
+"legocar_turnsignal_L_orange": {
+    "information":{
+        "name":"Left Orange Turn Signal (US)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_turnsignal_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"signal_L_break", "deformMaterialBase":"legocar_signal_L_orange_US", "deformMaterialDamaged":"lego_transcol_orange"},
+	["legocar_signal_L_orange_US", ["legocar_signal_L"],[], {"pos":{"x": 0.800, "y":-0.625, "z":0.825},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightRange":8,
+            "lightColor":{"r":240, "g":143, "b":28, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleBrakeLightFlare",
+        },
+	["wigwag_signal_L",   "SPOTLIGHT", "signal2l", "signal1l", "signal4l",{"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0.1},"flareScale":0.02, "lightBrightness":0.03, "deformGroup":"signal_L_break"}],
+	["lowhighbeam","SPOTLIGHT", "signal2l", "signal1l", "signal4l",{"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0.1},"flareScale":0.013,"lightBrightness":0.01, "deformGroup":"signal_L_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_signal_L"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["signal1l",  0.83, -0.530, 0.730],
+	["signal2l",  0.83, -0.530, 0.920],
+	["signal3l",  0.83, -0.720, 0.730],
+	["signal4l",  0.83, -0.720, 0.920],
+	["signal0l",  0.95, -0.625, 0.825],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["signal1l", "signal2l"],
+	["signal1l", "signal3l"],
+	["signal1l", "signal4l"],
+	["signal2l", "signal3l"],
+	["signal2l", "signal4l"],
+	["signal3l", "signal4l"],
+	
+	//tip
+	["signal0l", "signal1l"],
+	["signal0l", "signal2l"],
+	["signal0l", "signal3l"],
+	["signal0l", "signal4l"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*91000", "beamDamp":"$=$weight*9"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"signal_L_break"},
+	{"deformGroup":"signal_L_break"},
+	
+	["signal1l", "mirrormt1l"],
+	["signal1l", "mirrormt2ll"],
+	["signal1l", "mirrormt3ll"],
+
+	["signal2l", "mirrormt1l"],
+	["signal2l", "mirrormt1ll"],
+	["signal2l", "mirrormt4ll"],
+
+	["signal3l", "mirrormt2l"],
+	["signal3l", "mirrormt1ll"],
+	["signal3l", "mirrormt4ll"],
+
+	["signal4l", "mirrormt1l"],
+	["signal4l", "mirrormt2ll"],
+	["signal4l", "mirrormt3ll"],
+
+	["signal0l", "mirrormt1ll"],
+	["signal0l", "mirrormt2ll"],
+	["signal0l", "mirrormt3ll"],
+	["signal0l", "mirrormt4ll"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_signal_L"},
+	["signal0l","signal1l","signal2l"],
+	["signal0l","signal2l","signal4l"],
+	["signal0l","signal4l","signal3l"],
+	["signal0l","signal3l","signal1l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_signal_L"},   
+	["signal1l","signal3l","signal4l","signal2l"],
+        {"group":""},
+    ], 
+},
+
+"legocar_turnsignal_L_orange_EU": {
+    "information":{
+        "name":"Left Orange Turn Signal (EU)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_turnsignal_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"signal_L_break", "deformMaterialBase":"legocar_signal_L_orange_EU", "deformMaterialDamaged":"lego_transcol_orange"},
+	["legocar_signal_L_orange_EU", ["legocar_signal_L"],[], {"pos":{"x": 0.800, "y":-0.625, "z":0.825},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightRange":8,
+            "lightColor":{"r":240, "g":143, "b":28, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleBrakeLightFlare",
+        },
+	["wigwag_signal_L",   "SPOTLIGHT", "signal2l", "signal1l", "signal4l",{"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0.1},"flareScale":0.02, "lightBrightness":0.03, "deformGroup":"signal_L_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_signal_L"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["signal1l",  0.83, -0.530, 0.730],
+	["signal2l",  0.83, -0.530, 0.920],
+	["signal3l",  0.83, -0.720, 0.730],
+	["signal4l",  0.83, -0.720, 0.920],
+	["signal0l",  0.95, -0.625, 0.825],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["signal1l", "signal2l"],
+	["signal1l", "signal3l"],
+	["signal1l", "signal4l"],
+	["signal2l", "signal3l"],
+	["signal2l", "signal4l"],
+	["signal3l", "signal4l"],
+	
+	//tip
+	["signal0l", "signal1l"],
+	["signal0l", "signal2l"],
+	["signal0l", "signal3l"],
+	["signal0l", "signal4l"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*91000", "beamDamp":"$=$weight*9"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"signal_L_break"},
+	{"deformGroup":"signal_L_break"},
+	
+	["signal1l", "mirrormt1l"],
+	["signal1l", "mirrormt2ll"],
+	["signal1l", "mirrormt3ll"],
+
+	["signal2l", "mirrormt1l"],
+	["signal2l", "mirrormt1ll"],
+	["signal2l", "mirrormt4ll"],
+
+	["signal3l", "mirrormt2l"],
+	["signal3l", "mirrormt1ll"],
+	["signal3l", "mirrormt4ll"],
+
+	["signal4l", "mirrormt1l"],
+	["signal4l", "mirrormt2ll"],
+	["signal4l", "mirrormt3ll"],
+
+	["signal0l", "mirrormt1ll"],
+	["signal0l", "mirrormt2ll"],
+	["signal0l", "mirrormt3ll"],
+	["signal0l", "mirrormt4ll"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_signal_L"},
+	["signal0l","signal1l","signal2l"],
+	["signal0l","signal2l","signal4l"],
+	["signal0l","signal4l","signal3l"],
+	["signal0l","signal3l","signal1l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_signal_L"},   
+	["signal1l","signal3l","signal4l","signal2l"],
+        {"group":""},
+    ], 
+},
+
+"legocar_turnsignal_L_white": {
+    "information":{
+        "name":"Left White Turn Signal (EU)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_turnsignal_L",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"signal_L_break", "deformMaterialBase":"legocar_signal_L_white", "deformMaterialDamaged":"lego_transcol_white"},
+	["legocar_signal_L_white", ["legocar_signal_L"],[], {"pos":{"x": 0.800, "y":-0.625, "z":0.825},"rot":{"x":0, "y":90, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "props": [
+        ["func", "mesh", "idRef:", "idX:", "idY:", "baseRotation", "rotation", "translation", "min", "max", "offset", "multiplier"],
+        {
+            "lightInnerAngle":0,
+            "lightOuterAngle":120,
+            "lightRange":8,
+            "lightColor":{"r":240, "g":143, "b":28, "a":255},
+            "lightAttenuation":{"x":0, "y":1, "z":1},
+            "lightCastShadows":false,
+            "flareName":"vehicleBrakeLightFlare",
+        },
+	["wigwag_signal_L",   "SPOTLIGHT", "signal2l", "signal1l", "signal4l",{"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, {"x":0, "y":0, "z":0}, 0, 0, 0, 1, {"baseTranslation":{"x":0.5, "y":0.5, "z":0.1},"flareScale":0.02, "lightBrightness":0.03, "deformGroup":"signal_L_break"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_signal_L"},
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["signal1l",  0.83, -0.530, 0.730],
+	["signal2l",  0.83, -0.530, 0.920],
+	["signal3l",  0.83, -0.720, 0.730],
+	["signal4l",  0.83, -0.720, 0.920],
+	["signal0l",  0.95, -0.625, 0.825],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//square
+	["signal1l", "signal2l"],
+	["signal1l", "signal3l"],
+	["signal1l", "signal4l"],
+	["signal2l", "signal3l"],
+	["signal2l", "signal4l"],
+	["signal3l", "signal4l"],
+	
+	//tip
+	["signal0l", "signal1l"],
+	["signal0l", "signal2l"],
+	["signal0l", "signal3l"],
+	["signal0l", "signal4l"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*91000", "beamDamp":"$=$weight*9"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	{"breakGroup":"signal_L_break"},
+	{"deformGroup":"signal_L_break"},
+	
+	["signal1l", "mirrormt1l"],
+	["signal1l", "mirrormt2ll"],
+	["signal1l", "mirrormt3ll"],
+
+	["signal2l", "mirrormt1l"],
+	["signal2l", "mirrormt1ll"],
+	["signal2l", "mirrormt4ll"],
+
+	["signal3l", "mirrormt2l"],
+	["signal3l", "mirrormt1ll"],
+	["signal3l", "mirrormt4ll"],
+
+	["signal4l", "mirrormt1l"],
+	["signal4l", "mirrormt2ll"],
+	["signal4l", "mirrormt3ll"],
+
+	["signal0l", "mirrormt1ll"],
+	["signal0l", "mirrormt2ll"],
+	["signal0l", "mirrormt3ll"],
+	["signal0l", "mirrormt4ll"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_signal_L"},
+	["signal0l","signal1l","signal2l"],
+	["signal0l","signal2l","signal4l"],
+	["signal0l","signal4l","signal3l"],
+	["signal0l","signal3l","signal1l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_signal_L"},   
+	["signal1l","signal3l","signal4l","signal2l"],
+        {"group":""},
+    ], 
+},
+
+}

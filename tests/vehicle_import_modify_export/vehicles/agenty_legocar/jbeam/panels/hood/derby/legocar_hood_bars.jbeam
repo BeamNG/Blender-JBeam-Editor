@@ -1,0 +1,282 @@
+{
+"legocar_hood_bars": {
+    "information":{
+        "name":"Derby Windshierd Bars",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hood_accessory_cut",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_hoodpin_derby","legocar_hoodpin_derby", "Hood Pin"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_clip_black",["legocar_derbybars_handle_L"],[], {"pos":{"x": 0.375, "y":-1.125, "z":0.8},"rot":{"x": 0 , "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_clip_black",["legocar_derbybars_handle_R"],[], {"pos":{"x": 0.125, "y":-1.125, "z":0.8},"rot":{"x": 0 , "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_fence",           ["legocar_derbybars"],         [], {"pos":{"x": 0.350, "y":-1.125, "z":1.0},"rot":{"x":-55, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//handles
+	//1 piece, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	{"group":"legocar_derbybars_handle_L"},
+	["Lderbybars1l", 0.50, -1.03, 0.83],
+	["Lderbybars1r", 0.28, -1.03, 0.83],
+	["Lderbybars2l", 0.50, -1.25, 0.83],
+	["Lderbybars2r", 0.28, -1.25, 0.83],
+	//rigidifier
+	["Lderbybarsrig", 0.375, -1.125, 1, {"selfCollision":false}],
+
+	{"group":"legocar_derbybars_handle_R"},
+	["Rderbybars1l", 0.25, -1.03, 0.83],
+	["Rderbybars1r", 0.00, -1.03, 0.83],
+	["Rderbybars2l", 0.25, -1.25, 0.83],
+	["Rderbybars2r", 0.00, -1.25, 0.83],
+	//rigidifier
+	["Rderbybarsrig", 0.125, -1.125, 1, {"selfCollision":false}],
+
+
+	//bars
+	{"group":"legocar_derbybars"},
+	//7 pieces, 5 nodes - 1.4 kg/node
+	{"nodeWeight": "$=$weight*1.4"},
+
+	["derbybars1l", 0.725, -1.125, 1.000],
+	["derbybars1r",-0.025, -1.125, 1.000],
+	["derbybars2l", 0.725, -0.725, 1.280],
+	["derbybars2r",-0.025, -0.725, 1.280],
+	//rigidifier
+	["derbybarsrig", 0.350, -0.725, 0.9, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$weight*21000", "damp":"$=$weight*2", "deform":"$=$strength*0.05", "strength":"FLT_MAX"},
+	//keep angle
+        ["derbybars2l","derbybars1l","Rderbybarsrig","Rderbybars2r"],
+	["derbybars2r","derbybars1r","Lderbybarsrig","Lderbybars2l"],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--HANDLES--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//left uniform structure
+	["Lderbybars1l", "Lderbybars1r"],
+	["Lderbybars2l", "Lderbybars2r"],
+	["Lderbybars1l", "Lderbybars2l"],
+	["Lderbybars1r", "Lderbybars2r"],
+	["Lderbybars1l", "Lderbybars2r"],
+	["Lderbybars2l", "Lderbybars1r"],
+
+	//left rigidifier
+	["Lderbybars1l", "Lderbybarsrig"],
+	["Lderbybars1r", "Lderbybarsrig"],
+	["Lderbybars2l", "Lderbybarsrig"],
+	["Lderbybars2r", "Lderbybarsrig"],
+
+	//right uniform structure
+	["Rderbybars1l", "Rderbybars1r"],
+	["Rderbybars2l", "Rderbybars2r"],
+	["Rderbybars1l", "Rderbybars2l"],
+	["Rderbybars1r", "Rderbybars2r"],
+	["Rderbybars1l", "Rderbybars2r"],
+	["Rderbybars2l", "Rderbybars1r"],
+
+	//right rigidifier
+	["Rderbybars1l", "Rderbybarsrig"],
+	["Rderbybars1r", "Rderbybarsrig"],
+	["Rderbybars2l", "Rderbybarsrig"],
+	["Rderbybars2r", "Rderbybarsrig"],
+
+
+	//--BARS--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1401000", "beamDamp":"$=$weight*140"},
+
+	//uniform structure
+	["derbybars1l", "derbybars1r"],
+	["derbybars2l", "derbybars2r"],
+	["derbybars1l", "derbybars2l"],
+	["derbybars1r", "derbybars2r"],
+	["derbybars1l", "derbybars2r"],
+	["derbybars2l", "derbybars1r"],
+
+	//rigidifier
+	["derbybars1l", "derbybarsrig"],
+	["derbybars1r", "derbybarsrig"],
+	["derbybars2l", "derbybarsrig"],
+	["derbybars2r", "derbybarsrig"],
+	
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//bars to handles
+	{"beamSpring":"$=$weight*101000", "beamDamp":"$=$weight*10"},
+	{"breakGroup":"derbybars_hinge_break"},
+
+	["derbybars1l", "Lderbybars1l"],
+	["derbybars1l", "Lderbybars1r"],
+	["derbybars1l", "Lderbybars2l"],
+	["derbybars1l", "Lderbybars2r"],
+
+	["derbybars1l", "Rderbybars1l"],
+	["derbybars1l", "Rderbybars1r"],
+	["derbybars1l", "Rderbybars2l"],
+	["derbybars1l", "Rderbybars2r"],
+
+	["derbybars1r", "Lderbybars1l"],
+	["derbybars1r", "Lderbybars1r"],
+	["derbybars1r", "Lderbybars2l"],
+	["derbybars1r", "Lderbybars2r"],
+
+	["derbybars1r", "Rderbybars1l"],
+	["derbybars1r", "Rderbybars1r"],
+	["derbybars1r", "Rderbybars2l"],
+	["derbybars1r", "Rderbybars2r"],
+
+	["derbybars1l", "Lderbybarsrig"],
+	["derbybars1r", "Lderbybarsrig"],
+	["derbybars2l", "Lderbybarsrig"],
+	["derbybars2r", "Lderbybarsrig"],
+	["derbybarsrig", "Lderbybarsrig"],
+
+	["derbybars1l", "Rderbybarsrig"],
+	["derbybars1r", "Rderbybarsrig"],
+	["derbybars2l", "Rderbybarsrig"],
+	["derbybars2r", "Rderbybarsrig"],
+	["derbybarsrig", "Rderbybarsrig"],
+
+
+	//left to hood
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"derbybars_L_break"},
+
+	["Lderbybars1l", "hood1l"],
+	["Lderbybars1l", "hood1ll"],
+	["Lderbybars1l", "hood1lll"],
+	["Lderbybars1l", "hood2ll"],
+	["Lderbybars1l", "hoodrig"],
+
+	["Lderbybars1r", "hood1l"],
+	["Lderbybars1r", "hood1ll"],
+	["Lderbybars1r", "hood1lll"],
+	["Lderbybars1r", "hood2ll"],
+	["Lderbybars1r", "hoodrig"],
+
+	["Lderbybars2l", "hood2l"],
+	["Lderbybars2l", "hood2ll"],
+	["Lderbybars2l", "hood2lll"],
+	["Lderbybars2l", "hood1ll"],
+	["Lderbybars2l", "hoodrig"],
+
+	["Lderbybars2r", "hood2l"],
+	["Lderbybars2r", "hood2ll"],
+	["Lderbybars2r", "hood2lll"],
+	["Lderbybars2r", "hood1ll"],
+	["Lderbybars2r", "hoodrig"],
+
+	["Lderbybarsrig", "hood1l"],
+	["Lderbybarsrig", "hood1ll"],
+	["Lderbybarsrig", "hood2l"],
+	["Lderbybarsrig", "hood2ll"],
+
+
+	//right to hood
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"derbybars_R_break"},
+
+	["Rderbybars1l", "hood1l"],
+	["Rderbybars1l", "hood1r"],
+	["Rderbybars1l", "hood1lll"],
+	["Rderbybars1l", "hood2r"],
+	["Rderbybars1l", "hoodrig"],
+
+	["Rderbybars1r", "hood1l"],
+	["Rderbybars1r", "hood1r"],
+	["Rderbybars1r", "hood1lll"],
+	["Rderbybars1r", "hood2r"],
+	["Rderbybars1r", "hoodrig"],
+
+	["Rderbybars2l", "hood2l"],
+	["Rderbybars2l", "hood2r"],
+	["Rderbybars2l", "hood2lll"],
+	["Rderbybars2l", "hood1r"],
+	["Rderbybars2l", "hoodrig"],
+
+	["Rderbybars2r", "hood2l"],
+	["Rderbybars2r", "hood2r"],
+	["Rderbybars2r", "hood2lll"],
+	["Rderbybars2r", "hood1r"],
+	["Rderbybars2r", "hoodrig"],
+
+	["Rderbybarsrig", "hood1l"],
+	["Rderbybarsrig", "hood1r"],
+	["Rderbybarsrig", "hood2l"],
+	["Rderbybarsrig", "hood2r"],
+	
+	{"breakGroup":""},
+
+	
+	//--SUPPORT LIMITERS--
+	{"beamPrecompression":0.95,"beamType":"|SUPPORT", "beamLongBound":100},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//windshield collision
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	["derbybars2l", "wshld2l"],
+	["derbybars2l", "wshld2r"],
+	["derbybars2l", "wshld4l"],
+	["derbybars2l", "wshld4r"],
+	["derbybars2l", "wshld1l"],
+	["derbybars2l", "wshld3l"],
+
+	["derbybars2r", "wshld2l"],
+	["derbybars2r", "wshld2r"],
+	["derbybars2r", "wshld4l"],
+	["derbybars2r", "wshld4r"],
+	["derbybars2r", "wshld1l"],
+	["derbybars2r", "wshld3l"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_derbybars_L"},
+	["Lderbybarsrig","Lderbybars1r","Lderbybars2r"],
+	["Lderbybarsrig","Lderbybars2r","Lderbybars2l"],
+	["Lderbybarsrig","Lderbybars2l","Lderbybars1l"],
+	["Lderbybarsrig","Lderbybars1l","Lderbybars1r"],
+
+	{"group":"legocar_derbybars_R"},
+	["Rderbybarsrig","Rderbybars1r","Rderbybars2r"],
+	["Rderbybarsrig","Rderbybars2r","Rderbybars2l"],
+	["Rderbybarsrig","Rderbybars2l","Rderbybars1l"],
+	["Rderbybarsrig","Rderbybars1l","Rderbybars1r"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_derbybars_L"},
+	["Lderbybars1r","Lderbybars1l","Lderbybars2l","Lderbybars2r"],
+	{"group":"legocar_derbybars_R"},
+	["Rderbybars1r","Rderbybars1l","Rderbybars2l","Rderbybars2r"],
+	{"group":"legocar_derbybars"},
+	["derbybars1r","derbybars1l","derbybars2l","derbybars2r"],
+        {"group":""},
+    ],
+},
+
+}

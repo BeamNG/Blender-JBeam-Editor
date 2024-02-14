@@ -1,0 +1,90 @@
+{
+"tire_F_260_95_7_treaded": {
+    "information":{
+        "authors":"AgentY",
+        "name":"260/95R7 Solid Rubber Customizable Front Tires (Stretched)",
+    },
+    "slotType" : "tire_F_7x5",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+        ["legocar_tire_conversion_treaded", ["wheel_FR","tire_FR"], [], {"pos":{"x":-0.4, "y":-0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":180}, "scale":{"x":1, "y":1, "z":1}}],
+        ["legocar_tire_conversion_treaded", ["wheel_FL","tire_FL"], [], {"pos":{"x": 0.4, "y":-0.0, "z":0.0}, "rot":{"x":0, "y":0, "z":0}, "scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"]
+        ["$noLoadCoefF",     "range", " ", "Tires", 1.5, 1.0, 5.0, "Maximum Grip",         "Maximum friction multiplier, with no external forces acting on the tire",{"subCategory":"Front","stepDis":0.01 }],
+	["$fullLoadCoefF",   "range", " ", "Tires", 0.5, 0.1, 1.0, "Minimum Grip",         "Minimum friction multiplier, friction can't get any lower than this",    {"subCategory":"Front","stepDis":0.01 }],
+	["$loadSensitivityF","range", " ", "Tires", 2.0, 1.0, 5.0, "Grip Loss Sensitivity","How sensitive the tire is to losing grip under load/forces",             {"subCategory":"Front","stepDis":0.001}],
+	["$softnessCoefF",   "range", " ", "Tires", 0.75,0.5, 1.0, "Tire Softness",        "Tire softness that affects friction, softer are closer to racing slicks",{"subCategory":"Front","stepDis":0.01 }],
+	["$treadCoefF",      "range", " ", "Tires", 0.75,0.0, 1.0, "Tread Efficiency",     "How effective the treads are. Bigger = more grip on off-road surfaces",  {"subCategory":"Front","stepDis":0.01 }],
+    ],
+    "pressureWheels": [
+        ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+
+	//--OVERRIDE WHEEL OFFSET--
+	{"wheelOffset":-0.055},
+
+        {"disableMeshBreaking":false,"disableHubMeshBreaking":true},
+        {"hasTire":true},
+        {"enableTireReinfBeams":false},
+        {"enableTireLbeams":true},
+        {"enableTireSideReinfBeams":false},
+        {"enableTreadReinfBeams":true},
+        {"enableTirePeripheryReinfBeams":true},
+
+        //general settings
+        {"radius":0.3365384},
+        {"tireWidth":0.225},
+
+        //tire options
+	//bigger side spring because solid rubber
+	{"wheelSideBeamSpring":111000,"wheelSideBeamDamp":40},
+        {"wheelSideBeamSpringExpansion":411000,"wheelSideBeamDampExpansion":30},
+        {"wheelSideTransitionZone":0.1,"wheelSideBeamPrecompression":0.99},
+
+	//reasonable values, stiff sidewalls
+        {"wheelReinfBeamSpring":20000,"wheelReinfBeamDamp":170},
+        {"wheelReinfBeamDampCutoffHz":500,"wheelReinfBeamPrecompression":0.99},
+
+        {"wheelTreadBeamSpring":75000,"wheelTreadBeamDamp":65},
+        {"wheelTreadBeamDampCutoffHz":500,"wheelTreadBeamPrecompression":0.99},
+
+        {"wheelTreadReinfBeamSpring":125000,"wheelTreadReinfBeamDamp":55},
+        {"wheelTreadReinfBeamDampCutoffHz":500,"wheelTreadReinfBeamPrecompression":0.99},
+
+	//reasonable values, not too high peak grip
+        {"wheelPeripheryBeamSpring":51000,"wheelPeripheryBeamDamp":55},
+        {"wheelPeripheryBeamDampCutoffHz":500,"wheelPeripheryBeamPrecompression":0.99},
+
+        {"wheelPeripheryReinfBeamSpring":51000,"wheelPeripheryReinfBeamDamp":55},
+        {"wheelPeripheryReinfBeamDampCutoffHz":500,"wheelPeripheryReinfBeamPrecompression":0.99},
+
+        //general tire values
+        {"nodeWeight":0.165},
+        {"nodeMaterial":"|NM_RUBBER"},
+        {"triangleCollision":false},
+        {"pressurePSI":14.7}, //atmospheric pressure
+        {"dragCoef":0.01}, //we need any drag coef bigger than 0 for the tires to load properly
+
+        //groundmodel friction multipliers
+        {"frictionCoef":1.0},
+        {"slidingFrictionCoef":1.0},
+        {"treadCoef":"$treadCoefF"},
+
+        //advanced friction values
+        {"noLoadCoef":"$noLoadCoefF"},
+        {"loadSensitivitySlope":"$=$loadSensitivityF*0.0001"},
+        {"fullLoadCoef":"$fullLoadCoefF"},
+        {"softnessCoef":"$softnessCoefF"},
+
+        //deform values
+        {"wheelSideBeamDeform":"FLT_MAX","wheelSideBeamStrength": "$=$strength == nil and 201000 or $strength"},
+	{"wheelSideReinfBeamDeform":"FLT_MAX","wheelSideReinfBeamStrength":"$=$strength == nil and 201000 or $strength"},
+        {"wheelTreadBeamDeform":"FLT_MAX","wheelTreadBeamStrength":"FLT_MAX"},
+	{"wheelTreadReinfBeamDeform":"FLT_MAX","wheelTreadReinfBeamStrength":"FLT_MAX"},
+        {"wheelPeripheryBeamDeform":"FLT_MAX","wheelPeripheryBeamStrength":"FLT_MAX"},
+	{"wheelPeripheryReinfBeamDeform":"FLT_MAX","wheelPeripheryReinfBeamStrength":"FLT_MAX"},
+    ],
+},
+
+}

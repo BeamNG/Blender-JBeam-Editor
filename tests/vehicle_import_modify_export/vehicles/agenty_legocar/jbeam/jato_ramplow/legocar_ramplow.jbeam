@@ -1,0 +1,177 @@
+{
+"legocar_ramplow": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Ram Plow",
+    },
+    "slotType" : "legocar_ramplow",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+        ["legocar_plow",["legocar_plow"], [], {"pos":{"x":0, "y":-1.750, "z":0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_plow"},
+	//25 pieces, 70 half-pieces, 12 nodes - 5 kg/node
+	{"nodeWeight": "$=$weight*5"},
+
+	["plow1l",  0.25,-1.50, 0.7],
+	["plow1r", -0.25,-1.50, 0.7],
+
+	["plow2l",  0.25,-1.75, 0.7],
+	["plow2r", -0.25,-1.75, 0.7],
+	["plow2ll", 0.75,-1.75, 0.7],
+	["plow2rr",-0.75,-1.75, 0.7],
+
+	["plow3ll", 0.75,-2.10, 0.7],
+	["plow3",   0.00,-2.10, 0.7],
+	["plow3rr",-0.75,-2.10, 0.7],
+	
+	["plow4ll", 0.75,-2.10, 0.0],
+	["plow4",   0.00,-2.95, 0.0],
+	["plow4rr",-0.75,-2.10, 0.0],
+
+	{"group":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--RAM PLOW--
+	
+	//main shape
+	{"beamSpring":"$=$weight*5001000", "beamDamp":"$=$weight*500"},
+
+	//lengthwise
+	["plow1l", "plow2l"],
+	["plow1r", "plow2r"],
+	["plow2l", "plow3"],
+	["plow2r", "plow3"],
+	["plow2ll", "plow3ll"],
+	["plow2rr", "plow3rr"],
+	["plow3ll", "plow4ll"],
+	["plow3", "plow4"],
+	["plow3rr", "plow4rr"],
+
+	//widthwise
+	["plow1l", "plow1r"],
+	["plow2l", "plow2r"],
+	["plow2ll", "plow2l"],
+	["plow2r", "plow2rr"],
+	["plow3ll", "plow3"],
+	["plow3", "plow3rr"],
+	["plow4ll", "plow4"],
+	["plow4", "plow4rr"],
+
+
+	//crossing
+	{"beamSpring":"$=$weight*4001000", "beamDamp":"$=$weight*400"},
+	["plow1l", "plow2r"],
+	["plow1r", "plow2l"],
+	["plow2l", "plow3ll"],
+	["plow2r", "plow3rr"],
+	["plow2ll", "plow3"],
+	["plow2rr", "plow3"],
+	["plow3", "plow4ll"],
+	["plow3", "plow4rr"],
+	["plow3ll", "plow4"],
+	["plow3rr", "plow4"],
+
+
+	//rigids
+	{"beamSpring":"$=$weight*3001000", "beamDamp":"$=$weight*300"},	
+
+	//lengthwise
+	["plow1l", "plow3"],
+	["plow1r", "plow3"],
+	["plow1l", "plow3ll"],
+	["plow1r", "plow3rr"],
+
+	//widthwise
+	["plow2l", "plow2rr"],
+	["plow2r", "plow2ll"],
+	["plow3ll", "plow3rr"],
+	["plow4ll", "plow4rr"],
+
+
+	//corner rigids
+	{"beamSpring":"$=$weight*4001000", "beamDamp":"$=$weight*400"},
+	["plow2l", "plow4"],
+	["plow2r", "plow4"],
+	["plow2l", "plow4ll"],
+	["plow2r", "plow4rr"],
+	["plow2ll", "plow4ll"],
+	["plow2rr", "plow4rr"],
+
+
+	//extra
+	{"beamSpring":"$=$weight*3001000", "beamDamp":"$=$weight*300"},	
+	["plow1l", "plow4"],
+	["plow1r", "plow4"],
+	["plow1l", "plow4ll"],
+	["plow1r", "plow4rr"],
+
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$=$strength*2", "beamStrength":"$=$strength*2"},
+	{"breakGroup":"ramplow_break"},
+
+	["plow2ll", "radsupp3l"],
+	["plow2ll", "radsupp3r"],
+	["plow2ll", "radsupp1l"],
+	["plow2ll", "radsupp4l"],
+
+	["plow2rr", "radsupp3l"],
+	["plow2rr", "radsupp3r"],
+	["plow2rr", "radsupp1r"],
+	["plow2rr", "radsupp4r"],
+
+	["plow3ll", "radsupp4l"],
+	["plow3ll", "radsupp4r"],
+	["plow3ll", "radsupp2l"],
+	["plow3ll", "radsupp3l"],
+
+	["plow3rr", "radsupp4l"],
+	["plow3rr", "radsupp4r"],
+	["plow3rr", "radsupp2r"],
+	["plow3rr", "radsupp3r"],
+
+	["plow4ll", "radsupp2l"],
+	["plow4ll", "radsupp2r"],
+	["plow4ll", "radsupp4l"],
+	["plow4ll", "radsupp1l"],
+
+	["plow4rr", "radsupp2l"],
+	["plow4rr", "radsupp2r"],
+	["plow4rr", "radsupp4r"],
+	["plow4rr", "radsupp1r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_plow"},
+	["plow2l","plow2r","plow3"],
+	["plow3rr","plow4rr","plow4", {"dragCoef":"$=$drag*0.1"}],
+	["plow3ll","plow4","plow4ll", {"dragCoef":"$=$drag*0.1"}],
+	["plow3ll","plow3","plow4", {"dragCoef":"$=$drag*0.1"}],
+	["plow3","plow3rr","plow4", {"dragCoef":"$=$drag*0.1"}],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_plow"},
+	["plow1l","plow1r","plow2r","plow2l"],
+	["plow2ll","plow2l","plow3","plow3ll"],
+	["plow2r","plow2rr","plow3rr","plow3"],
+        {"group":""},
+    ],
+},
+
+}

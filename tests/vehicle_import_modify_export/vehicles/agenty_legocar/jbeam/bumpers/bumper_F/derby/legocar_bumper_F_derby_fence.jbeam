@@ -1,0 +1,330 @@
+{
+"legocar_bumper_F_derby_fence": {
+    "information":{
+        "name":" Derby Fence Front Bumper",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_fence_bumper_lights_e", "legocar_fence_bumper_lights_e", "Emergency Lights"],
+	["legocar_fence_bumper_lights_r", "", "Rally Lights"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_black", ["legocar_bumpermount_FL"], [], {"pos":{"x": 0.625, "y":-1.850, "z":0.225},"rot":{"x":90, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_black", ["legocar_bumpermount_FR"], [], {"pos":{"x":-0.625, "y":-1.850, "z":0.225},"rot":{"x":90, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_black", ["legocar_bumpermount_FL"], [], {"pos":{"x": 0.625, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_black", ["legocar_bumpermount_FR"], [], {"pos":{"x":-0.625, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z":90},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_fence_alt",   ["legocar_bumper_F"],       [], {"pos":{"x": 0.000, "y":-2.150, "z":0.05},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//front bumper mounts
+	//2 pieces, 8 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	//left
+	{"group":"legocar_bumpermount_FL"},
+	["FLbmount2l",  0.75, -1.85, 0.10],
+	["FLbmount2r",  0.50, -1.85, 0.10],
+	["FLbmount1l",  0.75, -1.85, 0.35],
+	["FLbmount1r",  0.50, -1.85, 0.35],
+	["FLbmount4l",  0.75, -2.05, 0.10],
+	["FLbmount4r",  0.50, -2.05, 0.10],
+	["FLbmount3l",  0.75, -2.05, 0.35],
+	["FLbmount3r",  0.50, -2.05, 0.35],
+
+
+	//right
+	{"group":"legocar_bumpermount_FR"},
+	["FRbmount2r", -0.75, -1.85, 0.10],
+	["FRbmount2l", -0.50, -1.85, 0.10],
+	["FRbmount1r", -0.75, -1.85, 0.35],
+	["FRbmount1l", -0.50, -1.85, 0.35],
+	["FRbmount4r", -0.75, -2.05, 0.10],
+	["FRbmount4l", -0.50, -2.05, 0.10],
+	["FRbmount3r", -0.75, -2.05, 0.35],
+	["FRbmount3l", -0.50, -2.05, 0.35],
+
+
+	//derby bumper
+	{"group":"legocar_bumper_F"},
+	//10 pieces, 5 nodes - 2 kg/node
+	{"nodeWeight": "$=$weight*2"},
+
+	["Fbump1l",  0.625, -2.15, 0.00],
+	["Fbump1r", -0.625, -2.15, 0.00],
+	["Fbump2l",  0.625, -2.15, 0.60],
+	["Fbump2r", -0.625, -2.15, 0.60],
+	//rigidifier
+	["Fbumprig", 0, -1.75, 0.3, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT BUMPER MOUNTS--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//left uniform structure
+	["FLbmount1l", "FLbmount1r"],
+	["FLbmount2l", "FLbmount2r"],
+	["FLbmount3l", "FLbmount3r"],
+	["FLbmount4l", "FLbmount4r"],
+
+	["FLbmount1l", "FLbmount2r"],
+	["FLbmount2l", "FLbmount3r"],
+	["FLbmount3l", "FLbmount4r"],
+	["FLbmount4l", "FLbmount1r"],
+
+	["FLbmount1l", "FLbmount3r"],
+	["FLbmount2l", "FLbmount4r"],
+	["FLbmount3l", "FLbmount1r"],
+	["FLbmount4l", "FLbmount2r"],
+
+	["FLbmount1l", "FLbmount4r"],
+	["FLbmount2l", "FLbmount1r"],
+	["FLbmount3l", "FLbmount2r"],
+	["FLbmount4l", "FLbmount3r"],
+
+	["FLbmount1l", "FLbmount2l"],
+	["FLbmount2l", "FLbmount3l"],
+	["FLbmount3l", "FLbmount4l"],
+	["FLbmount4l", "FLbmount1l"],
+
+	["FLbmount1l", "FLbmount3l"],
+	["FLbmount2l", "FLbmount4l"],
+
+	["FLbmount1r", "FLbmount2r"],
+	["FLbmount2r", "FLbmount3r"],
+	["FLbmount3r", "FLbmount4r"],
+	["FLbmount4r", "FLbmount1r"],
+
+	["FLbmount1r", "FLbmount3r"],
+	["FLbmount2r", "FLbmount4r"],
+
+
+	//right uniform structure
+	["FRbmount1l", "FRbmount1r"],
+	["FRbmount2l", "FRbmount2r"],
+	["FRbmount3l", "FRbmount3r"],
+	["FRbmount4l", "FRbmount4r"],
+
+	["FRbmount1l", "FRbmount2r"],
+	["FRbmount2l", "FRbmount3r"],
+	["FRbmount3l", "FRbmount4r"],
+	["FRbmount4l", "FRbmount1r"],
+
+	["FRbmount1l", "FRbmount3r"],
+	["FRbmount2l", "FRbmount4r"],
+	["FRbmount3l", "FRbmount1r"],
+	["FRbmount4l", "FRbmount2r"],
+
+	["FRbmount1l", "FRbmount4r"],
+	["FRbmount2l", "FRbmount1r"],
+	["FRbmount3l", "FRbmount2r"],
+	["FRbmount4l", "FRbmount3r"],
+
+	["FRbmount1l", "FRbmount2l"],
+	["FRbmount2l", "FRbmount3l"],
+	["FRbmount3l", "FRbmount4l"],
+	["FRbmount4l", "FRbmount1l"],
+
+	["FRbmount1l", "FRbmount3l"],
+	["FRbmount2l", "FRbmount4l"],
+
+	["FRbmount1r", "FRbmount2r"],
+	["FRbmount2r", "FRbmount3r"],
+	["FRbmount3r", "FRbmount4r"],
+	["FRbmount4r", "FRbmount1r"],
+
+	["FRbmount1r", "FRbmount3r"],
+	["FRbmount2r", "FRbmount4r"],
+
+
+
+	//--FRONT BUMPER--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2501000", "beamDamp":"$=$weight*250"},
+
+	//uniform structure
+	["Fbump1l", "Fbump1r"],
+	["Fbump2l", "Fbump2r"],
+	["Fbump1l", "Fbump2l"],
+	["Fbump1r", "Fbump2r"],
+	["Fbump1l", "Fbump2r"],
+	["Fbump2l", "Fbump1r"],
+
+	//rigidifier
+	["Fbump1l", "Fbumprig"],
+	["Fbump1r", "Fbumprig"],
+	["Fbump2l", "Fbumprig"],
+	["Fbump2r", "Fbumprig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+
+	//left mount to bumper
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"bumper_FL_break"},
+	{"deformGroup":"bumper_FL_break"},
+
+	["Fbump1l", "FLbmount4l"],
+	["Fbump1l", "FLbmount4r"],
+	["Fbump1l", "FLbmount2l"],
+	["Fbump1l", "FLbmount3l"],
+
+	["Fbump1r", "FLbmount4l"],
+	["Fbump1r", "FLbmount4r"],
+	["Fbump1r", "FLbmount2r"],
+	["Fbump1r", "FLbmount3r"],
+
+	["Fbump2l", "FLbmount3l"],
+	["Fbump2l", "FLbmount3r"],
+	["Fbump2l", "FLbmount1l"],
+	["Fbump2l", "FLbmount4l"],
+
+	["Fbump2r", "FLbmount3l"],
+	["Fbump2r", "FLbmount3r"],
+	["Fbump2r", "FLbmount1r"],
+	["Fbump2r", "FLbmount4r"],
+	
+	["Fbumprig", "FLbmount1l"],
+	["Fbumprig", "FLbmount2l"],
+	["Fbumprig", "FLbmount3l"],
+	["Fbumprig", "FLbmount4l"],
+
+
+	//right mount to bumper
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"bumper_FR_break"},
+	{"deformGroup":"bumper_FR_break"},
+
+	["Fbump1l", "FRbmount4l"],
+	["Fbump1l", "FRbmount4r"],
+	["Fbump1l", "FRbmount2l"],
+	["Fbump1l", "FRbmount3l"],
+
+	["Fbump1r", "FRbmount4l"],
+	["Fbump1r", "FRbmount4r"],
+	["Fbump1r", "FRbmount2r"],
+	["Fbump1r", "FRbmount3r"],
+
+	["Fbump2l", "FRbmount3l"],
+	["Fbump2l", "FRbmount3r"],
+	["Fbump2l", "FRbmount1l"],
+	["Fbump2l", "FRbmount4l"],
+
+	["Fbump2r", "FRbmount3l"],
+	["Fbump2r", "FRbmount3r"],
+	["Fbump2r", "FRbmount1r"],
+	["Fbump2r", "FRbmount4r"],
+	
+	["Fbumprig", "FRbmount1l"],
+	["Fbumprig", "FRbmount2l"],
+	["Fbumprig", "FRbmount3l"],
+	["Fbumprig", "FRbmount4l"],
+	
+
+	{"deformGroup":""},
+
+
+	//left mount to fascia
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"bumpermount_FL_break"},
+
+	["Ffasc1l", "FLbmount4l"],
+	["Ffasc1l", "FLbmount4r"],
+	["Ffasc1l", "FLbmount2l"],
+	["Ffasc1l", "FLbmount3l"],
+
+	["Ffasc1r", "FLbmount4l"],
+	["Ffasc1r", "FLbmount4r"],
+	["Ffasc1r", "FLbmount2r"],
+	["Ffasc1r", "FLbmount3r"],
+
+	["Ffasc2l", "FLbmount3l"],
+	["Ffasc2l", "FLbmount3r"],
+	["Ffasc2l", "FLbmount1l"],
+	["Ffasc2l", "FLbmount4l"],
+
+	["Ffasc2r", "FLbmount3l"],
+	["Ffasc2r", "FLbmount3r"],
+	["Ffasc2r", "FLbmount1r"],
+	["Ffasc2r", "FLbmount4r"],
+	
+	["Ffascrig", "FLbmount1l"],
+	["Ffascrig", "FLbmount2l"],
+	["Ffascrig", "FLbmount3l"],
+	["Ffascrig", "FLbmount4l"],
+
+
+	//right mount to fascia
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"bumpermount_FR_break"},
+
+	["Ffasc1l", "FRbmount4l"],
+	["Ffasc1l", "FRbmount4r"],
+	["Ffasc1l", "FRbmount2l"],
+	["Ffasc1l", "FRbmount3l"],
+
+	["Ffasc1r", "FRbmount4l"],
+	["Ffasc1r", "FRbmount4r"],
+	["Ffasc1r", "FRbmount2r"],
+	["Ffasc1r", "FRbmount3r"],
+
+	["Ffasc2l", "FRbmount3l"],
+	["Ffasc2l", "FRbmount3r"],
+	["Ffasc2l", "FRbmount1l"],
+	["Ffasc2l", "FRbmount4l"],
+
+	["Ffasc2r", "FRbmount3l"],
+	["Ffasc2r", "FRbmount3r"],
+	["Ffasc2r", "FRbmount1r"],
+	["Ffasc2r", "FRbmount4r"],
+	
+	["Ffascrig", "FRbmount1l"],
+	["Ffascrig", "FRbmount2l"],
+	["Ffascrig", "FRbmount3l"],
+	["Ffascrig", "FRbmount4l"],
+	
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+        {"group":"legocar_bumper_F"},
+	["Fbump2l","Fbump2r","Fbump1r","Fbump1l", {"dragCoef":"$=$drag*0.1"}],
+
+	{"group":"legocar_bumpermount_FL"},   
+	["FLbmount1r","FLbmount1l","FLbmount2l","FLbmount2r"],
+	["FLbmount3l","FLbmount3r","FLbmount4r","FLbmount4l"],
+	["FLbmount1r","FLbmount2r","FLbmount4r","FLbmount3r"],
+	["FLbmount2l","FLbmount1l","FLbmount3l","FLbmount4l"],
+	["FLbmount2r","FLbmount2l","FLbmount4l","FLbmount4r"],
+	["FLbmount1l","FLbmount1r","FLbmount3r","FLbmount3l"],
+
+	{"group":"legocar_bumpermount_FR"},   
+	["FRbmount1r","FRbmount1l","FRbmount2l","FRbmount2r"],
+	["FRbmount3l","FRbmount3r","FRbmount4r","FRbmount4l"],
+	["FRbmount1r","FRbmount2r","FRbmount4r","FRbmount3r"],
+	["FRbmount2l","FRbmount1l","FRbmount3l","FRbmount4l"],
+	["FRbmount2r","FRbmount2l","FRbmount4l","FRbmount4r"],
+	["FRbmount1l","FRbmount1r","FRbmount3r","FRbmount3l"],
+
+        {"group":""},
+    ],
+},
+
+}

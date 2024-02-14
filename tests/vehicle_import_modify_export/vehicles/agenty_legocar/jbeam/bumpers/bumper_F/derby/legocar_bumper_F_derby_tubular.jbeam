@@ -1,0 +1,132 @@
+{
+"legocar_bumper_F_derby_tubular": {
+    "information":{
+        "name":" Tubular Front Bumper",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_bumper_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_licenseplate_F_derby", "legocar_licenseplate_F_derby_US", "Front License Plate"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_rack_black", ["legocar_bumper_F"], [], {"pos":{"x": 0.000, "y":-1.850, "z":0.225},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_bumper_F"},
+	//8 pieces, 6 nodes - 1.33 kg/node
+	{"nodeWeight": "$=$weight*1.33"},
+
+	["FTbump1l",  0.75, -1.85, 0.10],
+	["FTbump1r", -0.75, -1.85, 0.10],
+	["FTbump2l",  0.75, -1.85, 0.35],
+	["FTbump2r", -0.75, -1.85, 0.35],
+	["FTbump3l",  0.50, -2.12, 0.10],
+	["FTbump3r", -0.50, -2.12, 0.10],
+	["FTbump4l",  0.50, -2.12, 0.35],
+	["FTbump4r", -0.50, -2.12, 0.35],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT BUMPER--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1331000", "beamDamp":"$=$weight*133"},
+
+	//uniform structure
+	["FTbump1l", "FTbump1r"],
+	["FTbump2l", "FTbump2r"],
+	["FTbump3l", "FTbump3r"],
+	["FTbump4l", "FTbump4r"],
+
+	["FTbump1l", "FTbump2r"],
+	["FTbump2l", "FTbump3r"],
+	["FTbump3l", "FTbump4r"],
+	["FTbump4l", "FTbump1r"],
+
+	["FTbump1l", "FTbump3r"],
+	["FTbump2l", "FTbump4r"],
+	["FTbump3l", "FTbump1r"],
+	["FTbump4l", "FTbump2r"],
+
+	["FTbump1l", "FTbump4r"],
+	["FTbump2l", "FTbump1r"],
+	["FTbump3l", "FTbump2r"],
+	["FTbump4l", "FTbump3r"],
+
+	["FTbump1l", "FTbump2l"],
+	["FTbump2l", "FTbump3l"],
+	["FTbump3l", "FTbump4l"],
+	["FTbump4l", "FTbump1l"],
+
+	["FTbump1l", "FTbump3l"],
+	["FTbump2l", "FTbump4l"],
+
+	["FTbump1r", "FTbump2r"],
+	["FTbump2r", "FTbump3r"],
+	["FTbump3r", "FTbump4r"],
+	["FTbump4r", "FTbump1r"],
+
+	["FTbump1r", "FTbump3r"],
+	["FTbump2r", "FTbump4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"breakGroup":"bumper_F_break"},
+	
+	["FTbump1l", "Ffascrig"],
+	["FTbump1l", "Ffasc1r"],
+	["FTbump1l", "Ffasc2l"],
+
+	["FTbump1r", "Ffascrig"],
+	["FTbump1r", "Ffasc1l"],
+	["FTbump1r", "Ffasc2r"],
+
+	["FTbump2l", "Ffascrig"],
+	["FTbump2l", "Ffasc2r"],
+	["FTbump2l", "Ffasc1l"],
+
+	["FTbump2r", "Ffascrig"],
+	["FTbump2r", "Ffasc2l"],
+	["FTbump2r", "Ffasc1r"],
+
+	["FTbump3l", "Ffascrig"],
+	["FTbump3l", "Ffasc1r"],
+	["FTbump3l", "Ffasc2l"],
+
+	["FTbump3r", "Ffascrig"],
+	["FTbump3r", "Ffasc1l"],
+	["FTbump3r", "Ffasc2r"],
+
+	["FTbump4l", "Ffascrig"],
+	["FTbump4l", "Ffasc2r"],
+	["FTbump4l", "Ffasc1l"],
+
+	["FTbump4r", "Ffascrig"],
+	["FTbump4r", "Ffasc2l"],
+	["FTbump4r", "Ffasc1r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_bumper_F"},   
+	["FTbump4l","FTbump4r","FTbump3r","FTbump3l"],
+	["FTbump4l","FTbump3l","FTbump1l","FTbump2l"],
+	["FTbump4r","FTbump2r","FTbump1r","FTbump3r"],
+        {"group":""},
+    ],
+},
+
+}

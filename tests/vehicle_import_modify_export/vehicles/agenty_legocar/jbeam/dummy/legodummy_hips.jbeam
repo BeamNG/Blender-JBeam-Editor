@@ -1,0 +1,267 @@
+{ 
+"legodummy_hips": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Hips"
+    },
+    "slotType" : "legodummy_hips",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legodummy_pelvis", ["legodummy_pelvis"],[], {"pos":{"x": 0, "y":0, "z":0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+	["legodummy_spine_B",["legodummy_spine"], [], {"pos":{"x": 0, "y":0, "z":0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+	["legodummy_spine_M",["legodummy_spine"], [], {"pos":{"x": 0, "y":0, "z":0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],	
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--SPINE--
+	{"group":"legodummy_spine"},
+	//2kg / 8 nodes = 0.25 kg/node
+	{"nodeWeight": "$=$fig_weight*0.25"},
+
+	["spine1l", 0.125,-0.125, 0.180],
+	["spine1r",-0.125,-0.125, 0.180],
+	["spine2l", 0.125, 0.095, 0.180],
+	["spine2r",-0.125, 0.095, 0.180],
+	
+	{"selfCollision":false},
+	["spine3l", 0.125,-0.125, 0.350],
+	["spine3r",-0.125,-0.125, 0.350],
+	["spine4l", 0.125, 0.095, 0.350],
+	["spine4r",-0.125, 0.095, 0.350],
+
+	{"selfCollision":true},
+
+
+	//--PELVIS--
+	{"group":"legodummy_pelvis"},
+	//4kg / 6 nodes = 0.67 kg/node
+	{"nodeWeight": "$=$fig_weight*0.67"},
+
+	//main shape
+	["hips1l", 0.250,-0.125, 0.150],
+	["hips1r",-0.250,-0.125, 0.150],
+	["hips2l", 0.250, 0.095, 0.150],
+	["hips2r",-0.250, 0.095, 0.150],
+
+	//leg hinges
+	["hips4l", 0.250, 0.000, 0.000],
+	["hips4r",-0.250, 0.000, 0.000],	
+    ],
+    "torsionHydros": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$fig_weight*10000", "damp":"$=$fig_weight*0.1", "deform":5000, "strength":"FLT_MAX"},
+	//3600 degrees rotation
+        ["spine3l","torso5","torso6","torso3l", {"factor":-62.8318530,"inRate":5,"outRate":5,"inputSource":"torso"}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--SPINE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$fig_weight*201000", "beamDamp":"$=$fig_weight*20"},
+
+	//uniform structure
+	["spine1l", "spine1r"],
+	["spine2l", "spine2r"],
+	["spine3l", "spine3r"],
+	["spine4l", "spine4r"],
+
+	["spine1l", "spine2r"],
+	["spine2l", "spine3r"],
+	["spine3l", "spine4r"],
+	["spine4l", "spine1r"],
+
+	["spine1l", "spine3r"],
+	["spine2l", "spine4r"],
+	["spine3l", "spine1r"],
+	["spine4l", "spine2r"],
+
+	["spine1l", "spine4r"],
+	["spine2l", "spine1r"],
+	["spine3l", "spine2r"],
+	["spine4l", "spine3r"],
+
+	["spine1l", "spine2l"],
+	["spine2l", "spine3l"],
+	["spine3l", "spine4l"],
+	["spine4l", "spine1l"],
+
+	["spine1l", "spine3l"],
+	["spine2l", "spine4l"],
+
+	["spine1r", "spine2r"],
+	["spine2r", "spine3r"],
+	["spine3r", "spine4r"],
+	["spine4r", "spine1r"],
+
+	["spine1r", "spine3r"],
+	["spine2r", "spine4r"],
+
+
+	//--PELVIS--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$fig_weight*601000", "beamDamp":"$=$fig_weight*60"},
+
+	//uniform structure
+	["hips1l", "hips1r"],
+	["hips2l", "hips2r"],
+	["hips4l", "hips4r", {"name":"legs", "breakGroup":"legs_break", "disableMeshBreaking":true, "disableTriangleBreaking": true}],
+
+	["hips1l", "hips2r"],
+	["hips4l", "hips1r"],
+	["hips2l", "hips4r"],
+	["hips4l", "hips2r"],
+
+	["hips1l", "hips4r"],
+	["hips2l", "hips1r"],
+	["hips1l", "hips2l"],
+	["hips4l", "hips1l"],
+
+	["hips2l", "hips4l"],
+	["hips1r", "hips2r"],
+	["hips4r", "hips1r"],
+	["hips2r", "hips4r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$fig_strength*0.5", "beamStrength":"$=$fig_strength*0.5"},
+
+	//spine to torso
+	{"beamSpring":"$=$fig_weight*141000", "beamDamp":"$=$fig_weight*14"},
+	{"breakGroup":"spine_break"},
+
+	["spine1l", "torso5"],
+	["spine1r", "torso5"],
+	["spine2l", "torso5"],
+	["spine2r", "torso5"],
+	["spine3l", "torso5", {"name":"spine"}],
+	["spine3r", "torso5"],
+	["spine4l", "torso5"],
+	["spine4r", "torso5"],
+
+	["spine1l", "torso6"],
+	["spine1r", "torso6"],
+	["spine2l", "torso6"],
+	["spine2r", "torso6"],
+	["spine3l", "torso6"],
+	["spine3r", "torso6"],
+	["spine4l", "torso6"],
+	["spine4r", "torso6"],
+
+
+	//spine to pelvis
+	{"beamSpring":"$=$fig_weight*125000", "beamDamp":"$=$fig_weight*12.5"},
+	{"breakGroup":"pelvis_break"},
+
+	["spine1l", "hips1l"],
+	["spine1l", "hips1r"],
+	["spine1l", "hips2l"],
+	["spine1l", "hips4l"],
+
+	["spine1r", "hips1l"],
+	["spine1r", "hips1r"],
+	["spine1r", "hips2r"],
+	["spine1r", "hips4r"],
+
+	["spine2l", "hips1l"],
+	["spine2l", "hips2r"],
+	["spine2l", "hips2l"],
+	["spine2l", "hips4l"],
+
+	["spine2r", "hips2l"],
+	["spine2r", "hips1r"],
+	["spine2r", "hips2r"],
+	["spine2r", "hips4r"],
+
+	["spine3l", "hips1l"],
+	["spine3l", "hips1r"],
+	["spine3l", "hips2l"],
+
+	["spine3r", "hips1l"],
+	["spine3r", "hips1r"],
+	["spine3r", "hips2r"],
+
+	["spine4l", "hips1l"],
+	["spine4l", "hips2r"],
+	["spine4l", "hips2l"],
+
+	["spine4r", "hips2l"],
+	["spine4r", "hips1r"],
+	["spine4r", "hips2r"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT LIMITERS--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//spine anti clip
+	{"beamSpring":"$=$fig_weight*125000", "beamDamp":"$=$fig_weight*12.5"},
+	["spine1l", "torso5"],
+	["spine1r", "torso5"],
+	["spine2l", "torso5"],
+	["spine2r", "torso5"],
+
+	//pelvis anti clip
+	{"beamSpring":"$=$fig_weight*125000", "beamDamp":"$=$fig_weight*12.5"},
+	["spine3l", "hips1l"],
+	["spine3l", "hips1r"],
+	["spine3l", "hips2l"],
+
+	["spine3r", "hips1l"],
+	["spine3r", "hips1r"],
+	["spine3r", "hips2r"],
+
+	["spine4l", "hips1l"],
+	["spine4l", "hips2r"],
+	["spine4l", "hips2l"],
+
+	["spine4r", "hips2l"],
+	["spine4r", "hips1r"],
+	["spine4r", "hips2r"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "rails": {
+        "legs":{"links:":["hips4l", "hips4r"], "broken:":[], "looped":false, "capped":true},
+    },
+    "slidenodes": [
+        ["id:", "railName", "attached", "fixToRail", "tolerance", "spring", "strength", "capStrength"],
+        ["leg3l", "legs", true, true, 0.0, "$=$weight*671000", "FLT_MAX", "FLT_MAX"],
+	["leg4l", "legs", true, true, 0.0, "$=$weight*671000", "FLT_MAX", "FLT_MAX"],
+        ["leg3r", "legs", true, true, 0.0, "$=$weight*671000", "FLT_MAX", "FLT_MAX"],
+	["leg4r", "legs", true, true, 0.0, "$=$weight*671000", "FLT_MAX", "FLT_MAX"],
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legodummy_pelvis"},
+	["hips1r","hips2r","hips4r"],
+        ["hips2l","hips1l","hips4l"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+
+	{"group":"legodummy_spine"},   
+	["spine3r","spine4r","spine2r","spine1r"],
+	["spine4l","spine3l","spine1l","spine2l"],
+	["spine4r","spine4l","spine2l","spine2r"],
+	["spine3l","spine3r","spine1r","spine1l"],
+	["spine3r","spine3l","spine4l","spine4r"],
+	["spine2r","spine2l","spine1l","spine1r"],
+
+	{"group":"legodummy_pelvis"},   
+	["hips1r","hips1l","hips2l","hips2r"],
+	["hips1l","hips1r","hips4r","hips4l"],
+	["hips2r","hips2l","hips4l","hips4r"],	
+
+        {"group":""},
+    ],
+},
+
+}

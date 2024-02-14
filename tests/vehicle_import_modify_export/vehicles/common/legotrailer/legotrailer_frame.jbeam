@@ -1,0 +1,312 @@
+{
+"legotrailer_frame": {
+    "information":{
+        "name":"Frame",
+        "authors":"AgentY",
+    },
+    "slotType":"legotrailer_frame",
+    "slots": [
+        ["type", "default", "description"],
+
+	["legotrailer_wall_F","legotrailer_wall_F", "Front Wall"],
+	["legotrailer_wall_B","legotrailer_wall_B", "Back Wall"],
+	["legotrailer_wall_L","legotrailer_wall_L", "Left Wall"],
+	["legotrailer_wall_R","legotrailer_wall_R", "Right Wall"],
+	["legotrailer_wall_I","legotrailer_wall_I", "Inner Wall"],
+
+	["legotrailer_signal_L","legotrailer_signal_L_filler", "Left Turn Signal"],
+	["legotrailer_signal_R","legotrailer_signal_R_filler", "Right Turn Signal"],
+	["legotrailer_taillight_L","legotrailer_taillight_L", "Left Taillight"],
+	["legotrailer_taillight_R","legotrailer_taillight_R", "Right Taillight"],
+
+	["legotrailer_platemount","legotrailer_platemount_filler", "License Plate Mount"],
+	["legotrailer_floor","legotrailer_floor", "Floor"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legotrailer_frame", ["legotrailer_frame"], [], {"pos":{"x":0, "y":0, "z":0},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+     ],
+     "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legotrailer_frame"},
+
+	//16 pieces, 2 half-pieces, 35 nodes - 0.5 kg/node
+	{"nodeWeight": "$=$weight*0.5"},
+
+	["trailer_f1l", 0.50, 2.425, 0.025],
+	["trailer_f1r",-0.50, 2.425, 0.025],
+
+	["trailer_f2l", 0.25, 2.675, 0.025],
+	["trailer_f2r",-0.25, 2.675, 0.025],
+
+	["trailer_f3l", 0.50, 2.925, 0.025],
+	["trailer_f3r",-0.50, 2.925, 0.025],
+	["trailer_f4l", 0.25, 2.925, 0.025],
+	["trailer_f4r",-0.25, 2.925, 0.025],
+
+	["trailer_f5l", 0.25, 3.175, 0.025],
+	["trailer_f5r",-0.25, 3.175, 0.025],
+
+	["trailer_f6l", 0.50, 3.425, 0.025],
+	["trailer_f6r",-0.50, 3.425, 0.025],
+	["trailer_f7l", 0.25, 3.425, 0.025],
+	["trailer_f7r",-0.25, 3.425, 0.025],
+
+	["trailer_f8l", 0.50, 3.675, 0.025],
+	["trailer_f8r",-0.50, 3.675, 0.025],
+
+	["trailer_f13l", 0.50, 2.925, 0.225],
+	["trailer_f13r",-0.50, 2.925, 0.225],
+	["trailer_f14l", 0.25, 2.925, 0.225],
+	["trailer_f14r",-0.25, 2.925, 0.225],
+
+	["trailer_f16l", 0.50, 3.425, 0.225],
+	["trailer_f16r",-0.50, 3.425, 0.225],
+	["trailer_f17l", 0.25, 3.425, 0.225],
+	["trailer_f17r",-0.25, 3.425, 0.225],
+
+	//rigidifier
+	{"group":""},
+	["trailer_f0", 0, 3, 0.65, {"collision":false, "selfCollision":false}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+	
+
+	//--MAIN SHAPE--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//lengthwise
+	["trailer_f1l", "trailer_f3l"],
+	["trailer_f1r", "trailer_f3r"],
+	["trailer_f3l", "trailer_f6l"],
+	["trailer_f3r", "trailer_f6r"],
+	["trailer_f6l", "trailer_f8l"],
+	["trailer_f6r", "trailer_f8r"],
+
+	["trailer_f2l", "trailer_f4l"],
+	["trailer_f2r", "trailer_f4r"],
+	["trailer_f4l", "trailer_f5l"],
+	["trailer_f4r", "trailer_f5r"],
+	["trailer_f5l", "trailer_f7l"],
+	["trailer_f5r", "trailer_f7r"],
+       
+	["trailer_f13l", "trailer_f16l"],
+	["trailer_f13r", "trailer_f16r"],
+ 	["trailer_f14l", "trailer_f17l"],
+	["trailer_f14r", "trailer_f17r"],
+
+
+	//widthwise
+	["trailer_f1l", "trailer_f1r"],
+	["trailer_f2l", "trailer_f2r"],
+
+	["trailer_f3l", "trailer_f4l"],
+	["trailer_f4l", "trailer_f4r"],
+	["trailer_f4r", "trailer_f3r"],
+
+	["trailer_f5l", "trailer_f5r"],
+
+	["trailer_f6l", "trailer_f7l"],
+	["trailer_f7l", "trailer_f7r"],
+	["trailer_f7r", "trailer_f6r"],
+
+	["trailer_f8l", "trailer_f8r"],
+
+	["trailer_f13l", "trailer_f14l"],
+	["trailer_f14l", "trailer_f14r"],
+	["trailer_f14r", "trailer_f13r"],
+
+	["trailer_f16l", "trailer_f17l"],
+	["trailer_f17l", "trailer_f17r"],
+	["trailer_f17r", "trailer_f16r"],
+
+
+	//vertical
+	["trailer_f3l", "trailer_f13l"],
+	["trailer_f3r", "trailer_f13r"],
+	["trailer_f4l", "trailer_f14l"],
+	["trailer_f4r", "trailer_f14r"],
+
+	["trailer_f6l", "trailer_f16l"],
+	["trailer_f6r", "trailer_f16r"],
+	["trailer_f7l", "trailer_f17l"],
+	["trailer_f7r", "trailer_f17r"],
+
+
+	//--CROSSING--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//horizontal
+	["trailer_f1l", "trailer_f2l"],
+	["trailer_f1l", "trailer_f2r"],
+	["trailer_f1r", "trailer_f2l"],
+	["trailer_f1r", "trailer_f2r"],
+
+	["trailer_f2l", "trailer_f3l"],
+	["trailer_f2r", "trailer_f3r"],
+	["trailer_f1l", "trailer_f4l"],
+	["trailer_f1r", "trailer_f4r"],
+
+	["trailer_f3l", "trailer_f5l"],
+	["trailer_f3r", "trailer_f5r"],
+	["trailer_f6l", "trailer_f5l"],
+	["trailer_f6r", "trailer_f5r"],
+
+	["trailer_f4l", "trailer_f6l"],
+	["trailer_f4r", "trailer_f6r"],
+	["trailer_f3l", "trailer_f7l"],
+	["trailer_f3r", "trailer_f7r"],
+
+	["trailer_f5l", "trailer_f7r"],
+	["trailer_f5r", "trailer_f7l"],
+	["trailer_f7l", "trailer_f8l"],
+	["trailer_f7r", "trailer_f8r"],
+
+	["trailer_f6l", "trailer_f8r"],
+	["trailer_f6r", "trailer_f8l"],
+	["trailer_f7l", "trailer_f8r"],
+	["trailer_f7r", "trailer_f8l"],
+
+
+	//vertical
+	["trailer_f3l", "trailer_f14l"],
+	["trailer_f3r", "trailer_f14r"],
+	["trailer_f4l", "trailer_f13l"],
+	["trailer_f4r", "trailer_f13r"],
+
+	["trailer_f6l", "trailer_f17l"],
+	["trailer_f6r", "trailer_f17r"],
+	["trailer_f7l", "trailer_f16l"],
+	["trailer_f7r", "trailer_f16r"],
+
+	["trailer_f3l", "trailer_f16l"],
+	["trailer_f3r", "trailer_f16r"],
+	["trailer_f4l", "trailer_f17l"],
+	["trailer_f4r", "trailer_f17r"],
+
+	["trailer_f6l", "trailer_f13l"],
+	["trailer_f6r", "trailer_f13r"],
+	["trailer_f7l", "trailer_f14l"],
+	["trailer_f7r", "trailer_f14r"],
+	
+
+
+	//--RIGIDS--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//lengthwise
+	["trailer_f1l", "trailer_f6l"],
+	["trailer_f1r", "trailer_f6r"],
+	["trailer_f3l", "trailer_f8l"],
+	["trailer_f3r", "trailer_f8r"],
+
+	["trailer_f2l", "trailer_f5l"],
+	["trailer_f2r", "trailer_f5r"],
+	["trailer_f4l", "trailer_f7l"],
+	["trailer_f4r", "trailer_f7r"],
+
+	//widthwise
+	["trailer_f3l", "trailer_f4r"],
+	["trailer_f3r", "trailer_f4l"],
+	["trailer_f6l", "trailer_f7r"],
+	["trailer_f6r", "trailer_f7l"],
+
+	["trailer_f13l", "trailer_f14r"],
+	["trailer_f13r", "trailer_f14l"],
+	["trailer_f16l", "trailer_f17r"],
+	["trailer_f16r", "trailer_f17l"],
+
+
+	//--CORNER RIGIDS--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//horizontal
+	["trailer_f2l", "trailer_f4r"],
+	["trailer_f2r", "trailer_f4l"],
+	["trailer_f5l", "trailer_f4r"],
+	["trailer_f5r", "trailer_f4l"],
+
+	//vertical
+	["trailer_f1l", "trailer_f13l"],
+	["trailer_f1r", "trailer_f13r"],
+	["trailer_f2l", "trailer_f14l"],
+	["trailer_f2r", "trailer_f14r"],
+
+	["trailer_f8l", "trailer_f16l"],
+	["trailer_f8r", "trailer_f16r"],
+	["trailer_f8l", "trailer_f17l"],
+	["trailer_f8r", "trailer_f17r"],
+
+	["trailer_f4l", "trailer_f14r"],
+	["trailer_f4r", "trailer_f14l"],
+	["trailer_f7l", "trailer_f17r"],
+	["trailer_f7r", "trailer_f17l"],
+
+
+	//--RIGIDIFIER--
+	{"beamSpring":"$=$weight*51000", "beamDamp":"$=$weight*50"},
+
+	["trailer_f1l", "trailer_f0"],
+	["trailer_f1r", "trailer_f0"],
+	["trailer_f2l", "trailer_f0"],
+	["trailer_f2r", "trailer_f0"],
+	["trailer_f3l", "trailer_f0"],
+	["trailer_f3r", "trailer_f0"],
+	["trailer_f4l", "trailer_f0"],
+	["trailer_f4r", "trailer_f0"],
+
+	["trailer_f5l", "trailer_f0"],
+	["trailer_f5r", "trailer_f0"],
+	["trailer_f6l", "trailer_f0"],
+	["trailer_f6r", "trailer_f0"],
+	["trailer_f7l", "trailer_f0"],
+	["trailer_f7r", "trailer_f0"],
+	["trailer_f8l", "trailer_f0"],
+	["trailer_f8r", "trailer_f0"],
+
+	["trailer_f13l", "trailer_f0"],
+	["trailer_f13r", "trailer_f0"],
+	["trailer_f14l", "trailer_f0"],
+	["trailer_f14r", "trailer_f0"],
+	["trailer_f16l", "trailer_f0"],
+	["trailer_f16r", "trailer_f0"],
+	["trailer_f17l", "trailer_f0"],
+	["trailer_f17r", "trailer_f0"],
+
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legotrailer_frame"},
+
+	["trailer_f1l","trailer_f1r","trailer_f2r","trailer_f2l"],
+	["trailer_f1l","trailer_f2l","trailer_f4l","trailer_f3l"],
+	["trailer_f1r","trailer_f3r","trailer_f4r","trailer_f2r"],
+	["trailer_f3l","trailer_f4l","trailer_f5l","trailer_f6l"],
+	["trailer_f3r","trailer_f6r","trailer_f5r","trailer_f4r"],
+	["trailer_f5l","trailer_f7l","trailer_f8l","trailer_f6l"],
+	["trailer_f5r","trailer_f6r","trailer_f8r","trailer_f7r"],
+	["trailer_f5l","trailer_f5r","trailer_f7r","trailer_f7l"],
+	["trailer_f7l","trailer_f7r","trailer_f8r","trailer_f8l"],
+
+	["trailer_f3l","trailer_f13l","trailer_f14l","trailer_f4l"],
+	["trailer_f3r","trailer_f4r","trailer_f14r","trailer_f13r"],
+	["trailer_f6l","trailer_f7l","trailer_f17l","trailer_f16l"],
+	["trailer_f6r","trailer_f16r","trailer_f17r","trailer_f7r"],
+	["trailer_f3l","trailer_f6l","trailer_f16l","trailer_f13l"],
+	["trailer_f3r","trailer_f13r","trailer_f16r","trailer_f6r"],
+	["trailer_f4l","trailer_f14l","trailer_f17l","trailer_f7l"],
+	["trailer_f4r","trailer_f7r","trailer_f17r","trailer_f14r"],
+	["trailer_f13l","trailer_f16l","trailer_f17l","trailer_f14l"],
+	["trailer_f13r","trailer_f14r","trailer_f17r","trailer_f16r"],
+        
+        {"group":""},
+    ],
+},
+
+}

@@ -1,0 +1,312 @@
+{
+"legocar_wing_adjustable": {
+    "information":{
+        "name":"Adjustable Wing Hinges",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_wing",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_wing_adjustable","legocar_wing_adjustable_standard", "Adjustable Wing"],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$spoiler_angle_R","range", "Degrees", "Chassis", 0.3927, 0, 1.57, "Rear Wing Angle", "Angle of attack of the rear wing", {"minDis":0, "maxDis":90, "stepDis":22.5}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_hinge_2x1_grey_bot", ["legocar_winghinge_BL"],[], {"pos":{"x": 0.375, "y":1.500, "z":1.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_hinge_2x1_grey_top", ["legocar_winghinge_TL"],[], {"pos":{"x": 0.375, "y":1.500, "z":1.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_hinge_2x1_grey_bot", ["legocar_winghinge_BR"],[], {"pos":{"x":-0.375, "y":1.500, "z":1.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_hinge_2x1_grey_top", ["legocar_winghinge_TR"],[], {"pos":{"x":-0.375, "y":1.500, "z":1.1},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//3 pieces, 5 nodes - 0.6 kg/node
+	{"nodeWeight": "$=$weight*0.6"},
+
+	//bottom left
+	{"group":"legocar_winghinge_BL"},
+	["winghingeBL1l", 0.50, 1.25, 1.13],
+	["winghingeBL1r", 0.25, 1.25, 1.13],	
+	["winghingeBL2l", 0.50, 1.75, 1.13],
+	["winghingeBL2r", 0.25, 1.75, 1.13],	
+	["winghingeBLrig", 0.375, 1.375, 1.275, {"selfCollision":false}],
+
+	//bottom right
+	{"group":"legocar_winghinge_BR"},
+	["winghingeBR1r",-0.50, 1.25, 1.13],
+	["winghingeBR1l",-0.25, 1.25, 1.13],	
+	["winghingeBR2r",-0.50, 1.75, 1.13],
+	["winghingeBR2l",-0.25, 1.75, 1.13],	
+	["winghingeBRrig",-0.375, 1.375, 1.275, {"selfCollision":false}],
+
+	//top left
+	{"group":"legocar_winghinge_TL"},
+	["winghingeTL1l", 0.50, 1.375, 1.275],
+	["winghingeTL1r", 0.25, 1.375, 1.275],	
+	["winghingeTL2l", 0.50, 2, 1.275],
+	["winghingeTL2r", 0.25, 2, 1.275],	
+	//rigidifier
+	["winghingeTLrig", 0.375, 1.6875, 1.075, {"collision":false, "selfCollision":false, "group":""}],
+
+	//top right
+	{"group":"legocar_winghinge_TR"},
+	["winghingeTR1r",-0.50, 1.375, 1.275],
+	["winghingeTR1l",-0.25, 1.375, 1.275],	
+	["winghingeTR2r",-0.50, 2, 1.275],
+	["winghingeTR2l",-0.25, 2, 1.275],
+	//rigidifier
+	["winghingeTRrig",-0.375, 1.6875, 1.075, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "torsionbars": [
+        ["id1:", "id2:", "id3:", "id4:"],
+        {"spring":"$=$weight*5100", "damp":0, "deform":"$=$strength*5", "strength":"FLT_MAX"},
+        //wing angle
+        ["winghingeTL2r", "winghingeTL1r", "winghingeTL1l", "winghingeBL2l", {"precompressionAngle":"$spoiler_angle_R", "precompressionTime":"$=$spoiler_angle_R*0.1"}],
+        ["winghingeTR2r", "winghingeTR1r", "winghingeTR1l", "winghingeBR2l", {"precompressionAngle":"$spoiler_angle_R", "precompressionTime":"$=$spoiler_angle_R*0.1"}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--WING HINGES--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+
+	//bl uniform structure
+	["winghingeBL1l", "winghingeBL1r"],
+	["winghingeBL2l", "winghingeBL2r"],
+	["winghingeBL1l", "winghingeBL2l"],
+	["winghingeBL1r", "winghingeBL2r"],
+	["winghingeBL1l", "winghingeBL2r"],
+	["winghingeBL2l", "winghingeBL1r"],
+
+	//bl rigidifier
+	["winghingeBL1l", "winghingeBLrig"],
+	["winghingeBL1r", "winghingeBLrig"],
+	["winghingeBL2l", "winghingeBLrig"],
+	["winghingeBL2r", "winghingeBLrig"],
+
+	//br uniform structure
+	["winghingeBR1l", "winghingeBR1r"],
+	["winghingeBR2l", "winghingeBR2r"],
+	["winghingeBR1l", "winghingeBR2l"],
+	["winghingeBR1r", "winghingeBR2r"],
+	["winghingeBR1l", "winghingeBR2r"],
+	["winghingeBR2l", "winghingeBR1r"],
+
+	//br rigidifier
+	["winghingeBR1l", "winghingeBRrig"],
+	["winghingeBR1r", "winghingeBRrig"],
+	["winghingeBR2l", "winghingeBRrig"],
+	["winghingeBR2r", "winghingeBRrig"],
+	
+	//tl uniform structure
+	["winghingeTL1l", "winghingeTL1r"],
+	["winghingeTL2l", "winghingeTL2r"],
+	["winghingeTL1l", "winghingeTL2l"],
+	["winghingeTL1r", "winghingeTL2r"],
+	["winghingeTL1l", "winghingeTL2r"],
+	["winghingeTL2l", "winghingeTL1r"],
+
+	//tl rigidifier
+	["winghingeTL1l", "winghingeTLrig"],
+	["winghingeTL1r", "winghingeTLrig"],
+	["winghingeTL2l", "winghingeTLrig"],
+	["winghingeTL2r", "winghingeTLrig"],
+
+	//tr uniform structure
+	["winghingeTR1l", "winghingeTR1r"],
+	["winghingeTR2l", "winghingeTR2r"],
+	["winghingeTR1l", "winghingeTR2l"],
+	["winghingeTR1r", "winghingeTR2r"],
+	["winghingeTR1l", "winghingeTR2r"],
+	["winghingeTR2l", "winghingeTR1r"],
+
+	//tr rigidifier
+	["winghingeTR1l", "winghingeTRrig"],
+	["winghingeTR1r", "winghingeTRrig"],
+	["winghingeTR2l", "winghingeTRrig"],
+	["winghingeTR2r", "winghingeTRrig"],
+
+
+	//--HINGES--
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+	{"beamDeform":"$=$strength*1.5", "beamStrength":"$=$strength*1.5"},
+
+
+	//left
+	{"breakGroup":"winghinge_L_break"},
+	
+	["winghingeTL1l", "winghingeBLrig"],
+	["winghingeTL1r", "winghingeBLrig"],
+	["winghingeTL2l", "winghingeBLrig"],
+	["winghingeTL2r", "winghingeBLrig"],
+	["winghingeTLrig", "winghingeBLrig"],
+
+	["winghingeTL1l", "winghingeBL1l"],
+	["winghingeTL1l", "winghingeBL1r"],
+	["winghingeTL1l", "winghingeBL2l"],
+	["winghingeTL1l", "winghingeBL2r"],
+
+	["winghingeTL1r", "winghingeBL1l"],
+	["winghingeTL1r", "winghingeBL1r"],
+	["winghingeTL1r", "winghingeBL2l"],
+	["winghingeTL1r", "winghingeBL2r"],
+
+
+	//right
+	{"breakGroup":"winghinge_R_break"},
+	
+	["winghingeTR1l", "winghingeBRrig"],
+	["winghingeTR1r", "winghingeBRrig"],
+	["winghingeTR2l", "winghingeBRrig"],
+	["winghingeTR2r", "winghingeBRrig"],
+	["winghingeTRrig", "winghingeBRrig"],
+
+	["winghingeTR1l", "winghingeBR1l"],
+	["winghingeTR1l", "winghingeBR1r"],
+	["winghingeTR1l", "winghingeBR2l"],
+	["winghingeTR1l", "winghingeBR2r"],
+
+	["winghingeTR1r", "winghingeBR1l"],
+	["winghingeTR1r", "winghingeBR1r"],
+	["winghingeTR1r", "winghingeBR2l"],
+	["winghingeTR1r", "winghingeBR2r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+
+	//left
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"winghinge_L_wingmount_break"},
+
+	["winghingeBL1l", "Lwingsupp3l"],
+	["winghingeBL1l", "Lwingsupp3r"],
+	["winghingeBL1l", "Lwingsupp4l"],
+	["winghingeBL1l", "Lwingsupp1l"],
+
+	["winghingeBL1r", "Lwingsupp3l"],
+	["winghingeBL1r", "Lwingsupp3r"],
+	["winghingeBL1r", "Lwingsupp4r"],
+	["winghingeBL1r", "Lwingsupp1r"],
+
+	["winghingeBL2l", "Lwingsupp4l"],
+	["winghingeBL2l", "Lwingsupp4r"],
+	["winghingeBL2l", "Lwingsupp3l"],
+	["winghingeBL2l", "Lwingsupp2l"],
+
+	["winghingeBL2r", "Lwingsupp4l"],
+	["winghingeBL2r", "Lwingsupp4r"],
+	["winghingeBL2r", "Lwingsupp3r"],
+	["winghingeBL2r", "Lwingsupp2r"],
+
+	["winghingeBLrig", "Lwingsupp3l"],
+	["winghingeBLrig", "Lwingsupp3r"],
+	["winghingeBLrig", "Lwingsupp4l"],
+	["winghingeBLrig", "Lwingsupp4r"],
+
+	//damper
+	{"beamSpring":0, "beamDamp":"$=$weight*100"},
+	["winghingeTL2l", "Lwingsupp2l"],
+	["winghingeTL2l", "Lwingsupp2r"],
+	["winghingeTL2r", "Lwingsupp2l"],
+	["winghingeTL2r", "Lwingsupp2r"],
+
+
+	//right
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"breakGroup":"winghinge_R_wingmount_break"},
+
+	["winghingeBR1l", "Rwingsupp3l"],
+	["winghingeBR1l", "Rwingsupp3r"],
+	["winghingeBR1l", "Rwingsupp4l"],
+	["winghingeBR1l", "Rwingsupp1l"],
+
+	["winghingeBR1r", "Rwingsupp3l"],
+	["winghingeBR1r", "Rwingsupp3r"],
+	["winghingeBR1r", "Rwingsupp4r"],
+	["winghingeBR1r", "Rwingsupp1r"],
+
+	["winghingeBR2l", "Rwingsupp4l"],
+	["winghingeBR2l", "Rwingsupp4r"],
+	["winghingeBR2l", "Rwingsupp3l"],
+	["winghingeBR2l", "Rwingsupp2l"],
+
+	["winghingeBR2r", "Rwingsupp4l"],
+	["winghingeBR2r", "Rwingsupp4r"],
+	["winghingeBR2r", "Rwingsupp3r"],
+	["winghingeBR2r", "Rwingsupp2r"],
+
+	["winghingeBRrig", "Rwingsupp3l"],
+	["winghingeBRrig", "Rwingsupp3r"],
+	["winghingeBRrig", "Rwingsupp4l"],
+	["winghingeBRrig", "Rwingsupp4r"],
+
+	//damper
+	{"beamSpring":0, "beamDamp":"$=$weight*100"},
+	["winghingeTR2l", "Rwingsupp2l"],
+	["winghingeTR2l", "Rwingsupp2r"],
+	["winghingeTR2r", "Rwingsupp2l"],
+	["winghingeTR2r", "Rwingsupp2r"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT LIMITERS--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":5, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//hinge initial angle limiters
+	{"beamPrecompression":0.999, "beamLongBound":5, "beamShortBound":1},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*100"},
+
+	["winghingeBL2l", "winghingeTL2l"],
+	["winghingeBL2l", "winghingeTL2r"],
+	["winghingeBL2r", "winghingeTL2l"],
+	["winghingeBL2r", "winghingeTL2r"],
+
+	["winghingeBR2l", "winghingeTR2l"],
+	["winghingeBR2l", "winghingeTR2r"],
+	["winghingeBR2r", "winghingeTR2l"],
+	["winghingeBR2r", "winghingeTR2r"],
+
+	//hinge max angle limiters
+	{"beamPrecompression":0.6, "beamLongBound":2, "beamShortBound":1},
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*100"},
+	
+	["winghingeBL1l", "winghingeTL2l"],
+	["winghingeBL1l", "winghingeTL2r"],
+	["winghingeBL1r", "winghingeTL2l"],
+	["winghingeBL1r", "winghingeTL2r"],
+
+	["winghingeBR1l", "winghingeTR2l"],
+	["winghingeBR1l", "winghingeTR2r"],
+	["winghingeBR1r", "winghingeTR2l"],
+	["winghingeBR1r", "winghingeTR2r"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_winghinge_BL"}, 
+  	["winghingeBL1l","winghingeBL1r","winghingeBL2r","winghingeBL2l"],
+	{"group":"legocar_winghinge_BR"}, 
+  	["winghingeBR1l","winghingeBR1r","winghingeBR2r","winghingeBR2l"],
+	{"group":"legocar_winghinge_TL"}, 
+  	["winghingeTL1l","winghingeTL1r","winghingeTL2r","winghingeTL2l"],
+	{"group":"legocar_winghinge_TR"}, 
+  	["winghingeTR1l","winghingeTR1r","winghingeTR2r","winghingeTR2l"],
+        {"group":""},
+    ],
+},
+
+}

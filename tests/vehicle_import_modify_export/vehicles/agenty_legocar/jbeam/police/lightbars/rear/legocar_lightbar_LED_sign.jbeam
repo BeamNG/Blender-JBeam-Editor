@@ -1,0 +1,496 @@
+{
+"legocar_lightbar_LED_sign_mount": {
+    "information":{
+        "name":"LED Sign Mount",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_LED_T_accessory",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_lightbar_led_sign","legocar_lightbar_led_sign_US", "LED Sign", {"nodeMove": {"x":0, "y":0.25, "z":0.05}}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x2_flat_corner_alt_dgrey", ["legocar_lightbar_LED_sign_mount"],[], {"pos":{"x": 0.000, "y":0.625, "z":1.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_lightbar_LED_sign_mount"},
+
+	//4 pieces, 6 nodes - 0.67 kg/node
+	{"nodeWeight": "$=$weight*0.67"},
+
+	["lbarledsignmt1l", 0.25, 0.50, 1.90],
+	["lbarledsignmt1r",-0.25, 0.50, 1.90],
+	["lbarledsignmt2l", 0.25, 0.80, 1.90],
+	["lbarledsignmt2r",-0.25, 0.80, 1.90],
+	["lbarledsignmt3l", 0.25, 0.80, 1.65],
+	["lbarledsignmt3r",-0.25, 0.80, 1.65],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--SIGN MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*671000", "beamDamp":"$=$weight*67"},
+
+	//uniform structure
+	["lbarledsignmt1l", "lbarledsignmt1r"],
+	["lbarledsignmt2l", "lbarledsignmt2r"],
+	["lbarledsignmt3l", "lbarledsignmt3r"],
+
+	["lbarledsignmt1l", "lbarledsignmt2l"],
+	["lbarledsignmt2l", "lbarledsignmt3l"],
+	["lbarledsignmt3l", "lbarledsignmt1l"],
+
+	["lbarledsignmt1r", "lbarledsignmt2r"],
+	["lbarledsignmt2r", "lbarledsignmt3r"],
+	["lbarledsignmt3r", "lbarledsignmt1r"],
+
+	["lbarledsignmt1l", "lbarledsignmt2r"],
+	["lbarledsignmt2l", "lbarledsignmt3r"],
+	["lbarledsignmt3l", "lbarledsignmt1r"],
+
+	["lbarledsignmt1r", "lbarledsignmt2l"],
+	["lbarledsignmt2r", "lbarledsignmt3l"],
+	["lbarledsignmt3r", "lbarledsignmt1l"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"breakGroup":"lightbar_LED_sign_mount_break"},
+
+	["lbarledT1l", "lbarledsignmt1l"],
+	["lbarledT1l", "lbarledsignmt1r"],
+	["lbarledT1l", "lbarledsignmt2l"],
+	["lbarledT1l", "lbarledsignmt3l"],
+
+	["lbarledT1r", "lbarledsignmt1l"],
+	["lbarledT1r", "lbarledsignmt1r"],
+	["lbarledT1r", "lbarledsignmt2r"],
+	["lbarledT1r", "lbarledsignmt3r"],
+
+	["lbarledT2l", "lbarledsignmt1l"],
+	["lbarledT2l", "lbarledsignmt2r"],
+	["lbarledT2l", "lbarledsignmt2l"],
+	["lbarledT2l", "lbarledsignmt3l"],
+
+	["lbarledT2r", "lbarledsignmt2l"],
+	["lbarledT2r", "lbarledsignmt1r"],
+	["lbarledT2r", "lbarledsignmt2r"],
+	["lbarledT2r", "lbarledsignmt3r"],
+
+	["lbarledTrig", "lbarledsignmt1l"],
+	["lbarledTrig", "lbarledsignmt1r"],
+	["lbarledTrig", "lbarledsignmt2l"],
+	["lbarledTrig", "lbarledsignmt2r"],
+	["lbarledTrig", "lbarledsignmt3l"],
+	["lbarledTrig", "lbarledsignmt3r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_lightbar_LED_sign_mount"},
+	["lbarledsignmt2l","lbarledsignmt2r","lbarledsignmt1r","lbarledsignmt1l"],
+	["lbarledsignmt2r","lbarledsignmt2l","lbarledsignmt3l","lbarledsignmt3r"],
+        {"group":""},
+    ],
+},
+
+"legocar_lightbar_led_sign_IT": {
+    "information":{
+        "name":"Italian Polizia Sign",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_led_sign",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],	
+	["lego_1x2_flat_notip_black",   ["legocar_lightbar_led_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_led_sign_break", "deformMaterialBase":"legocar_display_police", "deformMaterialDamaged":"invis"},
+	["legocar_display_police_IT",["legocar_lightbar_led_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_led_sign_break", "deformMaterialBase":"legocar_display_stop", "deformMaterialDamaged":"invis"},
+	["legocar_display_stop_IT",["legocar_lightbar_led_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//lightbar sign
+	{"group":"legocar_lightbar_led_sign"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+	["lbarledS1l",  0.25, 0.600, 1.600],
+	["lbarledS1r", -0.25, 0.600, 1.600],
+	["lbarledS2l",  0.25, 0.600, 1.850],
+	["lbarledS2r", -0.25, 0.600, 1.850],
+	//rigidifier
+	["lbarledSrig", 0, 0.450, 1.725, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LIGHTBAR SIGN--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+
+	//uniform structure
+	["lbarledS1l", "lbarledS1r"],
+	["lbarledS2l", "lbarledS2r"],
+	["lbarledS1l", "lbarledS2l"],
+	["lbarledS1r", "lbarledS2r"],
+	["lbarledS1l", "lbarledS2r"],
+	["lbarledS2l", "lbarledS1r"],
+
+	//rigidifier
+	["lbarledS1l", "lbarledSrig"],
+	["lbarledS1r", "lbarledSrig"],
+	["lbarledS2l", "lbarledSrig"],
+	["lbarledS2r", "lbarledSrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"lightbar_led_sign_break"},
+	{"deformGroup":"lightbar_led_sign_break"},
+	
+	["lbarledS1l", "lbarledsignmt3l"],
+	["lbarledS1l", "lbarledsignmt3r"],
+	["lbarledS1l", "lbarledsignmt2l"],
+	["lbarledS1l", "lbarledsignmt1l"],
+
+	["lbarledS1r", "lbarledsignmt3l"],
+	["lbarledS1r", "lbarledsignmt3r"],
+	["lbarledS1r", "lbarledsignmt2r"],
+	["lbarledS1r", "lbarledsignmt1r"],
+
+	["lbarledS2l", "lbarledsignmt3l"],
+	["lbarledS2l", "lbarledsignmt2r"],
+	["lbarledS2l", "lbarledsignmt2l"],
+	["lbarledS2l", "lbarledsignmt1l"],
+
+	["lbarledS2r", "lbarledsignmt2l"],
+	["lbarledS2r", "lbarledsignmt3r"],
+	["lbarledS2r", "lbarledsignmt2r"],
+	["lbarledS2r", "lbarledsignmt1r"],
+
+	["lbarledSrig", "lbarledsignmt3l"],
+	["lbarledSrig", "lbarledsignmt3r"],
+	["lbarledSrig", "lbarledsignmt2l"],
+	["lbarledSrig", "lbarledsignmt2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_lightbar_led_sign"},
+	["lbarledS2r","lbarledS2l","lbarledS1l","lbarledS1r"],
+        {"group":""},
+    ],
+},
+"legocar_lightbar_led_sign_US": {
+    "information":{
+        "name":"US Police Sign",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_led_sign",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],	
+	["lego_1x2_flat_notip_black",   ["legocar_lightbar_led_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_led_sign_break", "deformMaterialBase":"legocar_display_police", "deformMaterialDamaged":"invis"},
+	["legocar_display_police_US",["legocar_lightbar_led_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_led_sign_break", "deformMaterialBase":"legocar_display_stop", "deformMaterialDamaged":"invis"},
+	["legocar_display_stop_US",["legocar_lightbar_led_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//lightbar sign
+	{"group":"legocar_lightbar_led_sign"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+	["lbarledS1l",  0.25, 0.600, 1.600],
+	["lbarledS1r", -0.25, 0.600, 1.600],
+	["lbarledS2l",  0.25, 0.600, 1.850],
+	["lbarledS2r", -0.25, 0.600, 1.850],
+	//rigidifier
+	["lbarledSrig", 0, 0.450, 1.725, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LIGHTBAR SIGN--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+
+	//uniform structure
+	["lbarledS1l", "lbarledS1r"],
+	["lbarledS2l", "lbarledS2r"],
+	["lbarledS1l", "lbarledS2l"],
+	["lbarledS1r", "lbarledS2r"],
+	["lbarledS1l", "lbarledS2r"],
+	["lbarledS2l", "lbarledS1r"],
+
+	//rigidifier
+	["lbarledS1l", "lbarledSrig"],
+	["lbarledS1r", "lbarledSrig"],
+	["lbarledS2l", "lbarledSrig"],
+	["lbarledS2r", "lbarledSrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"lightbar_led_sign_break"},
+	{"deformGroup":"lightbar_led_sign_break"},
+	
+	["lbarledS1l", "lbarledsignmt3l"],
+	["lbarledS1l", "lbarledsignmt3r"],
+	["lbarledS1l", "lbarledsignmt2l"],
+	["lbarledS1l", "lbarledsignmt1l"],
+
+	["lbarledS1r", "lbarledsignmt3l"],
+	["lbarledS1r", "lbarledsignmt3r"],
+	["lbarledS1r", "lbarledsignmt2r"],
+	["lbarledS1r", "lbarledsignmt1r"],
+
+	["lbarledS2l", "lbarledsignmt3l"],
+	["lbarledS2l", "lbarledsignmt2r"],
+	["lbarledS2l", "lbarledsignmt2l"],
+	["lbarledS2l", "lbarledsignmt1l"],
+
+	["lbarledS2r", "lbarledsignmt2l"],
+	["lbarledS2r", "lbarledsignmt3r"],
+	["lbarledS2r", "lbarledsignmt2r"],
+	["lbarledS2r", "lbarledsignmt1r"],
+
+	["lbarledSrig", "lbarledsignmt3l"],
+	["lbarledSrig", "lbarledsignmt3r"],
+	["lbarledSrig", "lbarledsignmt2l"],
+	["lbarledSrig", "lbarledsignmt2r"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_lightbar_led_sign"},
+	["lbarledS2r","lbarledS2l","lbarledS1l","lbarledS1r"],
+        {"group":""},
+    ],
+},
+"legocar_lightbar_led_sign_GE": {
+    "information":{
+        "name":"German Polizei Sign",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_led_sign",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],	
+	["lego_1x2_flat_notip_black",   ["legocar_lightbar_led_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_led_sign_break", "deformMaterialBase":"legocar_display_police", "deformMaterialDamaged":"invis"},
+	["legocar_display_police_GE",["legocar_lightbar_led_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_led_sign_break", "deformMaterialBase":"legocar_display_stop", "deformMaterialDamaged":"invis"},
+	["legocar_display_stop_GE",["legocar_lightbar_led_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//lightbar sign
+	{"group":"legocar_lightbar_led_sign"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+	["lbarledS1l",  0.25, 0.600, 1.600],
+	["lbarledS1r", -0.25, 0.600, 1.600],
+	["lbarledS2l",  0.25, 0.600, 1.850],
+	["lbarledS2r", -0.25, 0.600, 1.850],
+	//rigidifier
+	["lbarledSrig", 0, 0.450, 1.725, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LIGHTBAR SIGN--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+
+	//uniform structure
+	["lbarledS1l", "lbarledS1r"],
+	["lbarledS2l", "lbarledS2r"],
+	["lbarledS1l", "lbarledS2l"],
+	["lbarledS1r", "lbarledS2r"],
+	["lbarledS1l", "lbarledS2r"],
+	["lbarledS2l", "lbarledS1r"],
+
+	//rigidifier
+	["lbarledS1l", "lbarledSrig"],
+	["lbarledS1r", "lbarledSrig"],
+	["lbarledS2l", "lbarledSrig"],
+	["lbarledS2r", "lbarledSrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"lightbar_led_sign_break"},
+	{"deformGroup":"lightbar_led_sign_break"},
+	
+	["lbarledS1l", "lbarledsignmt3l"],
+	["lbarledS1l", "lbarledsignmt3r"],
+	["lbarledS1l", "lbarledsignmt2l"],
+	["lbarledS1l", "lbarledsignmt1l"],
+
+	["lbarledS1r", "lbarledsignmt3l"],
+	["lbarledS1r", "lbarledsignmt3r"],
+	["lbarledS1r", "lbarledsignmt2r"],
+	["lbarledS1r", "lbarledsignmt1r"],
+
+	["lbarledS2l", "lbarledsignmt3l"],
+	["lbarledS2l", "lbarledsignmt2r"],
+	["lbarledS2l", "lbarledsignmt2l"],
+	["lbarledS2l", "lbarledsignmt1l"],
+
+	["lbarledS2r", "lbarledsignmt2l"],
+	["lbarledS2r", "lbarledsignmt3r"],
+	["lbarledS2r", "lbarledsignmt2r"],
+	["lbarledS2r", "lbarledsignmt1r"],
+
+	["lbarledSrig", "lbarledsignmt3l"],
+	["lbarledSrig", "lbarledsignmt3r"],
+	["lbarledSrig", "lbarledsignmt2l"],
+	["lbarledSrig", "lbarledsignmt2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_lightbar_led_sign"},
+	["lbarledS2r","lbarledS2l","lbarledS1l","lbarledS1r"],
+        {"group":""},
+    ],
+},
+"legocar_lightbar_led_sign_FR": {
+    "information":{
+        "name":"French Gendarmerie Sign",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_led_sign",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],	
+	["lego_1x2_flat_notip_black",   ["legocar_lightbar_led_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_led_sign_break", "deformMaterialBase":"legocar_display_police", "deformMaterialDamaged":"invis"},
+	["legocar_display_police_FR",["legocar_lightbar_led_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"lightbar_led_sign_break", "deformMaterialBase":"legocar_display_stop", "deformMaterialDamaged":"invis"},
+	["legocar_display_stop_FR",["legocar_lightbar_led_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//lightbar sign
+	{"group":"legocar_lightbar_led_sign"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+	["lbarledS1l",  0.25, 0.600, 1.600],
+	["lbarledS1r", -0.25, 0.600, 1.600],
+	["lbarledS2l",  0.25, 0.600, 1.850],
+	["lbarledS2r", -0.25, 0.600, 1.850],
+	//rigidifier
+	["lbarledSrig", 0, 0.450, 1.725, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LIGHTBAR SIGN--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+
+	//uniform structure
+	["lbarledS1l", "lbarledS1r"],
+	["lbarledS2l", "lbarledS2r"],
+	["lbarledS1l", "lbarledS2l"],
+	["lbarledS1r", "lbarledS2r"],
+	["lbarledS1l", "lbarledS2r"],
+	["lbarledS2l", "lbarledS1r"],
+
+	//rigidifier
+	["lbarledS1l", "lbarledSrig"],
+	["lbarledS1r", "lbarledSrig"],
+	["lbarledS2l", "lbarledSrig"],
+	["lbarledS2r", "lbarledSrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"lightbar_led_sign_break"},
+	{"deformGroup":"lightbar_led_sign_break"},
+	
+	["lbarledS1l", "lbarledsignmt3l"],
+	["lbarledS1l", "lbarledsignmt3r"],
+	["lbarledS1l", "lbarledsignmt2l"],
+	["lbarledS1l", "lbarledsignmt1l"],
+
+	["lbarledS1r", "lbarledsignmt3l"],
+	["lbarledS1r", "lbarledsignmt3r"],
+	["lbarledS1r", "lbarledsignmt2r"],
+	["lbarledS1r", "lbarledsignmt1r"],
+
+	["lbarledS2l", "lbarledsignmt3l"],
+	["lbarledS2l", "lbarledsignmt2r"],
+	["lbarledS2l", "lbarledsignmt2l"],
+	["lbarledS2l", "lbarledsignmt1l"],
+
+	["lbarledS2r", "lbarledsignmt2l"],
+	["lbarledS2r", "lbarledsignmt3r"],
+	["lbarledS2r", "lbarledsignmt2r"],
+	["lbarledS2r", "lbarledsignmt1r"],
+
+	["lbarledSrig", "lbarledsignmt3l"],
+	["lbarledSrig", "lbarledsignmt3r"],
+	["lbarledSrig", "lbarledsignmt2l"],
+	["lbarledSrig", "lbarledsignmt2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_lightbar_led_sign"},
+	["lbarledS2r","lbarledS2l","lbarledS1l","lbarledS1r"],
+        {"group":""},
+    ],
+},
+
+}

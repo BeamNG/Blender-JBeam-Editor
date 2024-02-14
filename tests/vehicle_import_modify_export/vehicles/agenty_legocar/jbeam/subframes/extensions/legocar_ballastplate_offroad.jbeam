@@ -1,0 +1,139 @@
+{
+"legocar_ballastplate_offroad": {
+    "information":{
+        "name":"Off-Road Ballast Plate",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_ballastplate_offroad",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x2_flat_black",["legocar_ballastplate"], [], {"pos":{"x": 0.000, "y":-1.500, "z": 0.0},"rot":{"x":0, "y":0, "z":90 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_4x2_flat_grey", ["legocar_ballastplate"], [], {"pos":{"x": 0.000, "y":-1.500, "z":-0.1},"rot":{"x":0, "y":0, "z":90 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--BALLASTPLATE JOINED PIECES--
+	{"group":"legocar_ballastplate"},
+	//16 pieces, 8 nodes - 2 kg/node
+	{"nodeWeight": "$=$weight*2"},
+
+	["ballast1l",  0.5, -1.25, -0.1],
+	["ballast1r", -0.5, -1.25, -0.1],
+	["ballast2l",  0.5, -1.75, -0.1],
+	["ballast2r", -0.5, -1.75, -0.1],
+
+	["ballast3l",  0.5, -1.25, 0.07],
+	["ballast3r", -0.5, -1.25, 0.07],
+	["ballast4l",  0.5, -1.75, 0.07],
+	["ballast4r", -0.5, -1.75, 0.07],
+
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--BALLAST PLATE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//uniform structure
+	["ballast1l", "ballast1r"],
+	["ballast2l", "ballast2r"],
+	["ballast3l", "ballast3r"],
+	["ballast4l", "ballast4r"],
+
+	["ballast1l", "ballast2r"],
+	["ballast2l", "ballast3r"],
+	["ballast3l", "ballast4r"],
+	["ballast4l", "ballast1r"],
+
+	["ballast1l", "ballast3r"],
+	["ballast2l", "ballast4r"],
+	["ballast3l", "ballast1r"],
+	["ballast4l", "ballast2r"],
+
+	["ballast1l", "ballast4r"],
+	["ballast2l", "ballast1r"],
+	["ballast3l", "ballast2r"],
+	["ballast4l", "ballast3r"],
+
+	["ballast1l", "ballast2l"],
+	["ballast2l", "ballast3l"],
+	["ballast3l", "ballast4l"],
+	["ballast4l", "ballast1l"],
+
+	["ballast1l", "ballast3l"],
+	["ballast2l", "ballast4l"],
+
+	["ballast1r", "ballast2r"],
+	["ballast2r", "ballast3r"],
+	["ballast3r", "ballast4r"],
+	["ballast4r", "ballast1r"],
+
+	["ballast1r", "ballast3r"],
+	["ballast2r", "ballast4r"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"ballastplate_break"},
+	
+	["ballast3r", "bulk3r"],
+	["ballast3r", "bulk4r"],
+	["ballast3r", "bulk3l"],
+	["ballast3r", "bulk4l"],
+
+	["ballast3l", "bulk3r"],
+	["ballast3l", "bulk4r"],
+	["ballast3l", "bulk3l"],
+	["ballast3l", "bulk4l"],
+
+	["ballast4r", "bulk3r"],
+	["ballast4r", "bulk4r"],
+	["ballast4r", "bulk4l"],
+
+	["ballast4l", "bulk3l"],
+	["ballast4l", "bulk4l"],
+	["ballast4l", "bulk4r"],
+	
+	["ballast1r", "bulk1r"],
+	["ballast1r", "bulk2r"],
+	["ballast1r", "bulk1l"],
+	["ballast1r", "bulk2l"],
+
+	["ballast1l", "bulk1r"],
+	["ballast1l", "bulk2r"],
+	["ballast1l", "bulk1l"],
+	["ballast1l", "bulk2l"],
+
+	["ballast2r", "bulk1r"],
+	["ballast2r", "bulk2r"],
+	["ballast2r", "bulk2l"],
+
+	["ballast2l", "bulk1l"],
+	["ballast2l", "bulk2l"],
+	["ballast2l", "bulk2r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_ballastplate"},   
+
+	["ballast1r","ballast1l","ballast2l","ballast2r"],
+	["ballast3l","ballast3r","ballast4r","ballast4l"],
+	["ballast1r","ballast2r","ballast4r","ballast3r"],
+	["ballast2l","ballast1l","ballast3l","ballast4l"],
+	["ballast2r","ballast2l","ballast4l","ballast4r"],
+	["ballast1l","ballast1r","ballast3r","ballast3l"],
+
+        {"group":""},
+    ],
+},
+
+}

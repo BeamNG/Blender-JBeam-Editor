@@ -1,0 +1,473 @@
+{
+"legocar_hood_cut_stack": {
+    "information":{
+        "name":"Cut Facelift Hood",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hood_cut_stack",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_hood_accessory_cut","", "Hood Accessory"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_hood_derby_turbo",["legocar_hood"],[], {"pos":{"x": 0.000, "y":-1.500, "z":0.6},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "camerasInternal":[
+       ["type", "x", "y", "z", "fov", "id1:", "id2:", "id3:", "id4:", "id5:", "id6:"],
+       {"nodeWeight":"$=$weight*0.95"},
+       {"selfCollision":false},
+       {"collision":false},
+       {"beamSpring":"$=$weight*951000", "beamDamp":"$=$weight*95"},
+       ["hood", 0.0, -1.25, 1.00, 65, "hood1r","hood1l","hood2r","hood2l","hood3r","hood3l", {"beamDeform":"FLT_MAX","beamStrength":"FLT_MAX"}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_hood"},
+	//23.75 pieces, 25 nodes - 0.95 kg/node
+	{"nodeWeight": "$=$weight*0.95"},
+
+	["hood1lll", 0.75, -1.03, 0.63],
+	["hood1ll",  0.60, -1.03, 0.80],
+	["hood1l",   0.25, -1.03, 0.80],
+	["hood1r",  -0.25, -1.03, 0.80],
+	["hood1rr", -0.60, -1.03, 0.80],
+	["hood1rrr",-0.75, -1.03, 0.63],
+
+	["hood2lll", 0.75, -1.25, 0.63],
+	["hood2ll",  0.60, -1.25, 0.80],
+	["hood2l",   0.25, -1.25, 0.80],
+	["hood2r",  -0.25, -1.25, 0.80],
+	["hood2rr", -0.60, -1.25, 0.80],
+	["hood2rrr",-0.75, -1.25, 0.63],
+
+	["hood3lll", 0.75, -1.55, 0.63],
+	["hood3ll",  0.60, -1.55, 0.77],
+	["hood3l",   0.25, -1.55, 0.77],
+	["hood3r",  -0.25, -1.55, 0.77],
+	["hood3rr", -0.60, -1.55, 0.77],
+	["hood3rrr",-0.75, -1.55, 0.63],
+
+	["hood4lll", 0.75, -1.85, 0.63],
+	["hood4ll",  0.50, -2.00, 0.63],
+	["hood4l",   0.20, -2.00, 0.63],
+	["hood4r",  -0.20, -2.00, 0.63],
+	["hood4rr", -0.50, -2.00, 0.63],
+	["hood4rrr",-0.75, -1.85, 0.63],
+
+	//rigidifier
+	["hoodrig", 0, -1.5, 0.35, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--MAIN SHAPE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*951000", "beamDamp":"$=$weight*95"},
+
+	//widthwise
+	["hood1lll", "hood1ll"],
+	["hood1ll", "hood1l"],
+	["hood1l", "hood1r"],
+	["hood1r", "hood1rr"],
+	["hood1rr", "hood1rrr"],
+
+	["hood2lll", "hood2ll"],
+	["hood2ll", "hood2l"],
+	["hood2l", "hood2r"],
+	["hood2r", "hood2rr"],
+	["hood2rr", "hood2rrr"],
+	
+	["hood3lll", "hood3ll"],
+	["hood3ll", "hood3l"],
+	["hood3l", "hood3r"],
+	["hood3r", "hood3rr"],
+	["hood3rr", "hood3rrr"],
+
+	["hood4lll", "hood4ll"],
+	["hood4ll", "hood4l"],
+	["hood4l", "hood4r"],
+	["hood4r", "hood4rr"],
+	["hood4rr", "hood4rrr"],
+
+
+	//lengthwise
+	["hood1lll", "hood2lll"],
+	["hood1ll", "hood2ll"],
+	["hood1l", "hood2l"],
+	["hood1r", "hood2r"],
+	["hood1rr", "hood2rr"],
+	["hood1rrr", "hood2rrr"],
+
+	["hood2lll", "hood3lll"],
+	["hood2ll", "hood3ll"],
+	["hood2l", "hood3l"],
+	["hood2r", "hood3r"],
+	["hood2rr", "hood3rr"],
+	["hood2rrr", "hood3rrr"],
+
+	["hood3lll", "hood4lll"],
+	["hood3ll", "hood4ll"],
+	["hood3l", "hood4l"],
+	["hood3r", "hood4r"],
+	["hood3rr", "hood4rr"],
+	["hood3rrr", "hood4rrr"],
+	
+	
+	//surficial crossing
+	["hood1lll", "hood2ll"],
+	["hood1ll", "hood2lll"],
+	["hood1ll", "hood2l"],
+	["hood1l", "hood2ll"],
+	["hood1l", "hood2r"],
+	["hood1r", "hood2l"],
+	["hood1r", "hood2rr"],
+	["hood1rr", "hood2r"],
+	["hood1rr", "hood2rrr"],
+	["hood1rrr", "hood2rr"],
+
+	["hood2lll", "hood3ll"],
+	["hood2ll", "hood3lll"],
+	["hood2ll", "hood3l"],
+	["hood2l", "hood3ll"],
+	["hood2l", "hood3r"],
+	["hood2r", "hood3l"],
+	["hood2r", "hood3rr"],
+	["hood2rr", "hood3r"],
+	["hood2rr", "hood3rrr"],
+	["hood2rrr", "hood3rr"],
+	
+	["hood3lll", "hood4ll"],
+	["hood3ll", "hood4lll"],
+	["hood3ll", "hood4l"],
+	["hood3l", "hood4ll"],
+	["hood3l", "hood4r"],
+	["hood3r", "hood4l"],
+	["hood3r", "hood4rr"],
+	["hood3rr", "hood4r"],
+	["hood3rr", "hood4rrr"],
+	["hood3rrr", "hood4rr"],
+	
+
+	//--RIGIDS--
+	//IMPORTANT!! Need lower spring and damp to prevent node shake
+	{"beamSpring":"$=$weight*475000", "beamDamp":"$=$weight*47.5"},
+
+	//widthwise
+	["hood1lll", "hood1l"],
+	["hood1ll", "hood1rr"],
+	["hood1r", "hood1rrr"],
+
+	["hood2lll", "hood2l"],
+	["hood2ll", "hood2rr"],
+	["hood2r", "hood2rrr"],
+
+	["hood3lll", "hood3l"],
+	["hood3ll", "hood3rr"],
+	["hood3r", "hood3rrr"],
+
+	["hood4lll", "hood4l"],
+	["hood4ll", "hood4rr"],
+	["hood4r", "hood4rrr"],
+
+	//lengthwise
+	["hood1lll", "hood3lll"],
+	["hood1ll", "hood3ll"],
+	["hood1l", "hood3l"],
+	["hood1r", "hood3r"],
+	["hood1rr", "hood3rr"],
+	["hood1rrr", "hood3rrr"],
+
+	["hood2lll", "hood4lll"],
+	["hood2ll", "hood4ll"],
+	["hood2l", "hood4l"],
+	["hood2r", "hood4r"],
+	["hood2rr", "hood4rr"],
+	["hood2rrr", "hood4rrr"],
+
+	//perimeter rigids (extra)
+	{"beamSpring":"$=$weight*225000", "beamDamp":"$=$weight*22.5"},
+	["hood1lll", "hood1r"],
+	["hood1rrr", "hood1l"],
+	["hood2lll", "hood2r"],
+	["hood2rrr", "hood2l"],
+	["hood3lll", "hood3r"],
+	["hood3rrr", "hood3l"],
+	
+
+	//--RIGIDIFIER--
+	//lower spring to avoid stressing the structure
+	{"beamSpring":"$=$weight*225000", "beamDamp":"$=$weight*22.5"},
+
+	["hoodrig", "hood1lll"],
+	["hoodrig", "hood1ll"],
+	["hoodrig", "hood1l"],
+	["hoodrig", "hood1r"],
+	["hoodrig", "hood1rr"],
+	["hoodrig", "hood1rrr"],
+
+	["hoodrig", "hood2lll"],
+	["hoodrig", "hood2ll"],
+	["hoodrig", "hood2l"],
+	["hoodrig", "hood2r"],
+	["hoodrig", "hood2rr"],
+	["hoodrig", "hood2rrr"],
+
+	["hoodrig", "hood3lll"],
+	["hoodrig", "hood3ll"],
+	["hoodrig", "hood3l"],
+	["hoodrig", "hood3r"],
+	["hoodrig", "hood3rr"],
+	["hoodrig", "hood3rrr"],
+
+	["hoodrig", "hood4lll"],
+	["hoodrig", "hood4ll"],
+	["hoodrig", "hood4l"],
+	["hoodrig", "hood4r"],
+	["hoodrig", "hood4rr"],
+	["hoodrig", "hood4rrr"],
+
+
+	//--ATTACH--
+	{"optional":true},
+
+	//to left fender
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"breakGroup":"hood_fender_L_hinge_break"},
+
+	["hood1lll", "fendFL3l"],
+	["hood1lll", "fendFL4l"],
+	["hood1lll", "fendFL3r"],
+	["hood1lll", "fendFL4r"],
+	["hood1lll", "fendFL2l"],
+	
+	["hood1ll", "fendFL3l"],
+	["hood1ll", "fendFL4l"],
+	["hood1ll", "fendFL3r"],
+	["hood1ll", "fendFL4r"],
+	["hood1ll", "fendFL2r"],
+
+	["hood2lll", "fendFL3l"],
+	["hood2lll", "fendFL3r"],
+	["hood2lll", "fendFL4l"],
+	["hood2lll", "fendFL1l"],
+
+	["hood2ll", "fendFL3l"],
+	["hood2ll", "fendFL3r"],
+	["hood2ll", "fendFL4r"],
+	["hood2ll", "fendFL1r"],
+
+	["hoodrig", "fendFL1l"],
+	["hoodrig", "fendFL2l"],
+	["hoodrig", "fendFL3l"],
+	["hoodrig", "fendFL4l"],
+
+
+	//to right fender
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"breakGroup":"hood_fender_L_hinge_break"},
+
+	["hood1rrr", "fendFR3r"],
+	["hood1rrr", "fendFR4r"],
+	["hood1rrr", "fendFR3l"],
+	["hood1rrr", "fendFR4l"],
+	["hood1rrr", "fendFR2r"],
+	
+	["hood1rr", "fendFR3r"],
+	["hood1rr", "fendFR4r"],
+	["hood1rr", "fendFR3l"],
+	["hood1rr", "fendFR4l"],
+	["hood1rr", "fendFR2r"],
+
+	["hood2rrr", "fendFR3r"],
+	["hood2rrr", "fendFR3l"],
+	["hood2rrr", "fendFR4r"],
+	["hood2rrr", "fendFR1r"],
+
+	["hood2rr", "fendFR3r"],
+	["hood2rr", "fendFR3l"],
+	["hood2rr", "fendFR4l"],
+	["hood2rr", "fendFR1l"],
+
+	["hoodrig", "fendFR1r"],
+	["hoodrig", "fendFR2r"],
+	["hoodrig", "fendFR3r"],
+	["hoodrig", "fendFR4r"],
+
+
+	//to right engine bay
+	{"beamDeform":"$=$strength*0.1", "beamStrength":"$=$strength*0.1"},
+	{"beamSpring":"$=$weight*301000", "beamDamp":"$=$weight*30"},
+	{"breakGroup":"hood_engbay_R_latch_break"},
+
+	["hood2rrr", "engbay3rr"],
+	["hood2rrr", "engbay3r"],
+	["hood2rrr", "engbay4rr"],
+	["hood2rrr", "engbay1r"],
+
+	["hood2rr", "engbay3rr"],
+	["hood2rr", "engbay3r"],
+	["hood2rr", "engbay4r"],
+	["hood2rr", "engbay1r"],
+
+	["hood3rrr", "engbay4rr"],
+	["hood3rrr", "engbay4r"],
+	["hood3rrr", "engbay3rr"],
+	["hood3rrr", "engbay2r"],
+
+	["hood3rr", "engbay4rr"],
+	["hood3rr", "engbay4r"],
+	["hood3rr", "engbay3r"],
+	["hood3rr", "engbay2r"],
+
+	["hoodrig", "engbay1r"],
+	["hoodrig", "engbay2r"],
+	["hoodrig", "engbay3rr"],
+	["hoodrig", "engbay4rr"],
+
+
+	//to left engine bay stuff
+	{"beamDeform":"$=$strength*0.1", "beamStrength":"$=$strength*0.1"},
+	{"beamSpring":"$=$weight*181000", "beamDamp":"$=$weight*18"},
+	{"breakGroup":"hood_engbaystuff_L_latch_break"},
+
+	["hood1ll", "Lstuff1l"],
+	["hood1ll", "Lstuff1r"],
+	["hood1ll", "Lstuff2l"],
+	["hood1ll", "Lstuffrig"],
+
+	["hood1l", "Lstuff1r"],
+	["hood1l", "Lstuff1l"],
+	["hood1l", "Lstuff2r"],
+	["hood1l", "Lstuffrig"],
+
+	["hood3ll", "Lstuff2l"],
+	["hood3ll", "Lstuff2r"],
+	["hood3ll", "Lstuff1l"],
+	["hood3ll", "Lstuffrig"],
+
+	["hood3l", "Lstuff2r"],
+	["hood3l", "Lstuff2l"],
+	["hood3l", "Lstuff1r"],
+	["hood3l", "Lstuffrig"],
+
+	["hoodrig", "Lstuff1l"],
+	["hoodrig", "Lstuff1r"],
+	["hoodrig", "Lstuff2l"],
+	["hoodrig", "Lstuff2r"],
+
+
+	//to right engine bay stuff
+	{"beamDeform":"$=$strength*0.1", "beamStrength":"$=$strength*0.1"},
+	{"beamSpring":"$=$weight*181000", "beamDamp":"$=$weight*18"},
+	{"breakGroup":"hood_engbaystuff_R_latch_break"},
+
+	["hood1rr", "Rstuff1r"],
+	["hood1rr", "Rstuff1l"],
+	["hood1rr", "Rstuff2r"],
+	["hood1rr", "Rstuffrig"],
+
+	["hood1r", "Rstuff1l"],
+	["hood1r", "Rstuff1r"],
+	["hood1r", "Rstuff2l"],
+	["hood1r", "Rstuffrig"],
+
+	["hood3rr", "Rstuff2r"],
+	["hood3rr", "Rstuff2l"],
+	["hood3rr", "Rstuff1r"],
+	["hood3rr", "Rstuffrig"],
+
+	["hood3r", "Rstuff2l"],
+	["hood3r", "Rstuff2r"],
+	["hood3r", "Rstuff1l"],
+	["hood3r", "Rstuffrig"],
+
+	["hoodrig", "Rstuff1l"],
+	["hoodrig", "Rstuff1r"],
+	["hoodrig", "Rstuff2l"],
+	["hoodrig", "Rstuff2r"],	
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//firewall
+	{"beamSpring":"$=$weight*701000", "beamDamp":"$=$weight*70"},
+
+	["hood2lll", "fwall1l"],
+	["hood2ll", "fwall1l"],
+	["hood2l", "fwall1l"],
+	["hood2l", "fwall1r"],
+	["hood2r", "fwall1l"],
+	["hood2r", "fwall1r"],
+	["hood2rr", "fwall1r"],
+	["hood2rrr", "fwall1r"],
+
+	//front engine bay stuff
+	{"beamSpring":"$=$weight*451000", "beamDamp":"$=$weight*45"},
+	["hood3lll", "stuff1l"],
+	["hood3ll", "stuff1l"],
+	["hood3l", "stuff1l"],
+	["hood3l", "stuff1r"],
+	["hood3r", "stuff1l"],
+	["hood3r", "stuff1r"],
+	["hood3rr", "stuff1r"],
+	["hood3rrr", "stuff1r"],
+	
+	["hood4lll", "stuff1l"],
+	["hood4ll", "stuff1l"],
+	["hood4l", "stuff1l"],
+	["hood4l", "stuff1r"],
+	["hood4r", "stuff1l"],
+	["hood4r", "stuff1r"],
+	["hood4rr", "stuff1r"],
+	["hood4rrr", "stuff1r"],
+
+	
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_hood"},
+	["hood4rrr","hood4r","hood4rr"],
+	["hood4rrr","hood4l","hood4r"],
+	["hood4rrr","hood4ll","hood4l"],
+	["hood4rrr","hood4lll","hood4ll"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_hood"},
+
+	["hood1rrr","hood2rrr","hood2rr","hood1rr"],
+	["hood1rr","hood2rr","hood2r","hood1r"],
+	["hood1r","hood2r","hood2l","hood1l"],
+	["hood1l","hood2l","hood2ll","hood1ll"],
+	["hood1ll","hood2ll","hood2lll","hood1lll"],
+
+	["hood2rrr","hood3rrr","hood3rr","hood2rr"],
+	["hood2rr","hood3rr","hood3r","hood2r"],
+	["hood2r","hood3r","hood3l","hood2l"],
+	["hood2ll","hood3ll","hood3lll","hood2lll"],
+
+	["hood3rrr","hood4rrr","hood4rr","hood3rr"],
+	["hood3rr","hood4rr","hood4r","hood3r"],
+	["hood3r","hood4r","hood4l","hood3l"],
+	["hood3l","hood4l","hood4ll","hood3ll"],
+	["hood3ll","hood4ll","hood4lll","hood3lll"],
+	
+        {"group":""},
+    ],
+},
+
+}

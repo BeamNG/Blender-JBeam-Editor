@@ -1,0 +1,114 @@
+{
+"legotrailer_axle": {
+    "information":{
+        "name":"Standard Axle",
+        "authors":"AgentY",
+    },
+    "slotType":"legotrailer_axle",
+    "slots": [
+        ["type", "default", "description"],
+	["legotrailer_hub","legotrailer_hub", "Wheel Hubs"],
+	["legotrailer_test1", "", "Test"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legotrailer_axle",["legotrailer_axle"]],
+    ],   
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legotrailer_axle"},
+	//6 pieces, 7 nodes - 0.85 kg/node
+	{"nodeWeight": "$=$weight*0.85"},
+
+	["trailer_a2l",  0.25, 2.925, -0.125],
+	["trailer_a2r", -0.25, 2.925, -0.125],
+	["trailer_a1l",  0.25, 3.425, -0.125],
+	["trailer_a1r", -0.25, 3.425, -0.125],
+
+	["trailer_a3l",  0.425, 3.175, -0.125],
+	["trailer_a3r", -0.425, 3.175, -0.125],
+
+	//rigidifier
+	["trailer_a0", 0, 3.175, 0.3, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["trailer_a1l", "trailer_a1r"],
+	["trailer_a2l", "trailer_a2r"],
+	["trailer_a1l", "trailer_a2l"],
+	["trailer_a1r", "trailer_a2r"],
+	["trailer_a1l", "trailer_a2r"],
+	["trailer_a2l", "trailer_a1r"],
+
+	//rigidifier
+	["trailer_a1l", "trailer_a0"],
+	["trailer_a1r", "trailer_a0"],
+	["trailer_a2l", "trailer_a0"],
+	["trailer_a2r", "trailer_a0"],
+
+	//axle ends
+	["trailer_a1l", "trailer_a3l"],
+	["trailer_a2l", "trailer_a3l"],
+	["trailer_a1r", "trailer_a3l"],
+	["trailer_a2r", "trailer_a3l"],
+	["trailer_a0", "trailer_a3l"],
+
+	["trailer_a1l", "trailer_a3r"],
+	["trailer_a2l", "trailer_a3r"],
+	["trailer_a1r", "trailer_a3r"],
+	["trailer_a2r", "trailer_a3r"],
+	["trailer_a0", "trailer_a3r"],
+
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"breakGroup":"trailer_axle_break"},
+	
+	["trailer_a1l", "trailer_fl1l"],
+	["trailer_a1l", "trailer_fl1r"],
+	["trailer_a1l", "trailer_fl2l"],
+	["trailer_a1l", "trailer_fl0"],
+
+	["trailer_a1r", "trailer_fl1l"],
+	["trailer_a1r", "trailer_fl1r"],
+	["trailer_a1r", "trailer_fl2r"],
+	["trailer_a1r", "trailer_fl0"],
+
+	["trailer_a2l", "trailer_fl1l"],
+	["trailer_a2l", "trailer_fl2r"],
+	["trailer_a2l", "trailer_fl2l"],
+	["trailer_a2l", "trailer_fl0"],
+
+	["trailer_a2r", "trailer_fl2l"],
+	["trailer_a2r", "trailer_fl1r"],
+	["trailer_a2r", "trailer_fl2r"],
+	["trailer_a2r", "trailer_fl0"],
+
+	["trailer_a0", "trailer_fl1l"],
+	["trailer_a0", "trailer_fl1r"],
+	["trailer_a0", "trailer_fl2l"],
+	["trailer_a0", "trailer_fl2r"],
+
+	
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legotrailer_axle"},   
+	["trailer_a1r","trailer_a1l","trailer_a2l","trailer_a2r"],
+        {"group":""},
+    ],
+},
+
+}

@@ -1,0 +1,216 @@
+{
+"legocar_radiator": {
+    "information":{
+        "name":"Invisible Customizable Radiator",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_radiator",
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$radiator", "range", " ", "Radiator", 20000, 10000, 100000, "Radiator Effectiveness", "Increase for better radsuppine cooling", {"stepDis":1000}],
+   ],
+   "mainEngine":{
+        "radiatorArea":0.3,
+        "radiatorEffectiveness":"$radiator",
+        "coolantVolume":10,
+        "radiatorFanType":"electric",
+        "radiatorFanTemperature":100,
+        "radiatorFanMaxAirSpeed":2,
+        "thermostatTemperature":90,
+        "radiatorFanLoopEvent": "event:>Vehicle>Cooling Fan>Electric_05",
+        "radiatorFanVolume": 0.3,
+
+        //damage deformGroups
+        "deformGroups_radiator":["radiator_damage"],
+    },
+    "beams": [
+        ["id1:", "id2:"],
+
+	//--RADIATOR DAMAGE TRIGGERS--
+	//activate when engine gets far away from radiator
+
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+	{"deformGroup":"radiator_damage","deformationTriggerRatio":0.25},
+
+	["radsupp4r", "eng3r", {"deformLimit":"","deformLimitExpansion":""}],
+	["radsupp4l", "eng3l", {"deformLimit":"","deformLimitExpansion":""}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+},
+"legocar_radiator_OP": {
+    "information":{
+        "name":"Invisible OP Radiator",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_radiator",
+    "mainEngine":{
+        "radiatorArea":0.3,
+        "radiatorEffectiveness":999999999999999,
+        "coolantVolume":10,
+        "radiatorFanType":"electric",
+        "radiatorFanTemperature":100,
+        "radiatorFanMaxAirSpeed":2,
+        "thermostatTemperature":90,
+        "radiatorFanLoopEvent": "event:>Vehicle>Cooling Fan>Electric_05",
+        "radiatorFanVolume": 0.3,
+
+        //damage deformGroups
+        "deformGroups_radiator":["radiator_damage"],
+    },
+    "beams": [
+        ["id1:", "id2:"],
+
+	//--RADIATOR DAMAGE TRIGGERS--
+	//activate when engine gets far away from radiator
+
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"optional":true},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+	{"deformGroup":"radiator_damage","deformationTriggerRatio":0.25},
+
+	["radsupp4r", "eng3r", {"deformLimit":"","deformLimitExpansion":""}],
+	["radsupp4l", "eng3l", {"deformLimit":"","deformLimitExpansion":""}],
+
+	{"optional":false},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+},
+"legocar_radiator_electric": {
+    "information":{
+        "name":"Invisible Electric Radiator",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_radiator",
+    "beams": [
+        ["id1:", "id2:"],
+
+	//--RADIATOR DAMAGE TRIGGERS--
+	//activate when engine gets far away from radiator
+
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+	{"deformGroup":"radiator_damage","deformationTriggerRatio":0.25},
+
+	["radsupp4r", "motor1r", {"deformLimit":"","deformLimitExpansion":""}],
+	["radsupp4l", "motor1l", {"deformLimit":"","deformLimitExpansion":""}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+},
+
+"legocar_radiator_cut": {
+    "information":{
+        "name":"Invisible Customizable Radiator",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_radiator_cut",
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$radiator", "range", " ", "Radiator", 10000, 5000, 50000, "Radiator Effectiveness", "Increase for better radsuppine cooling", {"stepDis":1000}],
+   ],
+   "mainEngine":{
+        "radiatorArea":0.15,
+        "radiatorEffectiveness":"$radiator",
+        "coolantVolume":5,
+        "radiatorFanType":"electric",
+        "radiatorFanTemperature":100,
+        "radiatorFanMaxAirSpeed":2,
+        "thermostatTemperature":90,
+        "radiatorFanLoopEvent": "event:>Vehicle>Cooling Fan>Electric_05",
+        "radiatorFanVolume": 0.3,
+
+        //damage deformGroups
+        "deformGroups_radiator":["radiator_damage"],
+    },
+    "beams": [
+        ["id1:", "id2:"],
+
+	//--RADIATOR DAMAGE TRIGGERS--
+	//activate when engine gets far away from radiator
+
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+	{"deformGroup":"radiator_damage","deformationTriggerRatio":0.25},
+
+	["radsupp4r", "eng3r", {"deformLimit":"","deformLimitExpansion":""}],
+	["radsupp4l", "eng3l", {"deformLimit":"","deformLimitExpansion":""}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+},
+"legocar_radiator_OP_cut": {
+    "information":{
+        "name":"Invisible OP Radiator",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_radiator_cut",
+    "mainEngine":{
+        "radiatorArea":0.15,
+        "radiatorEffectiveness":9999999,
+        "coolantVolume":5,
+        "radiatorFanType":"electric",
+        "radiatorFanTemperature":100,
+        "radiatorFanMaxAirSpeed":2,
+        "thermostatTemperature":90,
+        "radiatorFanLoopEvent": "event:>Vehicle>Cooling Fan>Electric_05",
+        "radiatorFanVolume": 0.3,
+
+        //damage deformGroups
+        "deformGroups_radiator":["radiator_damage"],
+    },
+    "beams": [
+        ["id1:", "id2:"],
+
+	//--RADIATOR DAMAGE TRIGGERS--
+	//activate when engine gets far away from radiator
+
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"optional":true},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+	{"deformGroup":"radiator_damage","deformationTriggerRatio":0.25},
+
+	["radsupp4r", "eng3r", {"deformLimit":"","deformLimitExpansion":""}],
+	["radsupp4l", "eng3l", {"deformLimit":"","deformLimitExpansion":""}],
+
+	{"optional":false},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+},
+"legocar_radiator_electric_cut": {
+    "information":{
+        "name":"Invisible Electric Radiator",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_radiator_cut",
+    "beams": [
+        ["id1:", "id2:"],
+
+	//--RADIATOR DAMAGE TRIGGERS--
+	//activate when engine gets far away from radiator
+
+	{"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":1, "beamDamp":0},
+	{"beamDeform":0, "beamStrength":"FLT_MAX"},
+	{"deformGroup":"radiator_damage","deformationTriggerRatio":0.25},
+
+	["radsupp4r", "motor1r", {"deformLimit":"","deformLimitExpansion":""}],
+	["radsupp4l", "motor1l", {"deformLimit":"","deformLimitExpansion":""}],
+
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+},
+
+}

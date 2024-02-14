@@ -1,0 +1,137 @@
+{
+"legocar_lightbar_LED_antenna": {
+    "information":{
+        "name":"Antenna",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_lightbar_LED_T_accessory",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_shifterbase_black",["legocar_antenna_lightbar_LED_base"],[], {"pos":{"x":0.125, "y":0.625, "z":1.8},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_shifter_M",        ["legocar_antenna_lightbar_LED"],     [], {"pos":{"x":0.125, "y":0.625, "z":1.8},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ANTENNA--
+	//1 piece, 4 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	//base
+	{"group":"legocar_antenna_lightbar_LED_base"},
+	["lbarledant1", 0.125, 0.75, 1.925],
+	["lbarledant2", 0.125, 0.50, 1.925],
+
+	//rotation axis
+	{"group":["legocar_antenna_lightbar_LED_base", "legocar_antenna_lightbar_LED"]},
+	["lbarledant3", 0.00, 0.625, 1.925],
+	["lbarledant4", 0.25, 0.625, 1.925],
+
+	//antenna
+	{"group":"legocar_antenna_lightbar_LED"},
+	{"nodeWeight": "$=$weight*0.4"},
+	["lbarledant5", 0.125, 0.625, 2.345],
+
+	//rigidifier
+	{"group":""},
+	["lbarledantrig", 0.125, 0.625, 1.8, {"selfCollision": false}],
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$weight*10", "damp":"$=$weight*0.1", "deform":"$=$strength*0.1", "strength":"FLT_MAX"},
+        ["lbarledant5","lbarledant3","lbarledant4","lbarledantrig"],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//base uniform structure
+	["lbarledant1", "lbarledant2"],
+	["lbarledant1", "lbarledant3"],
+	["lbarledant1", "lbarledant4"],
+	["lbarledant2", "lbarledant3"],
+	["lbarledant2", "lbarledant4"],
+	["lbarledant3", "lbarledant4"],
+
+	//rigidifier
+	["lbarledant1", "lbarledantrig"],
+	["lbarledant2", "lbarledantrig"],
+	["lbarledant3", "lbarledantrig"],
+	["lbarledant4", "lbarledantrig"],
+	
+	//antenna
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	["lbarledant5", "lbarledant3"],
+	["lbarledant5", "lbarledant4"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.75", "beamStrength":"$=$strength*0.75"},
+	{"breakGroup":"antenna_lightbar_LED_break"},
+
+	["lbarledant1", "lbarledT1l"],
+	["lbarledant1", "lbarledT1r"],
+	["lbarledant1", "lbarledT2l"],
+	["lbarledant1", "lbarledT2r"],
+	["lbarledant1", "lbarledTrig"],
+
+	["lbarledant2", "lbarledT1l"],
+	["lbarledant2", "lbarledT1r"],
+	["lbarledant2", "lbarledT2l"],
+	["lbarledant2", "lbarledT2r"],
+	["lbarledant2", "lbarledTrig"],
+
+	["lbarledant3", "lbarledT1l"],
+	["lbarledant3", "lbarledT1r"],
+	["lbarledant3", "lbarledT2l"],
+	["lbarledant3", "lbarledT2r"],
+	["lbarledant3", "lbarledTrig"],
+
+	["lbarledant4", "lbarledT1l"],
+	["lbarledant4", "lbarledT1r"],
+	["lbarledant4", "lbarledT2l"],
+	["lbarledant4", "lbarledT2r"],
+	["lbarledant4", "lbarledTrig"],
+
+	["lbarledantrig", "lbarledT1l"],
+	["lbarledantrig", "lbarledT1r"],
+	["lbarledantrig", "lbarledT2l"],
+	["lbarledantrig", "lbarledT2r"],
+
+	{"breakGroup":""},
+
+
+	//--LIMITERS--
+	{"beamPrecompression":1,"beamType":"|SUPPORT", "beamLongBound":100},
+	{"beamSpring":"$=$weight*21000", "beamDamp":"$=$weight*200"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//antenna limiter
+	["lbarledant5", "lbarledantrig", {"beamPrecompression":0.8}],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_antenna_lightbar_LED"},
+	["lbarledant5","lbarledant1","lbarledant3"],
+	["lbarledant5","lbarledant3","lbarledant2"],
+	["lbarledant5","lbarledant2","lbarledant4"],
+	["lbarledant5","lbarledant4","lbarledant1"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_antenna_lightbar_LED"},   
+	["lbarledant1","lbarledant3","lbarledant2","lbarledant4"],	
+        {"group":""},
+    ],
+},
+
+}

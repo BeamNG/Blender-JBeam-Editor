@@ -1,0 +1,87 @@
+{
+"legotrailer_wall_I": {
+    "information":{
+        "name":"Inner Wall",
+        "authors":"AgentY",
+    },
+    "slotType":"legotrailer_wall_I",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legotrailer_wall_I",       ["legotrailer_frame"]],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legotrailer_frame"},
+
+	//add weight and collision
+	{"nodeWeight": "$=$weight*1"},
+	["trailer_f15l", 0.25, 3.175, 0.225, {"selfCollision":false}],
+	["trailer_f15r",-0.25, 3.175, 0.225, {"selfCollision":false}],
+	{"group":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+	
+	//--MAIN SHAPE--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//lengthwise
+	["trailer_f14l", "trailer_f15l"],
+	["trailer_f14r", "trailer_f15r"],
+	["trailer_f15l", "trailer_f17l"],
+	["trailer_f15r", "trailer_f17r"],
+
+	//widthwise
+	["trailer_f15l", "trailer_f15r"],
+
+	//vertical
+	["trailer_f5l", "trailer_f15l"],
+	["trailer_f5r", "trailer_f15r"],
+
+
+	//--CROSSING--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	//horizontal
+	["trailer_f13l", "trailer_f15l"],
+	["trailer_f13r", "trailer_f15r"],
+	["trailer_f16l", "trailer_f15l"],
+	["trailer_f16r", "trailer_f15r"],
+
+	//vertical
+	["trailer_f4l", "trailer_f15l"],
+	["trailer_f4r", "trailer_f15r"],
+	["trailer_f6l", "trailer_f15l"],
+	["trailer_f6r", "trailer_f15r"],
+
+
+	//--CORNER RIGIDS--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+
+	["trailer_f5l", "trailer_f15r"],
+	["trailer_f5r", "trailer_f15l"],
+
+	//--RIGIDIFIER--
+	{"beamSpring":"$=$weight*51000", "beamDamp":"$=$weight*50"},
+
+	["trailer_f15l", "trailer_f0"],
+	["trailer_f15r", "trailer_f0"],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legotrailer_frame"},
+
+	["trailer_f5l","trailer_f15l","trailer_f15r","trailer_f5r"],
+	["trailer_f15l","trailer_f17l","trailer_f17r","trailer_f15r"],
+	["trailer_f17l","trailer_f7l","trailer_f7r","trailer_f17r"],
+        
+        {"group":""},
+    ],
+},
+
+}

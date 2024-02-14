@@ -1,0 +1,155 @@
+{
+"legocar_windshield_barred_glass_black": {
+    "information":{
+        "name":"Black Tinted Glass",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_windshield_barred_glass",
+    "sounds": {
+        "$+cabinFilterCoef": 0.03,
+    },
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_windshield_barred_glass_black", ["legocar_windshield"], [], {"pos":{"x": 0.000, "y":-0.625, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//add weight
+	{"group":"legocar_windshield"},
+	//10 pieces, 20 half-pieces, 9 nodes - 3.34 kg/node
+	{"nodeWeight": "$=$weight*3.34"},
+
+	["wshld1l", 0.75, -0.25, 0.80],
+	["wshld1r",-0.75, -0.25, 0.80],
+	["wshld2l", 0.75, -1.00, 0.80],
+	["wshld2r",-0.75, -1.00, 0.80],
+	["wshld3l", 0.75, -0.25, 1.40],
+	["wshld3r",-0.75, -0.25, 1.40],
+	["wshld4l", 0.75, -0.50, 1.40],
+	["wshld4r",-0.75, -0.50, 1.40],
+
+	//collision helper middle node
+	["wshld0", 0, -0.75, 1.1],
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_windshield"},
+	["wshld0","wshld2r","wshld2l"],
+	["wshld0","wshld2l","wshld4l"],
+	["wshld0","wshld4l","wshld4r"],
+	["wshld0","wshld4r","wshld2r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_windshield"},
+	["wshld1r","wshld2r","wshld4r","wshld3r"],
+	["wshld1l","wshld3l","wshld4l","wshld2l"],	
+        {"group":""},
+    ],
+},
+
+"legocar_windshield_barred_glass_white": {
+    "information":{
+        "name":"Clear Glass",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_windshield_barred_glass",
+    "sounds": {
+        "$+cabinFilterCoef": 0.03,
+    },
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_windshield_barred_glass_white", ["legocar_windshield"], [], {"pos":{"x": 0.000, "y":-0.625, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//add weight
+	{"group":"legocar_windshield"},
+	//10 pieces, 20 half-pieces, 9 nodes - 3.33 kg/node
+	{"nodeWeight": "$=$weight*3.33"},
+
+	["wshld1l", 0.75, -0.25, 0.80],
+	["wshld1r",-0.75, -0.25, 0.80],
+	["wshld2l", 0.75, -1.00, 0.80],
+	["wshld2r",-0.75, -1.00, 0.80],
+	["wshld3l", 0.75, -0.25, 1.40],
+	["wshld3r",-0.75, -0.25, 1.40],
+	["wshld4l", 0.75, -0.50, 1.40],
+	["wshld4r",-0.75, -0.50, 1.40],
+
+	//collision helper middle node
+	["wshld0", 0, -0.75, 1.1],
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_windshield"},
+	["wshld0","wshld2r","wshld2l"],
+	["wshld0","wshld2l","wshld4l"],
+	["wshld0","wshld4l","wshld4r"],
+	["wshld0","wshld4r","wshld2r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_windshield"},
+	["wshld1r","wshld2r","wshld4r","wshld3r"],
+	["wshld1l","wshld3l","wshld4l","wshld2l"],	
+        {"group":""},
+    ],
+},
+
+"legocar_windshield_barred_glass_blue": {
+    "information":{
+        "name":"Blue Tinted Glass",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_windshield_barred_glass",
+    "sounds": {
+        "$+cabinFilterCoef": 0.03,
+    },
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_windshield_barred_glass_blue", ["legocar_windshield"], [], {"pos":{"x": 0.000, "y":-0.625, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":1, "y":1, "z":1}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//add weight
+	{"group":"legocar_windshield"},
+	//10 pieces, 20 half-pieces, 9 nodes - 3.33 kg/node
+	{"nodeWeight": "$=$weight*3.33"},
+
+	["wshld1l", 0.75, -0.25, 0.80],
+	["wshld1r",-0.75, -0.25, 0.80],
+	["wshld2l", 0.75, -1.00, 0.80],
+	["wshld2r",-0.75, -1.00, 0.80],
+	["wshld3l", 0.75, -0.25, 1.40],
+	["wshld3r",-0.75, -0.25, 1.40],
+	["wshld4l", 0.75, -0.50, 1.40],
+	["wshld4r",-0.75, -0.50, 1.40],
+
+	//collision helper middle node
+	["wshld0", 0, -0.75, 1.1],
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_windshield"},
+	["wshld0","wshld2r","wshld2l"],
+	["wshld0","wshld2l","wshld4l"],
+	["wshld0","wshld4l","wshld4r"],
+	["wshld0","wshld4r","wshld2r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_windshield"},
+	["wshld1r","wshld2r","wshld4r","wshld3r"],
+	["wshld1l","wshld3l","wshld4l","wshld2l"],	
+        {"group":""},
+    ],
+},
+
+}

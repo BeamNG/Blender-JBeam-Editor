@@ -1,0 +1,453 @@
+{
+"legocar_parcelshelf_flashers_LED": {
+    "information":{
+        "name":"LED Flashers",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_parcelshelf_flashers",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_flasher_RL", "legocar_flasher_RL_red", "Rear Left Flasher", {"nodeMove": {"x":0, "y":0.25, "z":-0.1}}],
+	["legocar_flasher_RR", "legocar_flasher_RR_blue","Rear Right Flasher",{"nodeMove": {"x":0, "y":0.25, "z":-0.1}}],
+    ],
+},
+
+"legocar_parcelshelf_flashers_halogen": {
+    "information":{
+        "name":"Halogen Flashers",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_parcelshelf_flashers",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_flasher_RL_halogen", "legocar_flasher_RL_halogen_red", "Rear Left Flasher", {"coreSlot":true}],
+	["legocar_flasher_RR_halogen", "legocar_flasher_RR_halogen_blue","Rear Right Flasher",{"coreSlot":true}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_backlightflasher_mount",["legocar_flasher_RL"],[], {"pos":{"x": 0.375, "y":0.875, "z":0.9},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_backlightflasher_mount",["legocar_flasher_RR"],[], {"pos":{"x":-0.375, "y":0.875, "z":0.9},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//3 pieces, 8 nodes - 0.375 kg/node
+	{"nodeWeight": "$=$weight*0.375"},
+
+	{"group":"legocar_flasher_RL"},
+	["RLflasher1l", 0.50, 1.00, 0.9],
+	["RLflasher1r", 0.25, 1.00, 0.9],
+	["RLflasher2l", 0.50, 0.78, 0.9],
+	["RLflasher2r", 0.25, 0.78, 0.9],
+	["RLflasher3l", 0.50, 1.00, 1.3],
+	["RLflasher3r", 0.25, 1.00, 1.3],
+	["RLflasher4l", 0.50, 0.78, 1.3],
+	["RLflasher4r", 0.25, 0.78, 1.3],
+
+	{"group":"legocar_flasher_RR"},
+	["RRflasher1r",-0.50, 1.00, 0.9],
+	["RRflasher1l",-0.25, 1.00, 0.9],
+	["RRflasher2r",-0.50, 0.78, 0.9],
+	["RRflasher2l",-0.25, 0.78, 0.9],
+	["RRflasher3r",-0.50, 1.00, 1.3],
+	["RRflasher3l",-0.25, 1.00, 1.3],
+	["RRflasher4r",-0.50, 0.78, 1.3],
+	["RRflasher4l",-0.25, 0.78, 1.3],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FLASHERS--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+
+	//left
+	["RLflasher1l", "RLflasher1r"],
+	["RLflasher2l", "RLflasher2r"],
+	["RLflasher3l", "RLflasher3r"],
+	["RLflasher4l", "RLflasher4r"],
+
+	["RLflasher1l", "RLflasher2r"],
+	["RLflasher2l", "RLflasher3r"],
+	["RLflasher3l", "RLflasher4r"],
+	["RLflasher4l", "RLflasher1r"],
+
+	["RLflasher1l", "RLflasher3r"],
+	["RLflasher2l", "RLflasher4r"],
+	["RLflasher3l", "RLflasher1r"],
+	["RLflasher4l", "RLflasher2r"],
+
+	["RLflasher1l", "RLflasher4r"],
+	["RLflasher2l", "RLflasher1r"],
+	["RLflasher3l", "RLflasher2r"],
+	["RLflasher4l", "RLflasher3r"],
+
+	["RLflasher1l", "RLflasher2l"],
+	["RLflasher2l", "RLflasher3l"],
+	["RLflasher3l", "RLflasher4l"],
+	["RLflasher4l", "RLflasher1l"],
+
+	["RLflasher1l", "RLflasher3l"],
+	["RLflasher2l", "RLflasher4l"],
+
+	["RLflasher1r", "RLflasher2r"],
+	["RLflasher2r", "RLflasher3r"],
+	["RLflasher3r", "RLflasher4r"],
+	["RLflasher4r", "RLflasher1r"],
+
+	["RLflasher1r", "RLflasher3r"],
+	["RLflasher2r", "RLflasher4r"],
+	
+	
+	//right
+	["RRflasher1l", "RRflasher1r"],
+	["RRflasher2l", "RRflasher2r"],
+	["RRflasher3l", "RRflasher3r"],
+	["RRflasher4l", "RRflasher4r"],
+
+	["RRflasher1l", "RRflasher2r"],
+	["RRflasher2l", "RRflasher3r"],
+	["RRflasher3l", "RRflasher4r"],
+	["RRflasher4l", "RRflasher1r"],
+
+	["RRflasher1l", "RRflasher3r"],
+	["RRflasher2l", "RRflasher4r"],
+	["RRflasher3l", "RRflasher1r"],
+	["RRflasher4l", "RRflasher2r"],
+
+	["RRflasher1l", "RRflasher4r"],
+	["RRflasher2l", "RRflasher1r"],
+	["RRflasher3l", "RRflasher2r"],
+	["RRflasher4l", "RRflasher3r"],
+
+	["RRflasher1l", "RRflasher2l"],
+	["RRflasher2l", "RRflasher3l"],
+	["RRflasher3l", "RRflasher4l"],
+	["RRflasher4l", "RRflasher1l"],
+
+	["RRflasher1l", "RRflasher3l"],
+	["RRflasher2l", "RRflasher4l"],
+
+	["RRflasher1r", "RRflasher2r"],
+	["RRflasher2r", "RRflasher3r"],
+	["RRflasher3r", "RRflasher4r"],
+	["RRflasher4r", "RRflasher1r"],
+
+	["RRflasher1r", "RRflasher3r"],
+	["RRflasher2r", "RRflasher4r"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*185000", "beamDamp":"$=$weight*18.5"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left
+	{"breakGroup":"RLflasher_break"},
+	{"deformGroup":"RLflasher_break"},
+
+	["shelfR1l", "RLflasher2l"],
+	["shelfR1l", "RLflasher2r"],
+	["shelfR1l", "RLflasher1l"],
+	["shelfR1l", "RLflasher4l"],
+
+	["shelfR2l", "RLflasher1l"],
+	["shelfR2l", "RLflasher1r"],
+	["shelfR2l", "RLflasher2l"],
+	["shelfR2l", "RLflasher3l"],
+	
+	["shelfR1r", "RLflasher2l"],
+	["shelfR1r", "RLflasher2r"],
+	["shelfR1r", "RLflasher1r"],
+	["shelfR1r", "RLflasher4r"],
+
+	["shelfR2r", "RLflasher1l"],
+	["shelfR2r", "RLflasher1r"],
+	["shelfR2r", "RLflasher2r"],
+	["shelfR2r", "RLflasher3r"],
+
+	["shelfRrig", "RLflasher3l"],
+	["shelfRrig", "RLflasher3r"],
+	["shelfRrig", "RLflasher4l"],
+	["shelfRrig", "RLflasher4r"],
+	
+	
+	//right
+	{"breakGroup":"RRflasher_break"},
+	{"deformGroup":"RRflasher_break"},
+
+	["shelfR1l", "RRflasher2l"],
+	["shelfR1l", "RRflasher2r"],
+	["shelfR1l", "RRflasher1l"],
+	["shelfR1l", "RRflasher4l"],
+
+	["shelfR2l", "RRflasher1l"],
+	["shelfR2l", "RRflasher1r"],
+	["shelfR2l", "RRflasher2l"],
+	["shelfR2l", "RRflasher3l"],
+	
+	["shelfR1r", "RRflasher2l"],
+	["shelfR1r", "RRflasher2r"],
+	["shelfR1r", "RRflasher1r"],
+	["shelfR1r", "RRflasher4r"],
+
+	["shelfR2r", "RRflasher1l"],
+	["shelfR2r", "RRflasher1r"],
+	["shelfR2r", "RRflasher2r"],
+	["shelfR2r", "RRflasher3r"],
+
+	["shelfRrig", "RRflasher3l"],
+	["shelfRrig", "RRflasher3r"],
+	["shelfRrig", "RRflasher4l"],
+	["shelfRrig", "RRflasher4r"],
+	
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+		
+	{"group":"legocar_flasher_RL"},   
+	["RLflasher1r","RLflasher1l","RLflasher2l","RLflasher2r"],
+	["RLflasher3l","RLflasher3r","RLflasher4r","RLflasher4l"],
+	["RLflasher1r","RLflasher2r","RLflasher4r","RLflasher3r"],
+	["RLflasher2l","RLflasher1l","RLflasher3l","RLflasher4l"],
+	["RLflasher2r","RLflasher2l","RLflasher4l","RLflasher4r"],
+	["RLflasher1l","RLflasher1r","RLflasher3r","RLflasher3l"],
+	
+	{"group":"legocar_flasher_RR"},   
+	["RRflasher1r","RRflasher1l","RRflasher2l","RRflasher2r"],
+	["RRflasher3l","RRflasher3r","RRflasher4r","RRflasher4l"],
+	["RRflasher1r","RRflasher2r","RRflasher4r","RRflasher3r"],
+	["RRflasher2l","RRflasher1l","RRflasher3l","RRflasher4l"],
+	["RRflasher2r","RRflasher2l","RRflasher4l","RRflasher4r"],
+	["RRflasher1l","RRflasher1r","RRflasher3r","RRflasher3l"],
+
+        {"group":""},
+    ],
+},
+
+"legocar_parcelshelf_flashers_halogen_alt": {
+    "information":{
+        "name":" Halogen Flashers",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_parcelshelf",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_flasher_RL_halogen", "legocar_flasher_RL_halogen_brake","Rear Left Flasher", {"coreSlot":true, "nodeMove": {"x":0, "y":0, "z":-0.1}}],
+	["legocar_flasher_RR_halogen", "legocar_flasher_RR_halogen_brake","Rear Right Flasher",{"coreSlot":true, "nodeMove": {"x":0, "y":0, "z":-0.1}}],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_backlightflasher_mount",["legocar_flasher_RL"],[], {"pos":{"x": 0.375, "y":0.875, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_backlightflasher_mount",["legocar_flasher_RR"],[], {"pos":{"x":-0.375, "y":0.875, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//3 pieces, 8 nodes - 0.375 kg/node
+	{"nodeWeight": "$=$weight*0.375"},
+
+	{"group":"legocar_flasher_RL"},
+	["RLflasher1l", 0.50, 1.00, 0.83],
+	["RLflasher1r", 0.25, 1.00, 0.83],
+	["RLflasher2l", 0.50, 0.78, 0.83],
+	["RLflasher2r", 0.25, 0.78, 0.83],
+	["RLflasher3l", 0.50, 1.00, 1.2],
+	["RLflasher3r", 0.25, 1.00, 1.2],
+	["RLflasher4l", 0.50, 0.78, 1.2],
+	["RLflasher4r", 0.25, 0.78, 1.2],
+
+	{"group":"legocar_flasher_RR"},
+	["RRflasher1r",-0.50, 1.00, 0.83],
+	["RRflasher1l",-0.25, 1.00, 0.83],
+	["RRflasher2r",-0.50, 0.78, 0.83],
+	["RRflasher2l",-0.25, 0.78, 0.83],
+	["RRflasher3r",-0.50, 1.00, 1.2],
+	["RRflasher3l",-0.25, 1.00, 1.2],
+	["RRflasher4r",-0.50, 0.78, 1.2],
+	["RRflasher4l",-0.25, 0.78, 1.2],
+    ], 
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--FLASHERS--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*375000", "beamDamp":"$=$weight*37.5"},
+
+	//left
+	["RLflasher1l", "RLflasher1r"],
+	["RLflasher2l", "RLflasher2r"],
+	["RLflasher3l", "RLflasher3r"],
+	["RLflasher4l", "RLflasher4r"],
+
+	["RLflasher1l", "RLflasher2r"],
+	["RLflasher2l", "RLflasher3r"],
+	["RLflasher3l", "RLflasher4r"],
+	["RLflasher4l", "RLflasher1r"],
+
+	["RLflasher1l", "RLflasher3r"],
+	["RLflasher2l", "RLflasher4r"],
+	["RLflasher3l", "RLflasher1r"],
+	["RLflasher4l", "RLflasher2r"],
+
+	["RLflasher1l", "RLflasher4r"],
+	["RLflasher2l", "RLflasher1r"],
+	["RLflasher3l", "RLflasher2r"],
+	["RLflasher4l", "RLflasher3r"],
+
+	["RLflasher1l", "RLflasher2l"],
+	["RLflasher2l", "RLflasher3l"],
+	["RLflasher3l", "RLflasher4l"],
+	["RLflasher4l", "RLflasher1l"],
+
+	["RLflasher1l", "RLflasher3l"],
+	["RLflasher2l", "RLflasher4l"],
+
+	["RLflasher1r", "RLflasher2r"],
+	["RLflasher2r", "RLflasher3r"],
+	["RLflasher3r", "RLflasher4r"],
+	["RLflasher4r", "RLflasher1r"],
+
+	["RLflasher1r", "RLflasher3r"],
+	["RLflasher2r", "RLflasher4r"],
+	
+	
+	//right
+	["RRflasher1l", "RRflasher1r"],
+	["RRflasher2l", "RRflasher2r"],
+	["RRflasher3l", "RRflasher3r"],
+	["RRflasher4l", "RRflasher4r"],
+
+	["RRflasher1l", "RRflasher2r"],
+	["RRflasher2l", "RRflasher3r"],
+	["RRflasher3l", "RRflasher4r"],
+	["RRflasher4l", "RRflasher1r"],
+
+	["RRflasher1l", "RRflasher3r"],
+	["RRflasher2l", "RRflasher4r"],
+	["RRflasher3l", "RRflasher1r"],
+	["RRflasher4l", "RRflasher2r"],
+
+	["RRflasher1l", "RRflasher4r"],
+	["RRflasher2l", "RRflasher1r"],
+	["RRflasher3l", "RRflasher2r"],
+	["RRflasher4l", "RRflasher3r"],
+
+	["RRflasher1l", "RRflasher2l"],
+	["RRflasher2l", "RRflasher3l"],
+	["RRflasher3l", "RRflasher4l"],
+	["RRflasher4l", "RRflasher1l"],
+
+	["RRflasher1l", "RRflasher3l"],
+	["RRflasher2l", "RRflasher4l"],
+
+	["RRflasher1r", "RRflasher2r"],
+	["RRflasher2r", "RRflasher3r"],
+	["RRflasher3r", "RRflasher4r"],
+	["RRflasher4r", "RRflasher1r"],
+
+	["RRflasher1r", "RRflasher3r"],
+	["RRflasher2r", "RRflasher4r"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*175000", "beamDamp":"$=$weight*17.5"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left
+	{"breakGroup":"RLflasher_break"},
+	{"deformGroup":"RLflasher_break"},
+
+	["shelfpan1l", "RLflasher2l"],
+	["shelfpan1l", "RLflasher2r"],
+	["shelfpan1l", "RLflasher1l"],
+	["shelfpan1l", "RLflasher4l"],
+
+	["shelfpan2l", "RLflasher1l"],
+	["shelfpan2l", "RLflasher1r"],
+	["shelfpan2l", "RLflasher2l"],
+	["shelfpan2l", "RLflasher3l"],
+	
+	["shelfpan1r", "RLflasher2l"],
+	["shelfpan1r", "RLflasher2r"],
+	["shelfpan1r", "RLflasher1r"],
+	["shelfpan1r", "RLflasher4r"],
+
+	["shelfpan2r", "RLflasher1l"],
+	["shelfpan2r", "RLflasher1r"],
+	["shelfpan2r", "RLflasher2r"],
+	["shelfpan2r", "RLflasher3r"],
+
+	["shelfpanrig", "RLflasher3l"],
+	["shelfpanrig", "RLflasher3r"],
+	["shelfpanrig", "RLflasher4l"],
+	["shelfpanrig", "RLflasher4r"],
+	
+	
+	//right
+	{"breakGroup":"RRflasher_break"},
+	{"deformGroup":"RRflasher_break"},
+
+	["shelfpan1l", "RRflasher2l"],
+	["shelfpan1l", "RRflasher2r"],
+	["shelfpan1l", "RRflasher1l"],
+	["shelfpan1l", "RRflasher4l"],
+
+	["shelfpan2l", "RRflasher1l"],
+	["shelfpan2l", "RRflasher1r"],
+	["shelfpan2l", "RRflasher2l"],
+	["shelfpan2l", "RRflasher3l"],
+	
+	["shelfpan1r", "RRflasher2l"],
+	["shelfpan1r", "RRflasher2r"],
+	["shelfpan1r", "RRflasher1r"],
+	["shelfpan1r", "RRflasher4r"],
+
+	["shelfpan2r", "RRflasher1l"],
+	["shelfpan2r", "RRflasher1r"],
+	["shelfpan2r", "RRflasher2r"],
+	["shelfpan2r", "RRflasher3r"],
+
+	["shelfpanrig", "RRflasher3l"],
+	["shelfpanrig", "RRflasher3r"],
+	["shelfpanrig", "RRflasher4l"],
+	["shelfpanrig", "RRflasher4r"],
+	
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+		
+	{"group":"legocar_flasher_RL"},   
+	["RLflasher1r","RLflasher1l","RLflasher2l","RLflasher2r"],
+	["RLflasher3l","RLflasher3r","RLflasher4r","RLflasher4l"],
+	["RLflasher1r","RLflasher2r","RLflasher4r","RLflasher3r"],
+	["RLflasher2l","RLflasher1l","RLflasher3l","RLflasher4l"],
+	["RLflasher2r","RLflasher2l","RLflasher4l","RLflasher4r"],
+	["RLflasher1l","RLflasher1r","RLflasher3r","RLflasher3l"],
+	
+	{"group":"legocar_flasher_RR"},   
+	["RRflasher1r","RRflasher1l","RRflasher2l","RRflasher2r"],
+	["RRflasher3l","RRflasher3r","RRflasher4r","RRflasher4l"],
+	["RRflasher1r","RRflasher2r","RRflasher4r","RRflasher3r"],
+	["RRflasher2l","RRflasher1l","RRflasher3l","RRflasher4l"],
+	["RRflasher2r","RRflasher2l","RRflasher4l","RRflasher4r"],
+	["RRflasher1l","RRflasher1r","RRflasher3r","RRflasher3l"],
+
+        {"group":""},
+    ],
+},
+
+}

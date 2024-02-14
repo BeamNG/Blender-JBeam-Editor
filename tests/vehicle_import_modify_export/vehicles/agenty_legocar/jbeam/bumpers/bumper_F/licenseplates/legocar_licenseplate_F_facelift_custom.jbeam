@@ -1,0 +1,250 @@
+{
+"legocar_licenseplate_F_custom": {
+    "information":{
+        "name":"Front Custom License Plate",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_licenseplate_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	{"deformGroup":"licenseplate_F_break", "deformMaterialBase":"legocar_licenseplate_agenty", "deformMaterialDamaged":"legocar_licenseplate_agenty_dmg"},
+	["lego_4x1_flat_notip_licenseplate_agenty", ["legocar_licenseplate_F"], [], {"pos":{"x": 0.000, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z":90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_licenseplate_F"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["Fplate1l",  0.47, -2.00, 0.10],
+	["Fplate1r", -0.47, -2.00, 0.10],
+	["Fplate2l",  0.47, -2.00, 0.35],
+	["Fplate2r", -0.47, -2.00, 0.35],
+	//rigidifier
+	["Fplaterig", 0, -1.65, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT LICENSE PLATE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["Fplate1l", "Fplate1r"],
+	["Fplate2l", "Fplate2r"],
+	["Fplate1l", "Fplate2l"],
+	["Fplate1r", "Fplate2r"],
+	["Fplate1l", "Fplate2r"],
+	["Fplate2l", "Fplate1r"],
+
+	//rigidifier
+	["Fplate1l", "Fplaterig"],
+	["Fplate1r", "Fplaterig"],
+	["Fplate2l", "Fplaterig"],
+	["Fplate2r", "Fplaterig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"breakGroup":"licenseplate_F_break"},
+	{"deformGroup":"licenseplate_F_break"},
+	
+	["Fplate1l", "Fbumprig"],
+	["Fplate1l", "Fbump1r"],
+	["Fplate1l", "Fbump2l"],
+
+	["Fplate1r", "Fbumprig"],
+	["Fplate1r", "Fbump1l"],
+	["Fplate1r", "Fbump2r"],
+
+	["Fplate2l", "Fbumprig"],
+	["Fplate2l", "Fbump2r"],
+	["Fplate2l", "Fbump1l"],
+
+	["Fplate2r", "Fbumprig"],
+	["Fplate2r", "Fbump2l"],
+	["Fplate2r", "Fbump1r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_licenseplate_F"},
+	["Fplate2l","Fplate2r","Fplate1r","Fplate1l"],
+        {"group":""},
+    ],
+},
+"legocar_licenseplate_F_police": {
+    "information":{
+        "name":"Front Police License Plate",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_licenseplate_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x1_flat_notip_licenseplate_police", ["legocar_licenseplate_F"], [], {"pos":{"x": 0.000, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z":90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_licenseplate_F"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["Fplate1l",  0.47, -2.00, 0.10],
+	["Fplate1r", -0.47, -2.00, 0.10],
+	["Fplate2l",  0.47, -2.00, 0.35],
+	["Fplate2r", -0.47, -2.00, 0.35],
+	//rigidifier
+	["Fplaterig", 0, -1.65, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT LICENSE PLATE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["Fplate1l", "Fplate1r"],
+	["Fplate2l", "Fplate2r"],
+	["Fplate1l", "Fplate2l"],
+	["Fplate1r", "Fplate2r"],
+	["Fplate1l", "Fplate2r"],
+	["Fplate2l", "Fplate1r"],
+
+	//rigidifier
+	["Fplate1l", "Fplaterig"],
+	["Fplate1r", "Fplaterig"],
+	["Fplate2l", "Fplaterig"],
+	["Fplate2r", "Fplaterig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"breakGroup":"licenseplate_F_break"},
+	
+	["Fplate1l", "Fbumprig"],
+	["Fplate1l", "Fbump1r"],
+	["Fplate1l", "Fbump2l"],
+
+	["Fplate1r", "Fbumprig"],
+	["Fplate1r", "Fbump1l"],
+	["Fplate1r", "Fbump2r"],
+
+	["Fplate2l", "Fbumprig"],
+	["Fplate2l", "Fbump2r"],
+	["Fplate2l", "Fbump1l"],
+
+	["Fplate2r", "Fbumprig"],
+	["Fplate2r", "Fbump2l"],
+	["Fplate2r", "Fbump1r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_licenseplate_F"},
+	["Fplate2l","Fplate2r","Fplate1r","Fplate1l"],
+        {"group":""},
+    ],
+},
+"legocar_licenseplate_F_bcpd": {
+    "information":{
+        "name":"Front Belasco City Police License Plate",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_licenseplate_F",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_4x1_flat_notip_licenseplate_bcpd", ["legocar_licenseplate_F"], [], {"pos":{"x": 0.000, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z":90},"scale":{"x":0.99, "y":1.00, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_licenseplate_F"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["Fplate1l",  0.47, -2.00, 0.10],
+	["Fplate1r", -0.47, -2.00, 0.10],
+	["Fplate2l",  0.47, -2.00, 0.35],
+	["Fplate2r", -0.47, -2.00, 0.35],
+	//rigidifier
+	["Fplaterig", 0, -1.65, 0.225, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT LICENSE PLATE--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["Fplate1l", "Fplate1r"],
+	["Fplate2l", "Fplate2r"],
+	["Fplate1l", "Fplate2l"],
+	["Fplate1r", "Fplate2r"],
+	["Fplate1l", "Fplate2r"],
+	["Fplate2l", "Fplate1r"],
+
+	//rigidifier
+	["Fplate1l", "Fplaterig"],
+	["Fplate1r", "Fplaterig"],
+	["Fplate2l", "Fplaterig"],
+	["Fplate2r", "Fplaterig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+	{"breakGroup":"licenseplate_F_break"},
+	
+	["Fplate1l", "Fbumprig"],
+	["Fplate1l", "Fbump1r"],
+	["Fplate1l", "Fbump2l"],
+
+	["Fplate1r", "Fbumprig"],
+	["Fplate1r", "Fbump1l"],
+	["Fplate1r", "Fbump2r"],
+
+	["Fplate2l", "Fbumprig"],
+	["Fplate2l", "Fbump2r"],
+	["Fplate2l", "Fbump1l"],
+
+	["Fplate2r", "Fbumprig"],
+	["Fplate2r", "Fbump2l"],
+	["Fplate2r", "Fbump1r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_licenseplate_F"},
+	["Fplate2l","Fplate2r","Fplate1r","Fplate1l"],
+        {"group":""},
+    ],
+},
+
+}

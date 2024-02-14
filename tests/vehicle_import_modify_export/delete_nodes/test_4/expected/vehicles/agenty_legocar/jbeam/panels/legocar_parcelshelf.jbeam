@@ -1,0 +1,1095 @@
+{
+"legocar_parcelshelf": {
+    "information":{
+        "name":"Parcel Shelf (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_parcelshelf",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_parcelshelf_chmsl", "", "Inner Center High Mounted Stop Light"],
+	["legocar_parcelshelf_flashers", "", "Shelf Flashers"],
+	["legocar_parcelshelf_sign_mount", "", "Shelf Sign Mount"],
+	["legocar_parcelshelf_rollbar", "", "Roll Bar"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x4_flat_6tips_col1",["legocar_parcelshelf_R"], [], {"pos":{"x": 0.000, "y":0.750, "z":0.8},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_4x1_flat_col1",      ["legocar_parcelshelf_F"], [], {"pos":{"x": 0.000, "y":0.375, "z":0.8},"rot":{"x":0, "y":0, "z":90 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--REAR PARCEL SHELF--
+	{"group":"legocar_parcelshelf_R"},
+	//8 pieces, 5 nodes - 1.6 kg/node
+	{"nodeWeight": "$=$weight*1.6"},
+
+	["shelfR1l",  0.50, 0.53, 0.85],
+	["shelfR1r", -0.50, 0.53, 0.85],
+	["shelfR2l",  0.50, 1.00, 0.85],
+	["shelfR2r", -0.50, 1.00, 0.85],
+	//rigidifier
+	["shelfRrig", 0, 0.75, 0.5, {"collision":false, "selfCollision":false, "group":""}],
+
+
+	//--FRONT PARCEL SHELF--
+	{"group":"legocar_parcelshelf_F"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["shelfF1l",  0.50, 0.25, 0.85],
+	["shelfF1r", -0.50, 0.25, 0.85],
+	["shelfF2l",  0.50, 0.50, 0.85],
+	["shelfF2r", -0.50, 0.50, 0.85],
+	//rigidifier
+	["shelfFrig", 0, 0.375, 0.55, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--REAR PARCEL SHELF--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//uniform structure
+	["shelfR1l", "shelfR1r"],
+	["shelfR2l", "shelfR2r"],
+	["shelfR1l", "shelfR2l"],
+	["shelfR1r", "shelfR2r"],
+	["shelfR1l", "shelfR2r"],
+	["shelfR2l", "shelfR1r"],
+
+	//rigidifier
+	["shelfR1l", "shelfRrig"],
+	["shelfR1r", "shelfRrig"],
+	["shelfR2l", "shelfRrig"],
+	["shelfR2r", "shelfRrig"],
+
+
+	//--FRONT PARCEL SHELF--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["shelfF1l", "shelfF1r"],
+	["shelfF2l", "shelfF2r"],
+	["shelfF1l", "shelfF2l"],
+	["shelfF1r", "shelfF2r"],
+	["shelfF1l", "shelfF2r"],
+	["shelfF2l", "shelfF1r"],
+
+	//rigidifier
+	["shelfF1l", "shelfFrig"],
+	["shelfF1r", "shelfFrig"],
+	["shelfF2l", "shelfFrig"],
+	["shelfF2r", "shelfFrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//back to shelf panel
+	{"beamSpring":"$=$weight*651000", "beamDamp":"$=$weight*65"},
+	{"breakGroup":"shelf_R_shelfpanel_break"},
+
+	["shelfR1l", "shelfpan1l"],
+	["shelfR1l", "shelfpan1r"],
+	["shelfR1l", "shelfpan2l"],
+	["shelfR1l", "shelfpan2r"],
+	["shelfR1l", "shelfpanrig"],
+
+	["shelfR1r", "shelfpan1l"],
+	["shelfR1r", "shelfpan1r"],
+	["shelfR1r", "shelfpan2l"],
+	["shelfR1r", "shelfpan2r"],
+	["shelfR1r", "shelfpanrig"],
+
+	["shelfR2l", "shelfpan1l"],
+	["shelfR2l", "shelfpan1r"],
+	["shelfR2l", "shelfpan2l"],
+	["shelfR2l", "shelfpan2r"],
+	["shelfR2l", "shelfpanrig"],
+
+	["shelfR2r", "shelfpan1l"],
+	["shelfR2r", "shelfpan1r"],
+	["shelfR2r", "shelfpan2l"],
+	["shelfR2r", "shelfpan2r"],
+	["shelfR2r", "shelfpanrig"],
+
+	["shelfRrig", "shelfpan1l"],
+	["shelfRrig", "shelfpan1r"],
+	["shelfRrig", "shelfpan2l"],
+	["shelfRrig", "shelfpan2r"],
+
+	{"optional":true},
+
+
+	//back to left quarter glass mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"shelf_R_quarterglass_mount_L_break"},
+
+	["shelfR1l", "Rqglassmt1l"],
+	["shelfR1l", "Rqglassmt1r"],
+	["shelfR1l", "Rqglassmt2l"],
+	["shelfR1l", "Rqglassmt2r"],
+	["shelfR1l", "Rqglassmtrig"],
+
+	["shelfR1r", "Rqglassmt1l"],
+	["shelfR1r", "Rqglassmt1r"],
+	["shelfR1r", "Rqglassmt2l"],
+	["shelfR1r", "Rqglassmt2r"],
+	["shelfR1r", "Rqglassmtrig"],
+
+	["shelfR2l", "Rqglassmt1l"],
+	["shelfR2l", "Rqglassmt1r"],
+	["shelfR2l", "Rqglassmt2l"],
+	["shelfR2l", "Rqglassmt2r"],
+	["shelfR2l", "Rqglassmtrig"],
+
+	["shelfR2r", "Rqglassmt1l"],
+	["shelfR2r", "Rqglassmt1r"],
+	["shelfR2r", "Rqglassmt2l"],
+	["shelfR2r", "Rqglassmt2r"],
+	["shelfR2r", "Rqglassmtrig"],
+
+	["shelfRrig", "Rqglassmt1l"],
+	["shelfRrig", "Rqglassmt1r"],
+	["shelfRrig", "Rqglassmt2l"],
+	["shelfRrig", "Rqglassmt2r"],
+
+	
+	//back to right quarter glass mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"shelf_R_quarterglass_mount_R_break"},
+
+	["shelfR1l", "Lqglassmt1l"],
+	["shelfR1l", "Lqglassmt1r"],
+	["shelfR1l", "Lqglassmt2l"],
+	["shelfR1l", "Lqglassmt2r"],
+	["shelfR1l", "Lqglassmtrig"],
+
+	["shelfR1r", "Lqglassmt1l"],
+	["shelfR1r", "Lqglassmt1r"],
+	["shelfR1r", "Lqglassmt2l"],
+	["shelfR1r", "Lqglassmt2r"],
+	["shelfR1r", "Lqglassmtrig"],
+
+	["shelfR2l", "Lqglassmt1l"],
+	["shelfR2l", "Lqglassmt1r"],
+	["shelfR2l", "Lqglassmt2l"],
+	["shelfR2l", "Lqglassmt2r"],
+	["shelfR2l", "Lqglassmtrig"],
+
+	["shelfR2r", "Lqglassmt1l"],
+	["shelfR2r", "Lqglassmt1r"],
+	["shelfR2r", "Lqglassmt2l"],
+	["shelfR2r", "Lqglassmt2r"],
+	["shelfR2r", "Lqglassmtrig"],
+
+	["shelfRrig", "Lqglassmt1l"],
+	["shelfRrig", "Lqglassmt1r"],
+	["shelfRrig", "Lqglassmt2l"],
+	["shelfRrig", "Lqglassmt2r"],
+	
+	
+	//front to left quarter glass mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"shelf_F_quarterglass_mount_L_break"},
+
+	["shelfF1l", "Rqglassmt1l"],
+	["shelfF1l", "Rqglassmt1r"],
+	["shelfF1l", "Rqglassmt2l"],
+	["shelfF1l", "Rqglassmt2r"],
+	["shelfF1l", "Rqglassmtrig"],
+
+	["shelfF1r", "Rqglassmt1l"],
+	["shelfF1r", "Rqglassmt1r"],
+	["shelfF1r", "Rqglassmt2l"],
+	["shelfF1r", "Rqglassmt2r"],
+	["shelfF1r", "Rqglassmtrig"],
+
+	["shelfF2l", "Rqglassmt1l"],
+	["shelfF2l", "Rqglassmt1r"],
+	["shelfF2l", "Rqglassmt2l"],
+	["shelfF2l", "Rqglassmt2r"],
+	["shelfF2l", "Rqglassmtrig"],
+
+	["shelfF2r", "Rqglassmt1l"],
+	["shelfF2r", "Rqglassmt1r"],
+	["shelfF2r", "Rqglassmt2l"],
+	["shelfF2r", "Rqglassmt2r"],
+	["shelfF2r", "Rqglassmtrig"],
+
+	["shelfFrig", "Rqglassmt1l"],
+	["shelfFrig", "Rqglassmt1r"],
+	["shelfFrig", "Rqglassmt2l"],
+	["shelfFrig", "Rqglassmt2r"],
+
+	
+	//front to right quarter glass mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"shelf_F_quarterglass_mount_R_break"},
+
+	["shelfF1l", "Lqglassmt1l"],
+	["shelfF1l", "Lqglassmt1r"],
+	["shelfF1l", "Lqglassmt2l"],
+	["shelfF1l", "Lqglassmt2r"],
+	["shelfF1l", "Lqglassmtrig"],
+
+	["shelfF1r", "Lqglassmt1l"],
+	["shelfF1r", "Lqglassmt1r"],
+	["shelfF1r", "Lqglassmt2l"],
+	["shelfF1r", "Lqglassmt2r"],
+	["shelfF1r", "Lqglassmtrig"],
+
+	["shelfF2l", "Lqglassmt1l"],
+	["shelfF2l", "Lqglassmt1r"],
+	["shelfF2l", "Lqglassmt2l"],
+	["shelfF2l", "Lqglassmt2r"],
+	["shelfF2l", "Lqglassmtrig"],
+
+	["shelfF2r", "Lqglassmt1l"],
+	["shelfF2r", "Lqglassmt1r"],
+	["shelfF2r", "Lqglassmt2l"],
+	["shelfF2r", "Lqglassmt2r"],
+	["shelfF2r", "Lqglassmtrig"],
+
+	["shelfFrig", "Lqglassmt1l"],
+	["shelfFrig", "Lqglassmt1r"],
+	["shelfFrig", "Lqglassmt2l"],
+	["shelfFrig", "Lqglassmt2r"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//shelf panel
+	{"beamSpring":"$=$weight*701000", "beamDamp":"$=$weight*70"},
+
+	["shelfR1l", "shelfpan1l"],
+	["shelfR1l", "shelfpan1r"],
+	["shelfR1l", "shelfpan2l"],
+	["shelfR1l", "shelfpan2r"],
+	["shelfR1l", "shelfpanrig"],
+
+	["shelfR1r", "shelfpan1l"],
+	["shelfR1r", "shelfpan1r"],
+	["shelfR1r", "shelfpan2l"],
+	["shelfR1r", "shelfpan2r"],
+	["shelfR1r", "shelfpanrig"],
+
+	["shelfR2l", "shelfpan1l"],
+	["shelfR2l", "shelfpan1r"],
+	["shelfR2l", "shelfpan2l"],
+	["shelfR2l", "shelfpan2r"],
+	["shelfR2l", "shelfpanrig"],
+
+	["shelfR2r", "shelfpan1l"],
+	["shelfR2r", "shelfpan1r"],
+	["shelfR2r", "shelfpan2l"],
+	["shelfR2r", "shelfpan2r"],
+	["shelfR2r", "shelfpanrig"],
+
+	
+	//quarter glass mounts
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	["shelfF1l", "Lqglassmtrig"],
+	["shelfF2l", "Lqglassmtrig"],
+	["shelfF1r", "Lqglassmtrig"],
+	["shelfF2r", "Lqglassmtrig"],
+
+	["shelfF1l", "Rqglassmtrig"],
+	["shelfF2l", "Rqglassmtrig"],
+	["shelfF1r", "Rqglassmtrig"],
+	["shelfF2r", "Rqglassmtrig"],
+
+		
+	//front seat
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	["shelfF1l", "FseatT3l"],
+	["shelfF1l", "FseatT1r"],
+	["shelfF1l", "FseatT1l"],
+
+	["shelfF2l", "FseatT3l"],
+	["shelfF2l", "FseatT1r"],
+	["shelfF2l", "FseatT1l"],
+
+	["shelfF1r", "FseatT3l"],
+	["shelfF1r", "FseatT1r"],
+	["shelfF1r", "FseatT1l"],
+
+	["shelfF2r", "FseatT3l"],
+	["shelfF2r", "FseatT1r"],
+	["shelfF2r", "FseatT1l"],
+
+
+	//front headrest
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	["shelfF1l", "hrest0l"],
+	["shelfF1l", "hrest0r"],
+	["shelfF1r", "hrest0l"],
+	["shelfF1r", "hrest0r"],
+
+	["shelfF2l", "hrest0l"],
+	["shelfF2l", "hrest0r"],
+	["shelfF2r", "hrest0l"],
+	["shelfF2r", "hrest0r"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_parcelshelf_R"},
+	["shelfR1r","shelfR1l","shelfR2l","shelfR2r"],
+	{"group":"legocar_parcelshelf_F"},
+	["shelfF1r","shelfF1l","shelfF2l","shelfF2r"],
+        {"group":""},
+    ],
+},
+
+"legocar_parcelshelf_grey": {
+    "information":{
+        "name":"Parcel Shelf (Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_parcelshelf",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_parcelshelf_chmsl", "", "Inner Center High Mounted Stop Light"],
+	["legocar_parcelshelf_flashers", "", "Shelf Flashers"],
+	["legocar_parcelshelf_sign_mount", "", "Shelf Sign Mount"],
+	["legocar_parcelshelf_rollbar", "", "Roll Bar"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x4_flat_6tips_grey",["legocar_parcelshelf_R"], [], {"pos":{"x": 0.000, "y":0.750, "z":0.8},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_4x1_flat_grey",      ["legocar_parcelshelf_F"], [], {"pos":{"x": 0.000, "y":0.375, "z":0.8},"rot":{"x":0, "y":0, "z":90 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--REAR PARCEL SHELF--
+	{"group":"legocar_parcelshelf_R"},
+	//8 pieces, 5 nodes - 1.6 kg/node
+	{"nodeWeight": "$=$weight*1.6"},
+
+	["shelfR1l",  0.50, 0.53, 0.85],
+	["shelfR1r", -0.50, 0.53, 0.85],
+	["shelfR2l",  0.50, 1.00, 0.85],
+	["shelfR2r", -0.50, 1.00, 0.85],
+	//rigidifier
+	["shelfRrig", 0, 0.75, 0.5, {"collision":false, "selfCollision":false, "group":""}],
+
+
+	//--FRONT PARCEL SHELF--
+	{"group":"legocar_parcelshelf_F"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["shelfF1l",  0.50, 0.25, 0.85],
+	["shelfF1r", -0.50, 0.25, 0.85],
+	["shelfF2l",  0.50, 0.50, 0.85],
+	["shelfF2r", -0.50, 0.50, 0.85],
+	//rigidifier
+	["shelfFrig", 0, 0.375, 0.55, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--REAR PARCEL SHELF--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//uniform structure
+	["shelfR1l", "shelfR1r"],
+	["shelfR2l", "shelfR2r"],
+	["shelfR1l", "shelfR2l"],
+	["shelfR1r", "shelfR2r"],
+	["shelfR1l", "shelfR2r"],
+	["shelfR2l", "shelfR1r"],
+
+	//rigidifier
+	["shelfR1l", "shelfRrig"],
+	["shelfR1r", "shelfRrig"],
+	["shelfR2l", "shelfRrig"],
+	["shelfR2r", "shelfRrig"],
+
+
+	//--FRONT PARCEL SHELF--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["shelfF1l", "shelfF1r"],
+	["shelfF2l", "shelfF2r"],
+	["shelfF1l", "shelfF2l"],
+	["shelfF1r", "shelfF2r"],
+	["shelfF1l", "shelfF2r"],
+	["shelfF2l", "shelfF1r"],
+
+	//rigidifier
+	["shelfF1l", "shelfFrig"],
+	["shelfF1r", "shelfFrig"],
+	["shelfF2l", "shelfFrig"],
+	["shelfF2r", "shelfFrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//back to shelf panel
+	{"beamSpring":"$=$weight*651000", "beamDamp":"$=$weight*65"},
+	{"breakGroup":"shelf_R_shelfpanel_break"},
+
+	["shelfR1l", "shelfpan1l"],
+	["shelfR1l", "shelfpan1r"],
+	["shelfR1l", "shelfpan2l"],
+	["shelfR1l", "shelfpan2r"],
+	["shelfR1l", "shelfpanrig"],
+
+	["shelfR1r", "shelfpan1l"],
+	["shelfR1r", "shelfpan1r"],
+	["shelfR1r", "shelfpan2l"],
+	["shelfR1r", "shelfpan2r"],
+	["shelfR1r", "shelfpanrig"],
+
+	["shelfR2l", "shelfpan1l"],
+	["shelfR2l", "shelfpan1r"],
+	["shelfR2l", "shelfpan2l"],
+	["shelfR2l", "shelfpan2r"],
+	["shelfR2l", "shelfpanrig"],
+
+	["shelfR2r", "shelfpan1l"],
+	["shelfR2r", "shelfpan1r"],
+	["shelfR2r", "shelfpan2l"],
+	["shelfR2r", "shelfpan2r"],
+	["shelfR2r", "shelfpanrig"],
+
+	["shelfRrig", "shelfpan1l"],
+	["shelfRrig", "shelfpan1r"],
+	["shelfRrig", "shelfpan2l"],
+	["shelfRrig", "shelfpan2r"],
+
+	{"optional":true},
+
+
+	//back to left quarter glass mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"shelf_R_quarterglass_mount_L_break"},
+
+	["shelfR1l", "Rqglassmt1l"],
+	["shelfR1l", "Rqglassmt1r"],
+	["shelfR1l", "Rqglassmt2l"],
+	["shelfR1l", "Rqglassmt2r"],
+	["shelfR1l", "Rqglassmtrig"],
+
+	["shelfR1r", "Rqglassmt1l"],
+	["shelfR1r", "Rqglassmt1r"],
+	["shelfR1r", "Rqglassmt2l"],
+	["shelfR1r", "Rqglassmt2r"],
+	["shelfR1r", "Rqglassmtrig"],
+
+	["shelfR2l", "Rqglassmt1l"],
+	["shelfR2l", "Rqglassmt1r"],
+	["shelfR2l", "Rqglassmt2l"],
+	["shelfR2l", "Rqglassmt2r"],
+	["shelfR2l", "Rqglassmtrig"],
+
+	["shelfR2r", "Rqglassmt1l"],
+	["shelfR2r", "Rqglassmt1r"],
+	["shelfR2r", "Rqglassmt2l"],
+	["shelfR2r", "Rqglassmt2r"],
+	["shelfR2r", "Rqglassmtrig"],
+
+	["shelfRrig", "Rqglassmt1l"],
+	["shelfRrig", "Rqglassmt1r"],
+	["shelfRrig", "Rqglassmt2l"],
+	["shelfRrig", "Rqglassmt2r"],
+
+	
+	//back to right quarter glass mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"shelf_R_quarterglass_mount_R_break"},
+
+	["shelfR1l", "Lqglassmt1l"],
+	["shelfR1l", "Lqglassmt1r"],
+	["shelfR1l", "Lqglassmt2l"],
+	["shelfR1l", "Lqglassmt2r"],
+	["shelfR1l", "Lqglassmtrig"],
+
+	["shelfR1r", "Lqglassmt1l"],
+	["shelfR1r", "Lqglassmt1r"],
+	["shelfR1r", "Lqglassmt2l"],
+	["shelfR1r", "Lqglassmt2r"],
+	["shelfR1r", "Lqglassmtrig"],
+
+	["shelfR2l", "Lqglassmt1l"],
+	["shelfR2l", "Lqglassmt1r"],
+	["shelfR2l", "Lqglassmt2l"],
+	["shelfR2l", "Lqglassmt2r"],
+	["shelfR2l", "Lqglassmtrig"],
+
+	["shelfR2r", "Lqglassmt1l"],
+	["shelfR2r", "Lqglassmt1r"],
+	["shelfR2r", "Lqglassmt2l"],
+	["shelfR2r", "Lqglassmt2r"],
+	["shelfR2r", "Lqglassmtrig"],
+
+	["shelfRrig", "Lqglassmt1l"],
+	["shelfRrig", "Lqglassmt1r"],
+	["shelfRrig", "Lqglassmt2l"],
+	["shelfRrig", "Lqglassmt2r"],
+	
+	
+	//front to left quarter glass mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"shelf_F_quarterglass_mount_L_break"},
+
+	["shelfF1l", "Rqglassmt1l"],
+	["shelfF1l", "Rqglassmt1r"],
+	["shelfF1l", "Rqglassmt2l"],
+	["shelfF1l", "Rqglassmt2r"],
+	["shelfF1l", "Rqglassmtrig"],
+
+	["shelfF1r", "Rqglassmt1l"],
+	["shelfF1r", "Rqglassmt1r"],
+	["shelfF1r", "Rqglassmt2l"],
+	["shelfF1r", "Rqglassmt2r"],
+	["shelfF1r", "Rqglassmtrig"],
+
+	["shelfF2l", "Rqglassmt1l"],
+	["shelfF2l", "Rqglassmt1r"],
+	["shelfF2l", "Rqglassmt2l"],
+	["shelfF2l", "Rqglassmt2r"],
+	["shelfF2l", "Rqglassmtrig"],
+
+	["shelfF2r", "Rqglassmt1l"],
+	["shelfF2r", "Rqglassmt1r"],
+	["shelfF2r", "Rqglassmt2l"],
+	["shelfF2r", "Rqglassmt2r"],
+	["shelfF2r", "Rqglassmtrig"],
+
+	["shelfFrig", "Rqglassmt1l"],
+	["shelfFrig", "Rqglassmt1r"],
+	["shelfFrig", "Rqglassmt2l"],
+	["shelfFrig", "Rqglassmt2r"],
+
+	
+	//front to right quarter glass mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"shelf_F_quarterglass_mount_R_break"},
+
+	["shelfF1l", "Lqglassmt1l"],
+	["shelfF1l", "Lqglassmt1r"],
+	["shelfF1l", "Lqglassmt2l"],
+	["shelfF1l", "Lqglassmt2r"],
+	["shelfF1l", "Lqglassmtrig"],
+
+	["shelfF1r", "Lqglassmt1l"],
+	["shelfF1r", "Lqglassmt1r"],
+	["shelfF1r", "Lqglassmt2l"],
+	["shelfF1r", "Lqglassmt2r"],
+	["shelfF1r", "Lqglassmtrig"],
+
+	["shelfF2l", "Lqglassmt1l"],
+	["shelfF2l", "Lqglassmt1r"],
+	["shelfF2l", "Lqglassmt2l"],
+	["shelfF2l", "Lqglassmt2r"],
+	["shelfF2l", "Lqglassmtrig"],
+
+	["shelfF2r", "Lqglassmt1l"],
+	["shelfF2r", "Lqglassmt1r"],
+	["shelfF2r", "Lqglassmt2l"],
+	["shelfF2r", "Lqglassmt2r"],
+	["shelfF2r", "Lqglassmtrig"],
+
+	["shelfFrig", "Lqglassmt1l"],
+	["shelfFrig", "Lqglassmt1r"],
+	["shelfFrig", "Lqglassmt2l"],
+	["shelfFrig", "Lqglassmt2r"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//shelf panel
+	{"beamSpring":"$=$weight*701000", "beamDamp":"$=$weight*70"},
+
+	["shelfR1l", "shelfpan1l"],
+	["shelfR1l", "shelfpan1r"],
+	["shelfR1l", "shelfpan2l"],
+	["shelfR1l", "shelfpan2r"],
+	["shelfR1l", "shelfpanrig"],
+
+	["shelfR1r", "shelfpan1l"],
+	["shelfR1r", "shelfpan1r"],
+	["shelfR1r", "shelfpan2l"],
+	["shelfR1r", "shelfpan2r"],
+	["shelfR1r", "shelfpanrig"],
+
+	["shelfR2l", "shelfpan1l"],
+	["shelfR2l", "shelfpan1r"],
+	["shelfR2l", "shelfpan2l"],
+	["shelfR2l", "shelfpan2r"],
+	["shelfR2l", "shelfpanrig"],
+
+	["shelfR2r", "shelfpan1l"],
+	["shelfR2r", "shelfpan1r"],
+	["shelfR2r", "shelfpan2l"],
+	["shelfR2r", "shelfpan2r"],
+	["shelfR2r", "shelfpanrig"],
+
+	
+	//quarter glass mounts
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	["shelfF1l", "Lqglassmtrig"],
+	["shelfF2l", "Lqglassmtrig"],
+	["shelfF1r", "Lqglassmtrig"],
+	["shelfF2r", "Lqglassmtrig"],
+
+	["shelfF1l", "Rqglassmtrig"],
+	["shelfF2l", "Rqglassmtrig"],
+	["shelfF1r", "Rqglassmtrig"],
+	["shelfF2r", "Rqglassmtrig"],
+
+		
+	//front seat
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	["shelfF1l", "FseatT3r"],
+	["shelfF1l", "FseatT3l"],
+	["shelfF1l", "FseatT1r"],
+	["shelfF1l", "FseatT1l"],
+
+	["shelfF2l", "FseatT3r"],
+	["shelfF2l", "FseatT3l"],
+	["shelfF2l", "FseatT1r"],
+	["shelfF2l", "FseatT1l"],
+
+	["shelfF1r", "FseatT3r"],
+	["shelfF1r", "FseatT3l"],
+	["shelfF1r", "FseatT1r"],
+	["shelfF1r", "FseatT1l"],
+
+	["shelfF2r", "FseatT3r"],
+	["shelfF2r", "FseatT3l"],
+	["shelfF2r", "FseatT1r"],
+	["shelfF2r", "FseatT1l"],
+
+
+	//front headrest
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	["shelfF1l", "hrest0l"],
+	["shelfF1l", "hrest0r"],
+	["shelfF1r", "hrest0l"],
+	["shelfF1r", "hrest0r"],
+
+	["shelfF2l", "hrest0l"],
+	["shelfF2l", "hrest0r"],
+	["shelfF2r", "hrest0l"],
+	["shelfF2r", "hrest0r"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_parcelshelf_R"},
+	["shelfR1r","shelfR1l","shelfR2l","shelfR2r"],
+	{"group":"legocar_parcelshelf_F"},
+	["shelfF1r","shelfF1l","shelfF2l","shelfF2r"],
+        {"group":""},
+    ],
+},
+
+
+"legocar_parcelshelf_interiorcolor": {
+    "information":{
+        "name":"Parcel Shelf (Interior Color)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_parcelshelf",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_parcelshelf_chmsl", "", "Inner Center High Mounted Stop Light"],
+	["legocar_parcelshelf_flashers", "", "Shelf Flashers"],
+	["legocar_parcelshelf_sign_mount", "", "Shelf Sign Mount"],
+	["legocar_parcelshelf_rollbar", "", "Roll Bar"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x4_flat_6tips_interior",["legocar_parcelshelf_R"], [], {"pos":{"x": 0.000, "y":0.750, "z":0.8},"rot":{"x":0, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x4_flat_interior",      ["legocar_parcelshelf_F"], [], {"pos":{"x": 0.000, "y":0.375, "z":0.8},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--REAR PARCEL SHELF--
+	{"group":"legocar_parcelshelf_R"},
+	//8 pieces, 5 nodes - 1.6 kg/node
+	{"nodeWeight": "$=$weight*1.6"},
+
+	["shelfR1l",  0.50, 0.53, 0.85],
+	["shelfR1r", -0.50, 0.53, 0.85],
+	["shelfR2l",  0.50, 1.00, 0.85],
+	["shelfR2r", -0.50, 1.00, 0.85],
+	//rigidifier
+	["shelfRrig", 0, 0.75, 0.5, {"collision":false, "selfCollision":false, "group":""}],
+
+
+	//--FRONT PARCEL SHELF--
+	{"group":"legocar_parcelshelf_F"},
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["shelfF1l",  0.50, 0.25, 0.85],
+	["shelfF1r", -0.50, 0.25, 0.85],
+	["shelfF2l",  0.50, 0.50, 0.85],
+	["shelfF2r", -0.50, 0.50, 0.85],
+	//rigidifier
+	["shelfFrig", 0, 0.375, 0.55, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--REAR PARCEL SHELF--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//uniform structure
+	["shelfR1l", "shelfR1r"],
+	["shelfR2l", "shelfR2r"],
+	["shelfR1l", "shelfR2l"],
+	["shelfR1r", "shelfR2r"],
+	["shelfR1l", "shelfR2r"],
+	["shelfR2l", "shelfR1r"],
+
+	//rigidifier
+	["shelfR1l", "shelfRrig"],
+	["shelfR1r", "shelfRrig"],
+	["shelfR2l", "shelfRrig"],
+	["shelfR2r", "shelfRrig"],
+
+
+	//--FRONT PARCEL SHELF--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["shelfF1l", "shelfF1r"],
+	["shelfF2l", "shelfF2r"],
+	["shelfF1l", "shelfF2l"],
+	["shelfF1r", "shelfF2r"],
+	["shelfF1l", "shelfF2r"],
+	["shelfF2l", "shelfF1r"],
+
+	//rigidifier
+	["shelfF1l", "shelfFrig"],
+	["shelfF1r", "shelfFrig"],
+	["shelfF2l", "shelfFrig"],
+	["shelfF2r", "shelfFrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//back to shelf panel
+	{"beamSpring":"$=$weight*651000", "beamDamp":"$=$weight*65"},
+	{"breakGroup":"shelf_R_shelfpanel_break"},
+
+	["shelfR1l", "shelfpan1l"],
+	["shelfR1l", "shelfpan1r"],
+	["shelfR1l", "shelfpan2l"],
+	["shelfR1l", "shelfpan2r"],
+	["shelfR1l", "shelfpanrig"],
+
+	["shelfR1r", "shelfpan1l"],
+	["shelfR1r", "shelfpan1r"],
+	["shelfR1r", "shelfpan2l"],
+	["shelfR1r", "shelfpan2r"],
+	["shelfR1r", "shelfpanrig"],
+
+	["shelfR2l", "shelfpan1l"],
+	["shelfR2l", "shelfpan1r"],
+	["shelfR2l", "shelfpan2l"],
+	["shelfR2l", "shelfpan2r"],
+	["shelfR2l", "shelfpanrig"],
+
+	["shelfR2r", "shelfpan1l"],
+	["shelfR2r", "shelfpan1r"],
+	["shelfR2r", "shelfpan2l"],
+	["shelfR2r", "shelfpan2r"],
+	["shelfR2r", "shelfpanrig"],
+
+	["shelfRrig", "shelfpan1l"],
+	["shelfRrig", "shelfpan1r"],
+	["shelfRrig", "shelfpan2l"],
+	["shelfRrig", "shelfpan2r"],
+
+	{"optional":true},
+
+
+	//back to left quarter glass mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"shelf_R_quarterglass_mount_L_break"},
+
+	["shelfR1l", "Rqglassmt1l"],
+	["shelfR1l", "Rqglassmt1r"],
+	["shelfR1l", "Rqglassmt2l"],
+	["shelfR1l", "Rqglassmt2r"],
+	["shelfR1l", "Rqglassmtrig"],
+
+	["shelfR1r", "Rqglassmt1l"],
+	["shelfR1r", "Rqglassmt1r"],
+	["shelfR1r", "Rqglassmt2l"],
+	["shelfR1r", "Rqglassmt2r"],
+	["shelfR1r", "Rqglassmtrig"],
+
+	["shelfR2l", "Rqglassmt1l"],
+	["shelfR2l", "Rqglassmt1r"],
+	["shelfR2l", "Rqglassmt2l"],
+	["shelfR2l", "Rqglassmt2r"],
+	["shelfR2l", "Rqglassmtrig"],
+
+	["shelfR2r", "Rqglassmt1l"],
+	["shelfR2r", "Rqglassmt1r"],
+	["shelfR2r", "Rqglassmt2l"],
+	["shelfR2r", "Rqglassmt2r"],
+	["shelfR2r", "Rqglassmtrig"],
+
+	["shelfRrig", "Rqglassmt1l"],
+	["shelfRrig", "Rqglassmt1r"],
+	["shelfRrig", "Rqglassmt2l"],
+	["shelfRrig", "Rqglassmt2r"],
+
+	
+	//back to right quarter glass mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"shelf_R_quarterglass_mount_R_break"},
+
+	["shelfR1l", "Lqglassmt1l"],
+	["shelfR1l", "Lqglassmt1r"],
+	["shelfR1l", "Lqglassmt2l"],
+	["shelfR1l", "Lqglassmt2r"],
+	["shelfR1l", "Lqglassmtrig"],
+
+	["shelfR1r", "Lqglassmt1l"],
+	["shelfR1r", "Lqglassmt1r"],
+	["shelfR1r", "Lqglassmt2l"],
+	["shelfR1r", "Lqglassmt2r"],
+	["shelfR1r", "Lqglassmtrig"],
+
+	["shelfR2l", "Lqglassmt1l"],
+	["shelfR2l", "Lqglassmt1r"],
+	["shelfR2l", "Lqglassmt2l"],
+	["shelfR2l", "Lqglassmt2r"],
+	["shelfR2l", "Lqglassmtrig"],
+
+	["shelfR2r", "Lqglassmt1l"],
+	["shelfR2r", "Lqglassmt1r"],
+	["shelfR2r", "Lqglassmt2l"],
+	["shelfR2r", "Lqglassmt2r"],
+	["shelfR2r", "Lqglassmtrig"],
+
+	["shelfRrig", "Lqglassmt1l"],
+	["shelfRrig", "Lqglassmt1r"],
+	["shelfRrig", "Lqglassmt2l"],
+	["shelfRrig", "Lqglassmt2r"],
+	
+	
+	//front to left quarter glass mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"shelf_F_quarterglass_mount_L_break"},
+
+	["shelfF1l", "Rqglassmt1l"],
+	["shelfF1l", "Rqglassmt1r"],
+	["shelfF1l", "Rqglassmt2l"],
+	["shelfF1l", "Rqglassmt2r"],
+	["shelfF1l", "Rqglassmtrig"],
+
+	["shelfF1r", "Rqglassmt1l"],
+	["shelfF1r", "Rqglassmt1r"],
+	["shelfF1r", "Rqglassmt2l"],
+	["shelfF1r", "Rqglassmt2r"],
+	["shelfF1r", "Rqglassmtrig"],
+
+	["shelfF2l", "Rqglassmt1l"],
+	["shelfF2l", "Rqglassmt1r"],
+	["shelfF2l", "Rqglassmt2l"],
+	["shelfF2l", "Rqglassmt2r"],
+	["shelfF2l", "Rqglassmtrig"],
+
+	["shelfF2r", "Rqglassmt1l"],
+	["shelfF2r", "Rqglassmt1r"],
+	["shelfF2r", "Rqglassmt2l"],
+	["shelfF2r", "Rqglassmt2r"],
+	["shelfF2r", "Rqglassmtrig"],
+
+	["shelfFrig", "Rqglassmt1l"],
+	["shelfFrig", "Rqglassmt1r"],
+	["shelfFrig", "Rqglassmt2l"],
+	["shelfFrig", "Rqglassmt2r"],
+
+	
+	//front to right quarter glass mount
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"shelf_F_quarterglass_mount_R_break"},
+
+	["shelfF1l", "Lqglassmt1l"],
+	["shelfF1l", "Lqglassmt1r"],
+	["shelfF1l", "Lqglassmt2l"],
+	["shelfF1l", "Lqglassmt2r"],
+	["shelfF1l", "Lqglassmtrig"],
+
+	["shelfF1r", "Lqglassmt1l"],
+	["shelfF1r", "Lqglassmt1r"],
+	["shelfF1r", "Lqglassmt2l"],
+	["shelfF1r", "Lqglassmt2r"],
+	["shelfF1r", "Lqglassmtrig"],
+
+	["shelfF2l", "Lqglassmt1l"],
+	["shelfF2l", "Lqglassmt1r"],
+	["shelfF2l", "Lqglassmt2l"],
+	["shelfF2l", "Lqglassmt2r"],
+	["shelfF2l", "Lqglassmtrig"],
+
+	["shelfF2r", "Lqglassmt1l"],
+	["shelfF2r", "Lqglassmt1r"],
+	["shelfF2r", "Lqglassmt2l"],
+	["shelfF2r", "Lqglassmt2r"],
+	["shelfF2r", "Lqglassmtrig"],
+
+	["shelfFrig", "Lqglassmt1l"],
+	["shelfFrig", "Lqglassmt1r"],
+	["shelfFrig", "Lqglassmt2l"],
+	["shelfFrig", "Lqglassmt2r"],
+
+	{"breakGroup":""},
+
+
+	//--SUPPORT ANTI-CLIP--
+	{"beamPrecompression":0.999, "beamType":"|SUPPORT", "beamLongBound":2, "beamShortBound":1},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//shelf panel
+	{"beamSpring":"$=$weight*701000", "beamDamp":"$=$weight*70"},
+
+	["shelfR1l", "shelfpan1l"],
+	["shelfR1l", "shelfpan1r"],
+	["shelfR1l", "shelfpan2l"],
+	["shelfR1l", "shelfpan2r"],
+	["shelfR1l", "shelfpanrig"],
+
+	["shelfR1r", "shelfpan1l"],
+	["shelfR1r", "shelfpan1r"],
+	["shelfR1r", "shelfpan2l"],
+	["shelfR1r", "shelfpan2r"],
+	["shelfR1r", "shelfpanrig"],
+
+	["shelfR2l", "shelfpan1l"],
+	["shelfR2l", "shelfpan1r"],
+	["shelfR2l", "shelfpan2l"],
+	["shelfR2l", "shelfpan2r"],
+	["shelfR2l", "shelfpanrig"],
+
+	["shelfR2r", "shelfpan1l"],
+	["shelfR2r", "shelfpan1r"],
+	["shelfR2r", "shelfpan2l"],
+	["shelfR2r", "shelfpan2r"],
+	["shelfR2r", "shelfpanrig"],
+
+	
+	//quarter glass mounts
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	["shelfF1l", "Lqglassmtrig"],
+	["shelfF2l", "Lqglassmtrig"],
+	["shelfF1r", "Lqglassmtrig"],
+	["shelfF2r", "Lqglassmtrig"],
+
+	["shelfF1l", "Rqglassmtrig"],
+	["shelfF2l", "Rqglassmtrig"],
+	["shelfF1r", "Rqglassmtrig"],
+	["shelfF2r", "Rqglassmtrig"],
+
+		
+	//front seat
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	["shelfF1l", "FseatT3r"],
+	["shelfF1l", "FseatT3l"],
+	["shelfF1l", "FseatT1r"],
+	["shelfF1l", "FseatT1l"],
+
+	["shelfF2l", "FseatT3r"],
+	["shelfF2l", "FseatT3l"],
+	["shelfF2l", "FseatT1r"],
+	["shelfF2l", "FseatT1l"],
+
+	["shelfF1r", "FseatT3r"],
+	["shelfF1r", "FseatT3l"],
+	["shelfF1r", "FseatT1r"],
+	["shelfF1r", "FseatT1l"],
+
+	["shelfF2r", "FseatT3r"],
+	["shelfF2r", "FseatT3l"],
+	["shelfF2r", "FseatT1r"],
+	["shelfF2r", "FseatT1l"],
+
+
+	//front headrest
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	["shelfF1l", "hrest0l"],
+	["shelfF1l", "hrest0r"],
+	["shelfF1r", "hrest0l"],
+	["shelfF1r", "hrest0r"],
+
+	["shelfF2l", "hrest0l"],
+	["shelfF2l", "hrest0r"],
+	["shelfF2r", "hrest0l"],
+	["shelfF2r", "hrest0r"],
+
+	{"optional":false},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_parcelshelf_R"},
+	["shelfR1r","shelfR1l","shelfR2l","shelfR2r"],
+	{"group":"legocar_parcelshelf_F"},
+	["shelfF1r","shelfF1l","shelfF2l","shelfF2r"],
+        {"group":""},
+    ],
+},
+
+
+}

@@ -1,0 +1,275 @@
+{
+"legocar_bumper_F_derby_ladder_long": {
+    "information":{
+        "name":" Front Derby Long Ladder Bumper",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_licenseplate_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_licenseplate_F_prefacelift","", "Front License Plate"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_flat_clip_black",["legocar_bumperguard_FL"], [], {"pos":{"x": 0.375, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["lego_1x1_flat_clip_black",["legocar_bumperguard_FR"], [], {"pos":{"x":-0.375, "y":-1.950, "z":0.225},"rot":{"x":90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_ladder",  ["legocar_pushbar_mount_F"],[], {"pos":{"x": 0.000, "y":-2.150, "z":0.225},"rot":{"x": 0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//left
+	{"group":"legocar_bumperguard_FL"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["FLbguard1l",  0.47, -1.95, 0.10],
+	["FLbguard1r",  0.25, -1.95, 0.10],
+	["FLbguard2l",  0.47, -1.95, 0.35],
+	["FLbguard2r",  0.25, -1.95, 0.35],
+	//rigidifier
+	["FLbguardrig", 0.375, -2.15, 0.225, {"selfCollision":false}],
+
+	//right
+	{"group":"legocar_bumperguard_FR"},
+	//1 pieces, 5 nodes - 0.2 kg/node
+	{"nodeWeight": "$=$weight*0.2"},
+
+	["FRbguard1r", -0.47, -1.95, 0.10],
+	["FRbguard1l", -0.25, -1.95, 0.10],
+	["FRbguard2r", -0.47, -1.95, 0.35],
+	["FRbguard2l", -0.25, -1.95, 0.35],
+	//rigidifier
+	["FRbguardrig",-0.375, -2.15, 0.225, {"selfCollision":false}],
+
+	//mount
+	{"group":"legocar_pushbar_mount_F"},
+	//15 half pieces, 5 nodes - 3 kg/node
+	{"nodeWeight": "$=$weight*3"},
+
+	["FpushbarmtL",  1, -2.15, 0.225],
+	["FpushbarmtR", -1, -2.15, 0.225],
+	["FpushbarmtL2", 1, -2.15, 0.825],
+	["FpushbarmtR2",-1, -2.15, 0.825],
+	//rigidifier
+	["FpushbarmtM", 0.0, -1.80, 0.525, {"collision":false, "selfCollision":false}],
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$weight*21000", "damp":"$=$weight*2", "deform":"$=$strength*0.05", "strength":"FLT_MAX"},
+	//push bar initial angle
+        ["FLbguard2l","FLbguardrig","FpushbarmtR","FpushbarmtR2", {"precompressionAngle": 0, "optional":true}],
+	["FRbguard2r","FRbguardrig","FpushbarmtL","FpushbarmtL2", {"precompressionAngle": 0, "optional":true}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT LEFT BUMPER GUARD--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//uniform structure
+	["FLbguard1l", "FLbguard1r"],
+	["FLbguard2l", "FLbguard2r"],
+	["FLbguard1l", "FLbguard2l"],
+	["FLbguard1r", "FLbguard2r"],
+	["FLbguard1l", "FLbguard2r"],
+	["FLbguard2l", "FLbguard1r"],
+
+	//rigidifier
+	["FLbguard1l", "FLbguardrig"],
+	["FLbguard1r", "FLbguardrig"],
+	["FLbguard2l", "FLbguardrig"],
+	["FLbguard2r", "FLbguardrig"],
+
+
+	//--FRONT RIGHT BUMPER GUARD--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+
+	//uniform structure
+	["FRbguard1l", "FRbguard1r"],
+	["FRbguard2l", "FRbguard2r"],
+	["FRbguard1l", "FRbguard2l"],
+	["FRbguard1r", "FRbguard2r"],
+	["FRbguard1l", "FRbguard2r"],
+	["FRbguard2l", "FRbguard1r"],
+
+	//rigidifier
+	["FRbguard1l", "FRbguardrig"],
+	["FRbguard1r", "FRbguardrig"],
+	["FRbguard2l", "FRbguardrig"],
+	["FRbguard2r", "FRbguardrig"],
+
+
+	//--PUSH BAR MOUNT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*3001000", "beamDamp":"$=$weight*300"},
+	
+	//uniform structure
+	["FpushbarmtL", "FpushbarmtR"],
+	["FpushbarmtR", "FpushbarmtM"],
+	["FpushbarmtM", "FpushbarmtL"],
+	["FpushbarmtL2", "FpushbarmtR2"],
+	["FpushbarmtR2", "FpushbarmtM"],
+	["FpushbarmtM", "FpushbarmtL2"],
+	["FpushbarmtL", "FpushbarmtL2"],
+	["FpushbarmtR", "FpushbarmtR2"],
+	["FpushbarmtL", "FpushbarmtR2"],
+	["FpushbarmtR", "FpushbarmtL2"],
+
+	//rail break trigger
+	{"beamSpring":0, "beamDamp":0},
+	{"breakGroup":"pushbar_F_break"},
+	["FpushbarmtL", "FpushbarmtR", {"disableMeshBreaking":true}],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	
+	//left to mount
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"breakGroup":"pushbar_mount_FL_break"},
+
+	["FpushbarmtL", "FLbguard1l"],
+	["FpushbarmtL", "FLbguard1r"],
+	["FpushbarmtL", "FLbguard2l"],
+	["FpushbarmtL", "FLbguard2r"],
+	["FpushbarmtL", "FLbguardrig"],
+
+	["FpushbarmtR", "FLbguard1l"],
+	["FpushbarmtR", "FLbguard1r"],
+	["FpushbarmtR", "FLbguard2l"],
+	["FpushbarmtR", "FLbguard2r"],
+	["FpushbarmtR", "FLbguardrig"],
+
+	["FpushbarmtM", "FLbguardrig"],
+	["FpushbarmtL2", "FLbguardrig"],
+	["FpushbarmtR2", "FLbguardrig"],
+
+
+	//right to mount
+	{"beamSpring":"$=$weight*331000", "beamDamp":"$=$weight*33"},
+	{"breakGroup":"pushbar_mount_FR_break"},
+
+	["FpushbarmtL", "FRbguard1l"],
+	["FpushbarmtL", "FRbguard1r"],
+	["FpushbarmtL", "FRbguard2l"],
+	["FpushbarmtL", "FRbguard2r"],
+	["FpushbarmtL", "FRbguardrig"],
+
+	["FpushbarmtR", "FRbguard1l"],
+	["FpushbarmtR", "FRbguard1r"],
+	["FpushbarmtR", "FRbguard2l"],
+	["FpushbarmtR", "FRbguard2r"],
+	["FpushbarmtR", "FRbguardrig"],
+
+	["FpushbarmtM", "FRbguardrig"],
+	["FpushbarmtL2", "FRbguardrig"],
+	["FpushbarmtR2", "FRbguardrig"],
+
+
+	//left to bumper
+	{"beamSpring":"$=$weight*125000", "beamDamp":"$=$weight*12.5"},
+	{"breakGroup":"bumperguard_FL_break"},
+	
+	["FLbguard1l", "Fbump1l"],
+	["FLbguard1l", "Fbump1r"],
+	["FLbguard1l", "Fbump2l"],
+	["FLbguard1l", "Fbumprig"],
+	
+	["FLbguard1r", "Fbump1l"],
+	["FLbguard1r", "Fbump1r"],
+	["FLbguard1r", "Fbump2l"],
+	["FLbguard1r", "Fbumprig"],
+
+	["FLbguard2l", "Fbump1l"],
+	["FLbguard2l", "Fbump2r"],
+	["FLbguard2l", "Fbump2l"],
+	["FLbguard2l", "Fbumprig"],
+	
+	["FLbguard2r", "Fbump1l"],
+	["FLbguard2r", "Fbump2r"],
+	["FLbguard2r", "Fbump2l"],
+	["FLbguard2r", "Fbumprig"],
+
+	["FLbguardrig", "Fbump1l"],
+	["FLbguardrig", "Fbump1r"],
+	["FLbguardrig", "Fbump2l"],
+	["FLbguardrig", "Fbump2r"],
+
+
+	//right to bumper
+	{"beamSpring":"$=$weight*125000", "beamDamp":"$=$weight*12.5"},
+	{"breakGroup":"bumperguard_FR_break"},
+	
+	["FRbguard1l", "Fbump1l"],
+	["FRbguard1l", "Fbump1r"],
+	["FRbguard1l", "Fbump2r"],
+	["FRbguard1l", "Fbumprig"],
+	
+	["FRbguard1r", "Fbump1l"],
+	["FRbguard1r", "Fbump1r"],
+	["FRbguard1r", "Fbump2r"],
+	["FRbguard1r", "Fbumprig"],
+
+	["FRbguard2l", "Fbump1r"],
+	["FRbguard2l", "Fbump2r"],
+	["FRbguard2l", "Fbump2l"],
+	["FRbguard2l", "Fbumprig"],
+	
+	["FRbguard2r", "Fbump1r"],
+	["FRbguard2r", "Fbump2r"],
+	["FRbguard2r", "Fbump2l"],
+	["FRbguard2r", "Fbumprig"],
+
+	["FRbguardrig", "Fbump1l"],
+	["FRbguardrig", "Fbump1r"],
+	["FRbguardrig", "Fbump2l"],
+	["FRbguardrig", "Fbump2r"],
+
+
+	//--SUPPORT DAMPERS--
+	{"beamPrecompression":1,"beamType":"|SUPPORT", "beamLongBound":0.5},
+	{"beamSpring":0, "beamDamp":"$=$weight*300"},
+
+	["chassis0", "FpushbarmtL2", {"breakGroupType":1}],
+	["chassis0", "FpushbarmtR2", {"breakGroupType":1}],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+
+	{"group":"legocar_buperguard_FL"},
+	["FLbguardrig","FLbguard1l","FLbguard2l"],
+	["FLbguardrig","FLbguard2l","FLbguard2r"],
+	["FLbguardrig","FLbguard2r","FLbguard1r"],
+	["FLbguardrig","FLbguard1r","FLbguard1l"],
+
+	{"group":"legocar_buperguard_FR"},
+	["FRbguardrig","FRbguard1l","FRbguard2l"],
+	["FRbguardrig","FRbguard2l","FRbguard2r"],
+	["FRbguardrig","FRbguard2r","FRbguard1r"],
+	["FRbguardrig","FRbguard1r","FRbguard1l"],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_buperguard_FL"},
+	["FLbguard2r","FLbguard2l","FLbguard1l","FLbguard1r"],
+	{"group":"legocar_buperguard_FR"},
+	["FRbguard2r","FRbguard2l","FRbguard1l","FRbguard1r"],
+	{"group":"legocar_bumper_derby"},
+	["FpushbarmtL","FpushbarmtL2","FpushbarmtR2","FpushbarmtR", {"dragCoef":"$=$drag*0.1"}],
+        {"group":""},
+    ],
+},
+
+}

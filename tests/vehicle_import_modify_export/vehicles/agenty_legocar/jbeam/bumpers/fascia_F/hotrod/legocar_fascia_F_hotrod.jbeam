@@ -1,0 +1,68 @@
+{
+"legocar_fascia_F_hotrod": {
+    "information":{
+        "name":"Hot Rod Fascia",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_fascia_F_hotrod",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_grille_hotrod", "legocar_grille_hotrod", "Grille"],
+	["legocar_headlight_L_hotrod", "legocar_headlight_L_hotrod", "Left Headlight"],
+	["legocar_headlight_R_hotrod", "legocar_headlight_R_hotrod", "Right Headlight"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_fascia_hotrod", ["legocar_fascia_F"], [], {"pos":{"x": 0.000, "y":-1.650, "z":0.475},"rot":{"x":90, "y":0, "z":0},"scale":{"x":1, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_fascia_F"},
+	//6 pieces, 5 nodes - 1.2 kg/node
+	{"nodeWeight": "$=$weight*1.2"},
+
+	["Ffasc1l",  0.5, -1.80, 0.35],
+	["Ffasc1r", -0.5, -1.80, 0.35],
+	["Ffasc2l",  0.5, -1.80, 0.70],
+	["Ffasc2r", -0.5, -1.80, 0.70],
+	//rigidifier
+	["Ffascrig", 0, -1.65, 0.525, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FRONT FASCIA--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//uniform structure
+	["Ffasc1l", "Ffasc1r"],
+	["Ffasc2l", "Ffasc2r"],
+	["Ffasc1l", "Ffasc2l"],
+	["Ffasc1r", "Ffasc2r"],
+	["Ffasc1l", "Ffasc2r"],
+	["Ffasc2l", "Ffasc1r"],
+
+	//rigidifier
+	["Ffasc1l", "Ffascrig"],
+	["Ffasc1r", "Ffascrig"],
+	["Ffasc2l", "Ffascrig"],
+	["Ffasc2r", "Ffascrig"],
+
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_fascia_F"},
+	["Ffasc2l","Ffasc2r","Ffasc1r","Ffasc1l"],
+        {"group":""},
+    ],
+},
+
+}

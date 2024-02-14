@@ -1,0 +1,312 @@
+{
+"legocar_spotlight_L_black": {
+    "information":{
+        "name":"Left Moving Spotlight (Black)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_spotlight_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_spotlight_L_light","legocar_spotlight_L_light_white", "Left Spotlight Light"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_tap_black", ["legocar_spotlight_L"],[], {"pos":{"x":1.000, "y":-0.875, "z":0.955},"rot":{"x":-90, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_spotlight_L"},
+	//4 pieces, 4 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+
+	["spot1l",  1.00, -0.625, 0.755],
+	["spot2l",  1.00, -0.625, 0.955],
+	["spot3l",  0.90, -0.875, 0.955],
+	["spot4l",  1.10, -0.875, 0.955],
+    ],
+    "torsionHydros": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$weight*51000", "damp":"$=$weight*5", "deform":1000, "strength":"FLT_MAX"},
+        ["spot3l","spot2l","spot1l","signal1l", {"factor":-0.3,"inRate":1,"outRate":1,"inputSource":"spotlight_L"}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT SPOTLIGHT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["spot1l", "spot2l"],
+	["spot1l", "spot3l"],
+	["spot1l", "spot4l"],
+	["spot2l", "spot3l"],
+	["spot2l", "spot4l"],
+	["spot3l", "spot4l"],
+	
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"spotlight_L_break"},
+	{"deformGroup":"spotlight_L_light_break"},
+	
+	["spot1l", "signal0l"],
+	["spot2l", "signal0l"],
+	["spot3l", "signal0l"],
+	["spot4l", "signal0l"],
+
+	["spot1l", "signal1l"],
+	["spot1l", "signal2l"],
+	["spot1l", "signal3l"],
+	["spot1l", "signal4l"],
+
+	["spot2l", "signal1l"],
+	["spot2l", "signal2l"],
+	["spot2l", "signal3l"],
+	["spot2l", "signal4l"],
+
+	//dampers
+	{"beamSpring":0, "beamDamp":"$=$weight*50"},
+	["spot3l", "signal1l"],
+	["spot3l", "signal2l"],
+	["spot3l", "signal3l"],
+	["spot3l", "signal4l"],
+
+	["spot4l", "signal1l"],
+	["spot4l", "signal2l"],
+	["spot4l", "signal3l"],
+	["spot4l", "signal4l"],
+
+	//limiter
+	{"beamPrecompression":1, "beamType":"|BOUNDED", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":0,"beamDamp":0},
+	["spot3l", "signal1l", {"longBoundRange":0.05,"shortBoundRange":0.04,"boundZone":0.01, "beamLimitSpring":"$=$weight*501000","beamLimitDamp":"$=$weight*50"}],
+	["spot3l", "signal2l", {"longBoundRange":0.05,"shortBoundRange":0.04,"boundZone":0.01, "beamLimitSpring":"$=$weight*501000","beamLimitDamp":"$=$weight*50"}],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_spotlight_L"},
+	["spot2l","spot3l","spot4l"],
+	["spot1l","spot4l","spot3l"],
+	["spot1l","spot2l","spot4l"],
+	["spot1l","spot3l","spot2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_spotlight_L_grey": {
+    "information":{
+        "name":"Left Moving Spotlight (Light Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_spotlight_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_spotlight_L_light","legocar_spotlight_L_light_yellow", "Left Spotlight Light"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_tap_grey", ["legocar_spotlight_L"],[], {"pos":{"x":1.000, "y":-0.875, "z":0.955},"rot":{"x":-90, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_spotlight_L"},
+	//4 pieces, 4 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+
+	["spot1l",  1.00, -0.625, 0.755],
+	["spot2l",  1.00, -0.625, 0.955],
+	["spot3l",  0.90, -0.875, 0.955],
+	["spot4l",  1.10, -0.875, 0.955],
+    ],
+    "torsionHydros": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$weight*51000", "damp":"$=$weight*5", "deform":1000, "strength":"FLT_MAX"},
+        ["spot3l","spot2l","spot1l","signal1l", {"factor":-0.3,"inRate":1,"outRate":1,"inputSource":"spotlight_L"}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT SPOTLIGHT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["spot1l", "spot2l"],
+	["spot1l", "spot3l"],
+	["spot1l", "spot4l"],
+	["spot2l", "spot3l"],
+	["spot2l", "spot4l"],
+	["spot3l", "spot4l"],
+	
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"spotlight_L_break"},
+	{"deformGroup":"spotlight_L_light_break"},
+	
+	["spot1l", "signal0l"],
+	["spot2l", "signal0l"],
+	["spot3l", "signal0l"],
+	["spot4l", "signal0l"],
+
+	["spot1l", "signal1l"],
+	["spot1l", "signal2l"],
+	["spot1l", "signal3l"],
+	["spot1l", "signal4l"],
+
+	["spot2l", "signal1l"],
+	["spot2l", "signal2l"],
+	["spot2l", "signal3l"],
+	["spot2l", "signal4l"],
+
+	//dampers
+	{"beamSpring":0, "beamDamp":"$=$weight*50"},
+	["spot3l", "signal1l"],
+	["spot3l", "signal2l"],
+	["spot3l", "signal3l"],
+	["spot3l", "signal4l"],
+
+	["spot4l", "signal1l"],
+	["spot4l", "signal2l"],
+	["spot4l", "signal3l"],
+	["spot4l", "signal4l"],
+
+	//limiter
+	{"beamPrecompression":1, "beamType":"|BOUNDED", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":0,"beamDamp":0},
+	["spot3l", "signal1l", {"longBoundRange":0.05,"shortBoundRange":0.04,"boundZone":0.01, "beamLimitSpring":"$=$weight*501000","beamLimitDamp":"$=$weight*50"}],
+	["spot3l", "signal2l", {"longBoundRange":0.05,"shortBoundRange":0.04,"boundZone":0.01, "beamLimitSpring":"$=$weight*501000","beamLimitDamp":"$=$weight*50"}],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_spotlight_L"},
+	["spot2l","spot3l","spot4l"],
+	["spot1l","spot4l","spot3l"],
+	["spot1l","spot2l","spot4l"],
+	["spot1l","spot3l","spot2l"],
+        {"group":""},
+    ],
+},
+
+"legocar_spotlight_L_dgrey": {
+    "information":{
+        "name":"Left Fixed Spotlight (Dark Grey)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_spotlight_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_spotlight_L_light","legocar_spotlight_L_light_yellow", "Left Spotlight Light"],
+	["legocar_spotlight_L_accessory","legocar_spotlight_L_antenna", "Left Spotlight Accessory"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_1x1_tap_dgrey", ["legocar_spotlight_L"],[], {"pos":{"x":1.000, "y":-0.875, "z":0.955},"rot":{"x":-90, "y":0, "z":180},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_spotlight_L"},
+	//4 pieces, 4 nodes - 1 kg/node
+	{"nodeWeight": "$=$weight*1"},
+
+	["spot1l",  1.00, -0.625, 0.755],
+	["spot2l",  1.00, -0.625, 0.955],
+	["spot3l",  0.90, -0.875, 0.955],
+	["spot4l",  1.10, -0.875, 0.955],
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$weight*51000", "damp":"$=$weight*5", "deform":1000, "strength":"FLT_MAX"},
+        ["spot3l","spot2l","spot1l","signal1l"],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LEFT SPOTLIGHT--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1001000", "beamDamp":"$=$weight*100"},
+
+	//uniform structure
+	["spot1l", "spot2l"],
+	["spot1l", "spot3l"],
+	["spot1l", "spot4l"],
+	["spot2l", "spot3l"],
+	["spot2l", "spot4l"],
+	["spot3l", "spot4l"],
+	
+
+	//--ATTACH--
+	{"beamSpring":"$=$weight*501000", "beamDamp":"$=$weight*50"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+	{"breakGroup":"spotlight_L_break"},
+	{"deformGroup":"spotlight_L_light_break"},
+	
+	["spot1l", "signal0l"],
+	["spot2l", "signal0l"],
+	["spot3l", "signal0l"],
+	["spot4l", "signal0l"],
+
+	["spot1l", "signal1l"],
+	["spot1l", "signal2l"],
+	["spot1l", "signal3l"],
+	["spot1l", "signal4l"],
+
+	["spot2l", "signal1l"],
+	["spot2l", "signal2l"],
+	["spot2l", "signal3l"],
+	["spot2l", "signal4l"],
+
+	//dampers
+	{"beamSpring":0, "beamDamp":"$=$weight*50"},
+	["spot3l", "signal1l"],
+	["spot3l", "signal2l"],
+	["spot3l", "signal3l"],
+	["spot3l", "signal4l"],
+
+	["spot4l", "signal1l"],
+	["spot4l", "signal2l"],
+	["spot4l", "signal3l"],
+	["spot4l", "signal4l"],
+
+	//limiter
+	{"beamPrecompression":1, "beamType":"|BOUNDED", "beamLongBound":1.0, "beamShortBound":1.0},
+	{"beamSpring":0,"beamDamp":0},
+	["spot3l", "signal1l", {"longBoundRange":0.05,"shortBoundRange":0.04,"boundZone":0.01, "beamLimitSpring":"$=$weight*501000","beamLimitDamp":"$=$weight*50"}],
+	["spot3l", "signal2l", {"longBoundRange":0.05,"shortBoundRange":0.04,"boundZone":0.01, "beamLimitSpring":"$=$weight*501000","beamLimitDamp":"$=$weight*50"}],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_spotlight_L"},
+	["spot2l","spot3l","spot4l"],
+	["spot1l","spot4l","spot3l"],
+	["spot1l","spot2l","spot4l"],
+	["spot1l","spot3l","spot2l"],
+        {"group":""},
+    ],
+},
+
+}

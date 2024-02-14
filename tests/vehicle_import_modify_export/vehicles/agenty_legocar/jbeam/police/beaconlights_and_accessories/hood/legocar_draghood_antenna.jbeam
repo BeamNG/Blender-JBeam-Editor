@@ -1,0 +1,298 @@
+{
+"legocar_hood_antenna_drag": {
+    "information":{
+        "name":"Antenna",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hood_accessory_drag",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_shifterbase_black",["legocar_antenna_hood_base"],[], {"pos":{"x":-0.375, "y":-1.125, "z":0.8},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	["legocar_shifter_M",        ["legocar_antenna_hood"],     [], {"pos":{"x":-0.375, "y":-1.125, "z":0.8},"rot":{"x":0, "y":0, "z": 0 },"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ANTENNA--
+	//1 piece, 4 nodes - 0.25 kg/node
+	{"nodeWeight": "$=$weight*0.25"},
+
+	//base
+	{"group":"legocar_antenna_hood_base"},
+	["hoodant1", -0.375, -1.00, 0.925],
+	["hoodant2", -0.375, -1.25, 0.925],
+
+	//rotation axis
+	{"group":["legocar_antenna_hood_base", "legocar_antenna_hood"]},
+	["hoodant3", -0.50, -1.125, 0.925],
+	["hoodant4", -0.25, -1.125, 0.925],
+
+	//antenna
+	{"group":"legocar_antenna_hood"},
+	{"nodeWeight": "$=$weight*0.4"},
+	["hoodant5", -0.375, -1.125, 1.345],
+
+	//rigidifier
+	{"group":""},
+	["hoodantrig", -0.375, -1.125, 0.8, {"selfCollision": false}],	
+    ],
+    "torsionbars": [
+        ["id1:","id2:","id3:","id4:"],
+        {"spring":"$=$weight*10", "damp":"$=$weight*0.1", "deform":"$=$strength*0.1", "strength":"FLT_MAX"},
+        ["hoodant5","hoodant3","hoodant4","hoodantrig"],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+
+	//base uniform structure
+	["hoodant1", "hoodant2"],
+	["hoodant1", "hoodant3"],
+	["hoodant1", "hoodant4"],
+	["hoodant2", "hoodant3"],
+	["hoodant2", "hoodant4"],
+	["hoodant3", "hoodant4"],
+
+	//rigidifier
+	["hoodant1", "hoodantrig"],
+	["hoodant2", "hoodantrig"],
+	["hoodant3", "hoodantrig"],
+	["hoodant4", "hoodantrig"],
+	
+	//antenna
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	["hoodant5", "hoodant3"],
+	["hoodant5", "hoodant4"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"beamDeform":"$=$strength*0.75", "beamStrength":"$=$strength*0.75"},
+	{"breakGroup":"antenna_hood_break"},
+
+	["hoodant1", "hood1r"],
+	["hoodant1", "hood1rr"],
+	["hoodant1", "hood1rrr"],
+	["hoodant1", "hood2r"],
+	["hoodant1", "hood2rr"],
+	["hoodant1", "hoodrig"],
+
+	["hoodant2", "hood1r"],
+	["hoodant2", "hood1rr"],
+	["hoodant2", "hood2r"],
+	["hoodant2", "hood2rr"],
+	["hoodant2", "hood2rrr"],
+	["hoodant2", "hoodrig"],
+
+	["hoodant3", "hood1r"],
+	["hoodant3", "hood1rr"],
+	["hoodant3", "hood1rrr"],
+	["hoodant3", "hood2r"],
+	["hoodant3", "hood2rr"],
+	["hoodant3", "hood2rrr"],
+
+	["hoodant4", "hood1r"],
+	["hoodant4", "hood1rr"],
+	["hoodant4", "hood1rrr"],
+	["hoodant4", "hood2r"],
+	["hoodant4", "hood2rr"],
+	["hoodant4", "hood2rrr"],
+
+	["hoodantrig", "hood1r"],
+	["hoodantrig", "hood1rr"],
+	["hoodantrig", "hood2r"],
+	["hoodantrig", "hood2rr"],
+
+	{"breakGroup":""},
+
+
+	//--LIMITERS--
+	{"beamPrecompression":1,"beamType":"|SUPPORT", "beamLongBound":100},
+	{"beamSpring":"$=$weight*21000", "beamDamp":"$=$weight*200"},
+	{"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	//antenna limiter
+	["hoodant5", "hoodantrig", {"beamPrecompression":0.8}],
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+        {"group":"legocar_antenna_hood"},
+	["hoodant5","hoodant1","hoodant3"],
+	["hoodant5","hoodant3","hoodant2"],
+	["hoodant5","hoodant2","hoodant4"],
+	["hoodant5","hoodant4","hoodant1"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_antenna_hood"},   
+	["hoodant1","hoodant3","hoodant2","hoodant4"],	
+        {"group":""},
+    ],
+},
+
+"legocar_hood_drag_antenna_long": {
+    "information":{
+        "name":"Long HF Antenna",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_hood_accessory_drag",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_antenna_5H_black",["legocar_antenna_hood"],[], {"pos":{"x":-0.375, "y":-1.125, "z":0.8},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//--ANTENNA--
+	{"group":"legocar_antenna_hood"},
+	//1 piece, 4 half pieces, 8 quarter pieces, 6 nodes - 0.55 kg/node
+	{"nodeWeight": "$=$weight*0.55"},
+
+	["hoodant1r",-0.470, -1.220, 0.83],
+	["hoodant1l",-0.280, -1.220, 0.83],
+	["hoodant2r",-0.470, -1.030, 0.83],
+	["hoodant2l",-0.280, -1.030, 0.83],
+	["hoodant3r",-0.450, -1.200, 1.40],
+	["hoodant3l",-0.300, -1.200, 1.40],
+	["hoodant4r",-0.450, -1.050, 1.40],
+	["hoodant4l",-0.300, -1.050, 1.40],
+	["hoodant5", -0.375, -1.125, 2.30],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--ANTENNA BASE--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*551000", "beamDamp":"$=$weight*55"},
+
+	//uniform structure
+	["hoodant1l", "hoodant1r"],
+	["hoodant2l", "hoodant2r"],
+	["hoodant3l", "hoodant3r"],
+	["hoodant4l", "hoodant4r"],
+
+	["hoodant1l", "hoodant2r"],
+	["hoodant2l", "hoodant3r"],
+	["hoodant3l", "hoodant4r"],
+	["hoodant4l", "hoodant1r"],
+
+	["hoodant1l", "hoodant3r"],
+	["hoodant2l", "hoodant4r"],
+	["hoodant3l", "hoodant1r"],
+	["hoodant4l", "hoodant2r"],
+
+	["hoodant1l", "hoodant4r"],
+	["hoodant2l", "hoodant1r"],
+	["hoodant3l", "hoodant2r"],
+	["hoodant4l", "hoodant3r"],
+
+	["hoodant1l", "hoodant2l"],
+	["hoodant2l", "hoodant3l"],
+	["hoodant3l", "hoodant4l"],
+	["hoodant4l", "hoodant1l"],
+
+	["hoodant1l", "hoodant3l"],
+	["hoodant2l", "hoodant4l"],
+
+	["hoodant1r", "hoodant2r"],
+	["hoodant2r", "hoodant3r"],
+	["hoodant3r", "hoodant4r"],
+	["hoodant4r", "hoodant1r"],
+
+	["hoodant1r", "hoodant3r"],
+	["hoodant2r", "hoodant4r"],
+
+		
+	//--ANTENNA UPPER PART--
+	//lower spring and damp to be flexible
+	{"beamSpring":"$=$weight*55100", "beamDamp":"$=$weight*5.5"},
+	//allow deformation
+	{"beamDeform":"$strength", "beamStrength":"FLT_MAX"},
+
+	//to top and bottom
+	["hoodant1l", "hoodant5"],
+	["hoodant1r", "hoodant5"],
+	["hoodant2l", "hoodant5"],
+	["hoodant2r", "hoodant5"],
+	["hoodant3l", "hoodant5"],
+	["hoodant3r", "hoodant5"],
+	["hoodant4l", "hoodant5"],
+	["hoodant4r", "hoodant5"],
+
+	
+	//--ATTACH--
+	{"beamSpring":"$=$weight*551000", "beamDamp":"$=$weight*55"},
+	{"beamDeform":"$=$strength*0.75", "beamStrength":"$=$strength*0.75"},
+	{"breakGroup":"antenna_hood_break"},
+
+	["hood1rrr", "hoodant2r"],
+	["hood1rrr", "hoodant2l"],
+	["hood1rrr", "hoodant1r"],
+	["hood1rrr", "hoodant4r"],
+
+	["hood1rr", "hoodant2r"],
+	["hood1rr", "hoodant2l"],
+	["hood1rr", "hoodant1r"],
+	["hood1rr", "hoodant4r"],
+
+	["hood1r", "hoodant2r"],
+	["hood1r", "hoodant2l"],
+	["hood1r", "hoodant1l"],
+	["hood1r", "hoodant4l"],
+
+	["hood2rrr", "hoodant1r"],
+	["hood2rrr", "hoodant1l"],
+	["hood2rrr", "hoodant2r"],
+	["hood2rrr", "hoodant3r"],
+
+	["hood2rr", "hoodant1r"],
+	["hood2rr", "hoodant1l"],
+	["hood2rr", "hoodant2r"],
+	["hood2rr", "hoodant3r"],
+
+	["hood2r", "hoodant1r"],
+	["hood2r", "hoodant1l"],
+	["hood2r", "hoodant2l"],
+	["hood2r", "hoodant3l"],
+
+	["hoodrig", "hoodant1l"],
+	["hoodrig", "hoodant1r"],
+	["hoodrig", "hoodant2l"],
+	["hoodrig", "hoodant2r"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_antenna_hood"},
+	["hoodant5","hoodant3r","hoodant3l"],
+	["hoodant5","hoodant3l","hoodant4l"],
+	["hoodant5","hoodant4l","hoodant4r"],
+	["hoodant5","hoodant4r","hoodant3r"],
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_antenna_hood"},   
+	["hoodant2r","hoodant2l","hoodant1l","hoodant1r"],
+	["hoodant3r","hoodant4r","hoodant2r","hoodant1r"],
+	["hoodant4l","hoodant3l","hoodant1l","hoodant2l"],
+	["hoodant4r","hoodant4l","hoodant2l","hoodant2r"],
+	["hoodant3l","hoodant3r","hoodant1r","hoodant1l"],
+	{"group":""},
+    ],    
+},
+
+}

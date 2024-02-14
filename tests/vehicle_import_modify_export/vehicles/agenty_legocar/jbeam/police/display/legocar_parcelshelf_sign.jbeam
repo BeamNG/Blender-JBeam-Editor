@@ -1,0 +1,391 @@
+{
+"legocar_parcelshelf_sign_IT": {
+    "information":{
+        "name":"Italian Polizia Sign",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_parcelshelf_sign",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],	
+	["lego_1x2_flat_notip_black",   ["legocar_parcelshelf_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"parcelshelf_sign_break", "deformMaterialBase":"legocar_display_police", "deformMaterialDamaged":"invis"},
+	["legocar_display_police_IT",["legocar_parcelshelf_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"parcelshelf_sign_break", "deformMaterialBase":"legocar_display_stop", "deformMaterialDamaged":"invis"},
+	["legocar_display_stop_IT",["legocar_parcelshelf_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//lightbar sign
+	{"group":"legocar_parcelshelf_sign"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+	["shelfS1l",  0.25, 0.600, 1.600],
+	["shelfS1r", -0.25, 0.600, 1.600],
+	["shelfS2l",  0.25, 0.600, 1.850],
+	["shelfS2r", -0.25, 0.600, 1.850],
+	//rigidifier
+	["shelfSrig", 0, 0.450, 1.725, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LIGHTBAR SIGN--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+
+	//uniform structure
+	["shelfS1l", "shelfS1r"],
+	["shelfS2l", "shelfS2r"],
+	["shelfS1l", "shelfS2l"],
+	["shelfS1r", "shelfS2r"],
+	["shelfS1l", "shelfS2r"],
+	["shelfS2l", "shelfS1r"],
+
+	//rigidifier
+	["shelfS1l", "shelfSrig"],
+	["shelfS1r", "shelfSrig"],
+	["shelfS2l", "shelfSrig"],
+	["shelfS2r", "shelfSrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"parcelshelf_sign_break"},
+	{"deformGroup":"parcelshelf_sign_break"},
+	
+	["shelfS1l", "shelfsignmt3l"],
+	["shelfS1l", "shelfsignmt3r"],
+	["shelfS1l", "shelfsignmt2l"],
+	["shelfS1l", "shelfsignmt1l"],
+
+	["shelfS1r", "shelfsignmt3l"],
+	["shelfS1r", "shelfsignmt3r"],
+	["shelfS1r", "shelfsignmt2r"],
+	["shelfS1r", "shelfsignmt1r"],
+
+	["shelfS2l", "shelfsignmt3l"],
+	["shelfS2l", "shelfsignmt2r"],
+	["shelfS2l", "shelfsignmt2l"],
+	["shelfS2l", "shelfsignmt1l"],
+
+	["shelfS2r", "shelfsignmt2l"],
+	["shelfS2r", "shelfsignmt3r"],
+	["shelfS2r", "shelfsignmt2r"],
+	["shelfS2r", "shelfsignmt1r"],
+
+	["shelfSrig", "shelfsignmt3l"],
+	["shelfSrig", "shelfsignmt3r"],
+	["shelfSrig", "shelfsignmt2l"],
+	["shelfSrig", "shelfsignmt2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_parcelshelf_sign"},
+	["shelfS2r","shelfS2l","shelfS1l","shelfS1r"],
+        {"group":""},
+    ],
+},
+"legocar_parcelshelf_sign_US": {
+    "information":{
+        "name":"US Police Sign",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_parcelshelf_sign",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],	
+	["lego_1x2_flat_notip_black",   ["legocar_parcelshelf_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"parcelshelf_sign_break", "deformMaterialBase":"legocar_display_police", "deformMaterialDamaged":"invis"},
+	["legocar_display_police_US",["legocar_parcelshelf_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"parcelshelf_sign_break", "deformMaterialBase":"legocar_display_stop", "deformMaterialDamaged":"invis"},
+	["legocar_display_stop_US",["legocar_parcelshelf_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//lightbar sign
+	{"group":"legocar_parcelshelf_sign"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+	["shelfS1l",  0.25, 0.600, 1.600],
+	["shelfS1r", -0.25, 0.600, 1.600],
+	["shelfS2l",  0.25, 0.600, 1.850],
+	["shelfS2r", -0.25, 0.600, 1.850],
+	//rigidifier
+	["shelfSrig", 0, 0.450, 1.725, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LIGHTBAR SIGN--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+
+	//uniform structure
+	["shelfS1l", "shelfS1r"],
+	["shelfS2l", "shelfS2r"],
+	["shelfS1l", "shelfS2l"],
+	["shelfS1r", "shelfS2r"],
+	["shelfS1l", "shelfS2r"],
+	["shelfS2l", "shelfS1r"],
+
+	//rigidifier
+	["shelfS1l", "shelfSrig"],
+	["shelfS1r", "shelfSrig"],
+	["shelfS2l", "shelfSrig"],
+	["shelfS2r", "shelfSrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"parcelshelf_sign_break"},
+	{"deformGroup":"parcelshelf_sign_break"},
+	
+	["shelfS1l", "shelfsignmt3l"],
+	["shelfS1l", "shelfsignmt3r"],
+	["shelfS1l", "shelfsignmt2l"],
+	["shelfS1l", "shelfsignmt1l"],
+
+	["shelfS1r", "shelfsignmt3l"],
+	["shelfS1r", "shelfsignmt3r"],
+	["shelfS1r", "shelfsignmt2r"],
+	["shelfS1r", "shelfsignmt1r"],
+
+	["shelfS2l", "shelfsignmt3l"],
+	["shelfS2l", "shelfsignmt2r"],
+	["shelfS2l", "shelfsignmt2l"],
+	["shelfS2l", "shelfsignmt1l"],
+
+	["shelfS2r", "shelfsignmt2l"],
+	["shelfS2r", "shelfsignmt3r"],
+	["shelfS2r", "shelfsignmt2r"],
+	["shelfS2r", "shelfsignmt1r"],
+
+	["shelfSrig", "shelfsignmt3l"],
+	["shelfSrig", "shelfsignmt3r"],
+	["shelfSrig", "shelfsignmt2l"],
+	["shelfSrig", "shelfsignmt2r"],
+	
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_parcelshelf_sign"},
+	["shelfS2r","shelfS2l","shelfS1l","shelfS1r"],
+        {"group":""},
+    ],
+},
+"legocar_parcelshelf_sign_GE": {
+    "information":{
+        "name":"German Polizei Sign",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_parcelshelf_sign",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],	
+	["lego_1x2_flat_notip_black",   ["legocar_parcelshelf_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"parcelshelf_sign_break", "deformMaterialBase":"legocar_display_police", "deformMaterialDamaged":"invis"},
+	["legocar_display_police_GE",["legocar_parcelshelf_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"parcelshelf_sign_break", "deformMaterialBase":"legocar_display_stop", "deformMaterialDamaged":"invis"},
+	["legocar_display_stop_GE",["legocar_parcelshelf_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//lightbar sign
+	{"group":"legocar_parcelshelf_sign"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+	["shelfS1l",  0.25, 0.600, 1.600],
+	["shelfS1r", -0.25, 0.600, 1.600],
+	["shelfS2l",  0.25, 0.600, 1.850],
+	["shelfS2r", -0.25, 0.600, 1.850],
+	//rigidifier
+	["shelfSrig", 0, 0.450, 1.725, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LIGHTBAR SIGN--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+
+	//uniform structure
+	["shelfS1l", "shelfS1r"],
+	["shelfS2l", "shelfS2r"],
+	["shelfS1l", "shelfS2l"],
+	["shelfS1r", "shelfS2r"],
+	["shelfS1l", "shelfS2r"],
+	["shelfS2l", "shelfS1r"],
+
+	//rigidifier
+	["shelfS1l", "shelfSrig"],
+	["shelfS1r", "shelfSrig"],
+	["shelfS2l", "shelfSrig"],
+	["shelfS2r", "shelfSrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"parcelshelf_sign_break"},
+	{"deformGroup":"parcelshelf_sign_break"},
+	
+	["shelfS1l", "shelfsignmt3l"],
+	["shelfS1l", "shelfsignmt3r"],
+	["shelfS1l", "shelfsignmt2l"],
+	["shelfS1l", "shelfsignmt1l"],
+
+	["shelfS1r", "shelfsignmt3l"],
+	["shelfS1r", "shelfsignmt3r"],
+	["shelfS1r", "shelfsignmt2r"],
+	["shelfS1r", "shelfsignmt1r"],
+
+	["shelfS2l", "shelfsignmt3l"],
+	["shelfS2l", "shelfsignmt2r"],
+	["shelfS2l", "shelfsignmt2l"],
+	["shelfS2l", "shelfsignmt1l"],
+
+	["shelfS2r", "shelfsignmt2l"],
+	["shelfS2r", "shelfsignmt3r"],
+	["shelfS2r", "shelfsignmt2r"],
+	["shelfS2r", "shelfsignmt1r"],
+
+	["shelfSrig", "shelfsignmt3l"],
+	["shelfSrig", "shelfsignmt3r"],
+	["shelfSrig", "shelfsignmt2l"],
+	["shelfSrig", "shelfsignmt2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_parcelshelf_sign"},
+	["shelfS2r","shelfS2l","shelfS1l","shelfS1r"],
+        {"group":""},
+    ],
+},
+"legocar_parcelshelf_sign_FR": {
+    "information":{
+        "name":"French Gendarmerie Sign",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_parcelshelf_sign",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],	
+	["lego_1x2_flat_notip_black",   ["legocar_parcelshelf_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"parcelshelf_sign_break", "deformMaterialBase":"legocar_display_police", "deformMaterialDamaged":"invis"},
+	["legocar_display_police_FR",["legocar_parcelshelf_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":"parcelshelf_sign_break", "deformMaterialBase":"legocar_display_stop", "deformMaterialDamaged":"invis"},
+	["legocar_display_stop_FR",["legocar_parcelshelf_sign"],[], {"pos":{"x":0.000, "y":0.550, "z":1.725},"rot":{"x":-90, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+	{"deformGroup":""},
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	//lightbar sign
+	{"group":"legocar_parcelshelf_sign"},
+	//2 pieces, 5 nodes - 0.4 kg/node
+	{"nodeWeight": "$=$weight*0.4"},
+	["shelfS1l",  0.25, 0.600, 1.600],
+	["shelfS1r", -0.25, 0.600, 1.600],
+	["shelfS2l",  0.25, 0.600, 1.850],
+	["shelfS2r", -0.25, 0.600, 1.850],
+	//rigidifier
+	["shelfSrig", 0, 0.450, 1.725, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//--LIGHTBAR SIGN--
+	//spring = weight * 1001000, damp = weight * 100
+	//not counting rigidifier weight here
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+
+	//uniform structure
+	["shelfS1l", "shelfS1r"],
+	["shelfS2l", "shelfS2r"],
+	["shelfS1l", "shelfS2l"],
+	["shelfS1r", "shelfS2r"],
+	["shelfS1l", "shelfS2r"],
+	["shelfS2l", "shelfS1r"],
+
+	//rigidifier
+	["shelfS1l", "shelfSrig"],
+	["shelfS1r", "shelfSrig"],
+	["shelfS2l", "shelfSrig"],
+	["shelfS2r", "shelfSrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*201000", "beamDamp":"$=$weight*20"},
+	{"breakGroup":"parcelshelf_sign_break"},
+	{"deformGroup":"parcelshelf_sign_break"},
+	
+	["shelfS1l", "shelfsignmt3l"],
+	["shelfS1l", "shelfsignmt3r"],
+	["shelfS1l", "shelfsignmt2l"],
+	["shelfS1l", "shelfsignmt1l"],
+
+	["shelfS1r", "shelfsignmt3l"],
+	["shelfS1r", "shelfsignmt3r"],
+	["shelfS1r", "shelfsignmt2r"],
+	["shelfS1r", "shelfsignmt1r"],
+
+	["shelfS2l", "shelfsignmt3l"],
+	["shelfS2l", "shelfsignmt2r"],
+	["shelfS2l", "shelfsignmt2l"],
+	["shelfS2l", "shelfsignmt1l"],
+
+	["shelfS2r", "shelfsignmt2l"],
+	["shelfS2r", "shelfsignmt3r"],
+	["shelfS2r", "shelfsignmt2r"],
+	["shelfS2r", "shelfsignmt1r"],
+
+	["shelfSrig", "shelfsignmt3l"],
+	["shelfSrig", "shelfsignmt3r"],
+	["shelfSrig", "shelfsignmt2l"],
+	["shelfSrig", "shelfsignmt2r"],
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+	{"group":"legocar_parcelshelf_sign"},
+	["shelfS2r","shelfS2l","shelfS1l","shelfS1r"],
+        {"group":""},
+    ],
+},
+
+}

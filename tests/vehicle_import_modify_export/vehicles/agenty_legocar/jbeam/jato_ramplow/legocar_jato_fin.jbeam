@@ -1,0 +1,156 @@
+{
+"legocar_jato_fin": {
+    "information":{
+        "name":"Stabilizarion Fin",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_jato_fin",
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_3x2_tail_grey", ["legocar_fin"],[], {"pos":{"x":0.000, "y":2.375, "z":1.700},"rot":{"x": 0 , "y":0, "z":0},"scale":{"x":1.00, "y":1.00, "z":1.00}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legocar_fin"},
+	//6 pieces, 15 half-pieces, 9 nodes - 1.5 kg/node
+	{"nodeWeight": "$=$weight*1.5"},
+
+	["fin1l",  0.25, 2.030, 1.73],
+	["fin1r", -0.25, 2.030, 1.73],
+	["fin2l",  0.25, 2.750, 1.73],
+	["fin2r", -0.25, 2.750, 1.73],
+
+	["fin3",  0, 2.030, 1.80],
+	["fin4",  0, 2.750, 1.80],
+	["fin5",  0, 3.000, 1.95],
+	["fin6",  0, 3.000, 2.95],
+	["fin7",  0, 3.500, 2.95],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+
+	//--FIN--
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*1501000", "beamDamp":"$=$weight*150"},
+
+	//square
+	["fin1l", "fin1r"],
+	["fin2l", "fin2r"],
+	["fin1l", "fin2l"],
+	["fin1r", "fin2r"],
+	["fin1l", "fin2r"],
+	["fin2l", "fin1r"],
+
+	//fin
+	["fin3", "fin4"],
+	["fin3", "fin5"],
+	["fin3", "fin6"],
+	["fin3", "fin7"],
+	["fin4", "fin5"],
+	["fin4", "fin6"],
+	["fin4", "fin7"],
+	["fin5", "fin6"],
+	["fin5", "fin7"],
+	["fin6", "fin7"],
+
+	//square to fin
+	["fin3", "fin1l"],
+	["fin3", "fin1r"],
+	["fin3", "fin2l"],
+	["fin3", "fin2r"],
+
+	["fin4", "fin1l"],
+	["fin4", "fin1r"],
+	["fin4", "fin2l"],
+	["fin4", "fin2r"],
+
+	["fin5", "fin1l"],
+	["fin5", "fin1r"],
+	["fin5", "fin2l"],
+	["fin5", "fin2r"],
+
+	["fin6", "fin1l"],
+	["fin6", "fin1r"],
+	["fin6", "fin2l"],
+	["fin6", "fin2r"],
+
+	["fin7", "fin1l"],
+	["fin7", "fin1r"],
+	["fin7", "fin2l"],
+	["fin7", "fin2r"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$=$strength*1.5", "beamStrength":"$=$strength*1.5"},
+	{"beamSpring":"$=$weight*751000", "beamDamp":"$=$weight*75"},
+	{"breakGroup":"fin_break"},
+	
+	["fin1l", "jato2l"],
+	["fin1l", "jato2r"],
+	["fin1l", "jato1l"],
+	["fin1l", "jato11l"],
+
+	["fin1r", "jato2l"],
+	["fin1r", "jato2r"],
+	["fin1r", "jato1r"],
+	["fin1r", "jato11r"],
+
+	["fin2l", "jato1l"],
+	["fin2l", "jato1r"],
+	["fin2l", "jato2l"],
+	["fin2l", "jato5l"],
+
+	["fin2r", "jato1l"],
+	["fin2r", "jato1r"],
+	["fin2r", "jato2r"],
+	["fin2r", "jato5r"],
+
+	["fin5", "jato1l"],
+	["fin5", "jato1r"],
+	["fin5", "jato3l"],
+	["fin5", "jato3r"],
+
+	["fin3", "jato2l"],
+	["fin3", "jato2r"],
+	["fin3", "jato4l"],
+	["fin3", "jato4r"],
+
+	["fin7", "jato1l"],
+	["fin7", "jato1r"],
+
+	["fin6", "jato2l"],
+	["fin6", "jato2r"],
+
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "triangles": [
+        ["id1:","id2:","id3:"],
+	{"group":"legocar_fin"},
+
+	["fin1r","fin1l","fin3"],
+	["fin2l","fin2r","fin4"],
+
+	["fin3","fin4","fin5", {"dragCoef":100, "liftCoef":50, "stallAngle":0.5}],
+	["fin3","fin5","fin6", {"dragCoef":100, "liftCoef":50, "stallAngle":0.5}],
+	["fin5","fin7","fin6", {"dragCoef":100, "liftCoef":50, "stallAngle":0.5}],
+
+        {"group":""},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_fin"},
+	["fin1l","fin1r","fin2r","fin2l"],
+	["fin1r","fin3","fin4","fin2r"],
+	["fin2l","fin4","fin3","fin1l"],
+        {"group":""},
+    ],
+},
+
+}

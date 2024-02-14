@@ -1,0 +1,162 @@
+{
+"legotrailer_wall_B": {
+    "information":{
+        "name":"Back Wall",
+        "authors":"AgentY",
+    },
+    "slotType":"legotrailer_wall_B",
+    "slots": [
+        ["type", "default", "description"],
+	["legotrailer_handles", "", "Rear Handles"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legotrailer_wall_B",["legotrailer_wall_B"]],
+    ],   
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+
+	{"group":"legotrailer_wall_B"},
+	//8 pieces, 5 nodes - 1.6 kg/node
+	{"nodeWeight": "$=$weight*1.6"},
+
+	["trailer_wB1l",  0.5, 3.675, 0.275],
+	["trailer_wB1r", -0.5, 3.675, 0.275],
+	["trailer_wB2l",  0.5, 3.195, 0.275],
+	["trailer_wB2r", -0.5, 3.195, 0.275],
+
+	//rigidifier
+	["trailer_wB0", 0, 3.425, -0.1, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*2001000", "beamDamp":"$=$weight*200"},
+
+	//uniform structure
+	["trailer_wB1l", "trailer_wB1r"],
+	["trailer_wB2l", "trailer_wB2r"],
+	["trailer_wB1l", "trailer_wB2l"],
+	["trailer_wB1r", "trailer_wB2r"],
+	["trailer_wB1l", "trailer_wB2r"],
+	["trailer_wB2l", "trailer_wB1r"],
+
+	//rigidifier
+	["trailer_wB1l", "trailer_wB0"],
+	["trailer_wB1r", "trailer_wB0"],
+	["trailer_wB2l", "trailer_wB0"],
+	["trailer_wB2r", "trailer_wB0"],
+
+
+	//--ATTACH TO FRAME--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+	{"beamSpring":"$=$weight*251000", "beamDamp":"$=$weight*25"},
+	{"breakGroup":"trailer_wall_B_frame_break"},
+
+	["trailer_wB1l", "trailer_f16l"],
+	["trailer_wB1l", "trailer_f17l"],
+	["trailer_wB1l", "trailer_f13l"],
+	["trailer_wB1l", "trailer_f6l"],
+
+	["trailer_wB1r", "trailer_f16r"],
+	["trailer_wB1r", "trailer_f17r"],
+	["trailer_wB1r", "trailer_f14r"],
+	["trailer_wB1r", "trailer_f7r"],
+
+	["trailer_wB2l", "trailer_f13l"],
+	["trailer_wB2l", "trailer_f14l"],
+	["trailer_wB2l", "trailer_f16l"],
+	["trailer_wB2l", "trailer_f3l"],
+
+	["trailer_wB2r", "trailer_f13r"],
+	["trailer_wB2r", "trailer_f14r"],
+	["trailer_wB2r", "trailer_f17r"],
+	["trailer_wB2r", "trailer_f4r"],
+
+	["trailer_wB0", "trailer_f6l"],
+	["trailer_wB0", "trailer_f8l"],
+	["trailer_wB0", "trailer_f6r"],
+	["trailer_wB0", "trailer_f8r"],
+
+
+	//--ATTACH TO TAILLIGHTS--
+	{"beamSpring":"$=$weight*101000", "beamDamp":"$=$weight*10"},
+	{"beamDeform":"$=$strength*0.5", "beamStrength":"$=$strength*0.5"},
+
+	//left
+	{"breakGroup":"trailer_wall_taillight_L_break"},
+	{"deformGroup":"trailer_taillight_L_break"},
+
+	["trailer_wB1l", "trailer_tL2l"],
+	["trailer_wB1l", "trailer_tL2r"],
+	["trailer_wB1l", "trailer_tL1l"],
+	["trailer_wB1l", "trailer_tL0"],
+	
+	["trailer_wB1r", "trailer_tL2l"],
+	["trailer_wB1r", "trailer_tL2r"],
+	["trailer_wB1r", "trailer_tL1r"],
+	["trailer_wB1r", "trailer_tL0"],
+
+	["trailer_wB2l", "trailer_tL2l"],
+	["trailer_wB2l", "trailer_tL1r"],
+	["trailer_wB2l", "trailer_tL1l"],
+	["trailer_wB2l", "trailer_tL0"],
+	
+	["trailer_wB2r", "trailer_tL1l"],
+	["trailer_wB2r", "trailer_tL2r"],
+	["trailer_wB2r", "trailer_tL1r"],
+	["trailer_wB2r", "trailer_tL0"],
+
+	["trailer_wB0", "trailer_tL2l"],
+	["trailer_wB0", "trailer_tL2r"],
+	["trailer_wB0", "trailer_tL1l"],
+	["trailer_wB0", "trailer_tL1r"],
+	
+	
+	//right
+	{"breakGroup":"trailer_wall_taillight_R_break"},
+	{"deformGroup":"trailer_taillight_R_break"},
+
+	["trailer_wB1l", "trailer_tR2l"],
+	["trailer_wB1l", "trailer_tR2r"],
+	["trailer_wB1l", "trailer_tR1l"],
+	["trailer_wB1l", "trailer_tR0"],
+	
+	["trailer_wB1r", "trailer_tR2l"],
+	["trailer_wB1r", "trailer_tR2r"],
+	["trailer_wB1r", "trailer_tR1r"],
+	["trailer_wB1r", "trailer_tR0"],
+
+	["trailer_wB2l", "trailer_tR2l"],
+	["trailer_wB2l", "trailer_tR1r"],
+	["trailer_wB2l", "trailer_tR1l"],
+	["trailer_wB2l", "trailer_tR0"],
+	
+	["trailer_wB2r", "trailer_tR1l"],
+	["trailer_wB2r", "trailer_tR2r"],
+	["trailer_wB2r", "trailer_tR1r"],
+	["trailer_wB2r", "trailer_tR0"],
+
+	["trailer_wB0", "trailer_tR2l"],
+	["trailer_wB0", "trailer_tR2r"],
+	["trailer_wB0", "trailer_tR1l"],
+	["trailer_wB0", "trailer_tR1r"],
+
+
+	{"breakGroup":""},
+	{"deformGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legotrailer_wall_B"},   
+	["trailer_wB1l","trailer_wB1r","trailer_wB2r","trailer_wB2l"],
+        {"group":""},
+    ],
+},
+
+}

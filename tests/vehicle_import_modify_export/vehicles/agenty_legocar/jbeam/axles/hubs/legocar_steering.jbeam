@@ -1,0 +1,561 @@
+{
+"legocar_steering_F": {
+    "information":{
+        "name":"Front Wheels Normal Steering",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_steering_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_power_steering_F","legocar_power_steering_F", "Power Steering"],
+    ],
+    "hydros": [
+        ["id1:","id2:"],
+        {"beamPrecompression":1.0, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamSpring":1001000,"beamDamp":50,"beamDeform":"FLT_MAX","beamStrength":"FLT_MAX"},
+
+	{"breakGroup":"wheelhubFL"},
+        ["fhub2l","wheelaxle1fll", {"factor":-0.5,"steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["fhub2l","wheelaxle3fll", {"factor":-0.5,"steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["fhub4l","wheelaxle2fll", {"factor": 0.5,"steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["fhub4l","wheelaxle4fll", {"factor": 0.5,"steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+
+	{"breakGroup":"wheelhubFR"},
+        ["fhub2r","wheelaxle1frr", {"factor": 0.5,"steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["fhub2r","wheelaxle3frr", {"factor": 0.5,"steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["fhub4r","wheelaxle2frr", {"factor":-0.5,"steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["fhub4r","wheelaxle4frr", {"factor":-0.5,"steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+
+	{"breakGroup":""},
+        {"beamPrecompression":1.0, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "beams": [
+          ["id1:", "id2:"],
+          {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+	  {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	  //steering damper
+          {"beamPrecompression":1.0, "beamType":"|BOUNDED", "beamLongBound":1.0, "beamShortBound":1.0},
+          {"beamLimitSpring":0,"beamLimitDamp":0},
+          {"beamSpring":0},
+          {"beamDamp":100},
+          ["fhub2r","wheelaxle2fr", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["fhub2l","wheelaxle2fl", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["fhub4r","wheelaxle1fr", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["fhub4l","wheelaxle1fl", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+
+	  {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "input": {
+	//needs EXTREMELY low FFB due to higher being unbearable with axles that don't have suspension
+        "FFBcoef":"$=$ffbstrength*0.5",
+    },
+},
+
+"legocar_steering_F_quick": {
+    "information":{
+        "name":"Front Wheels Quick Ratio Steering",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_steering_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_power_steering_F","legocar_power_steering_F", "Power Steering"],
+    ],
+    "hydros": [
+        ["id1:","id2:"],
+        {"beamPrecompression":1.0, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamSpring":1001000,"beamDamp":50,"beamDeform":"FLT_MAX","beamStrength":"FLT_MAX"},
+
+	{"breakGroup":"wheelhubFL"},
+        ["fhub2l","wheelaxle1fll", {"factor":-0.5,"steeringWheelLock":400,"inRate":1.35,"outRate":1.35}],
+	["fhub2l","wheelaxle3fll", {"factor":-0.5,"steeringWheelLock":400,"inRate":1.35,"outRate":1.35}],
+	["fhub4l","wheelaxle2fll", {"factor": 0.5,"steeringWheelLock":400,"inRate":1.35,"outRate":1.35}],
+	["fhub4l","wheelaxle4fll", {"factor": 0.5,"steeringWheelLock":400,"inRate":1.35,"outRate":1.35}],
+
+	{"breakGroup":"wheelhubFR"},
+        ["fhub2r","wheelaxle1frr", {"factor": 0.5,"steeringWheelLock":400,"inRate":1.35,"outRate":1.35}],
+	["fhub2r","wheelaxle3frr", {"factor": 0.5,"steeringWheelLock":400,"inRate":1.35,"outRate":1.35}],
+	["fhub4r","wheelaxle2frr", {"factor":-0.5,"steeringWheelLock":400,"inRate":1.35,"outRate":1.35}],
+	["fhub4r","wheelaxle4frr", {"factor":-0.5,"steeringWheelLock":400,"inRate":1.35,"outRate":1.35}],
+
+	{"breakGroup":""},
+        {"beamPrecompression":1.0, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "beams": [
+          ["id1:", "id2:"],
+          {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+	  {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	  //steering damper
+          {"beamPrecompression":1.0, "beamType":"|BOUNDED", "beamLongBound":1.0, "beamShortBound":1.0},
+          {"beamLimitSpring":0,"beamLimitDamp":0},
+          {"beamSpring":0},
+          {"beamDamp":100},
+          ["fhub2r","wheelaxle2fr", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["fhub2l","wheelaxle2fl", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["fhub4r","wheelaxle1fr", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["fhub4l","wheelaxle1fl", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+
+	  {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "input": {
+	//needs EXTREMELY low FFB due to higher being unbearable with axles that don't have suspension
+        "FFBcoef":"$=$ffbstrength*0.5",
+    },
+},
+
+"legocar_steering_F_drift": {
+    "information":{
+        "name":"Front Wheels Quick Ratio Adjustable Drift Steering",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_steering_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_power_steering_F","legocar_power_steering_F", "Power Steering"],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$steerangleF", "range", "x", "Steering", 3, 1, 5, "Steering Angle Multiplier", "Multiply the steering angle", {"stepDis":0.01, "subCategory":"Front"}],
+	["$steerspeedF", "range", "x", "Steering",1.5,1, 5, "Steering Speed Multiplier", "Multiply the steering speed", {"stepDis":0.01, "subCategory":"Front"}],
+    ],
+    "hydros": [
+        ["id1:","id2:"],
+        {"beamPrecompression":1.0, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamSpring":1001000,"beamDamp":50,"beamDeform":"FLT_MAX","beamStrength":"FLT_MAX"},
+
+	{"breakGroup":"wheelhubFL"},
+        ["fhub2l","wheelaxle1fll", {"factor":"$=-0.5*$steerangleF","steeringWheelLock":400,"inRate":"$=1.25*$steerspeedF","outRate":"$=1.25*$steerspeedF"}],
+	["fhub2l","wheelaxle3fll", {"factor":"$=-0.5*$steerangleF","steeringWheelLock":400,"inRate":"$=1.25*$steerspeedF","outRate":"$=1.25*$steerspeedF"}],
+	["fhub4l","wheelaxle2fll", {"factor":"$= 0.5*$steerangleF","steeringWheelLock":400,"inRate":"$=1.25*$steerspeedF","outRate":"$=1.25*$steerspeedF"}],
+	["fhub4l","wheelaxle4fll", {"factor":"$= 0.5*$steerangleF","steeringWheelLock":400,"inRate":"$=1.25*$steerspeedF","outRate":"$=1.25*$steerspeedF"}],
+
+	{"breakGroup":"wheelhubFR"},
+        ["fhub2r","wheelaxle1frr", {"factor":"$= 0.5*$steerangleF","steeringWheelLock":400,"inRate":"$=1.25*$steerspeedF","outRate":"$=1.25*$steerspeedF"}],
+	["fhub2r","wheelaxle3frr", {"factor":"$= 0.5*$steerangleF","steeringWheelLock":400,"inRate":"$=1.25*$steerspeedF","outRate":"$=1.25*$steerspeedF"}],
+	["fhub4r","wheelaxle2frr", {"factor":"$=-0.5*$steerangleF","steeringWheelLock":400,"inRate":"$=1.25*$steerspeedF","outRate":"$=1.25*$steerspeedF"}],
+	["fhub4r","wheelaxle4frr", {"factor":"$=-0.5*$steerangleF","steeringWheelLock":400,"inRate":"$=1.25*$steerspeedF","outRate":"$=1.25*$steerspeedF"}],
+
+	{"breakGroup":""},
+        {"beamPrecompression":1.0, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "beams": [
+          ["id1:", "id2:"],
+          {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+	  {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	  //steering damper
+          {"beamPrecompression":1.0, "beamType":"|BOUNDED", "beamLongBound":1.0, "beamShortBound":1.0},
+          {"beamLimitSpring":0,"beamLimitDamp":0},
+          {"beamSpring":0},
+          {"beamDamp":100},
+          ["fhub2r","wheelaxle2fr", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["fhub2l","wheelaxle2fl", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["fhub4r","wheelaxle1fr", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["fhub4l","wheelaxle1fl", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+
+	  {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "input": {
+	//needs EXTREMELY low FFB due to higher being unbearable with axles that don't have suspension
+        "FFBcoef":"$=$ffbstrength*0.5",
+    },
+},
+
+"legocar_steering_R": {
+    "information":{
+        "name":"Rear Wheels Crawler Steering",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_steering_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_power_steering_R","", "Power Steering"],
+    ],
+    "hydros": [
+        ["id1:","id2:"],
+        {"beamPrecompression":1.0, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamSpring":1001000,"beamDamp":50,"beamDeform":"FLT_MAX","beamStrength":"FLT_MAX"},
+
+	{"breakGroup":"wheelhubRL"},
+        ["rhub4l","wheelaxle1rll", {"factor":-0.5,"steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["rhub4l","wheelaxle3rll", {"factor":-0.5,"steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["rhub2l","wheelaxle2rll", {"factor": 0.5,"steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["rhub2l","wheelaxle4rll", {"factor": 0.5,"steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+
+	{"breakGroup":"wheelhubRR"},
+        ["rhub4r","wheelaxle1rrr", {"factor": 0.5,"steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["rhub4r","wheelaxle3rrr", {"factor": 0.5,"steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["rhub2r","wheelaxle2rrr", {"factor":-0.5,"steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["rhub2r","wheelaxle4rrr", {"factor":-0.5,"steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+
+	{"breakGroup":""},
+        {"beamPrecompression":1.0, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "beams": [
+          ["id1:", "id2:"],
+          {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+	  {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	  //steering damper
+          {"beamPrecompression":1.0, "beamType":"|BOUNDED", "beamLongBound":1.0, "beamShortBound":1.0},
+          {"beamLimitSpring":0,"beamLimitDamp":0},
+          {"beamSpring":0},
+          {"beamDamp":100},
+          ["rhub4r","wheelaxle2rr", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["rhub4l","wheelaxle2rl", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["rhub2r","wheelaxle1rr", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["rhub2l","wheelaxle1rl", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+
+	  {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "input": {
+	//needs EXTREMELY low FFB due to higher being unbearable with axles that don't have suspension
+        "FFBcoef":"$=$ffbstrength*0.5",
+    },
+},
+
+"legocar_steering_R_quick": {
+    "information":{
+        "name":"Rear Wheels Quick Ratio Crawler Steering",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_steering_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_power_steering_R","", "Power Steering"],
+    ],
+    "hydros": [
+        ["id1:","id2:"],
+        {"beamPrecompression":1.0, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamSpring":1001000,"beamDamp":50,"beamDeform":"FLT_MAX","beamStrength":"FLT_MAX"},
+
+	{"breakGroup":"wheelhubRL"},
+        ["rhub4l","wheelaxle1rll", {"factor":-0.5,"steeringWheelLock":400,"inRate":1.35,"outRate":1.35}],
+	["rhub4l","wheelaxle3rll", {"factor":-0.5,"steeringWheelLock":400,"inRate":1.35,"outRate":1.35}],
+	["rhub2l","wheelaxle2rll", {"factor": 0.5,"steeringWheelLock":400,"inRate":1.35,"outRate":1.35}],
+	["rhub2l","wheelaxle4rll", {"factor": 0.5,"steeringWheelLock":400,"inRate":1.35,"outRate":1.35}],
+
+	{"breakGroup":"wheelhubRR"},
+        ["rhub4r","wheelaxle1rrr", {"factor": 0.5,"steeringWheelLock":400,"inRate":1.35,"outRate":1.35}],
+	["rhub4r","wheelaxle3rrr", {"factor": 0.5,"steeringWheelLock":400,"inRate":1.35,"outRate":1.35}],
+	["rhub2r","wheelaxle2rrr", {"factor":-0.5,"steeringWheelLock":400,"inRate":1.35,"outRate":1.35}],
+	["rhub2r","wheelaxle4rrr", {"factor":-0.5,"steeringWheelLock":400,"inRate":1.35,"outRate":1.35}],
+
+	{"breakGroup":""},
+        {"beamPrecompression":1.0, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "beams": [
+          ["id1:", "id2:"],
+          {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+	  {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	  //steering damper
+          {"beamPrecompression":1.0, "beamType":"|BOUNDED", "beamLongBound":1.0, "beamShortBound":1.0},
+          {"beamLimitSpring":0,"beamLimitDamp":0},
+          {"beamSpring":0},
+          {"beamDamp":100},
+          ["rhub4r","wheelaxle2rr", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["rhub4l","wheelaxle2rl", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["rhub2r","wheelaxle1rr", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["rhub2l","wheelaxle1rl", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+
+	  {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "input": {
+	//needs EXTREMELY low FFB due to higher being unbearable with axles that don't have suspension
+        "FFBcoef":"$=$ffbstrength*0.5",
+    },
+},
+
+"legocar_steering_R_drift": {
+    "information":{
+        "name":"Rear Wheels Quick Ratio Adjustable Drift Steering",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_steering_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_power_steering_R","", "Power Steering"],
+    ],
+    "variables": [
+        ["name", "type", "unit", "category", "default", "min", "max", "title", "description"],
+        ["$steerangleR", "range", "x", "Steering", 3, 1, 5, "Steering Angle Multiplier", "Multiply the steering angle", {"stepDis":0.01, "subCategory":"Rear"}],
+	["$steerspeedR", "range", "x", "Steering",1.5,1, 5, "Steering Speed Multiplier", "Multiply the steering speed", {"stepDis":0.01, "subCategory":"Rear"}],
+    ],
+    "hydros": [
+        ["id1:","id2:"],
+        {"beamPrecompression":1.0, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamSpring":1001000,"beamDamp":50,"beamDeform":"FLT_MAX","beamStrength":"FLT_MAX"},
+
+	{"breakGroup":"wheelhubRL"},
+        ["rhub4l","wheelaxle1rll", {"factor":"$=-0.5*$steerangleR","steeringWheelLock":400,"inRate":"$=1.25*$steerspeedR","outRate":"$=1.25*$steerspeedR"}],
+	["rhub4l","wheelaxle3rll", {"factor":"$=-0.5*$steerangleR","steeringWheelLock":400,"inRate":"$=1.25*$steerspeedR","outRate":"$=1.25*$steerspeedR"}],
+	["rhub2l","wheelaxle2rll", {"factor":"$= 0.5*$steerangleR","steeringWheelLock":400,"inRate":"$=1.25*$steerspeedR","outRate":"$=1.25*$steerspeedR"}],
+	["rhub2l","wheelaxle4rll", {"factor":"$= 0.5*$steerangleR","steeringWheelLock":400,"inRate":"$=1.25*$steerspeedR","outRate":"$=1.25*$steerspeedR"}],
+
+	{"breakGroup":"wheelhubRR"},
+        ["rhub4r","wheelaxle1rrr", {"factor":"$= 0.5*$steerangleR","steeringWheelLock":400,"inRate":"$=1.25*$steerspeedR","outRate":"$=1.25*$steerspeedR"}],
+	["rhub4r","wheelaxle3rrr", {"factor":"$= 0.5*$steerangleR","steeringWheelLock":400,"inRate":"$=1.25*$steerspeedR","outRate":"$=1.25*$steerspeedR"}],
+	["rhub2r","wheelaxle2rrr", {"factor":"$=-0.5*$steerangleR","steeringWheelLock":400,"inRate":"$=1.25*$steerspeedR","outRate":"$=1.25*$steerspeedR"}],
+	["rhub2r","wheelaxle4rrr", {"factor":"$=-0.5*$steerangleR","steeringWheelLock":400,"inRate":"$=1.25*$steerspeedR","outRate":"$=1.25*$steerspeedR"}],
+
+	{"breakGroup":""},
+        {"beamPrecompression":1.0, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "beams": [
+          ["id1:", "id2:"],
+          {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+	  {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	  //steering damper
+          {"beamPrecompression":1.0, "beamType":"|BOUNDED", "beamLongBound":1.0, "beamShortBound":1.0},
+          {"beamLimitSpring":0,"beamLimitDamp":0},
+          {"beamSpring":0},
+          {"beamDamp":100},
+          ["rhub4r","wheelaxle2rr", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["rhub4l","wheelaxle2rl", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["rhub2r","wheelaxle1rr", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["rhub2l","wheelaxle1rl", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+
+	  {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "input": {
+	//needs EXTREMELY low FFB due to higher being unbearable with axles that don't have suspension
+        "FFBcoef":"$=$ffbstrength*0.5",
+    },
+},
+
+"legocar_steering_F_aws": {
+    "information":{
+        "name":"Front Wheels AWS Steering",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_steering_F",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_power_steering_F","legocar_power_steering_F", "Power Steering"],
+    ],
+    "hydros": [
+        ["id1:","id2:"],
+        {"beamPrecompression":1.0, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamSpring":1001000,"beamDamp":50,"beamDeform":"FLT_MAX","beamStrength":"FLT_MAX"},
+
+	{"breakGroup":"wheelhubFL"},
+        ["fhub2l","wheelaxle1fll", {"factor":-0.1,"inputSource":"4ws","steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["fhub2l","wheelaxle3fll", {"factor":-0.1,"inputSource":"4ws","steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["fhub4l","wheelaxle2fll", {"factor": 0.1,"inputSource":"4ws","steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["fhub4l","wheelaxle4fll", {"factor": 0.1,"inputSource":"4ws","steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+
+	{"breakGroup":"wheelhubFR"},
+        ["fhub2r","wheelaxle1frr", {"factor": 0.1,"inputSource":"4ws","steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["fhub2r","wheelaxle3frr", {"factor": 0.1,"inputSource":"4ws","steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["fhub4r","wheelaxle2frr", {"factor":-0.1,"inputSource":"4ws","steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["fhub4r","wheelaxle4frr", {"factor":-0.1,"inputSource":"4ws","steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+
+	{"breakGroup":""},
+        {"beamPrecompression":1.0, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "beams": [
+          ["id1:", "id2:"],
+          {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+	  {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	  //steering damper
+          {"beamPrecompression":1.0, "beamType":"|BOUNDED", "beamLongBound":1.0, "beamShortBound":1.0},
+          {"beamLimitSpring":0,"beamLimitDamp":0},
+          {"beamSpring":0},
+          {"beamDamp":100},
+          ["fhub2r","wheelaxle2fr", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["fhub2l","wheelaxle2fl", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["fhub4r","wheelaxle1fr", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["fhub4l","wheelaxle1fl", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+
+	  {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "input": {
+	//needs EXTREMELY low FFB due to higher being unbearable with axles that don't have suspension
+        "FFBcoef":"$=$ffbstrength*0.5",
+    },
+},
+"legocar_steering_R_aws": {
+    "information":{
+        "name":"Rear Wheels AWS Steering",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_steering_R",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_power_steering_R","", "Power Steering"],
+    ],
+    "hydros": [
+        ["id1:","id2:"],
+        {"beamPrecompression":1.0, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamSpring":1001000,"beamDamp":50,"beamDeform":"FLT_MAX","beamStrength":"FLT_MAX"},
+
+	{"breakGroup":"wheelhubRL"},
+        ["rhub4l","wheelaxle1rll", {"factor":-0.1,"inputSource":"4ws","steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["rhub4l","wheelaxle3rll", {"factor":-0.1,"inputSource":"4ws","steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["rhub2l","wheelaxle2rll", {"factor": 0.1,"inputSource":"4ws","steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["rhub2l","wheelaxle4rll", {"factor": 0.1,"inputSource":"4ws","steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+
+	{"breakGroup":"wheelhubRR"},
+        ["rhub4r","wheelaxle1rrr", {"factor": 0.1,"inputSource":"4ws","steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["rhub4r","wheelaxle3rrr", {"factor": 0.1,"inputSource":"4ws","steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["rhub2r","wheelaxle2rrr", {"factor":-0.1,"inputSource":"4ws","steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+	["rhub2r","wheelaxle4rrr", {"factor":-0.1,"inputSource":"4ws","steeringWheelLock":500,"inRate":1.25,"outRate":1.25}],
+
+	{"breakGroup":""},
+        {"beamPrecompression":1.0, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "beams": [
+          ["id1:", "id2:"],
+          {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+	  {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+
+	  //steering damper
+          {"beamPrecompression":1.0, "beamType":"|BOUNDED", "beamLongBound":1.0, "beamShortBound":1.0},
+          {"beamLimitSpring":0,"beamLimitDamp":0},
+          {"beamSpring":0},
+          {"beamDamp":100},
+          ["rhub4r","wheelaxle2rr", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["rhub4l","wheelaxle2rl", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["rhub2r","wheelaxle1rr", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+          ["rhub2l","wheelaxle1rl", {"beamDampVelocitySplit":0.1,"beamDampFast":1000,"dampCutoffHz":1000}],
+
+	  {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "input": {
+	//needs EXTREMELY low FFB due to higher being unbearable with axles that don't have suspension
+        "FFBcoef":"$=$ffbstrength*0.5",
+    },
+},
+
+"legocar_steering_F_nosteering": {
+    "information":{
+        "name":"Front Wheels Stabilization",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_steering_F",
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+
+	//disable rotation
+	{"beamSpring":501000, "beamDamp":100},
+
+	//left hub
+	{"breakGroup":"wheelhubFL"},
+
+	["fhub2l","wheelaxle1fl"],
+	["fhub2l","wheelaxle2fl"],
+	["fhub2l","wheelaxle1fll"],
+	["fhub2l","wheelaxle2fll"],
+	["fhub2l","wheelaxle3fll"],
+	["fhub2l","wheelaxle4fll"],
+
+	["fhub4l","wheelaxle1fl"],
+	["fhub4l","wheelaxle2fl"],
+	["fhub4l","wheelaxle1fll"],
+	["fhub4l","wheelaxle2fll"],
+	["fhub4l","wheelaxle3fll"],
+	["fhub4l","wheelaxle4fll"],
+
+	//right hub
+	{"breakGroup":"wheelhubFR"},
+
+	["fhub2r","wheelaxle1fr"],
+	["fhub2r","wheelaxle2fr"],
+	["fhub2r","wheelaxle1frr"],
+	["fhub2r","wheelaxle2frr"],
+	["fhub2r","wheelaxle3frr"],
+	["fhub2r","wheelaxle4frr"],
+
+	["fhub4r","wheelaxle1fr"],
+	["fhub4r","wheelaxle2fr"],
+	["fhub4r","wheelaxle1frr"],
+	["fhub4r","wheelaxle2frr"],
+	["fhub4r","wheelaxle3frr"],
+	["fhub4r","wheelaxle4frr"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+},
+"legocar_steering_R_nosteering": {
+    "information":{
+        "name":"Rear Wheels Stabilization",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_steering_R",
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+
+	//disable rotation
+	{"beamSpring":501000, "beamDamp":100},
+
+	//left hub
+	{"breakGroup":"wheelhubRL"},
+
+	["rhub2l","wheelaxle1rl"],
+	["rhub2l","wheelaxle2rl"],
+	["rhub2l","wheelaxle1rll"],
+	["rhub2l","wheelaxle2rll"],
+	["rhub2l","wheelaxle3rll"],
+	["rhub2l","wheelaxle4rll"],
+
+	["rhub4l","wheelaxle1rl"],
+	["rhub4l","wheelaxle2rl"],
+	["rhub4l","wheelaxle1rll"],
+	["rhub4l","wheelaxle2rll"],
+	["rhub4l","wheelaxle3rll"],
+	["rhub4l","wheelaxle4rll"],
+
+	//right hub
+	{"breakGroup":"wheelhubRR"},
+
+	["rhub2r","wheelaxle1rr"],
+	["rhub2r","wheelaxle2rr"],
+	["rhub2r","wheelaxle1rrr"],
+	["rhub2r","wheelaxle2rrr"],
+	["rhub2r","wheelaxle3rrr"],
+	["rhub2r","wheelaxle4rrr"],
+
+	["rhub4r","wheelaxle1rr"],
+	["rhub4r","wheelaxle2rr"],
+	["rhub4r","wheelaxle1rrr"],
+	["rhub4r","wheelaxle2rrr"],
+	["rhub4r","wheelaxle3rrr"],
+	["rhub4r","wheelaxle4rrr"],
+
+	{"breakGroup":""},
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+},
+
+"legocar_power_steering_F": {
+    "information":{
+        "authors":"AgemtY",
+        "name":"Power Steering",
+    },
+    "slotType" : "legocar_power_steering_F",
+    "controller": [
+        ["fileName"],
+        ["powerSteering", {"strengthFast":1, "strengthSlow": 0.1, "speedSlow": 2, "speedFast": 20, "constantOffset":-0.05}],
+    ],
+},
+"legocar_power_steering_R": {
+    "information":{
+        "authors":"AgemtY",
+        "name":"Power Steering",
+    },
+    "slotType" : "legocar_power_steering_R",
+    "controller": [
+        ["fileName"],
+        ["powerSteering", {"name":"rear","strengthFast":1, "strengthSlow": 0.1, "speedSlow": 2, "speedFast": 20, "constantOffset":-0.05}],
+    ],
+},
+
+}

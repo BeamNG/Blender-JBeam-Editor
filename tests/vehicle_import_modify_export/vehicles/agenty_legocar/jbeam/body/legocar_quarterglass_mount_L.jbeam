@@ -1,0 +1,370 @@
+{
+//--INCLUDE RIGIDIFIER WEIGHT IN SPRING AND DAMP SETTINGS, LOWER STIFFNESS NEEDED DUE TO MANY PARTS ATTACHED--
+
+"legocar_quarterglass_mount_L": {
+    "information":{
+        "name":"Rear Left Quarter Glass Mount (Color 1)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_quarterglass_mount_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_quarterglass_L", "legocar_quarterglass_L_blacktint", "Rear Left Quarter Glass"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x2_flat_col1",  ["legocar_quarterglass_mount_L"], [], {"pos":{"x":0.500, "y":0.500, "z":0.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_quarterglass_mount_L"},
+
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["Lqglassmt1l",  0.75, 0.25, 0.75],
+	["Lqglassmt1r",  0.25, 0.25, 0.75],
+	["Lqglassmt2l",  0.75, 0.75, 0.75],
+	["Lqglassmt2r",  0.25, 0.75, 0.75],
+
+	//rigidifier
+	["Lqglassmtrig", 0.5, 0.5, 0.55, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*801000", "beamDamp":"$=$weight*80"},
+
+	//uniform structure
+	["Lqglassmt1l", "Lqglassmt1r"],
+	["Lqglassmt2l", "Lqglassmt2r"],
+	["Lqglassmt1l", "Lqglassmt2l"],
+	["Lqglassmt1r", "Lqglassmt2r"],
+	["Lqglassmt1l", "Lqglassmt2r"],
+	["Lqglassmt2l", "Lqglassmt1r"],
+
+	//rigidifier
+	["Lqglassmt1l", "Lqglassmtrig"],
+	["Lqglassmt1r", "Lqglassmtrig"],
+	["Lqglassmt2l", "Lqglassmtrig"],
+	["Lqglassmt2r", "Lqglassmtrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to B pillar
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"breakGroup":"quarterglassmount_bpillar_L_break"},
+
+	["Lqglassmt1l", "Lbpillar1l"],
+	["Lqglassmt1l", "Lbpillar3r"],
+	["Lqglassmt1l", "Lbpillar4l"],
+
+	["Lqglassmt1r", "Lbpillar1r"],
+	["Lqglassmt1r", "Lbpillar3l"],
+	["Lqglassmt1r", "Lbpillar4r"],
+
+	["Lqglassmt2l", "Lbpillar2l"],
+	["Lqglassmt2l", "Lbpillar4r"],
+	["Lqglassmt2l", "Lbpillar3l"],
+
+	["Lqglassmt2r", "Lbpillar2r"],
+	["Lqglassmt2r", "Lbpillar4l"],
+	["Lqglassmt2r", "Lbpillar3r"],
+
+	["Lqglassmtrig", "Lbpillar1l"],
+	["Lqglassmtrig", "Lbpillar1r"],
+	["Lqglassmtrig", "Lbpillar3l"],
+	["Lqglassmtrig", "Lbpillar3r"],
+
+
+	{"optional":true},
+
+	//to left quarter panel
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"breakGroup":"quarterglassmount_quarterpanel_L_break"},
+
+	["Lqglassmt1l", "Lqpan1l"],
+	["Lqglassmt1l", "Lqpan1r"],
+	["Lqglassmt1l", "Lqpan2l"],
+
+	["Lqglassmt1r", "Lqpan1l"],
+	["Lqglassmt1r", "Lqpan1r"],
+	["Lqglassmt1r", "Lqpan2r"],
+
+	["Lqglassmt2l", "Lqpan1l"],
+	["Lqglassmt2l", "Lqpan1r"],
+	["Lqglassmt2l", "Lqpan2l"],
+
+	["Lqglassmt2r", "Lqpan1l"],
+	["Lqglassmt2r", "Lqpan1r"],
+	["Lqglassmt2r", "Lqpan2r"],
+
+	["Lqglassmtrig", "Lqpan1l"],
+	["Lqglassmtrig", "Lqpan1r"],
+	["Lqglassmtrig", "Lqpan2l"],
+	["Lqglassmtrig", "Lqpan2r"],
+
+	{"optional":false},
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_quarterglass_mount_L"},   
+	["Lqglassmt2l","Lqglassmt2r","Lqglassmt1r","Lqglassmt1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_quarterglass_mount_L_col2": {
+    "information":{
+        "name":"Rear Left Quarter Glass Mount (Color 2)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_quarterglass_mount_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_quarterglass_L", "legocar_quarterglass_L_blacktint", "Rear Left Quarter Glass"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x2_flat_col2",  ["legocar_quarterglass_mount_L"], [], {"pos":{"x":0.500, "y":0.500, "z":0.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_quarterglass_mount_L"},
+
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["Lqglassmt1l",  0.75, 0.25, 0.75],
+	["Lqglassmt1r",  0.25, 0.25, 0.75],
+	["Lqglassmt2l",  0.75, 0.75, 0.75],
+	["Lqglassmt2r",  0.25, 0.75, 0.75],
+
+	//rigidifier
+	["Lqglassmtrig", 0.5, 0.5, 0.55, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*801000", "beamDamp":"$=$weight*80"},
+
+	//uniform structure
+	["Lqglassmt1l", "Lqglassmt1r"],
+	["Lqglassmt2l", "Lqglassmt2r"],
+	["Lqglassmt1l", "Lqglassmt2l"],
+	["Lqglassmt1r", "Lqglassmt2r"],
+	["Lqglassmt1l", "Lqglassmt2r"],
+	["Lqglassmt2l", "Lqglassmt1r"],
+
+	//rigidifier
+	["Lqglassmt1l", "Lqglassmtrig"],
+	["Lqglassmt1r", "Lqglassmtrig"],
+	["Lqglassmt2l", "Lqglassmtrig"],
+	["Lqglassmt2r", "Lqglassmtrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to B pillar
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"breakGroup":"quarterglassmount_bpillar_L_break"},
+
+	["Lqglassmt1l", "Lbpillar1l"],
+	["Lqglassmt1l", "Lbpillar3r"],
+	["Lqglassmt1l", "Lbpillar4l"],
+
+	["Lqglassmt1r", "Lbpillar1r"],
+	["Lqglassmt1r", "Lbpillar3l"],
+	["Lqglassmt1r", "Lbpillar4r"],
+
+	["Lqglassmt2l", "Lbpillar2l"],
+	["Lqglassmt2l", "Lbpillar4r"],
+	["Lqglassmt2l", "Lbpillar3l"],
+
+	["Lqglassmt2r", "Lbpillar2r"],
+	["Lqglassmt2r", "Lbpillar4l"],
+	["Lqglassmt2r", "Lbpillar3r"],
+
+	["Lqglassmtrig", "Lbpillar1l"],
+	["Lqglassmtrig", "Lbpillar1r"],
+	["Lqglassmtrig", "Lbpillar3l"],
+	["Lqglassmtrig", "Lbpillar3r"],
+
+
+	{"optional":true},
+
+	//to left quarter panel
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"breakGroup":"quarterglassmount_quarterpanel_L_break"},
+
+	["Lqglassmt1l", "Lqpan1l"],
+	["Lqglassmt1l", "Lqpan1r"],
+	["Lqglassmt1l", "Lqpan2l"],
+
+	["Lqglassmt1r", "Lqpan1l"],
+	["Lqglassmt1r", "Lqpan1r"],
+	["Lqglassmt1r", "Lqpan2r"],
+
+	["Lqglassmt2l", "Lqpan1l"],
+	["Lqglassmt2l", "Lqpan1r"],
+	["Lqglassmt2l", "Lqpan2l"],
+
+	["Lqglassmt2r", "Lqpan1l"],
+	["Lqglassmt2r", "Lqpan1r"],
+	["Lqglassmt2r", "Lqpan2r"],
+
+	["Lqglassmtrig", "Lqpan1l"],
+	["Lqglassmtrig", "Lqpan1r"],
+	["Lqglassmtrig", "Lqpan2l"],
+	["Lqglassmtrig", "Lqpan2r"],
+
+	{"optional":false},
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_quarterglass_mount_L"},   
+	["Lqglassmt2l","Lqglassmt2r","Lqglassmt1r","Lqglassmt1l"],
+        {"group":""},
+    ],
+},
+
+"legocar_quarterglass_mount_L_col3": {
+    "information":{
+        "name":"Rear Left Quarter Glass Mount (Color 3)",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_quarterglass_mount_L",
+    "slots": [
+        ["type", "default", "description"],
+	["legocar_quarterglass_L", "legocar_quarterglass_L_blacktint", "Rear Left Quarter Glass"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["lego_2x2_flat_col3",  ["legocar_quarterglass_mount_L"], [], {"pos":{"x":0.500, "y":0.500, "z":0.7},"rot":{"x":0, "y":0, "z":0},"scale":{"x":0.99, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+	{"group":"legocar_quarterglass_mount_L"},
+
+	//4 pieces, 5 nodes - 0.8 kg/node
+	{"nodeWeight": "$=$weight*0.8"},
+
+	["Lqglassmt1l",  0.75, 0.25, 0.75],
+	["Lqglassmt1r",  0.25, 0.25, 0.75],
+	["Lqglassmt2l",  0.75, 0.75, 0.75],
+	["Lqglassmt2r",  0.25, 0.75, 0.75],
+
+	//rigidifier
+	["Lqglassmtrig", 0.5, 0.5, 0.55, {"collision":false, "selfCollision":false, "group":""}],
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+        {"beamDeform":"FLT_MAX", "beamStrength":"FLT_MAX"},
+	{"breakGroup":""},
+
+	//spring = weight * 1001000, damp = weight * 100
+	{"beamSpring":"$=$weight*801000", "beamDamp":"$=$weight*80"},
+
+	//uniform structure
+	["Lqglassmt1l", "Lqglassmt1r"],
+	["Lqglassmt2l", "Lqglassmt2r"],
+	["Lqglassmt1l", "Lqglassmt2l"],
+	["Lqglassmt1r", "Lqglassmt2r"],
+	["Lqglassmt1l", "Lqglassmt2r"],
+	["Lqglassmt2l", "Lqglassmt1r"],
+
+	//rigidifier
+	["Lqglassmt1l", "Lqglassmtrig"],
+	["Lqglassmt1r", "Lqglassmtrig"],
+	["Lqglassmt2l", "Lqglassmtrig"],
+	["Lqglassmt2r", "Lqglassmtrig"],
+
+
+	//--ATTACH--
+	{"beamDeform":"$strength", "beamStrength":"$strength"},
+
+	//to B pillar
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"breakGroup":"quarterglassmount_bpillar_L_break"},
+
+	["Lqglassmt1l", "Lbpillar1l"],
+	["Lqglassmt1l", "Lbpillar3r"],
+	["Lqglassmt1l", "Lbpillar4l"],
+
+	["Lqglassmt1r", "Lbpillar1r"],
+	["Lqglassmt1r", "Lbpillar3l"],
+	["Lqglassmt1r", "Lbpillar4r"],
+
+	["Lqglassmt2l", "Lbpillar2l"],
+	["Lqglassmt2l", "Lbpillar4r"],
+	["Lqglassmt2l", "Lbpillar3l"],
+
+	["Lqglassmt2r", "Lbpillar2r"],
+	["Lqglassmt2r", "Lbpillar4l"],
+	["Lqglassmt2r", "Lbpillar3r"],
+
+	["Lqglassmtrig", "Lbpillar1l"],
+	["Lqglassmtrig", "Lbpillar1r"],
+	["Lqglassmtrig", "Lbpillar3l"],
+	["Lqglassmtrig", "Lbpillar3r"],
+
+
+	{"optional":true},
+
+	//to left quarter panel
+	{"beamSpring":"$=$weight*401000", "beamDamp":"$=$weight*40"},
+	{"breakGroup":"quarterglassmount_quarterpanel_L_break"},
+
+	["Lqglassmt1l", "Lqpan1l"],
+	["Lqglassmt1l", "Lqpan1r"],
+	["Lqglassmt1l", "Lqpan2l"],
+
+	["Lqglassmt1r", "Lqpan1l"],
+	["Lqglassmt1r", "Lqpan1r"],
+	["Lqglassmt1r", "Lqpan2r"],
+
+	["Lqglassmt2l", "Lqpan1l"],
+	["Lqglassmt2l", "Lqpan1r"],
+	["Lqglassmt2l", "Lqpan2l"],
+
+	["Lqglassmt2r", "Lqpan1l"],
+	["Lqglassmt2r", "Lqpan1r"],
+	["Lqglassmt2r", "Lqpan2r"],
+
+	["Lqglassmtrig", "Lqpan1l"],
+	["Lqglassmtrig", "Lqpan1r"],
+	["Lqglassmtrig", "Lqpan2l"],
+	["Lqglassmtrig", "Lqpan2r"],
+
+	{"optional":false},
+	{"breakGroup":""},
+
+	{"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1, "beamShortBound":1},
+    ],
+    "quads": [
+        ["id1:","id2:","id3:","id4:"],
+        {"group":"legocar_quarterglass_mount_L"},   
+	["Lqglassmt2l","Lqglassmt2r","Lqglassmt1r","Lqglassmt1l"],
+        {"group":""},
+    ],
+},
+
+}

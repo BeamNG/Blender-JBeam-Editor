@@ -1,0 +1,351 @@
+{
+"legocar_police_flashers_controller_EU": {
+    "information":{
+        "name":"Standard EU Flashers",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_police_flashers_controller",
+    "controller": [
+        ["fileName"],
+        ["lightbar", {
+	  "name": "concealed_flashers",
+          "defaultModeIndex": 1,
+          "modes": [
+              ["name", "config"],
+
+              ["Chase", [
+                  ["electric", "value", "duration"],	  
+                  ["cop_flasher_FL_dim", 0, 0],
+		  ["cop_flasher_FR_dim", 0, 0],
+		  ["cop_flasher_RL_dim", 0, 0],
+		  ["cop_flasher_RR_dim", 0, 0],
+
+                  ["cop_flasher_FL", 1, 0.10],
+                  ["cop_flasher_FL", 0, 0.10],
+                  ["cop_flasher_FL", 1, 0.05],
+                  ["cop_flasher_FL", 0, 0.05],
+		  ["cop_flasher_FL", 1, 0.20],
+                  ["cop_flasher_FL", 0, 0.35],
+
+		  ["cop_flasher_FR", 1, 0.10],
+                  ["cop_flasher_FR", 0, 0.10],
+                  ["cop_flasher_FR", 1, 0.05],
+                  ["cop_flasher_FR", 0, 0.05],
+		  ["cop_flasher_FR", 1, 0.20],
+                  ["cop_flasher_FR", 0, 0.35],
+
+		  ["cop_flasher_RL", 1, 0.10],
+                  ["cop_flasher_RL", 0, 0.10],
+                  ["cop_flasher_RL", 1, 0.05],
+                  ["cop_flasher_RL", 0, 0.05],
+		  ["cop_flasher_RL", 1, 0.20],
+                  ["cop_flasher_RL", 0, 0.35],
+
+		  ["cop_flasher_RR", 1, 0.10],
+                  ["cop_flasher_RR", 0, 0.10],
+                  ["cop_flasher_RR", 1, 0.05],
+                  ["cop_flasher_RR", 0, 0.05],
+		  ["cop_flasher_RR", 1, 0.20],
+                  ["cop_flasher_RR", 0, 0.35],
+
+		  ["cop_flasher_sign_R", 1, 0.10],
+                  ["cop_flasher_sign_R", 0, 0.10],
+                  ["cop_flasher_sign_R", 1, 0.05],
+                  ["cop_flasher_sign_R", 0, 0.05],
+		  ["cop_flasher_sign_R", 1, 0.20],
+                  ["cop_flasher_sign_R", 0, 0.35],
+
+		  ["cop_flasher_sign_L", 1, 0.10],
+                  ["cop_flasher_sign_L", 0, 0.10],
+                  ["cop_flasher_sign_L", 1, 0.05],
+                  ["cop_flasher_sign_L", 0, 0.05],
+		  ["cop_flasher_sign_L", 1, 0.20],
+                  ["cop_flasher_sign_L", 0, 0.35],
+                ]
+              ],
+
+              ["Scene", [
+                  ["electric", "value", "duration"],
+                  ["cop_flasher_FL_dim", 0, 0],
+		  ["cop_flasher_FR_dim", 0, 0],
+		  ["cop_flasher_RL_dim", 0, 0],
+		  ["cop_flasher_RR_dim", 0, 0],
+		  ["cop_flasher_sign_L", 0, 0],
+		  ["cop_flasher_sign_R", 0, 0],
+
+                  ["cop_flasher_FL", 1, 0.10],
+                  ["cop_flasher_FL", 0, 0.10],
+                  ["cop_flasher_FL", 1, 0.05],
+                  ["cop_flasher_FL", 0, 0.05],
+		  ["cop_flasher_FL", 1, 0.20],
+                  ["cop_flasher_FL", 0, 0.35],
+
+		  ["cop_flasher_FR", 1, 0.10],
+                  ["cop_flasher_FR", 0, 0.10],
+                  ["cop_flasher_FR", 1, 0.05],
+                  ["cop_flasher_FR", 0, 0.05],
+		  ["cop_flasher_FR", 1, 0.20],
+                  ["cop_flasher_FR", 0, 0.35],
+
+		  ["cop_flasher_RL", 1, 0.10],
+                  ["cop_flasher_RL", 0, 0.10],
+                  ["cop_flasher_RL", 1, 0.05],
+                  ["cop_flasher_RL", 0, 0.05],
+		  ["cop_flasher_RL", 1, 0.20],
+                  ["cop_flasher_RL", 0, 0.35],
+
+		  ["cop_flasher_RR", 1, 0.10],
+                  ["cop_flasher_RR", 0, 0.10],
+                  ["cop_flasher_RR", 1, 0.05],
+                  ["cop_flasher_RR", 0, 0.05],
+		  ["cop_flasher_RR", 1, 0.20],
+                  ["cop_flasher_RR", 0, 0.35],
+                ]
+              ],
+
+              ["Left Signal", [
+                  ["electric", "value", "duration"],
+                  ["cop_flasher_FL_dim", 0, 0],
+		  ["cop_flasher_FR_dim", 0, 0],
+		  ["cop_flasher_RL_dim", 0, 0],
+		  ["cop_flasher_RR_dim", 0, 0],
+		  ["cop_flasher_sign_L", 0, 0],
+		  ["cop_flasher_sign_R", 0, 0],
+
+                  ["cop_flasher_FL", 1, 0.10],
+                  ["cop_flasher_FL", 0, 0.10],
+                  ["cop_flasher_FL", 1, 0.05],
+                  ["cop_flasher_FL", 0, 0.05],
+		  ["cop_flasher_FL", 1, 0.20],
+                  ["cop_flasher_FL", 0, 0.35],
+
+		  ["cop_flasher_FR", 1, 0.10],
+                  ["cop_flasher_FR", 0, 0.10],
+                  ["cop_flasher_FR", 1, 0.05],
+                  ["cop_flasher_FR", 0, 0.05],
+		  ["cop_flasher_FR", 1, 0.20],
+                  ["cop_flasher_FR", 0, 0.35],
+
+		  ["cop_flasher_RL", 1, 0.10],
+                  ["cop_flasher_RL", 0, 0.10],
+                  ["cop_flasher_RL", 1, 0.05],
+                  ["cop_flasher_RL", 0, 0.05],
+		  ["cop_flasher_RL", 1, 0.20],
+                  ["cop_flasher_RL", 0, 0.35],
+
+		  ["cop_flasher_RR", 1, 0.10],
+                  ["cop_flasher_RR", 0, 0.10],
+                  ["cop_flasher_RR", 1, 0.05],
+                  ["cop_flasher_RR", 0, 0.05],
+		  ["cop_flasher_RR", 1, 0.20],
+                  ["cop_flasher_RR", 0, 0.35],
+                ]
+              ],
+
+              ["Right Signal", [
+                  ["electric", "value", "duration"],
+                  ["cop_flasher_FL_dim", 0, 0],
+		  ["cop_flasher_FR_dim", 0, 0],
+		  ["cop_flasher_RL_dim", 0, 0],
+		  ["cop_flasher_RR_dim", 0, 0],
+		  ["cop_flasher_sign_L", 0, 0],
+		  ["cop_flasher_sign_R", 0, 0],
+
+                  ["cop_flasher_FL", 1, 0.10],
+                  ["cop_flasher_FL", 0, 0.10],
+                  ["cop_flasher_FL", 1, 0.05],
+                  ["cop_flasher_FL", 0, 0.05],
+		  ["cop_flasher_FL", 1, 0.20],
+                  ["cop_flasher_FL", 0, 0.35],
+
+		  ["cop_flasher_FR", 1, 0.10],
+                  ["cop_flasher_FR", 0, 0.10],
+                  ["cop_flasher_FR", 1, 0.05],
+                  ["cop_flasher_FR", 0, 0.05],
+		  ["cop_flasher_FR", 1, 0.20],
+                  ["cop_flasher_FR", 0, 0.35],
+
+		  ["cop_flasher_RL", 1, 0.10],
+                  ["cop_flasher_RL", 0, 0.10],
+                  ["cop_flasher_RL", 1, 0.05],
+                  ["cop_flasher_RL", 0, 0.05],
+		  ["cop_flasher_RL", 1, 0.20],
+                  ["cop_flasher_RL", 0, 0.35],
+
+		  ["cop_flasher_RR", 1, 0.10],
+                  ["cop_flasher_RR", 0, 0.10],
+                  ["cop_flasher_RR", 1, 0.05],
+                  ["cop_flasher_RR", 0, 0.05],
+		  ["cop_flasher_RR", 1, 0.20],
+                  ["cop_flasher_RR", 0, 0.35],
+                ]
+              ],
+
+          ]
+        }],
+    ],
+},
+
+"legocar_police_flashers_controller_EU_alt": {
+    "information":{
+        "name":"Aggressive EU Flashers",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_police_flashers_controller",
+    "controller": [
+        ["fileName"],
+        ["lightbar", {
+	  "name": "concealed_flashers",
+          "defaultModeIndex": 1,
+          "modes": [
+              ["name", "config"],
+
+              ["Chase", [
+                  ["electric", "value", "duration"],	  
+                  ["cop_flasher_FL_dim", 0, 0],
+		  ["cop_flasher_FR_dim", 0, 0],
+		  ["cop_flasher_RL_dim", 0, 0],
+		  ["cop_flasher_RR_dim", 0, 0],
+
+		  ["cop_flasher_FL", 1, 0.15],
+                  ["cop_flasher_FL", 0, 0.15],
+                  ["cop_flasher_FL", 1, 0.15],
+                  ["cop_flasher_FL", 0, 0.60],
+
+                  ["cop_flasher_FR", 0, 0.60],
+                  ["cop_flasher_FR", 1, 0.15],
+                  ["cop_flasher_FR", 0, 0.15],
+                  ["cop_flasher_FR", 1, 0.15],
+
+		  ["cop_flasher_RL", 1, 0.15],
+                  ["cop_flasher_RL", 0, 0.15],
+                  ["cop_flasher_RL", 1, 0.15],
+                  ["cop_flasher_RL", 0, 0.60],
+
+                  ["cop_flasher_RR", 0, 0.60],
+                  ["cop_flasher_RR", 1, 0.15],
+                  ["cop_flasher_RR", 0, 0.15],
+                  ["cop_flasher_RR", 1, 0.15],
+
+		  ["cop_flasher_sign_R", 1, 0.15],
+                  ["cop_flasher_sign_R", 0, 0.15],
+                  ["cop_flasher_sign_R", 1, 0.15],
+                  ["cop_flasher_sign_R", 0, 0.60],
+
+                  ["cop_flasher_sign_L", 0, 0.60],
+                  ["cop_flasher_sign_L", 1, 0.15],
+                  ["cop_flasher_sign_L", 0, 0.15],
+                  ["cop_flasher_sign_L", 1, 0.15],
+                ]
+              ],
+
+              ["Scene", [
+                  ["electric", "value", "duration"],
+                  ["cop_flasher_FR_dim", 0, 0.42],
+		  ["cop_flasher_FR",     1, 0.07],
+		  ["cop_flasher_FR",     0, 0.07],
+		  ["cop_flasher_FR",     1, 0.07],
+		  ["cop_flasher_FR",     0, 0.07],
+		  ["cop_flasher_FR",     1, 0.07],
+		  ["cop_flasher_FR",     0, 0.07],
+		  ["cop_flasher_FR",     0, 0.42],
+		  ["cop_flasher_FR_dim", 1, 0.07],
+		  ["cop_flasher_FR_dim", 0, 0.07],
+		  ["cop_flasher_FR_dim", 1, 0.07],
+		  ["cop_flasher_FR_dim", 0, 0.07],
+		  ["cop_flasher_FR_dim", 1, 0.07],
+		  ["cop_flasher_FR_dim", 0, 0.07],
+
+		  ["cop_flasher_FL",     0, 0.42],
+		  ["cop_flasher_FL_dim", 1, 0.07],
+		  ["cop_flasher_FL_dim", 0, 0.07],
+		  ["cop_flasher_FL_dim", 1, 0.07],
+		  ["cop_flasher_FL_dim", 0, 0.07],
+		  ["cop_flasher_FL_dim", 1, 0.07],
+		  ["cop_flasher_FL_dim", 0, 0.07],
+		  ["cop_flasher_FL_dim", 0, 0.42],
+		  ["cop_flasher_FL",     1, 0.07],
+		  ["cop_flasher_FL",     0, 0.07],
+		  ["cop_flasher_FL",     1, 0.07],
+		  ["cop_flasher_FL",     0, 0.07],
+		  ["cop_flasher_FL",     1, 0.07],
+		  ["cop_flasher_FL",     0, 0.07],
+
+		  ["cop_flasher_RL_dim", 0, 0.42],
+		  ["cop_flasher_RL",     1, 0.07],
+		  ["cop_flasher_RL",     0, 0.07],
+		  ["cop_flasher_RL",     1, 0.07],
+		  ["cop_flasher_RL",     0, 0.07],
+		  ["cop_flasher_RL",     1, 0.07],
+		  ["cop_flasher_RL",     0, 0.07],
+		  ["cop_flasher_RL",     0, 0.42],
+		  ["cop_flasher_RL_dim", 1, 0.07],
+		  ["cop_flasher_RL_dim", 0, 0.07],
+		  ["cop_flasher_RL_dim", 1, 0.07],
+		  ["cop_flasher_RL_dim", 0, 0.07],
+		  ["cop_flasher_RL_dim", 1, 0.07],
+		  ["cop_flasher_RL_dim", 0, 0.07],
+
+		  ["cop_flasher_RR",     0, 0.42],
+		  ["cop_flasher_RR_dim", 1, 0.07],
+		  ["cop_flasher_RR_dim", 0, 0.07],
+		  ["cop_flasher_RR_dim", 1, 0.07],
+		  ["cop_flasher_RR_dim", 0, 0.07],
+		  ["cop_flasher_RR_dim", 1, 0.07],
+		  ["cop_flasher_RR_dim", 0, 0.07],
+		  ["cop_flasher_RR_dim", 0, 0.42],
+		  ["cop_flasher_RR",     1, 0.07],
+		  ["cop_flasher_RR",     0, 0.07],
+		  ["cop_flasher_RR",     1, 0.07],
+		  ["cop_flasher_RR",     0, 0.07],
+		  ["cop_flasher_RR",     1, 0.07],
+		  ["cop_flasher_RR",     0, 0.07],
+
+		  ["cop_flasher_sign_R", 1, 0.15],
+                  ["cop_flasher_sign_R", 0, 0.15],
+                  ["cop_flasher_sign_R", 1, 0.15],
+                  ["cop_flasher_sign_R", 0, 0.60],
+
+                  ["cop_flasher_sign_L", 0, 0.60],
+                  ["cop_flasher_sign_L", 1, 0.15],
+                  ["cop_flasher_sign_L", 0, 0.15],
+                  ["cop_flasher_sign_L", 1, 0.15],
+                ]
+              ],
+
+              ["Left Signal", [
+                  ["electric", "value", "duration"],
+                  ["cop_flasher_FL_dim", 0, 0],
+		  ["cop_flasher_FR_dim", 0, 0],
+		  ["cop_flasher_FL", 0, 0],
+		  ["cop_flasher_FR", 0, 0],
+		  ["cop_flasher_RL_dim", 0, 0],
+		  ["cop_flasher_RR_dim", 0, 0],
+		  ["cop_flasher_RL", 0, 0],
+		  ["cop_flasher_RR", 0, 0],
+		  ["cop_flasher_sign_L", 0, 0],
+		  ["cop_flasher_sign_R", 0, 0],
+                ]
+              ],
+
+              ["Right Signal", [
+                  ["electric", "value", "duration"],
+                  ["cop_flasher_FL_dim", 0, 0],
+		  ["cop_flasher_FR_dim", 0, 0],
+		  ["cop_flasher_FL", 0, 0],
+		  ["cop_flasher_FR", 0, 0],
+		  ["cop_flasher_RL_dim", 0, 0],
+		  ["cop_flasher_RR_dim", 0, 0],
+		  ["cop_flasher_RL", 0, 0],
+		  ["cop_flasher_RR", 0, 0],
+		  ["cop_flasher_sign_L", 0, 0],
+		  ["cop_flasher_sign_R", 0, 0],
+                ]
+              ],
+
+          ]
+        }],
+    ],
+},
+
+}

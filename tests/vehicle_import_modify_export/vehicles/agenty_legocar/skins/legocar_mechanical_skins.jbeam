@@ -1,0 +1,66 @@
+{
+"legocar_skin_mechanical_steel": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Steel",
+    },
+    "slotType" : "skin_mechanical",
+
+    //density changes from 1.07g/cm^3 to 7.85 g/cm^3 so we make the car roughly 7 times heavier
+    "scalenodeWeight": 7,
+
+    "scalebeamSpring": 7,
+    "scalebeamLimitSpring": 5,
+    "scalespring": 5,
+    "scalespringExpansion": 5,
+
+    "scalebeamDamp": 7,
+    "scalebeamLimitDamp": 5,
+    "scalebeamDampRebound": 5,
+    "scalebeamLimitDampRebound": 5,
+    "scalebeamDampFast": 5,
+    "scalebeamDampReboundFast": 5,
+    "scaledamp": 5,
+    "scaledampExpansion": 5,
+
+    //override plastic sound to sound like metal
+    "sounds": {
+        "impactPlastic":"event:>Destruction>Vehicle>vehicle_part_impact",
+        "scrapePlastic":"event:>Destruction>Scrapes>asphalt_metal",
+    },
+},
+
+
+"legocar_skin_mechanical_gold": {
+    "information":{
+        "authors":"AgentY",
+        "name":"Pure Gold",
+    },
+    "slotType" : "skin_mechanical",
+    "globalSkin": "gold",
+
+    //density changes from 1.07g/cm^3 to 19.3 g/cm^3 so we make the car roughly 18 times heavier
+    "scalenodeWeight": 18,
+
+    "scalebeamSpring": 18,
+    "scalebeamLimitSpring": 15,
+    "scalespring": 15,
+    "scalespringExpansion": 15,
+
+    "scalebeamDamp": 18,
+    "scalebeamLimitDamp": 15,
+    "scalebeamDampRebound": 15,
+    "scalebeamLimitDampRebound": 15,
+    "scalebeamDampFast": 15,
+    "scalebeamDampReboundFast": 15,
+    "scaledamp": 15,
+    "scaledampExpansion": 15,
+
+    //override plastic sound to sound like metal
+    "sounds": {
+        "impactPlastic":"event:>Destruction>Vehicle>vehicle_part_impact",
+        "scrapePlastic":"event:>Destruction>Scrapes>asphalt_metal",
+    },
+},
+
+}

@@ -1,0 +1,61 @@
+{
+"legocar_sparewheel_wide": {
+    "information":{
+        "name":"14x12 Toy Car 6014b Sport Spare Wheel",
+        "authors":"AgentY",
+    },
+    "slotType":"legocar_sparewheel",
+    "slots": [
+        ["type", "default", "description"],
+	["skin_legocar_wheel_spare","legocar_skin_wheel_spare_grey", "Spare Wheel Color", {"coreSlot":true}],
+	["legocar_sparetire_wide","legocar_sparetire_wide_treaded", "Spare Tire"],
+    ],
+    "flexbodies": [
+        ["mesh", "[group]:", "nonFlexMaterials"],
+	["legocar_wheel_spare_standard",["legocar_sparewheel"],[], {"pos":{"x": 0.000, "y":1.625, "z":0.9},"rot":{"x":0, "y":-90, "z":0},"scale":{"x":0.95, "y":0.99, "z":0.99}}],
+    ],
+    "nodes": [
+        ["id", "posX", "posY", "posZ"],
+        {"collision":true},
+        {"selfCollision":true},
+        //front wheels
+        {"nodeWeight":5.0},
+        {"nodeMaterial":"|NM_PLASTIC"},
+        {"frictionCoef":0.5},
+        {"group":"legocar_sparewheel"},
+        ["spw1", 0, 1.625, 1.025],
+	["spw2", 0, 1.625, 1.225],
+        {"group":""},
+    ],
+    "beams": [
+        ["id1:", "id2:"],
+        {"beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+        {"breakGroup":""},
+        {"beamDeform":"FLT_MAX","beamStrength":"FLT_MAX"},
+        {"beamSpring":1501000,"beamDamp":25},
+        //spare wheel
+        ["spw1","spw2"],
+        {"beamPrecompression":1, "beamType":"|NORMAL", "beamLongBound":1.0, "beamShortBound":1.0},
+    ],
+    "pressureWheels": [
+        ["name","hubGroup","group","node1:","node2:","nodeS","nodeArm:","wheelDir"],
+        {"disableMeshBreaking":false,"disableHubMeshBreaking":false,"enableHubcaps":false,"hasTire":false},
+
+        //general settings
+        {"hubRadius":0.1762820},
+        {"wheelOffset":-0.055},
+        {"hubWidth":0.3},
+        {"numRays":16},
+
+        //hub options
+        {"hubTreadBeamSpring":1001000, "hubTreadBeamDamp":10},
+        {"hubPeripheryBeamSpring":1001000, "hubPeripheryBeamDamp":10},
+        {"hubSideBeamSpring":1501000, "hubSideBeamDamp":10},
+        {"hubNodeWeight":0.5},
+        {"hubNodeMaterial":"|NM_PLASTIC"},
+        {"hubFrictionCoef":0.5},
+        {"hubBeamDeform":"FLT_MAX", "hubBeamStrength":"FLT_MAX"},
+    ],
+},
+
+}
