@@ -300,6 +300,7 @@ class JBEAM_EDITOR_OT_export_jbeam(Operator):
         tf = timeit.default_timer()
         print('Exported to disk:', context.selected_objects)
         print('Exporting Time', round(tf - t0, 2), 's')
+        utils.show_message_box('INFO', 'Export JBeam', f'Exported JBeam parts to disk: {[x.name for x in context.selected_objects]}')
 
         # import cProfile, pstats, io
         # import pstats
