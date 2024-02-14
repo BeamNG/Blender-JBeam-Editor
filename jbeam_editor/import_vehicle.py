@@ -79,10 +79,11 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict, reimporting
                     parts = jbeam_io.file_to_parts_name_map[file]
                     for part in parts:
                         if part in veh_parts:
-                            veh_part_to_file_map[part] = file
-                            if not file_added:
-                                veh_files.append(file)
-                                file_added = True
+                            if part not in veh_part_to_file_map:
+                                veh_part_to_file_map[part] = file
+                                if not file_added:
+                                    veh_files.append(file)
+                                    file_added = True
 
     print('Applying variables...')
     all_variables = jbeam_variables.process_parts(vehicle, unify_journal, vehicle_config)
