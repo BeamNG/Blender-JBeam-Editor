@@ -264,7 +264,7 @@ def add_offset_expr(expr: str, offset_str: str):
 memo = {}
 
 def parse_safe(expr: str, params: dict):
-    encoded = (expr, pickle.dumps(params))
+    encoded = (expr, pickle.dumps(params, -1))
     if memo.get(encoded) is not None:
         out = memo[encoded]
         return out[0], out[1]

@@ -194,7 +194,7 @@ def generate_part_mesh(obj: bpy.types.Object, obj_data: bpy.types.Mesh, bm: bmes
 
     obj_data[constants.MESH_JBEAM_PART] = part
     obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_file_path
-    obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(vdata)
+    obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(vdata, -1)
     obj_data[constants.MESH_VERTEX_COUNT] = len(bm_verts)
     obj_data[constants.MESH_EDGE_COUNT] = len(bm_edges)
     obj_data[constants.MESH_FACE_COUNT] = len(bm_faces)
@@ -267,7 +267,7 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
             raise Exception('JBeam processing error.')
         jbeam_node_beam.process(part_data)
 
-        obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(part_data)
+        obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(part_data, -1)
 
         vertices, edges, faces, node_ids = get_vertices_edges_faces(part_data)
 

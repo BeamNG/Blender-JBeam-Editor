@@ -91,7 +91,7 @@ def replace_special_values(val):
 memo = {}
 
 def process_table_with_schema_destructive(jbeam_table: list, new_dict: dict, input_options=None):
-    encoded = (pickle_dumps(jbeam_table), pickle_dumps(input_options))
+    encoded = (pickle_dumps(jbeam_table, -1), pickle_dumps(input_options, -1))
     if memo.get(encoded) is not None:
         out = memo[encoded]
         new_dict.update(pickle_loads(out[0]))
@@ -208,7 +208,7 @@ def process_table_with_schema_destructive(jbeam_table: list, new_dict: dict, inp
             print('*** Invalid table row:', row_value, file=sys.stderr)
             return -1
 
-    memo[encoded] = (pickle_dumps(new_dict), new_list_size)
+    memo[encoded] = (pickle_dumps(new_dict, -1), new_list_size)
     return new_list_size
 
 

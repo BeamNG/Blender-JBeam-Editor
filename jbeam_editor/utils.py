@@ -113,7 +113,7 @@ def sjson_read_file(filepath: str):
 
 
 def fast_deepcopy(x):
-    return pickle_loads(pickle_dumps(x))
+    return pickle_loads(pickle_dumps(x, -1))
 
 
 def row_dict_deepcopy(in_d: dict):

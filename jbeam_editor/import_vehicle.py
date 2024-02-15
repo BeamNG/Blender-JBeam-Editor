@@ -357,7 +357,7 @@ def generate_meshes(vehicle_bundle: dict):
         vehicle_parts_collection.objects.link(part_obj)
 
     # store vehicle data in collection
-    vehicle_parts_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle)
+    vehicle_parts_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle, -1)
     vehicle_parts_collection[constants.COLLECTION_IO_CTX] = io_ctx
     vehicle_parts_collection[constants.COLLECTION_VEH_FILES] = veh_files
     vehicle_parts_collection[constants.COLLECTION_PC_FILEPATH] = pc_filepath
@@ -430,7 +430,7 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
     for obj_data in obj_datas_to_remove:
         bpy.data.meshes.remove(obj_data, do_unlink=True)
 
-    veh_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle)
+    veh_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle, -1)
     veh_collection[constants.COLLECTION_IO_CTX] = io_ctx
     veh_collection[constants.COLLECTION_VEH_FILES] = veh_files
     veh_collection[constants.COLLECTION_PC_FILEPATH] = pc_filepath
