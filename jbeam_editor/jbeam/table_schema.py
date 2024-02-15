@@ -170,7 +170,7 @@ def process_table_with_schema_destructive(jbeam_table: list, new_dict: dict, inp
                     new_row_metadata.merge(rv_metadata)
 
                     # Convert metadata variable reference in list from index to key using header
-                    for var in list(new_row_metadata._data.keys()):
+                    for var in [*new_row_metadata._data.keys()]:
                         if isinstance(var, int):
                             new_row_metadata._data[header[var]] = new_row_metadata._data.pop(var)
 
@@ -278,7 +278,7 @@ def process(vehicle: dict):
     vehicle['options'] = vehicle.get('options', {})
 
     # Walk through everything and look for options
-    for key_entry in list(vehicle.keys()):
+    for key_entry in [*vehicle.keys()]:
         entry = vehicle[key_entry]
         if not isinstance(entry, (dict, list)):
             # Seems to be an option, add it to the vehicle options

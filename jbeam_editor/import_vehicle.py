@@ -67,7 +67,7 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict, reimporting
         raise Exception('JBeam processing error.')
 
     # Map parts to JBeam file
-    veh_parts = list(chosen_parts.values())
+    veh_parts = [*chosen_parts.values()]
     veh_part_to_file_map = {}
     veh_files = []
     for directory in vehicle_directories:
