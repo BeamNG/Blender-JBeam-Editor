@@ -186,7 +186,7 @@ def _sanitize_vars(all_variables: dict, user_vars: dict):
 def _get_part_variables_parsing_variables_section_destructive(part: dict):
     res = {}
     if not isinstance(part.get('variables'), list):
-        return {}
+        return res
     new_list_size = process_table_with_schema_destructive(part['variables'], res)
     return res
 
