@@ -18,20 +18,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import ctypes
 from mathutils import Vector
 import sys
 import traceback
-from typing import Callable
 
 import bpy
-import numpy as np
 
 import bmesh
 
 from . import constants
 from .sjsonast import ASTNode, parse as sjsonast_parse, stringify_nodes as sjsonast_stringify_nodes
-from .utils import sign, sjson_decode, Metadata
+from .utils import Metadata, is_number, to_c_float, to_float_str, get_float_precision
 from . import text_editor
 
 from .jbeam import io as jbeam_io
@@ -77,23 +74,6 @@ def print_ast_nodes(ast_nodes, start_idx, size, bidirectional, file=None):
             text += str(x)
 
     print(text, file=file)
-
-
-def is_number(x):
-    return type(x) == int or type(x) == float
-
-
-def to_c_float(num):
-    return ctypes.c_float(num).value
-
-
-def to_float_str(val):
-    return np.format_float_positional(to_c_float(val), precision=4, unique=True, trim = '0')
-
-
-def get_float_precision(val):
-    fval = float(val)
-    return min(4, max(len((f'%.4g' % abs(fval - int(fval)))) - 2, 0))
 
 
 def get_prev_node(ast_nodes, start_idx, data_types):
@@ -372,44 +352,24 @@ def delete_jbeam_entry(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam
 def undo_node_move_offset_and_apply_translation_to_expr(init_node_data: dict, new_pos: Vector):
     # Undo node move/offset
     pos_no_offset = Vector(init_node_data['posNoOffset'])
-    init_pos = Vector(init_node_data['pos'])
+    init_pos = init_node_data['pos']
     metadata = init_node_data[Metadata]
 
-    offset_from_init_pos = new_pos - init_pos
-    offset_from_init_pos_tup = offset_from_init_pos.to_tuple()
-
-    if 'nodeMove' in init_node_data and init_node_data.get('nodeMove') != '':
-        node_move = Vector((init_node_data['nodeMove']['x'], init_node_data['nodeMove']['y'], init_node_data['nodeMove']['z']))
-        new_pos = new_pos - node_move
-
-    if 'nodeOffset' in init_node_data and init_node_data.get('nodeOffset') != '':
-        # Undoing nodeOffset.x is an exception as posX is equal to v.posX = v.posX + sign(v.posX) * v.nodeOffset.x
-        node_offset = Vector((init_node_data['nodeOffset']['x'], init_node_data['nodeOffset']['y'], init_node_data['nodeOffset']['z']))
-        if sign(pos_no_offset.x + offset_from_init_pos.x) > 0:
-            new_pos.x = new_pos.x - node_offset.x
-        else:
-            new_pos.x = new_pos.x + node_offset.x
-
-        new_pos.y = new_pos.y - node_offset.y
-        new_pos.z = new_pos.z - node_offset.z
-
-    new_pos_tup = new_pos.to_tuple()
+    offset_from_init_pos_tup = (new_pos.x - init_pos[0], new_pos.y - init_pos[1], new_pos.z - init_pos[2])
 
     # Apply node translation to expression if expression exists
     pos_expr = (metadata.get('posX', 'expression'), metadata.get('posY', 'expression'), metadata.get('posZ', 'expression'))
-    positions = [None, None, None]
+    position = [None, None, None]
     for i in range(3):
         if pos_expr[i] is not None:
-            if to_c_float(offset_from_init_pos_tup[i]) != 0:
-                positions[i] = add_offset_expr(pos_expr[i], to_float_str(offset_from_init_pos_tup[i]))
+            if abs(offset_from_init_pos_tup[i]) > 0.000001:
+                position[i] = add_offset_expr(pos_expr[i], to_c_float(offset_from_init_pos_tup[i]))
             else:
-                positions[i] = pos_expr[i]
+                position[i] = pos_expr[i]
         else:
-            positions[i] = to_c_float(new_pos_tup[i])
+            position[i] = to_c_float(pos_no_offset[i] + offset_from_init_pos_tup[i])
 
-    pos_tup = (positions[0], positions[1], positions[2])
-
-    return pos_tup
+    return tuple(position)
 
 
 def set_node_renames_positions(jbeam_file_data_modified: dict, jbeam_part: str, blender_nodes: dict, node_renames: dict, affect_node_references: bool):
@@ -481,9 +441,8 @@ def get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, jb
             part_actions.nodes_to_add[init_node_id] = pos
             continue
 
-        init_pos = Vector(init_node_data['pos'])
-        pos_diff = pos - init_pos
-        if abs(pos_diff.x) > 0.000001 or abs(pos_diff.y) > 0.000001 or abs(pos_diff.z) > 0.000001:
+        init_pos = init_node_data['pos']
+        if abs(pos.x - init_pos[0]) > 0.000001 or abs(pos.y - init_pos[1]) > 0.000001 or abs(pos.z - init_pos[2]) > 0.000001:
             part_actions: PartNodesActions = parts_actions.setdefault(node_part_origin, PartNodesActions())
             part_actions.nodes_to_move.add(node_id)
 
