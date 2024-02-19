@@ -262,7 +262,7 @@ def generate_part_mesh(obj: bpy.types.Object, obj_data: bpy.types.Mesh, bm: bmes
         for i, (pos, is_fake) in enumerate(vertices):
             node_id = node_index_to_id[i]
             if node_id not in transformed_positions:
-                transformed_positions[node_id] = (inv_matrix_world @ Vector(pos)).to_tuple()
+                transformed_positions[node_id] = inv_matrix_world @ Vector(pos)
             v = bm_verts_new(transformed_positions[node_id])
             bytes_node_id = bytes(node_id, 'utf-8')
             v[init_node_id_layer] = bytes_node_id
