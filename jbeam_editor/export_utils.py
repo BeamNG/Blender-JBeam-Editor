@@ -864,7 +864,6 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
     temp_key_val_start_node_idx = None
     key_val_start_node_idx_stack = []
     keys_visited = ((None, None), {})
-    commenting_out_key_val = False
 
     jbeam_section_header = []
     jbeam_section_header_lookup = {}
@@ -921,11 +920,6 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                 if temp_dict_key is None:
                     if node_type == '"':
                         temp_key_val_start_node_idx = i
-                        # stack_hash = tuple(x[0] for x in stack) + (temp_dict_key,)
-                        # # If key already visited, comment out previously visited key value pair
-                        # if stack_hash in keys_visited:
-                        #     commenting_out_key_val = True
-
                         temp_dict_key = node.value
                         comment_out_duplicate_key(ast_nodes, keys_visited, stack, temp_dict_key)
 
