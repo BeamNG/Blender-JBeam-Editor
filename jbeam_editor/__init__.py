@@ -880,6 +880,9 @@ def check_files_for_changes():
 
     return check_file_interval
 
+op_no_export = {
+    'OBJECT_OT_editmode_toggle',
+}
 _last_op = None
 
 @persistent
@@ -894,10 +897,8 @@ def poll_active_operators():
         if active_obj_data.get(constants.MESH_JBEAM_PART) is not None:
             global _do_export
             global _force_do_export
-            # Trigger export JBeam/Vehicle on translate event
-            #if _do_export or (op != last_op and (op.bl_idname if op is not None else '') == 'TRANSFORM_OT_translate'):
-            if _force_do_export or (_do_export and op != _last_op and (op is None or op.bl_idname != 'OBJECT_OT_editmode_toggle')):
-                #print('translated!')
+            # Trigger export JBeam/Vehicle on current operator finishing
+            if _force_do_export or (_do_export and op is not None and op != _last_op and all(x != op.bl_idname for x in op_no_export)):
                 veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
                 if veh_model is not None:
                     # Export
