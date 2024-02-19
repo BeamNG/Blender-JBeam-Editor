@@ -37,7 +37,7 @@ def apply(data: dict, variables: dict | None):
     while stackidx > 0:
         stackidx -= 1
         d: list | dict = stack[stackidx]
-        for key, v in (enumerate(list(d)) if isinstance(d, list) else list(d.items())):
+        for key, v in (enumerate([*d]) if isinstance(d, list) else [*d.items()]):
             if isinstance(v, str):
                 if len(v) >= 2:
                     if ord(v[0]) == 36:  # $
@@ -81,7 +81,7 @@ def apply_slot_vars(slot_vars: dict, _variables: dict | None):
     succeed = {}
     for iters in range(1, 401):
         passed = False
-        for k in list(slot_vars.keys()):
+        for k in [*slot_vars.keys()]:
             v = slot_vars[k]
             if ord(v[0]) == 36:  # $
                 second_char = ord(v[1])
@@ -121,7 +121,7 @@ def apply_slot_vars(slot_vars: dict, _variables: dict | None):
 
 def _sanitize_vars(all_variables: dict, user_vars: dict):
     variables = row_dict_deepcopy(user_vars) # if var is present in config but not in the parts, still define them properly
-    for kv in list(all_variables.keys()):
+    for kv in [*all_variables.keys()]:
         vv = all_variables[kv]
         if vv.get('type') == 'range':
             if vv.get('unit') == '':
@@ -186,7 +186,7 @@ def _sanitize_vars(all_variables: dict, user_vars: dict):
 def _get_part_variables_parsing_variables_section_destructive(part: dict):
     res = {}
     if not isinstance(part.get('variables'), list):
-        return {}
+        return res
     new_list_size = process_table_with_schema_destructive(part['variables'], res)
     return res
 

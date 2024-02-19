@@ -18,20 +18,17 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import ctypes
 from mathutils import Vector
 import sys
 import traceback
-from typing import Callable
 
 import bpy
-import numpy as np
 
 import bmesh
 
 from . import constants
 from .sjsonast import ASTNode, parse as sjsonast_parse, stringify_nodes as sjsonast_stringify_nodes
-from .utils import sign, sjson_decode, Metadata
+from .utils import Metadata, is_number, to_c_float, to_float_str, get_float_precision
 from . import text_editor
 
 from .jbeam import io as jbeam_io
@@ -77,23 +74,6 @@ def print_ast_nodes(ast_nodes, start_idx, size, bidirectional, file=None):
             text += str(x)
 
     print(text, file=file)
-
-
-def is_number(x):
-    return type(x) == int or type(x) == float
-
-
-def to_c_float(num):
-    return ctypes.c_float(num).value
-
-
-def to_float_str(val):
-    return np.format_float_positional(to_c_float(val), precision=4, unique=True, trim = '0')
-
-
-def get_float_precision(val):
-    fval = float(val)
-    return min(4, max(len((f'%.4g' % abs(fval - int(fval)))) - 2, 0))
 
 
 def get_prev_node(ast_nodes, start_idx, data_types):
@@ -372,44 +352,24 @@ def delete_jbeam_entry(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam
 def undo_node_move_offset_and_apply_translation_to_expr(init_node_data: dict, new_pos: Vector):
     # Undo node move/offset
     pos_no_offset = Vector(init_node_data['posNoOffset'])
-    init_pos = Vector(init_node_data['pos'])
+    init_pos = init_node_data['pos']
     metadata = init_node_data[Metadata]
 
-    offset_from_init_pos = new_pos - init_pos
-    offset_from_init_pos_tup = offset_from_init_pos.to_tuple()
-
-    if 'nodeMove' in init_node_data and init_node_data.get('nodeMove') != '':
-        node_move = Vector((init_node_data['nodeMove']['x'], init_node_data['nodeMove']['y'], init_node_data['nodeMove']['z']))
-        new_pos = new_pos - node_move
-
-    if 'nodeOffset' in init_node_data and init_node_data.get('nodeOffset') != '':
-        # Undoing nodeOffset.x is an exception as posX is equal to v.posX = v.posX + sign(v.posX) * v.nodeOffset.x
-        node_offset = Vector((init_node_data['nodeOffset']['x'], init_node_data['nodeOffset']['y'], init_node_data['nodeOffset']['z']))
-        if sign(pos_no_offset.x + offset_from_init_pos.x) > 0:
-            new_pos.x = new_pos.x - node_offset.x
-        else:
-            new_pos.x = new_pos.x + node_offset.x
-
-        new_pos.y = new_pos.y - node_offset.y
-        new_pos.z = new_pos.z - node_offset.z
-
-    new_pos_tup = new_pos.to_tuple()
+    offset_from_init_pos_tup = (new_pos.x - init_pos[0], new_pos.y - init_pos[1], new_pos.z - init_pos[2])
 
     # Apply node translation to expression if expression exists
     pos_expr = (metadata.get('posX', 'expression'), metadata.get('posY', 'expression'), metadata.get('posZ', 'expression'))
-    positions = [None, None, None]
+    position = [None, None, None]
     for i in range(3):
         if pos_expr[i] is not None:
-            if to_c_float(offset_from_init_pos_tup[i]) != 0:
-                positions[i] = add_offset_expr(pos_expr[i], to_float_str(offset_from_init_pos_tup[i]))
+            if abs(offset_from_init_pos_tup[i]) > 0.000001:
+                position[i] = add_offset_expr(pos_expr[i], to_c_float(offset_from_init_pos_tup[i]))
             else:
-                positions[i] = pos_expr[i]
+                position[i] = pos_expr[i]
         else:
-            positions[i] = to_c_float(new_pos_tup[i])
+            position[i] = to_c_float(pos_no_offset[i] + offset_from_init_pos_tup[i])
 
-    pos_tup = (positions[0], positions[1], positions[2])
-
-    return pos_tup
+    return tuple(position)
 
 
 def set_node_renames_positions(jbeam_file_data_modified: dict, jbeam_part: str, blender_nodes: dict, node_renames: dict, affect_node_references: bool):
@@ -481,9 +441,8 @@ def get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, jb
             part_actions.nodes_to_add[init_node_id] = pos
             continue
 
-        init_pos = Vector(init_node_data['pos'])
-        pos_diff = pos - init_pos
-        if abs(pos_diff.x) > 0.000001 or abs(pos_diff.y) > 0.000001 or abs(pos_diff.z) > 0.000001:
+        init_pos = init_node_data['pos']
+        if abs(pos.x - init_pos[0]) > 0.000001 or abs(pos.y - init_pos[1]) > 0.000001 or abs(pos.z - init_pos[2]) > 0.000001:
             part_actions: PartNodesActions = parts_actions.setdefault(node_part_origin, PartNodesActions())
             part_actions.nodes_to_move.add(node_id)
 
@@ -796,15 +755,54 @@ def add_quads_section(ast_nodes: list, jbeam_section_end_node_idx: int):
     return i, jbeam_section_start_node_idx, jbeam_section_end_node_idx
 
 
-def go_up_level(stack_size: int, stack_pop: Callable):
-    if stack_size == 0:
-        #print('Error! Attempting to go up level when stack size is 0!', file=sys.stderr)
-        return None, -1
+def comment_out_duplicate_key(ast_nodes: list, keys_visited, stack: list, curr_key: str):
+    key_exists = True
+    data = keys_visited[1]
 
-    stack_head = stack_pop()
-    in_dict = stack_head[1]
-    pos_in_arr = stack_head[0] + 1 if not in_dict else 0
-    return in_dict, pos_in_arr
+    for stack_entry in stack:
+        key = stack_entry[0]
+        key_entry = data.get(key)
+        if key_entry is None:
+            key_exists = False
+            break
+        data = data[key][1]
+
+    if not key_exists:
+        return
+    key_entry = data.pop(curr_key, None)
+    if key_entry is None:
+        return
+
+    start_node_idx, end_node_idx = key_entry[0]
+    if constants.DEBUG:
+        print('Duplicate key!!!', [*(x[0] for x in stack), curr_key], file=sys.stderr)
+
+    before_start_node = ast_nodes[start_node_idx - 1]
+    if before_start_node.data_type == 'wsc':
+        before_start_node.value += '/*'
+    else:
+        ast_nodes.insert(start_node_idx, ASTNode('wsc', '/*'))
+        end_node_idx += 1
+
+    after_end_node = ast_nodes[end_node_idx + 1]
+    if after_end_node.data_type == 'wsc':
+        after_end_node.value = '*/' + after_end_node.value
+    else:
+        ast_nodes.insert(end_node_idx + 1, ASTNode('wsc', '*/'))
+
+
+def set_key_visited(ast_nodes: list, keys_visited, stack: list, curr_key: str, new_start_node_idx: int, new_end_node_idx: int):
+    data = keys_visited[1]
+    for stack_entry in stack:
+        data = data.setdefault(stack_entry[0], [(None, None), {}])[1]
+
+    if curr_key not in data:
+        data[curr_key] = ((new_start_node_idx, new_end_node_idx), None)
+    else:
+        data[curr_key][0] = (new_start_node_idx, new_end_node_idx)
+
+    #data[0] = (new_start_node_idx, new_end_node_idx)
+    #data[curr_key][0] = (new_start_node_idx, new_end_node_idx)
 
 
 def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbeam_file_data_modified: dict, jbeam_part: str, affect_node_references: bool,
@@ -821,6 +819,10 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
     pos_in_arr = 0
     temp_dict_key = None
     dict_key = None
+
+    temp_key_val_start_node_idx = None
+    key_val_start_node_idx_stack = []
+    keys_visited = ((None, None), {})
 
     jbeam_section_header = []
     jbeam_section_header_lookup = {}
@@ -850,6 +852,7 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
         if in_dict: # In dictionary object
             if node_type in ('{', '['): # Going down a level
                 if dict_key is not None:
+                    key_val_start_node_idx_stack.append(temp_key_val_start_node_idx)
                     stack_append((dict_key, in_dict))
                     in_dict = node_type == '{'
                 else:
@@ -861,12 +864,23 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                 dict_key = None
 
             elif node_type in ('}', ']'): # Going up a level
-                in_dict, pos_in_arr = go_up_level(prev_stack_size, stack_pop)
+                if prev_stack_size > 0:
+                    prev_key, in_dict = stack_pop()
+                else:
+                    prev_key, in_dict = -1, None
+
+                if in_dict:
+                    if prev_key != -1:
+                        set_key_visited(ast_nodes, keys_visited, stack, prev_key, key_val_start_node_idx_stack.pop(), i)
+                else:
+                    pos_in_arr = prev_key + 1
 
             else: # Defining key value pair
                 if temp_dict_key is None:
                     if node_type == '"':
+                        temp_key_val_start_node_idx = i
                         temp_dict_key = node.value
+                        comment_out_duplicate_key(ast_nodes, keys_visited, stack, temp_dict_key)
 
                 elif node_type == ':':
                     dict_key = temp_dict_key
@@ -875,6 +889,8 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                         print("key delimiter predecessor was not a key!", file=sys.stderr)
 
                 elif dict_key is not None:
+                    set_key_visited(ast_nodes, keys_visited, stack, dict_key, temp_key_val_start_node_idx, i)
+
                     # Ignore slots section and other parts
                     if not (prev_stack_size > 1 and stack[1][0] == 'slots') and not prev_in_jbeam_part:
                         try:
@@ -885,7 +901,7 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                         except:
                             traceback.print_exc()
                             print_ast_nodes(ast_nodes, i, 75, True, sys.stderr)
-                            raise Exception('compare_and_set_value error!')
+                            #raise Exception('compare_and_set_value error!')
 
                     temp_dict_key = None
                     dict_key = None
@@ -899,7 +915,16 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                 dict_key = None
 
             elif node_type in ('}', ']'): # Going up a level
-                in_dict, pos_in_arr = go_up_level(prev_stack_size, stack_pop)
+                if prev_stack_size > 0:
+                    prev_key, in_dict = stack_pop()
+                else:
+                    prev_key, in_dict = -1, None
+
+                if in_dict:
+                    if prev_key != -1:
+                        set_key_visited(ast_nodes, keys_visited, stack, prev_key, key_val_start_node_idx_stack.pop(), i)
+                else:
+                    pos_in_arr = prev_key + 1
 
             elif node_type not in ('}', ']'):
                 # Ignore slots section
@@ -913,8 +938,7 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
                     except:
                         traceback.print_exc()
                         print_ast_nodes(ast_nodes, i, 75, True, sys.stderr)
-                        changed = False
-                        raise Exception('compare_and_set_value error!')
+                        #raise Exception('compare_and_set_value error!')
 
                 pos_in_arr += 1
 

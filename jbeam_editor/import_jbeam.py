@@ -49,12 +49,16 @@ def get_vertices_edges_faces(vdata: dict):
 
     vertices = []
     edges = []
-    faces = []
+    tris = []
+    quads = []
 
     node_index_to_id_append = node_index_to_id.append
+    node_index_to_id_extend = node_index_to_id.extend
     vertices_append = vertices.append
+    vertices_extend = vertices.extend
     edges_append = edges.append
-    faces_append = faces.append
+    tris_append = tris.append
+    quads_append = quads.append
 
     # Process nodes section
     if 'nodes' in vdata:
@@ -66,21 +70,14 @@ def get_vertices_edges_faces(vdata: dict):
                 if len(set(ids)) == 3 and all(x in nodes for x in ids):
                     n1, n2, n3 = nodes[ids[0]], nodes[ids[1]], nodes[ids[2]]
 
-                    n1_vert_idx = len(node_index_to_id)
-                    node_index_to_id_append(ids[0])
-                    vertices_append((n1['pos'], True))
+                    vert_idx = len(node_index_to_id)
+                    vert_idxs = (vert_idx, vert_idx + 1, vert_idx + 2)
+                    node_index_to_id_extend((ids[0], ids[1], ids[2]))
+                    vertices_extend(((n1['pos'], 1), (n2['pos'], 1), (n3['pos'], 1)))
 
-                    n2_vert_idx = len(node_index_to_id)
-                    node_index_to_id_append(ids[1])
-                    vertices_append((n2['pos'], True))
-
-                    n3_vert_idx = len(node_index_to_id)
-                    node_index_to_id_append(ids[2])
-                    vertices_append((n3['pos'], True))
-
-                    faces.append((3, (n1_vert_idx, n2_vert_idx, n3_vert_idx)))
+                    tris_append(vert_idxs)
                 else:
-                    faces.append((3, None))
+                    tris_append(None)
 
         # Translate quads to faces
         if 'quads' in vdata:
@@ -89,31 +86,20 @@ def get_vertices_edges_faces(vdata: dict):
                 if len(set(ids)) == 4 and all(x in nodes for x in ids):
                     n1, n2, n3, n4 = nodes[ids[0]], nodes[ids[1]], nodes[ids[2]], nodes[ids[3]]
 
-                    n1_vert_idx = len(node_index_to_id)
-                    node_index_to_id_append(ids[0])
-                    vertices_append((n1['pos'], True))
+                    vert_idx = len(node_index_to_id)
+                    vert_idxs = (vert_idx, vert_idx + 1, vert_idx + 2, vert_idx + 3)
+                    node_index_to_id_extend((ids[0], ids[1], ids[2], ids[3]))
+                    vertices_extend(((n1['pos'], 1), (n2['pos'], 1), (n3['pos'], 1), (n4['pos'], 1)))
 
-                    n2_vert_idx = len(node_index_to_id)
-                    node_index_to_id_append(ids[1])
-                    vertices_append((n2['pos'], True))
-
-                    n3_vert_idx = len(node_index_to_id)
-                    node_index_to_id_append(ids[2])
-                    vertices_append((n3['pos'], True))
-
-                    n4_vert_idx = len(node_index_to_id)
-                    node_index_to_id_append(ids[3])
-                    vertices_append((n4['pos'], True))
-
-                    faces.append((4, (n1_vert_idx, n2_vert_idx, n3_vert_idx, n4_vert_idx)))
+                    quads_append(vert_idxs)
                 else:
-                    faces.append((4, None))
+                    quads_append(None)
 
         # Translate nodes to vertices
-        for i, (node_id, node) in enumerate(nodes.items()):
+        for node_id, node in nodes.items():
             node_index_to_id_append(node_id)
             node_id_to_index[node_id] = len(vertices)
-            vertices_append((node['pos'], False))
+            vertices_append((node['pos'], 0))
 
         # Translate beams to edges
         if 'beams' in vdata:
@@ -125,10 +111,10 @@ def get_vertices_edges_faces(vdata: dict):
                 else:
                     edges_append(None)
 
-    return vertices, edges, faces, node_index_to_id
+    return vertices, edges, tris, quads, node_index_to_id
 
 
-def generate_part_mesh(obj: bpy.types.Object, obj_data: bpy.types.Mesh, bm: bmesh.types.BMesh, vdata: dict, part: str, jbeam_file_path: str, vertices: list, edges: list, faces: list, node_index_to_id: list):
+def generate_part_mesh(obj: bpy.types.Object, obj_data: bpy.types.Mesh, bm: bmesh.types.BMesh, vdata: dict, part: str, jbeam_file_path: str, vertices: list, edges: list, tris: list, quads: list, node_index_to_id: list):
     bm_verts = bm.verts
     bm_verts_new = bm_verts.new
     bm_edges = bm.edges
@@ -155,13 +141,13 @@ def generate_part_mesh(obj: bpy.types.Object, obj_data: bpy.types.Mesh, bm: bmes
     for i, (pos, is_fake) in enumerate(vertices):
         node_id = node_index_to_id[i]
         if node_id not in transformed_positions:
-            transformed_positions[node_id] = (inv_matrix_world @ Vector(pos)).to_tuple()
+            transformed_positions[node_id] = inv_matrix_world @ Vector(pos)
         v = bm_verts_new(transformed_positions[node_id])
         bytes_node_id = bytes(node_id, 'utf-8')
         v[init_node_id_layer] = bytes_node_id
         v[node_id_layer] = bytes_node_id
         v[node_origin_layer] = bytes_part
-        v[node_is_fake_layer] = int(is_fake)
+        v[node_is_fake_layer] = is_fake
 
     bm_verts.ensure_lookup_table()
 
@@ -179,22 +165,21 @@ def generate_part_mesh(obj: bpy.types.Object, obj_data: bpy.types.Mesh, bm: bmes
                 last_indices = e[beam_indices_layer].decode('utf-8')
                 e[beam_indices_layer] = bytes(f'{last_indices},{i}', 'utf-8')
 
-    tri_idx_in_part, quad_idx_in_part = 1, 1
-    for (num_verts, face) in faces:
-        if num_verts == 3:
-            if face is not None:
-                f = bm_faces_new((bm_verts[face[0]], bm_verts[face[1]], bm_verts[face[2]]))
-                f[face_idx_layer] = tri_idx_in_part
-            tri_idx_in_part += 1
-        else:
-            if face is not None:
-                f = bm_faces_new((bm_verts[face[0]], bm_verts[face[1]], bm_verts[face[2]], bm_verts[face[3]]))
-                f[face_idx_layer] = quad_idx_in_part
-            quad_idx_in_part += 1
+    for i, tri in enumerate(tris, 1):
+        if tri is not None:
+            f = bm_faces_new((bm_verts[tri[0]], bm_verts[tri[1]], bm_verts[tri[2]]))
+            f[face_idx_layer] = i
+            f[face_origin_layer] = bytes_part
+
+    for i, quad in enumerate(quads, 1):
+        if quad is not None:
+            f = bm_faces_new((bm_verts[quad[0]], bm_verts[quad[1]], bm_verts[quad[2]], bm_verts[quad[3]]))
+            f[face_idx_layer] = i
+            f[face_origin_layer] = bytes_part
 
     obj_data[constants.MESH_JBEAM_PART] = part
     obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_file_path
-    obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(vdata)
+    obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(vdata, -1)
     obj_data[constants.MESH_VERTEX_COUNT] = len(bm_verts)
     obj_data[constants.MESH_EDGE_COUNT] = len(bm_edges)
     obj_data[constants.MESH_FACE_COUNT] = len(bm_faces)
@@ -215,7 +200,7 @@ def import_jbeam_part(context: bpy.types.Context, jbeam_file_path: str, jbeam_fi
             raise Exception('JBeam processing error.')
         jbeam_node_beam.process(part_data)
 
-        vertices, edges, faces, node_ids = get_vertices_edges_faces(part_data)
+        vertices, edges, tris, quads, node_ids = get_vertices_edges_faces(part_data)
 
         obj_data = bpy.data.meshes.new(chosen_part)
         #export_jbeam.last_exported_jbeams[chosen_part] = {'in_filepath': jbeam_file_path}
@@ -225,7 +210,7 @@ def import_jbeam_part(context: bpy.types.Context, jbeam_file_path: str, jbeam_fi
 
         bm = bmesh.new()
         bm.from_mesh(obj_data)
-        generate_part_mesh(obj, obj_data, bm, part_data, chosen_part, jbeam_file_path, vertices, edges, faces, node_ids)
+        generate_part_mesh(obj, obj_data, bm, part_data, chosen_part, jbeam_file_path, vertices, edges, tris, quads, node_ids)
         bm.to_mesh(obj_data)
 
         obj_data.update()
@@ -267,9 +252,9 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
             raise Exception('JBeam processing error.')
         jbeam_node_beam.process(part_data)
 
-        obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(part_data)
+        obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(part_data, -1)
 
-        vertices, edges, faces, node_ids = get_vertices_edges_faces(part_data)
+        vertices, edges, tris, quads, node_ids = get_vertices_edges_faces(part_data)
 
         if obj.mode == 'EDIT':
             bm = bmesh.from_edit_mesh(obj_data)
@@ -279,7 +264,7 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
             bm.from_mesh(obj_data)
             bm.clear()
 
-        generate_part_mesh(obj, obj_data, bm, part_data, chosen_part, jbeam_file_path, vertices, edges, faces, node_ids)
+        generate_part_mesh(obj, obj_data, bm, part_data, chosen_part, jbeam_file_path, vertices, edges, tris, quads, node_ids)
         bm.normal_update()
         #export_jbeam.last_exported_jbeams[chosen_part] = {'in_filepath': jbeam_file_path}
 

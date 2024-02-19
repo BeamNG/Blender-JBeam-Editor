@@ -26,24 +26,14 @@ import sys
 
 from functools import partial
 
+from ..utils import lua_truthiness, to_float_str, is_number
+
 from ..antlr4 import InputStream
 from ..antlr4.Token import CommonToken
 from ..luaparser.parser.LuaLexer import LuaLexer
 
 _var_wrapper_re = re.compile(r'\$([a-zA-Z_][a-zA-Z_0-9]*)')
 _standalone_equal_re = re.compile(r'[^<>!=]=[^=]')
-
-
-def _lua_truthiness(x):
-    x_type = type(x)
-    if x_type == bool:
-        return x
-    return x_type != type(None)
-
-
-def _is_number(x):
-    x_type = type(x)
-    return x_type in (int, float)
 
 
 ### Infix class/functions are used to override Python's operators for evaluating the JBeam expressions in a Lua fashion ###
@@ -84,27 +74,27 @@ class Infix(object):
 
 @Infix
 def _or(x, y):
-    if _lua_truthiness(x):
+    if lua_truthiness(x):
         return x
     return y
 
 
 @Infix
 def _and(x, y):
-    if not _lua_truthiness(x):
+    if not lua_truthiness(x):
         return x
     return y
 
 
 @Infix
 def _not(x):
-    return not _lua_truthiness(x)
+    return not lua_truthiness(x)
 
 
 @Infix
 def _eq(x, y):
     x_type, y_type = type(x), type(y)
-    if x_type != y_type and _is_number(x) != _is_number(y):
+    if x_type != y_type and is_number(x) != is_number(y):
         return False
     return x == y
 
@@ -116,14 +106,14 @@ def _ne(x, y):
 
 @Infix
 def _div(x, y):
-    if _is_number(x) and _is_number(y):
+    if is_number(x) and is_number(y):
         return x / y
     return False
 
 
 @Infix
 def _mod(x, y):
-    if _is_number(x) and _is_number(y):
+    if is_number(x) and is_number(y):
         return x % y
     return False
 
@@ -228,43 +218,53 @@ def _wrap_parenthesis_around_expr_with_offset(expr: str, offset_str: str):
     return expr
 
 
-def add_offset_expr(expr: str, offset_str: str):
+def add_offset_expr(expr: str, new_offset: float):
     # Wrap expr with parenthesis immediately if no left parenthesis found
     if expr.find('(') == -1:
-        return _wrap_parenthesis_around_expr_with_offset(expr, offset_str)
+        return _wrap_parenthesis_around_expr_with_offset(expr, to_float_str(new_offset))
 
     # Strip leading "$=" and $'s from expression
-    offset = 1 + expr.count('$')
+    char_offset = 1 + expr.count('$')
     stripped_expr = expr[2:]
     stripped_expr = stripped_expr.replace('$', '')
 
     lexer = LuaLexer(InputStream(stripped_expr))
-    tokens: list[CommonToken] = lexer.getAllTokens()
+    tokens_no_wscs: list[CommonToken] = []
+    tokens_no_wscs_text = []
 
-    tokens_text = [t.text for t in tokens]
-    tokens_type = [t.type for t in tokens]
-    len_tokens = len(tokens_text)
-    out_paren_left, out_paren_right = tokens_text.index('('), len_tokens - 1 - tokens_text[::-1].index(')')
+    t = lexer.nextToken()
+    while t.type != -1:
+        if t.type != 61:
+            tokens_no_wscs.append(t)
+            tokens_no_wscs_text.append(t.text)
+        t = lexer.nextToken()
 
-    if out_paren_left > 0 or out_paren_right != len_tokens - 3 or tokens_text[-2] not in ('+', '-') or tokens_type[-1] != 57:
-        return _wrap_parenthesis_around_expr_with_offset(expr, offset_str)
+    len_tokens = len(tokens_no_wscs)
+    out_paren_left, out_paren_right = tokens_no_wscs_text.index('('), len_tokens - 1 - tokens_no_wscs_text[::-1].index(')')
+
+    if out_paren_left > 0 or out_paren_right != len_tokens - 3 or tokens_no_wscs_text[-2] not in ('+', '-') or tokens_no_wscs[-1].type != 57:
+        return _wrap_parenthesis_around_expr_with_offset(expr, to_float_str(new_offset))
 
     # Only change offset
-    operator_pos = tokens[-2].start
-    num_start, num_end = tokens[-1].start, tokens[-1].stop
+    operator_token = tokens_no_wscs[-2]
+    offset_token = tokens_no_wscs[-1]
+    operator_pos = operator_token.start
+    num_start, num_end = offset_token.start, offset_token.stop
 
-    if offset_str[0] == '-':
+    old_offset = float(operator_token.text + offset_token.text)
+    old_plus_new_offset_str = to_float_str(old_offset + new_offset)
+    if old_plus_new_offset_str[0] == '-':
         operator = '-'
-        offset_str = offset_str[1:]
+        old_plus_new_offset_str = old_plus_new_offset_str[1:]
     else:
         operator = '+'
 
-    return expr[:operator_pos + offset] + operator + expr[operator_pos + 1 + offset:num_start + offset] + offset_str + expr[num_end + 1 + offset:]
+    return expr[:operator_pos + char_offset] + operator + expr[operator_pos + 1 + char_offset:num_start + char_offset] + old_plus_new_offset_str + expr[num_end + 1 + char_offset:]
 
 memo = {}
 
 def parse_safe(expr: str, params: dict):
-    encoded = (expr, pickle.dumps(params))
+    encoded = (expr, pickle.dumps(params, -1))
     if memo.get(encoded) is not None:
         out = memo[encoded]
         return out[0], out[1]

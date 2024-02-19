@@ -91,7 +91,7 @@ def replace_special_values(val):
 memo = {}
 
 def process_table_with_schema_destructive(jbeam_table: list, new_dict: dict, input_options=None):
-    encoded = (pickle_dumps(jbeam_table), pickle_dumps(input_options))
+    encoded = (pickle_dumps(jbeam_table, -1), pickle_dumps(input_options, -1))
     if memo.get(encoded) is not None:
         out = memo[encoded]
         new_dict.update(pickle_loads(out[0]))
@@ -170,7 +170,7 @@ def process_table_with_schema_destructive(jbeam_table: list, new_dict: dict, inp
                     new_row_metadata.merge(rv_metadata)
 
                     # Convert metadata variable reference in list from index to key using header
-                    for var in list(new_row_metadata._data.keys()):
+                    for var in [*new_row_metadata._data.keys()]:
                         if isinstance(var, int):
                             new_row_metadata._data[header[var]] = new_row_metadata._data.pop(var)
 
@@ -208,7 +208,7 @@ def process_table_with_schema_destructive(jbeam_table: list, new_dict: dict, inp
             print('*** Invalid table row:', row_value, file=sys.stderr)
             return -1
 
-    memo[encoded] = (pickle_dumps(new_dict), new_list_size)
+    memo[encoded] = (pickle_dumps(new_dict, -1), new_list_size)
     return new_list_size
 
 
@@ -278,7 +278,7 @@ def process(vehicle: dict):
     vehicle['options'] = vehicle.get('options', {})
 
     # Walk through everything and look for options
-    for key_entry in list(vehicle.keys()):
+    for key_entry in [*vehicle.keys()]:
         entry = vehicle[key_entry]
         if not isinstance(entry, (dict, list)):
             # Seems to be an option, add it to the vehicle options

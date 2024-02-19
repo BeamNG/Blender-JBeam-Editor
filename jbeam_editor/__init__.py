@@ -134,6 +134,19 @@ class UIProperties(bpy.types.PropertyGroup):
 
 
 # Undo action (supposed to use this instead of Blender's undo)
+class JBEAM_EDITOR_OT_force_jbeam_sync(bpy.types.Operator):
+    bl_idname = "jbeam_editor.force_jbeam_sync"
+    bl_label = "Force JBeam Sync"
+    bl_description = "Manually syncs JBeam file with the mesh. Use it when the JBeam file doesn't get updated after a JBeam mesh operation (e.g. transforming a vertex with the input boxes above)"
+
+    def invoke(self, context, event):
+        print('Force JBeam Sync!')
+        global _force_do_export
+        _force_do_export = True
+        return {'FINISHED'}
+
+
+# Undo action (supposed to use this instead of Blender's undo)
 class JBEAM_EDITOR_OT_undo(bpy.types.Operator):
     bl_idname = "jbeam_editor.undo"
     bl_label = "Undo"
@@ -251,6 +264,17 @@ class JBEAM_EDITOR_OT_add_beam_tri_quad(bpy.types.Operator):
             _force_do_export = True
 
         return {'FINISHED'}
+
+
+class JBEAM_EDITOR_PT_transform_panel_ext(bpy.types.Panel):
+    bl_space_type = 'VIEW_3D'
+    bl_region_type = 'UI'
+    bl_category = 'Item'
+    bl_label = 'JBeam'
+
+    def draw(self, context):
+        layout = self.layout
+        layout.operator('jbeam_editor.force_jbeam_sync', text='Force JBeam Sync')
 
 
 class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
@@ -856,6 +880,9 @@ def check_files_for_changes():
 
     return check_file_interval
 
+op_no_export = {
+    'OBJECT_OT_editmode_toggle',
+}
 _last_op = None
 
 @persistent
@@ -870,10 +897,8 @@ def poll_active_operators():
         if active_obj_data.get(constants.MESH_JBEAM_PART) is not None:
             global _do_export
             global _force_do_export
-            # Trigger export JBeam/Vehicle on translate event
-            #if _do_export or (op != last_op and (op.bl_idname if op is not None else '') == 'TRANSFORM_OT_translate'):
-            if _force_do_export or (_do_export and op != _last_op and (op is None or op.bl_idname != 'OBJECT_OT_editmode_toggle')):
-                #print('translated!')
+            # Trigger export JBeam/Vehicle on current operator finishing
+            if _force_do_export or (_do_export and op is not None and op != _last_op and all(x != op.bl_idname for x in op_no_export)):
                 veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
                 if veh_model is not None:
                     # Export
@@ -911,10 +936,12 @@ def on_post_register():
 
 classes = (
     UIProperties,
+    JBEAM_EDITOR_OT_force_jbeam_sync,
     JBEAM_EDITOR_OT_undo,
     JBEAM_EDITOR_OT_redo,
     #JBEAM_EDITOR_OT_convert_to_jbeam_mesh,
     JBEAM_EDITOR_OT_add_beam_tri_quad,
+    JBEAM_EDITOR_PT_transform_panel_ext,
     JBEAM_EDITOR_PT_jbeam_panel,
     JBEAM_EDITOR_PT_jbeam_properties_panel,
     import_jbeam.JBEAM_EDITOR_OT_import_jbeam,

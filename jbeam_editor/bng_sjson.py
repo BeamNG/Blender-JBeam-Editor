@@ -244,7 +244,7 @@ def _read_object(s: str, si: int, fn: str): # {
     while c != 125: # }
         key, i = _read_key(s, i, c, fn)
         if key in result:
-            _json_error(s, i, fn, f'Duplicate key found: "{key}"')
+            _json_warning(s, i, fn, f'Duplicate key found: "{key}"')
         while True: # _skip_white_space
             c = ord(s[i])
             i += 1
@@ -296,7 +296,7 @@ def decode(s: str, fn: str):
         while c != 127:
             key, i = _read_key(s, i, c, fn)
             if key in result:
-                _json_error(s, i, fn, f'Duplicate key found: "{key}"')
+                _json_warning(s, i, fn, f'Duplicate key found: "{key}"')
             c, i = _skip_white_space(s, i, fn)
             result[key], i = _peek_table[c](s, i, fn)
             c, i = _skip_white_space(s, i, fn)

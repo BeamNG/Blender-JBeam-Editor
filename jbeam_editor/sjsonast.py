@@ -31,8 +31,6 @@ _pos: int
 _nodes: list
 _nodes_append: Callable
 
-_peek_table: dict
-
 class ASTNode:
     def __init__(self, data_type, value=None, *, precision=None, prefix_plus=False, add_post_fix_dot=False):
         self.data_type = data_type
@@ -195,7 +193,7 @@ def _parse():
         if _pos >= _len_str:
             return
         c = _str[_pos]
-        _peek_table.get(c, _parse_literal)(c)
+        _to_ast_node_lookup.get(c, _parse_literal)(c)
 
 
 def parse(s):
@@ -251,34 +249,40 @@ def calculate_char_positions(nodes):
         node.end_pos = pos - 1
 
 
-def _stringify_node(node):
-    node_type = node.data_type
+def stringify_wsc_literal(node):
+    return node.value
 
-    if node_type in ('wsc', 'literal'):
-        return node.value
-    if node_type == 'bool':
-        return 'true' if node.value else 'false'
-    if node_type == '"':
-        return '"' + node.value + '"'
-    if node_type == 'number':
-        res = ''
-        num = node.value
-        precision = node.precision
-        if node.prefix_plus:
-            res += '+'
-        res += f'%.{precision}f' % num
-        if node.add_post_fix_dot:
-            res += '.'
-        return res
 
-    return node_type
+_bool_to_str = {True: 'true', False: 'false'}
+def stringify_bool(node):
+    return _bool_to_str[node.value]
+
+
+def stringify_string(node):
+    return '"' + node.value + '"'
+
+
+def stringify_number(node):
+    res = ''
+    num = node.value
+    precision = node.precision
+    if node.prefix_plus:
+        res += '+'
+    res += f'%.{precision}f' % num
+    if node.add_post_fix_dot:
+        res += '.'
+    return res
+
+
+def stringify_other(node):
+    return node.data_type
 
 
 def stringify_nodes(nodes):
-    return ''.join(_stringify_node(node) for node in nodes)
+    return ''.join(_to_str_lookup[node.data_type](node) for node in nodes)
 
 
-_peek_table = {
+_to_ast_node_lookup = {
     '{': _add_node,
     '}': _add_node,
     '[': _add_node,
@@ -305,4 +309,17 @@ _peek_table = {
     '9': _parse_number,
     '+': _parse_number,
     '-': _parse_number
+}
+
+_to_str_lookup = {
+    'wsc': stringify_wsc_literal,
+    'literal': stringify_wsc_literal,
+    'bool': stringify_bool,
+    '"': stringify_string,
+    'number': stringify_number,
+    '{': stringify_other,
+    '}': stringify_other,
+    '[': stringify_other,
+    ']': stringify_other,
+    ':': stringify_other
 }

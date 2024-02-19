@@ -18,10 +18,12 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import ctypes
 from pickle import loads as pickle_loads, dumps as pickle_dumps
 import sys
 
 import bpy
+import numpy as np
 
 from . import constants
 from . import bng_sjson
@@ -113,7 +115,7 @@ def sjson_read_file(filepath: str):
 
 
 def fast_deepcopy(x):
-    return pickle_loads(pickle_dumps(x))
+    return pickle_loads(pickle_dumps(x, -1))
 
 
 def row_dict_deepcopy(in_d: dict):
@@ -173,3 +175,27 @@ def clamp(x, min_value, max_value):
 # returns -1, 0, 1
 def sign(x):
     return max(min((x * 1e200) * 1e200, 1), -1)
+
+
+def lua_truthiness(x):
+    x_type = type(x)
+    if x_type == bool:
+        return x
+    return x_type != type(None)
+
+
+def is_number(x):
+    return type(x) in (int, float)
+
+
+def to_c_float(num):
+    return ctypes.c_float(num).value
+
+
+def to_float_str(val):
+    return np.format_float_positional(to_c_float(val), precision=4, unique=True, trim = '0')
+
+
+def get_float_precision(val):
+    fval = float(val)
+    return min(4, max(len((f'%.4g' % abs(fval - int(fval)))) - 2, 0))
