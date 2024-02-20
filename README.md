@@ -11,7 +11,7 @@ This Blender plugin allows you to import existing JBeam parts or whole vehicles,
 * Create JBeam from scratch (on hold)
 * Move/rename/add/delete nodes
 * Add/delete beams, triangles, and quads
-* Undo/redo changes
+* Undo/redo changes Ctrl + [ and Ctrl + ]
 * Live updates reflected in Blender text editor
 * Export changes directly to disk
 
