@@ -517,45 +517,51 @@ def get_faces_add_remove(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_tris
 
     init_node_id_layer = bm.verts.layers.string[constants.VL_INIT_NODE_ID]
     face_idx_layer = bm.faces.layers.int[constants.FL_FACE_IDX]
+    face_flip_flag_layer = bm.faces.layers.int[constants.FL_FACE_FLIP_FLAG]
 
-    blender_tris = {}
-    blender_quads = {}
+    blender_tris = set()
+    blender_quads = set()
     # Create dictionary where key is init node id and value is current blender node id and position
     bm.faces.ensure_lookup_table()
     f: bmesh.types.BMFace
     for i, f in enumerate(bm.faces):
         num_verts = len(f.verts)
         if num_verts == 3:
-            v1, v2, v3 = f.verts[0], f.verts[1], f.verts[2]
-            v1_node_id, v2_node_id, v3_node_id = v1[init_node_id_layer].decode('utf-8'), v2[init_node_id_layer].decode('utf-8'), v3[init_node_id_layer].decode('utf-8')
-            tri_tup = (v1_node_id, v2_node_id, v3_node_id)
             tri_idx = f[face_idx_layer]
 
             if tri_idx == 0: # Triangle doesn't exist in JBeam data
                 continue
             if tri_idx == -1: # Newly added triangle
+                v1, v2, v3 = f.verts[0], f.verts[1], f.verts[2]
+                v1_node_id, v2_node_id, v3_node_id = v1[init_node_id_layer].decode('utf-8'), v2[init_node_id_layer].decode('utf-8'), v3[init_node_id_layer].decode('utf-8')
+                tri_tup = (v1_node_id, v2_node_id, v3_node_id)
                 tris_to_add.add(tri_tup)
                 continue
 
-            # for idx in tri_indices.split(','):
-            #     blender_tris[int(idx)] = tri_tup
-            blender_tris[tri_idx] = tri_tup
+            # Flip face if "face flip" flag set!
+            if f[face_flip_flag_layer] == 1:
+                tri_jbeam_data = jbeam_file_data_modified[jbeam_part]['triangles'][tri_idx]
+                tri_jbeam_data[1], tri_jbeam_data[2] = tri_jbeam_data[2], tri_jbeam_data[1]
+
+            blender_tris.add(tri_idx)
         elif num_verts == 4:
-            v1, v2, v3, v4 = f.verts[0], f.verts[1], f.verts[2], f.verts[3]
-            v1_node_id, v2_node_id, v3_node_id, v4_node_id = v1[init_node_id_layer].decode('utf-8'), v2[init_node_id_layer].decode('utf-8'), v3[init_node_id_layer].decode('utf-8'), v4[init_node_id_layer].decode('utf-8')
-            quad_tup = (v1_node_id, v2_node_id, v3_node_id, v4_node_id)
             quad_idx = f[face_idx_layer]
 
             if quad_idx == 0: # Quad doesn't exist in JBeam data
                 continue
             if quad_idx == -1: # Newly added quad
+                v1, v2, v3, v4 = f.verts[0], f.verts[1], f.verts[2], f.verts[3]
+                v1_node_id, v2_node_id, v3_node_id, v4_node_id = v1[init_node_id_layer].decode('utf-8'), v2[init_node_id_layer].decode('utf-8'), v3[init_node_id_layer].decode('utf-8'), v4[init_node_id_layer].decode('utf-8')
+                quad_tup = (v1_node_id, v2_node_id, v3_node_id, v4_node_id)
                 quads_to_add.add(quad_tup)
                 continue
 
-            # for idx in quad_indices.split(','):
-            #     blender_quads[int(idx)] = quad_tup
-            blender_quads[quad_idx] = quad_tup
+            # Flip face if "face flip" flag set!
+            if f[face_flip_flag_layer] == 1:
+                quad_jbeam_data = jbeam_file_data_modified[jbeam_part]['quads'][quad_idx]
+                quad_jbeam_data[1], quad_jbeam_data[3] = quad_jbeam_data[3], quad_jbeam_data[1]
 
+            blender_quads.add(quad_idx)
         else:
             print("Warning! Won't export face with 5 or more vertices!", file=sys.stderr)
 
@@ -670,8 +676,9 @@ def add_beams_section(ast_nodes: list, jbeam_section_end_node_idx: int):
     ast_nodes.insert(i + 1, ASTNode('"', 'id1:'))
     ast_nodes.insert(i + 2, ASTNode('wsc', ','))
     ast_nodes.insert(i + 3, ASTNode('"', 'id2:'))
-    ast_nodes.insert(i + 4, ASTNode('wsc', ',' + NL_INDENT))
-    i += 5
+    ast_nodes.insert(i + 4, ASTNode(']'))
+    ast_nodes.insert(i + 5, ASTNode('wsc', ',' + NL_INDENT))
+    i += 6
     ast_nodes.insert(i + 0, ASTNode(']'))
     jbeam_section_end_node_idx = i + 0
     ast_nodes.insert(i + 1, ASTNode('wsc', ','))
@@ -703,8 +710,9 @@ def add_triangles_section(ast_nodes: list, jbeam_section_end_node_idx: int):
     ast_nodes.insert(i + 3, ASTNode('"', 'id2:'))
     ast_nodes.insert(i + 4, ASTNode('wsc', ','))
     ast_nodes.insert(i + 5, ASTNode('"', 'id3:'))
-    ast_nodes.insert(i + 6, ASTNode('wsc', ',' + NL_INDENT))
-    i += 7
+    ast_nodes.insert(i + 6, ASTNode(']'))
+    ast_nodes.insert(i + 7, ASTNode('wsc', ',' + NL_INDENT))
+    i += 8
     ast_nodes.insert(i + 0, ASTNode(']'))
     jbeam_section_end_node_idx = i + 0
     ast_nodes.insert(i + 1, ASTNode('wsc', ','))

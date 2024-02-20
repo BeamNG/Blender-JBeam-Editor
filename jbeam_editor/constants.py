@@ -54,3 +54,4 @@ EL_BEAM_INDICES = 'jbeam_beam_indices'
 # bm.faces.layers Attributes
 FL_FACE_PART_ORIGIN = 'jbeam_face_part_origin'
 FL_FACE_IDX = 'jbeam_face_indices'
+FL_FACE_FLIP_FLAG = 'jbeam_face_flip_flag'

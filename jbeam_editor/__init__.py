@@ -128,7 +128,7 @@ class UIProperties(bpy.types.PropertyGroup):
 
     affect_node_references: bpy.props.BoolProperty(
         name="Affect Node References",
-        description="Toggles updating JBeam entries who references nodes. E.g. deleting a JBeam entry when a node that that entry references gets deleted.",
+        description="Toggles updating JBeam entries who references nodes. E.g. deleting a beam who references a node being deleted",
         default=False
     )
 
@@ -266,6 +266,37 @@ class JBEAM_EDITOR_OT_add_beam_tri_quad(bpy.types.Operator):
         return {'FINISHED'}
 
 
+# Flip JBeam face
+class JBEAM_EDITOR_OT_flip_jbeam_faces(bpy.types.Operator):
+    bl_idname = "jbeam_editor.flip_jbeam_faces"
+    bl_label = "Flip Face(s)"
+
+    @classmethod
+    def poll(cls, context):
+        global selected_tris_quads
+        return len(selected_tris_quads) > 0
+
+    def invoke(self, context, event):
+        global selected_tris_quads
+
+        obj = context.active_object
+        obj_data = obj.data
+        bm = bmesh.from_edit_mesh(obj_data)
+        face_flip_flag_layer = bm.faces.layers.int[constants.FL_FACE_FLIP_FLAG]
+
+        face: bmesh.types.BMFace
+        face_idx: int
+        for (face, face_idx) in selected_tris_quads:
+            face[face_flip_flag_layer] = 1
+
+        bm.free()
+
+        global _force_do_export
+        _force_do_export = True
+
+        return {'FINISHED'}
+
+
 class JBEAM_EDITOR_PT_transform_panel_ext(bpy.types.Panel):
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
@@ -301,8 +332,11 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
 
         scene = context.scene
         ui_props = scene.ui_properties
+
+        jbeam_part_name = obj_data[constants.MESH_JBEAM_PART]
+
         layout = self.layout
-        layout.label(text=obj.name)
+        layout.label(text=f'{jbeam_part_name}')
 
         # If mesh isn't a JBeam mesh (it doesn't have node id attributes), give user option to convert it to one (add node id attributes)
         if obj_data.get(constants.MESH_JBEAM_PART) is None:
@@ -310,17 +344,6 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
             #layout.operator('jbeam_editor.convert_to_jbeam_mesh', text='Convert to JBeam Mesh')
             pass
         else:
-            box = layout.box()
-            col = box.column()
-
-            # Add a checkbox to toggle Node IDs text
-            col.prop(ui_props, 'toggle_node_ids_text', text="Toggle Node IDs Text")
-
-            box = layout.box()
-            col = box.column()
-
-            col.prop(ui_props, 'affect_node_references', text="Affect Node References")
-
             box = layout.box()
             col = box.column()
 
@@ -343,9 +366,9 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
                 else:
                     label = 'Add Quad'
                 col.row().operator('jbeam_editor.add_beam_tri_quad', text=label)
-            else:
-                rows = [col.row() for i in range(1)]
-                rows[0].label(text='Select a node to rename')
+
+            if len_selected_faces > 0:
+                col.row().operator('jbeam_editor.flip_jbeam_faces')
 
         bm.free()
 
@@ -459,6 +482,52 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
                             val = face[k]
                             str_val = repr(val)
                             col.row().label(text=f'- {k}: {str_val}')
+
+        bm.free()
+
+
+class JBEAM_EDITOR_PT_jbeam_settings(bpy.types.Panel):
+    bl_space_type = 'VIEW_3D'
+    bl_region_type = 'UI'
+    bl_category = 'JBeam'
+    bl_label = 'Settings'
+
+    def draw(self, context):
+        obj = context.active_object
+        if not obj:
+            return
+
+        obj_data = obj.data
+        if not isinstance(obj_data, bpy.types.Mesh):
+            return
+
+        bm = None
+        if obj.mode == 'EDIT':
+            bm = bmesh.from_edit_mesh(obj_data)
+        else:
+            bm = bmesh.new()
+            bm.from_mesh(obj_data)
+
+        scene = context.scene
+        ui_props = scene.ui_properties
+        layout = self.layout
+
+        # If mesh isn't a JBeam mesh (it doesn't have node id attributes), give user option to convert it to one (add node id attributes)
+        if obj_data.get(constants.MESH_JBEAM_PART) is None:
+            # TODO: FIX FOR NEXT UPDATE
+            #layout.operator('jbeam_editor.convert_to_jbeam_mesh', text='Convert to JBeam Mesh')
+            pass
+        else:
+            box = layout.box()
+            col = box.column()
+
+            # Add a checkbox to toggle Node IDs text
+            col.prop(ui_props, 'toggle_node_ids_text', text="Toggle Node IDs Text")
+
+            box = layout.box()
+            col = box.column()
+
+            col.prop(ui_props, 'affect_node_references', text="Affect Node References")
 
         bm.free()
 
@@ -941,9 +1010,11 @@ classes = (
     JBEAM_EDITOR_OT_redo,
     #JBEAM_EDITOR_OT_convert_to_jbeam_mesh,
     JBEAM_EDITOR_OT_add_beam_tri_quad,
+    JBEAM_EDITOR_OT_flip_jbeam_faces,
     JBEAM_EDITOR_PT_transform_panel_ext,
     JBEAM_EDITOR_PT_jbeam_panel,
     JBEAM_EDITOR_PT_jbeam_properties_panel,
+    JBEAM_EDITOR_PT_jbeam_settings,
     import_jbeam.JBEAM_EDITOR_OT_import_jbeam,
     import_jbeam.JBEAM_EDITOR_OT_choose_jbeam,
     export_jbeam.JBEAM_EDITOR_OT_export_jbeam,

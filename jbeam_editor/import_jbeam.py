@@ -133,6 +133,7 @@ def generate_part_mesh(obj: bpy.types.Object, obj_data: bpy.types.Mesh, bm: bmes
 
     face_origin_layer = bm_faces.layers.string.new(constants.FL_FACE_PART_ORIGIN)
     face_idx_layer = bm_faces.layers.int.new(constants.FL_FACE_IDX)
+    face_flip_flag_layer = bm_faces.layers.int.new(constants.FL_FACE_FLIP_FLAG)
 
     inv_matrix_world = obj.matrix_world.inverted()
     bytes_part = bytes(part, 'utf-8')
