@@ -123,16 +123,16 @@ def generate_part_mesh(obj: bpy.types.Object, obj_data: bpy.types.Mesh, bm: bmes
     bm_faces_new = bm_faces.new
 
     # Add node ID field to all vertices
-    init_node_id_layer = bm_verts.layers.string.new(constants.VLS_INIT_NODE_ID)
-    node_id_layer = bm_verts.layers.string.new(constants.VLS_NODE_ID)
-    node_origin_layer = bm_verts.layers.string.new(constants.VLS_NODE_PART_ORIGIN)
-    node_is_fake_layer = bm_verts.layers.int.new(constants.VLS_NODE_IS_FAKE)
+    init_node_id_layer = bm_verts.layers.string.new(constants.VL_INIT_NODE_ID)
+    node_id_layer = bm_verts.layers.string.new(constants.VL_NODE_ID)
+    node_origin_layer = bm_verts.layers.string.new(constants.VL_NODE_PART_ORIGIN)
+    node_is_fake_layer = bm_verts.layers.int.new(constants.VL_NODE_IS_FAKE)
 
-    beam_origin_layer = bm_edges.layers.string.new(constants.ELS_BEAM_PART_ORIGIN)
-    beam_indices_layer = bm_edges.layers.string.new(constants.ELS_BEAM_INDICES)
+    beam_origin_layer = bm_edges.layers.string.new(constants.EL_BEAM_PART_ORIGIN)
+    beam_indices_layer = bm_edges.layers.string.new(constants.EL_BEAM_INDICES)
 
-    face_origin_layer = bm_faces.layers.string.new(constants.FLS_FACE_PART_ORIGIN)
-    face_idx_layer = bm_faces.layers.int.new(constants.FLS_FACE_IDX)
+    face_origin_layer = bm_faces.layers.string.new(constants.FL_FACE_PART_ORIGIN)
+    face_idx_layer = bm_faces.layers.int.new(constants.FL_FACE_IDX)
 
     inv_matrix_world = obj.matrix_world.inverted()
     bytes_part = bytes(part, 'utf-8')

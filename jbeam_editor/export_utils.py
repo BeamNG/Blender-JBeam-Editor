@@ -415,10 +415,10 @@ def get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, jb
 
     # parts_nodes_to_add, parts_nodes_to_delete, parts_nodes_to_rename, parts_nodes_to_move = {}, {}, {}, {}
 
-    init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-    node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-    part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
-    node_is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
+    init_node_id_layer = bm.verts.layers.string[constants.VL_INIT_NODE_ID]
+    node_id_layer = bm.verts.layers.string[constants.VL_NODE_ID]
+    part_origin_layer = bm.verts.layers.string[constants.VL_NODE_PART_ORIGIN]
+    node_is_fake_layer = bm.verts.layers.int[constants.VL_NODE_IS_FAKE]
 
     # Update node ids and positions from Blender into the SJSON data
 
@@ -472,8 +472,8 @@ def get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, jb
 def get_beams_add_remove(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_beams_data: list, jbeam_file_data_modified: dict, jbeam_part: str, nodes_to_delete: set, affect_node_references: bool):
     beams_to_add, beams_to_delete = set(), set()
 
-    init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-    beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
+    init_node_id_layer = bm.verts.layers.string[constants.VL_INIT_NODE_ID]
+    beam_indices_layer = bm.edges.layers.string[constants.EL_BEAM_INDICES]
 
     blender_beams = {}
     # Create dictionary where key is init node id and value is current blender node id and position
@@ -515,8 +515,8 @@ def get_faces_add_remove(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_tris
     tris_to_add, tris_to_delete = set(), set()
     quads_to_add, quads_to_delete = set(), set()
 
-    init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-    face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
+    init_node_id_layer = bm.verts.layers.string[constants.VL_INIT_NODE_ID]
+    face_idx_layer = bm.faces.layers.int[constants.FL_FACE_IDX]
 
     blender_tris = {}
     blender_quads = {}
@@ -1200,8 +1200,8 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, 
                          quads_to_add, quads_to_delete)
         out_str_jbeam_data = sjsonast_stringify_nodes(ast_nodes)
 
-        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+        init_node_id_layer = bm.verts.layers.string[constants.VL_INIT_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VL_NODE_ID]
 
         # Initial node ids now become node ids
         for v in bm.verts:

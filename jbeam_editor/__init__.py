@@ -98,7 +98,7 @@ def on_input_node_id_field_updated(self, context: bpy.types.Context):
         bm = bmesh.from_edit_mesh(obj_data)
 
         # Set the selected mesh's selected vertex node_id attribute to the UI node_id input field value
-        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VL_NODE_ID]
         selected_vert[node_id_layer] = bytes(ui_props.input_node_id, 'utf-8')
 
         bm.free()
@@ -226,8 +226,8 @@ class JBEAM_EDITOR_OT_add_beam_tri_quad(bpy.types.Operator):
         obj = context.active_object
         obj_data = obj.data
         bm = bmesh.from_edit_mesh(obj_data)
-        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-        is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
+        init_node_id_layer = bm.verts.layers.string[constants.VL_INIT_NODE_ID]
+        is_fake_layer = bm.verts.layers.int[constants.VL_NODE_IS_FAKE]
 
         export = False
 
@@ -242,7 +242,7 @@ class JBEAM_EDITOR_OT_add_beam_tri_quad(bpy.types.Operator):
             new_verts.append(new_v)
 
         if len_selected_verts == 2:
-            beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
+            beam_indices_layer = bm.edges.layers.string[constants.EL_BEAM_INDICES]
             e = bm.edges.new(new_verts)
             e[beam_indices_layer] = bytes('-1', 'utf-8')
             if obj.mode != 'EDIT':
@@ -250,7 +250,7 @@ class JBEAM_EDITOR_OT_add_beam_tri_quad(bpy.types.Operator):
             export = True
 
         elif len_selected_verts in (3,4):
-            face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
+            face_idx_layer = bm.faces.layers.int[constants.FL_FACE_IDX]
             f = bm.faces.new(new_verts)
             f[face_idx_layer] = -1
             if obj.mode != 'EDIT':
@@ -398,7 +398,7 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
             if curr_vdata is not None and 'beams' in curr_vdata:
                 edge_data = selected_beams[0]
                 e, beam_indices = edge_data[0], edge_data[1]
-                part_origin_layer = bm.edges.layers.string[constants.ELS_BEAM_PART_ORIGIN]
+                part_origin_layer = bm.edges.layers.string[constants.EL_BEAM_PART_ORIGIN]
                 part_origin = e[part_origin_layer].decode('utf-8')
                 beam_idx = int(beam_indices.split(',')[0])
 
@@ -435,8 +435,8 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
                     face_type = 'quads'
 
                 if face_type in curr_vdata:
-                    face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
-                    part_origin_layer = bm.faces.layers.string[constants.FLS_FACE_PART_ORIGIN]
+                    face_idx_layer = bm.faces.layers.int[constants.FL_FACE_IDX]
+                    part_origin_layer = bm.faces.layers.string[constants.FL_FACE_PART_ORIGIN]
 
                     face_idx = f[face_idx_layer]
                     part_origin = f[part_origin_layer].decode('utf-8')
@@ -532,9 +532,9 @@ def draw_callback_px(context: bpy.types.Context):
             bm = bmesh.new()
             bm.from_mesh(obj_data)
 
-        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-        part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
-        is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
+        node_id_layer = bm.verts.layers.string[constants.VL_NODE_ID]
+        part_origin_layer = bm.verts.layers.string[constants.VL_NODE_PART_ORIGIN]
+        is_fake_layer = bm.verts.layers.int[constants.VL_NODE_IS_FAKE]
 
         toggleNodeText = ui_props.toggle_node_ids_text
         ctxRegion = context.region
@@ -573,8 +573,8 @@ def draw_callback_px(context: bpy.types.Context):
                 bm = bmesh.new()
                 bm.from_mesh(active_obj_data)
 
-            node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-            is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
+            node_id_layer = bm.verts.layers.string[constants.VL_NODE_ID]
+            is_fake_layer = bm.verts.layers.int[constants.VL_NODE_IS_FAKE]
 
             for v in bm.verts:
                 if v[is_fake_layer] == 1:
@@ -632,7 +632,7 @@ def draw_callback_view(context: bpy.types.Context):
                         bm = bmesh.new()
                         bm.from_mesh(obj_data)
 
-                    beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
+                    beam_indices_layer = bm.edges.layers.string[constants.EL_BEAM_INDICES]
 
                     e: bmesh.types.BMEdge
                     for e in bm.edges:
@@ -656,7 +656,7 @@ def draw_callback_view(context: bpy.types.Context):
                     bm = bmesh.new()
                     bm.from_mesh(active_obj_data)
 
-                beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
+                beam_indices_layer = bm.edges.layers.string[constants.EL_BEAM_INDICES]
 
                 e: bmesh.types.BMEdge
                 for e in bm.edges:
@@ -791,9 +791,9 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
     bm = bmesh.from_edit_mesh(active_obj_data)
 
     # Check if new vertices are added
-    init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-    node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-    is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
+    init_node_id_layer = bm.verts.layers.string[constants.VL_INIT_NODE_ID]
+    node_id_layer = bm.verts.layers.string[constants.VL_NODE_ID]
+    is_fake_layer = bm.verts.layers.int[constants.VL_NODE_IS_FAKE]
 
     # When new vertices are added, they seem to copy the data of the old vertices they were made from,
     # so rename their node ids to random ids (UUID)
@@ -815,7 +815,7 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
                 print('new vertex added', new_node_id)
 
     # Check if new edges are added
-    beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
+    beam_indices_layer = bm.edges.layers.string[constants.EL_BEAM_INDICES]
 
     bm.edges.ensure_lookup_table()
     for i,e in enumerate(bm.edges):
@@ -833,7 +833,7 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
             #print(e[beam_indices_layer].decode('utf-8'))
 
     # Check if new faces are added
-    face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
+    face_idx_layer = bm.faces.layers.int[constants.FL_FACE_IDX]
 
     bm.faces.ensure_lookup_table()
     for i,f in enumerate(bm.faces):
