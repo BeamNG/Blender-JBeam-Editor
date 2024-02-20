@@ -475,25 +475,24 @@ def get_beams_add_remove(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_beam
     init_node_id_layer = bm.verts.layers.string[constants.VL_INIT_NODE_ID]
     beam_indices_layer = bm.edges.layers.string[constants.EL_BEAM_INDICES]
 
-    blender_beams = {}
+    blender_beams = set()
     # Create dictionary where key is init node id and value is current blender node id and position
     bm.edges.ensure_lookup_table()
     e: bmesh.types.BMEdge
     for i, e in enumerate(bm.edges):
-        v1, v2 = e.verts[0], e.verts[1]
-        v1_node_id, v2_node_id = v1[init_node_id_layer].decode('utf-8'), v2[init_node_id_layer].decode('utf-8')
-        beam_tup = (v1_node_id, v2_node_id)
         #print('beam:', v1_node_id, v2_node_id)
-
         beam_indices = e[beam_indices_layer].decode('utf-8')
         if beam_indices == '': # Beam doesn't exist in JBeam data and is just part of a Blender face for example
             continue
         if beam_indices == '-1': # Newly added beam
+            v1, v2 = e.verts[0], e.verts[1]
+            v1_node_id, v2_node_id = v1[init_node_id_layer].decode('utf-8'), v2[init_node_id_layer].decode('utf-8')
+            beam_tup = (v1_node_id, v2_node_id)
             beams_to_add.add(beam_tup)
             continue
 
         for idx in beam_indices.split(','):
-            blender_beams[int(idx)] = beam_tup
+            blender_beams.add(int(idx))
 
     # Get beams to delete
     beam_idx_in_part = 1
