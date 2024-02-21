@@ -79,6 +79,8 @@ veh_render_dirty = False
 
 rename_enabled = False
 
+batch_node_renaming_enabled = False
+
 # Refresh property input field UI
 def on_input_node_id_field_updated(self, context: bpy.types.Context):
     global _force_do_export
@@ -118,6 +120,19 @@ class UIProperties(bpy.types.PropertyGroup):
         description="",
         default="",
         update=on_input_node_id_field_updated
+    )
+
+    batch_node_renaming_naming_scheme: bpy.props.StringProperty(
+        name="Naming Scheme",
+        description="'#' characters will be replaced with \"Node Index\" (e.g. '#rr' results in '1rr', '2rr', '3rr', etc)",
+        default="",
+    )
+
+    batch_node_renaming_node_idx: bpy.props.IntProperty(
+        name="Node Index",
+        description="Node index that will replace '#' characters in naming scheme",
+        default=1,
+        min=1
     )
 
     toggle_node_ids_text: bpy.props.BoolProperty(
@@ -266,7 +281,7 @@ class JBEAM_EDITOR_OT_add_beam_tri_quad(bpy.types.Operator):
         return {'FINISHED'}
 
 
-# Flip JBeam face
+# Flip JBeam faces
 class JBEAM_EDITOR_OT_flip_jbeam_faces(bpy.types.Operator):
     bl_idname = "jbeam_editor.flip_jbeam_faces"
     bl_label = "Flip Face(s)"
@@ -294,6 +309,36 @@ class JBEAM_EDITOR_OT_flip_jbeam_faces(bpy.types.Operator):
         global _force_do_export
         _force_do_export = True
 
+        return {'FINISHED'}
+
+
+# Batch node renaming
+class JBEAM_EDITOR_OT_batch_node_renaming(bpy.types.Operator):
+    bl_idname = "jbeam_editor.batch_node_renaming"
+    bl_label = "Batch Node Renaming"
+
+    @classmethod
+    def poll(cls, context):
+        obj = context.active_object
+        if not obj:
+            return False
+        obj_data = obj.data
+        if not isinstance(obj_data, bpy.types.Mesh):
+            return False
+        if obj_data.get(constants.MESH_JBEAM_PART) is None:
+            return False
+        if obj.mode != 'EDIT':
+            return False
+        return True
+
+    def invoke(self, context, event):
+        scene = context.scene
+        ui_props = scene.ui_properties
+
+        global batch_node_renaming_enabled
+        batch_node_renaming_enabled = not batch_node_renaming_enabled
+        if not batch_node_renaming_enabled:
+            ui_props.batch_node_renaming_node_idx = 1
         return {'FINISHED'}
 
 
@@ -484,6 +529,27 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
                             col.row().label(text=f'- {k}: {str_val}')
 
         bm.free()
+
+
+class JBEAM_EDITOR_PT_batch_node_renaming(bpy.types.Panel):
+    bl_space_type = 'VIEW_3D'
+    bl_region_type = 'UI'
+    bl_category = 'JBeam'
+    bl_label = 'Batch Node Renaming'
+
+    def draw(self, context):
+        scene = context.scene
+        ui_props = scene.ui_properties
+        layout = self.layout
+
+        box = layout.box()
+        col = box.column()
+        col.row().label(text='Naming Scheme')
+        col.prop(ui_props, 'batch_node_renaming_naming_scheme', text = "")
+        col.prop(ui_props, 'batch_node_renaming_node_idx', text = "Node Index")
+
+        operator_text = 'Stop' if batch_node_renaming_enabled else 'Start'
+        col.operator(JBEAM_EDITOR_OT_batch_node_renaming.bl_idname, text=operator_text)
 
 
 class JBEAM_EDITOR_PT_jbeam_settings(bpy.types.Panel):
@@ -873,6 +939,17 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
             continue
         if v.select:
             selected_nodes.append((v, v[init_node_id_layer].decode('utf-8')))
+
+            # Do batch node renaming
+            if batch_node_renaming_enabled:
+                new_node_id: str = ui_props.batch_node_renaming_naming_scheme
+                new_node_id = new_node_id.replace('#', f'{ui_props.batch_node_renaming_node_idx}')
+                v[node_id_layer] = bytes(new_node_id, 'utf-8')
+                ui_props.batch_node_renaming_node_idx += 1
+
+                global _force_do_export
+                _force_do_export = True
+
         if i >= active_obj_data[constants.MESH_VERTEX_COUNT]:
             new_node_id = str(uuid.uuid4())
             new_node_id_bytes = bytes(new_node_id, 'utf-8')
@@ -951,6 +1028,7 @@ def check_files_for_changes():
 
 op_no_export = {
     'OBJECT_OT_editmode_toggle',
+    JBEAM_EDITOR_OT_batch_node_renaming.bl_idname,
 }
 _last_op = None
 
@@ -1011,9 +1089,11 @@ classes = (
     #JBEAM_EDITOR_OT_convert_to_jbeam_mesh,
     JBEAM_EDITOR_OT_add_beam_tri_quad,
     JBEAM_EDITOR_OT_flip_jbeam_faces,
+    JBEAM_EDITOR_OT_batch_node_renaming,
     JBEAM_EDITOR_PT_transform_panel_ext,
     JBEAM_EDITOR_PT_jbeam_panel,
     JBEAM_EDITOR_PT_jbeam_properties_panel,
+    JBEAM_EDITOR_PT_batch_node_renaming,
     JBEAM_EDITOR_PT_jbeam_settings,
     import_jbeam.JBEAM_EDITOR_OT_import_jbeam,
     import_jbeam.JBEAM_EDITOR_OT_choose_jbeam,
