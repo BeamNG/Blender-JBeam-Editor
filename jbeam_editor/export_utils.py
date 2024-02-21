@@ -46,7 +46,7 @@ class PartNodesActions:
         self.nodes_to_add = {}
         self.nodes_to_delete = set()
         self.nodes_to_rename = {}
-        self.nodes_to_move = set()
+        self.nodes_to_move = {}
 
 
 def print_ast_nodes(ast_nodes, start_idx, size, bidirectional, file=None):
@@ -162,7 +162,7 @@ def add_jbeam_nodes(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_se
     # Insert new nodes at bottom of nodes section
     nodes = nodes_to_add.items()
 
-    for node_id, node_pos in nodes:
+    for node_id, (node_pos, local_node_pos) in nodes:
         if node_after_entry:
             node_after_entry.value += NL_TWO_INDENT
             node_after_entry = None
@@ -438,13 +438,13 @@ def get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, jb
         init_node_data = init_nodes_data.get(init_node_id)
         if init_node_data is None:
             part_actions: PartNodesActions = parts_actions.setdefault(jbeam_part, PartNodesActions())
-            part_actions.nodes_to_add[init_node_id] = pos
+            part_actions.nodes_to_add[init_node_id] = (pos, v.co)
             continue
 
         init_pos = init_node_data['pos']
         if abs(pos.x - init_pos[0]) > 0.000001 or abs(pos.y - init_pos[1]) > 0.000001 or abs(pos.z - init_pos[2]) > 0.000001:
             part_actions: PartNodesActions = parts_actions.setdefault(node_part_origin, PartNodesActions())
-            part_actions.nodes_to_move.add(node_id)
+            part_actions.nodes_to_move[node_id] = (pos, v.co)
 
         new_pos_tup = undo_node_move_offset_and_apply_translation_to_expr(init_node_data, pos)
 
@@ -511,8 +511,8 @@ def get_beams_add_remove(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_beam
 
 
 def get_faces_add_remove(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_tris_data: list, init_quads_data: list, jbeam_file_data_modified: dict, jbeam_part: str, nodes_to_delete: set, affect_node_references: bool):
-    tris_to_add, tris_to_delete = set(), set()
-    quads_to_add, quads_to_delete = set(), set()
+    tris_to_add, tris_to_delete, tris_flipped = set(), set(), set()
+    quads_to_add, quads_to_delete, quads_flipped = set(), set(), set()
 
     init_node_id_layer = bm.verts.layers.string[constants.VL_INIT_NODE_ID]
     face_idx_layer = bm.faces.layers.int[constants.FL_FACE_IDX]
@@ -541,6 +541,7 @@ def get_faces_add_remove(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_tris
             if f[face_flip_flag_layer] == 1:
                 tri_jbeam_data = jbeam_file_data_modified[jbeam_part]['triangles'][tri_idx]
                 tri_jbeam_data[1], tri_jbeam_data[2] = tri_jbeam_data[2], tri_jbeam_data[1]
+                tris_flipped.add(tri_idx)
 
             blender_tris.add(tri_idx)
         elif num_verts == 4:
@@ -559,6 +560,7 @@ def get_faces_add_remove(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_tris
             if f[face_flip_flag_layer] == 1:
                 quad_jbeam_data = jbeam_file_data_modified[jbeam_part]['quads'][quad_idx]
                 quad_jbeam_data[1], quad_jbeam_data[3] = quad_jbeam_data[3], quad_jbeam_data[1]
+                quads_flipped.add(quad_idx)
 
             blender_quads.add(quad_idx)
         else:
@@ -585,7 +587,7 @@ def get_faces_add_remove(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_tris
                 quads_to_delete.add(quad_idx_in_part)
         quad_idx_in_part += 1
 
-    return tris_to_add, tris_to_delete, quads_to_add, quads_to_delete
+    return tris_to_add, tris_to_delete, tris_flipped, quads_to_add, quads_to_delete, quads_flipped
 
 
 def add_jbeam_section(ast_nodes: list, jbeam_section_end_node_idx: int):
@@ -1121,20 +1123,22 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
 
 
 def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, blender_nodes: dict, parts_nodes_actions: dict, affect_node_references: bool, parts_to_update: set):
+    reimport_needed = False
+
     jbeam_file_str = text_editor.read_int_file(jbeam_filepath)
     if jbeam_file_str is None:
         print(f"File doesn't exist! {jbeam_filepath}", file=sys.stderr)
-        return
+        return reimport_needed
     jbeam_file_data, cached_changed = jbeam_io.get_jbeam(jbeam_filepath, True, False)
     jbeam_file_data_modified, cached_changed = jbeam_io.get_jbeam(jbeam_filepath, True, False)
     if jbeam_file_data is None or jbeam_file_data_modified is None:
-        return
+        return reimport_needed
 
     # The imported jbeam data is used to build an AST from
     ast_data = sjsonast_parse(jbeam_file_str)
     if ast_data is None:
         print("SJSON AST parsing failed!", file=sys.stderr)
-        return
+        return reimport_needed
     ast_nodes = ast_data['ast']['nodes']
 
     update_all_parts = True in parts_to_update
@@ -1155,14 +1159,14 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, 
 
         part_nodes_actions: PartNodesActions | None = parts_nodes_actions.get(jbeam_part)
         if part_nodes_actions is not None:
-            nodes_to_add, nodes_to_delete, node_renames = part_nodes_actions.nodes_to_add, part_nodes_actions.nodes_to_delete, part_nodes_actions.nodes_to_rename
+            nodes_to_add, nodes_to_delete, node_renames, node_moves = part_nodes_actions.nodes_to_add, part_nodes_actions.nodes_to_delete, part_nodes_actions.nodes_to_rename, part_nodes_actions.nodes_to_move
         else:
-            nodes_to_add, nodes_to_delete, node_renames = {}, set(), {}
+            nodes_to_add, nodes_to_delete, node_renames, node_moves = {}, set(), {}, {}
 
         # Add "all parts" actions also
         part_nodes_actions: PartNodesActions | None = parts_nodes_actions.get(True)
         if part_nodes_actions is not None:
-            for node, pos in part_nodes_actions.nodes_to_add.items():
+            for node, (pos, local_node_pos) in part_nodes_actions.nodes_to_add.items():
                 nodes_to_add[node] = pos
             for node in part_nodes_actions.nodes_to_delete:
                 nodes_to_delete.add(node)
@@ -1181,7 +1185,7 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, 
         else:
             beams_to_add, beams_to_delete = set(), set()
 
-        tris_to_add, tris_to_delete, quads_to_add, quads_to_delete = get_faces_add_remove(obj, bm, init_tris_data, init_quads_data, jbeam_file_data_modified, jbeam_part, nodes_to_delete, affect_node_references)
+        tris_to_add, tris_to_delete, tris_flipped, quads_to_add, quads_to_delete, quads_flipped = get_faces_add_remove(obj, bm, init_tris_data, init_quads_data, jbeam_file_data_modified, jbeam_part, nodes_to_delete, affect_node_references)
 
         # Remove beams that were added due to adding triangle
         for beam in beams_to_add.copy():
@@ -1193,12 +1197,15 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, 
             print('nodes to add:', nodes_to_add)
             print('nodes to delete:', nodes_to_delete)
             print('node renames:', node_renames)
+            print('node moves:', node_moves)
             print('beams to add:', beams_to_add)
             print('beams to delete:', beams_to_delete)
             print('tris to add:', tris_to_add)
             print('tris to delete:', tris_to_delete)
+            print('tris flipped:', tris_flipped)
             print('quads to add:', quads_to_add)
             print('quads to delete:', quads_to_delete)
+            print('quads flipped:', quads_flipped)
 
         update_ast_nodes(ast_nodes, jbeam_file_data, jbeam_file_data_modified, jbeam_part, affect_node_references,
                          nodes_to_add, nodes_to_delete,
@@ -1207,22 +1214,27 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, 
                          quads_to_add, quads_to_delete)
         out_str_jbeam_data = sjsonast_stringify_nodes(ast_nodes)
 
-        init_node_id_layer = bm.verts.layers.string[constants.VL_INIT_NODE_ID]
-        node_id_layer = bm.verts.layers.string[constants.VL_NODE_ID]
-
-        # Initial node ids now become node ids
-        for v in bm.verts:
-            node_id = v[node_id_layer].decode('utf-8')
-            v[init_node_id_layer] = bytes(node_id, 'utf-8')
-
-        # f = open(jbeam_filepath, 'w', encoding='utf-8')
-        # f.write(out_str_jbeam_data)
-        # f.close()
-
         text_editor.write_int_file(jbeam_filepath, out_str_jbeam_data)
 
         if constants.DEBUG:
             print(f'Exported: {jbeam_filepath}')
+
+        if not reimport_needed:
+            reimport_needed = (
+                len(nodes_to_add) > 0 or
+                len(nodes_to_delete) > 0 or
+                len(node_renames) > 0 or
+                len(beams_to_add) > 0 or
+                len(beams_to_delete) > 0 or
+                len(tris_to_add) > 0 or
+                len(tris_to_delete) > 0 or
+                len(tris_flipped) > 0 or
+                len(quads_to_add) > 0 or
+                len(quads_to_delete) > 0 or
+                len(quads_flipped) > 0
+            )
+
+    return reimport_needed
 
 
 def export_file_to_disk(jbeam_filepath: str):
