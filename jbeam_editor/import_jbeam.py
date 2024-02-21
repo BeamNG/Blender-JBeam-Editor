@@ -253,8 +253,6 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
             raise Exception('JBeam processing error.')
         jbeam_node_beam.process(part_data)
 
-        obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(part_data, -1)
-
         vertices, edges, tris, quads, node_ids = get_vertices_edges_faces(part_data)
 
         if obj.mode == 'EDIT':
