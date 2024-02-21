@@ -507,7 +507,7 @@ def on_files_change(context: bpy.types.Context, files_changed: dict):
 
 class JBEAM_EDITOR_OT_import_vehicle(Operator, ImportHelper):
     bl_idname = 'jbeam_editor.import_vehicle'
-    bl_label = 'Import JBeam'
+    bl_label = 'Import Vehicle'
     bl_description = 'Import a BeamNG Part Config file (.pc)'
     filename_ext = ".pc"
 
