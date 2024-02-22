@@ -854,6 +854,8 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
     selected_beams.clear()
     selected_tris_quads.clear()
 
+    reimporting_jbeam = False
+
     # Don't act on reimporting mesh
     if type(scene.get('jbeam_editor_reimporting_jbeam')) == int:
         scene['jbeam_editor_reimporting_jbeam'] -= 1
@@ -861,12 +863,10 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
         if scene['jbeam_editor_reimporting_jbeam'] < 0:
             scene['jbeam_editor_reimporting_jbeam'] = 0
         else:
-            return_early = True
+            reimporting_jbeam = True
 
-    if return_early:
         if constants.DEBUG:
-            print('_depsgraph_callback: Returning early')
-        return
+            print('_depsgraph_callback: jbeam_editor_reimporting_jbeam')
 
     ui_props = scene.ui_properties
 
@@ -900,13 +900,14 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
     jbeam_filepath = active_obj_data[constants.MESH_JBEAM_FILE_PATH]
     text_editor.show_int_file(jbeam_filepath)
 
-    for update in depsgraph.updates:
-        if update.id == active_obj_eval:
-            #print('update.is_updated_geometry', update.is_updated_geometry, 'update.is_updated_shading', update.is_updated_shading, 'update.is_updated_transform', update.is_updated_transform)
-            if update.id == active_obj_eval and (update.is_updated_geometry or update.is_updated_transform):
-                if constants.DEBUG:
-                    print('_depsgraph_callback: updated_geometry')
-                _do_export = True
+    if not reimporting_jbeam:
+        for update in depsgraph.updates:
+            if update.id == active_obj_eval:
+                #print('update.is_updated_geometry', update.is_updated_geometry, 'update.is_updated_shading', update.is_updated_shading, 'update.is_updated_transform', update.is_updated_transform)
+                if update.id == active_obj_eval and (update.is_updated_geometry or update.is_updated_transform):
+                    if constants.DEBUG:
+                        print('_depsgraph_callback: updated_geometry')
+                    _do_export = True
 
     veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
     if veh_model is not None:
@@ -918,7 +919,6 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
                 context.view_layer.active_layer_collection = layer
                 scene['jbeam_editor_veh_collection_selected'] = veh_collection
 
-            _do_export = True
 
     if active_obj.mode != 'EDIT':
         return

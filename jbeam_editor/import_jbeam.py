@@ -241,8 +241,6 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
         if jbeam_file_data is None:
             raise Exception('Failed to load/parse JBeam file.')
 
-        context.scene['jbeam_editor_reimporting_jbeam'] = 1 # Prevents exporting jbeam
-
         obj_data: bpy.types.Mesh = obj.data
         chosen_part = obj_data[constants.MESH_JBEAM_PART]
         part_data = jbeam_file_data[chosen_part]
@@ -275,6 +273,8 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
             obj_data.update()
 
         obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(part_data, -1)
+
+        context.scene['jbeam_editor_reimporting_jbeam'] = 1 # Prevents exporting jbeam
 
         print('Done reimporting JBeam.')
         return True

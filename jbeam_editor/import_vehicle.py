@@ -359,8 +359,6 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
     pc_filepath = vehicle_bundle['config']['partConfigFilename']
     parts = vehicle_bundle['chosenParts'].values()
 
-    context.scene['jbeam_editor_reimporting_jbeam'] = 1 # Prevents exporting jbeam
-
     vertices, parts_edges, parts_tris, parts_quads, node_index_to_id = get_vertices_edges_faces(vehicle_bundle)
 
     parts_set = set()
@@ -438,6 +436,8 @@ def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Colle
             _reimport_vehicle(context, veh_collection, vehicle_bundle)
 
         veh_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle, -1)
+
+        context.scene['jbeam_editor_reimporting_jbeam'] = 1 # Prevents exporting jbeam
 
         if not jbeam_parsing_errors:
             print('Done reimporting vehicle.')
