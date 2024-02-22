@@ -539,11 +539,18 @@ def get_faces_add_remove(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_tris
 
             # Flip face if "face flip" flag set!
             if f[face_flip_flag_layer] == 1:
-                tri_jbeam_data = jbeam_file_data_modified[jbeam_part]['triangles'][tri_idx]
-                tri_jbeam_data[1], tri_jbeam_data[2] = tri_jbeam_data[2], tri_jbeam_data[1]
-                tris_flipped.add(tri_idx)
+                tris_jbeam_data = jbeam_file_data_modified[jbeam_part]['triangles']
+                j = 0
+                for tri_jbeam_data in tris_jbeam_data:
+                    if isinstance(tri_jbeam_data, list):
+                        if j == tri_idx:
+                            tri_jbeam_data[1], tri_jbeam_data[2] = tri_jbeam_data[2], tri_jbeam_data[1]
+                            tris_flipped.add(tri_idx)
+                            break
+                        j += 1
 
             blender_tris.add(tri_idx)
+
         elif num_verts == 4:
             quad_idx = f[face_idx_layer]
 
@@ -558,11 +565,18 @@ def get_faces_add_remove(obj: bpy.types.Object, bm: bmesh.types.BMesh, init_tris
 
             # Flip face if "face flip" flag set!
             if f[face_flip_flag_layer] == 1:
-                quad_jbeam_data = jbeam_file_data_modified[jbeam_part]['quads'][quad_idx]
-                quad_jbeam_data[1], quad_jbeam_data[3] = quad_jbeam_data[3], quad_jbeam_data[1]
-                quads_flipped.add(quad_idx)
+                quads_jbeam_data = jbeam_file_data_modified[jbeam_part]['quads']
+                j = 0
+                for quad_jbeam_data in quads_jbeam_data:
+                    if isinstance(quad_jbeam_data, list):
+                        if j == quad_idx:
+                            quad_jbeam_data[1], quad_jbeam_data[3] = quad_jbeam_data[3], quad_jbeam_data[1]
+                            quads_flipped.add(quad_idx)
+                            break
+                        j += 1
 
             blender_quads.add(quad_idx)
+
         else:
             print("Warning! Won't export face with 5 or more vertices!", file=sys.stderr)
 
