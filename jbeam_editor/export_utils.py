@@ -162,7 +162,7 @@ def add_jbeam_nodes(ast_nodes: list, jbeam_section_start_node_idx: int, jbeam_se
     # Insert new nodes at bottom of nodes section
     nodes = nodes_to_add.items()
 
-    for node_id, (node_pos, local_node_pos) in nodes:
+    for node_id, node_pos in nodes:
         if node_after_entry:
             node_after_entry.value += NL_TWO_INDENT
             node_after_entry = None
@@ -438,13 +438,13 @@ def get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, jb
         init_node_data = init_nodes_data.get(init_node_id)
         if init_node_data is None:
             part_actions: PartNodesActions = parts_actions.setdefault(jbeam_part, PartNodesActions())
-            part_actions.nodes_to_add[init_node_id] = (pos, v.co)
+            part_actions.nodes_to_add[init_node_id] = pos
             continue
 
         init_pos = init_node_data['pos']
         if abs(pos.x - init_pos[0]) > 0.000001 or abs(pos.y - init_pos[1]) > 0.000001 or abs(pos.z - init_pos[2]) > 0.000001:
             part_actions: PartNodesActions = parts_actions.setdefault(node_part_origin, PartNodesActions())
-            part_actions.nodes_to_move[node_id] = (pos, v.co)
+            part_actions.nodes_to_move[node_id] = pos
 
         new_pos_tup = undo_node_move_offset_and_apply_translation_to_expr(init_node_data, pos)
 
@@ -1166,7 +1166,7 @@ def export_file(jbeam_filepath: str, parts: list[bpy.types.Object], data: dict, 
         # Add "all parts" actions also
         part_nodes_actions: PartNodesActions | None = parts_nodes_actions.get(True)
         if part_nodes_actions is not None:
-            for node, (pos, local_node_pos) in part_nodes_actions.nodes_to_add.items():
+            for node, pos in part_nodes_actions.nodes_to_add.items():
                 nodes_to_add[node] = pos
             for node in part_nodes_actions.nodes_to_delete:
                 nodes_to_delete.add(node)

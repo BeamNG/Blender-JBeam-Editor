@@ -152,7 +152,7 @@ def export_existing_jbeam(obj: bpy.types.Object):
             for v in bm.verts:
                 node_id = v[node_id_layer].decode('utf-8')
                 if node_id in nodes_to_move:
-                    v.co = nodes_to_move[node_id][1]
+                    v.co = nodes_to_move[node_id]
 
             if obj.mode == 'EDIT':
                 bmesh.update_edit_mesh(obj_data)
@@ -160,6 +160,8 @@ def export_existing_jbeam(obj: bpy.types.Object):
                 bm.to_mesh(obj_data)
 
             bm.free()
+
+        bpy.ops.object.location_clear()
 
         t1 = timeit.default_timer()
         print('Exporting/reimporting Time', round(t1 - t0, 2), 's')
