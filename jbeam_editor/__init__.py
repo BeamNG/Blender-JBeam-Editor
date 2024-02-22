@@ -316,6 +316,7 @@ class JBEAM_EDITOR_OT_flip_jbeam_faces(bpy.types.Operator):
 class JBEAM_EDITOR_OT_batch_node_renaming(bpy.types.Operator):
     bl_idname = "jbeam_editor.batch_node_renaming"
     bl_label = "Batch Node Renaming"
+    bl_description = "After clicking \"Start\", clicking a node will rename it. Press \"Stop\" when done"
 
     @classmethod
     def poll(cls, context):
@@ -587,12 +588,7 @@ class JBEAM_EDITOR_PT_jbeam_settings(bpy.types.Panel):
             box = layout.box()
             col = box.column()
 
-            # Add a checkbox to toggle Node IDs text
             col.prop(ui_props, 'toggle_node_ids_text', text="Toggle Node IDs Text")
-
-            box = layout.box()
-            col = box.column()
-
             col.prop(ui_props, 'affect_node_references', text="Affect Node References")
 
         bm.free()
