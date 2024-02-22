@@ -175,7 +175,7 @@ def check_open_int_file_for_changes(context: bpy.types.Context, undoing_redoing=
         scene[SCENE_PREV_TEXTS][short_filename] = curr_file_text
 
         import_vehicle.on_files_change(context, {filename: curr_file_text})
-        import_jbeam.on_file_change(context, filename, curr_file_text)
+        import_jbeam.on_file_change(context, filename)
         file_changed = True
 
     if not undoing_redoing and file_changed:
@@ -224,7 +224,7 @@ def check_int_files_for_changes(context: bpy.types.Context, filenames: list, und
             scene[SCENE_PREV_TEXTS][short_filename] = curr_file_text
 
             if reimport:
-                import_jbeam.on_file_change(context, filename, curr_file_text)
+                import_jbeam.on_file_change(context, filename)
 
             if files_changed_short_names is None:
                 files_changed_short_names = {}

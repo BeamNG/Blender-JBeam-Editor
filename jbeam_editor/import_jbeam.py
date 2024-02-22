@@ -282,7 +282,7 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
         return False
 
 
-def on_file_change(context: bpy.types.Context, filename: str, filetext: str):
+def on_file_change(context: bpy.types.Context, filename: str):
     jbeam_objects: bpy.types.Collection | None = bpy.data.collections.get('JBeam Objects')
     if jbeam_objects is None:
         return
@@ -297,19 +297,6 @@ def on_file_change(context: bpy.types.Context, filename: str, filetext: str):
         jbeam_filepath = obj_data.get(constants.MESH_JBEAM_FILE_PATH)
         if jbeam_filepath is None or jbeam_filepath != filename:
             continue
-
-        # Check if jbeam file is parseable before reimporting jbeam part
-        data = utils.sjson_decode(filetext, filename)
-        if data is None:
-            continue
-
-        # import cProfile, pstats, io
-        # import pstats
-        # pr = cProfile.Profile()
-        # with cProfile.Profile() as pr:
-        #     import_vehicle.reimport_vehicle(veh_collection, filename)
-        #     stats = pstats.Stats(pr)
-        #     stats.strip_dirs().sort_stats('cumtime').print_stats()
 
         reimport_jbeam(context, jbeam_objects, obj, filename)
 
