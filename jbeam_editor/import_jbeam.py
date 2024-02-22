@@ -180,7 +180,6 @@ def generate_part_mesh(obj: bpy.types.Object, obj_data: bpy.types.Mesh, bm: bmes
 
     obj_data[constants.MESH_JBEAM_PART] = part
     obj_data[constants.MESH_JBEAM_FILE_PATH] = jbeam_file_path
-    obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(vdata, -1)
     obj_data[constants.MESH_VERTEX_COUNT] = len(bm_verts)
     obj_data[constants.MESH_EDGE_COUNT] = len(bm_edges)
     obj_data[constants.MESH_FACE_COUNT] = len(bm_faces)
@@ -215,6 +214,7 @@ def import_jbeam_part(context: bpy.types.Context, jbeam_file_path: str, jbeam_fi
         bm.to_mesh(obj_data)
 
         obj_data.update()
+        obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(part_data, -1)
 
         # make collection
         jbeam_collection = bpy.data.collections.get('JBeam Objects')
@@ -234,7 +234,7 @@ def import_jbeam_part(context: bpy.types.Context, jbeam_file_path: str, jbeam_fi
         return False
 
 
-def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collection, obj: bpy.types.Object, jbeam_file_path: str):
+def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collection, obj: bpy.types.Object, jbeam_file_path: str, regenerate_mesh_on_change: bool):
     try:
         # Reimport object
         jbeam_file_data, cached_changed = jbeam_io.get_jbeam(jbeam_file_path, True, True)
@@ -253,27 +253,28 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
             raise Exception('JBeam processing error.')
         jbeam_node_beam.process(part_data)
 
-        vertices, edges, tris, quads, node_ids = get_vertices_edges_faces(part_data)
+        if regenerate_mesh_on_change:
+            vertices, edges, tris, quads, node_ids = get_vertices_edges_faces(part_data)
 
-        if obj.mode == 'EDIT':
-            bm = bmesh.from_edit_mesh(obj_data)
-            bm.clear()
-        else:
-            bm = bmesh.new()
-            bm.from_mesh(obj_data)
-            bm.clear()
+            if obj.mode == 'EDIT':
+                bm = bmesh.from_edit_mesh(obj_data)
+                bm.clear()
+            else:
+                bm = bmesh.new()
+                bm.from_mesh(obj_data)
+                bm.clear()
 
-        generate_part_mesh(obj, obj_data, bm, part_data, chosen_part, jbeam_file_path, vertices, edges, tris, quads, node_ids)
-        bm.normal_update()
-        #export_jbeam.last_exported_jbeams[chosen_part] = {'in_filepath': jbeam_file_path}
+            generate_part_mesh(obj, obj_data, bm, part_data, chosen_part, jbeam_file_path, vertices, edges, tris, quads, node_ids)
+            bm.normal_update()
 
-        if obj.mode == 'EDIT':
-            bmesh.update_edit_mesh(obj_data)
-        else:
-            bm.to_mesh(obj_data)
-        bm.free()
+            if obj.mode == 'EDIT':
+                bmesh.update_edit_mesh(obj_data)
+            else:
+                bm.to_mesh(obj_data)
+            bm.free()
+            obj_data.update()
 
-        obj_data.update()
+        obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(part_data, -1)
 
         print('Done reimporting JBeam.')
         return True
@@ -282,7 +283,7 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
         return False
 
 
-def on_file_change(context: bpy.types.Context, filename: str):
+def on_file_change(context: bpy.types.Context, filename: str, regenerate_mesh_on_change: bool):
     jbeam_objects: bpy.types.Collection | None = bpy.data.collections.get('JBeam Objects')
     if jbeam_objects is None:
         return
@@ -298,7 +299,7 @@ def on_file_change(context: bpy.types.Context, filename: str):
         if jbeam_filepath is None or jbeam_filepath != filename:
             continue
 
-        reimport_jbeam(context, jbeam_objects, obj, filename)
+        reimport_jbeam(context, jbeam_objects, obj, filename, regenerate_mesh_on_change)
 
 
 class JBEAM_EDITOR_OT_choose_jbeam(Operator):
