@@ -83,7 +83,7 @@ def apply_slot_vars(slot_vars: dict, _variables: dict | None):
         passed = False
         for k in [*slot_vars.keys()]:
             v = slot_vars[k]
-            if ord(v[0]) == 36:  # $
+            if isinstance(v, str) and ord(v[0]) == 36:  # $
                 second_char = ord(v[1])
                 if second_char == 61:  # =
                     res_code, res = expr_parse_safe(v, variables)
