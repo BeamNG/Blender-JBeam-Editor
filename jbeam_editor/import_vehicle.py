@@ -462,7 +462,7 @@ def import_vehicle(context: bpy.types.Context, config_path: str):
 
         # Prevent overriding a vehicle that already exists in scene!
         if bpy.data.collections.get(model_name):
-            raise Exception('JBeam vehicle already exists in scene!')
+            raise Exception(f'{model_name} already exists in scene!')
 
         jbeam_io.invalidate_cache_on_new_import(vehicle_dir)
 

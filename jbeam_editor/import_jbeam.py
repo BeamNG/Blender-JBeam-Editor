@@ -191,7 +191,7 @@ def import_jbeam_part(context: bpy.types.Context, jbeam_file_path: str, jbeam_fi
         jbeam_collection: bpy.types.Collection | None = bpy.data.collections.get('JBeam Objects')
         if jbeam_collection is not None:
             if jbeam_collection.all_objects.get(chosen_part) is not None:
-                raise Exception('JBeam part already exists in scene!')
+                raise Exception(f'{chosen_part} already exists in scene!')
 
         part_data = jbeam_file_data[chosen_part]
         if not jbeam_table_schema.process(part_data):
@@ -374,11 +374,12 @@ class JBEAM_EDITOR_OT_import_jbeam(Operator, ImportHelper):
         options={'HIDDEN'},
     )
 
-    '''import_all_parts: BoolProperty(
+    import_all_parts: BoolProperty(
         name='Import All Parts',
         description='',
         default = False,
-    )'''
+        options={'HIDDEN'},
+    )
 
     def execute(self, context):
         global _jbeam_file_path
@@ -405,12 +406,14 @@ class JBEAM_EDITOR_OT_import_jbeam(Operator, ImportHelper):
         for k in _jbeam_file_data.keys():
             part_choices.append(k)
 
-        '''if self.import_all_parts:
-            for part in part_choices:
-                import_jbeam_part(jbeam_file_path, str_data, data, part)
-            return {'FINISHED'}'''
-
         _jbeam_part_choices = part_choices
+
+        if self.import_all_parts:
+            for part in _jbeam_part_choices:
+                res = import_jbeam_part(context, _jbeam_file_path, _jbeam_file_data, part)
+                if not res:
+                    return {'CANCELLED'}
+            return {'FINISHED'}
 
         bpy.ops.jbeam_editor.choose_jbeam('INVOKE_DEFAULT')
 
