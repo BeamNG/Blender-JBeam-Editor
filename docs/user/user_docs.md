@@ -139,10 +139,11 @@ That wasn't too bad right? ;)
 <br>
 
 #### Renaming a Node
-Renaming a node is something unique to JBeam but is easy to do :) FYI, if you want references to the node you are renaming (e.g. beams, tris, quads) to also be renamed, enable *Affect Node References* under the *Settings* panel. But with this enabled, renaming will be slow, especially with full vehicles.
+Renaming a node is something unique to JBeam but is easy to do :)
 
 1. Click on the node you want to rename.
-2. In the *JBeam* UI, in the *JBeam Node ID* input box, rename the node to whatever you'd like and press enter. I renamed the node to "hey". You will see that the rename is also reflected in the node name labels on the part.
+2. If you want references to the node you are renaming (e.g. beams, tris, quads) to also be renamed, enable *Affect Node References* under the *Settings* panel (with this enabled, renaming will be slow, especially with full vehicles).
+3. In the *JBeam* UI, in the *JBeam Node ID* input box, rename the node to whatever you'd like and press enter. I renamed the node to "hey". You will see that the rename is also reflected in the node name labels on the part.
 
     ![](rename_node.png)
 
