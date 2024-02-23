@@ -151,7 +151,9 @@ Renaming a node is something unique to JBeam but is easy to do :) FYI, if you wa
 #### Batch Node Renaming
 You can also rename a bunch of nodes quickly, by renaming nodes under a naming scheme!
 
-1. In the *JBeam* UI, inside the *Batch Node Renaming* panel, in the *Naming Scheme* input box, type in the node name scheme where the '#' character will be replaced by the *Node Index*. For example, naming scheme "#rr" will produce node names like "1rr", "2rr", "3rr", etc. Don't forget if required to enable *Affect Node References* under the *Settings* panel. Then press the "Start" button and nodes you click will be renamed. The *Node Index* shows you what the next node will be renamed to. You can also adjust this number if you need to.
+1. In the *JBeam* UI, inside the *Batch Node Renaming* panel, in the *Naming Scheme* input box, type in the node name scheme where the '#' character will be replaced by the *Node Index*. For example, naming scheme "#rr" will produce node names like "1rr", "2rr", "3rr", etc.
+2. Don't forget if required to enable *Affect Node References* under the *Settings* panel.
+3. Then press the "Start" button and nodes you click will be renamed. The *Node Index* shows you what the next node will be renamed to. You can also adjust this number if you need to.
 
 <br>
 
