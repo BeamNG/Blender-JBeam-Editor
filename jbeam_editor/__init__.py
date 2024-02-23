@@ -22,7 +22,7 @@ bl_info = {
     "name": "Blender JBeam Editor",
     "description": "Import a JBeam part, modify it, and export it directly back to the original JBeam file!",
     "author": "BeamNG",
-    "version": (0, 2, 1),
+    "version": (0, 2, 2),
     "blender": (4, 0, 2),
     "location": "File > Import > JBeam File / File > Export > JBeam File",
     "warning": "",
@@ -79,6 +79,8 @@ veh_render_dirty = False
 
 rename_enabled = False
 
+batch_node_renaming_enabled = False
+
 # Refresh property input field UI
 def on_input_node_id_field_updated(self, context: bpy.types.Context):
     global _force_do_export
@@ -98,7 +100,7 @@ def on_input_node_id_field_updated(self, context: bpy.types.Context):
         bm = bmesh.from_edit_mesh(obj_data)
 
         # Set the selected mesh's selected vertex node_id attribute to the UI node_id input field value
-        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VL_NODE_ID]
         selected_vert[node_id_layer] = bytes(ui_props.input_node_id, 'utf-8')
 
         bm.free()
@@ -120,6 +122,19 @@ class UIProperties(bpy.types.PropertyGroup):
         update=on_input_node_id_field_updated
     )
 
+    batch_node_renaming_naming_scheme: bpy.props.StringProperty(
+        name="Naming Scheme",
+        description="'#' characters will be replaced with \"Node Index\" (e.g. '#rr' results in '1rr', '2rr', '3rr', etc)",
+        default="",
+    )
+
+    batch_node_renaming_node_idx: bpy.props.IntProperty(
+        name="Node Index",
+        description="Node index that will replace '#' characters in naming scheme",
+        default=1,
+        min=1
+    )
+
     toggle_node_ids_text: bpy.props.BoolProperty(
         name="Toggle NodeIDs Text",
         description="Toggles the text of NodeIDs",
@@ -128,7 +143,7 @@ class UIProperties(bpy.types.PropertyGroup):
 
     affect_node_references: bpy.props.BoolProperty(
         name="Affect Node References",
-        description="Toggles updating JBeam entries who references nodes. E.g. deleting a JBeam entry when a node that that entry references gets deleted.",
+        description="Toggles updating JBeam entries who references nodes. E.g. deleting a beam who references a node being deleted",
         default=False
     )
 
@@ -226,8 +241,8 @@ class JBEAM_EDITOR_OT_add_beam_tri_quad(bpy.types.Operator):
         obj = context.active_object
         obj_data = obj.data
         bm = bmesh.from_edit_mesh(obj_data)
-        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-        is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
+        init_node_id_layer = bm.verts.layers.string[constants.VL_INIT_NODE_ID]
+        is_fake_layer = bm.verts.layers.int[constants.VL_NODE_IS_FAKE]
 
         export = False
 
@@ -242,7 +257,7 @@ class JBEAM_EDITOR_OT_add_beam_tri_quad(bpy.types.Operator):
             new_verts.append(new_v)
 
         if len_selected_verts == 2:
-            beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
+            beam_indices_layer = bm.edges.layers.string[constants.EL_BEAM_INDICES]
             e = bm.edges.new(new_verts)
             e[beam_indices_layer] = bytes('-1', 'utf-8')
             if obj.mode != 'EDIT':
@@ -250,7 +265,7 @@ class JBEAM_EDITOR_OT_add_beam_tri_quad(bpy.types.Operator):
             export = True
 
         elif len_selected_verts in (3,4):
-            face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
+            face_idx_layer = bm.faces.layers.int[constants.FL_FACE_IDX]
             f = bm.faces.new(new_verts)
             f[face_idx_layer] = -1
             if obj.mode != 'EDIT':
@@ -263,6 +278,68 @@ class JBEAM_EDITOR_OT_add_beam_tri_quad(bpy.types.Operator):
             global _force_do_export
             _force_do_export = True
 
+        return {'FINISHED'}
+
+
+# Flip JBeam faces
+class JBEAM_EDITOR_OT_flip_jbeam_faces(bpy.types.Operator):
+    bl_idname = "jbeam_editor.flip_jbeam_faces"
+    bl_label = "Flip Face(s)"
+
+    @classmethod
+    def poll(cls, context):
+        global selected_tris_quads
+        return len(selected_tris_quads) > 0
+
+    def invoke(self, context, event):
+        global selected_tris_quads
+
+        obj = context.active_object
+        obj_data = obj.data
+        bm = bmesh.from_edit_mesh(obj_data)
+        face_flip_flag_layer = bm.faces.layers.int[constants.FL_FACE_FLIP_FLAG]
+
+        face: bmesh.types.BMFace
+        face_idx: int
+        for (face, face_idx) in selected_tris_quads:
+            face[face_flip_flag_layer] = 1
+
+        bm.free()
+
+        global _force_do_export
+        _force_do_export = True
+
+        return {'FINISHED'}
+
+
+# Batch node renaming
+class JBEAM_EDITOR_OT_batch_node_renaming(bpy.types.Operator):
+    bl_idname = "jbeam_editor.batch_node_renaming"
+    bl_label = "Batch Node Renaming"
+    bl_description = "After clicking \"Start\", clicking a node will rename it. Press \"Stop\" when done"
+
+    @classmethod
+    def poll(cls, context):
+        obj = context.active_object
+        if not obj:
+            return False
+        obj_data = obj.data
+        if not isinstance(obj_data, bpy.types.Mesh):
+            return False
+        if obj_data.get(constants.MESH_JBEAM_PART) is None:
+            return False
+        if obj.mode != 'EDIT':
+            return False
+        return True
+
+    def invoke(self, context, event):
+        scene = context.scene
+        ui_props = scene.ui_properties
+
+        global batch_node_renaming_enabled
+        batch_node_renaming_enabled = not batch_node_renaming_enabled
+        if not batch_node_renaming_enabled:
+            ui_props.batch_node_renaming_node_idx = 1
         return {'FINISHED'}
 
 
@@ -301,8 +378,11 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
 
         scene = context.scene
         ui_props = scene.ui_properties
+
+        jbeam_part_name = obj_data[constants.MESH_JBEAM_PART]
+
         layout = self.layout
-        layout.label(text=obj.name)
+        layout.label(text=f'{jbeam_part_name}')
 
         # If mesh isn't a JBeam mesh (it doesn't have node id attributes), give user option to convert it to one (add node id attributes)
         if obj_data.get(constants.MESH_JBEAM_PART) is None:
@@ -310,17 +390,6 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
             #layout.operator('jbeam_editor.convert_to_jbeam_mesh', text='Convert to JBeam Mesh')
             pass
         else:
-            box = layout.box()
-            col = box.column()
-
-            # Add a checkbox to toggle Node IDs text
-            col.prop(ui_props, 'toggle_node_ids_text', text="Toggle Node IDs Text")
-
-            box = layout.box()
-            col = box.column()
-
-            col.prop(ui_props, 'affect_node_references', text="Affect Node References")
-
             box = layout.box()
             col = box.column()
 
@@ -343,9 +412,9 @@ class JBEAM_EDITOR_PT_jbeam_panel(bpy.types.Panel):
                 else:
                     label = 'Add Quad'
                 col.row().operator('jbeam_editor.add_beam_tri_quad', text=label)
-            else:
-                rows = [col.row() for i in range(1)]
-                rows[0].label(text='Select a node to rename')
+
+            if len_selected_faces > 0:
+                col.row().operator('jbeam_editor.flip_jbeam_faces')
 
         bm.free()
 
@@ -398,7 +467,7 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
             if curr_vdata is not None and 'beams' in curr_vdata:
                 edge_data = selected_beams[0]
                 e, beam_indices = edge_data[0], edge_data[1]
-                part_origin_layer = bm.edges.layers.string[constants.ELS_BEAM_PART_ORIGIN]
+                part_origin_layer = bm.edges.layers.string[constants.EL_BEAM_PART_ORIGIN]
                 part_origin = e[part_origin_layer].decode('utf-8')
                 beam_idx = int(beam_indices.split(',')[0])
 
@@ -435,8 +504,8 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
                     face_type = 'quads'
 
                 if face_type in curr_vdata:
-                    face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
-                    part_origin_layer = bm.faces.layers.string[constants.FLS_FACE_PART_ORIGIN]
+                    face_idx_layer = bm.faces.layers.int[constants.FL_FACE_IDX]
+                    part_origin_layer = bm.faces.layers.string[constants.FL_FACE_PART_ORIGIN]
 
                     face_idx = f[face_idx_layer]
                     part_origin = f[part_origin_layer].decode('utf-8')
@@ -459,6 +528,68 @@ class JBEAM_EDITOR_PT_jbeam_properties_panel(bpy.types.Panel):
                             val = face[k]
                             str_val = repr(val)
                             col.row().label(text=f'- {k}: {str_val}')
+
+        bm.free()
+
+
+class JBEAM_EDITOR_PT_batch_node_renaming(bpy.types.Panel):
+    bl_space_type = 'VIEW_3D'
+    bl_region_type = 'UI'
+    bl_category = 'JBeam'
+    bl_label = 'Batch Node Renaming'
+
+    def draw(self, context):
+        scene = context.scene
+        ui_props = scene.ui_properties
+        layout = self.layout
+
+        box = layout.box()
+        col = box.column()
+        col.row().label(text='Naming Scheme')
+        col.prop(ui_props, 'batch_node_renaming_naming_scheme', text = "")
+        col.prop(ui_props, 'batch_node_renaming_node_idx', text = "Node Index")
+
+        operator_text = 'Stop' if batch_node_renaming_enabled else 'Start'
+        col.operator(JBEAM_EDITOR_OT_batch_node_renaming.bl_idname, text=operator_text)
+
+
+class JBEAM_EDITOR_PT_jbeam_settings(bpy.types.Panel):
+    bl_space_type = 'VIEW_3D'
+    bl_region_type = 'UI'
+    bl_category = 'JBeam'
+    bl_label = 'Settings'
+
+    def draw(self, context):
+        obj = context.active_object
+        if not obj:
+            return
+
+        obj_data = obj.data
+        if not isinstance(obj_data, bpy.types.Mesh):
+            return
+
+        bm = None
+        if obj.mode == 'EDIT':
+            bm = bmesh.from_edit_mesh(obj_data)
+        else:
+            bm = bmesh.new()
+            bm.from_mesh(obj_data)
+
+        scene = context.scene
+        ui_props = scene.ui_properties
+        layout = self.layout
+
+        # If mesh isn't a JBeam mesh (it doesn't have node id attributes), give user option to convert it to one (add node id attributes)
+        if obj_data.get(constants.MESH_JBEAM_PART) is None:
+            # TODO: FIX FOR NEXT UPDATE
+            #layout.operator('jbeam_editor.convert_to_jbeam_mesh', text='Convert to JBeam Mesh')
+            pass
+        else:
+            box = layout.box()
+            col = box.column()
+
+            col.prop(ui_props, 'toggle_node_ids_text', text="Toggle Node IDs Text")
+            col.prop(ui_props, 'affect_node_references', text="Affect Node References")
 
         bm.free()
 
@@ -532,9 +663,9 @@ def draw_callback_px(context: bpy.types.Context):
             bm = bmesh.new()
             bm.from_mesh(obj_data)
 
-        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-        part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
-        is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
+        node_id_layer = bm.verts.layers.string[constants.VL_NODE_ID]
+        part_origin_layer = bm.verts.layers.string[constants.VL_NODE_PART_ORIGIN]
+        is_fake_layer = bm.verts.layers.int[constants.VL_NODE_IS_FAKE]
 
         toggleNodeText = ui_props.toggle_node_ids_text
         ctxRegion = context.region
@@ -573,8 +704,8 @@ def draw_callback_px(context: bpy.types.Context):
                 bm = bmesh.new()
                 bm.from_mesh(active_obj_data)
 
-            node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-            is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
+            node_id_layer = bm.verts.layers.string[constants.VL_NODE_ID]
+            is_fake_layer = bm.verts.layers.int[constants.VL_NODE_IS_FAKE]
 
             for v in bm.verts:
                 if v[is_fake_layer] == 1:
@@ -632,7 +763,7 @@ def draw_callback_view(context: bpy.types.Context):
                         bm = bmesh.new()
                         bm.from_mesh(obj_data)
 
-                    beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
+                    beam_indices_layer = bm.edges.layers.string[constants.EL_BEAM_INDICES]
 
                     e: bmesh.types.BMEdge
                     for e in bm.edges:
@@ -656,7 +787,7 @@ def draw_callback_view(context: bpy.types.Context):
                     bm = bmesh.new()
                     bm.from_mesh(active_obj_data)
 
-                beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
+                beam_indices_layer = bm.edges.layers.string[constants.EL_BEAM_INDICES]
 
                 e: bmesh.types.BMEdge
                 for e in bm.edges:
@@ -719,6 +850,8 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
     selected_beams.clear()
     selected_tris_quads.clear()
 
+    reimporting_jbeam = False
+
     # Don't act on reimporting mesh
     if type(scene.get('jbeam_editor_reimporting_jbeam')) == int:
         scene['jbeam_editor_reimporting_jbeam'] -= 1
@@ -726,12 +859,10 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
         if scene['jbeam_editor_reimporting_jbeam'] < 0:
             scene['jbeam_editor_reimporting_jbeam'] = 0
         else:
-            return_early = True
+            reimporting_jbeam = True
 
-    if return_early:
         if constants.DEBUG:
-            print('_depsgraph_callback: Returning early')
-        return
+            print('_depsgraph_callback: jbeam_editor_reimporting_jbeam')
 
     ui_props = scene.ui_properties
 
@@ -765,13 +896,14 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
     jbeam_filepath = active_obj_data[constants.MESH_JBEAM_FILE_PATH]
     text_editor.show_int_file(jbeam_filepath)
 
-    for update in depsgraph.updates:
-        if update.id == active_obj_eval:
-            #print('update.is_updated_geometry', update.is_updated_geometry, 'update.is_updated_shading', update.is_updated_shading, 'update.is_updated_transform', update.is_updated_transform)
-            if update.id == active_obj_eval and (update.is_updated_geometry or update.is_updated_transform):
-                if constants.DEBUG:
-                    print('_depsgraph_callback: updated_geometry')
-                _do_export = True
+    if not reimporting_jbeam:
+        for update in depsgraph.updates:
+            if update.id == active_obj_eval:
+                #print('update.is_updated_geometry', update.is_updated_geometry, 'update.is_updated_shading', update.is_updated_shading, 'update.is_updated_transform', update.is_updated_transform)
+                if update.id == active_obj_eval and (update.is_updated_geometry or update.is_updated_transform):
+                    if constants.DEBUG:
+                        print('_depsgraph_callback: updated_geometry')
+                    _do_export = True
 
     veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
     if veh_model is not None:
@@ -783,7 +915,6 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
                 context.view_layer.active_layer_collection = layer
                 scene['jbeam_editor_veh_collection_selected'] = veh_collection
 
-            _do_export = True
 
     if active_obj.mode != 'EDIT':
         return
@@ -791,9 +922,9 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
     bm = bmesh.from_edit_mesh(active_obj_data)
 
     # Check if new vertices are added
-    init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-    node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-    is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
+    init_node_id_layer = bm.verts.layers.string[constants.VL_INIT_NODE_ID]
+    node_id_layer = bm.verts.layers.string[constants.VL_NODE_ID]
+    is_fake_layer = bm.verts.layers.int[constants.VL_NODE_IS_FAKE]
 
     # When new vertices are added, they seem to copy the data of the old vertices they were made from,
     # so rename their node ids to random ids (UUID)
@@ -804,6 +935,17 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
             continue
         if v.select:
             selected_nodes.append((v, v[init_node_id_layer].decode('utf-8')))
+
+            # Do batch node renaming
+            if batch_node_renaming_enabled:
+                new_node_id: str = ui_props.batch_node_renaming_naming_scheme
+                new_node_id = new_node_id.replace('#', f'{ui_props.batch_node_renaming_node_idx}')
+                v[node_id_layer] = bytes(new_node_id, 'utf-8')
+                ui_props.batch_node_renaming_node_idx += 1
+
+                global _force_do_export
+                _force_do_export = True
+
         if i >= active_obj_data[constants.MESH_VERTEX_COUNT]:
             new_node_id = str(uuid.uuid4())
             new_node_id_bytes = bytes(new_node_id, 'utf-8')
@@ -815,7 +957,7 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
                 print('new vertex added', new_node_id)
 
     # Check if new edges are added
-    beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
+    beam_indices_layer = bm.edges.layers.string[constants.EL_BEAM_INDICES]
 
     bm.edges.ensure_lookup_table()
     for i,e in enumerate(bm.edges):
@@ -833,7 +975,7 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
             #print(e[beam_indices_layer].decode('utf-8'))
 
     # Check if new faces are added
-    face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
+    face_idx_layer = bm.faces.layers.int[constants.FL_FACE_IDX]
 
     bm.faces.ensure_lookup_table()
     for i,f in enumerate(bm.faces):
@@ -882,6 +1024,7 @@ def check_files_for_changes():
 
 op_no_export = {
     'OBJECT_OT_editmode_toggle',
+    JBEAM_EDITOR_OT_batch_node_renaming.bl_idname,
 }
 _last_op = None
 
@@ -941,9 +1084,13 @@ classes = (
     JBEAM_EDITOR_OT_redo,
     #JBEAM_EDITOR_OT_convert_to_jbeam_mesh,
     JBEAM_EDITOR_OT_add_beam_tri_quad,
+    JBEAM_EDITOR_OT_flip_jbeam_faces,
+    JBEAM_EDITOR_OT_batch_node_renaming,
     JBEAM_EDITOR_PT_transform_panel_ext,
     JBEAM_EDITOR_PT_jbeam_panel,
     JBEAM_EDITOR_PT_jbeam_properties_panel,
+    JBEAM_EDITOR_PT_batch_node_renaming,
+    JBEAM_EDITOR_PT_jbeam_settings,
     import_jbeam.JBEAM_EDITOR_OT_import_jbeam,
     import_jbeam.JBEAM_EDITOR_OT_choose_jbeam,
     export_jbeam.JBEAM_EDITOR_OT_export_jbeam,

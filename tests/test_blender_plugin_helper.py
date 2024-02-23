@@ -100,7 +100,7 @@ class JBeamEditorTest:
         assert type(obj_data) is bpy.types.Mesh
 
         bm = bmesh.from_edit_mesh(obj_data)
-        assert obj_data.get(constants.MESH_JBEAM_PART) == obj.name and constants.VLS_INIT_NODE_ID in bm.verts.layers.string and constants.VLS_NODE_ID in bm.verts.layers.string
+        assert obj_data.get(constants.MESH_JBEAM_PART) == obj.name and constants.VL_INIT_NODE_ID in bm.verts.layers.string and constants.VL_NODE_ID in bm.verts.layers.string
 
         return obj, obj_data, bm
 
@@ -150,9 +150,9 @@ class JBeamEditorTest:
 
 
     def select_node_by_node_id(self, bm: bmesh.types.BMesh, the_node_id):
-        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-        node_is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
+        init_node_id_layer = bm.verts.layers.string[constants.VL_INIT_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VL_NODE_ID]
+        node_is_fake_layer = bm.verts.layers.int[constants.VL_NODE_IS_FAKE]
         selected_node = False
         selected_vert = None
 
@@ -174,9 +174,9 @@ class JBeamEditorTest:
 
 
     def select_nodes_by_node_id(self, bm: bmesh.types.BMesh, node_ids_to_select: set):
-        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-        node_is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
+        init_node_id_layer = bm.verts.layers.string[constants.VL_INIT_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VL_NODE_ID]
+        node_is_fake_layer = bm.verts.layers.int[constants.VL_NODE_IS_FAKE]
 
         nodes_selected = set()
         verts_selected = set()
@@ -196,8 +196,8 @@ class JBeamEditorTest:
 
 
     def delete_selected_vertices(self, bm: bmesh.types.BMesh):
-        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+        init_node_id_layer = bm.verts.layers.string[constants.VL_INIT_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VL_NODE_ID]
         v: bmesh.types.BMVert
         for v in bm.verts:
             if v.select:
@@ -205,8 +205,8 @@ class JBeamEditorTest:
 
 
     def move_selected_node(self, bm: bmesh.types.BMesh, new_pos):
-        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+        init_node_id_layer = bm.verts.layers.string[constants.VL_INIT_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VL_NODE_ID]
         v: bmesh.types.BMVert
         for v in bm.verts:
             if v.select:
@@ -215,8 +215,8 @@ class JBeamEditorTest:
 
 
     def rename_selected_node(self, bm: bmesh.types.BMesh, new_node_id):
-        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
+        init_node_id_layer = bm.verts.layers.string[constants.VL_INIT_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VL_NODE_ID]
         v: bmesh.types.BMVert
         for v in bm.verts:
             if v.select:
@@ -228,9 +228,9 @@ class JBeamEditorTest:
         self.select_imported_jbeam_mesh()
         obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh()
 
-        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-        part_origin_layer = bm.verts.layers.string[constants.VLS_NODE_PART_ORIGIN]
+        init_node_id_layer = bm.verts.layers.string[constants.VL_INIT_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VL_NODE_ID]
+        part_origin_layer = bm.verts.layers.string[constants.VL_NODE_PART_ORIGIN]
 
         # Add nodes
         bm.verts.ensure_lookup_table()
@@ -334,10 +334,10 @@ class JBeamEditorTest:
 
 
     def select_beams(self, bm: bmesh.types.BMesh, beams_to_select: set):
-        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-        node_is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
-        beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
+        init_node_id_layer = bm.verts.layers.string[constants.VL_INIT_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VL_NODE_ID]
+        node_is_fake_layer = bm.verts.layers.int[constants.VL_NODE_IS_FAKE]
+        beam_indices_layer = bm.edges.layers.string[constants.EL_BEAM_INDICES]
 
         beams_selected = set()
         edges_selected = set()
@@ -361,10 +361,10 @@ class JBeamEditorTest:
 
 
     def select_faces(self, bm: bmesh.types.BMesh, faces_to_select: set):
-        init_node_id_layer = bm.verts.layers.string[constants.VLS_INIT_NODE_ID]
-        node_id_layer = bm.verts.layers.string[constants.VLS_NODE_ID]
-        node_is_fake_layer = bm.verts.layers.int[constants.VLS_NODE_IS_FAKE]
-        face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
+        init_node_id_layer = bm.verts.layers.string[constants.VL_INIT_NODE_ID]
+        node_id_layer = bm.verts.layers.string[constants.VL_NODE_ID]
+        node_is_fake_layer = bm.verts.layers.int[constants.VL_NODE_IS_FAKE]
+        face_idx_layer = bm.faces.layers.int[constants.FL_FACE_IDX]
 
         tris_quads_selected = set()
         faces_selected = set()
@@ -389,7 +389,7 @@ class JBeamEditorTest:
 
         for (n1, n2) in beams:
             obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh()
-            beam_indices_layer = bm.edges.layers.string[constants.ELS_BEAM_INDICES]
+            beam_indices_layer = bm.edges.layers.string[constants.EL_BEAM_INDICES]
 
             v1 = self.select_node_by_node_id(bm, n1)
             v2 = self.select_node_by_node_id(bm, n2)
@@ -417,7 +417,7 @@ class JBeamEditorTest:
 
         for face in faces:
             obj, obj_data, bm = self.set_to_edit_mode_and_get_imported_mesh()
-            face_idx_layer = bm.faces.layers.int[constants.FLS_FACE_IDX]
+            face_idx_layer = bm.faces.layers.int[constants.FL_FACE_IDX]
             face_list = [self.select_node_by_node_id(bm, node) for node in face]
             len_face_list = len(face_list)
             assert len_face_list in (3,4)

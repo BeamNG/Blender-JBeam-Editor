@@ -41,16 +41,17 @@ MESH_FACE_COUNT = 'mesh_tri_count'
 MESH_VERTEX_DUPLICATES = 'mesh_vertex_duplicates'
 MESH_SINGLE_JBEAM_PART_DATA = 'jbeam_part_data'
 
-# bm.verts.layers.string Attributes
-VLS_INIT_NODE_ID = 'jbeam_init_node_id'
-VLS_NODE_ID = 'jbeam_node_id'
-VLS_NODE_PART_ORIGIN = 'jbeam_node_part_origin'
-VLS_NODE_IS_FAKE = 'jbeam_node_is_fake'
+# bm.verts.layers Attributes
+VL_INIT_NODE_ID = 'jbeam_init_node_id'
+VL_NODE_ID = 'jbeam_node_id'
+VL_NODE_PART_ORIGIN = 'jbeam_node_part_origin'
+VL_NODE_IS_FAKE = 'jbeam_node_is_fake'
 
-# bm.edges.layers.string Attributes
-ELS_BEAM_PART_ORIGIN = 'jbeam_beam_part_origin'
-ELS_BEAM_INDICES = 'jbeam_beam_indices'
+# bm.edges.layers Attributes
+EL_BEAM_PART_ORIGIN = 'jbeam_beam_part_origin'
+EL_BEAM_INDICES = 'jbeam_beam_indices'
 
-# bm.faces.layers.string Attributes
-FLS_FACE_PART_ORIGIN = 'jbeam_face_part_origin'
-FLS_FACE_IDX = 'jbeam_face_indices'
+# bm.faces.layers Attributes
+FL_FACE_PART_ORIGIN = 'jbeam_face_part_origin'
+FL_FACE_IDX = 'jbeam_face_indices'
+FL_FACE_FLIP_FLAG = 'jbeam_face_flip_flag'

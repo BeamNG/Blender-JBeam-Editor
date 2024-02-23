@@ -87,13 +87,33 @@ With the JBeam imported, you should see Blender meshes that represent the JBeam 
 
 ![](usage_vehicle_selected.png)
 
-One more step before moving on is to add a *Text Editor* view. The *Text Editor* allows you to view the changes to the JBeam file after modifying the Blender mesh in realtime and also allows you to modify it to view the changes to the Blender mesh in realtime as well!
+<br>
+
+#### Blender Text Editor
+
+Blender's *Text Editor* allows you to view the changes to the JBeam file after modifying the Blender mesh in realtime and also allows you to modify it to view the changes to the Blender mesh in realtime as well!
 
 Open it by placing your cursor on the top right hand corner of the viewport until you see your cursor turn into a '+' symbol and then LMB drag to the left and you should see a 2nd viewport. And then click on the top left button in that viewport that looks like a "grid and a circle" and click on *Text Editor*. Afterwards the text editor may appear blank. Just click on the JBeam part and the text editor should open the JBeam file that the part originates from.
 
 ![](opening_text_editor.gif)
 
-We are now ready to start editing the JBeam parts! For the most part, if you know how to use Blender, editing a JBeam part is just like editing a regular mesh. For example, moving a node is exactly the same as moving a regular vertex. The same applies for adding and deleting a node as well, although renaming a node is something unique to JBeam.
+<br>
+
+#### JBeam UI
+
+The *JBeam UI* allows you to see the properties of a selected JBeam object.
+
+1. On the right hand side of the 3D Viewport next to the 3D axes arrows, click on the little arrow pointing to the left.
+
+    ![](jbeam_ui_1.png)
+
+2. Several tabs will pop out such as *Item*, *Tool*, *View*, *JBeam*. Click on the *JBeam* tab and you will be greeted to a UI that shows you the JBeam part selected and its properties.
+
+    ![](jbeam_ui_2.png)
+
+<br>
+
+We are now ready to start editing JBeam parts! For the most part, if you know how to use Blender, editing a JBeam part is just like editing a regular mesh. For example, moving a node is exactly the same as moving a regular vertex. The same applies for adding and deleting a node as well, although renaming a node is something unique to JBeam.
 
 The rest of the instructions below will be using the *Square Donut* JBeam part and please have the JBeam part selected and be in *Edit Mode*.
 
@@ -101,7 +121,7 @@ The rest of the instructions below will be using the *Square Donut* JBeam part a
 
 <br>
 
-#### Undoing/Redoing
+#### Undoing/Redoing (VERY IMPORTANT!)
 Please use **Ctrl + [ and Ctrl + ]** to undo and redo your changes. **DO NOT** use Ctrl + Z and Ctrl + Shift + Z as Blender's undo system doesn't work well with this plugin and can break things.
 
 <br>
@@ -119,16 +139,19 @@ That wasn't too bad right? ;)
 <br>
 
 #### Renaming a Node
-Renaming a node is something unique to JBeam but is easy to do :)
+Renaming a node is something unique to JBeam but is easy to do :) FYI, if you want references to the node you are renaming (e.g. beams, tris, quads) to also be renamed, enable *Affect Node References* under the *Settings* panel. But with this enabled, renaming will be slow, especially with full vehicles.
 
 1. Click on the node you want to rename.
-2. Then, on the right hand side of the 3D Viewport right next to the 3D axes arrows, click on the little arrow pointing to the left.
+2. In the *JBeam* UI, in the *JBeam Node ID* input box, rename the node to whatever you'd like and press enter. I renamed the node to "hey". You will see that the rename is also reflected in the node name labels on the part.
 
-    ![](rename_node_1.png)
+    ![](rename_node.png)
 
-3. Several tabs will pop out such as *Item*, *Tool*, *View*, *JBeam*. Click on the *JBeam* tab and you will be greeted to a UI that shows you the JBeam part selected and allows you to rename the selected node. Rename the node to whatever you'd like and press enter. I renamed the node to "hey". You will see that the rename is also reflected in the node name labels on the part.
+<br>
 
-    ![](rename_node_2.png)
+#### Batch Node Renaming
+You can also rename a bunch of nodes quickly, by renaming nodes under a naming scheme!
+
+1. In the *JBeam* UI, inside the *Batch Node Renaming* panel, in the *Naming Scheme* input box, type in the node name scheme where the '#' character will be replaced by the *Node Index*. For example, naming scheme "#rr" will produce node names like "1rr", "2rr", "3rr", etc. Don't forget if required to enable *Affect Node References* under the *Settings* panel. Then press the "Start" button and nodes you click will be renamed. The *Node Index* shows you what the next node will be renamed to. You can also adjust this number if you need to.
 
 <br>
 
@@ -201,6 +224,27 @@ And deleting a triangle/quad is also pretty straight forward.
 
 2. Click on the triangle/quad you want to delete
 3. Press the *del* key and in the pop up click *Only Edges & Faces*
+
+<br>
+
+#### Triangle/Quad Face Orientation
+Blender has a tool to show you which way a face is pointing, as a face has a front and back side. A blue face is the front side of a face (normal pointing towards you) and a red face is the back side (normal pointing away from you).
+
+1. On the upper right corner of the viewport, click on the *Overlays* downward facing arrow
+2. Toggle the *Face Orientation* checkbox.
+
+    ![](face_orientation.png)
+
+<br>
+
+#### Flipping a Triangle/Quad
+And you can flip the way a triangle/quad is facing.
+
+1. Switch into *Face select* mode
+2. Click on the triangle/quad you want to flip.
+3. Click on *Flip Face(s)*
+
+    ![](flip_face.png)
 
 <br>
 

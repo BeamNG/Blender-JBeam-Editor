@@ -132,14 +132,39 @@ def export_existing_jbeam(obj: bpy.types.Object):
 
         blender_nodes, parts_nodes_actions = export_utils.get_nodes_add_delete_rename(obj, bm, part_name, init_nodes_data, affect_node_references)
         parts_to_update = set(parts_nodes_actions.keys())
+        bm.free()
 
-        export_utils.export_file(jbeam_filepath, [obj], part_data, blender_nodes, parts_nodes_actions, affect_node_references, parts_to_update)
+        reimport_needed = export_utils.export_file(jbeam_filepath, [obj], part_data, blender_nodes, parts_nodes_actions, affect_node_references, parts_to_update)
+        text_editor.check_int_files_for_changes(context, [jbeam_filepath], regenerate_mesh_on_change=reimport_needed)
+
+        # Make sure node positions are all synced if not reimporting
+        if not reimport_needed:
+            if obj.mode == 'EDIT':
+                bm = bmesh.from_edit_mesh(obj_data)
+            else:
+                bm = bmesh.new()
+                bm.from_mesh(obj_data)
+
+            nodes_to_move = parts_nodes_actions[part_name].nodes_to_move
+
+            node_id_layer = bm.verts.layers.string[constants.VL_NODE_ID]
+            v: bmesh.types.BMVert
+            for v in bm.verts:
+                node_id = v[node_id_layer].decode('utf-8')
+                if node_id in nodes_to_move:
+                    v.co = nodes_to_move[node_id]
+
+            if obj.mode == 'EDIT':
+                bmesh.update_edit_mesh(obj_data)
+            else:
+                bm.to_mesh(obj_data)
+
+            bm.free()
+
+        bpy.ops.object.location_clear()
+
         t1 = timeit.default_timer()
-        print('Exporting Time', round(t1 - t0, 2), 's')
-
-        text_editor.check_int_files_for_changes(context, [jbeam_filepath])
-        t2 = timeit.default_timer()
-        print('Reimporting Time', round(t2 - t1, 2), 's')
+        print('Exporting/reimporting Time', round(t1 - t0, 2), 's')
 
     except:
         traceback.print_exc()

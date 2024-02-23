@@ -241,16 +241,17 @@ def generate_part_mesh(obj: bpy.types.Object, obj_data: bpy.types.Mesh, bm: bmes
     bm_faces_new = bm_faces.new
 
     # Add node ID field to all vertices/edges/faces
-    init_node_id_layer = bm_verts.layers.string.new(constants.VLS_INIT_NODE_ID)
-    node_id_layer = bm_verts.layers.string.new(constants.VLS_NODE_ID)
-    node_origin_layer = bm_verts.layers.string.new(constants.VLS_NODE_PART_ORIGIN)
-    node_is_fake_layer = bm_verts.layers.int.new(constants.VLS_NODE_IS_FAKE)
+    init_node_id_layer = bm_verts.layers.string.new(constants.VL_INIT_NODE_ID)
+    node_id_layer = bm_verts.layers.string.new(constants.VL_NODE_ID)
+    node_origin_layer = bm_verts.layers.string.new(constants.VL_NODE_PART_ORIGIN)
+    node_is_fake_layer = bm_verts.layers.int.new(constants.VL_NODE_IS_FAKE)
 
-    beam_origin_layer = bm_edges.layers.string.new(constants.ELS_BEAM_PART_ORIGIN)
-    beam_indices_layer = bm_edges.layers.string.new(constants.ELS_BEAM_INDICES)
+    beam_origin_layer = bm_edges.layers.string.new(constants.EL_BEAM_PART_ORIGIN)
+    beam_indices_layer = bm_edges.layers.string.new(constants.EL_BEAM_INDICES)
 
-    face_origin_layer = bm_faces.layers.string.new(constants.FLS_FACE_PART_ORIGIN)
-    face_idx_layer = bm_faces.layers.int.new(constants.FLS_FACE_IDX)
+    face_origin_layer = bm_faces.layers.string.new(constants.FL_FACE_PART_ORIGIN)
+    face_idx_layer = bm_faces.layers.int.new(constants.FL_FACE_IDX)
+    face_flip_flag_layer = bm_faces.layers.int.new(constants.FL_FACE_FLIP_FLAG)
 
     inv_matrix_world = obj.matrix_world.inverted()
     bytes_part = bytes(part, 'utf-8')
@@ -358,8 +359,6 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
     pc_filepath = vehicle_bundle['config']['partConfigFilename']
     parts = vehicle_bundle['chosenParts'].values()
 
-    context.scene['jbeam_editor_reimporting_jbeam'] = 1 # Prevents exporting jbeam
-
     vertices, parts_edges, parts_tris, parts_quads, node_index_to_id = get_vertices_edges_faces(vehicle_bundle)
 
     parts_set = set()
@@ -411,7 +410,6 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
     for obj_data in obj_datas_to_remove:
         bpy.data.meshes.remove(obj_data, do_unlink=True)
 
-    veh_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle, -1)
     veh_collection[constants.COLLECTION_IO_CTX] = io_ctx
     veh_collection[constants.COLLECTION_VEH_FILES] = veh_files
     veh_collection[constants.COLLECTION_PC_FILEPATH] = pc_filepath
@@ -422,7 +420,7 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
         context.view_layer.objects.active = context.scene.objects[prev_active_obj_name]
 
 
-def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Collection, jbeam_files: dict):
+def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Collection, jbeam_files: dict, regenerate_mesh_on_change: bool):
     try:
         config_path = veh_collection[constants.COLLECTION_PC_FILEPATH]
 
@@ -433,8 +431,13 @@ def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Colle
 
         jbeam_parsing_errors, vehicle_bundle = load_jbeam(vehicle_directories, vehicle_config, jbeam_files)
 
-        # Create Blender meshes from JBeam data
-        _reimport_vehicle(context, veh_collection, vehicle_bundle)
+        if regenerate_mesh_on_change:
+            # Create Blender meshes from JBeam data
+            _reimport_vehicle(context, veh_collection, vehicle_bundle)
+
+        veh_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle, -1)
+
+        context.scene['jbeam_editor_reimporting_jbeam'] = 1 # Prevents exporting jbeam
 
         if not jbeam_parsing_errors:
             print('Done reimporting vehicle.')
@@ -486,7 +489,7 @@ def import_vehicle(context: bpy.types.Context, config_path: str):
         return False
 
 
-def on_files_change(context: bpy.types.Context, files_changed: dict):
+def on_files_change(context: bpy.types.Context, files_changed: dict, regenerate_mesh_on_change: bool):
     collections = bpy.data.collections
 
     for collection in collections:
@@ -501,12 +504,12 @@ def on_files_change(context: bpy.types.Context, files_changed: dict):
         #     stats = pstats.Stats(pr)
         #     stats.strip_dirs().sort_stats('cumtime').print_stats()
 
-        reimport_vehicle(context, collection, files_changed)
+        reimport_vehicle(context, collection, files_changed, regenerate_mesh_on_change)
 
 
 class JBEAM_EDITOR_OT_import_vehicle(Operator, ImportHelper):
     bl_idname = 'jbeam_editor.import_vehicle'
-    bl_label = 'Import JBeam'
+    bl_label = 'Import Vehicle'
     bl_description = 'Import a BeamNG Part Config file (.pc)'
     filename_ext = ".pc"
 
