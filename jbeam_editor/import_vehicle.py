@@ -89,6 +89,7 @@ def load_jbeam(vehicle_directories: list[str], vehicle_config: dict, reimporting
     all_variables = jbeam_variables.process_parts(vehicle, unify_journal, vehicle_config)
 
     print('Unifying parts...')
+    jbeam_slot_system.init_unify_parts(vehicle)
     jbeam_slot_system.unify_part_journal(io_ctx, unify_journal)
     jbeam_variables.process_unified_vehicle(vehicle, all_variables)
 

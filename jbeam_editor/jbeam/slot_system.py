@@ -30,7 +30,8 @@ def unify_parts(target: dict[str, dict|list], source: dict[str, dict|list], leve
         if section_key in ('slots', 'information'):
             continue
 
-        if section_key not in target:
+        target_section = target.get(section_key)
+        if target_section is None:
             # Easy merge
             target[section_key] = section
 
@@ -38,13 +39,13 @@ def unify_parts(target: dict[str, dict|list], source: dict[str, dict|list], leve
             if isinstance(section, list):
                 local_slot_options = row_dict_deepcopy(slot_options) if slot_options is not None else {}
                 local_slot_options['partOrigin'] = source['partName']
-                target[section_key].insert(1, local_slot_options)
+                section.insert(1, local_slot_options)
                 # Now we need to negate the slot options out again
                 slot_option_reset = {}
                 for k4, v4 in local_slot_options.items():
                     slot_option_reset[k4] = ""
-                target[section_key].append(slot_option_reset)
-        elif isinstance(target[section_key], (dict, list)) and isinstance(section, (dict, list)):
+                section.append(slot_option_reset)
+        elif isinstance(target_section, (dict, list)) and isinstance(section, (dict, list)):
             # Append to existing lists
             # Add info where this came from
             counter = 0
@@ -53,25 +54,25 @@ def unify_parts(target: dict[str, dict|list], source: dict[str, dict|list], leve
                 if isinstance(k3, int):
                     # If it's an index, append if the index > 1
                     if counter > 0:
-                        if isinstance(target[section_key], list):
-                            target[section_key].append(v3)
+                        if isinstance(target_section, list):
+                            target_section.append(v3)
                         else:
-                            target[section_key][dict_array_size(target[section_key])] = v3
+                            target_section[dict_array_size(target_section)] = v3
                     else:
                         local_slot_options = row_dict_deepcopy(slot_options) if slot_options is not None else {}
                         local_slot_options['partOrigin'] = source['partName']
-                        if isinstance(target[section_key], list):
-                            target[section_key].append(local_slot_options)
+                        if isinstance(target_section, list):
+                            target_section.append(local_slot_options)
                         else:
-                            target[section_key][dict_array_size(target[section_key])] = local_slot_options
-                elif isinstance(target[section_key], dict):
+                            target_section[dict_array_size(target_section)] = local_slot_options
+                else:
                     # It's a key-value pair, check how to proceed with merging potentially existing values
                     # Check if magic $ appears in the KEY, if the new value is a number (for example "$+MyFoo": 42)
                     if isinstance(v3, (int, float)) and len(k3) >= 2 and ord(k3[0]) == 36:  # $
                         actual_k3 = k3[2:]  # Remove the magic chars at the beginning to get the actual KEY
-                        existing_value = target[section_key].get(actual_k3)
+                        existing_value = target_section.get(actual_k3)
 
-                        existing_modifier_value = target[section_key].get(k3)  # In case we are trying to merge a modifier with another modifier, we need to check if this is the case
+                        existing_modifier_value = target_section.get(k3)  # In case we are trying to merge a modifier with another modifier, we need to check if this is the case
                         if isinstance(existing_modifier_value, (int, float)):
                             # We need to merge a new modifier with an existing modifier, to do that, set our existing value of actual_k3 to the existing value of the raw k3 (including the modifier syntax)
                             existing_value = existing_modifier_value
@@ -82,22 +83,22 @@ def unify_parts(target: dict[str, dict|list], source: dict[str, dict|list], leve
                             second_char = ord(k3[1])
 
                             if second_char == 43:  # +/sum
-                                target[section_key][actual_k3] = existing_value + v3  # Do a sum
+                                target_section[actual_k3] = existing_value + v3  # Do a sum
                             elif second_char == 42:  # * / multiplication
-                                target[section_key][actual_k3] = existing_value * v3  # Do a multiplication
+                                target_section[actual_k3] = existing_value * v3  # Do a multiplication
                             elif second_char == 60:  # < / min
-                                target[section_key][actual_k3] = min(existing_value, v3)  # Use the min
+                                target_section[actual_k3] = min(existing_value, v3)  # Use the min
                             elif second_char == 62:  # > / max
-                                target[section_key][actual_k3] = max(existing_value, v3)  # Use the max
+                                target_section[actual_k3] = max(existing_value, v3)  # Use the max
                             else:
-                                target[section_key][k3] = v3
+                                target_section[k3] = v3
                         else:
                             # We have special merging, but the initial value is not an a number (or None), so just pass the modifier value onto the merged data.
                             # This specifically does NOT strip the modifier syntax from k3 so that parent parts still know that this is a modifier
-                            target[section_key][k3] = v3
+                            target_section[k3] = v3
                     else:
                         # We have a regular value, no special merging, just overwrite it
-                        target[section_key][k3] = v3
+                        target_section[k3] = v3
                 counter += 1
             if local_slot_options is not None:
                 # Now we need to negate the slot options out again
@@ -105,10 +106,10 @@ def unify_parts(target: dict[str, dict|list], source: dict[str, dict|list], leve
                 for k4, v4 in local_slot_options.items():
                     slot_option_reset[k4] = ""
 
-                if isinstance(target[section_key], list):
-                    target[section_key].append(slot_option_reset)
+                if isinstance(target_section, list):
+                    target_section.append(slot_option_reset)
                 else:
-                    target[section_key][dict_array_size(target[section_key])] = slot_option_reset
+                    target_section[dict_array_size(target_section)] = slot_option_reset
         else:
             # Just overwrite any basic data
             if section_key not in ('slotType', 'partName'):
@@ -220,6 +221,16 @@ def find_parts(io_ctx: dict, vehicle_config: dict):
     fill_slots_rec(io_ctx, vehicle_config['parts'], root_part, 1, None, chosen_parts, active_parts_orig, '/', unify_journal)
 
     return root_part, unify_journal, chosen_parts, active_parts_orig
+
+
+def init_unify_parts(vehicle: dict):
+    for section_key, section in vehicle.items():
+        if section_key in ('slots', 'information'):
+            continue
+
+        if isinstance(section, list):
+            local_slot_options = {'partOrigin': vehicle['partName']}
+            section.insert(1, local_slot_options)
 
 
 def unify_part_journal(io_ctx: dict, unify_journal: list):

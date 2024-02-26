@@ -37,7 +37,8 @@ def apply(data: dict, variables: dict | None):
     while stackidx > 0:
         stackidx -= 1
         d: list | dict = stack[stackidx]
-        for key, v in (enumerate([*d]) if isinstance(d, list) else [*d.items()]):
+        for key in (range(len(d)) if isinstance(d, list) else [*d.keys()]):
+            v = d[key]
             if isinstance(v, str):
                 if len(v) >= 2:
                     if ord(v[0]) == 36:  # $
@@ -207,14 +208,14 @@ def var_merge(dictionary: dict, dest: dict, src: dict):
 def process_parts(root_part: dict, unify_journal: list, vehicle_config: dict):
     var_dict = {}
     all_variables = _get_part_variables_parsing_variables_section_destructive(root_part)
-    for i in range(len(unify_journal) - 1, 0, -1):
+    for i in range(len(unify_journal) - 1, -1, -1):
         var_merge(var_dict, all_variables, _get_part_variables_parsing_variables_section_destructive(unify_journal[i][1]))
 
     variables = _sanitize_vars(all_variables, vehicle_config.get('vars', {}))
     var_stack = {}
     var_stack[id(root_part)] = variables
     apply(root_part, variables) # root part
-    for i in range(len(unify_journal) - 1, 0, -1):
+    for i in range(len(unify_journal) - 1, -1, -1):
         parent_part, part, level, slot_options, path, slot = unify_journal[i]
         slot_vars = slot.get('variables')
         if slot_vars is None:
