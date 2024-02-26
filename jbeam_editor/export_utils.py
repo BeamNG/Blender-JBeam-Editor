@@ -372,42 +372,51 @@ def undo_node_move_offset_and_apply_translation_to_expr(init_node_data: dict, ne
     return tuple(position)
 
 
+def rec_node_ref_rename(data, node_renames: dict):
+    if isinstance(data, list):
+        for k, v in enumerate([*data]):
+            if isinstance(v, (list, dict)):
+                rec_node_ref_rename(v, node_renames)
+            elif isinstance(v, str):
+                if v in node_renames:
+                    data[k] = node_renames[v]
+    elif isinstance(data, dict):
+        for k, v in [*data.items()]:
+            if isinstance(v, (list, dict)):
+                rec_node_ref_rename(v, node_renames)
+            elif isinstance(v, str):
+                if v in node_renames:
+                    data[k] = node_renames[v]
+
+
 def set_node_renames_positions(jbeam_file_data_modified: dict, jbeam_part: str, blender_nodes: dict, node_renames: dict, affect_node_references: bool):
     # Update current JBeam file data with blender data (only renames and moving, no additions or deletions)
     if jbeam_part not in jbeam_file_data_modified:
         return
 
     for section, section_data in jbeam_file_data_modified[jbeam_part].items():
-        if isinstance(section_data, list):
-            if section == 'nodes':
-                for i, row_data in enumerate(section_data):
-                    if i == 0:
-                        continue  # Ignore header row
-                    if isinstance(row_data, list):
-                        row_node_id = row_data[0]
+        if section == 'nodes':
+            for i, row_data in enumerate(section_data):
+                if i == 0:
+                    continue  # Ignore header row
+                if isinstance(row_data, list):
+                    row_node_id = row_data[0]
 
-                        # # Ignore if node is defined in a different part.
-                        # # Its possible depending on part loading order.
-                        if row_node_id not in blender_nodes or blender_nodes[row_node_id]['partOrigin'] != jbeam_part:
-                            continue
+                    # # Ignore if node is defined in a different part.
+                    # # Its possible depending on part loading order.
+                    if row_node_id not in blender_nodes or blender_nodes[row_node_id]['partOrigin'] != jbeam_part:
+                        continue
 
-                        if row_node_id in node_renames:
-                            row_data[0] = node_renames[row_node_id]
+                    if row_node_id in node_renames:
+                        row_data[0] = node_renames[row_node_id]
 
-                        if row_node_id in blender_nodes:
-                            pos = blender_nodes[row_node_id]['pos']
-                            row_data[1], row_data[2], row_data[3] = pos[0], pos[1], pos[2]
+                    if row_node_id in blender_nodes:
+                        pos = blender_nodes[row_node_id]['pos']
+                        row_data[1], row_data[2], row_data[3] = pos[0], pos[1], pos[2]
 
-            # Rename node references in all other sections
-            elif affect_node_references:
-                row_header = section_data[0]
-                len_row_header = len(row_header)
-                for row_idx, row_data in enumerate(section_data, 1):
-                    if isinstance(row_data, list):
-                        for col_idx, col in enumerate(row_data):
-                            if col_idx < len_row_header and row_header[col_idx].find(':') != -1:
-                                if isinstance(col, str) and col in node_renames:
-                                    row_data[col_idx] = node_renames[col]
+        # Rename node references in all other sections
+        elif affect_node_references:
+            rec_node_ref_rename(section_data, node_renames)
 
 
 def get_nodes_add_delete_rename(obj: bpy.types.Object, bm: bmesh.types.BMesh, jbeam_part: str, init_nodes_data: dict, affect_node_references: bool):
