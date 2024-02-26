@@ -135,7 +135,7 @@ def export_existing_jbeam(obj: bpy.types.Object):
         bm.free()
 
         reimport_needed = export_utils.export_file(jbeam_filepath, [obj], part_data, blender_nodes, parts_nodes_actions, affect_node_references, parts_to_update)
-        text_editor.check_int_files_for_changes(context, [jbeam_filepath], regenerate_mesh_on_change=reimport_needed)
+        text_editor.check_int_files_for_changes(context, [jbeam_filepath], regenerate_mesh=reimport_needed)
 
         # Make sure node positions are all synced if not reimporting
         if not reimport_needed:

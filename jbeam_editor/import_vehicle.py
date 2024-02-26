@@ -420,7 +420,7 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
         context.view_layer.objects.active = context.scene.objects[prev_active_obj_name]
 
 
-def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Collection, jbeam_files: dict, regenerate_mesh_on_change: bool):
+def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Collection, jbeam_files: dict, regenerate_mesh: bool):
     try:
         config_path = veh_collection[constants.COLLECTION_PC_FILEPATH]
 
@@ -431,7 +431,7 @@ def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Colle
 
         jbeam_parsing_errors, vehicle_bundle = load_jbeam(vehicle_directories, vehicle_config, jbeam_files)
 
-        if regenerate_mesh_on_change:
+        if regenerate_mesh:
             # Create Blender meshes from JBeam data
             _reimport_vehicle(context, veh_collection, vehicle_bundle)
 
@@ -483,13 +483,14 @@ def import_vehicle(context: bpy.types.Context, config_path: str):
             utils.show_message_box('ERROR', 'Import Vehicle', 'Done importing vehicle. WARNING some JBeam parts may not be imported due to JBeam parsing errors. Check the "System Console" for details.')
 
         return True
-    except:
-        traceback.print_exc()
+    except Exception as ex:
+        tb = traceback.TracebackException.from_exception(ex, capture_locals=True)
+        print("".join(tb.format()))
         utils.show_message_box('ERROR', 'Import Vehicle', 'ERROR importing vehicle. Check the "System Console" for details.')
         return False
 
 
-def on_files_change(context: bpy.types.Context, files_changed: dict, regenerate_mesh_on_change: bool):
+def on_files_change(context: bpy.types.Context, files_changed: dict, regenerate_mesh: bool):
     collections = bpy.data.collections
 
     for collection in collections:
@@ -504,7 +505,7 @@ def on_files_change(context: bpy.types.Context, files_changed: dict, regenerate_
         #     stats = pstats.Stats(pr)
         #     stats.strip_dirs().sort_stats('cumtime').print_stats()
 
-        reimport_vehicle(context, collection, files_changed, regenerate_mesh_on_change)
+        reimport_vehicle(context, collection, files_changed, regenerate_mesh)
 
 
 class JBEAM_EDITOR_OT_import_vehicle(Operator, ImportHelper):

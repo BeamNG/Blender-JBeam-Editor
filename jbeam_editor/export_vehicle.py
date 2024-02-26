@@ -83,7 +83,7 @@ def export(veh_collection: bpy.types.Collection, active_obj: bpy.types.Object):
                 reimport_needed |= export_utils.export_file(jbeam_filepath, objs, vdata, blender_nodes, parts_nodes_actions, affect_node_references, parts_to_update)
                 filepaths.append(jbeam_filepath)
 
-        text_editor.check_int_files_for_changes(context, filepaths, regenerate_mesh_on_change=reimport_needed)
+        text_editor.check_int_files_for_changes(context, filepaths, regenerate_mesh=reimport_needed)
 
         # Make sure node positions are all synced if not reimporting
         if not reimport_needed:

@@ -228,13 +228,14 @@ def import_jbeam_part(context: bpy.types.Context, jbeam_file_path: str, jbeam_fi
         print('Done importing JBeam.')
         utils.show_message_box('INFO', 'Import JBeam', 'Done importing JBeam.')
         return True
-    except:
-        traceback.print_exc()
+    except Exception as ex:
+        tb = traceback.TracebackException.from_exception(ex, capture_locals=True)
+        print("".join(tb.format()))
         utils.show_message_box('ERROR', 'Import JBeam', 'ERROR importing JBeam. Check the "System Console" for details.')
         return False
 
 
-def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collection, obj: bpy.types.Object, jbeam_file_path: str, regenerate_mesh_on_change: bool):
+def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collection, obj: bpy.types.Object, jbeam_file_path: str, regenerate_mesh: bool):
     try:
         # Reimport object
         jbeam_file_data, cached_changed = jbeam_io.get_jbeam(jbeam_file_path, True, True)
@@ -251,7 +252,7 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
             raise Exception('JBeam processing error.')
         jbeam_node_beam.process(part_data)
 
-        if regenerate_mesh_on_change:
+        if regenerate_mesh:
             vertices, edges, tris, quads, node_ids = get_vertices_edges_faces(part_data)
 
             if obj.mode == 'EDIT':
@@ -283,7 +284,7 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
         return False
 
 
-def on_file_change(context: bpy.types.Context, filename: str, regenerate_mesh_on_change: bool):
+def on_file_change(context: bpy.types.Context, filename: str, regenerate_mesh: bool):
     jbeam_objects: bpy.types.Collection | None = bpy.data.collections.get('JBeam Objects')
     if jbeam_objects is None:
         return
@@ -299,7 +300,7 @@ def on_file_change(context: bpy.types.Context, filename: str, regenerate_mesh_on
         if jbeam_filepath is None or jbeam_filepath != filename:
             continue
 
-        reimport_jbeam(context, jbeam_objects, obj, filename, regenerate_mesh_on_change)
+        reimport_jbeam(context, jbeam_objects, obj, filename, regenerate_mesh)
 
 
 class JBEAM_EDITOR_OT_choose_jbeam(Operator):
