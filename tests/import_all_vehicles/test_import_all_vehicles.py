@@ -35,13 +35,18 @@ def test_1():
     vehicles_path = None
 
     for dirpath, dirnames, filenames in os.walk(vehicles_path):
+        print(dirpath)
         for filename in filenames:
-            if filename.endswith('.jbeam'):
+            if filename.endswith('.pc'):
                 full_path = f'{dirpath}\\{filename}'
                 print(f'Testing: {full_path}')
-                assert bpy.ops.jbeam_editor.import_jbeam(filepath=full_path,import_all_parts=True) == {'FINISHED'}
+                assert bpy.ops.jbeam_editor.import_vehicle(filepath=full_path) == {'FINISHED'}
 
-                collection: bpy.types.Collection = bpy.data.collections.get('JBeam Objects')
-                for obj in collection.objects:
-                    bpy.data.objects.remove(obj, do_unlink=True)
-                bpy.data.collections.remove(collection)
+                collection: bpy.types.Collection
+                for collection in bpy.data.collections:
+                    if collection.name != 'Collection':
+                        for obj in collection.objects:
+                            bpy.data.objects.remove(obj, do_unlink=True)
+                        bpy.data.collections.remove(collection)
+
+                break # break otherwise it would run forever and hog tons of RAM!
