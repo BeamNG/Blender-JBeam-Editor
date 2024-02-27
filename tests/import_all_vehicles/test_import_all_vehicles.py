@@ -35,7 +35,6 @@ def test_1():
     vehicles_path = None
 
     for dirpath, dirnames, filenames in os.walk(vehicles_path):
-        print(dirpath)
         for filename in filenames:
             if filename.endswith('.pc'):
                 full_path = f'{dirpath}\\{filename}'
