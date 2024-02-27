@@ -45,17 +45,13 @@ from .jbeam import node_beam as jbeam_node_beam
 import timeit
 
 
-def load_jbeam(vehicle_directories: list[str], vehicle_config: dict, reimporting_files_changed: dict | None):
+def load_vehicle(vehicle_directories: list[str], vehicle_config: dict, model_name: str, reimporting_files_changed: dict | None):
     """load all the jbeam and construct the thing in memory"""
     print('Reading JBeam files...')
     t0 = timeit.default_timer()
     jbeam_parsing_errors, io_ctx = jbeam_io.start_loading(vehicle_directories, vehicle_config, reimporting_files_changed)
     t1 = timeit.default_timer()
     print('Done reading JBeam files. Time =', round(t1 - t0, 2), 's')
-
-    # figure out the model name based on the directory given
-    re_match = re.search(r'/vehicles/([^/]+)', vehicle_directories[0])
-    model_name = re_match.group(1) if re_match is not None else None
     print('Model name:', model_name)
 
     if 'mainPartName' not in vehicle_config:
@@ -425,12 +421,19 @@ def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Colle
     try:
         config_path = veh_collection[constants.COLLECTION_PC_FILEPATH]
 
-        vehicle_config = build_config(config_path, True)
-        vehicle_dir = Path(config_path).parent.as_posix()
-        vehicles_dir = Path(vehicle_dir).parent.as_posix()
-        vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]
+        re_match = re.match(r'(.*/vehicles)/([^/]+)', config_path)
+        if re_match is None:
+            raise Exception(f'{config_path} is not located in a valid path!')
 
-        jbeam_parsing_errors, vehicle_bundle = load_jbeam(vehicle_directories, vehicle_config, jbeam_files)
+        vehicles_vehicle_dir = re_match.group(0)
+        vehicles_dir = re_match.group(1)
+        model_name = re_match.group(2)
+
+        vehicle_directories = [vehicles_vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]
+
+        vehicle_config = build_config(config_path, True)
+
+        jbeam_parsing_errors, vehicle_bundle = load_vehicle(vehicle_directories, vehicle_config, model_name, jbeam_files)
 
         if regenerate_mesh:
             # Create Blender meshes from JBeam data
@@ -453,23 +456,25 @@ def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Colle
 def import_vehicle(context: bpy.types.Context, config_path: str):
     try:
         # Import and process JBeam data
-        vehicle_dir = Path(config_path).parent.as_posix()
-        vehicles_dir = Path(vehicle_dir).parent.as_posix()
-        vehicle_directories = [vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]
+        re_match = re.match(r'(.*/vehicles)/([^/]+)', config_path)
+        if re_match is None:
+            raise Exception(f'{config_path} is not located in a valid path!')
 
-        # figure out the model name based on the directory given
-        re_match = re.search(r'/vehicles/([^/]+)', vehicle_directories[0])
-        model_name = re_match.group(1) if re_match is not None else None
+        vehicles_vehicle_dir = re_match.group(0)
+        vehicles_dir = re_match.group(1)
+        model_name = re_match.group(2)
+
+        vehicle_directories = [vehicles_vehicle_dir, Path(vehicles_dir).joinpath('common').as_posix()]
 
         # Prevent overriding a vehicle that already exists in scene!
         if bpy.data.collections.get(model_name):
             raise Exception(f'{model_name} already exists in scene!')
 
-        jbeam_io.invalidate_cache_on_new_import(vehicle_dir)
+        jbeam_io.invalidate_cache_on_new_import(vehicles_vehicle_dir)
 
         vehicle_config = build_config(config_path)
 
-        jbeam_parsing_errors, vehicle_bundle = load_jbeam(vehicle_directories, vehicle_config, None)
+        jbeam_parsing_errors, vehicle_bundle = load_vehicle(vehicle_directories, vehicle_config, model_name, None)
 
         # Create Blender meshes from JBeam data
         generate_meshes(vehicle_bundle)
