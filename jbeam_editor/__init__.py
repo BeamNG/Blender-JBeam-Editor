@@ -22,7 +22,7 @@ bl_info = {
     "name": "Blender JBeam Editor",
     "description": "Import a JBeam part, modify it, and export it directly back to the original JBeam file!",
     "author": "BeamNG",
-    "version": (0, 2, 2),
+    "version": (0, 2, 3),
     "blender": (4, 0, 2),
     "location": "File > Import > JBeam File / File > Export > JBeam File",
     "warning": "",
