@@ -36,8 +36,12 @@ def apply(data: dict, variables: dict | None):
     stack = {0: data}
     while stackidx > 0:
         stackidx -= 1
+        skip = 0
         d: list | dict = stack[stackidx]
-        for key in (range(len(d)) if isinstance(d, list) else [*d.keys()]):
+        is_list = isinstance(d, list)
+        for key in (range(len(d)) if is_list else [*d.keys()]):
+            if is_list:
+                key += skip
             v = d[key]
             if isinstance(v, str):
                 if len(v) >= 2:
@@ -56,12 +60,18 @@ def apply(data: dict, variables: dict | None):
                                     d[Metadata] = Metadata()
                                 metadata = d[Metadata]
                                 metadata.set(key, 'expression', v)
-                            res_code, d[key] = expr_parse_safe(v, variables)
+                            res_code, res = expr_parse_safe(v, variables)
+                            if res_code == 0:
+                                d[key] = res
+                            else:
+                                del d[key]
+                                skip -= 1
                         else:
                             if second_char not in (43, 60, 62): # +, <, >
                                 if v not in variables:
                                     print(f"missing variable {v}", file=sys.stderr)
                                     del d[key]
+                                    skip -= 1
                                 else:
                                     val = variables[v]
                                     if isinstance(val, dict):
@@ -115,8 +125,13 @@ def apply_slot_vars(slot_vars: dict, _variables: dict | None):
         if passed is False:
             break
     if len(slot_vars) > 0:
-        for k, v in slot_vars.items():
-            res_code, succeed[k] = expr_parse_safe(v, variables)
+        for k in [*slot_vars.keys()]:
+            v = slot_vars[k]
+            res_code, res = expr_parse_safe(v, variables)
+            if res_code == 0:
+                succeed[k] = res
+            else:
+                del succeed[k]
     return succeed
 
 

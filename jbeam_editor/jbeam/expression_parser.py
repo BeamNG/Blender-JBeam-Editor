@@ -32,7 +32,7 @@ from ..antlr4 import InputStream
 from ..antlr4.Token import CommonToken
 from ..luaparser.parser.LuaLexer import LuaLexer
 
-_var_wrapper_re = re.compile(r'\$([a-zA-Z_][a-zA-Z_0-9]*)')
+_var_wrapper_re = re.compile(r'\$([a-zA-Z_0-9]*)')
 _standalone_equal_re = re.compile(r'[^<>!=]=[^=]')
 
 
