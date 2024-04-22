@@ -1,7 +1,7 @@
 # Blender JBeam Editor
 This Blender plugin allows you to import existing JBeam parts or whole vehicles, modify them with Blender's advanced modelling tools, and export them!
 
-**This plugin is only compatible with Blender 4.0.x! This plugin will not work on older versions. You can get the latest version of Blender [here](https://www.blender.org/download/).**
+**This plugin is only compatible with Blender 4.0+! This plugin will not work on older versions. You can get the latest version of Blender [here](https://www.blender.org/download/).**
 
 ![](blender.png)
 
