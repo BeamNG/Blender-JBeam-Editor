@@ -45,6 +45,11 @@ With the plugin installed, you can finally start editing JBeam files! We will no
 
 <br>
 
+### Undoing/Redoing (VERY IMPORTANT!)
+Please use **Ctrl + [ and Ctrl + ]** to undo and redo your changes. **DO NOT** use Ctrl + Z and Ctrl + Shift + Z as Blender's undo system doesn't work well with this plugin and can break things.
+
+<br>
+
 #### Importing a JBeam Part to Edit
 The very first thing to do is import your JBeam part in order to actually edit it.
 
@@ -118,11 +123,6 @@ We are now ready to start editing JBeam parts! For the most part, if you know ho
 The rest of the instructions below will be using the *Square Donut* JBeam part and please have the JBeam part selected and be in *Edit Mode*.
 
 ![](after_importing.png)
-
-<br>
-
-#### Undoing/Redoing (VERY IMPORTANT!)
-Please use **Ctrl + [ and Ctrl + ]** to undo and redo your changes. **DO NOT** use Ctrl + Z and Ctrl + Shift + Z as Blender's undo system doesn't work well with this plugin and can break things.
 
 <br>
 
