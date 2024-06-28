@@ -873,7 +873,7 @@ def update_ast_nodes(ast_nodes: list, current_jbeam_file_data: dict, current_jbe
     while i < len(ast_nodes):
         node: ASTNode = ast_nodes[i]
         node_type = node.data_type
-        if node_type == 'wsc':
+        if node_type in ('wsc', 'literal'):
             i += 1
             continue
 
