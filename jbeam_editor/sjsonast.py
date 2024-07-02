@@ -193,7 +193,10 @@ def _parse():
         if _pos >= _len_str:
             return
         c = _str[_pos]
+        pos_saved = _pos
         _to_ast_node_lookup.get(c, _parse_literal)(c)
+        if pos_saved == _pos:
+            _parse_literal(c)
 
 
 def parse(s):

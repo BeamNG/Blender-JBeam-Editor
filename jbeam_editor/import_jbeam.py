@@ -183,6 +183,7 @@ def generate_part_mesh(obj: bpy.types.Object, obj_data: bpy.types.Mesh, bm: bmes
     obj_data[constants.MESH_VERTEX_COUNT] = len(bm_verts)
     obj_data[constants.MESH_EDGE_COUNT] = len(bm_edges)
     obj_data[constants.MESH_FACE_COUNT] = len(bm_faces)
+    obj_data[constants.MESH_EDITING_ENABLED] = True
 
 
 def import_jbeam_part(context: bpy.types.Context, jbeam_file_path: str, jbeam_file_data: dict, chosen_part: str):
@@ -236,13 +237,13 @@ def import_jbeam_part(context: bpy.types.Context, jbeam_file_path: str, jbeam_fi
 
 
 def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collection, obj: bpy.types.Object, jbeam_file_path: str, regenerate_mesh: bool):
+    obj_data: bpy.types.Mesh = obj.data
     try:
         # Reimport object
         jbeam_file_data, cached_changed = jbeam_io.get_jbeam(jbeam_file_path, True, True)
         if jbeam_file_data is None:
             raise Exception('Failed to load/parse JBeam file.')
 
-        obj_data: bpy.types.Mesh = obj.data
         chosen_part = obj_data[constants.MESH_JBEAM_PART]
         part_data = jbeam_file_data[chosen_part]
 
@@ -280,7 +281,28 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
         print('Done reimporting JBeam.')
         return True
     except:
+        # On error reimporting jbeam, remove mesh data
         traceback.print_exc()
+
+        if obj.mode == 'EDIT':
+            bm = bmesh.from_edit_mesh(obj_data)
+            bm.clear()
+        else:
+            bm = bmesh.new()
+            bm.from_mesh(obj_data)
+            bm.clear()
+
+        bm.normal_update()
+
+        if obj.mode == 'EDIT':
+            bmesh.update_edit_mesh(obj_data)
+        else:
+            bm.to_mesh(obj_data)
+        bm.free()
+        obj_data.update()
+
+        obj_data[constants.MESH_EDITING_ENABLED] = False
+
         return False
 
 

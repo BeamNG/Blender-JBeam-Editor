@@ -302,6 +302,7 @@ def generate_part_mesh(obj: bpy.types.Object, obj_data: bpy.types.Mesh, bm: bmes
     obj_data[constants.MESH_VERTEX_COUNT] = len(bm_verts)
     obj_data[constants.MESH_EDGE_COUNT] = len(bm_edges)
     obj_data[constants.MESH_FACE_COUNT] = len(bm_faces)
+    obj_data[constants.MESH_EDITING_ENABLED] = True
 
 
 def generate_meshes(vehicle_bundle: dict):
@@ -359,7 +360,7 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
     vertices, parts_edges, parts_tris, parts_quads, node_index_to_id = get_vertices_edges_faces(vehicle_bundle)
 
     parts_set = set()
-    prev_active_obj_name = context.active_object.name
+    prev_active_obj_name = context.active_object.name if context.active_object else None
     objs = veh_collection.all_objects
     for part in parts:
         if part == '': # skip slots with empty parts
@@ -413,7 +414,7 @@ def _reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Coll
     veh_collection[constants.COLLECTION_VEHICLE_MODEL] = vehicle_model
     veh_collection[constants.COLLECTION_MAIN_PART] = main_part_name
 
-    if prev_active_obj_name in context.scene.objects:
+    if prev_active_obj_name is not None and prev_active_obj_name in context.scene.objects:
         context.view_layer.objects.active = context.scene.objects[prev_active_obj_name]
 
 
@@ -443,12 +444,24 @@ def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Colle
 
         context.scene['jbeam_editor_reimporting_jbeam'] = 1 # Prevents exporting jbeam
 
-        if not jbeam_parsing_errors:
+        # obj: bpy.types.Object
+        # for obj in veh_collection.all_objects[:]:
+        #     obj_data: bpy.types.Mesh = obj.data
+        #     obj.hide_set(obj_data.get(constants.MESH_PREV_HIDDEN))
+        #     obj_data[constants.MESH_EDITING_ENABLED] = True
+
+        if len(jbeam_parsing_errors) == 0:
             print('Done reimporting vehicle.')
         else:
             print('WARNING, done reimporting vehicle with errors. Some parts may not be imported.')
         return True
     except:
+        # obj: bpy.types.Object
+        # for obj in veh_collection.all_objects[:]:
+        #     obj_data: bpy.types.Mesh = obj.data
+        #     obj_data[constants.MESH_PREV_HIDDEN] = obj.hide_get()
+        #     obj_data[constants.MESH_EDITING_ENABLED] = False
+        #     obj.hide_set(True)
         traceback.print_exc()
         return False
 
@@ -483,7 +496,7 @@ def import_vehicle(context: bpy.types.Context, config_path: str):
 
         print('Done importing vehicle.')
 
-        if not jbeam_parsing_errors:
+        if len(jbeam_parsing_errors) == 0:
             utils.show_message_box('INFO', 'Import Vehicle', 'Done importing vehicle.')
         else:
             utils.show_message_box('ERROR', 'Import Vehicle', 'Done importing vehicle. WARNING some JBeam parts may not be imported due to JBeam parsing errors. Check the "System Console" for details.')

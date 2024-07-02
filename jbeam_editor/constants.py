@@ -18,10 +18,11 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-UNIT_TESTING = False
 DEBUG = False
+UNIT_TESTING = False
 
 # JBeam Collection Attributes
+COLLECTION_EDITING_ENABLED = 'collection_editing_enabled'
 COLLECTION_IO_CTX = 'collection_vehicle_io_ctx'
 COLLECTION_VEH_FILES = 'collection_vehicle_files'
 COLLECTION_VEHICLE_MODEL = 'collection_vehicle_model'
@@ -32,6 +33,7 @@ COLLECTION_MAIN_PART = 'collection_vehicle_main_part'
 COLLECTION_NODES = 'collection_vehicle_nodes'
 
 # JBeam Part Attributes
+MESH_EDITING_ENABLED = 'mesh_editing_enabled'
 MESH_VEHICLE_MODEL = 'vehicle_model'
 MESH_JBEAM_PART = 'jbeam_part'
 MESH_JBEAM_FILE_PATH = 'jbeam_file_path'

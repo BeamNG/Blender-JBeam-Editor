@@ -326,7 +326,7 @@ class JBEAM_EDITOR_OT_batch_node_renaming(bpy.types.Operator):
         obj_data = obj.data
         if not isinstance(obj_data, bpy.types.Mesh):
             return False
-        if obj_data.get(constants.MESH_JBEAM_PART) is None:
+        if obj_data.get(constants.MESH_JBEAM_PART) is None or not obj_data[constants.MESH_EDITING_ENABLED]:
             return False
         if obj.mode != 'EDIT':
             return False
@@ -641,7 +641,7 @@ def draw_callback_px(context: bpy.types.Context):
     if active_obj is None:
         return
     active_obj_data = active_obj.data
-    if active_obj_data.get(constants.MESH_JBEAM_PART) is None:
+    if active_obj_data.get(constants.MESH_JBEAM_PART) is None or not active_obj_data[constants.MESH_EDITING_ENABLED]:
         return
 
     collection = active_obj.users_collection[0]
@@ -746,7 +746,7 @@ def draw_callback_view(context: bpy.types.Context):
             veh_render_dirty = False
             return
         active_obj_data = active_obj.data
-        if active_obj_data.get(constants.MESH_JBEAM_PART) is None:
+        if active_obj_data.get(constants.MESH_JBEAM_PART) is None or not active_obj_data[constants.MESH_EDITING_ENABLED]:
             beam_render_batch = None
             veh_render_dirty = False
             return
@@ -870,7 +870,7 @@ def _depsgraph_callback(context: bpy.types.Context, scene: bpy.types.Scene, deps
     if active_obj is None:
         return
     active_obj_data = active_obj.data
-    if active_obj_data.get(constants.MESH_JBEAM_PART) is None:
+    if active_obj_data.get(constants.MESH_JBEAM_PART) is None or not active_obj_data[constants.MESH_EDITING_ENABLED]:
         return
 
     active_obj_eval: bpy.types.Object = active_obj.evaluated_get(depsgraph)
@@ -1037,7 +1037,7 @@ def poll_active_operators():
     active_obj = context.active_object
     if active_obj is not None:
         active_obj_data = active_obj.data
-        if active_obj_data.get(constants.MESH_JBEAM_PART) is not None:
+        if active_obj_data.get(constants.MESH_JBEAM_PART) is not None and active_obj_data[constants.MESH_EDITING_ENABLED]:
             global _do_export
             global _force_do_export
             # Trigger export JBeam/Vehicle on current operator finishing
@@ -1045,10 +1045,10 @@ def poll_active_operators():
                 veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
                 if veh_model is not None:
                     # Export
-                    export_vehicle.auto_export(active_obj.name, veh_model)
+                    export_vehicle.auto_export(active_obj, veh_model)
                 else:
                     # Export
-                    export_jbeam.auto_export(active_obj.name)
+                    export_jbeam.auto_export(active_obj)
 
                 refresh_curr_vdata(True)
 
@@ -1058,11 +1058,6 @@ def poll_active_operators():
     _last_op = op
 
     return poll_active_ops_interval
-
-
-@persistent
-def save_post_callback(filepath):
-    export_jbeam.save_post_callback(filepath)
 
 
 @persistent
@@ -1131,7 +1126,6 @@ def register():
     #bpy.types.TOPBAR_MT_file_export.append(menu_func_export_vehicle)
 
     bpy.app.handlers.depsgraph_update_post.append(depsgraph_callback)
-    bpy.app.handlers.save_post.append(save_post_callback)
 
     # Delayed function call to prevent "restrictcontext" error
     bpy.app.timers.register(on_post_register, first_interval=0.1, persistent=True)
@@ -1156,7 +1150,6 @@ def unregister():
     #bpy.types.TOPBAR_MT_file_export.remove(menu_func_export_vehicle)
 
     bpy.app.handlers.depsgraph_update_post.remove(depsgraph_callback)
-    bpy.app.handlers.save_post.remove(save_post_callback)
 
     if draw_handle:
         bpy.types.SpaceView3D.draw_handler_remove(draw_handle, 'WINDOW')
