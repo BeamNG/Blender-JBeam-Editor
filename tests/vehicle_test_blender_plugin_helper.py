@@ -461,10 +461,10 @@ class JBeamEditorTest:
         veh_model = active_obj_data.get(constants.MESH_VEHICLE_MODEL)
         if veh_model is not None:
             # Export
-            export_vehicle.auto_export(active_obj.name, veh_model)
+            export_vehicle.auto_export(active_obj, veh_model)
         else:
             # Export
-            export_jbeam.auto_export(active_obj.name)
+            export_jbeam.auto_export(active_obj)
 
 
     def export_selected_parts_to_file(self):
