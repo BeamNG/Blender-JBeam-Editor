@@ -122,10 +122,12 @@ def load_jbeam(filepath: str, reimporting: bool, invalidate_cache: bool):
 
         if file_text is None:
             print(f'Cannot read file: {filepath}', file=sys.stderr)
+            jbeam_cache.pop(filepath, None)
             return False, False
 
         file_content = sjson_decode(file_text, filepath)
         if file_content is None:
+            jbeam_cache.pop(filepath, None)
             return False, False
 
         jbeam_cache[filepath] = file_content
@@ -186,7 +188,7 @@ def start_loading(directories: list[str], vehicle_config: dict, reimporting_file
     # parts = ['"' + part + '"' for part in slots_to_part.values() if part != '']
     # parts.append('main') # main isn't a part but a slotType, but still find the file with it
     is_reimporting = reimporting_files_changed is not None
-    jbeam_parsing_errors = False
+    jbeam_parsing_errors = []
 
     for directory in directories:
         filepaths = [path.as_posix() for path in Path(directory).rglob('*.jbeam')]
@@ -200,7 +202,7 @@ def start_loading(directories: list[str], vehicle_config: dict, reimporting_file
                 invalidate_cache = True
 
             if not res:
-                jbeam_parsing_errors = True
+                jbeam_parsing_errors.append(filepath)
 
         if invalidate_cache:
             for filepath in filepaths:

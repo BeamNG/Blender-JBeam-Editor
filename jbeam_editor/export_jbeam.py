@@ -36,28 +36,6 @@ from . import sjsonast
 
 import timeit
 
-last_exported_jbeams = {}
-
-
-def save_post_callback(filepath):
-    # On saving, set the JBeam part meshes import file paths to what is saved in the Python environment filepath
-    for obj in bpy.context.scene.objects:
-        obj_data = obj.data
-        jbeam_part = obj_data.get(constants.MESH_JBEAM_PART)
-        if jbeam_part == None:
-            continue
-
-        bm = None
-        if obj.mode == 'EDIT':
-            bm = bmesh.from_edit_mesh(obj_data)
-        else:
-            bm = bmesh.new()
-            bm.from_mesh(obj_data)
-
-        if jbeam_part in last_exported_jbeams:
-            obj_data[constants.MESH_JBEAM_FILE_PATH] = last_exported_jbeams[jbeam_part]['in_filepath']
-
-        bm.free()
 
 def export_new_jbeam(context, obj, obj_data, bm, init_node_id_layer, node_id_layer, filepath):
     node_names = []
@@ -170,13 +148,7 @@ def export_existing_jbeam(obj: bpy.types.Object):
         traceback.print_exc()
 
 
-def auto_export(obj_name: str):
-    jbeam_objs: bpy.types.Collection | None = bpy.data.collections.get('JBeam Objects')
-    if jbeam_objs is None:
-        return
-    obj: bpy.types.Object | None = jbeam_objs.all_objects.get(obj_name)
-    if obj is None:
-        return
+def auto_export(obj: bpy.types.Object):
     export_existing_jbeam(obj)
 
 
@@ -306,7 +278,7 @@ class JBEAM_EDITOR_OT_export_jbeam(Operator):
     def poll(cls, context):
         for obj in context.selected_objects:
             obj_data = obj.data
-            if obj_data.get(constants.MESH_JBEAM_PART) is None:
+            if obj_data.get(constants.MESH_JBEAM_PART) is None or not obj_data[constants.MESH_EDITING_ENABLED]:
                 return False
         return True
 
@@ -314,10 +286,7 @@ class JBEAM_EDITOR_OT_export_jbeam(Operator):
         t0 = timeit.default_timer()
         for obj in context.selected_objects:
             obj_data = obj.data
-            jbeam_part = obj_data.get(constants.MESH_JBEAM_PART)
-            if jbeam_part is None:
-                continue
-
+            jbeam_part = obj_data[constants.MESH_JBEAM_PART]
             jbeam_filepath = obj_data[constants.MESH_JBEAM_FILE_PATH]
 
             export_to_disk(jbeam_part, jbeam_filepath)
