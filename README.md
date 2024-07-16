@@ -32,4 +32,5 @@ Find more information about developing this plugin [here](docs/dev/dev_docs.md) 
 
 ## Credits
 * [AgentY](https://www.beamng.com/members/agent_y.390433/) for allowing me to use his "Toy Building Block Car" mod for testing: https://www.beamng.com/resources/toy-building-block-car.26315/
+* [Blenux](https://github.com/Blenux) for contributing to the project (adding the ability to toggle node IDs text) 
 * Beta Testers for testing out the plugin (shoutout to [SaiMonicL](https://www.beamng.com/members/saimonicl.449776/)!)
