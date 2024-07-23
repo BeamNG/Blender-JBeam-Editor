@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import base64
 from pathlib import Path
 import re
 import sys
@@ -337,7 +338,7 @@ def generate_meshes(vehicle_bundle: dict):
         vehicle_parts_collection.objects.link(part_obj)
 
     # store vehicle data in collection
-    vehicle_parts_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle, -1)
+    vehicle_parts_collection[constants.COLLECTION_VEHICLE_BUNDLE] = base64.b64encode(pickle.dumps(vehicle_bundle, -1)).decode('ascii')
     vehicle_parts_collection[constants.COLLECTION_IO_CTX] = io_ctx
     vehicle_parts_collection[constants.COLLECTION_VEH_FILES] = veh_files
     vehicle_parts_collection[constants.COLLECTION_PC_FILEPATH] = pc_filepath
@@ -440,7 +441,7 @@ def reimport_vehicle(context: bpy.types.Context, veh_collection: bpy.types.Colle
             # Create Blender meshes from JBeam data
             _reimport_vehicle(context, veh_collection, vehicle_bundle)
 
-        veh_collection[constants.COLLECTION_VEHICLE_BUNDLE] = pickle.dumps(vehicle_bundle, -1)
+        veh_collection[constants.COLLECTION_VEHICLE_BUNDLE] = base64.b64encode(pickle.dumps(vehicle_bundle, -1)).decode('ascii')
 
         context.scene['jbeam_editor_reimporting_jbeam'] = 1 # Prevents exporting jbeam
 

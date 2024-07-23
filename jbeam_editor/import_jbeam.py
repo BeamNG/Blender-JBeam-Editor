@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import base64
 from pathlib import Path
 import pickle
 import traceback
@@ -215,7 +216,7 @@ def import_jbeam_part(context: bpy.types.Context, jbeam_file_path: str, jbeam_fi
         bm.to_mesh(obj_data)
 
         obj_data.update()
-        obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(part_data, -1)
+        obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = base64.b64encode(pickle.dumps(part_data, -1)).decode('ascii')
 
         # make collection
         jbeam_collection = bpy.data.collections.get('JBeam Objects')
@@ -274,7 +275,7 @@ def reimport_jbeam(context: bpy.types.Context, jbeam_objects: bpy.types.Collecti
             bm.free()
             obj_data.update()
 
-        obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = pickle.dumps(part_data, -1)
+        obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA] = base64.b64encode(pickle.dumps(part_data, -1)).decode('ascii')
 
         context.scene['jbeam_editor_reimporting_jbeam'] = 1 # Prevents exporting jbeam
 

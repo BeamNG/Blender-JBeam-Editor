@@ -32,6 +32,7 @@ bl_info = {
     "category": "Development",
 }
 
+import base64
 import pickle
 import uuid
 
@@ -617,9 +618,9 @@ def refresh_curr_vdata(force_refresh=False):
             veh_model = collection.get(constants.COLLECTION_VEHICLE_MODEL)
 
             if veh_model is not None:
-                curr_vdata = pickle.loads(collection[constants.COLLECTION_VEHICLE_BUNDLE])['vdata']
+                curr_vdata = pickle.loads(base64.b64decode(collection[constants.COLLECTION_VEHICLE_BUNDLE]))['vdata']
             else:
-                curr_vdata = pickle.loads(obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA])
+                curr_vdata = pickle.loads(base64.b64decode(obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA]))
         else:
             curr_vdata = None
 

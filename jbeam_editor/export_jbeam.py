@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import base64
 import pickle
 import traceback
 import sys
@@ -98,7 +99,7 @@ def export_existing_jbeam(obj: bpy.types.Object):
 
         jbeam_filepath = obj_data[constants.MESH_JBEAM_FILE_PATH]
         part_name = obj_data[constants.MESH_JBEAM_PART]
-        part_data = pickle.loads(obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA])
+        part_data = pickle.loads(base64.b64decode(obj_data[constants.MESH_SINGLE_JBEAM_PART_DATA]))
         init_nodes_data = part_data.get('nodes')
 
         bm = None

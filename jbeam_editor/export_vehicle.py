@@ -18,6 +18,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+import base64
 import traceback
 import pickle
 
@@ -40,7 +41,7 @@ def export(veh_collection: bpy.types.Collection, active_obj: bpy.types.Object):
         ui_props = scene.ui_properties
         affect_node_references = ui_props.affect_node_references
 
-        veh_bundle = pickle.loads(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE])
+        veh_bundle = pickle.loads(base64.b64decode(veh_collection[constants.COLLECTION_VEHICLE_BUNDLE]))
         vdata = veh_bundle['vdata']
         init_nodes_data = vdata.get('nodes')
 
