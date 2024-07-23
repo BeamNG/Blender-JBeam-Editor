@@ -19,7 +19,7 @@ This Blender plugin allows you to import existing JBeam parts or whole vehicles,
 ---
 
 ### Prerequisites
-* Blender 4.0+
+* Blender 4.2+
     * Download and install from the official site https://www.blender.org/
 * Blender JBeam Editor
     * Download from the *GitHub Releases* page https://github.com/BeamNG/Blender-JBeam-Editor/releases or build the plugin yourself from the source code
@@ -27,7 +27,7 @@ This Blender plugin allows you to import existing JBeam parts or whole vehicles,
 ---
 
 ### Plugin Installation
-1. Open Blender 4.0+
+1. Open Blender 4.2+
 2. On the upper left hand corner, click on *Edit* > *Preferences...*
 
     ![](installation_1.png)
