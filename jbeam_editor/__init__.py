@@ -23,7 +23,7 @@ bl_info = {
     "description": "Modify BeamNG JBeam files in a 3D editor!",
     "author": "BeamNG",
     "version": (0, 2, 5),
-    "blender": (4, 2, 0),
+    "blender": (5, 0, 0),
     "location": "File > Import > JBeam File / File > Export > JBeam File",
     "warning": "",
     "doc_url": "https://github.com/BeamNG/Blender-JBeam-Editor/blob/vehicle_importer/docs/user/user_docs.md",
