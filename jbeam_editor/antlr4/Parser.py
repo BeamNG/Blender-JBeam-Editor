@@ -3,7 +3,7 @@
 # Use of this file is governed by the BSD 3-clause license that
 # can be found in the LICENSE.txt file in the project root.
 import sys
-from typing.io import TextIO
+from typing import TextIO
 from antlr4.BufferedTokenStream import TokenStream
 from antlr4.CommonTokenFactory import TokenFactory
 from antlr4.error.ErrorStrategy import DefaultErrorStrategy
