@@ -33,7 +33,7 @@ except Exception as e:
 
 def main():
     addon = Path(__file__).parent.joinpath("jbeam_editor").as_posix()
-    blender_rev = "4.2.0"
+    blender_rev = "5.0.0"
 
     try:
         exit_val = BAT.test_blender_addon(addon_path=addon, blender_revision=blender_rev)
