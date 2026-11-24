@@ -9,7 +9,7 @@
 #  of speed.
 #/
 from io import StringIO
-from typing.io import TextIO
+from typing import TextIO
 import sys
 from antlr4.CommonTokenFactory import CommonTokenFactory
 from antlr4.atn.LexerATNSimulator import LexerATNSimulator
